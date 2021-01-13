@@ -11,6 +11,10 @@ const Layout = styled.div`
   background: ${theme.bg};
   display: flex;
   flex-flow: column;
+
+  & > a:not(:last-of-type) {
+    margin-right: 62px;
+  }
 `
 
 const useStylesReset = () => {
