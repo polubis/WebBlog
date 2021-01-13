@@ -1,5 +1,4 @@
 import React, { useLayoutEffect } from "react"
-import { Link } from "gatsby"
 
 import styled from "styled-components"
 
@@ -31,10 +30,8 @@ export default function ({ children }) {
 
   return (
     <Layout>
-      <div>
-        <Navbar />
-        {children}
-      </div>
+      <Navbar />
+      {children}
     </Layout>
   )
 }

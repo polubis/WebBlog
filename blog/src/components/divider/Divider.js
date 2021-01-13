@@ -1,5 +1,4 @@
 import React from "react"
-import { Link as GatsbyLink } from "gatsby"
 
 import styled from "styled-components"
 
@@ -12,6 +11,6 @@ const Divider = styled.div`
   background: ${theme.primary};
 `
 
-export default function ({ height = 28, margin = '0px' }) {
+export default function ({ height = 28, margin = "0px" }) {
   return <Divider height={height} margin={margin} />
 }
