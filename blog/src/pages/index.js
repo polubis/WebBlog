@@ -1,12 +1,8 @@
 import React from "react"
 
 import Navbar from "../components/navbar/Navbar"
+import Layout from "../components/layout/Layout"
 
-export default function Home() {
-  return (
-    <div>
-      <Navbar />
-      Hello world!
-    </div>
-  )
+export default function () {
+  return <Layout>siema</Layout>
 }
