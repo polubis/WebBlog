@@ -8,7 +8,7 @@ const Logo = styled.svg`
   flex-shrink: 0;
 `
 
-export default function () {
+export default function (): React.ReactElement {
   return (
     <Logo
       xmlns="http://www.w3.org/2000/svg"

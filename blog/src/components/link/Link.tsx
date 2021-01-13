@@ -1,5 +1,5 @@
 import React from "react"
-import { Link as GatsbyLink } from "gatsby"
+import { Link as GatsbyLink, GatsbyLinkProps } from "gatsby"
 
 import styled from "styled-components"
 
@@ -13,6 +13,6 @@ const Link = styled(GatsbyLink)`
   text-transform: uppercase;
 `
 
-export default function (props) {
-  return <Link {...props} />
+export default function (props: GatsbyLinkProps<unknown>): React.ReactElement {
+  return <Link {...(props as any)} />
 }

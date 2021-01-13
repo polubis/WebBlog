@@ -25,7 +25,11 @@ const useStylesReset = () => {
   }, [])
 }
 
-export default function ({ children }) {
+interface Props {
+  children: React.ReactElement
+}
+
+export default function ({ children }: Props): React.ReactElement {
   useStylesReset()
 
   return (

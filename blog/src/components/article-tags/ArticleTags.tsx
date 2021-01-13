@@ -29,7 +29,11 @@ const ArticleTags = styled.div`
   }
 `
 
-export default function ({ items }) {
+interface Props {
+  items: string[]
+}
+
+export default function ({ items }: Props): React.ReactElement {
   return (
     <ArticleTags>
       {items.map((item, idx) => (

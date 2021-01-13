@@ -11,6 +11,10 @@ const ArticleTag = styled.div`
   font-size: 14px;
 `
 
-export default function ({ children }) {
+interface Props {
+  children: string
+}
+
+export default function ({ children }: Props): React.ReactElement {
   return <ArticleTag>{children}</ArticleTag>
 }

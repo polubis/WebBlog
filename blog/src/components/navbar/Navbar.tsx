@@ -29,7 +29,7 @@ const LINKS = [
   "join us",
 ]
 
-const renderLinks = (str, end = LINKS.length) => {
+const renderLinks = (str, end = LINKS.length): React.ReactElement[] => {
   return LINKS.slice(str, end).map((link, i) => (
     <Link to={`/${link}`} key={link} activeStyle={{ color: theme.primary }}>
       {link}
@@ -37,7 +37,7 @@ const renderLinks = (str, end = LINKS.length) => {
   ))
 }
 
-export default function () {
+export default function (): React.ReactElement {
   return (
     <Navbar>
       {renderLinks(0, 3)}
