@@ -30,14 +30,14 @@ const ArticleTags = styled.div`
 `
 
 interface Props {
-  items: string[]
+  tags: string[]
 }
 
-export default function ({ items }: Props): React.ReactElement {
+export default function ({ tags }: Props): React.ReactElement {
   return (
     <ArticleTags>
-      {items.map((item, idx) => (
-        <ArticleTag key={item}>{item}</ArticleTag>
+      {tags.map(tag => (
+        <ArticleTag key={tag}>{tag}</ArticleTag>
       ))}
     </ArticleTags>
   )

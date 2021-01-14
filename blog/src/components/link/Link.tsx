@@ -6,7 +6,7 @@ import styled from "styled-components"
 import theme from "../../utils/theme"
 
 const Link = styled(GatsbyLink)`
-  font-size: 14px;
+  font-size: 16px;
   font-weight: bolder;
   color: ${theme.secondary};
   text-decoration: none;

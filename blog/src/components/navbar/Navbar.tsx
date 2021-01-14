@@ -14,6 +14,7 @@ const Navbar = styled.nav`
   align-items: center;
   justify-content: center;
   padding: 38px 0;
+  box-sizing: border-box;
 
   & > a:not(:last-of-type) {
     margin-right: 62px;

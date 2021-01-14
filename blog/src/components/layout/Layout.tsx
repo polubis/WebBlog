@@ -26,7 +26,7 @@ const useStylesReset = () => {
 }
 
 interface Props {
-  children: React.ReactElement
+  children: React.ReactNode
 }
 
 export default function ({ children }: Props): React.ReactElement {
