@@ -3,15 +3,16 @@ import React from "react"
 import styled from "styled-components"
 
 import theme from "../../utils/theme"
-import { ArticleModel } from "../../models/ArticleModel"
 import ArticleTags from "../article-tags/ArticleTags"
 import ArticleAuthorAvatar from "../article-author-avatar/ArticleAuthorAvatar"
 import ArticleReadTimeBadge from "../article-read-time-badge/ArticleReadTimeBadge"
 import ArticleStarsBadge from "../article-stars-badge/ArticleStarsBadge"
 import Button from "../button/Button"
+import { Link } from "gatsby"
+import { Article } from "../../models/Article"
 
 interface Props {
-  article: ArticleModel
+  article: Article
 }
 
 const ArticleTile = styled.div`
@@ -22,7 +23,7 @@ const ArticleTile = styled.div`
   box-sizing: border-box;
   max-width: 442px;
 
-  & > button {
+  & > a {
     margin: 0 auto 0 -16px;
   }
 `
@@ -51,7 +52,7 @@ const ArticleDetails = styled.div`
 `
 
 export default function ({ article }: Props): React.ReactElement {
-  const { tags, title, description } = article
+  const { tags, title, description, slug } = article
 
   return (
     <ArticleTile>
@@ -65,7 +66,9 @@ export default function ({ article }: Props): React.ReactElement {
         <ArticleReadTimeBadge minutes={133} />
       </ArticleDetails>
 
-      <Button>READ ARTICLE</Button>
+      <Link to={slug}>
+        <Button>READ ARTICLE</Button>
+      </Link>
     </ArticleTile>
   )
 }

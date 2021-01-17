@@ -9,6 +9,16 @@ module.exports = {
   plugins: [
     `gatsby-plugin-styled-components`,
     {
+      resolve: `gatsby-plugin-mdx`,
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `articles`,
+        path: `${__dirname}/src/articles`,
+      },
+    },
+    {
       resolve: `gatsby-plugin-prefetch-google-fonts`,
       options: {
         fonts: [

@@ -4,8 +4,10 @@ import styled from "styled-components"
 import Layout from "../components/layout/Layout"
 import ArticleTile from "../components/article-tile/ArticleTile"
 import theme from "../utils/theme"
-import ReactArticleOverlay from "../components/articles-overlays/ReactArticleOverlay"
-import AngularArticleOverlay from "../components/articles-overlays/AngularArticleOverlay"
+import { graphql } from "gatsby"
+import { ArticleFrontmatter } from "../models/Article"
+import { createArticle } from "../factories/Article"
+import ArticlesOverlays from "../components/articles-overlays/ArticlesOverlays"
 
 const ArticlesPage = styled.div`
   display: grid;
@@ -57,306 +59,45 @@ const ArticlesPage = styled.div`
   }
 `
 
-const ArticlesPageOverlays = styled.div`
-  position: absolute;
-  display: flex;
-  flex-flow: column;
-  padding: 240px 82px;
-  box-sizing: border-box;
-  margin: 0 auto;
-  left: 0;
-  right: 0;
-  width: 1420px;
-
-  svg {
-    margin-bottom: 200px;
-
-    &:nth-of-type(odd) {
-      margin-left: auto;
+interface Props {
+  data: {
+    allMdx: {
+      nodes: { frontmatter: ArticleFrontmatter; slug: string }[]
     }
+  }
+}
 
-    &:nth-of-type(even) {
-      margin-right: auto;
+export const query = graphql`
+  query GetArticles {
+    allMdx {
+      nodes {
+        frontmatter {
+          date
+          author
+          description
+          image
+          readTime
+          tags
+        }
+        slug
+      }
     }
   }
 `
 
-export default function (): React.ReactElement {
+export default function ({ data }: Props): React.ReactElement {
+  const {
+    allMdx: { nodes },
+  } = data
+
+  const articles = nodes.map(node => createArticle(node))
+
   return (
     <Layout>
-      <ArticlesPageOverlays>
-        <AngularArticleOverlay />
-        <ReactArticleOverlay />
-      </ArticlesPageOverlays>
       <ArticlesPage>
-        <ArticleTile
-          article={{
-            title: "TDD in React",
-            description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-          Pellentesque congue blandit sapien, eget tristique diam 
-          rutrum eu. In tincidunt felis vel leo varius consectetur. 
-          Phasellus rutrum elit urna, ac mollis lectus tempor vitae. 
-          Vestibulum maximus leo erat, eget porta mi commodo a. 
-          Qu`,
-            tags: ["react", "angular", "vue"],
-          }}
-        />
-        <ArticleTile
-          article={{
-            title: "TDD in React",
-            description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-          Pellentesque congue blandit sapien, eget tristique diam 
-          rutrum eu. In tincidunt felis vel leo varius consectetur. 
-          Phasellus rutrum elit urna, ac mollis lectus tempor vitae. 
-          Vestibulum maximus leo erat, eget porta mi commodo a. 
-          Qu`,
-            tags: ["react", "angular", "vue"],
-          }}
-        />
-        <ArticleTile
-          article={{
-            title: "TDD in React",
-            description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-          Pellentesque congue blandit sapien, eget tristique diam 
-          rutrum eu. In tincidunt felis vel leo varius consectetur. 
-          Phasellus rutrum elit urna, ac mollis lectus tempor vitae. 
-          Vestibulum maximus leo erat, eget porta mi commodo a. 
-          Qu`,
-            tags: ["react", "angular", "vue"],
-          }}
-        />
-        <ArticleTile
-          article={{
-            title: "TDD in React",
-            description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-          Pellentesque congue blandit sapien, eget tristique diam 
-          rutrum eu. In tincidunt felis vel leo varius consectetur. 
-          Phasellus rutrum elit urna, ac mollis lectus tempor vitae. 
-          Vestibulum maximus leo erat, eget porta mi commodo a. 
-          Qu`,
-            tags: ["react", "angular", "vue"],
-          }}
-        />
-        <ArticleTile
-          article={{
-            title: "TDD in React",
-            description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-          Pellentesque congue blandit sapien, eget tristique diam 
-          rutrum eu. In tincidunt felis vel leo varius consectetur. 
-          Phasellus rutrum elit urna, ac mollis lectus tempor vitae. 
-          Vestibulum maximus leo erat, eget porta mi commodo a. 
-          Qu`,
-            tags: ["react", "angular", "vue"],
-          }}
-        />{" "}
-        <ArticleTile
-          article={{
-            title: "TDD in React",
-            description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-        Pellentesque congue blandit sapien, eget tristique diam 
-        rutrum eu. In tincidunt felis vel leo varius consectetur. 
-        Phasellus rutrum elit urna, ac mollis lectus tempor vitae. 
-        Vestibulum maximus leo erat, eget porta mi commodo a. 
-        Qu`,
-            tags: ["react", "angular", "vue"],
-          }}
-        />{" "}
-        <ArticleTile
-          article={{
-            title: "TDD in React",
-            description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-      Pellentesque congue blandit sapien, eget tristique diam 
-      rutrum eu. In tincidunt felis vel leo varius consectetur. 
-      Phasellus rutrum elit urna, ac mollis lectus tempor vitae. 
-      Vestibulum maximus leo erat, eget porta mi commodo a. 
-      Qu`,
-            tags: ["react", "angular", "vue"],
-          }}
-        />{" "}
-        <ArticleTile
-          article={{
-            title: "TDD in React",
-            description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-    Pellentesque congue blandit sapien, eget tristique diam 
-    rutrum eu. In tincidunt felis vel leo varius consectetur. 
-    Phasellus rutrum elit urna, ac mollis lectus tempor vitae. 
-    Vestibulum maximus leo erat, eget porta mi commodo a. 
-    Qu`,
-            tags: ["react", "angular", "vue"],
-          }}
-        />{" "}
-        <ArticleTile
-          article={{
-            title: "TDD in React",
-            description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-  Pellentesque congue blandit sapien, eget tristique diam 
-  rutrum eu. In tincidunt felis vel leo varius consectetur. 
-  Phasellus rutrum elit urna, ac mollis lectus tempor vitae. 
-  Vestibulum maximus leo erat, eget porta mi commodo a. 
-  Qu`,
-            tags: ["react", "angular", "vue"],
-          }}
-        />{" "}
-        <ArticleTile
-          article={{
-            title: "TDD in React",
-            description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-          Pellentesque congue blandit sapien, eget tristique diam 
-          rutrum eu. In tincidunt felis vel leo varius consectetur. 
-          Phasellus rutrum elit urna, ac mollis lectus tempor vitae. 
-          Vestibulum maximus leo erat, eget porta mi commodo a. 
-          Qu`,
-            tags: ["react", "angular", "vue"],
-          }}
-        />{" "}
-        <ArticleTile
-          article={{
-            title: "TDD in React",
-            description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-        Pellentesque congue blandit sapien, eget tristique diam 
-        rutrum eu. In tincidunt felis vel leo varius consectetur. 
-        Phasellus rutrum elit urna, ac mollis lectus tempor vitae. 
-        Vestibulum maximus leo erat, eget porta mi commodo a. 
-        Qu`,
-            tags: ["react", "angular", "vue"],
-          }}
-        />{" "}
-        <ArticleTile
-          article={{
-            title: "TDD in React",
-            description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-      Pellentesque congue blandit sapien, eget tristique diam 
-      rutrum eu. In tincidunt felis vel leo varius consectetur. 
-      Phasellus rutrum elit urna, ac mollis lectus tempor vitae. 
-      Vestibulum maximus leo erat, eget porta mi commodo a. 
-      Qu`,
-            tags: ["react", "angular", "vue"],
-          }}
-        />{" "}
-        <ArticleTile
-          article={{
-            title: "TDD in React",
-            description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-    Pellentesque congue blandit sapien, eget tristique diam 
-    rutrum eu. In tincidunt felis vel leo varius consectetur. 
-    Phasellus rutrum elit urna, ac mollis lectus tempor vitae. 
-    Vestibulum maximus leo erat, eget porta mi commodo a. 
-    Qu`,
-            tags: ["react", "angular", "vue"],
-          }}
-        />
-        <ArticleTile
-          article={{
-            title: "TDD in React",
-            description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-          Pellentesque congue blandit sapien, eget tristique diam 
-          rutrum eu. In tincidunt felis vel leo varius consectetur. 
-          Phasellus rutrum elit urna, ac mollis lectus tempor vitae. 
-          Vestibulum maximus leo erat, eget porta mi commodo a. 
-          Qu`,
-            tags: ["react", "angular", "vue"],
-          }}
-        />
-        <ArticleTile
-          article={{
-            title: "TDD in React",
-            description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-          Pellentesque congue blandit sapien, eget tristique diam 
-          rutrum eu. In tincidunt felis vel leo varius consectetur. 
-          Phasellus rutrum elit urna, ac mollis lectus tempor vitae. 
-          Vestibulum maximus leo erat, eget porta mi commodo a. 
-          Qu`,
-            tags: ["react", "angular", "vue"],
-          }}
-        />
-        <ArticleTile
-          article={{
-            title: "TDD in React",
-            description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-          Pellentesque congue blandit sapien, eget tristique diam 
-          rutrum eu. In tincidunt felis vel leo varius consectetur. 
-          Phasellus rutrum elit urna, ac mollis lectus tempor vitae. 
-          Vestibulum maximus leo erat, eget porta mi commodo a. 
-          Qu`,
-            tags: ["react", "angular", "vue"],
-          }}
-        />
-        <ArticleTile
-          article={{
-            title: "TDD in React",
-            description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-          Pellentesque congue blandit sapien, eget tristique diam 
-          rutrum eu. In tincidunt felis vel leo varius consectetur. 
-          Phasellus rutrum elit urna, ac mollis lectus tempor vitae. 
-          Vestibulum maximus leo erat, eget porta mi commodo a. 
-          Qu`,
-            tags: ["react", "angular", "vue"],
-          }}
-        />
-        <ArticleTile
-          article={{
-            title: "TDD in React",
-            description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-          Pellentesque congue blandit sapien, eget tristique diam 
-          rutrum eu. In tincidunt felis vel leo varius consectetur. 
-          Phasellus rutrum elit urna, ac mollis lectus tempor vitae. 
-          Vestibulum maximus leo erat, eget porta mi commodo a. 
-          Quisque elit velit, maximus ac risus eu, aliquet scelerisque 
-          lacus. Sed id mollis leo. Curabitur faucibus tempor velit ut 
-          finibus. In vel mi vel odio interdum aliquam. Cras eu quam 
-          velit. Morbi eleifend erat vel enim hendrerit, id vehicula urna 
-          egestas.`,
-            tags: ["react", "angular", "vue"],
-          }}
-        />
-        <ArticleTile
-          article={{
-            title: "TDD in React",
-            description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-          Pellentesque congue blandit sapien, eget tristique diam 
-          rutrum eu. In tincidunt felis vel leo varius consectetur. 
-          Phasellus rutrum elit urna, ac mollis lectus tempor vitae. 
-          Vestibulum maximus leo erat, eget porta mi commodo a. 
-          Quisque elit velit, maximus ac risus eu, aliquet scelerisque 
-          lacus. Sed id mollis leo. Curabitur faucibus tempor velit ut 
-          finibus. In vel mi vel odio interdum aliquam. Cras eu quam 
-          velit. Morbi eleifend erat vel enim hendrerit, id vehicula urna 
-          egestas.`,
-            tags: ["react", "angular", "vue"],
-          }}
-        />
-        <ArticleTile
-          article={{
-            title: "TDD in React",
-            description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-          Pellentesque congue blandit sapien, eget tristique diam 
-          rutrum eu. In tincidunt felis vel leo varius consectetur. 
-          Phasellus rutrum elit urna, ac mollis lectus tempor vitae. 
-          Vestibulum maximus leo erat, eget porta mi commodo a. 
-          Quisque elit velit, maximus ac risus eu, aliquet scelerisque 
-          lacus. Sed id mollis leo. Curabitur faucibus tempor velit ut 
-          finibus. In vel mi vel odio interdum aliquam. Cras eu quam 
-          velit. Morbi eleifend erat vel enim hendrerit, id vehicula urna 
-          egestas.`,
-            tags: ["react", "angular", "vue"],
-          }}
-        />
-        <ArticleTile
-          article={{
-            title: "TDD in React",
-            description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-          Pellentesque congue blandit sapien, eget tristique diam 
-          rutrum eu. In tincidunt felis vel leo varius consectetur. 
-          Phasellus rutrum elit urna, ac mollis lectus tempor vitae. 
-          Vestibulum maximus leo erat, eget porta mi commodo a. 
-          Quisque elit velit, maximus ac risus eu, aliquet scelerisque 
-          lacus. Sed id mollis leo. Curabitur faucibus tempor velit ut 
-          finibus. In vel mi vel odio interdum aliquam. Cras eu quam 
-          velit. Morbi eleifend erat vel enim hendrerit, id vehicula urna 
-          egestas.`,
-            tags: ["react", "angular", "vue"],
-          }}
-        />
+        {articles.map(article => (
+          <ArticleTile key={article.slug} article={article} />
+        ))}
       </ArticlesPage>
     </Layout>
   )

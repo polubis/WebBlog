@@ -15,6 +15,7 @@ const Navbar = styled.nav`
   justify-content: center;
   padding: 38px 0;
   box-sizing: border-box;
+  z-index: 1;
 
   & > a:not(:last-of-type) {
     margin-right: 62px;
@@ -32,7 +33,7 @@ const LINKS = [
 
 const renderLinks = (str, end = LINKS.length): React.ReactElement[] => {
   return LINKS.slice(str, end).map((link, i) => (
-    <Link to={`/${link}`} key={link} activeStyle={{ color: theme.primary }}>
+    <Link to={`/${link}/`} key={link} activeStyle={{ color: theme.primary }}>
       {link}
     </Link>
   ))
