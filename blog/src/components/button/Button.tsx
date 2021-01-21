@@ -7,9 +7,8 @@ import theme from "../../utils/theme"
 const Button = styled.button`
   text-transform: uppercase;
   background: none;
-  border: none;
   color: ${theme.primary};
-  font-size: 16px;
+  font-size: 14px;
   font-weight: bolder;
   padding: 12px 18px;
   box-sizing: border-box;
@@ -17,6 +16,7 @@ const Button = styled.button`
   border-radius: 4px;
   cursor: pointer;
   font-family: inherit;
+  border: 1px solid ${theme.primary};
 
   &:focus {
     outline: none;

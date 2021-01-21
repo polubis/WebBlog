@@ -10,6 +10,7 @@ import ArticleStarsBadge from "../article-stars-badge/ArticleStarsBadge"
 import Button from "../button/Button"
 import { Link } from "gatsby"
 import { Article } from "../../models/Article"
+import ArticleTitle from "../article-title/ArticleTitle"
 
 interface Props {
   article: Article
@@ -24,15 +25,12 @@ const ArticleTile = styled.div`
   max-width: 442px;
 
   & > a {
-    margin: 0 auto 0 -16px;
+    margin: 0 auto 0 0;
   }
-`
 
-const ArticleTitle = styled.h1`
-  margin: 10px 0 24px 0;
-  font-size: 28px;
-  font-weight: bolder;
-  color: ${theme.secondary};
+  & > h1 {
+    margin: 10px 0 24px 0;
+  }
 `
 
 const ArticleDescription = styled.span`
