@@ -75,9 +75,9 @@ export const query = graphql`
           date
           author
           description
-          image
           readTime
           tags
+          thumbnail
         }
         slug
       }

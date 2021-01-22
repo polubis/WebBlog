@@ -6,6 +6,10 @@ import { MDXRenderer } from "gatsby-plugin-mdx"
 import Layout from "../layout/Layout"
 import { ArticleFrontmatter } from "../../models/Article"
 import { createArticle } from "../../factories/Article"
+import styled, { css } from "styled-components"
+import ArticleIntroPage from "./ArticleIntroPage"
+import ArticleTags from "../article-tags/ArticleTags"
+import ArticleTitle from "../article-title/ArticleTitle"
 
 interface Props {
   data: {
@@ -24,13 +28,25 @@ export const query = graphql`
         date
         author
         description
-        image
+        thumbnail
         readTime
         tags
       }
       slug
       body
     }
+  }
+`
+
+const ArticleLayoutContainer = styled.main`
+  padding: 48px 0 0 0;
+  display: flex;
+  flex-flow: column;
+  margin: 0 auto;
+  width: 920px;
+
+  & > :nth-child(2) {
+    margin: 68px 0 28px 0;
   }
 `
 
@@ -41,11 +57,13 @@ export default function ({ data }: Props): React.ReactElement {
 
   const article = createArticle({ slug, frontmatter })
 
-  console.log(article);
-
   return (
     <Layout>
-      <MDXRenderer>{body}</MDXRenderer>
+      <ArticleLayoutContainer>
+        <ArticleIntroPage article={article} />
+        <ArticleTags tags={article.tags} />
+        <MDXRenderer>{body}</MDXRenderer>
+      </ArticleLayoutContainer>
     </Layout>
   )
 }

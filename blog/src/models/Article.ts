@@ -1,9 +1,9 @@
 export interface ArticleFrontmatter {
   date: string
-  image: string
   author: string
   tags: string
   description: string
+  thumbnail: string
   readTime: number
 }
 
