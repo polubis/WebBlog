@@ -8,18 +8,31 @@ exports.createPages = async ({ graphql, actions }) => {
     {
       allMdx {
         nodes {
+          frontmatter {
+            date
+            author
+            authorRole
+            description
+            readTime
+            tags
+            thumbnail
+          }
           slug
+          body
         }
       }
     }
   `)
 
-  result.data.allMdx.nodes.forEach(({ slug }) => {
+  result.data.allMdx.nodes.forEach(node => {
     createPage({
-      path: `/articles/${slug}`,
+      path: `/articles/${node.slug}`,
       component: path.resolve(
         `src/components/article-layout/ArticleLayout.tsx`
       ),
+      context: {
+        ...node
+      }
     })
   })
 }

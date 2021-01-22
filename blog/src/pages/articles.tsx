@@ -7,7 +7,6 @@ import theme from "../utils/theme"
 import { graphql } from "gatsby"
 import { ArticleFrontmatter } from "../models/Article"
 import { createArticle } from "../factories/Article"
-import ArticlesOverlays from "../components/articles-overlays/ArticlesOverlays"
 
 const ArticlesPage = styled.div`
   display: grid;
@@ -74,6 +73,7 @@ export const query = graphql`
         frontmatter {
           date
           author
+          authorRole
           description
           readTime
           tags
