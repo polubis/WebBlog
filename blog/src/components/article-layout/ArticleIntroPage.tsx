@@ -7,11 +7,11 @@ import { Article } from "../../models/Article"
 import ArticleSectionTitle from "../article-section-title/ArticleSectionTitle"
 import ArticleTags from "../article-tags/ArticleTags"
 import ArticleSectionText from "../article-section-text/ArticleSectionText"
-import ArticleAuthorAvatar from "../article-author-avatar/ArticleAuthorAvatar"
 import ArticleStarsBadge from "../article-stars-badge/ArticleStarsBadge"
 import ArticleReadTimeBadge from "../article-read-time-badge/ArticleReadTimeBadge"
 import ArticleAuthorBadge from "../article-author-badge/ArticleAuthorBadge"
 import Button from "../button/Button"
+import ArticleSpace from "../article-space/ArticleSpace"
 
 const ArticleIntroPage = styled.section`
   display: flex;
@@ -86,6 +86,8 @@ export default function ({
       <ArticleTags tags={article.tags} />
 
       <ArticleSectionTitle shifted>INTRO</ArticleSectionTitle>
+
+      <ArticleSpace />
 
       <ArticleSectionText>{article.description}</ArticleSectionText>
 
