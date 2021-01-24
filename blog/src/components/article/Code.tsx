@@ -1,5 +1,7 @@
 import styled from "styled-components"
 
 export default styled.div`
-  margin-top: 12px;
+  .deckgo-highlight-code-carbon {
+    margin: 0;
+  }
 `

@@ -1,21 +1,16 @@
 import React from "react"
 import { MDXProvider } from "@mdx-js/react"
 
-import ArticleTitle from "./src/components/article-title/ArticleTitle"
-import ArticleSectionTitle from "./src/components/article-section-title/ArticleSectionTitle"
-import ArticleSectionText from "./src/components/article-section-text/ArticleSectionText"
-import ArticleSectionLink from "./src/components/article-section-link/ArticleSectionLink"
-import ArticleSpace from "./src/components/article-space/ArticleSpace"
-import ArticleCode from "./src/components/article-code/ArticleCode"
-
+import Section from "./src/components/article/Section"
+import Code from "./src/components/article/Code"
+import Link from "./src/components/article/Link"
+import * as Text from "./src/components/article/Text"
 
 const shortcodes = {
-  ArticleTitle,
-  ArticleSectionTitle,
-  ArticleSectionText,
-  ArticleSectionLink,
-  ArticleSpace,
-  ArticleCode
+  Section,
+  Code,
+  Link,
+  ...Text,
 }
 
 export const wrapRootElement = ({ element }) => {

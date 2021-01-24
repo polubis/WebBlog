@@ -1,10 +1,7 @@
 import React from "react"
-
 import styled from "styled-components"
 
-import theme from "../../utils/theme"
-
-const ArticleAuthorAvatar = styled.figure`
+const AuthorAvatar = styled.figure`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15,7 +12,7 @@ const ArticleAuthorAvatar = styled.figure`
   border-radius: 50%;
 `
 
-const ArticleAuthorAvatarImg = styled.img`
+const Img = styled.img`
   max-width: 100%;
   max-height: 100%;
   border-radius: 50%;
@@ -27,8 +24,8 @@ interface Props {
 
 export default function ({ src }: Props): React.ReactElement {
   return (
-    <ArticleAuthorAvatar>
-      <ArticleAuthorAvatarImg src={src} />
-    </ArticleAuthorAvatar>
+    <AuthorAvatar>
+      <Img src={src} />
+    </AuthorAvatar>
   )
 }

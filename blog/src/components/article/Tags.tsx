@@ -1,16 +1,24 @@
 import React from "react"
-
 import styled from "styled-components"
 
-import ArticleTag from "../article-tag/ArticleTag"
 import theme from "../../utils/theme"
 
-const ArticleTags = styled.div`
+const Tag = styled.li`
+  text-transform: uppercase;
+  color: ${theme.secondary};
+  opacity: 0.7;
+  font-size: 14px;
+`
+
+const Tags = styled.ul`
   display: flex;
   align-items: center;
   flex-flow: wrap;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 
-  & > div {
+  ${Tag} {
     display: flex;
     align-items: center;
     margin: 0 14px 14px 0;
@@ -35,10 +43,10 @@ interface Props {
 
 export default function ({ tags }: Props): React.ReactElement {
   return (
-    <ArticleTags>
+    <Tags>
       {tags.map(tag => (
-        <ArticleTag key={tag}>{tag}</ArticleTag>
+        <Tag key={tag}>{tag}</Tag>
       ))}
-    </ArticleTags>
+    </Tags>
   )
 }

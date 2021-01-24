@@ -2,7 +2,7 @@ import React from "react"
 import styled from "styled-components"
 
 import Layout from "../components/layout/Layout"
-import ArticleTile from "../components/article-tile/ArticleTile"
+import Tile from "../components/article/Tile"
 import theme from "../utils/theme"
 import { graphql } from "gatsby"
 import { ArticleFrontmatter } from "../models/Article"
@@ -96,7 +96,7 @@ export default function ({ data }: Props): React.ReactElement {
     <Layout>
       <ArticlesPage>
         {articles.map(article => (
-          <ArticleTile key={article.slug} article={article} />
+          <Tile key={article.slug} article={article} />
         ))}
       </ArticlesPage>
     </Layout>
