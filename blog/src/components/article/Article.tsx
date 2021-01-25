@@ -71,9 +71,7 @@ export default function ({ pageContext }: Props): React.ReactElement {
           <ReadTimeBadge minutes={30} />
           <StarsBadge quantity={1230} />
         </Details>
-
         <Divider />
-
         <MDXRenderer>{body}</MDXRenderer>
       </Article>
     </Layout>
