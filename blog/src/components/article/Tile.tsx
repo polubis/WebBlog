@@ -19,9 +19,7 @@ const Tile = styled.div`
   position: relative;
   display: flex;
   flex-flow: column;
-  padding: 0 52px;
   box-sizing: border-box;
-  max-width: 442px;
 
   & > a {
     margin: 0 auto 0 0;
