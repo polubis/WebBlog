@@ -15,6 +15,7 @@ import AuthorBadge from "../article/AuthorBadge"
 import ReadTimeBadge from "../article/ReadTimeBadge"
 import StarsBadge from "../article/StarsBadge"
 import Divider from "../article/Divider"
+import Intro from "./Intro"
 
 deckDeckGoHighlightElement()
 
@@ -58,10 +59,9 @@ export default function ({ pageContext }: Props): React.ReactElement {
       <Article>
         <Thumbnail src={article.thumbnail} title={article.title} />
         <Tags tags={article.tags} />
-        <Section>
-          <XL shifted>Intro</XL>
+        <Intro>
           <M>{article.description}</M>
-        </Section>
+        </Intro>
         <Details>
           <AuthorBadge
             role={article.authorRole}

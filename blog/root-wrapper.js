@@ -5,6 +5,7 @@ import Section from "./src/components/article/Section"
 import Code from "./src/components/article/Code"
 import Summary from "./src/components/article/Summary"
 import Link from "./src/components/article/Link"
+import Img from "./src/components/article/Img"
 import * as Text from "./src/components/article/Text"
 
 const shortcodes = {
@@ -12,6 +13,7 @@ const shortcodes = {
   Code,
   Link,
   Summary,
+  Img,
   ...Text,
 }
 

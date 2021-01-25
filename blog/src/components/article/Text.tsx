@@ -7,6 +7,7 @@ interface Props {
   bold?: boolean
   normal?: boolean
   italic?: boolean
+  primary?: boolean
 }
 
 enum Weight {
@@ -16,6 +17,9 @@ enum Weight {
 }
 
 const getStyle = ({ italic }: Props): string => (italic ? "italic" : "normal")
+
+const getColor = ({ primary }: Props): string =>
+  primary ? theme.primary : theme.secondary
 
 const getWeight = (
   { light, bold, normal }: Props,
@@ -38,7 +42,7 @@ const getWeight = (
 
 const style = css`
   margin: 0;
-  color: ${theme.secondary};
+  color: ${getColor};
   font-style: ${getStyle};
 
   ${({ shifted }: Props) =>
