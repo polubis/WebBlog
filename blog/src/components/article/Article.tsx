@@ -8,14 +8,14 @@ import { ArticleFrontmatter } from "../../models/Article"
 import { createArticle } from "../../factories/Article"
 import Thumbnail from "../article/Thumbnail"
 import Tags from "../article/Tags"
-import Section from "../article/Section"
-import { XL, M } from "../article/Text"
+import { M } from "../article/Text"
 import Details from "../article/Details"
 import AuthorBadge from "../article/AuthorBadge"
 import ReadTimeBadge from "../article/ReadTimeBadge"
 import StarsBadge from "../article/StarsBadge"
 import Divider from "../article/Divider"
 import Intro from "./Intro"
+import { L_UP } from "../../utils/viewport"
 
 deckDeckGoHighlightElement()
 
@@ -23,8 +23,11 @@ const Article = styled.main`
   display: flex;
   flex-flow: column;
   margin: 0 auto;
-  width: 920px;
   padding: 48px 0;
+
+  @media ${L_UP} {
+    width: 920px;
+  }
 
   & > :nth-child(2) {
     margin: 62px 0 28px 0;

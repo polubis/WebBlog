@@ -5,8 +5,11 @@ import { XXL } from "./Text"
 
 const Thumbnail = styled.header`
   width: 100%;
-  height: 182px;
+  min-height: 182px;
+  padding: 24px;
+  box-sizing: border-box;
   display: flex;
+  text-align: center;
   align-items: center;
   justify-content: center;
   position: relative;

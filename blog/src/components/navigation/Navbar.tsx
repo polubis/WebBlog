@@ -1,13 +1,11 @@
 import React from "react"
 import { Link as GatsbyLink } from "gatsby"
-
 import styled from "styled-components"
 
 import Logo from "../logo/Logo"
 import Divider from "../divider/Divider"
-import Link from "../link/Link"
-
-import theme from "../../utils/theme"
+import { L_DOWN } from "../../utils/viewport"
+import Links from "./Links"
 
 const Navbar = styled.nav`
   display: flex;
@@ -17,42 +15,33 @@ const Navbar = styled.nav`
   box-sizing: border-box;
   z-index: 1;
 
+  @media ${L_DOWN} {
+    display: none;
+  }
+
   & > a:not(:last-of-type) {
     margin-right: 62px;
   }
+
+  ${Divider} {
+    margin: 0 62px 0 0;
+  }
 `
-
-const LINKS = [
-  "technologies",
-  "authors",
-  "articles",
-  "about",
-  "contact",
-  "join us",
-]
-
-const renderLinks = (str, end = LINKS.length): React.ReactElement[] => {
-  return LINKS.slice(str, end).map((link, i) => (
-    <Link to={`/${link}/`} key={link} activeStyle={{ color: theme.primary }}>
-      {link}
-    </Link>
-  ))
-}
 
 export default function (): React.ReactElement {
   return (
     <Navbar>
-      {renderLinks(0, 3)}
+      <Links str={0} end={3} />
 
-      <Divider margin="0 62px 0 0" />
+      <Divider />
 
       <GatsbyLink to="/">
         <Logo />
       </GatsbyLink>
 
-      <Divider margin="0 62px 0 0" />
+      <Divider />
 
-      {renderLinks(3)}
+      <Links str={3} />
     </Navbar>
   )
 }

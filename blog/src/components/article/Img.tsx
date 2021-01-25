@@ -6,6 +6,11 @@ import { S } from "./Text"
 const Img = styled.figure`
   margin: 24px 0 0 0;
 
+  & > img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+
   ${S} {
     display: block;
     margin-top: 12px;

@@ -19,7 +19,7 @@ const Grid = styled.div`
   }
 
   @media ${T_UP} {
-    grid-template-columns: 422px 422px;
+    grid-template-columns: minmax(320px, 450px) minmax(320px, 450px);
   }
 
   @media ${L_UP} {
