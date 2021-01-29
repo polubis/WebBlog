@@ -1,15 +1,22 @@
 export interface ArticleFrontmatter {
   date: string
-  author: string
-  authorRole: string
+  authorId: string
   tags: string
   description: string
-  thumbnail: string
   readTime: number
+  title: string
 }
 
-export interface Article extends Omit<ArticleFrontmatter, "tags"> {
-  tags: string[]
-  title: string
+export interface ArticleAuthor {
+  firstName: string
+  lastName: string
+  id: string
+  role: string
+  avatar: string
+}
+
+export interface Article {
+  author: ArticleAuthor
+  frontmatter: ArticleFrontmatter
   slug: string
 }

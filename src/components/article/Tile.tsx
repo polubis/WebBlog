@@ -39,7 +39,11 @@ const Tile = styled.div`
 `
 
 export default function ({ article }: Props): React.ReactElement {
-  const { tags, title, description, slug } = article
+  const {
+    author,
+    frontmatter: { tags, title, description, readTime },
+    slug,
+  } = article
 
   return (
     <Tile>
@@ -50,12 +54,10 @@ export default function ({ article }: Props): React.ReactElement {
       <Details>
         <AuthorBadge
           mini
-          role={article.authorRole}
-          name={article.author}
-          avatar="https://mercomp.pl/wp-content/uploads/2018/05/user-avatar-1.png"
+          author={author}
         />
-        <ReadTimeBadge minutes={30} />
-        <StarsBadge quantity={1230} />
+        <ReadTimeBadge minutes={readTime} />
+        <StarsBadge quantity={0} />
       </Details>
 
       <Link to={slug}>

@@ -19,13 +19,13 @@ const Img = styled.img`
 `
 
 interface Props {
-  src: string
+  avatar: string
 }
 
-export default function ({ src }: Props): React.ReactElement {
+export default function ({ avatar }: Props): React.ReactElement {
   return (
     <AuthorAvatar>
-      <Img src={src} />
+      <Img src={`/avatars/${avatar}`} />
     </AuthorAvatar>
   )
 }

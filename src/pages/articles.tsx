@@ -2,14 +2,14 @@ import React from "react"
 import { graphql } from "gatsby"
 
 import Layout from "../components/layout/Layout"
-import { ArticleFrontmatter } from "../models/Article"
-import { createArticle } from "../factories/Article"
+import { Article, ArticleAuthor } from "../models/Article"
 import Grid from "../components/article/Grid"
+import authors from "../data/authors.json"
 
 interface Props {
   data: {
     allMdx: {
-      nodes: { frontmatter: ArticleFrontmatter; slug: string }[]
+      nodes: Omit<Article, "author">[]
     }
   }
 }
@@ -20,12 +20,11 @@ export const query = graphql`
       nodes {
         frontmatter {
           date
-          author
-          authorRole
+          authorId
           description
           readTime
           tags
-          thumbnail
+          title
         }
         slug
       }
@@ -38,7 +37,17 @@ export default function ({ data }: Props): React.ReactElement {
     allMdx: { nodes },
   } = data
 
-  const articles = nodes.map(node => createArticle(node))
+  const articles = nodes.map(
+    (node): Article => ({
+      ...node,
+      author: {
+        ...authors[node.frontmatter.authorId],
+        id: node.frontmatter.authorId,
+      },
+    })
+  )
+
+  console.log(articles)
 
   return (
     <Layout>

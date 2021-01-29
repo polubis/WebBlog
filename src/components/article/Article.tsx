@@ -4,8 +4,7 @@ import { defineCustomElements as deckDeckGoHighlightElement } from "@deckdeckgo/
 import styled from "styled-components"
 
 import Layout from "../layout/Layout"
-import { ArticleFrontmatter } from "../../models/Article"
-import { createArticle } from "../../factories/Article"
+import { Article as ArticleModel } from "../../models/Article"
 import Thumbnail from "../article/Thumbnail"
 import Tags from "../article/Tags"
 import { M } from "../article/Text"
@@ -46,33 +45,29 @@ const Article = styled.main`
 
 interface Props {
   pageContext: {
-    body: string
-    slug: string
-    frontmatter: ArticleFrontmatter
+    article: ArticleModel & { body: string }
   }
 }
 
 export default function ({ pageContext }: Props): React.ReactElement {
-  const { body, frontmatter, slug } = pageContext
+  const {
+    article: { frontmatter, slug, author, body },
+  } = pageContext
 
-  const article = createArticle({ slug, frontmatter })
-
+  const { title, description, tags, readTime } = frontmatter
+  
   return (
     <Layout>
       <Article>
-        <Thumbnail src={article.thumbnail} title={article.title} />
-        <Tags tags={article.tags} />
+        <Thumbnail slug={slug} title={title} />
+        <Tags tags={tags} />
         <Intro>
-          <M>{article.description}</M>
+          <M>{description}</M>
         </Intro>
         <Details>
-          <AuthorBadge
-            role={article.authorRole}
-            name={article.author}
-            avatar="https://mercomp.pl/wp-content/uploads/2018/05/user-avatar-1.png"
-          />
-          <ReadTimeBadge minutes={30} />
-          <StarsBadge quantity={1230} />
+          <AuthorBadge author={author} />
+          <ReadTimeBadge minutes={readTime} />
+          <StarsBadge quantity={0} />
         </Details>
         <Divider />
         <MDXRenderer>{body}</MDXRenderer>

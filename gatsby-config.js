@@ -7,7 +7,8 @@
 module.exports = {
   /* Your site config here */
   plugins: [
-    `gatsby-plugin-styled-components`,
+   'gatsby-plugin-scss-typescript',
+    "gatsby-plugin-styled-components",
     {
       resolve: `gatsby-plugin-mdx`,
       options: {

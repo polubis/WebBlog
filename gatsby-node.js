@@ -1,4 +1,5 @@
 const path = require("path")
+const authors = require('./src/data/authors.json')
 
 // create pages dynamically
 exports.createPages = async ({ graphql, actions }) => {
@@ -10,12 +11,11 @@ exports.createPages = async ({ graphql, actions }) => {
         nodes {
           frontmatter {
             date
-            author
-            authorRole
+            authorId
             description
             readTime
             tags
-            thumbnail
+            title
           }
           slug
           body
@@ -31,7 +31,13 @@ exports.createPages = async ({ graphql, actions }) => {
         `src/components/article/Article.tsx`
       ),
       context: {
-        ...node
+        article: {
+          ...node,
+          author: {
+            id: node.frontmatter.authorId,
+            ...authors[node.frontmatter.authorId]
+          }
+        }
       }
     })
   })

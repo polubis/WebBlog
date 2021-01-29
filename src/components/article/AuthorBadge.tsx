@@ -3,11 +3,10 @@ import styled from "styled-components"
 
 import AuthorAvatar from "./AuthorAvatar"
 import { M, S } from "./Text"
+import { ArticleAuthor } from "../../models/Article"
 
 interface Props {
-  role: string
-  name: string
-  avatar: string
+  author: ArticleAuthor
   mini?: boolean
 }
 
@@ -31,17 +30,15 @@ const Personality = styled.div`
 `
 
 export default function ({
-  role,
-  name,
-  avatar,
+  author: { role, id, avatar, firstName, lastName },
   mini,
 }: Props): React.ReactElement {
   return (
     <AuthorBadge>
-      <AuthorAvatar src={avatar} />
+      <AuthorAvatar avatar={avatar} />
       {mini || (
         <Personality>
-          <M bold>{name}</M>
+          <M bold>{firstName} {lastName}</M>
           <S>{role}</S>
         </Personality>
       )}

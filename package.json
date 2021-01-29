@@ -32,7 +32,9 @@
   },
   "devDependencies": {
     "@types/styled-components": "^5.1.7",
-    "prettier": "2.2.1"
+    "gatsby-plugin-scss-typescript": "^4.0.13",
+    "prettier": "2.2.1",
+    "sass": "^1.32.5"
   },
   "repository": {
     "type": "git",
