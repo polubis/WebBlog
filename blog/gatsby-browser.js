@@ -1,3 +1,9 @@
+import './src/index.css';
+
+import "@fontsource/roboto/400.css"
+import "@fontsource/roboto/500.css"
+import "@fontsource/roboto/700.css"
+
 import { wrapRootElement as wrap } from "./root-wrapper"
 export const wrapRootElement = wrap
 /**
