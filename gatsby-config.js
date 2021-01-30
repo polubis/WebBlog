@@ -25,6 +25,20 @@ module.exports = {
       },
     },
     {
+      resolve: `gatsby-plugin-webfonts`,
+      options: {
+        fonts: {
+          google: [
+            {
+              family: "Roboto",
+              variants: ["400", "500", "700"],
+            },
+            { family: "Open Sans" },
+          ],
+        },
+      },
+    },
+    {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `articles`,
