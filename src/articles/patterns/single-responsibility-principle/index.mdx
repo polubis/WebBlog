@@ -1,0 +1,101 @@
+---
+date: 2021-02-14
+authorId: polubis
+tags: typescript,solid,patterns
+description: We review code from different projects and try to find an usage for the SRP.
+readTime: 5
+title: Single responsibility principle
+---
+
+<Section>
+  <XL>What is SRP ?</XL>
+  <M>
+    SRP refers to single responsibility principle as you probably know. It means
+    every module / component / class / function should be responsible only for
+    one thing. For example function which calculates sum of two number should
+    done only this. Nothing more.
+  </M>
+</Section>
+
+<Section>
+  <XL>Why we should use SRP ?</XL>
+  <M>
+    Applying rules, patterns is always good idea, especially in programming.
+    Patterns allows developers to work quicker in projects because they are
+    decreasing code understanding time, increases scalability of code, makes
+    code easier to test and etc...
+  </M>
+  <M>
+    Ofcourse patterns especially from SOLID group are always ok. Just one
+    important rule to use. Design, implement first / refactor later. Often
+    developers make huge mistake and trying to make their code too "perfect".
+  </M>
+  <M>
+    This ends later with code which is hard to understand and maintain. They key
+    is to find balance in applying different patterns in programming. Patterns
+    should be used when needed and not when they are to be used for art.
+  </M>
+</Section>
+
+<Section>
+  <XL>Invalid User management feature</XL>
+  <M>Check code bellow and try to find problems with current implementation.</M>
+  <M>
+    As you probably see this code is bad because we creating User object
+    instance and also in same class we have{" "}
+    <M primary bold>
+      loadUser()
+    </M>{" "}
+    method which handles loading users. Ofcourse in this example loading is
+    mocked but in real world this function should load data from DB or other
+    server. How this can be improved ?
+  </M>
+  <Code description="Example of bad implementation">
+    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/WebBlog/main/src/articles/patterns/single-responsibility-principle/example-1.ts"></deckgo-highlight-code>
+  </Code>
+</Section>
+
+<Section>
+  <XL>Correct User management feature</XL>
+  <M>
+    First of all to improve above code we need to create additional classes
+    which will be responsible for one thing. We create{" "}
+    <M primary bold>
+      UserRepository
+    </M>{" "}
+    - which contains methods to load User from dedicated source and{" "}
+    <M primary bold>
+      UserController
+    </M>{" "}
+    which manages user object state and triggers whole loading procedure. Also
+    we created additional type which requires to implement{" "}
+    <M primary bold>
+      load()
+    </M>{" "}
+    method. This can be usefull when we would like to create next repositories
+    for other entities.
+  </M>
+  <M>
+    We created layers which can separately tested. Also controller don't know
+    anything about connection to DB or other server implementation. controller
+    just triggers procedure and waits for finish to perform some additional work
+    after.
+  </M>
+  <M>
+    Also in same example we injects via constructor created UserRepository
+    object. To make this code "perfect" we should change type definition to
+    interfaces to rely on interfaces not implementation - this is required by
+    Dependency inversion principle which will be described in other article.
+  </M>
+  <Code description="Example of correct User feature implementation">
+    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/WebBlog/main/src/articles/patterns/single-responsibility-principle/example-2.ts"></deckgo-highlight-code>
+  </Code>
+</Section>
+
+<Summary>
+  <M>
+    I hope right now you know how to use SRP principle properly and when it
+    should be used. This article is part of series{" "}
+    <M>understanding SOLID properly by examples</M>.
+  </M>
+</Summary>

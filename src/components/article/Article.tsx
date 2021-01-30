@@ -45,7 +45,7 @@ const Article = styled.main`
 
 interface Props {
   pageContext: {
-    article: ArticleModel & { body: string }
+    article: ArticleModel
   }
 }
 
@@ -55,7 +55,7 @@ export default function ({ pageContext }: Props): React.ReactElement {
   } = pageContext
 
   const { title, description, tags, readTime } = frontmatter
-  
+
   return (
     <Layout>
       <Article>
