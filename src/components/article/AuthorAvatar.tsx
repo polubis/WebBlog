@@ -1,5 +1,8 @@
 import React from "react"
 import styled from "styled-components"
+import Image from "gatsby-image"
+
+import { ArticleAuthorAvatar } from "../../models/Article"
 
 const AuthorAvatar = styled.figure`
   display: flex;
@@ -12,20 +15,17 @@ const AuthorAvatar = styled.figure`
   border-radius: 50%;
 `
 
-const Img = styled.img`
-  max-width: 100%;
-  max-height: 100%;
-  border-radius: 50%;
-`
-
 interface Props {
-  avatar: string
+  avatar: ArticleAuthorAvatar
 }
 
 export default function ({ avatar }: Props): React.ReactElement {
   return (
     <AuthorAvatar>
-      <Img src={`/avatars/${avatar}`} />
+      <Image
+        fluid={avatar}
+        style={{ width: "50px", height: "50px", borderRadius: "50%" }}
+      />
     </AuthorAvatar>
   )
 }
