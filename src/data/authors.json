@@ -2,8 +2,12 @@
     "polubis": {
       "firstName": "Adrian",
       "lastName": "Połubiński",
-      "role": "Frontend developer",
-      "avatar": "polubis.jpg"
+      "role": "Frontend developer"
+    },
+    "trelolo": {
+      "firstName": "Trelo",
+      "lastName": "Trelo",
+      "role": "Frontend developer"
     }
   }
   

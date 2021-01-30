@@ -7,35 +7,53 @@ exports.createPages = async ({ graphql, actions }) => {
 
   const result = await graphql(`
     {
+      allFile(filter: {name: {ne: "index"}}) {
+        nodes {
+          name
+          relativePath
+          childImageSharp {
+            fluid {
+              base64
+              aspectRatio
+              src
+              srcSet
+              sizes
+            }
+          }
+        }
+      }
       allMdx {
         nodes {
+          body
+          slug
           frontmatter {
-            date
             authorId
+            date
             description
             readTime
             tags
             title
           }
-          slug
-          body
         }
       }
     }
   `)
 
-  result.data.allMdx.nodes.forEach(node => {
+  result.data.allMdx.nodes.forEach(allMdxNode => {
+    const childImageSharp = result.data.allFile.nodes.find(allFileNode => allFileNode.name === allMdxNode.frontmatter.authorId);
+
     createPage({
-      path: `/articles/${node.slug}`,
+      path: `/articles/${allMdxNode.slug}`,
       component: path.resolve(
         `src/components/article/Article.tsx`
       ),
       context: {
         article: {
-          ...node,
+          ...allMdxNode,
           author: {
-            id: node.frontmatter.authorId,
-            ...authors[node.frontmatter.authorId]
+            ...authors[allMdxNode.frontmatter.authorId],
+            id: allMdxNode.frontmatter.authorId,
+            avatar: childImageSharp.childImageSharp.fluid,
           }
         }
       }
