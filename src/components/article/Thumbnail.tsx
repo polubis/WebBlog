@@ -34,13 +34,13 @@ const Thumbnail = styled.header`
 `
 
 interface Props {
+  slug: string
   title: string
-  src: string
 }
 
-export default function ({ src, title }: Props): React.ReactElement {
+export default function ({ title, slug }: Props): React.ReactElement {
   return (
-    <Thumbnail style={{ backgroundImage: `url(${src})` }}>
+    <Thumbnail style={{ backgroundImage: `url(/thumbnails/${slug}/thumbnail.jpg)` }}>
       <XXL>{title}</XXL>
     </Thumbnail>
   )

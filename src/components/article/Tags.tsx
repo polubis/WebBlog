@@ -38,13 +38,13 @@ const Tags = styled.ul`
 `
 
 interface Props {
-  tags: string[]
+  tags: string
 }
 
 export default function ({ tags }: Props): React.ReactElement {
   return (
     <Tags>
-      {tags.map(tag => (
+      {tags.split(',').map(tag => (
         <Tag key={tag}>{tag}</Tag>
       ))}
     </Tags>

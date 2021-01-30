@@ -7,7 +7,8 @@
 module.exports = {
   /* Your site config here */
   plugins: [
-    `gatsby-plugin-styled-components`,
+   'gatsby-plugin-scss-typescript',
+    "gatsby-plugin-styled-components",
     {
       resolve: `gatsby-plugin-mdx`,
       options: {
@@ -24,11 +25,34 @@ module.exports = {
       },
     },
     {
+      resolve: `gatsby-plugin-webfonts`,
+      options: {
+        fonts: {
+          google: [
+            {
+              family: "Roboto",
+              variants: ["400", "500", "700"],
+            },
+            { family: "Open Sans" },
+          ],
+        },
+      },
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `assets`,
+        path: `${__dirname}/src/assets`,
+      },
+    },
+    {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `articles`,
         path: `${__dirname}/src/articles`,
       },
     },
+    `gatsby-transformer-sharp`,
+    `gatsby-plugin-sharp`,
   ],
 }

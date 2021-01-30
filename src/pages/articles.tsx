@@ -2,30 +2,53 @@ import React from "react"
 import { graphql } from "gatsby"
 
 import Layout from "../components/layout/Layout"
-import { ArticleFrontmatter } from "../models/Article"
-import { createArticle } from "../factories/Article"
+import { Article, ArticleAuthorAvatar } from "../models/Article"
 import Grid from "../components/article/Grid"
+import authors from "../data/authors.json"
 
 interface Props {
   data: {
     allMdx: {
-      nodes: { frontmatter: ArticleFrontmatter; slug: string }[]
+      nodes: Omit<Article, "author">[]
+    }
+    allFile: {
+      nodes: {
+        name: string
+        relativePath: string
+        childImageSharp: {
+          fluid: ArticleAuthorAvatar
+        }
+      }[]
     }
   }
 }
 
 export const query = graphql`
-  query GetArticles {
+  {
+    allFile(filter: { name: { ne: "index" } }) {
+      nodes {
+        name
+        relativePath
+        childImageSharp {
+          fluid {
+            base64
+            aspectRatio
+            src
+            srcSet
+            sizes
+          }
+        }
+      }
+    }
     allMdx {
       nodes {
         frontmatter {
           date
-          author
-          authorRole
+          authorId
           description
           readTime
           tags
-          thumbnail
+          title
         }
         slug
       }
@@ -34,11 +57,26 @@ export const query = graphql`
 `
 
 export default function ({ data }: Props): React.ReactElement {
-  const {
-    allMdx: { nodes },
-  } = data
+  const { allMdx, allFile } = data
 
-  const articles = nodes.map(node => createArticle(node))
+  const articles = allMdx.nodes.map(
+    (allMdxNode): Article => {
+      const childImageSharp = allFile.nodes.find(
+        allFileNode => allFileNode.name === allMdxNode.frontmatter.authorId
+      )
+
+      return {
+        ...allMdxNode,
+        author: {
+          ...authors[allMdxNode.frontmatter.authorId],
+          id: allMdxNode.frontmatter.authorId,
+          avatar: childImageSharp.childImageSharp.fluid,
+        },
+      }
+    }
+  )
+
+  console.log(articles)
 
   return (
     <Layout>
