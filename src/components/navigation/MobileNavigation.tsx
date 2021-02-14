@@ -64,7 +64,12 @@ export default function (): React.ReactElement {
       </Expander>
       {open && (
         <Navigation>
-          <Links str={0} />
+          <Links
+            items={[
+              { label: "articles", url: "/" },
+              { label: "authors", url: "/authors" },
+            ]}
+          />
         </Navigation>
       )}
     </>

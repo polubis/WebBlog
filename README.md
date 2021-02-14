@@ -97,3 +97,10 @@ Looking for more guidance? Full documentation for Gatsby lives [on the website](
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/import/project?template=https://github.com/gatsbyjs/gatsby-starter-hello-world)
 
 <!-- AUTO-GENERATED-CONTENT:END -->
+
+## Creating article
+
+1. Add folder with article category.
+2. Add subfolder with article name.
+3. Add index.mdx file and populate article content.
+4. Add thumbnail in static thumbnails via same convention.

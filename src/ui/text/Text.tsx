@@ -105,7 +105,7 @@ export const X = styled.h3<Props>`
 
 export const M = styled.span<Props>`
   font-size: 16px;
-  line-height: 24px;
+  line-height: 28px;
   font-weight: ${(props: Props) => getWeight(props, Weight.NORMAL)};
   ${style}
 `
