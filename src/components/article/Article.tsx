@@ -15,6 +15,7 @@ import StarsBadge from "../article/StarsBadge"
 import Divider from "../article/Divider"
 import Intro from "./Intro"
 import { L_UP } from "../../utils/viewport"
+import CommentsBadge from "./CommentsBadge"
 
 deckDeckGoHighlightElement()
 
@@ -37,8 +38,12 @@ const Article = styled.main`
   }
 
   ${Details} {
+    & > :not(:first-child) {
+      margin-left: 28px;
+    }
+
     & > :nth-child(2) {
-      margin: 0 28px 0 54px;
+      margin: 0 0 0 54px;
     }
   }
 `
@@ -68,6 +73,7 @@ export default function ({ pageContext }: Props): React.ReactElement {
           <AuthorBadge author={author} />
           <ReadTimeBadge minutes={readTime} />
           <StarsBadge quantity={0} />
+          <CommentsBadge count={30} />
         </Details>
         <Divider />
         <MDXRenderer>{body}</MDXRenderer>

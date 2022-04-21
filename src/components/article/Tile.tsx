@@ -10,6 +10,7 @@ import Details from "./Details"
 import AuthorBadge from "./AuthorBadge"
 import ReadTimeBadge from "./ReadTimeBadge"
 import StarsBadge from "./StarsBadge"
+import CommentsBadge from "./CommentsBadge"
 
 interface Props {
   article: Article
@@ -32,8 +33,12 @@ const Tile = styled.div`
   ${Details} {
     margin: 28px 0 42px 0;
 
+    & > :not(:first-child) {
+      margin-left: 28px;
+    }
+
     & > :nth-child(2) {
-      margin: 0 28px 0 28px;
+      margin: 0 0 0 28px;
     }
   }
 `
@@ -52,12 +57,10 @@ export default function ({ article }: Props): React.ReactElement {
       <M normal>{description}</M>
 
       <Details>
-        <AuthorBadge
-          mini
-          author={author}
-        />
+        <AuthorBadge mini author={author} />
         <ReadTimeBadge minutes={readTime} />
         <StarsBadge quantity={0} />
+        <CommentsBadge count={30} />
       </Details>
 
       <Link to={slug}>
