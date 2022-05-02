@@ -1,8 +1,8 @@
 import React from "react"
 import styled from "styled-components"
 
-import AuthorAvatar from "./AuthorAvatar"
-import { M, S } from "./Text"
+import { M, S } from "../../ui"
+import AuthorAvatar from "../article/AuthorAvatar"
 import { ArticleAuthor } from "../../models/Article"
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
   mini?: boolean
 }
 
-const AuthorBadge = styled.div`
+const Badge = styled.div`
   display: flex;
   align-items: center;
 
@@ -29,19 +29,21 @@ const Personality = styled.div`
   margin-left: 14px;
 `
 
-export default function ({
+export const AuthorBadge = ({
   author: { role, id, avatar, firstName, lastName },
   mini,
-}: Props): React.ReactElement {
+}: Props) => {
   return (
-    <AuthorBadge>
+    <Badge>
       <AuthorAvatar avatar={avatar} />
       {mini || (
         <Personality>
-          <M bold>{firstName} {lastName}</M>
+          <M bold>
+            {firstName} {lastName}
+          </M>
           <S>{role}</S>
         </Personality>
       )}
-    </AuthorBadge>
+    </Badge>
   )
 }

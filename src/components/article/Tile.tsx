@@ -5,11 +5,9 @@ import { Link } from "gatsby"
 import Button from "../button/Button"
 import Tags from "./Tags"
 import { Article } from "../../models/Article"
-import { XL, M } from "./Text"
+import { XL, M } from "../../ui"
 import Details from "./Details"
-import AuthorBadge from "./AuthorBadge"
-import ReadTimeBadge from "./ReadTimeBadge"
-import StarsBadge from "./StarsBadge"
+import { AuthorBadge, ReadTimeBadge } from "../badges"
 
 interface Props {
   article: Article
@@ -52,15 +50,10 @@ export default function ({ article }: Props): React.ReactElement {
       <M normal>{description}</M>
 
       <Details>
-        <AuthorBadge
-          mini
-          author={author}
-        />
+        <AuthorBadge mini author={author} />
         <ReadTimeBadge minutes={readTime} />
-        <StarsBadge quantity={0} />
       </Details>
-
-      <Link to={slug}>
+      <Link to={`/articles/${slug}`}>
         <Button>READ ARTICLE</Button>
       </Link>
     </Tile>

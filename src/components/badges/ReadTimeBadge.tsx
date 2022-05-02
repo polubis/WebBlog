@@ -1,10 +1,9 @@
 import React from "react"
 import styled from "styled-components"
 
-import ReadTimeIcon from "./icons/ReadTimeIcon"
-import { S } from "./Text"
+import { S, ReadTimeIcon } from "../../ui"
 
-const ReadTimeBadge = styled.div`
+const Badge = styled.div`
   display: flex;
   align-items: center;
 
@@ -27,13 +26,13 @@ const getTime = (minutes: number): string => {
   return `${Math.floor(minutes / HOUR)} H ${minutes % HOUR} M`
 }
 
-export default function ({ minutes }: Props): React.ReactElement {
+export const ReadTimeBadge = ({ minutes }: Props) => {
   const time = getTime(minutes)
 
   return (
-    <ReadTimeBadge>
+    <Badge>
       <ReadTimeIcon />
       <S bold>{time}</S>
-    </ReadTimeBadge>
+    </Badge>
   )
 }

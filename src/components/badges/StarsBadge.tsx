@@ -1,10 +1,9 @@
 import React from "react"
 import styled from "styled-components"
 
-import StarsIcon from "./icons/StarsIcon"
-import { S } from "./Text"
+import { S, StarsIcon } from "../../ui"
 
-const StarsBadge = styled.div`
+const Badge = styled.div`
   display: flex;
   align-items: center;
 
@@ -17,11 +16,11 @@ interface Props {
   quantity: number
 }
 
-export default function ({ quantity }: Props): React.ReactElement {
+export const StarsBadge = ({ quantity }: Props) => {
   return (
-    <StarsBadge>
+    <Badge>
       <StarsIcon />
       <S bold>{quantity}</S>
-    </StarsBadge>
+    </Badge>
   )
 }

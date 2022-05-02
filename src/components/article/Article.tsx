@@ -7,11 +7,9 @@ import Layout from "../layout/Layout"
 import { Article as ArticleModel } from "../../models/Article"
 import Thumbnail from "../article/Thumbnail"
 import Tags from "../article/Tags"
-import { M } from "../article/Text"
+import { M } from "../../ui"
 import Details from "../article/Details"
-import AuthorBadge from "../article/AuthorBadge"
-import ReadTimeBadge from "../article/ReadTimeBadge"
-import StarsBadge from "../article/StarsBadge"
+import { AuthorBadge, ReadTimeBadge } from "../badges"
 import Divider from "../article/Divider"
 import Intro from "./Intro"
 import { L_UP } from "../../utils/viewport"
@@ -67,7 +65,6 @@ export default function ({ pageContext }: Props): React.ReactElement {
         <Details>
           <AuthorBadge author={author} />
           <ReadTimeBadge minutes={readTime} />
-          <StarsBadge quantity={0} />
         </Details>
         <Divider />
         <MDXRenderer>{body}</MDXRenderer>

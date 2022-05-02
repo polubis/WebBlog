@@ -2,7 +2,7 @@ import React from "react"
 import styled from "styled-components"
 import theme from "../../utils/theme"
 
-import { M } from "./Text"
+import { M } from "../../ui"
 
 interface Props
   extends React.DetailedHTMLProps<

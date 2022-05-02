@@ -21,6 +21,11 @@ const Button = styled.button`
   &:focus {
     outline: none;
   }
+
+  &:hover {
+    background: ${theme.primary};
+    color: ${theme.bg};
+  }
 `
 
 interface Props

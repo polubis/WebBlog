@@ -32,8 +32,6 @@ interface Props {
 }
 
 export default function ({ children }: Props): React.ReactElement {
-
-
   return (
     <Layout>
       <Navbar />
