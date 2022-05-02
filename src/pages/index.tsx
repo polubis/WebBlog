@@ -85,6 +85,14 @@ export default function ({ data }: Props): React.ReactElement {
     }
   }, [])
 
+  // Add Helmet
+  // Add indexing
+  // Write first article
+  // Check article layout
+  // Try to improve fonts
+  // Add metatags for sharing
+  // Add page titles and other metatags
+
   return (
     <Layout>
       <Grid articles={articles} />

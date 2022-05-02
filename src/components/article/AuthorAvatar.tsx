@@ -1,5 +1,5 @@
 import React from "react"
-import styled, { css } from "styled-components"
+import styled from "styled-components"
 import Image from "gatsby-image"
 
 import { ArticleAuthorAvatar } from "../../models/Article"
@@ -45,6 +45,7 @@ export default function ({
   avatar,
   size = "small",
 }: Props): React.ReactElement {
+  console.log(avatar)
   return (
     <AuthorAvatar>
       <Image

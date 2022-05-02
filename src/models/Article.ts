@@ -7,6 +7,14 @@ export interface ArticleFrontmatter {
   title: string
 }
 
+export interface ArticleThumbnail {
+  aspectRatio: number
+  base64: string
+  sizes: string
+  src: string
+  srcSet: string
+}
+
 export interface ArticleAuthorAvatar {
   aspectRatio: number
   base64: string
@@ -27,5 +35,6 @@ export interface Article {
   author: ArticleAuthor
   frontmatter: ArticleFrontmatter
   slug: string
+  thumbnail: ArticleThumbnail
   body?: string
 }

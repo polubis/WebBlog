@@ -30,7 +30,7 @@ const Personality = styled.div`
 `
 
 export const AuthorBadge = ({
-  author: { role, id, avatar, firstName, lastName },
+  author: { role, avatar, firstName, lastName },
   mini,
 }: Props) => {
   return (

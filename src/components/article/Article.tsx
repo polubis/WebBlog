@@ -51,11 +51,11 @@ interface Props {
 
 export default function ({ pageContext }: Props): React.ReactElement {
   const {
-    article: { frontmatter, slug, author, body },
+    article: { frontmatter, author, thumbnail, body },
   } = pageContext
 
   const { title, description, tags, readTime } = frontmatter
-  console.log(title)
+
   useEffect(() => {
     if (!isInSSR()) {
       ReactGA.initialize("G-NVC90KSB0J")
@@ -66,7 +66,7 @@ export default function ({ pageContext }: Props): React.ReactElement {
   return (
     <Layout>
       <Article>
-        <Thumbnail slug={slug} title={title} />
+        <Thumbnail thumbnail={thumbnail} title={title} />
         <Tags tags={tags} />
         <Intro>
           <M>{description}</M>
