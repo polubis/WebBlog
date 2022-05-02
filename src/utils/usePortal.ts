@@ -4,7 +4,6 @@ import { isInSSR } from "./isInSSR"
 
 export const usePortal = () => {
   const el = useMemo(() => {
-    ;("")
     if (isInSSR()) {
       return
     }
@@ -29,7 +28,7 @@ export const usePortal = () => {
   }, [])
 
   if (isInSSR()) {
-    return children => null
+    return () => null
   }
 
   return children => createPortal(children, el)

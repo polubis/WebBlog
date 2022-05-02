@@ -1,7 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 
-import { XXL } from "./Text"
+import { XXL } from "../../ui"
 
 const Thumbnail = styled.header`
   width: 100%;

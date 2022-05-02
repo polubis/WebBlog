@@ -1,7 +1,7 @@
 import React from "react"
 
 import Section from "./Section"
-import { XL } from "./Text"
+import { XL } from "../../ui"
 
 interface Props {
   children: React.ReactNode

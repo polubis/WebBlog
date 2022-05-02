@@ -3,33 +3,20 @@ import Link from "../link/Link"
 
 import theme from "../../utils/theme"
 
-const LINKS = [
-  "technologies",
-  "authors",
-  "articles",
-  "about",
-  "contact",
-  "join us",
-]
-
 interface Props {
-  str: number
-  end?: number
+  items: { label: string; url: string }[]
 }
 
-export default function ({
-  str,
-  end = LINKS.length,
-}: Props): React.ReactElement {
+export default function ({ items }: Props): React.ReactElement {
   return (
     <>
-      {LINKS.slice(str, end).map((link, i) => (
+      {items.map(item => (
         <Link
-          to={`/${link}/`}
-          key={link}
+          to={item.url}
+          key={item.url}
           activeStyle={{ color: theme.primary }}
         >
-          {link}
+          {item.label}
         </Link>
       ))}
     </>

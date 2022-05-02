@@ -7,7 +7,7 @@
 module.exports = {
   /* Your site config here */
   plugins: [
-   'gatsby-plugin-scss-typescript',
+    "gatsby-plugin-scss-typescript",
     "gatsby-plugin-styled-components",
     {
       resolve: `gatsby-plugin-mdx`,
@@ -17,9 +17,9 @@ module.exports = {
           {
             resolve: `gatsby-remark-highlight-code`,
             options: {
-              terminal: 'carbon',
-              theme: 'dracula'
-            }
+              terminal: "carbon",
+              theme: "dracula",
+            },
           },
         ],
       },
@@ -50,6 +50,13 @@ module.exports = {
       options: {
         name: `articles`,
         path: `${__dirname}/src/articles`,
+      },
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `authors`,
+        path: `${__dirname}/src/authors`,
       },
     },
     `gatsby-transformer-sharp`,

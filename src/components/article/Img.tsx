@@ -1,7 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 
-import { S } from "./Text"
+import { S } from "../../ui"
 
 const Img = styled.figure`
   margin: 24px 0 0 0;
