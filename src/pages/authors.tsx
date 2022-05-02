@@ -130,7 +130,7 @@ export default function ({ data }: Props): React.ReactElement {
   useEffect(() => {
     if (!isInSSR()) {
       ReactGA.initialize("G-NVC90KSB0J")
-      ReactGA.send("pageview")
+      ReactGA.send({ hitType: "pageview", page: "/authors/" })
     }
   }, [])
 

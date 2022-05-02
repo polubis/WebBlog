@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import { defineCustomElements as deckDeckGoHighlightElement } from "@deckdeckgo/highlight-code/dist/loader"
 import styled from "styled-components"
@@ -13,6 +13,8 @@ import { AuthorBadge, ReadTimeBadge } from "../badges"
 import Divider from "../article/Divider"
 import Intro from "./Intro"
 import { L_UP } from "../../utils/viewport"
+import ReactGA from "react-ga4"
+import { isInSSR } from "../../utils/isInSSR"
 
 deckDeckGoHighlightElement()
 
@@ -53,6 +55,13 @@ export default function ({ pageContext }: Props): React.ReactElement {
   } = pageContext
 
   const { title, description, tags, readTime } = frontmatter
+  console.log(title)
+  useEffect(() => {
+    if (!isInSSR()) {
+      ReactGA.initialize("G-NVC90KSB0J")
+      ReactGA.send({ hitType: "pageview", page: window.location.pathname })
+    }
+  }, [])
 
   return (
     <Layout>
