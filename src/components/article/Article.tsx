@@ -15,6 +15,7 @@ import Intro from "./Intro"
 import { L_UP } from "../../utils/viewport"
 import ReactGA from "react-ga4"
 import { isInSSR } from "../../utils/isInSSR"
+import { Helmet } from "react-helmet"
 
 deckDeckGoHighlightElement()
 
@@ -63,21 +64,41 @@ export default function ({ pageContext }: Props): React.ReactElement {
     }
   }, [])
 
+  const pageTitle = `${title} | by ${author.firstName} ${author.lastName} | GreenOn Software`
+
   return (
-    <Layout>
-      <Article>
-        <Thumbnail thumbnail={thumbnail} title={title} />
-        <Tags tags={tags} />
-        <Intro>
-          <M>{description}</M>
-        </Intro>
-        <Details>
-          <AuthorBadge author={author} />
-          <ReadTimeBadge minutes={readTime} />
-        </Details>
-        <Divider />
-        <MDXRenderer>{body}</MDXRenderer>
-      </Article>
-    </Layout>
+    <>
+      <Helmet>
+        <title>{pageTitle}</title>
+        <meta property="og:type" content="article"></meta>
+        <meta name="description" content={description} />
+        <meta property="og:description" content={description}></meta>
+        <meta
+          name="author"
+          content={author.firstName + " " + author.lastName}
+        ></meta>
+        <meta
+          name="robots"
+          content="index,follow,max-image-preview:large"
+        ></meta>
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:site_name" content="GreenOn Software"></meta>
+      </Helmet>
+      <Layout>
+        <Article>
+          <Thumbnail thumbnail={thumbnail} title={title} />
+          <Tags tags={tags} />
+          <Intro>
+            <M>{description}</M>
+          </Intro>
+          <Details>
+            <AuthorBadge author={author} />
+            <ReadTimeBadge minutes={readTime} />
+          </Details>
+          <Divider />
+          <MDXRenderer>{body}</MDXRenderer>
+        </Article>
+      </Layout>
+    </>
   )
 }

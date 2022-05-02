@@ -1,13 +1,33 @@
 ---
-date: 2021-02-14
+date: 2022-05-02
 authorId: polubis
-tags: typescript,solid,patterns
-description: We review code from different projects and try to find an usage for the SRP.
-readTime: 5
-title: Single responsibility principle
+tags: typescript,patterns,TDD
+description: In this article we will try to write abstraction for an array that will offer additional features, reduce boilerplate and introduce 100% immutability.
+readTime: 2
+title: Creating list abstraction for arrays
 ---
 
 <Section>
   <XL>Why ?</XL>
-  <M>In languages like C# we have classes like Collection, List.</M>
+  <M>
+    In languages like C# we have classes like Collection, List. They offer
+    typesafety and a lot of usefull methods. Goal of this is to have same
+    consistent way of handling arrays in application via one implementation. Why
+    things like creating own abstraction are usefull? Imagine situation where
+    you creating components via map function in React. Always as developer you
+    must remember to add id to every element - which must be unique. With
+    abstraction we can guarantee that and remove additional thinkinh from
+    developer.
+  </M>
+</Section>
+
+<Section>
+  <XL>Designing List interface</XL>
+  <M>
+    Before we start implementation we should design our methods, properties in
+    interface which will be implemented by List class.
+  </M>
+  <Code description="List interface">
+    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/WebBlog/main/src/articles/quick-wins/creating-list-abstraction-for-arrays/1.ts"></deckgo-highlight-code>
+  </Code>
 </Section>

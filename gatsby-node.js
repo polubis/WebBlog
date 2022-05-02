@@ -1,4 +1,3 @@
-const { relative } = require("path")
 const path = require("path")
 const authors = require("./src/authors/authors.json")
 
@@ -80,7 +79,9 @@ exports.createPages = async ({ graphql, actions }) => {
           ...allMdxNode,
           thumbnail: thumbnails[allMdxNode.slug],
           author: {
-            ...authors[allMdxNode.frontmatter.authorId],
+            ...authors.find(
+              auth => auth.id === allMdxNode.frontmatter.authorId
+            ),
             id: allMdxNode.frontmatter.authorId,
             avatar: childImageSharp.childImageSharp.fluid,
           },

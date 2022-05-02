@@ -45,10 +45,10 @@ export default function ({
   avatar,
   size = "small",
 }: Props): React.ReactElement {
-  console.log(avatar)
   return (
     <AuthorAvatar>
       <Image
+        alt="User avatar"
         fluid={avatar}
         style={{
           borderRadius: "50%",

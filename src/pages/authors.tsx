@@ -10,6 +10,7 @@ import { XL, M, GithubIcon, LinkedinIcon, X } from "../ui"
 import theme from "../utils/theme"
 import ReactGA from "react-ga4"
 import { isInSSR } from "../utils/isInSSR"
+import { Helmet } from "react-helmet"
 
 interface Author {
   id: string
@@ -135,31 +136,50 @@ export default function ({ data }: Props): React.ReactElement {
   }, [])
 
   return (
-    <Layout>
-      <Grid>
-        {authorsWithAvatars.map(author => (
-          <Tile key={author.id}>
-            <AuthorAvatar size="medium" avatar={author.avatar} />
-            <XL>
-              {author.firstName} {author.lastName}
-            </XL>
-            <X>{author.role}</X>
-            <M>{author.bio}</M>
-            <Media>
-              <a href={author.githubURL} title="Github profile" target="_blank">
-                <GithubIcon />
-              </a>
-              <a
-                href={author.linkedinURL}
-                title="Linkedin profile"
-                target="_blank"
-              >
-                <LinkedinIcon />
-              </a>
-            </Media>
-          </Tile>
-        ))}
-      </Grid>
-    </Layout>
+    <>
+      <Helmet>
+        <title>GreenOn Software blog authors</title>
+        <meta
+          name="description"
+          content="Contact the blog authors and start writing."
+        />
+        <meta
+          property="og:description"
+          content="Contact the blog authors and start writing."
+        ></meta>
+        <meta property="og:type" content="website"></meta>
+        <meta property="og:title" content="GreenOn Software blog authors" />
+      </Helmet>
+      <Layout>
+        <Grid>
+          {authorsWithAvatars.map(author => (
+            <Tile key={author.id}>
+              <AuthorAvatar size="medium" avatar={author.avatar} />
+              <XL>
+                {author.firstName} {author.lastName}
+              </XL>
+              <X>{author.role}</X>
+              <M>{author.bio}</M>
+              <Media>
+                <a
+                  href={author.githubURL}
+                  title="Github profile"
+                  target="_blank"
+                >
+                  <GithubIcon />
+                </a>
+                <a
+                  href={author.linkedinURL}
+                  title="Linkedin profile"
+                  target="_blank"
+                >
+                  <LinkedinIcon />
+                </a>
+              </Media>
+            </Tile>
+          ))}
+        </Grid>
+      </Layout>
+    </>
   )
 }
