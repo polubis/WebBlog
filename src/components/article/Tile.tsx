@@ -27,6 +27,13 @@ const Tile = styled.div`
     margin: 10px 0 24px 0;
   }
 
+  ${M} {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
   ${Details} {
     margin: 28px 0 42px 0;
 
