@@ -86,9 +86,6 @@ export default function ({ data }: Props): React.ReactElement {
     }
   }, [])
 
-  // Add indexing
-  // Try to improve fonts
-
   return (
     <>
       <Helmet>
