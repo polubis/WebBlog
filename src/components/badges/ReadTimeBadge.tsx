@@ -9,6 +9,7 @@ const Badge = styled.div`
 
   ${S} {
     margin-left: 7px;
+    flex-shrink: 0;
   }
 `
 

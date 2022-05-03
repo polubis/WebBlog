@@ -87,8 +87,6 @@ export default function ({ data }: Props): React.ReactElement {
   }, [])
 
   // Add indexing
-  // Write first article
-  // Check article layout
   // Try to improve fonts
 
   return (
