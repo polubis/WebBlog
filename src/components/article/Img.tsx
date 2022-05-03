@@ -25,7 +25,7 @@ interface Props {
 export default function ({ src, description }: Props): React.ReactElement {
   return (
     <Img>
-      <img src={src} alt={description} />
+      <img src={src} loading="lazy" alt={description} />
       <S italic>{description}</S>
     </Img>
   )

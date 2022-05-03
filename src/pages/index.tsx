@@ -1,10 +1,13 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { graphql } from "gatsby"
 
 import Layout from "../components/layout/Layout"
 import { Article, ArticleAuthorAvatar } from "../models/Article"
 import Grid from "../components/article/Grid"
 import authors from "../authors/authors.json"
+import ReactGA from "react-ga4"
+import { Helmet } from "react-helmet"
+import { isInSSR } from "../utils/isInSSR"
 
 interface Props {
   data: {
@@ -76,9 +79,33 @@ export default function ({ data }: Props): React.ReactElement {
     }
   )
 
+  useEffect(() => {
+    if (!isInSSR()) {
+      ReactGA.initialize("G-NVC90KSB0J")
+      ReactGA.send({ hitType: "pageview", page: "/articles/" })
+    }
+  }, [])
+
   return (
-    <Layout>
-      <Grid articles={articles} />
-    </Layout>
+    <>
+      <Helmet>
+        <title>GreenOn Software</title>
+        <meta
+          name="description"
+          content="Virtual place for knowledge sharing."
+        />
+        <meta
+          property="og:description"
+          content="Virtual place for knowledge sharing."
+        ></meta>
+        <meta property="og:site_name" content="GreenOn Software"></meta>
+        <meta property="og:type" content="website"></meta>
+        <meta property="og:title" content="GreenOn Software" />
+        <meta name="robots" content="index,follow"></meta>
+      </Helmet>
+      <Layout>
+        <Grid articles={articles} />
+      </Layout>
+    </>
   )
 }

@@ -1,0 +1,128 @@
+---
+date: 2022-05-03
+authorId: polubis
+tags: typescript,patterns,TDD
+description: How to unify code written by programmers? How to add additional methods? How to hide what is not needed and how to simply make your life easier with facade pattern.
+readTime: 5
+title: Improving code that was not written by us
+---
+
+<Section>
+  <XL>Prelude</XL>
+  <M>
+    During the project you will have to deal with many developers. Each of them
+    has a slightly different writing style. In addition, there are often
+    situations where the code is duplicated or specific methods are missing.
+  </M>
+  <M>
+    What if you had something to unify the API, add the missing methods and
+    force developers to write consistent code?
+  </M>
+  <M hasBg>
+    We will implement the List class using the facade pattern to create code
+    which solves above problems.
+  </M>
+</Section>
+
+<Section>
+  <XL>1. API design</XL>
+  <M>
+    We want our List class to have additional functionality - tracking a
+    specific list item and reading this item at any time.
+  </M>
+  <M>
+    In addition, we need a method that will allow us to replace a specific
+    element.
+  </M>
+  <Code description="Several types for understanding implementation">
+    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/Creating-list-abstraction-for-arrays/main/src/snippets/1_API_design.ts"></deckgo-highlight-code>
+  </Code>
+</Section>
+
+<Section>
+  <XL>2. Mock implementation</XL>
+  <M>
+    Lets create class which implements previously created interface. In TDD,
+    making throwing exceptions is standard practice to indicate that they are
+    not yet implemented.
+  </M>
+  <Code description="Fake implementation for TypeScript peace of mind :)">
+    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/Creating-list-abstraction-for-arrays/main/src/snippets/2_Mock_implementation.ts"></deckgo-highlight-code>
+  </Code>
+</Section>
+
+<Section>
+  <XL>3. Creation of test scenarios</XL>
+  <M>
+    Before starting the implementation, we think about exactly how our methods
+    should behave. We write descriptions of what we will test. Thanks to this
+    approach, as a rule, it is possible to locate more edge cases in the code.
+  </M>
+  <Code>
+    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/Creating-list-abstraction-for-arrays/main/src/snippets/3_Creation_of_test_scenarios.ts"></deckgo-highlight-code>
+  </Code>
+</Section>
+
+<Section>
+  <XL>4. Implementing tests</XL>
+  <M>
+    Time for tests implementation. After this step, all tests are red. We
+    created some helper function and test user data which you can check inside
+    mocks directory.
+  </M>
+  <Code description="Several tests written in jest">
+    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/Creating-list-abstraction-for-arrays/main/src/snippets/4_Implementing_tests.ts"></deckgo-highlight-code>
+  </Code>
+</Section>
+
+<Section>
+  <XL>5. Making tests green</XL>
+  <M>
+    Having the correct implementation, we can go to refactor later. In this
+    article we skip this step.
+  </M>
+  <M>
+    In the constructor, we assign initial values ​​and set the pointer. Then we
+    implement specific methods that will move the pointer and return a new
+    instance of the List. Additionally, we add a method to replace an element
+    with an identifier or a pointer / index.
+  </M>
+  <Code description="Green is a nice color">
+    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/Creating-list-abstraction-for-arrays/main/src/snippets/5_Making_tests_green.ts"></deckgo-highlight-code>
+  </Code>
+</Section>
+
+<Section>
+  <XL>6. Usage in React</XL>
+  <M>
+    No spread operators, anonymous functions for data management, 100%
+    immutability, separation of concerns, encapsulation and readable /
+    consistent code as benefits of facade pattern.
+  </M>
+  <Code description="Fancy usage in React">
+    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/Creating-list-abstraction-for-arrays/main/src/snippets/6_Usage_in_React.tsx"></deckgo-highlight-code>
+  </Code>
+</Section>
+
+<Section>
+  <XL>Full example</XL>
+  <iframe
+    src="https://codesandbox.io/embed/github/polubis/Creating-list-abstraction-for-arrays/tree/main/?fontsize=14&hidenavigation=1&theme=dark"
+    style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+    title="creating-list-abstraction-for-arrays"
+    allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+    sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+  ></iframe>
+</Section>
+
+<Summary>
+  <M>
+    I hope you enjoyed this quick win :). Of course this is simple example but as
+    you see sky is the limit and you can create your own facade for everything
+    in your application.
+  </M>
+  <M>
+    Feel free to contact if any questions / proposals. Have a nice day and good
+    health!
+  </M>
+</Summary>

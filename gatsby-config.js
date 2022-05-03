@@ -30,7 +30,7 @@ module.exports = {
         fonts: {
           google: [
             {
-              family: "Roboto",
+              family: "Lexend",
               variants: ["400", "500", "700"],
             },
             { family: "Open Sans" },
@@ -61,5 +61,6 @@ module.exports = {
     },
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
+    `gatsby-plugin-react-helmet`,
   ],
 }

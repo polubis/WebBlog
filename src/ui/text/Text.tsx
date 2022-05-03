@@ -60,7 +60,7 @@ const style = css`
         bottom: 0;
         left: 0;
         height: calc(100% + 16px);
-        width: 44px;
+        width: 10%;
         opacity: 0.2;
         background: ${theme.secondary};
         position: absolute;
@@ -93,6 +93,7 @@ export const XXL = styled.h1<Props>`
 
 export const XL = styled.h2<Props>`
   font-size: 26px;
+  line-height: 32px;
   font-weight: ${(props: Props) => getWeight(props, Weight.BOLD)};
   ${style}
 `
@@ -103,16 +104,18 @@ export const X = styled.h3<Props>`
   ${style}
 `
 
-export const M = styled.span<Props>`
+export const M = styled.p<Props>`
   font-size: 16px;
   line-height: 28px;
+  margin: 0;
   font-weight: ${(props: Props) => getWeight(props, Weight.NORMAL)};
   ${style}
 `
 
-export const S = styled.span<Props>`
+export const S = styled.p<Props>`
   font-size: 14px;
   line-height: 24px;
+  margin: 0;
   font-weight: ${(props: Props) => getWeight(props, Weight.NORMAL)};
   ${style}
 `

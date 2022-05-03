@@ -7,6 +7,20 @@ exports.createPages = async ({ graphql, actions }) => {
 
   const result = await graphql(`
     {
+      thumbnails: allFile(filter: { name: { regex: "/thumbnail/" } }) {
+        nodes {
+          relativePath
+          childImageSharp {
+            fluid {
+              base64
+              aspectRatio
+              src
+              srcSet
+              sizes
+            }
+          }
+        }
+      }
       allFile(filter: { name: { ne: "index" } }) {
         nodes {
           name
@@ -39,6 +53,19 @@ exports.createPages = async ({ graphql, actions }) => {
     }
   `)
 
+  const getSlug = relativePath => {
+    const parts = relativePath.split("/")
+    const filtered = parts.filter((_, i) => i !== 0 && i < parts.length - 1)
+    return `${filtered.join("/")}/`
+  }
+
+  const thumbnails = result.data.thumbnails.nodes.reduce((acc, node) => {
+    return {
+      ...acc,
+      [getSlug(node.relativePath)]: node.childImageSharp.fluid,
+    }
+  }, {})
+
   result.data.allMdx.nodes.forEach(allMdxNode => {
     const childImageSharp = result.data.allFile.nodes.find(
       allFileNode => allFileNode.name === allMdxNode.frontmatter.authorId
@@ -50,8 +77,11 @@ exports.createPages = async ({ graphql, actions }) => {
       context: {
         article: {
           ...allMdxNode,
+          thumbnail: thumbnails[allMdxNode.slug],
           author: {
-            ...authors[allMdxNode.frontmatter.authorId],
+            ...authors.find(
+              auth => auth.id === allMdxNode.frontmatter.authorId
+            ),
             id: allMdxNode.frontmatter.authorId,
             avatar: childImageSharp.childImageSharp.fluid,
           },

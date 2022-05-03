@@ -1,20 +1,24 @@
 import React from "react"
 import styled from "styled-components"
+import Image from "gatsby-image"
 
 import { XXL } from "../../ui"
+import { ArticleThumbnail } from "../../models/Article"
 
-const Thumbnail = styled.header`
-  width: 100%;
-  min-height: 182px;
-  padding: 24px;
-  box-sizing: border-box;
+const Figure = styled.figure`
+  position: relative;
   display: flex;
-  text-align: center;
   align-items: center;
   justify-content: center;
-  position: relative;
-  background-size: cover;
-  background-repeat: no-repeat;
+  width: 100%;
+  min-height: 320px;
+  margin: 0;
+
+  ${XXL} {
+    text-shadow: 0 3px 6px rgba(0, 0, 0, 0.51);
+    z-index: 2;
+    text-align: center;
+  }
 
   &::before {
     content: "";
@@ -23,25 +27,31 @@ const Thumbnail = styled.header`
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.39);
-    z-index: 0;
-  }
-
-  ${XXL} {
-    text-shadow: 0 3px 6px rgba(0, 0, 0, 0.39);
+    background: rgba(0, 0, 0, 0.49);
     z-index: 1;
   }
 `
 
 interface Props {
-  slug: string
   title: string
+  thumbnail: ArticleThumbnail
 }
 
-export default function ({ title, slug }: Props): React.ReactElement {
+export default function ({ title, thumbnail }: Props): React.ReactElement {
   return (
-    <Thumbnail style={{ backgroundImage: `url(/thumbnails/${slug}/thumbnail.jpg)` }}>
+    <Figure>
+      <Image
+        fluid={thumbnail}
+        alt="Article thumbnail"
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+        }}
+      />
       <XXL>{title}</XXL>
-    </Thumbnail>
+    </Figure>
   )
 }

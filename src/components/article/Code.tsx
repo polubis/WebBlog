@@ -5,6 +5,7 @@ import { S } from "../../ui"
 
 const Code = styled.div`
   margin-top: 24px;
+  max-width: calc(100vw - 56px);
 
   .deckgo-highlight-code-carbon {
     margin: 0;
