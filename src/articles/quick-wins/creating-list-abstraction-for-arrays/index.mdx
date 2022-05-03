@@ -1,33 +1,130 @@
 ---
-date: 2022-05-02
+date: 2022-05-03
 authorId: polubis
 tags: typescript,patterns,TDD
-description: In this article we will try to write abstraction for an array that will offer additional features, reduce boilerplate and introduce 100% immutability.
-readTime: 2
-title: Creating list abstraction for arrays
+description: How to unify code written by multiple programmers in an application. How to add additional methods, hide what is not needed and how to simply make your life easier using the facade pattern.
+readTime: 5
+title: Improving code that was not written by us
 ---
 
 <Section>
-  <XL>Why ?</XL>
+  <XL>Prelude</XL>
   <M>
-    In languages like C# we have classes like Collection, List. They offer
-    typesafety and a lot of usefull methods. Goal of this is to have same
-    consistent way of handling arrays in application via one implementation. Why
-    things like creating own abstraction are usefull? Imagine situation where
-    you creating components via map function in React. Always as developer you
-    must remember to add id to every element - which must be unique. With
-    abstraction we can guarantee that and remove additional thinkinh from
-    developer.
+    When writing a project with your colleagues, you write some functionality.
+    You will notice that there are many places in the project where you can use
+    the Array prototype methods like map, reduce.
+  </M>
+  <M>
+    Together you come to the conclusion that this prototype lacks some useful
+    methods like contains, swap. In addition, some of the built-in methods are
+    mutable, which interferes with React library, and there are many anonymous
+    functions in the project, which you must try to understand anyway.
+  </M>
+  <M hasBg>
+    We will implement the List class using the facade pattern to create a
+    unified API for our developers.
   </M>
 </Section>
 
 <Section>
-  <XL>Designing List interface</XL>
+  <XL>1. API design</XL>
   <M>
-    Before we start implementation we should design our methods, properties in
-    interface which will be implemented by List class.
+    We want our List class to have additional functionality - tracking a
+    specific list item and reading this item at any time.
   </M>
-  <Code description="List interface">
-    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/WebBlog/main/src/articles/quick-wins/creating-list-abstraction-for-arrays/1.ts"></deckgo-highlight-code>
+  <M>
+    In addition, we need a method that will allow us to replace a specific
+    element.
+  </M>
+  <Code description="Several types for understanding implementation">
+    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/Creating-list-abstraction-for-arrays/main/src/snippets/1_API_design.ts"></deckgo-highlight-code>
   </Code>
 </Section>
+
+<Section>
+  <XL>2. Mock implementation</XL>
+  <M>
+    Lets create class which implements previously created interface. In TDD,
+    making throwing exceptions is standard practice to indicate that they are
+    not yet implemented.
+  </M>
+  <Code description="Fake implementation for TypeScript peace of mind :)">
+    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/Creating-list-abstraction-for-arrays/main/src/snippets/2_Mock_implementation.ts"></deckgo-highlight-code>
+  </Code>
+</Section>
+
+<Section>
+  <XL>3. Creation of test scenarios</XL>
+  <M>
+    Before starting the implementation, we think about exactly how our methods
+    should behave. We write descriptions of what we will test. Thanks to this
+    approach, as a rule, it is possible to locate more edge cases in the code.
+  </M>
+  <Code>
+    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/Creating-list-abstraction-for-arrays/main/src/snippets/3_Creation_of_test_scenarios.ts"></deckgo-highlight-code>
+  </Code>
+</Section>
+
+<Section>
+  <XL>4. Implementing tests</XL>
+  <M>
+    Time for tests implementation. After this step, all tests are red. We
+    created some helper function and test user data which you can check inside
+    mocks directory.
+  </M>
+  <Code description="Several tests written in jest">
+    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/Creating-list-abstraction-for-arrays/main/src/snippets/4_Implementing_tests.ts"></deckgo-highlight-code>
+  </Code>
+</Section>
+
+<Section>
+  <XL>5. Making tests green</XL>
+  <M>
+    Having the correct implementation, we can go to refactor later. In this
+    article we skip this step.
+  </M>
+  <M>
+    In the constructor, we assign initial values ​​and set the pointer. Then we
+    implement specific methods that will move the pointer and return a new
+    instance of the List. Additionally, we add a method to replace an element
+    with an identifier or a pointer / index.
+  </M>
+  <Code description="Green is a nice color">
+    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/Creating-list-abstraction-for-arrays/main/src/snippets/5_Making_tests_green.ts"></deckgo-highlight-code>
+  </Code>
+</Section>
+
+<Section>
+  <XL>6. Usage in React</XL>
+  <M>
+    No spread operators, anonymous functions for data management, 100%
+    immutability, separation of concerns, encapsulation and readable code as
+    benefits of facade pattern.
+  </M>
+  <Code description="Fancy usage in React">
+    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/Creating-list-abstraction-for-arrays/main/src/snippets/6_Usage_in_React.tsx"></deckgo-highlight-code>
+  </Code>
+</Section>
+
+<Section>
+  <XL>Full example</XL>
+  <iframe
+    src="https://codesandbox.io/embed/github/polubis/Creating-list-abstraction-for-arrays/tree/main/?fontsize=14&hidenavigation=1&theme=dark"
+    style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+    title="creating-list-abstraction-for-arrays"
+    allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+    sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+  ></iframe>
+</Section>
+
+<Summary>
+  <M>
+    I hope you enjoyed this quick win :). Ofcourse this is simple example but as
+    you see sky is the limit and you can create your own facade for everything
+    in your application.
+  </M>
+  <M>
+    Feel free to contact if any questions / proposals. Have a nice day and good
+    health!
+  </M>
+</Summary>

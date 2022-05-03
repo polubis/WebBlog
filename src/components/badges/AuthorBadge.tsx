@@ -1,5 +1,6 @@
 import React from "react"
 import styled from "styled-components"
+import { Link as GatsbyLink } from "gatsby"
 
 import { M, S } from "../../ui"
 import AuthorAvatar from "../article/AuthorAvatar"
@@ -13,13 +14,10 @@ interface Props {
 const Badge = styled.div`
   display: flex;
   align-items: center;
+  cursor: pointer;
 
   ${M} {
     text-transform: capitalize;
-  }
-
-  ${S} {
-    margin-top: 6px;
   }
 `
 
@@ -34,16 +32,18 @@ export const AuthorBadge = ({
   mini,
 }: Props) => {
   return (
-    <Badge>
-      <AuthorAvatar avatar={avatar} />
-      {mini || (
-        <Personality>
-          <M bold>
-            {firstName} {lastName}
-          </M>
-          <S>{role}</S>
-        </Personality>
-      )}
-    </Badge>
+    <GatsbyLink to="/authors">
+      <Badge>
+        <AuthorAvatar avatar={avatar} />
+        {mini || (
+          <Personality>
+            <M bold>
+              {firstName} {lastName}
+            </M>
+            <S>{role}</S>
+          </Personality>
+        )}
+      </Badge>
+    </GatsbyLink>
   )
 }
