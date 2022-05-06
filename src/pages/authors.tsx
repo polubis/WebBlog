@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { graphql } from "gatsby"
 
 import Layout from "../components/layout/Layout"
@@ -8,9 +8,8 @@ import styled from "styled-components"
 import AuthorAvatar from "../components/article/AuthorAvatar"
 import { XL, M, GithubIcon, LinkedinIcon, X } from "../ui"
 import theme from "../utils/theme"
-import ReactGA from "react-ga4"
-import { isInSSR } from "../utils/isInSSR"
 import { Helmet } from "react-helmet"
+import { useGAPage } from "../utils/useGAPage"
 
 interface Author {
   id: string
@@ -128,12 +127,7 @@ export default function ({ data }: Props): React.ReactElement {
     }
   )
 
-  useEffect(() => {
-    if (!isInSSR()) {
-      ReactGA.initialize("G-NVC90KSB0J")
-      ReactGA.send({ hitType: "pageview", page: "/authors/" })
-    }
-  }, [])
+  useGAPage("/authors/")
 
   return (
     <>

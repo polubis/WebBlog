@@ -1,13 +1,12 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { graphql } from "gatsby"
 
 import Layout from "../components/layout/Layout"
 import { Article, ArticleAuthorAvatar } from "../models/Article"
 import Grid from "../components/article/Grid"
 import authors from "../authors/authors.json"
-import ReactGA from "react-ga4"
 import { Helmet } from "react-helmet"
-import { isInSSR } from "../utils/isInSSR"
+import { useGAPage } from "../utils/useGAPage"
 
 interface Props {
   data: {
@@ -79,12 +78,7 @@ export default function ({ data }: Props): React.ReactElement {
     }
   )
 
-  useEffect(() => {
-    if (!isInSSR()) {
-      ReactGA.initialize("G-NVC90KSB0J")
-      ReactGA.send({ hitType: "pageview", page: "/articles/" })
-    }
-  }, [])
+  useGAPage("/articles/")
 
   return (
     <>
