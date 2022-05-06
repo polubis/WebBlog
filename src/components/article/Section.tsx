@@ -1,6 +1,6 @@
 import styled from "styled-components"
 
-import { XL, M } from "../../ui"
+import { XL, M, Hint } from "../../ui"
 
 export default styled.section`
   margin-bottom: 48px;
@@ -11,5 +11,9 @@ export default styled.section`
 
   ${M} {
     margin-bottom: 12px;
+  }
+
+  ${Hint} {
+    margin: 24px 0 0 0;
   }
 `
