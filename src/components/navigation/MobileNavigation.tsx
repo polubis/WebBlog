@@ -66,7 +66,7 @@ export default function (): React.ReactElement {
         <Navigation>
           <Links
             items={[
-              { label: "articles", url: "/" },
+              { label: "articles", url: "/articles" },
               { label: "authors", url: "/authors" },
             ]}
           />
