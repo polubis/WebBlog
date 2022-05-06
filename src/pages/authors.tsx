@@ -8,8 +8,7 @@ import styled from "styled-components"
 import AuthorAvatar from "../components/article/AuthorAvatar"
 import { XL, M, GithubIcon, LinkedinIcon, X } from "../ui"
 import theme from "../utils/theme"
-import { Helmet } from "react-helmet"
-import { useGAPage } from "../utils/useGAPage"
+import { SiteMeta } from "../utils/SiteMeta"
 
 interface Author {
   id: string
@@ -127,23 +126,14 @@ export default function ({ data }: Props): React.ReactElement {
     }
   )
 
-  useGAPage("/authors/")
-
   return (
-    <>
-      <Helmet>
-        <title>GreenOn Software blog authors</title>
-        <meta
-          name="description"
-          content="Contact the blog authors and start writing."
-        />
-        <meta
-          property="og:description"
-          content="Contact the blog authors and start writing."
-        ></meta>
-        <meta property="og:type" content="website"></meta>
-        <meta property="og:title" content="GreenOn Software blog authors" />
-      </Helmet>
+    <SiteMeta
+      url="/authors/"
+      robots="index,follow"
+      title="GreenOn Software blog authors"
+      type="website"
+      description="Contact the blog authors and start writing."
+    >
       <Layout>
         <Grid>
           {authorsWithAvatars.map(author => (
@@ -174,6 +164,6 @@ export default function ({ data }: Props): React.ReactElement {
           ))}
         </Grid>
       </Layout>
-    </>
+    </SiteMeta>
   )
 }

@@ -5,8 +5,7 @@ import Layout from "../components/layout/Layout"
 import { Article, ArticleAuthorAvatar } from "../models/Article"
 import Grid from "../components/article/Grid"
 import authors from "../authors/authors.json"
-import { Helmet } from "react-helmet"
-import { useGAPage } from "../utils/useGAPage"
+import { SiteMeta } from "../utils/SiteMeta"
 
 interface Props {
   data: {
@@ -78,28 +77,17 @@ export default function ({ data }: Props): React.ReactElement {
     }
   )
 
-  useGAPage("/articles/")
-
   return (
-    <>
-      <Helmet>
-        <title>GreenOn Software</title>
-        <meta
-          name="description"
-          content="Virtual place for knowledge sharing."
-        />
-        <meta
-          property="og:description"
-          content="Virtual place for knowledge sharing."
-        ></meta>
-        <meta property="og:site_name" content="GreenOn Software"></meta>
-        <meta property="og:type" content="website"></meta>
-        <meta property="og:title" content="GreenOn Software" />
-        <meta name="robots" content="index,follow"></meta>
-      </Helmet>
+    <SiteMeta
+      url="/articles/"
+      robots="index,follow"
+      title="GreenOn Software articles"
+      type="website"
+      description="Virtual place for knowledge sharing."
+    >
       <Layout>
         <Grid articles={articles} />
       </Layout>
-    </>
+    </SiteMeta>
   )
 }

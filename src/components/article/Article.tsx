@@ -13,8 +13,7 @@ import { AuthorBadge, ReadTimeBadge } from "../badges"
 import Divider from "../article/Divider"
 import Intro from "./Intro"
 import { L_UP } from "../../utils/viewport"
-import { Helmet } from "react-helmet"
-import { useGAPage } from "../../utils/useGAPage"
+import { SiteMeta } from "../../utils/SiteMeta"
 
 deckDeckGoHighlightElement()
 
@@ -51,33 +50,23 @@ interface Props {
 
 export default function ({ pageContext }: Props): React.ReactElement {
   const {
-    article: { frontmatter, author, thumbnail, body },
+    article: { frontmatter, author, thumbnail, body, slug },
   } = pageContext
 
   const { title, description, tags, readTime } = frontmatter
 
-  useGAPage(window.location.pathname)
-
   const pageTitle = `${title} | by ${author.firstName} ${author.lastName} | GreenOn Software`
 
   return (
-    <>
-      <Helmet>
-        <title>{pageTitle}</title>
-        <meta property="og:type" content="article"></meta>
-        <meta name="description" content={description} />
-        <meta property="og:description" content={description}></meta>
-        <meta
-          name="author"
-          content={author.firstName + " " + author.lastName}
-        ></meta>
-        <meta
-          name="robots"
-          content="index,follow,max-image-preview:large"
-        ></meta>
-        <meta property="og:title" content={pageTitle} />
-        <meta property="og:site_name" content="GreenOn Software"></meta>
-      </Helmet>
+    <SiteMeta
+      url={`/articles/${slug}`}
+      robots="index,follow,max-image-preview:large"
+      title={pageTitle}
+      type="article"
+      author={author.firstName + " " + author.lastName}
+      description={description}
+      image={thumbnail.src}
+    >
       <Layout>
         <Article>
           <Thumbnail thumbnail={thumbnail} title={title} />
@@ -93,6 +82,6 @@ export default function ({ pageContext }: Props): React.ReactElement {
           <MDXRenderer>{body}</MDXRenderer>
         </Article>
       </Layout>
-    </>
+    </SiteMeta>
   )
 }

@@ -6,7 +6,7 @@ export const useGAPage = page => {
   useEffect(() => {
     const isLocalHost = () => window.location.protocol === "http"
 
-    if (!isInSSR() && !isLocalHost()) {
+    if (!isInSSR() && !isLocalHost() && page !== undefined) {
       ReactGA.initialize("G-NVC90KSB0J")
       ReactGA.send({ hitType: "pageview", page })
     }
