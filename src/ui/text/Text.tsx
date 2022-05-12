@@ -119,3 +119,11 @@ export const S = styled.p<Props>`
   font-weight: ${(props: Props) => getWeight(props, Weight.NORMAL)};
   ${style}
 `
+
+export const Hint = styled.p<Props>`
+  font-size: 16px;
+  line-height: 28px;
+  font-weight: ${(props: Props) => getWeight(props, Weight.LIGHT)};
+  ${style}
+  font-style: italic;
+`

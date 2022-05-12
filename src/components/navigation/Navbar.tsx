@@ -31,7 +31,7 @@ const Navbar = styled.nav`
 export default function (): React.ReactElement {
   return (
     <Navbar>
-      <Links items={[{ label: "articles", url: "/" }]} />
+      <Links items={[{ label: "articles", url: "/articles" }]} />
 
       <Divider />
 
