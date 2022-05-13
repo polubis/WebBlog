@@ -45,6 +45,7 @@ export const query = graphql`
       nodes {
         frontmatter {
           date
+          modificationDate
           authorId
           description
           readTime

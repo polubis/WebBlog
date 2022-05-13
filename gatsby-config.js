@@ -1,11 +1,9 @@
-/**
- * Configure your Gatsby site with this file.
- *
- * See: https://www.gatsbyjs.com/docs/gatsby-config/
- */
+const siteUrl = process.env.URL || `https://www.greenonsoftware.com`
 
 module.exports = {
-  /* Your site config here */
+  siteMetadata: {
+    siteUrl,
+  },
   plugins: [
     "gatsby-plugin-scss-typescript",
     "gatsby-plugin-styled-components",
@@ -62,5 +60,54 @@ module.exports = {
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     `gatsby-plugin-react-helmet`,
+    {
+      resolve: "gatsby-plugin-sitemap",
+      options: {
+        query: `
+          {
+            allSitePage {
+              nodes {
+                path
+                context {
+                  article {
+                    frontmatter {
+                      date
+                      modificationDate
+                    }
+                  }
+                }
+              }
+            }
+          }
+        `,
+        resolveSiteUrl: () => siteUrl,
+        resolvePages: ({ allSitePage: { nodes } }) => {
+          return nodes.map(page => {
+            return {
+              path: page.path,
+              modificationDate: page.context?.article
+                ? page.context?.article.frontmatter.modificationDate
+                : null,
+              isArticleGeneratedPage: page.context?.article !== null,
+            }
+          })
+        },
+        serialize: ({ path, isArticleGeneratedPage, modificationDate }) => {
+          return {
+            url: path,
+            lastmod:
+              modificationDate ??
+              new Date()
+                .toLocaleDateString()
+                .replace(/\//g, "-")
+                .split("-")
+                .reverse()
+                .join("-"),
+            priority: isArticleGeneratedPage ? 1 : 0.7,
+            changefreq: isArticleGeneratedPage ? "daily" : "weekly",
+          }
+        },
+      },
+    },
   ],
 }
