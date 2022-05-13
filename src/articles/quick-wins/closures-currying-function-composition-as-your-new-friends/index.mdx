@@ -2,7 +2,7 @@
 date: 2022-05-12
 authorId: polubis
 tags: functional programming
-description: In this article, we'll cover the basics of functional programming. You will learn what is pure function, composition, the currying technique and the closure mechanism.
+description: In this article, we will discuss the basics of functional programming. You will learn what is pure function, composition, the currying technique and the closure mechanism.
 readTime: 5
 title: Closures, currying, function composition as your new friends
 ---
@@ -15,19 +15,14 @@ title: Closures, currying, function composition as your new friends
     has many interesting features that can be used in everyday work. Once we
     have mastered the basics, we will begin to notice how powerful this tool is.
   </M>
-  <Hint hasBg>
-    We need to understand four things: pure function, function composition,
-    closure, currying before start using functional programming power. After
-    read check code example to fully understand topics.
-  </Hint>
 </Section>
 
 <Section>
   <XL>1. Looking at not pure function</XL>
   <M>
     This function is not pure because it has side effects, modifies a variable
-    outside scope that is used elsewhere in the program, returns different
-    values ​​each time it is used, and modifies input parameters.
+    outside scope, returns different values ​​each time and modifies input
+    parameters.
   </M>
   <Code description="Not a pure function">
     <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/Closures-currying-function-composition-as-your-new-friends/main/src/snippets/notPureFunction.ts"></deckgo-highlight-code>
@@ -35,23 +30,11 @@ title: Closures, currying, function composition as your new friends
 </Section>
 
 <Section>
-  <XL>2. Function composition</XL>
-  <M>
-    Its just passing one function result to other functions. Great function
-    composition is always implemented from pure functions.
-  </M>
-  <Code description="Create functionalities and read them like a book">
-    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/Closures-currying-function-composition-as-your-new-friends/main/src/snippets/composition.ts"></deckgo-highlight-code>
-  </Code>
-</Section>
-
-<Section>
-  <XL>3. Pure function</XL>
+  <XL>2. Pure function</XL>
   <M>
     A pure function always returns the same values ​​for the same arguments,
     does not modify input parameters and has no side effects like asynchronous
-    code or changing something outside its range, which affects the rest of the
-    program.
+    code or changing something outside its range.
   </M>
   <Code description="Easier life with pure function">
     <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/Closures-currying-function-composition-as-your-new-friends/main/src/snippets/pureFunction.ts"></deckgo-highlight-code>
@@ -59,12 +42,21 @@ title: Closures, currying, function composition as your new friends
 </Section>
 
 <Section>
+  <XL>3. Function composition</XL>
+  <M>
+    Its just passing one function result to other functions. Great composition
+    is always implemented with pure functions.
+  </M>
+  <Code description="Create functionalities and read them like a book">
+    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/Closures-currying-function-composition-as-your-new-friends/main/src/snippets/composition.ts"></deckgo-highlight-code>
+  </Code>
+</Section>
+
+<Section>
   <XL>4. Closure</XL>
   <M>
-    The closure is due to the lexical scope in JS. A nested function can access
-    a function above, and so on and so on. A closure occurs when a function
-    returns another function, and this function may use the value contained in
-    the "parent" function.
+    A closure occurs when a function returns another function, and this function
+    may use the value contained in the "parent" function.
   </M>
   <Code
     description={`"I will remember your value and will not let anyone else read it" - Mr Closure`}
@@ -77,8 +69,7 @@ title: Closures, currying, function composition as your new friends
   <XL>5. Currying</XL>
   <M>
     In simple words, transforming one multi-argument function to many unary
-    functions. We can do it ourselves or write a function to do it for us. Such
-    a function can be found in the ramda library.
+    functions. We can do it ourselves or write a function to do it for us.
   </M>
   <Code description="From fn(a,b) to fn(a)(b)">
     <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/Closures-currying-function-composition-as-your-new-friends/main/src/snippets/currying.ts"></deckgo-highlight-code>
@@ -98,8 +89,8 @@ title: Closures, currying, function composition as your new friends
 
 <Summary>
   <M>
-    Hope the basics of functional programming are now easy for you. Play with an
-    example because practice is necessary to understand it completely and to
+    I hope the basics of functional programming are now easy for you. Play with
+    an example because practice is necessary to understand it completely and to
     notice the benefits from functional programming.
   </M>
   <M>
