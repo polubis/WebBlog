@@ -1,5 +1,6 @@
 export interface ArticleFrontmatter {
   date: string
+  modificationDate: string
   authorId: string
   tags: string
   description: string

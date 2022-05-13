@@ -45,6 +45,7 @@ exports.createPages = async ({ graphql, actions }) => {
             date
             description
             readTime
+            modificationDate
             tags
             title
           }
