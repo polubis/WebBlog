@@ -99,7 +99,19 @@ module.exports = {
           })
         },
         serialize: ({ path, isArticleGeneratedPage, mdate }) => {
-          console.log(path, isArticleGeneratedPage, mdate)
+          console.log(
+            path,
+            isArticleGeneratedPage,
+            mdate,
+            mdate
+              ? mdate
+              : new Date()
+                  .toLocaleDateString()
+                  .replace(/\//g, "-")
+                  .split("-")
+                  .reverse()
+                  .join("-")
+          )
           return {
             url: path,
             lastmod: mdate
