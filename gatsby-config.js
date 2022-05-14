@@ -71,8 +71,8 @@ module.exports = {
                 context {
                   article {
                     frontmatter {
-                      date
-                      modificationDate
+                      cdate
+                      mdate
                     }
                   }
                 }
@@ -85,18 +85,18 @@ module.exports = {
           return nodes.map(page => {
             return {
               path: page.path,
-              modificationDate: page.context?.article
-                ? page.context?.article.frontmatter.modificationDate
+              mdate: page.context?.article
+                ? page.context?.article.frontmatter.mdate
                 : null,
               isArticleGeneratedPage: page.context?.article !== null,
             }
           })
         },
-        serialize: ({ path, isArticleGeneratedPage, modificationDate }) => {
+        serialize: ({ path, isArticleGeneratedPage, mdate }) => {
           return {
             url: path,
             lastmod:
-              modificationDate ??
+              mdate ??
               new Date()
                 .toLocaleDateString()
                 .replace(/\//g, "-")

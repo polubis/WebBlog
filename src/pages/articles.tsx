@@ -44,8 +44,8 @@ export const query = graphql`
     allMdx {
       nodes {
         frontmatter {
-          date
-          modificationDate
+          cdate
+          mdate
           authorId
           description
           readTime
