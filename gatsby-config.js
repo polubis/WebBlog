@@ -103,25 +103,11 @@ module.exports = {
             path,
             isArticleGeneratedPage,
             mdate,
-            mdate
-              ? mdate
-              : new Date()
-                  .toLocaleDateString()
-                  .replace(/\//g, "-")
-                  .split("-")
-                  .reverse()
-                  .join("-")
+            mdate ? mdate : new Date().toISOString()
           )
           return {
             url: path,
-            lastmod: mdate
-              ? mdate
-              : new Date()
-                  .toLocaleDateString()
-                  .replace(/\//g, "-")
-                  .split("-")
-                  .reverse()
-                  .join("-"),
+            lastmod: mdate ? mdate : new Date().toISOString(),
             priority: isArticleGeneratedPage ? 1 : 0.7,
             changefreq: isArticleGeneratedPage ? "daily" : "weekly",
           }
