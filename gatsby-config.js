@@ -83,26 +83,32 @@ module.exports = {
         resolveSiteUrl: () => siteUrl,
         resolvePages: ({ allSitePage: { nodes } }) => {
           return nodes.map(page => {
+            const isArticleGeneratedPage =
+              !!page.context && !!page.context.article
+            let mdate = null
+
+            if (!!page.context && !!page.context.article) {
+              mdate = page.context.article.frontmatter.mdate
+            }
+
             return {
               path: page.path,
-              mdate: page.context?.article
-                ? page.context?.article.frontmatter.mdate
-                : null,
-              isArticleGeneratedPage: page.context?.article !== null,
+              mdate,
+              isArticleGeneratedPage,
             }
           })
         },
         serialize: ({ path, isArticleGeneratedPage, mdate }) => {
           return {
             url: path,
-            lastmod:
-              mdate ??
-              new Date()
-                .toLocaleDateString()
-                .replace(/\//g, "-")
-                .split("-")
-                .reverse()
-                .join("-"),
+            lastmod: mdate
+              ? mdate
+              : new Date()
+                  .toLocaleDateString()
+                  .replace(/\//g, "-")
+                  .split("-")
+                  .reverse()
+                  .join("-"),
             priority: isArticleGeneratedPage ? 1 : 0.7,
             changefreq: isArticleGeneratedPage ? "daily" : "weekly",
           }
