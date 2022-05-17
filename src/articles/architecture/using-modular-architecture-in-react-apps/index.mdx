@@ -1,0 +1,110 @@
+1. Prolog
+
+Pisanie aplikacji w React to wolnosc. Mamy stosunkowo prosty mechanizm - daj mi stan, a ja namaluje
+Ci w oparciu o jego ksztalt interfejs, a jak zmienisz stan to uzyje swoich magicznych kredek i domaluje co trzeba.
+
+Ten mechanizm juz sam w sobie pozwala na tworzenie aplikacji. Nasz interfejs tworzymy za pomoca komponentow,
+w ktorych umieszczamy pewna logike. Logika sie rozrasta wiec tworzymy podzial na komponenty prezentacyjne lub logiczne.
+
+Pozniej stwierdzamy, ze jednak potrzebujemy kolejnych warstw w naszej aplikacji, a podzial komponent / hook to zdecydowanie za mało,
+aby nasza aplikacja sie skalowala.
+
+Tutaj z pomoca przychodza rozwiazania jak redux z dodatkowymi dopalaczami
+redux-thunk, redux-observable, redux-saga. Dzieki nim teoretycznie nasza logika wedruje do bytu poza react i
+zyskujemy dodatkowe warstwy w naszej architekturze (store, akcje, reducery, selektory, efekty lub sagi), a kod zaczyna sie lepiej skalowac.
+
+Jednak ja osobiscie pomimo mojej wielkiej sympatii do reduxa i jego devtoolsow z czasem zaczalem lubic i doceniac
+inne rozwiazania wynikajace ze starych dobrych wzorcow projektowych, ktore sa znacznie prostrze - jak implementacja
+architektury modulowej.
+
+W tym nieco dluzszym artykule zobaczysz implementacje architektury opartej o moduly.
+
+1. M jak module
+
+Grupa klas, funkcji, komponentow, czegokolwiek co zwiazane z programowaniem ktore implementuja jedna konkretna funkcjonalnosc. Modulem
+moze byc kazda wieksza funkcjonalnosc w konkretnej aplikacji - autoryzacja, rejestracja, zarzadzanie uzytkownikiem, widget pokazujacy pogode.
+
+Clu tego podejscia jest zagwarantowanie, ze modul A -> nie wie nic o module B. Jezeli potrzebuje czegos co jest w module B to powinien to dostac
+nie z tego modulu, a z czegos innego - czyli modulu shared, core czy innego, ktory grupuje reuzywalne rzeczy w aplikacji.
+
+Daje to potezne mozliwosci refactoru aplikacji, podmiany implementacji, podzial kompetencji nawet w duzym projekcie oraz latwego debugowania, szybszego
+developmentu. Nawet mozemy przygotowac jakis sandbox, w ktorym kazdy modul moze byc odpalony oddzielnie -> czytaj storybook i otestowany oddzielnie.
+
+Podsumowujac modul u nas to bedzie komponent z odpowiednim postifixem Module (UsersManagementModule) -> ktory grupuje komponenty, logike biznesowa, zarzadzanie oraz propagacje stanu,
+zapytania do api, modele, typowania w glab drzewa komponentow. Postfixy nie sa konieczne, ale ja wole je dodawac w celu latwiejszej identyfikacji tego co aktualnie mam zamiar edytowac.
+Sprawdza sie bardzo dobrze w zwlaszcza wiekszych aplikacjach.
+
+2. Provider
+
+Logika biznesowa powinna znajdowac sie w jednym miejscu - miec jedno zrodlo prawdy. Dlatego provider jest czyms co ta logike biznesowa bedzie
+udostepnial zainteresowanym komponentom React. Bedzie swoistym punktem spiecia, ktory zredukuje mocno potencjalny boilerplate, ktory w 100% wyniknie
+z przekazywania tych informacji w glab drzewa komponentow oraz udostepni spojne API.
+
+3. Container
+
+Poprostu komponent, ktory korzysta z providera oraz deleguje konkretne wywolania metod. Kieruje zachowaniem komponentow i laczy je z API providera.
+
+4. Component
+
+Komponent prezentacyjny, ktory wie o logice biznesowej. Przykladowo UsersList czy UsersDetails beda o nie wiedziec, a komponenty jak button czy modal nie.
+
+5. Value object + state machine
+
+Kazy developer ma inny styl pisania. Jeden nazywa flagi isLoading, drugi uzywa kluczy do wskazania tego co sie aktualnie dzieje na interfejsie,
+inny do walidacji uzywa ifow, a inny kompozycji funkcji czy wzorca strategi.
+
+Value object to wzorzec, ktory polega na tym, ze walidacja jest powiazana z modelem. Czyli tworzac uzytkownika przekazane do konstruktora
+argumenty sa odrazu walidowane, a programista dostaje wyjatek jezeli jest problem z walidacja i moze cos w tym czasie zrobic.
+
+Maszyna stanow to kolejny wzorzec, ktory waliduje przejscia z jednego stanu w drugi. Jezeli bylbys robotem i lezalbys na ziemi, a ktos rozkazal by Ci biec
+to nie zaczniesz biec odrazu. Najpierw musisz wstac, zaczac isc, rozpedzic sie i dopiero biegniesz. W przypadku zlej kolenosci spalisz podzespoly.
+
+6. Facades
+
+Zeby spiac w latwy sposob nasze state machines oraz value object z react oraz zredukowac boilerplate wykorzystamy wzorzec fasady. Owrapujemy uzycie
+value objectow w hooka i uspojnimy API, tak aby nasz Provider skupial sie tylko na udostepnianiu API, a nie jego implementacji.
+
+7. Service
+
+Implementacja komunikacji z API, indexedDB, cookies, local storage, session storage czy innych.
+
+7. Zalety
+
+- Latwy development.
+- Latwa podmiana.
+- Mozliwosc stworzenia nakladki, ktora zredukuje boilerplate poniewaz wszystko ma spojne API.
+- Single source of truth logiki biznesowej.
+- Migracja na inny framework bedzie latwiejsza - musze podmienic 4 warstwy - Provider, Component, Container, Facade zamiast wszystkich.
+- Latwy do implementacji code splitting + lazy loading.
+- Mozliwosc uruchamiania testow per modul znacznie latwiejsza.
+- Spojna struktura aplikacji.
+- Spojny code base.
+- W duzym projekcie latwa identyfikacja czym jest dany plik czy to komponent czy serwis czy cos innego.
+- Struktura aplikacji przypomina wodospad -> od gory w dol co ulatwia identyfikacje poszczegolnych skladowych.
+- Brak prop drillingu na wieksza skale.
+
+8. Wady
+
+- Prog wiejscia znacznie wiekszy niz w standardowych apkach React, ale mniejszy niz w Redux.
+- Troche wiecej boilerplate.
+- Troche dluzsza praca nad funkcjonalnoscia, ale czas poswiecony na utrzymywanie, przepisanie bedzie znacznie mniejszy.
+- W przypadku reuzywania kodu dodatkowa praca jest potrzebna - musimy wydzielic dodatkowy modul, co wiaze sie z dodatkowa praca.
+- Komunikacja pomiedzy modulami wymaga dodatkowej pracy i tworzenia interfejsow do komunikacji.
+- Ciezko sledzic zmiany na przestrzeni calego systemu - bo kazdy modul jest oddzielnym bytem.
+
+9. For fanboys
+
+Architektura oparta na modulach jest idealna do aplikacji posiadajacych wiele zakladek, w ktorym kazda z nich zachowuje sie
+tak naprawde jak oddzielna aplikacja - laduje dane, wyswietla, operuje na nich - np dashboardy.
+
+O wiele gorzej sprawdzi sie w przypadkach gdzie stan musi byc wykorzystywany pomiedzy zakladkami, widgetami. Oczywiscie da sie
+to zaimplementowac jednak latwiej bedzie skorzystac z architektury FLUX.
+
+Do tematow jak wybor architektury trzeba podchodzic z chlodna glowa. Wiec jezeli po tym artykule spodoba Ci sie to podejscie
+to przeanalizuj specyfike swojej aplikacji. Zly wybor moze spowodowac duze problemy.
+
+Summary
+
+Mam nadzieje, ze podobal Ci sie ten wpis. Pamietaj, ze nie ma rozwiazan idealnych, ale sa dobre i zle do konkretnego problemu.
+
+Feel free to contact if any questions / proposals. Have a nice day and good health!
