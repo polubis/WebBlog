@@ -71,8 +71,8 @@ module.exports = {
                 context {
                   article {
                     frontmatter {
-                      date
-                      modificationDate
+                      cdate
+                      mdate
                     }
                   }
                 }
@@ -83,26 +83,31 @@ module.exports = {
         resolveSiteUrl: () => siteUrl,
         resolvePages: ({ allSitePage: { nodes } }) => {
           return nodes.map(page => {
+            const isArticleGeneratedPage =
+              !!page.context && !!page.context.article
+            let mdate = null
+
+            if (!!page.context && !!page.context.article) {
+              mdate = page.context.article.frontmatter.mdate
+            }
+
             return {
               path: page.path,
-              modificationDate: page.context?.article
-                ? page.context?.article.frontmatter.modificationDate
-                : null,
-              isArticleGeneratedPage: page.context?.article !== null,
+              mdate,
+              isArticleGeneratedPage,
             }
           })
         },
-        serialize: ({ path, isArticleGeneratedPage, modificationDate }) => {
+        serialize: ({ path, isArticleGeneratedPage, mdate }) => {
+          console.log(
+            path,
+            isArticleGeneratedPage,
+            mdate,
+            mdate ? mdate : new Date().toISOString()
+          )
           return {
             url: path,
-            lastmod:
-              modificationDate ??
-              new Date()
-                .toLocaleDateString()
-                .replace(/\//g, "-")
-                .split("-")
-                .reverse()
-                .join("-"),
+            lastmod: mdate ? mdate : new Date().toISOString(),
             priority: isArticleGeneratedPage ? 1 : 0.7,
             changefreq: isArticleGeneratedPage ? "daily" : "weekly",
           }

@@ -1,6 +1,6 @@
 ---
-date: 2022-05-03
-modificationDate: 2022-05-03
+cdate: 2022-05-03
+mdate: 2022-05-14
 authorId: polubis
 tags: patterns,code improvements
 description: How to unify code written by programmers? How to add additional methods? How to hide what is not needed and how to simply make your life easier with facade pattern.
@@ -11,9 +11,10 @@ title: Improving code that was not written by us
 <Section>
   <XL>Prelude</XL>
   <M>
-    During the project you will have to deal with many developers. Each of them
-    has a slightly different writing style. In addition, there are often
-    situations where the code is duplicated or specific methods are missing.
+    During a project you will most likely cooperate with other developers. Each
+    of them has a slightly different writing style. In addition, you might
+    encounter situations where the code is duplicated or specific methods are
+    missing.
   </M>
   <M>
     What if you had something to unify the API, add the missing methods and
@@ -29,7 +30,8 @@ title: Improving code that was not written by us
   <XL>1. API design</XL>
   <M>
     We want our List class to have additional functionality - tracking a
-    specific list item and reading this item at any time.
+    specific list item and reading this item at any time. Plus, we need a method
+    that will allow us to replace a specific element.
   </M>
   <M>
     In addition, we need a method that will allow us to replace a specific
@@ -43,9 +45,9 @@ title: Improving code that was not written by us
 <Section>
   <XL>2. Mock implementation</XL>
   <M>
-    Lets create class which implements previously created interface. In TDD,
-    making throwing exceptions is standard practice to indicate that they are
-    not yet implemented.
+    Let’s create class which implements previously created interface. In TDD,
+    throwing exceptions is a standard practice to indicate that they are not yet
+    implemented.
   </M>
   <Code description="Fake implementation for TypeScript peace of mind :)">
     <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/Creating-list-abstraction-for-arrays/main/src/snippets/2_Mock_implementation.ts"></deckgo-highlight-code>
@@ -55,9 +57,9 @@ title: Improving code that was not written by us
 <Section>
   <XL>3. Creation of test scenarios</XL>
   <M>
-    Before starting the implementation, we think about exactly how our methods
-    should behave. We write descriptions of what we will test. Thanks to this
-    approach, as a rule, it is possible to locate more edge cases in the code.
+    Before starting the implementation, think about exactly how your methods
+    should behave. We’re going write our test scenario. Thanks to this approach
+    it is possible to locate more edge cases in the code.
   </M>
   <Code>
     <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/Creating-list-abstraction-for-arrays/main/src/snippets/3_Creation_of_test_scenarios.ts"></deckgo-highlight-code>
@@ -67,8 +69,8 @@ title: Improving code that was not written by us
 <Section>
   <XL>4. Implementing tests</XL>
   <M>
-    Time for tests implementation. After this step, all tests are red. We
-    created some helper function and test user data which you can check inside
+    Time for tests implementation. After this step, all tests are read. We
+    created some helper functions and test user data which you can check inside
     mocks directory.
   </M>
   <Code description="Several tests written in jest">
@@ -96,7 +98,7 @@ title: Improving code that was not written by us
 <Section>
   <XL>6. Usage in React</XL>
   <M>
-    No spread operators, anonymous functions for data management, 100%
+    No spread operators, no anonymous functions for data management, 100%
     immutability, separation of concerns, encapsulation and readable /
     consistent code as benefits of facade pattern.
   </M>
@@ -117,13 +119,13 @@ title: Improving code that was not written by us
 </Section>
 
 <Summary>
+  <M>I hope you enjoyed this quick win 🙂.</M>
   <M>
-    I hope you enjoyed this quick win :). Of course this is simple example but
-    as you see sky is the limit and you can create your own facade for
-    everything in your application.
+    Of course this is simple example but as you see sky is the limit and you can
+    create your own facade for everything in your application.
   </M>
   <M>
-    Feel free to contact if any questions / proposals. Have a nice day and good
-    health!
+    Feel free to contact me if you have any questions / proposals. Have a nice
+    day and good health!
   </M>
 </Summary>

@@ -42,10 +42,10 @@ exports.createPages = async ({ graphql, actions }) => {
           slug
           frontmatter {
             authorId
-            date
+            cdate
             description
             readTime
-            modificationDate
+            mdate
             tags
             title
           }
