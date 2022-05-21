@@ -1,0 +1,128 @@
+---
+cdate: 2022-05-21
+mdate: 2022-05-21
+authorId: polubis
+tags: patterns,code improvements
+description: In this article you will understand state machine and implement coffee express with this pattern.
+readTime: 5
+title: State machine pattern
+---
+
+<Section>
+  <XL>Prelude</XL>
+  <M>People often forget something...</M>
+  <M>
+    Imagine an ancient coffee express. You can control the stages of coffee
+    preparation manually and decide when dedicated step should be performed.
+  </M>
+  <M>
+    Express can be destroyed if you press the button at the wrong moment. How do
+    you know if now is the right time to start grinding coffee? It is much more
+    convenient to have the software (state machine) which handles that.
+  </M>
+</Section>
+
+<Section>
+  <XL>1. State machine</XL>
+  <M>
+    The state machine is a mechanism that makes sure that the operations are
+    performed in the right order. After all, you can't make coffee if the coffee
+    express is not turned on.
+  </M>
+  <M>
+    In image bellow you can see states inside rectangles. Actions which are
+    displayed above lines just triggers state change. To state we can attach
+    additional data like temperature.
+  </M>
+  <Img
+    src="https://raw.githubusercontent.com/polubis/WebBlog/State-machine-pattern/src/articles/patterns/state-machine-pattern/SM.png"
+    description="Coffee express as state machine"
+  />
+</Section>
+
+<Section>
+  <XL>2. Implementation</XL>
+  <M>
+    In code state can be reflected via object. In our code we use functions to
+    create these objects. This reduces boilerplate and gives good type safety.
+  </M>
+  <M>
+    Transitions from one state to another are implemented by using references to
+    other functions in objects. If there will be attempt to change state in
+    invalid order - you will get an exception.
+  </M>
+  <Hint hasBg>
+    Function declarations are hoisted. It means we don't need to worry about
+    correct order of declarations. This would not be possible with classes or
+    function expressions.
+  </Hint>
+  <Code description="Function declarations are cool">
+    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/state-machine-pattern/main/src/snippets/coffee-express-state-machine-functional.ts"></deckgo-highlight-code>
+  </Code>
+</Section>
+
+<Section>
+  <XL>3. Black boxing</XL>
+  <M>
+    Helper function reduces boilerplate and makes whole state machine black
+    boxed. It reduces solution flexibility - you want this. After all, the
+    coffee express does not start with a state other than Idle.
+  </M>
+  <Code description="Huraaaaa">
+    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/state-machine-pattern/main/src/snippets/reducing-boilerplate.ts"></deckgo-highlight-code>
+  </Code>
+</Section>
+
+<Section>
+  <XL>4. Example of usage in React</XL>
+  <M>
+    If you wan't use your state machine, it's good idea to create facade hook to
+    expose consistent API / reuse it later in other view. You will have always
+    union of possible states because of exhaustiveness checking mechanism from
+    TypeScript.
+  </M>
+  <Code description="We are reactive">
+    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/state-machine-pattern/main/src/snippets/use-with-react.tsx"></deckgo-highlight-code>
+  </Code>
+</Section>
+
+<Section>
+  <XL>5. You can make it generic</XL>
+  <M>
+    After several attempts, I think it's not worth it. That's because of
+    additional complexity which we adding. Decision is on your side.
+  </M>
+  <Hint hasBg>
+    Instead of implementing it from scratch you can use prod ready solution -
+    xstate library which gives additional features and adds cool visualization.
+  </Hint>
+  <Code description="TypeScript code from libs can destroy your brain">
+    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/state-machine-pattern/main/src/final/generic-state-machine.ts"></deckgo-highlight-code>
+  </Code>
+</Section>
+
+<Section>
+  <XL>Full example</XL>
+  <iframe
+    src="https://codesandbox.io/embed/state-machine-pattern-ylecvm?fontsize=14&hidenavigation=1&theme=dark"
+    style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+    title="State machine pattern"
+    allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+    sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+  ></iframe>
+</Section>
+
+<Summary>
+  <M>
+    After this short adventure, you probably understand what the state machine
+    can do for you. Usage of this pattern dramatically improves your code base,
+    especially in complex state management.
+  </M>
+  <M>
+    Feel free to contact if any questions / proposals. Have a nice day and good
+    health!
+  </M>
+  <Hint hasBg>
+    "With great power is also great responsibility" - Uncle Bob.
+  </Hint>
+</Summary>
