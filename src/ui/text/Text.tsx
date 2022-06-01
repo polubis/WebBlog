@@ -65,9 +65,7 @@ const style = css`
         background: ${theme.secondary};
         position: absolute;
       }
-    `}
-
-  ${({ shifted }: Props) =>
+    `} ${({ shifted }: Props) =>
     shifted &&
     css`
       display: flex;
@@ -82,7 +80,7 @@ const style = css`
         height: 2px;
         margin-right: 18px;
       }
-    `}
+    `};
 `
 
 export const XXL = styled.h1<Props>`

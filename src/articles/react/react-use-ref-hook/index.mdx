@@ -1,0 +1,126 @@
+---
+cdate: 2022-06-01
+mdate: 2022-06-01
+authorId: polubis
+tags: react,hooks
+description: Let's jump into the weird useRef() hook and understand what we can achieve.
+readTime: 3
+title: React useRef hook
+---
+
+<Section>
+  <XL>Prelude</XL>
+  <M>
+    When you compare the documentation and code written by developers, you can
+    often find a completely different use for certain things.
+  </M>
+  <M>
+    Technology is evolving and it's really problematic to handle all use cases -
+    especially when you are writing libs/frameworks.
+  </M>
+  <M>
+    A typical example of that is useRef() hook which sometimes is used by a
+    community in a different way than described in the docs.
+  </M>
+  <M>Yup, that's right. That hook has more than one use case.</M>
+</Section>
+
+<Section>
+  <XL>1. useRef() in documentation</XL>
+  <M>
+    Docs explain useRef() as a hook that allows you to read real DOM data during
+    the component life cycle. For example, if you would like to read the
+    position of HTML div in real DOM, useRef() is the perfect tool.
+  </M>
+  <Code description="This is the most popular use case">
+    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/React-useRef-hook/main/src/snippets/typical-use-ref-usage.tsx"></deckgo-highlight-code>
+  </Code>
+</Section>
+
+<Section>
+  <XL>2. Candidate for caching</XL>
+  <M>
+    We have a big user list that needs to be filtered by the query. This is an
+    ideal candidate for caching. With caching - aka "flyweight" pattern - we can
+    reduce the time complexity of the search algorithm. Of course, it increases
+    memory usage but we're not building Mars lounger so who cares about the
+    small amount of additional memory usage for better UX.
+  </M>
+  <M>
+    As you probably figured out, in our search function we have a performance
+    bottleneck.
+  </M>
+  <Code description="Bottleneck">
+    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/React-useRef-hook/main/src/snippets/cache-candidate.ts"></deckgo-highlight-code>
+  </Code>
+</Section>
+
+<Section>
+  <XL>3. Adding caching feature</XL>
+  <M>To cache data in that case useRef() is an ideal candidate.</M>
+  <M>
+    It's because useRef() is 100% synchronous, which means you can read/write
+    immediately. At this point you are using something similar to class property
+    which can be changed during the object lifecycle.
+  </M>
+  <Code description="Immediate read/write with useRef()">
+    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/React-useRef-hook/main/src/snippets/use-ref-as-cache.ts"></deckgo-highlight-code>
+  </Code>
+  <Hint hasBg>
+    You have right now the same behavior as class property without a class.
+  </Hint>
+</Section>
+
+<Section>
+  <XL>4. Understanding sync vs async</XL>
+  <M>
+    Using useState() setter it can be described as request to change value.
+    React decide when.
+  </M>
+  <M>Changing value in useRef() it's just immediate change.</M>
+  <M>
+    The same thing happened in your childhood when your mother asked you to take
+    out the rubbish. It was also not an order but a request, and you did it late
+    or not.
+  </M>
+  <Code description="Sync or async?">
+    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/React-useRef-hook/main/src/snippets/as-immediate-state-manager.ts"></deckgo-highlight-code>
+  </Code>
+</Section>
+
+<Section>
+  <XL>5. Read changes immediately</XL>
+  <M>
+    Look at handleChange() function call. We can read values immediately and
+    they are always up to date. It's because of useRef() usage inside useForm()
+    hook instead of useState().
+  </M>
+  <M>The setCounter() is used only for trigger rerender - that's all.</M>
+  <Code description="No need to use useEffect()">
+    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/React-useRef-hook/main/src/snippets/real-case-usage.tsx"></deckgo-highlight-code>
+  </Code>
+</Section>
+
+<Section>
+  <XL>Full example</XL>
+  <iframe
+    src="https://codesandbox.io/embed/react-useref-hook-3907we?fontsize=14&hidenavigation=1&theme=dark"
+    style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+    title="React useRef hook"
+    allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+    sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+  ></iframe>
+</Section>
+
+<Summary>
+  <M>I hope you understand useRef() power now.</M>
+  <M>
+    Looks like someone again created a function with an unfriendly name 👽. As
+    you saw useRef() can be used to access immediate state change, as cache and
+    also, like an option to reading DOM data in real-time.
+  </M>
+  <M>
+    Feel free to contact me if you have any questions/proposals. Have a nice day
+    and good health!
+  </M>
+</Summary>
