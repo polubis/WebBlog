@@ -1,9 +1,9 @@
 ---
 cdate: 2022-05-21
-mdate: 2022-05-21
+mdate: 2022-06-01
 authorId: polubis
 tags: patterns,code improvements
-description: In this article you will implement coffee express with a state machine pattern.
+description: In this article you will implement coffee machine with a state machine pattern.
 readTime: 5
 title: State machine pattern
 ---
@@ -11,7 +11,7 @@ title: State machine pattern
 <Section>
   <XL>Prelude</XL>
   <M>
-    Imagine an ancient coffee express. You can control the stages of coffee
+    Imagine an ancient coffee machine. You can control the stages of coffee
     preparation manually and decide when a dedicated step should be performed.
   </M>
   <M>
@@ -28,13 +28,14 @@ title: State machine pattern
     the process.
   </M>
   <M>
-    In the image below you can see states inside rectangles. Actions that are
-    displayed above lines and trigger a state change. To state, we can attach
-    additional data like temperature.
+    In the image below you can see states inside rectangles and actions that are
+    displayed above lines. These actions trigger a state change. They can have
+    additional data like temperature which can be needed for other states to
+    work.
   </M>
   <Img
     src="https://raw.githubusercontent.com/polubis/WebBlog/State-machine-pattern/src/articles/patterns/state-machine-pattern/SM.png"
-    description="Coffee express as a state machine"
+    description="Coffee machine as a state machine"
   />
 </Section>
 
@@ -65,7 +66,7 @@ title: State machine pattern
   <M>
     Helper function reduces boilerplate and makes the whole state machine
     black-boxed. It reduces solution flexibility - you want this. After all, the
-    coffee express does not start with a state other than Idle.
+    coffee machine does not start with a state other than Idle.
   </M>
   <Code description="Boxed stuff">
     <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/state-machine-pattern/main/src/snippets/reducing-boilerplate.ts"></deckgo-highlight-code>
@@ -101,7 +102,7 @@ title: State machine pattern
 </Section>
 
 <Section>
-  <XL>Play with coffee express example</XL>
+  <XL>Play with coffee machine example</XL>
   <iframe
     src="https://codesandbox.io/embed/state-machine-pattern-ylecvm?fontsize=14&hidenavigation=1&theme=dark"
     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
@@ -118,8 +119,8 @@ title: State machine pattern
     especially in complex state management.
   </M>
   <M>
-    Feel free to contact me if any questions/proposals. Have a nice day and good
-    health!
+    Feel free to contact me if you have any questions/proposals. Have a nice day
+    and good health!
   </M>
   <Hint hasBg>
     "With great power is also great responsibility" - Uncle Bob.
