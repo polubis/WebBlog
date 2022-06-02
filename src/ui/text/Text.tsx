@@ -127,3 +127,12 @@ export const Hint = styled.p<Props>`
   ${style}
   font-style: italic;
 `
+
+export const B = styled.b<Props>`
+  font-size: 16px;
+  line-height: 28px;
+  margin: 0;
+  font-weight: ${(props: Props) => getWeight(props, Weight.BOLD)};
+  ${style}
+  color: ${theme.primary};
+`
