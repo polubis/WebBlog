@@ -9,8 +9,8 @@ interface Props {
 
 export default function ({ children }: Props): React.ReactElement {
   return (
-    <Section containerType="intro">
-      <XL shifted>Intro</XL>
+    <Section containerType="prelude">
+      <XL shifted>Prelude</XL>
       {children}
     </Section>
   )

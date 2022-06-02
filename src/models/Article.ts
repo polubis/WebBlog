@@ -38,4 +38,5 @@ export interface Article {
   slug: string
   thumbnail: ArticleThumbnail
   body?: string
+  isNew?: boolean
 }
