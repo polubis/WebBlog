@@ -1,3 +1,4 @@
+import React, { ReactNode } from "react"
 import styled, { css } from "styled-components"
 import theme from "../../utils/theme"
 
@@ -65,7 +66,9 @@ const style = css`
         background: ${theme.secondary};
         position: absolute;
       }
-    `} ${({ shifted }: Props) =>
+    `};
+
+  ${({ shifted }: Props) =>
     shifted &&
     css`
       display: flex;
@@ -124,4 +127,34 @@ export const Hint = styled.p<Props>`
   font-weight: ${(props: Props) => getWeight(props, Weight.LIGHT)};
   ${style}
   font-style: italic;
+`
+
+const AComponent = styled.a`
+  font-size: 16px;
+  font-weight: ${(props: Props) => getWeight(props, Weight.NORMAL)};
+  ${style}
+  color: ${theme.primary};
+`
+
+export const A = ({
+  href,
+  outside,
+  children,
+}: {
+  href: string
+  outside?: boolean
+  children: ReactNode
+}) => {
+  return (
+    <AComponent href={href} target={outside ? "_blank" : ""}>
+      {children}
+    </AComponent>
+  )
+}
+
+export const B = styled.b<Props>`
+  font-size: 16px;
+  font-weight: ${(props: Props) => getWeight(props, Weight.BOLD)};
+  ${style}
+  color: ${theme.primary};
 `

@@ -1,7 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 
-import { S } from "../../ui"
+import { S, M } from "../../ui"
 
 const Code = styled.div`
   margin-top: 24px;
@@ -14,6 +14,10 @@ const Code = styled.div`
   ${S} {
     display: block;
     margin-top: 12px;
+  }
+
+  & + ${M} {
+    margin-top: 24px;
   }
 `
 

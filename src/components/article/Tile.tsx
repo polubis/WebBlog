@@ -8,6 +8,8 @@ import { Article } from "../../models/Article"
 import { XL, M } from "../../ui"
 import Details from "./Details"
 import { AuthorBadge, ReadTimeBadge } from "../badges"
+import Badge from "./Badge"
+import theme from "../../utils/theme"
 
 interface Props {
   article: Article
@@ -48,6 +50,7 @@ export default function ({ article }: Props): React.ReactElement {
     author,
     frontmatter: { tags, title, description, readTime },
     slug,
+    isNew,
   } = article
 
   return (
@@ -59,6 +62,7 @@ export default function ({ article }: Props): React.ReactElement {
       <Details>
         <AuthorBadge mini author={author} />
         <ReadTimeBadge minutes={readTime} />
+        {isNew && <Badge color={theme.green}>new</Badge>}
       </Details>
       <Link to={`/articles/${slug}`}>
         <Button>READ ARTICLE</Button>

@@ -1,8 +1,9 @@
+import React, { ReactNode } from "react"
 import styled from "styled-components"
 
 import { XL, M, Hint } from "../../ui"
 
-export default styled.section`
+const Section = styled.section`
   margin-bottom: 48px;
 
   ${XL} {
@@ -17,3 +18,11 @@ export default styled.section`
     margin: 24px 0 0 0;
   }
 `
+
+export default ({
+  children,
+  containerType = "section",
+}: {
+  children: ReactNode
+  containerType?: string
+}) => <Section data-container-type={containerType}>{children}</Section>

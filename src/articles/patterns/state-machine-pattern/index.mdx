@@ -1,6 +1,6 @@
 ---
 cdate: 2022-05-21
-mdate: 2022-06-01
+mdate: 2022-06-02
 authorId: polubis
 tags: patterns,code improvements
 description: In this article you will implement coffee machine with a state machine pattern.
@@ -8,8 +8,7 @@ readTime: 5
 title: State machine pattern
 ---
 
-<Section>
-  <XL>Prelude</XL>
+<Prelude>
   <M>
     Imagine an ancient coffee machine. You can control the stages of coffee
     preparation manually and decide when a dedicated step should be performed.
@@ -19,7 +18,7 @@ title: State machine pattern
     you know if now is the right time to grind coffee? It is much more
     convenient to have the software (state machine) which handles that.
   </M>
-</Section>
+</Prelude>
 
 <Section>
   <XL>1. State machine</XL>
@@ -101,7 +100,7 @@ title: State machine pattern
   </Code>
 </Section>
 
-<Section>
+<Example>
   <XL>Play with coffee machine example</XL>
   <iframe
     src="https://codesandbox.io/embed/state-machine-pattern-ylecvm?fontsize=14&hidenavigation=1&theme=dark"
@@ -110,7 +109,7 @@ title: State machine pattern
     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
   ></iframe>
-</Section>
+</Example>
 
 <Summary>
   <M>

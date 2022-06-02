@@ -9,7 +9,7 @@ interface Props {
 
 export default function ({ children }: Props): React.ReactElement {
   return (
-    <Section>
+    <Section containerType="summary">
       <XL shifted>Summary</XL>
       {children}
     </Section>

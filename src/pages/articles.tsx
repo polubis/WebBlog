@@ -61,22 +61,35 @@ export const query = graphql`
 export default function ({ data }: Props): React.ReactElement {
   const { allMdx, allFile } = data
 
-  const articles = allMdx.nodes.map(
-    (allMdxNode): Article => {
-      const childImageSharp = allFile.nodes.find(
-        allFileNode => allFileNode.name === allMdxNode.frontmatter.authorId
-      )
-
-      return {
-        ...allMdxNode,
-        author: {
-          ...authors[allMdxNode.frontmatter.authorId],
-          id: allMdxNode.frontmatter.authorId,
-          avatar: childImageSharp.childImageSharp.fluid,
-        },
+  const articles = allMdx.nodes
+    .sort((a, b) => {
+      if (a.frontmatter.cdate > b.frontmatter.cdate) {
+        return -1
       }
-    }
-  )
+
+      if (a.frontmatter.cdate === b.frontmatter.cdate) {
+        return 0
+      }
+
+      return 1
+    })
+    .map(
+      (allMdxNode, idx): Article => {
+        const childImageSharp = allFile.nodes.find(
+          allFileNode => allFileNode.name === allMdxNode.frontmatter.authorId
+        )
+
+        return {
+          ...allMdxNode,
+          isNew: idx === 0,
+          author: {
+            ...authors[allMdxNode.frontmatter.authorId],
+            id: allMdxNode.frontmatter.authorId,
+            avatar: childImageSharp.childImageSharp.fluid,
+          },
+        }
+      }
+    )
 
   return (
     <SiteMeta
