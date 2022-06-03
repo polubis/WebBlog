@@ -7,7 +7,7 @@ import Summary from "./src/components/article/Summary"
 import Prelude from "./src/components/article/Prelude"
 import Example from "./src/components/article/Example"
 import Img from "./src/components/article/Img"
-import * as Text from "./src/ui/text"
+import { XL, M, Hint, A, B } from "./src/ui/text"
 import { List } from "./src/components/article/List"
 
 const shortcodes = {
@@ -18,7 +18,11 @@ const shortcodes = {
   Example,
   List,
   Img,
-  ...Text,
+  XL,
+  M,
+  Hint,
+  A,
+  B,
 }
 
 export const wrapRootElement = ({ element }) => {

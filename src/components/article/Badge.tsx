@@ -2,6 +2,7 @@ import styled, { css } from "styled-components"
 
 interface Props {
   color: string
+  background?: string
 }
 
 export default styled.div<Props>`
@@ -11,8 +12,15 @@ export default styled.div<Props>`
   width: max-content;
   text-transform: uppercase;
 
-  ${({ color }) => css`
-    color: ${color};
-    border: 1px solid ${color};
-  `}
+  ${({ color, background }) =>
+    background
+      ? css`
+          background: ${background};
+          color: ${color};
+          border: 1px solid ${background};
+        `
+      : css`
+          color: ${color};
+          border: 1px solid ${color};
+        `}
 `

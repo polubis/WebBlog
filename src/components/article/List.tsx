@@ -24,6 +24,10 @@ const Ul = styled.ul`
 `
 
 export const List = ({ items }: { items: string[] }) => {
+  if (!items) {
+    return null
+  }
+
   return (
     <Ul>
       {items.map((item, idx) => (
