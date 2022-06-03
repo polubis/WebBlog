@@ -17,6 +17,7 @@ import { SiteMeta } from "../../utils/SiteMeta"
 import { isInSSR } from "../../utils/isInSSR"
 import theme from "../../utils/theme"
 import { toHMS } from "../../utils/toHMS"
+import { differenceInSeconds } from "date-fns"
 
 deckDeckGoHighlightElement()
 
@@ -136,32 +137,36 @@ export default function ({ pageContext }: Props): React.ReactElement {
   const pageTitle = `${title} | by ${author.firstName} ${author.lastName} | GreenOn Software`
 
   useLayoutEffect(() => {
-    if (!isInSSR() && !!window.IntersectionObserver) {
-      let jump = 0
-      window.scrollY = 0
-      let h2sCount = 0
-      let counter = 0
+    if (!isInSSR()) {
+      window.scrollY = 0;
+      const offset = 250
+      const start = new Date()
+      let finished = false
 
-      let observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            if (counter === h2sCount - 1) {
-              setReadedIn(entry.time / 1000)
-            }
-            setProgress(prevProgress => prevProgress + jump)
-            observer.unobserve(entry.target)
-            counter++
-          }
-        })
-      })
+      const handleScroll = () => {
+        if (finished) {
+          return
+        }
 
-      const h2s = document.querySelectorAll(`section h2`)
-      h2sCount = h2s.length
-      jump = (1 / h2s.length) * 100
+        let w =
+          ((document.body.scrollTop || document.documentElement.scrollTop) /
+            (document.documentElement.scrollHeight -
+              document.documentElement.clientHeight -
+              offset)) *
+          100
+        setProgress(w)
 
-      h2s.forEach(h2 => {
-        observer.observe(h2)
-      })
+        if (w >= 100) {
+          setReadedIn(Math.abs(differenceInSeconds(start, new Date())))
+          finished = true
+        }
+      }
+
+      document.addEventListener("scroll", handleScroll)
+
+      return () => {
+        document.removeEventListener("scroll", handleScroll)
+      }
     }
   }, [])
 
