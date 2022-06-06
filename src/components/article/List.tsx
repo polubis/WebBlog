@@ -23,14 +23,20 @@ const Ul = styled.ul`
   }
 `
 
-export const List = ({ items }: { items: string[] }) => {
+export const List = ({ items }: { items: string }) => {
   if (!items) {
+    return null
+  }
+
+  const itemsArr = items.split(",")
+
+  if (itemsArr.length === 0) {
     return null
   }
 
   return (
     <Ul>
-      {items.map((item, idx) => (
+      {itemsArr.map((item, idx) => (
         <Li key={idx}>
           <M>{item}</M>
         </Li>

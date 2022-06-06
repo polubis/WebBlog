@@ -7,7 +7,7 @@ export default function () {
     <SiteMeta
       url="/blog-creator/"
       robots="index,follow"
-      title="Real time blog creator"
+      title="Blog creator"
       type="website"
       description="Join the community and create your first article in a fast and fun way."
     >

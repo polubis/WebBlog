@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useMemo, useRef, useState } from "react"
+import React, { useLayoutEffect, useRef } from "react"
 import styled from "styled-components"
 
 import { S, M } from "../../ui"
