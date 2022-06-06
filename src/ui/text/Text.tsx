@@ -86,7 +86,7 @@ const style = css`
     `};
 `
 
-export const XXL = styled.h1<Props>`
+const XXL = styled.h1<Props>`
   font-size: 32px;
   font-weight: ${(props: Props) => getWeight(props, Weight.BOLD)};
   ${style}
@@ -158,3 +158,5 @@ export const B = styled.b<Props>`
   ${style}
   color: ${theme.primary};
 `
+
+export { XXL }

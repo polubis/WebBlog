@@ -99,12 +99,6 @@ module.exports = {
           })
         },
         serialize: ({ path, isArticleGeneratedPage, mdate }) => {
-          console.log(
-            path,
-            isArticleGeneratedPage,
-            mdate,
-            mdate ? mdate : new Date().toISOString()
-          )
           return {
             url: path,
             lastmod: mdate ? mdate : new Date().toISOString(),

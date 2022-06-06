@@ -1,6 +1,14 @@
 const path = require("path")
 const authors = require("./src/authors/authors.json")
 
+exports.onCreateWebpackConfig = ({ actions }) => {
+  actions.setWebpackConfig({
+    node: {
+      fs: "empty",
+    },
+  })
+}
+
 // create pages dynamically
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions
