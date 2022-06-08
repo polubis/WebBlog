@@ -9,6 +9,7 @@ import Example from "./src/components/article/Example"
 import Img from "./src/components/article/Img"
 import { XL, M, Hint, A, B } from "./src/ui/text"
 import { List } from "./src/components/article/List"
+import { CodeTest } from "./src/components/blog-creator/CodeTest"
 
 const shortcodes = {
   Section,
@@ -20,6 +21,7 @@ const shortcodes = {
   Img,
   XL,
   M,
+  CodeTest,
   Hint,
   A,
   B,

@@ -1,0 +1,166 @@
+---
+cdate: 2022-06-09
+mdate: 2022-06-09
+authorId: polubis
+tags: react,rxjs
+description: Different look at React state management with rxjs library.
+readTime: 10
+title: State management with rxjs in React
+---
+
+<Prelude>
+  <M>
+    React was designed for creating reusable components. Before you start work
+    with this lib you need to know it's only lib for components creation.
+  </M>
+  <M>
+    In Reactish world, changes on UI are caused with state changing inside your
+    components. To simplify this topic, we can say - state is equal to UI.
+  </M>
+  <M>
+    Everything looks very easy if you have simple features. In more advanced
+    ones or in bigger application, state management can cause headaces and if
+    you implement it in wrong way it can cause huge problems with maintenance
+    later.
+  </M>
+  <M>
+    Lets check how we can achieve nice and clean state management with rxjs and
+    ContextAPI.
+  </M>
+  <Hint hasBg>Yup, I know we have redux/FLUX and other stuff 👽.</Hint>
+</Prelude>
+
+<Section>
+  <XL>1. State/logic outside component</XL>
+  <M>
+    Firstly you need to move state management logic outside of React ecosystem.
+    I know it can sound strange but trust me. With this approach you will have:
+  </M>
+  <List items="Independent testing, Reusability, Option to easy migrate to other technology, Easy to replace logic" />
+  <M>
+    Multi layered architecture is investment. Of course at earlly it takes more
+    time to implement something but later it saves tons of your time. Of course
+    if it's not too complicated.
+  </M>
+  <Code description="Behavior what?">
+    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/State-management-with-RxJs-in-React/main/src/snippets/simple-store.tsx"></deckgo-highlight-code>
+  </Code>
+  <M>
+    So we have right now first layer which is repsonsible for creation a store
+    object with public API. That API allows us to change state and notify all
+    subscribers.
+  </M>
+</Section>
+
+<Section>
+  <XL>2. Usage in React component</XL>
+  <M>
+    In React we need to use two hooks to connect our module with functional
+    component. With <B>useMemo()</B> we create only one instance of <B>store</B>
+    object per component life cycle. With <B>useEffect()</B> we listen for changes
+    and updating state for trigger rerender and see new changes on UI.
+  </M>
+  <Code description="Hello React component">
+    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/State-management-with-RxJs-in-React/main/src/snippets/usage-in-component.tsx"></deckgo-highlight-code>
+  </Code>
+  <M>
+    This approach gives us full power of <B>rxjs</B> and right now we can use
+    operator to handle side effects and other complicated logic.
+  </M>
+</Section>
+
+<Section>
+  <XL>3. Sharing state without Context API</XL>
+  <M>
+    You can share created store inside components via simple imports statements
+    between files. This gives you same behavior like with redux without tons of
+    boilerplate. As in redux you will need to reset state if needed.
+  </M>
+  <Code description="Works but you can modularize that thing">
+    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/State-management-with-RxJs-in-React/main/src/snippets/sharing-state-without-context-api.tsx"></deckgo-highlight-code>
+  </Code>
+  <Hint hasBg>
+    Remember with this approach - often you will need to reset state in specific
+    application areas.
+  </Hint>
+</Section>
+
+<Section>
+  <XL>4. Spiecie z ContextAPI</XL>
+  <M>
+    To rozwiazanie zwolni nas z potrzebny resetowania stanu - w koncu bedziemy w
+    ekosystemie Reacta, ktory zrobi to za nas. Zeby rozwiazac ten problem
+    wystarczy wykorzystac <B>ContextAPI</B>.
+  </M>
+  <Code description="ContextAPI implementation">
+    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/State-management-with-RxJs-in-React/main/src/snippets/sharing-state-with-context-api.tsx"></deckgo-highlight-code>
+  </Code>
+  <M>
+    Jak zapewne zauwazyles udostpeniamy dedykowany hook, aby ukryc dostep do
+    Contextu dla komponentow.
+  </M>
+  <Code description="ContextAPI Consuming">
+    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/State-management-with-RxJs-in-React/main/src/snippets/consuming-shared-context-state.tsx"></deckgo-highlight-code>
+  </Code>
+  <M>
+    To czy uzyjesz Reduxowej opcji - bez Context API lub modulowej z ContextAPI
+    zalezy juz od twoich potrzeb. W kazdym badz razie mozesz latwo to zmienic.
+  </M>
+</Section>
+
+<Section>
+  <XL>5. Tworzymy spojne API</XL>
+  <M>
+    Mozemy pisac recznie logike w kazdym komponencie albo stworzyc zestaw
+    dedykowanych funkcji, ktore zrobia to za nas i jednoczesnie uchronia przez
+    popularnymi bledami jakie moglibysmy popelnic.
+  </M>
+  <M>
+    Pierwsza funkcja bedzie <B>createStore()</B>, ktora pozwoli na stworzenie
+    obiektu store.
+  </M>
+  <Code description="Factory method">
+    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/State-management-with-RxJs-in-React/main/src/framework/createStore.ts"></deckgo-highlight-code>
+  </Code>
+  <M>
+    Następnie stworzomy hook, który zredukuje boilerplate oraz polaczy nasze
+    rozwiazanie z ekosystemem React.
+  </M>
+  <Code description="Hook for connection with React">
+    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/State-management-with-RxJs-in-React/main/src/framework/useStore.tsx"></deckgo-highlight-code>
+  </Code>
+  <M>
+    Na sam koniec funkcja, która pozwoli nam stworzyć obiekt store, zainicjować
+    ContextAPI, zwórcić komponent oraz dedykowany hook do odczytu i wywolywania
+    potrzebnych metod.
+  </M>
+  <Code description="Connection with Context API">
+    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/State-management-with-RxJs-in-React/main/src/framework/createContextStore.tsx"></deckgo-highlight-code>
+  </Code>
+  <M>
+    Zostało tylko wykorzystac stworzone moduly w prawdziwej funkcjonalnosci.
+  </M>
+  <Code description="Usage">
+    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/State-management-with-RxJs-in-React/main/src/final/Chat.tsx"></deckgo-highlight-code>
+  </Code>
+</Section>
+
+<Example>
+  <XL>Full example</XL>
+  <iframe
+    src="https://codesandbox.io/embed/state-management-with-rxjs-in-react-qnccgq?fontsize=14&hidenavigation=1&theme=dark"
+    style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+    title="State management with RxJs in React"
+    allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+    sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+  ></iframe>
+</Example>
+
+<Summary>
+  <M>Mam nadzieje, ze udalo Ci sie dostrzec potege archiektury modulowej</M>
+  <M></M>
+  <M>
+    Feel free to contact me if you have any questions/proposals. Have a nice day
+    and good health!
+  </M>
+</Summary>

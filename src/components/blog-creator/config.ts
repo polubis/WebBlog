@@ -3,8 +3,9 @@ import Code from "../article/Code"
 import Summary from "../article/Summary"
 import Prelude from "../article/Prelude"
 import Img from "../article/Img"
-import { XL, M, Hint, A, B } from "../../ui/Text"
+import { XL, M, Hint, A, B } from "../../ui/text"
 import { List } from "../article/List"
+import { CodeTest } from "./CodeTest"
 
 export const INIT_MDX = `<Prelude>
   <M>
@@ -17,6 +18,7 @@ export const INIT_MDX = `<Prelude>
   <M>
     Section <B>content</B>
   </M> 
+  <CodeTest src="https://raw.githubusercontent.com/polubis/React-useRef-hook/main/src/snippets/typical-use-ref-usage.tsx" />
   <M>
     Section <B>content</B>
   </M>
@@ -44,7 +46,7 @@ export const INIT_MDX = `<Prelude>
   <M>
     Some content
   </M>
-  <List items={['First', 'Second']} />
+  <List items="First, Second" />
 </Section>
 
 <Summary>
@@ -57,6 +59,7 @@ export const COMPONENTS = {
   Summary,
   Code,
   List,
+  CodeTest,
   Img,
   XL,
   M,
