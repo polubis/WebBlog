@@ -1,17 +1,15 @@
 import React, { memo, useEffect, useMemo, useRef } from "react"
-import CodeMirror from "@uiw/react-codemirror/src"
-import { markdown } from "@codemirror/lang-markdown"
 import { useState } from "react"
-import { XL, M, Hint, X } from "../../ui/Text"
-import MDX from "@mdx-js/runtime"
-import { debounceTime, distinctUntilChanged, Subject, tap } from "rxjs"
+import { XL, M, Hint, X } from "../../ui/text"
+import { debounceTime, Subject, tap } from "rxjs"
 import styled from "styled-components"
-import { ErrorBoundary } from "../../utils/ErrorBoundary"
 import Badge from "../article/Badge"
 import theme from "../../utils/theme"
 import BlogCreatorLayout from "./BlogCreatorLayout"
-import { COMPONENTS, TAGS, INIT_MDX } from "./config"
-import Button from "../button/Button"
+import { TAGS, INIT_MDX } from "./config"
+// import Button from "../button/Button"
+import { BlogPreview } from "./BlogPreview"
+import { Code } from "./Code"
 
 const Container = styled.div`
   display: flex;
@@ -83,7 +81,7 @@ const Heading = styled.header`
   align-items: center;
 
   & > :last-child {
-    margin-left: auto;
+    margin-right: auto;
   }
 `
 
@@ -102,19 +100,6 @@ const isUsedTag = (tagName: string, mdx: string): boolean => {
   const regExp = new RegExp(`<${tagName}`, "i")
   return regExp.test(mdx)
 }
-
-const Preview = memo(
-  ({ mdx, onError }: { mdx: string; onError: () => void }) => (
-    <ErrorBoundary
-      key={mdx}
-      fallback={() => <>Invalid format - please correct</>}
-      onError={onError}
-    >
-      <MDX components={COMPONENTS}>{mdx}</MDX>
-    </ErrorBoundary>
-  ),
-  (prev, curr) => prev.mdx === curr.mdx
-)
 
 const CurrentlyUsedTags = memo(
   ({ mdx }: { mdx: string }) => (
@@ -154,7 +139,6 @@ export default function () {
           setHasErrors(false)
         }),
         debounceTime(1500),
-        distinctUntilChanged(),
         tap(mdx => {
           setMdx(mdx)
           setChecking(false)
@@ -170,17 +154,16 @@ export default function () {
   return (
     <BlogCreatorLayout>
       <Heading>
-        <XL>Real time blog builder</XL>
-        <Button>SUBMIT YOUR BLOG</Button>
+        <XL>Blog creator</XL>
+        {/* <Button>SUBMIT YOUR BLOG</Button> */}
       </Heading>
       <Container>
         <CodeContainer>
           <CodeScroll>
-            <CodeMirror
-              value={mdxTemp.current}
-              extensions={[markdown()]}
+            <Code
+              id="blog-creator-code"
+              code={INIT_MDX}
               onChange={handleChange}
-              theme="dark"
             />
           </CodeScroll>
           <CurrentlyUsedTags mdx={mdx} />
@@ -197,7 +180,7 @@ export default function () {
             </Errors>
           )}
 
-          <Preview mdx={mdx} onError={() => setHasErrors(true)} />
+          <BlogPreview mdx={mdx} onError={() => setHasErrors(true)} />
         </PreviewScroll>
 
         {checking && (

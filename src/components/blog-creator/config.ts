@@ -3,7 +3,7 @@ import Code from "../article/Code"
 import Summary from "../article/Summary"
 import Prelude from "../article/Prelude"
 import Img from "../article/Img"
-import { XL, M, Hint, A, B } from "../../ui/Text"
+import { XL, M, Hint, A, B } from "../../ui/text"
 import { List } from "../article/List"
 
 export const INIT_MDX = `<Prelude>
@@ -44,7 +44,7 @@ export const INIT_MDX = `<Prelude>
   <M>
     Some content
   </M>
-  <List items={['First', 'Second']} />
+  <List items="First, Second" />
 </Section>
 
 <Summary>
