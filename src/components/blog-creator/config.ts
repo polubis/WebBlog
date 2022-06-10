@@ -1,10 +1,10 @@
 import Section from "../article/Section"
-import Code from "../article/Code"
 import Summary from "../article/Summary"
 import Prelude from "../article/Prelude"
 import Img from "../article/Img"
 import { XL, M, Hint, A, B } from "../../ui/text"
 import { List } from "../article/List"
+import { CodePreview as Code } from "./CodePreview"
 
 export const INIT_MDX = `<Prelude>
   <M>
@@ -17,12 +17,10 @@ export const INIT_MDX = `<Prelude>
   <M>
     Section <B>content</B>
   </M> 
+  <Code src="https://raw.githubusercontent.com/polubis/React-useRef-hook/main/src/snippets/typical-use-ref-usage.tsx" description="Code example..." />
   <M>
     Section <B>content</B>
   </M>
-  <Code description="Code description">
-    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/React-useRef-hook/main/src/snippets/typical-use-ref-usage.tsx"></deckgo-highlight-code>
-  </Code>
   <Hint hasBg>
     Add your hint here...
   </Hint>

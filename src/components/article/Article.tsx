@@ -1,6 +1,5 @@
 import React, { useEffect, useLayoutEffect, useState } from "react"
 import { MDXRenderer } from "gatsby-plugin-mdx"
-import { defineCustomElements as deckDeckGoHighlightElement } from "@deckdeckgo/highlight-code/dist/loader"
 import styled, { keyframes } from "styled-components"
 
 import Layout from "../layout/Layout"
@@ -18,6 +17,8 @@ import { isInSSR } from "../../utils/isInSSR"
 import theme from "../../utils/theme"
 import { toHMS } from "../../utils/toHMS"
 import { differenceInSeconds } from "date-fns"
+
+import { defineCustomElements as deckDeckGoHighlightElement } from "@deckdeckgo/highlight-code/dist/loader"
 
 deckDeckGoHighlightElement()
 
@@ -88,6 +89,9 @@ const TRESHOLDS = [
   [60, "Don't scroll, just read it 🐼"] as const,
   [180, "Well, let me believe you've read it 🐍"] as const,
   [240, "Holy cow, did you really read this? Thanks! 🤓"] as const,
+  [480, "Thanks for reading 🤓"] as const,
+  [1000, "Hmmm... Are you afk? 🤓"] as const,
+  [100000, "What???????????????? 🤓"] as const,
 ] as const
 
 const ReadStatsManager = ({ readedIn }: { readedIn: number }) => {
@@ -138,7 +142,7 @@ export default function ({ pageContext }: Props): React.ReactElement {
 
   useLayoutEffect(() => {
     if (!isInSSR()) {
-      window.scrollY = 0;
+      window.scrollY = 0
       const offset = 250
       const start = new Date()
       let finished = false

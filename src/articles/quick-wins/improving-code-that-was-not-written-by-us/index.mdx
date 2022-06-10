@@ -1,6 +1,6 @@
 ---
 cdate: 2022-05-03
-mdate: 2022-06-02
+mdate: 2022-06-10
 authorId: polubis
 tags: patterns,code improvements
 description: How to unify code written by programmers? How to add additional methods? How to hide what is not needed and how to simply make your life easier with facade pattern.
@@ -36,9 +36,10 @@ title: Improving code that was not written by us
     In addition, we need a method that will allow us to replace a specific
     element.
   </M>
-  <Code description="Several types for understanding implementation">
-    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/Creating-list-abstraction-for-arrays/main/src/snippets/1_API_design.ts"></deckgo-highlight-code>
-  </Code>
+  <Code
+    description="Several types for understanding implementation"
+    src="https://raw.githubusercontent.com/polubis/Creating-list-abstraction-for-arrays/main/src/snippets/1_API_design.ts"
+  />
 </Section>
 
 <Section>
@@ -48,9 +49,10 @@ title: Improving code that was not written by us
     throwing exceptions is a standard practice to indicate that they are not yet
     implemented.
   </M>
-  <Code description="Fake implementation for TypeScript peace of mind :)">
-    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/Creating-list-abstraction-for-arrays/main/src/snippets/2_Mock_implementation.ts"></deckgo-highlight-code>
-  </Code>
+  <Code
+    description="Fake implementation for TypeScript peace of mind :)"
+    src="https://raw.githubusercontent.com/polubis/Creating-list-abstraction-for-arrays/main/src/snippets/2_Mock_implementation.ts"
+  />
 </Section>
 
 <Section>
@@ -60,9 +62,10 @@ title: Improving code that was not written by us
     should behave. We’re going write our test scenario. Thanks to this approach
     it is possible to locate more edge cases in the code.
   </M>
-  <Code>
-    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/Creating-list-abstraction-for-arrays/main/src/snippets/3_Creation_of_test_scenarios.ts"></deckgo-highlight-code>
-  </Code>
+  <Cod
+    description="Almost like a screenwriter"
+    src="https://raw.githubusercontent.com/polubis/Creating-list-abstraction-for-arrays/main/src/snippets/3_Creation_of_test_scenarios.ts"
+  />
 </Section>
 
 <Section>
@@ -72,9 +75,10 @@ title: Improving code that was not written by us
     created some helper functions and test user data which you can check inside
     mocks directory.
   </M>
-  <Code description="Several tests written in jest">
-    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/Creating-list-abstraction-for-arrays/main/src/snippets/4_Implementing_tests.ts"></deckgo-highlight-code>
-  </Code>
+  <Code
+    description="Several tests written in jest"
+    src="https://raw.githubusercontent.com/polubis/Creating-list-abstraction-for-arrays/main/src/snippets/4_Implementing_tests.ts"
+  />
 </Section>
 
 <Section>
@@ -89,9 +93,10 @@ title: Improving code that was not written by us
     instance of the List. Additionally, we add a method to replace an element
     with an identifier or a pointer / index.
   </M>
-  <Code description="Green is a nice color">
-    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/Creating-list-abstraction-for-arrays/main/src/snippets/5_Making_tests_green.ts"></deckgo-highlight-code>
-  </Code>
+  <Code
+    description="Green is a nice color"
+    src="https://raw.githubusercontent.com/polubis/Creating-list-abstraction-for-arrays/main/src/snippets/5_Making_tests_green.ts"
+  />
 </Section>
 
 <Section>
@@ -101,9 +106,10 @@ title: Improving code that was not written by us
     immutability, separation of concerns, encapsulation and readable /
     consistent code as benefits of facade pattern.
   </M>
-  <Code description="Fancy usage in React">
-    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/Creating-list-abstraction-for-arrays/main/src/snippets/6_Usage_in_React.tsx"></deckgo-highlight-code>
-  </Code>
+  <Code
+    description="Fancy usage in React"
+    src="https://raw.githubusercontent.com/polubis/Creating-list-abstraction-for-arrays/main/src/snippets/6_Usage_in_React.tsx"
+  />
 </Section>
 
 <Example>

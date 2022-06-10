@@ -14,28 +14,25 @@
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
   },
   "dependencies": {
-    "@codemirror/lang-markdown": "^0.20.1",
-    "@deckdeckgo/highlight-code": "^2.3.1",
     "@fontsource/lexend": "^4.5.10",
     "@mdx-js/mdx": "^1.6.22",
     "@mdx-js/react": "^1.6.22",
     "@mdx-js/runtime": "^1.6.22",
-    "@uiw/react-codemirror": "^4.7.0",
     "babel-plugin-prismjs": "^2.1.0",
     "babel-plugin-styled-components": "^1.12.0",
-    "codemirror": "^5.65.5",
     "date-fns": "^2.28.0",
     "gatsby": "^2.26.1",
     "gatsby-image": "^2.10.0",
     "gatsby-plugin-mdx": "^1.8.0",
+    "@deckdeckgo/highlight-code": "^2.3.1",
     "gatsby-plugin-react-helmet": "^5.13.0",
     "gatsby-plugin-sharp": "^2.13.4",
     "gatsby-plugin-sitemap": "^5.14.0",
     "gatsby-plugin-styled-components": "^3.8.0",
     "gatsby-plugin-webfonts": "^1.1.4",
-    "gatsby-remark-highlight-code": "^2.1.1",
     "gatsby-remark-images": "^3.10.0",
     "gatsby-source-filesystem": "^2.9.1",
+    "gatsby-remark-highlight-code": "^2.1.1",
     "gatsby-transformer-sharp": "^2.11.0",
     "prismjs": "^1.28.0",
     "react": "^16.12.0",
@@ -48,10 +45,9 @@
   "devDependencies": {
     "@types/prismjs": "^1.26.0",
     "@types/react-helmet": "^6.1.5",
+    "@types/react-syntax-highlighter": "^15.5.1",
     "@types/styled-components": "^5.1.7",
-    "gatsby-plugin-scss-typescript": "^4.0.13",
-    "prettier": "2.2.1",
-    "sass": "^1.32.5"
+    "prettier": "2.2.1"
   },
   "repository": {
     "type": "git",

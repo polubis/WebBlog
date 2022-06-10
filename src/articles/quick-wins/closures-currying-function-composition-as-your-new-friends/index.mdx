@@ -1,6 +1,6 @@
 ---
 cdate: 2022-05-12
-mdate: 2022-06-02
+mdate: 2022-06-10
 authorId: polubis
 tags: functional programming
 description: In this article, we will discuss the basics of functional programming. You will learn what is pure function, composition, the currying technique and the closure mechanism.
@@ -27,9 +27,10 @@ title: Closures, currying, function composition as your new friends
     outside scope, returns different values ​​each time and modifies input
     parameters.
   </M>
-  <Code description="Not a pure function">
-    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/Closures-currying-function-composition-as-your-new-friends/main/src/snippets/notPureFunction.ts"></deckgo-highlight-code>
-  </Code>
+  <Code
+    description="Not a pure function"
+    src="https://raw.githubusercontent.com/polubis/Closures-currying-function-composition-as-your-new-friends/main/src/snippets/notPureFunction.ts"
+  />
 </Section>
 
 <Section>
@@ -39,9 +40,10 @@ title: Closures, currying, function composition as your new friends
     does not modify input parameters and has no side effects like asynchronous
     code or changing something outside its range.
   </M>
-  <Code description="Easier life with pure function">
-    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/Closures-currying-function-composition-as-your-new-friends/main/src/snippets/pureFunction.ts"></deckgo-highlight-code>
-  </Code>
+  <Code
+    description="Easier life with pure function"
+    src="https://raw.githubusercontent.com/polubis/Closures-currying-function-composition-as-your-new-friends/main/src/snippets/pureFunction.ts"
+  />
 </Section>
 
 <Section>
@@ -50,9 +52,10 @@ title: Closures, currying, function composition as your new friends
     It's just passing one function result to other functions. Great composition
     is always implemented with pure functions.
   </M>
-  <Code description="Create functionalities and read them like a book">
-    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/Closures-currying-function-composition-as-your-new-friends/main/src/snippets/composition.ts"></deckgo-highlight-code>
-  </Code>
+  <Code
+    description="Create functionalities and read them like a book"
+    src="https://raw.githubusercontent.com/polubis/Closures-currying-function-composition-as-your-new-friends/main/src/snippets/composition.ts"
+  />
 </Section>
 
 <Section>
@@ -63,9 +66,8 @@ title: Closures, currying, function composition as your new friends
   </M>
   <Code
     description={`"I will remember your value and will not let anyone else read it" - Mr Closure`}
-  >
-    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/Closures-currying-function-composition-as-your-new-friends/main/src/snippets/closure.ts"></deckgo-highlight-code>
-  </Code>
+    src="https://raw.githubusercontent.com/polubis/Closures-currying-function-composition-as-your-new-friends/main/src/snippets/closure.ts"
+  />
 </Section>
 
 <Section>
@@ -74,9 +76,10 @@ title: Closures, currying, function composition as your new friends
     In simple words, transforming one multi-argument function to many unary
     functions. We can do it ourselves or write a function to do it for us.
   </M>
-  <Code description="From fn(a,b) to fn(a)(b)">
-    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/Closures-currying-function-composition-as-your-new-friends/main/src/snippets/currying.ts"></deckgo-highlight-code>
-  </Code>
+  <Code
+    description="From fn(a,b) to fn(a)(b)"
+    src="https://raw.githubusercontent.com/polubis/Closures-currying-function-composition-as-your-new-friends/main/src/snippets/currying.ts"
+  />
 </Section>
 
 <Example>
