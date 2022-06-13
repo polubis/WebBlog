@@ -1,0 +1,180 @@
+---
+cdate: 2022-06-13
+mdate: 2022-06-13
+authorId: polubis
+tags: react,rxjs
+description: Different look at React state management with rxjs library.
+readTime: 10
+title: State management with rxjs in React
+---
+
+<Prelude>
+  <M>
+    In React world, changes on UI are caused by state changing inside your
+    components. To simplify, we can say that state is equal to UI.
+  </M>
+  <M>
+    Everything looks very easy if you have simple features. In more advanced
+    ones or in a bigger application, state management can cause headaches. If
+    you implement it in a wrong way, it can lead to huge problems with
+    maintenance later.
+  </M>
+  <M>
+    Let's check how we can achieve nice and clean state management with rxjs and
+    ContextAPI.
+  </M>
+  <Hint hasBg>Yup, I know we have redux/FLUX and other stuff 👽.</Hint>
+</Prelude>
+
+<Section>
+  <XL>1. State/logic outside component</XL>
+  <M>
+    Firstly, you need to move state management logic outside of React ecosystem.
+    I know it may sound strange but trust me. With this approach you will have:
+  </M>
+  <List items="Independent testing, Reusability, Option to easy migrate to other technology, Easy to replace the logic" />
+  <M>
+    Multi-layered architecture is an investment. Of course, initially, it takes
+    more time to implement something but later it saves a lot of your time if
+    it's not too complicated.
+  </M>
+  <Code
+    description="Behavior what?"
+    src="https://raw.githubusercontent.com/polubis/State-management-with-RxJs-in-React/main/src/snippets/simple-store.tsx"
+  />
+  <M>
+    Right now, we have the first layer which is responsible for the creation of
+    store objects with public API. This API allows us to change the state and
+    notify all subscribers.
+  </M>
+</Section>
+
+<Section>
+  <XL>2. Usage in React component</XL>
+  <M>
+    In React we need to use two hooks to connect our module with the functional
+    component. With <B>useMemo()</B> we create only one instance of <B>store</B>
+    object per component's life cycle. With <B>useEffect()</B> we update the state
+    based on the signals from our module store and this triggers rerender.
+  </M>
+  <Code
+    description="Hello React component"
+    src="https://raw.githubusercontent.com/polubis/State-management-with-RxJs-in-React/main/src/snippets/usage-in-component.tsx"
+  />
+  <M>
+    This approach gives us the full power of rxjs. Right now, we can use the
+    operator to handle side effects and other complicated logic.
+  </M>
+</Section>
+
+<Section>
+  <XL>3. Sharing state without ContextAPI</XL>
+  <M>
+    You can share created store inside components via simple imports statements
+    between files. This gives you the same behavior as with redux without tons
+    of boilerplate. As in redux you will need to reset the state if
+  </M>
+  <Code
+    description="Works but you can modularize that thing"
+    src="https://raw.githubusercontent.com/polubis/State-management-with-RxJs-in-React/main/src/snippets/sharing-state-without-context-api.tsx"
+  />
+</Section>
+
+<Section>
+  <XL>4. Usage with ContextAPI</XL>
+  <M>
+    This approach gives you full encapsulation and connection with React
+    ecosystem. Right now, there is no need to reset the state. You determine in
+    components where dedicated store API can be exposed in the component tree.
+  </M>
+  <Code
+    description="ContextAPI implementation"
+    src="https://raw.githubusercontent.com/polubis/State-management-with-RxJs-in-React/main/src/snippets/sharing-state-with-context-api.tsx"
+  />
+  <M>
+    As you probably noticed we're exposing a dedicated hook to hide Context
+    details.
+  </M>
+  <Code
+    description="ContextAPI Consuming"
+    src="https://raw.githubusercontent.com/polubis/State-management-with-RxJs-in-React/main/src/snippets/consuming-shared-context-state.tsx"
+  />
+  <M>
+    Now, you have two options. You can implement state management with or
+    without ContextAPI. It depends on your needs.
+  </M>
+</Section>
+
+<Section>
+  <XL>5. Let's create a consistent API</XL>
+  <M>
+    Of course, we can manually write this code for every feature, but it's a bit
+    frustrating and time-consuming. In addition, we can make some mistakes or
+    provide different APIs. To avoid this problem we need abstraction.
+  </M>
+  <M>
+    Firstly, lets create <B>createStore()</B> function which allows us to create
+    store object.
+  </M>
+  <Code
+    description="Factory method"
+    src="https://raw.githubusercontent.com/polubis/State-management-with-RxJs-in-React/main/src/framework/createStore.ts"
+  />
+  <M>
+    Next, we need a hook which reduces boilerplate and connects us to React
+    ecosystem.
+  </M>
+  <Code
+    description="Hook for connection with React"
+    src="https://raw.githubusercontent.com/polubis/State-management-with-RxJs-in-React/main/src/framework/useStore.tsx"
+  />
+  <M>
+    Lastly, a function that creates a full feature and adds ContextAPI support.
+    This function will return the wrapper component and hook to consume provided
+    API in the component tree.
+  </M>
+  <Code
+    description="Connection with ContextAPI"
+    src="https://raw.githubusercontent.com/polubis/State-management-with-RxJs-in-React/main/src/framework/createContextStore.tsx"
+  />
+  <M>
+    Let's construct ContextAPI provider and hook for reading state/performing
+    actions.
+  </M>
+  <Code
+    description="Fast and without boilerplate"
+    src="https://raw.githubusercontent.com/polubis/State-management-with-RxJs-in-React/main/src/final/ChatProvider.tsx"
+  />
+  <M>Right now you can use it in an easy way inside the component.</M>
+  <Code
+    description="Usage"
+    src="https://raw.githubusercontent.com/polubis/State-management-with-RxJs-in-React/main/src/final/Chat.tsx"
+  />
+</Section>
+
+<Example>
+  <XL>Full example</XL>
+  <iframe
+    src="https://codesandbox.io/embed/state-management-with-rxjs-in-react-qnccgq?fontsize=14&hidenavigation=1&theme=dark"
+    style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+    title="State management with RxJs in React"
+    allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+    sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+  ></iframe>
+</Example>
+
+<Summary>
+  <M>
+    I hope you enjoyed this article. Now you are able to use rxjs in your
+    projects. From my point of view, it works really well. It's lightweight and
+    scalable, and you can customize it for your needs.
+  </M>
+  <M>
+    Remember, the solution which you should use depends on the project's
+    specification.
+  </M>
+  <M>
+    Feel free to contact me if you have any questions/proposals. Have a nice day
+    and good health!
+  </M>
+</Summary>

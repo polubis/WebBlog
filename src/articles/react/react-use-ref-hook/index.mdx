@@ -1,6 +1,6 @@
 ---
 cdate: 2022-06-01
-mdate: 2022-06-02
+mdate: 2022-06-10
 authorId: polubis
 tags: react,hooks
 description: Let's jump into the weird useRef() hook and understand what we can achieve.
@@ -31,9 +31,10 @@ title: React useRef hook
     the component life cycle. For example, if you would like to read the
     position of HTML div in real DOM, useRef() is the perfect tool.
   </M>
-  <Code description="This is the most popular use case">
-    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/React-useRef-hook/main/src/snippets/typical-use-ref-usage.tsx"></deckgo-highlight-code>
-  </Code>
+  <Code
+    description="This is the most popular use case"
+    src="https://raw.githubusercontent.com/polubis/React-useRef-hook/main/src/snippets/typical-use-ref-usage.tsx"
+  />
 </Section>
 
 <Section>
@@ -49,9 +50,10 @@ title: React useRef hook
     As you probably figured out, in our search function we have a performance
     bottleneck.
   </M>
-  <Code description="Bottleneck">
-    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/React-useRef-hook/main/src/snippets/cache-candidate.ts"></deckgo-highlight-code>
-  </Code>
+  <Code
+    description="Bottleneck"
+    src="https://raw.githubusercontent.com/polubis/React-useRef-hook/main/src/snippets/cache-candidate.ts"
+  />
 </Section>
 
 <Section>
@@ -62,9 +64,10 @@ title: React useRef hook
     immediately. At this point you are using something similar to class property
     which can be changed during the object lifecycle.
   </M>
-  <Code description="Immediate read/write with useRef()">
-    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/React-useRef-hook/main/src/snippets/use-ref-as-cache.ts"></deckgo-highlight-code>
-  </Code>
+  <Code
+    description="Immediate read/write with useRef()"
+    src="https://raw.githubusercontent.com/polubis/React-useRef-hook/main/src/snippets/use-ref-as-cache.ts"
+  />
   <Hint hasBg>
     You have right now the same behavior as class property without a class.
   </Hint>
@@ -82,9 +85,10 @@ title: React useRef hook
     out the rubbish. It was also not an order but a request, and you did it late
     or not.
   </M>
-  <Code description="Sync or async?">
-    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/React-useRef-hook/main/src/snippets/as-immediate-state-manager.ts"></deckgo-highlight-code>
-  </Code>
+  <Code
+    description="Sync or async?"
+    src="https://raw.githubusercontent.com/polubis/React-useRef-hook/main/src/snippets/as-immediate-state-manager.ts"
+  />
 </Section>
 
 <Section>
@@ -95,9 +99,10 @@ title: React useRef hook
     hook instead of useState().
   </M>
   <M>The setCounter() is used only for trigger rerender - that's all.</M>
-  <Code description="No need to use useEffect()">
-    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/React-useRef-hook/main/src/snippets/real-case-usage.tsx"></deckgo-highlight-code>
-  </Code>
+  <Code
+    description="No need to use useEffect()"
+    src="https://raw.githubusercontent.com/polubis/React-useRef-hook/main/src/snippets/real-case-usage.tsx"
+  />
 </Section>
 
 <Example>

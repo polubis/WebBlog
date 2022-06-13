@@ -68,6 +68,7 @@ export default function (): React.ReactElement {
             items={[
               { label: "home", url: "/" },
               { label: "articles", url: "/articles" },
+              { label: "creator", url: "/blog-creator" },
               { label: "authors", url: "/authors" },
             ]}
           />

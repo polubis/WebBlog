@@ -1,10 +1,18 @@
-import React, { useLayoutEffect, useRef } from "react"
-import styled from "styled-components"
-
-import { S, M } from "../../ui"
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  useLayoutEffect,
+  ReactNode,
+} from "react"
+import { from } from "rxjs"
 import { isInSSR } from "../../utils/isInSSR"
+import styled from "styled-components"
+import { S, M } from "../../ui"
 
-const Code = styled.div`
+const heightCache = {}
+
+const CodeEl = styled.div`
   margin-top: 24px;
   max-width: calc(100vw - 56px);
 
@@ -22,18 +30,24 @@ const Code = styled.div`
   }
 `
 
-interface Props {
-  children: React.ReactNode
+const Wrapper = styled.div``
+
+export const Code = ({
+  description,
+  src,
+  preserveHeight = false,
+  children,
+}: {
   description: string
-}
-
-const heightCache = {}
-
-export default function ({ children, description }: Props): React.ReactElement {
+  src: string
+  preserveHeight?: boolean
+  children?: (content: string) => ReactNode
+}) => {
+  const [content, setContent] = useState("")
   const ref = useRef<HTMLDivElement | null>(null)
 
   useLayoutEffect(() => {
-    if (!isInSSR() && ref.current !== null) {
+    if (!isInSSR() && preserveHeight && ref.current !== null) {
       const DELAY = 2000
 
       const oldRect = ref.current.getBoundingClientRect()
@@ -52,9 +66,27 @@ export default function ({ children, description }: Props): React.ReactElement {
     }
   }, [ref])
 
+  useEffect(() => {
+    if (!isInSSR()) {
+      const obs$ = from(
+        fetch(src).then(res => res.text()) as Promise<string>
+      ).subscribe(content => {
+        setContent(content)
+      })
+
+      return () => {
+        obs$.unsubscribe()
+      }
+    }
+  }, [])
+
+  if (!content || isInSSR()) {
+    return null
+  }
+
   return (
-    <Code>
-      <div
+    <CodeEl>
+      <Wrapper
         style={{
           minHeight: heightCache[description]
             ? heightCache[description] + "px"
@@ -62,9 +94,13 @@ export default function ({ children, description }: Props): React.ReactElement {
         }}
         ref={ref}
       >
-        {children}
-      </div>
+        {children ? (
+          children(content)
+        ) : (
+          <deckgo-highlight-code src={src}></deckgo-highlight-code>
+        )}
+      </Wrapper>
       <S italic>{description}</S>
-    </Code>
+    </CodeEl>
   )
 }

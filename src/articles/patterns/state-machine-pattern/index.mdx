@@ -1,6 +1,6 @@
 ---
 cdate: 2022-05-21
-mdate: 2022-06-02
+mdate: 2022-06-10
 authorId: polubis
 tags: patterns,code improvements
 description: In this article you will implement coffee machine with a state machine pattern.
@@ -55,9 +55,10 @@ title: State machine pattern
     correct order of declarations. This would not be possible with classes or
     function expressions.
   </Hint>
-  <Code description="Function declarations are cool">
-    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/state-machine-pattern/main/src/snippets/coffee-express-state-machine-functional.ts"></deckgo-highlight-code>
-  </Code>
+  <Code
+    src="https://raw.githubusercontent.com/polubis/state-machine-pattern/main/src/snippets/coffee-express-state-machine-functional.ts"
+    description="Function declarations are cool"
+  />
 </Section>
 
 <Section>
@@ -67,9 +68,10 @@ title: State machine pattern
     black-boxed. It reduces solution flexibility - you want this. After all, the
     coffee machine does not start with a state other than Idle.
   </M>
-  <Code description="Boxed stuff">
-    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/state-machine-pattern/main/src/snippets/reducing-boilerplate.ts"></deckgo-highlight-code>
-  </Code>
+  <Code
+    description="Boxed stuff"
+    src="https://raw.githubusercontent.com/polubis/state-machine-pattern/main/src/snippets/reducing-boilerplate.ts"
+  />
 </Section>
 
 <Section>
@@ -80,9 +82,10 @@ title: State machine pattern
     have always a union of possible states because of the exhaustiveness
     checking mechanism from TypeScript.
   </M>
-  <Code description="We are reactive">
-    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/state-machine-pattern/main/src/snippets/use-with-react.tsx"></deckgo-highlight-code>
-  </Code>
+  <Code
+    description="We are reactive"
+    src="https://raw.githubusercontent.com/polubis/state-machine-pattern/main/src/snippets/use-with-react.tsx"
+  />
 </Section>
 
 <Section>
@@ -95,9 +98,10 @@ title: State machine pattern
     Instead of implementing it from scratch, you can use prod ready solution -
     xstate library which gives additional features and adds cool visualization.
   </Hint>
-  <Code description="TypeScript code from libs can destroy your brain">
-    <deckgo-highlight-code src="https://raw.githubusercontent.com/polubis/state-machine-pattern/main/src/final/generic-state-machine.ts"></deckgo-highlight-code>
-  </Code>
+  <Code
+    description="TypeScript code from libs can destroy your brain"
+    src="https://raw.githubusercontent.com/polubis/state-machine-pattern/main/src/final/generic-state-machine.ts"
+  />
 </Section>
 
 <Example>
