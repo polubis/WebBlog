@@ -53,9 +53,9 @@ title: State management with rxjs in React
   <XL>2. Usage in React component</XL>
   <M>
     In React we need to use two hooks to connect our module with the functional
-    component. With <B>useMemo()</B> we create only one instance of <B>store</B>
-    object per component's life cycle. With <B>useEffect()</B> we update the state
-    based on the signals from our module store and this triggers rerender.
+    component. With <B>useMemo()</B> we create only one instance of <B>store</B>{" "}
+    object per component's life cycle. With <B>useEffect()</B> we update the
+    state based on the signals from our module store and this triggers rerender.
   </M>
   <Code
     description="Hello React component"
@@ -72,7 +72,7 @@ title: State management with rxjs in React
   <M>
     You can share created store inside components via simple imports statements
     between files. This gives you the same behavior as with redux without tons
-    of boilerplate. As in redux you will need to reset the state if
+    of boilerplate. As in redux you will need to reset the state if needed.
   </M>
   <Code
     description="Works but you can modularize that thing"
@@ -109,7 +109,7 @@ title: State management with rxjs in React
   <XL>5. Let's create a consistent API</XL>
   <M>
     Of course, we can manually write this code for every feature, but it's a bit
-    frustrating and time-consuming. In addition, we can make some mistakes or
+    frustrating and time consuming. In addition, we can make some mistakes or
     provide different APIs. To avoid this problem we need abstraction.
   </M>
   <M>
