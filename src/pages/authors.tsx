@@ -17,7 +17,7 @@ interface Author {
   lastName: string
   role: string
   bio: string
-  githubURL: string
+  githubURL?: string
   linkedinURL: string
 }
 
@@ -43,6 +43,7 @@ interface Props {
 const Grid = styled.div`
   display: grid;
   justify-content: center;
+  width: 100%;
   grid-template-columns: repeat(auto-fill, minmax(310px, 400px));
   grid-gap: 28px;
   padding: 100px 0;
@@ -145,13 +146,15 @@ export default function ({ data }: Props): React.ReactElement {
               <X>{author.role}</X>
               <M>{author.bio}</M>
               <Media>
-                <a
-                  href={author.githubURL}
-                  title="Github profile"
-                  target="_blank"
-                >
-                  <GithubIcon />
-                </a>
+                {author.githubURL && (
+                  <a
+                    href={author.githubURL}
+                    title="Github profile"
+                    target="_blank"
+                  >
+                    <GithubIcon />
+                  </a>
+                )}
                 <a
                   href={author.linkedinURL}
                   title="Linkedin profile"
