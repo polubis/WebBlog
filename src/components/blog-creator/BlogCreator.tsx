@@ -1,15 +1,16 @@
-import React, { memo, useEffect, useMemo, useRef } from "react"
+import React, { memo, ReactNode, useEffect, useMemo, useRef } from "react"
 import { useState } from "react"
 import { XL, M, Hint, X } from "../../ui/text"
 import { debounceTime, Subject, tap } from "rxjs"
-import styled from "styled-components"
+import styled, { keyframes } from "styled-components"
 import Badge from "../article/Badge"
 import theme from "../../utils/theme"
 import BlogCreatorLayout from "./BlogCreatorLayout"
 import { TAGS, INIT_MDX } from "./config"
-// import Button from "../button/Button"
+import Button from "../button/Button"
 import { BlogPreview } from "./BlogPreview"
 import { Code } from "./Code"
+import { useCopyToClipboard } from "../../utils/useCopyToClipboard"
 
 const Container = styled.div`
   display: flex;
@@ -80,8 +81,12 @@ const Heading = styled.header`
   display: flex;
   align-items: center;
 
+  & > :first-child {
+    margin-right: 10px;
+  }
+
   & > :last-child {
-    margin-right: auto;
+    margin-left: auto;
   }
 `
 
@@ -117,19 +122,70 @@ const CurrentlyUsedTags = memo(
   (prev, curr) => prev.mdx === curr.mdx
 )
 
+const ClipboardPromptAnimation = keyframes`
+  0% {
+    transform: translateY(-15px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+`
+
+const ClipboardPrompt = styled.div`
+  display: flex;
+  align-items: center;
+  position: fixed;
+  top: 10px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: 300px;
+  border-radius: 4px;
+  background: ${theme.green};
+  color: ${theme.black};
+  padding: 10px;
+  animation: ${ClipboardPromptAnimation} 0.4s ease-in-out forwards;
+`
+
 export default function () {
+  const [, copyToClipboard] = useCopyToClipboard()
+  const [displayPrompt, setDisplayPrompt] = useState(false)
+
   const change = useMemo(() => new Subject<string>(), [])
   const change$ = useMemo(() => change.asObservable(), [])
 
-  const mdxTemp = useRef(INIT_MDX)
-  const [mdx, setMdx] = useState(mdxTemp.current)
+  const [mdx, setMdx] = useState(INIT_MDX)
   const [checking, setChecking] = useState(false)
   const [hasErrors, setHasErrors] = useState(false)
 
   const handleChange = (value: string) => {
-    mdxTemp.current = value
     change.next(value)
+    setDisplayPrompt(false)
   }
+
+  const handleCopyToClipboard = () => {
+    copyToClipboard(mdx)
+
+    if (displayPrompt) {
+      return
+    }
+
+    setDisplayPrompt(true)
+  }
+
+  useEffect(() => {
+    if (displayPrompt) {
+      const timeout = setTimeout(() => {
+        setDisplayPrompt(false)
+      }, 8000)
+
+      return () => {
+        clearTimeout(timeout)
+      }
+    }
+  }, [displayPrompt])
 
   useEffect(() => {
     const sub = change$
@@ -155,7 +211,23 @@ export default function () {
     <BlogCreatorLayout>
       <Heading>
         <XL>Blog creator</XL>
-        {/* <Button>SUBMIT YOUR BLOG</Button> */}
+        <Badge color={theme.green}>beta</Badge>
+
+        {displayPrompt && (
+          <ClipboardPrompt>
+            <span>
+              Your blog content copied! Now send it on{" "}
+              <b>greenonsoftware@gmail.com</b> and we will contact you
+            </span>
+          </ClipboardPrompt>
+        )}
+
+        <Button
+          disabled={displayPrompt || checking}
+          onClick={handleCopyToClipboard}
+        >
+          SUBMIT YOUR BLOG
+        </Button>
       </Heading>
       <Container>
         <CodeContainer>

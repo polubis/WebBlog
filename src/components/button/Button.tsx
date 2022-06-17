@@ -18,11 +18,16 @@ const Button = styled.button`
   font-family: inherit;
   border: 1px solid ${theme.primary};
 
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+  }
+
   &:focus {
     outline: none;
   }
 
-  &:hover {
+  &:hover:not(:disabled) {
     background: ${theme.primary};
     color: ${theme.bg};
   }

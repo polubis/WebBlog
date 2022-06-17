@@ -82,6 +82,7 @@ const ReadTimeStats = styled.div`
   background: ${theme.green};
   animation: ${slideIn} 0.4s ease-in-out 0s forwards;
   opacity: 0;
+  border-top-right-radius: 4px;
   max-width: 220px;
 `
 
