@@ -77,7 +77,7 @@ export default function ({ data }: Props): React.ReactElement {
       (allMdxNode, idx): Article => {
         const childImageSharp = allFile.nodes.find(
           allFileNode => allFileNode.name === allMdxNode.frontmatter.authorId
-        )
+        )!
 
         return {
           ...allMdxNode,

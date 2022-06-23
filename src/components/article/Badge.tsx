@@ -4,7 +4,9 @@ interface Props {
   color: string
   background?: string
 }
-
+// Align article content
+// Publish article
+// Improve audit for last article
 export default styled.div<Props>`
   padding: 5px 6px;
   font-size: 12px;

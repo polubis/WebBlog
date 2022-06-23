@@ -5,6 +5,7 @@ export interface ArticleFrontmatter {
   tags: string
   description: string
   readTime: number
+  stack: string
   title: string
 }
 
@@ -32,8 +33,22 @@ export interface ArticleAuthor {
   avatar: ArticleAuthorAvatar
 }
 
+export interface ArticleTechnologyAvatar {
+  aspectRatio: number
+  base64: string
+  sizes: string
+  src: string
+  srcSet: string
+}
+
+export interface ArticleTechnology {
+  avatar: ArticleTechnologyAvatar
+  id: string
+}
+
 export interface Article {
   author: ArticleAuthor
+  stack: ArticleTechnology[]
   frontmatter: ArticleFrontmatter
   slug: string
   thumbnail: ArticleThumbnail

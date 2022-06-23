@@ -9,7 +9,6 @@ import Tags from "../article/Tags"
 import { M } from "../../ui"
 import Details from "../article/Details"
 import { AuthorBadge, ReadTimeBadge } from "../badges"
-import Divider from "../article/Divider"
 import Intro from "./Intro"
 import { L_UP } from "../../utils/viewport"
 import { SiteMeta } from "../../utils/SiteMeta"
@@ -19,6 +18,7 @@ import { toHMS } from "../../utils/toHMS"
 import { differenceInSeconds } from "date-fns"
 
 import { defineCustomElements as deckDeckGoHighlightElement } from "@deckdeckgo/highlight-code/dist/loader"
+import { Stack } from "./Stack"
 
 deckDeckGoHighlightElement()
 
@@ -36,13 +36,10 @@ const Article = styled.main`
     margin: 62px 0 28px 0;
   }
 
-  ${Divider} {
-    margin: 82px 0;
-  }
-
   ${Details} {
     & > :nth-child(2) {
-      margin: 0 28px 0 54px;
+      margin: 0 28px 0 42px;
+      flex-shrink: 0;
     }
   }
 `
@@ -112,10 +109,6 @@ const ReadStatsManager = ({ readedIn }: { readedIn: number }) => {
     }
   }, [readedIn])
 
-  if (readedIn === 0) {
-    return null
-  }
-
   if (readedIn > 0) {
     return (
       <>
@@ -127,6 +120,8 @@ const ReadStatsManager = ({ readedIn }: { readedIn: number }) => {
       </>
     )
   }
+
+  return null
 }
 
 export default function ({ pageContext }: Props): React.ReactElement {
@@ -134,7 +129,7 @@ export default function ({ pageContext }: Props): React.ReactElement {
   const [progress, setProgress] = useState(0)
 
   const {
-    article: { frontmatter, author, thumbnail, body, slug },
+    article: { frontmatter, author, thumbnail, body, slug, stack },
   } = pageContext
 
   const { title, description, tags, readTime } = frontmatter
@@ -201,7 +196,7 @@ export default function ({ pageContext }: Props): React.ReactElement {
             <AuthorBadge author={author} />
             <ReadTimeBadge minutes={readTime} />
           </Details>
-          <Divider />
+          <Stack items={stack} />
           <MDXRenderer>{body}</MDXRenderer>
         </Article>
         <ReadProgress
