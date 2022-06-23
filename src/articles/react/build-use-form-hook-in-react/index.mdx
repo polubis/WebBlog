@@ -1,0 +1,285 @@
+---
+cdate: 2022-06-23
+mdate: 2022-06-23
+authorId: polubis
+tags: react,custom hooks
+description: Let's design and build a hook for handling forms logic in an easy and scalable way.
+readTime: 20
+title: Build useForm hook in React
+---
+
+<Prelude>
+  <M>
+    Form management sometimes can be tricky. If you're writing a simple login
+    form, of course, there is no option to meet problems but if there is a{" "}
+    <B>
+      multi-step form, dynamic fields, async validation or some customization
+      needed
+    </B>{" "}
+    - you are in trouble.
+  </M>
+  <M>
+    Your first choice will be the usage of the library. It's not bad, generally,
+    that's a good idea. However, if you need customization, more advanced
+    features or fix frustrating bugs - there is a headache.
+  </M>
+  <M>
+    In addition, there is a risk connected with library usage. If lib starts to
+    be not supported, not used by the community - you need to migrate to other
+    technology and also libs contain a reference to other libs with code that is
+    useless for you.
+  </M>
+  <M>
+    I had situations like this many, many times... Projects start, you picking
+    up library <B>formik</B>, <B>redux-form</B> or other. There is a feature
+    which you need and right now it starts... The big pain of creating
+    workarounds and adding additional dependencies, maintaining versions or even
+    worse rewriting your code base because the lib which you used creates an
+    impact on architecture - <B>redux-form</B>.
+  </M>
+  <M>
+    So in this article, I try to show you, that there is nothing bad with
+    creating something that already exists, because sometimes with good
+    conditions and effort it can be worthy -{" "}
+    <B>
+      "Software is a composition of iterations, hard work and knowledge (someone
+      from the project, after not delivered sprint)"
+    </B>
+    .
+  </M>
+  <M>
+    Let's create <B>useForm</B> hook and check how it will work with common form
+    types.
+  </M>
+  <Hint hasBg>
+    Remember this is some kind of experiment - you can use something similar in
+    your projects, but all custom solutions require additional maintenance,
+    depends on developers in the project, must be well documented and as always
+    is a matter of pros/cons calculation.
+  </Hint>
+</Prelude>
+
+<Section>
+  <XL>1. What are we building?</XL>
+  <M>
+    It will be the multi-step form for creating a user account. You can check
+    how it works{" "}
+    <A href="https://pillarclient.z16.web.core.windows.net/register" outside>
+      here
+    </A>
+    . This app uses a hook which we implement for every form.
+  </M>
+  <Img
+    src="https://raw.githubusercontent.com/polubis/Build-useForm-hook-in-React/main/src/snippets/Example.gif"
+    description="I'm fancy multi-step form"
+  />
+</Section>
+
+<Section>
+  <XL>2. Let's design our basic API</XL>
+  <M>
+    This is a really important step. We should cover all features and design a
+    nice, clean API for handling our form logic.
+  </M>
+  <Code
+    description="Generic API for form management"
+    src="https://raw.githubusercontent.com/polubis/Build-useForm-hook-in-React/main/src/snippets/1-design-api.ts"
+  />
+</Section>
+
+<Section>
+  <XL>3. Creating test cases</XL>
+  <M>
+    It's really important to have tests written during development. Without
+    tests, you can break your previous features. I can say it's required when
+    you writing generic stuff like we are right now.
+  </M>
+  <Code
+    description="Testing stuff is important"
+    src="https://raw.githubusercontent.com/polubis/Build-useForm-hook-in-React/main/src/snippets/2-creating-test-cases.ts"
+  />
+  <Hint hasBg>
+    Please check the test implementations{" "}
+    <A
+      href="https://github.com/polubis/Build-useForm-hook-in-React/blob/main/src/libs/form/useForm.test.ts"
+      outside
+    >
+      here
+    </A>{" "}
+    if you're curious. This is skipped to save your time.
+  </Hint>
+</Section>
+
+<Section>
+  <XL>4. Adding type definitions</XL>
+  <M>
+    Before implementing real code, firstly you need to create the type
+    definitions. It will be much easier to write code to fit them instead of
+    adding it later. In addition, when you've unit tests you can just relax and
+    write code 👽. Green means it works.
+  </M>
+  <Code
+    description="Defining API shape"
+    src="https://raw.githubusercontent.com/polubis/Build-useForm-hook-in-React/main/src/snippets/3-add-type-defs.ts"
+  />
+  <M>
+    Take a look at generic types. The type which you require must be an object.
+    Also, your type definitions will remember all given keys and values for
+    future usage in the code base. It will guarantee that later used values will
+    have the same type as the initial ones.
+  </M>
+</Section>
+
+<Section>
+  <XL>5. Implementing values change API</XL>
+  <M>
+    It's time to write real code. Here you have basic logic which allows to
+    update values via <B>set</B> and <B>change</B> functions. Second one
+    contains also additional logic which validates <B>event</B> object and
+    informs you in runtime.
+  </M>
+  <Code
+    description="Right now you can change stuff"
+    src="https://raw.githubusercontent.com/polubis/Build-useForm-hook-in-React/main/src/snippets/4-basic-api-implementation.ts"
+  />
+  <M>
+    Yes, you used <B>useRef</B> hook for state management instead of{" "}
+    <B>useState</B>. It's because <B>useRef</B> changes are immediete not async
+    like via <B>useState</B> setter. It gives you opportunity to read always up
+    to date data inside components or other custom hooks.
+  </M>
+  <Hint hasBg>
+    This interesting usage has been described perfectly{" "}
+    <A
+      outside
+      href="https://greenonsoftware.com/articles/react/react-use-ref-hook/"
+    >
+      here
+    </A>
+    .
+  </Hint>
+</Section>
+
+<Section>
+  <XL>6. You need validation!</XL>
+  <M>
+    You need mechanism which will run functions passed via validator object to{" "}
+    <B>useForm</B> hook and here it is.
+  </M>
+  <Code
+    description="Validate with for loops in 2022"
+    src="https://raw.githubusercontent.com/polubis/Build-useForm-hook-in-React/main/src/snippets/5-add-validation-function.ts"
+  />
+  <M>You used loops because:</M>
+  <List items="They are little bit faster than forEach() | reduce() | map() or others, We have an option to stop execution at any time" />
+  <M>
+    It can look a little bit old but the performance is much better. I'm 100%
+    sure that <B>C++ devs</B> enjoy that ⌨️.
+  </M>
+</Section>
+
+<Section>
+  <XL>7. Connect validation</XL>
+  <M>
+    Right now you just need to connect your <B>validate</B> function with{" "}
+    <B>useForm</B> hook.
+  </M>
+  <Code
+    description="Validation connected"
+    src="https://raw.githubusercontent.com/polubis/Build-useForm-hook-in-React/main/src/snippets/6-add-validation-to-use-form.ts"
+  />
+</Section>
+
+<Section>
+  <XL>8. Attach metadata</XL>
+  <M>
+    Metadata is important. You definetelly need that. to show different
+    components on UI or highlight interactions.
+  </M>
+  <Code
+    description="Metadata attached"
+    src="https://raw.githubusercontent.com/polubis/Build-useForm-hook-in-React/main/src/snippets/7-add-metadata-support.ts"
+  />
+</Section>
+
+<Section>
+  <XL>9. Implement confirmation</XL>
+  <M>
+    Confirmation is equal to running validation for the whole form. It's
+    important because sometimes you run validation always and sometimes only
+    after the first submission. Depends on UX which you want to achieve.
+  </M>
+  <Code
+    description="You can submit now"
+    src="https://raw.githubusercontent.com/polubis/Build-useForm-hook-in-React/main/src/snippets/8-add-confirm-handle.ts"
+  />
+</Section>
+
+<Section>
+  <XL>10. Be able to reset</XL>
+  <M>Simple function which resets state to initial.</M>
+  <Code
+    description="Reset everything"
+    src="https://raw.githubusercontent.com/polubis/Build-useForm-hook-in-React/main/src/snippets/9-add-option-to-reset.ts"
+  />
+</Section>
+
+<Section>
+  <XL>11. Listen for changes</XL>
+  <M>
+    Right now you can listen for single field changes and perform side effects.
+    Imagine a situation when a user types something in input and you need to
+    perform the request. Here is the perfect place and also you can add{" "}
+    <B>rxjs</B> operators.
+  </M>
+  <Code
+    description="Subscribe for changes"
+    src="https://raw.githubusercontent.com/polubis/Build-useForm-hook-in-React/main/src/snippets/10-add-option-to-listen.ts"
+  />
+</Section>
+
+<Section>
+  <XL>12. Usage</XL>
+  <M>
+    Right now you can use <B>useForm</B> for all cases.
+  </M>
+  <Code
+    description="Simple form"
+    src="https://raw.githubusercontent.com/polubis/Build-useForm-hook-in-React/main/src/containers/change-password/ChangePassword.tsx"
+  />
+  <Code
+    description="Steps, steps and steps"
+    src="https://raw.githubusercontent.com/polubis/Build-useForm-hook-in-React/main/src/containers/register/Register.tsx"
+  />
+</Section>
+
+<Example>
+  <XL>Full example</XL>
+  <iframe
+    src="https://codesandbox.io/embed/build-useform-hook-in-react-j3v956?fontsize=14&hidenavigation=1&theme=dark"
+    style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+    title="Build useForm hook in React"
+    allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+    sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+  ></iframe>
+</Example>
+
+<Summary>
+  <M>
+    Right now you have a base API. The sky is the limit right now. Bored with
+    prop drilling? Wrap it with <B>Context API</B>. Frustrated with the lack of
+    support for class components? Write <B>higher order component</B> which adds
+    that.
+  </M>
+  <M>
+    Use stuff like this wisely. I will repeat it always in almost every article
+    that you need to understand the problems and benefits of technology and
+    techniques which you are using. Before use check, if your project fits into
+    solutions like this.
+  </M>
+  <M>
+    Feel free to contact me if you have any questions/proposals. Have a nice day
+    and good health!
+  </M>
+  <Hint hasBg>To be continued...</Hint>
+</Summary>
