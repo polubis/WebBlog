@@ -1,6 +1,6 @@
 ---
 cdate: 2022-06-23
-mdate: 2022-06-23
+mdate: 2022-06-24
 authorId: polubis
 stack: typescript,react,rxjs,jest
 tags: hooks,forms management
@@ -11,24 +11,20 @@ title: Build useForm hook in React
 
 <Prelude>
   <M>
-    Form management sometimes can be tricky. If you're writing a simple login
-    form, of course, there is no option to meet problems but if there is a{" "}
-    <B>
-      multi-step form, dynamic fields, async validation or some customization
-      needed
-    </B>{" "}
-    - you are in trouble.
+    Form management sometimes can be tricky. During the development of a simple
+    login form, of course, there is no option to have problems. Anyway, problems
+    occur when there is a requirement for{" "}
+    <B>multi-step form, dynamic fields, async validation or customization</B>.
   </M>
   <M>
-    Your first choice will be the usage of the library. It's not bad, generally,
-    that's a good idea. However, if you need customization, more advanced
-    features or fix frustrating bugs - there is a headache.
+    Your first choice will be a library. It's not bad, generally, that's a good
+    idea. However, if you need customization, more advanced features or fix
+    frustrating bugs - there is a headache.
   </M>
   <M>
-    In addition, there is a risk connected with library usage. If lib starts to
-    be not supported, not used by the community - you need to migrate to other
-    technology and also libs contain a reference to other libs with code that is
-    useless for you.
+    In addition, there is a risk connected with library usage. They often start
+    to be not supported, then you need to migrate to other technologies and libs
+    uses other libs with code that is usually useless for you.
   </M>
   <M>
     I had situations like this many, many times... Projects start, you picking
@@ -41,7 +37,7 @@ title: Build useForm hook in React
   <M>
     So in this article, I try to show you, that there is nothing bad with
     creating something that already exists, because sometimes with good
-    conditions and effort it can be worthy -{" "}
+    conditions it can be worthy -{" "}
     <B>
       "Software is a composition of iterations, hard work and knowledge (someone
       from the project, after not delivered sprint)"
@@ -49,14 +45,11 @@ title: Build useForm hook in React
     .
   </M>
   <M>
-    Let's create <B>useForm</B> hook and check how it will work with common form
-    types.
+    Let's create <B>useForm</B> hook and check how it will work with forms.
   </M>
   <Hint hasBg>
-    Remember this is some kind of experiment - you can use something similar in
-    your projects, but all custom solutions require additional maintenance,
-    depends on developers in the project, must be well documented and as always
-    is a matter of pros/cons calculation.
+    Remember all custom solutions require additional maintenance. Use stuff like
+    that wisely.
   </Hint>
 </Prelude>
 
@@ -66,7 +59,7 @@ title: Build useForm hook in React
     It will be the multi-step form for creating a user account. You can check
     how it works{" "}
     <A href="https://pillarclient.z16.web.core.windows.net/register" outside>
-      here
+      Jupi.io
     </A>
     . This app uses a hook which we implement for every form.
   </M>
@@ -92,20 +85,19 @@ title: Build useForm hook in React
   <XL>3. Creating test cases</XL>
   <M>
     It's really important to have tests written during development. Without
-    tests, you can break your previous features. I can say it's required when
-    you writing generic stuff like we are right now.
+    tests, you can break your previous features.
   </M>
   <Code
-    description="Testing stuff is important"
+    description="Testing is important"
     src="https://raw.githubusercontent.com/polubis/Build-useForm-hook-in-React/main/src/snippets/2-creating-test-cases.ts"
   />
   <Hint hasBg>
-    Please check the test implementations{" "}
+    Please check the tests implementation{" "}
     <A
       href="https://github.com/polubis/Build-useForm-hook-in-React/blob/main/src/libs/form/useForm.test.ts"
       outside
     >
-      here
+      in test file
     </A>{" "}
     if you're curious. This is skipped to save your time.
   </Hint>
@@ -117,7 +109,7 @@ title: Build useForm hook in React
     Before implementing real code, firstly you need to create the type
     definitions. It will be much easier to write code to fit them instead of
     adding it later. In addition, when you've unit tests you can just relax and
-    write code 👽. Green means it works.
+    take it easy 👽. Green means it works.
   </M>
   <Code
     description="Defining API shape"
@@ -136,8 +128,8 @@ title: Build useForm hook in React
   <M>
     It's time to write real code. Here you have basic logic which allows to
     update values via <B>set</B> and <B>change</B> functions. Second one
-    contains also additional logic which validates <B>event</B> object and
-    informs you in runtime.
+    contains additional logic which validates <B>event</B> object and informs
+    you in runtime.
   </M>
   <Code
     description="Right now you can change stuff"
@@ -150,14 +142,14 @@ title: Build useForm hook in React
     to date data inside components or other custom hooks.
   </M>
   <Hint hasBg>
-    This interesting usage has been described perfectly{" "}
+    This interesting usage has been described perfectly in{" "}
     <A
       outside
       href="https://greenonsoftware.com/articles/react/react-use-ref-hook/"
     >
-      here
-    </A>
-    .
+      React useRef hook
+    </A>{" "}
+    article.
   </Hint>
 </Section>
 
@@ -194,7 +186,7 @@ title: Build useForm hook in React
 <Section>
   <XL>8. Attach metadata</XL>
   <M>
-    Metadata is important. You definetelly need that. to show different
+    Metadata is important. You definetelly need that to show different
     components on UI or highlight interactions.
   </M>
   <Code
@@ -245,10 +237,6 @@ title: Build useForm hook in React
     Right now you can use <B>useForm</B> for all cases.
   </M>
   <Code
-    description="Simple form"
-    src="https://raw.githubusercontent.com/polubis/Build-useForm-hook-in-React/main/src/containers/change-password/ChangePassword.tsx"
-  />
-  <Code
     description="Steps, steps and steps"
     src="https://raw.githubusercontent.com/polubis/Build-useForm-hook-in-React/main/src/containers/register/Register.tsx"
   />
@@ -275,12 +263,11 @@ title: Build useForm hook in React
   <M>
     Use stuff like this wisely. I will repeat it always in almost every article
     that you need to understand the problems and benefits of technology and
-    techniques which you are using. Before use check, if your project fits into
-    solutions like this.
+    techniques which you are using. Check if your project fits into solutions
+    like this before you use them.
   </M>
   <M>
     Feel free to contact me if you have any questions/proposals. Have a nice day
     and good health!
   </M>
-  <Hint hasBg>To be continued...</Hint>
 </Summary>
