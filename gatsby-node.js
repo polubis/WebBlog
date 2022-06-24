@@ -15,6 +15,23 @@ exports.createPages = async ({ graphql, actions }) => {
 
   const result = await graphql(`
     {
+      techAvatars: allFile(
+        filter: { relativeDirectory: { regex: "/technologies/" } }
+      ) {
+        nodes {
+          name
+          relativePath
+          childImageSharp {
+            fluid {
+              base64
+              aspectRatio
+              src
+              srcSet
+              sizes
+            }
+          }
+        }
+      }
       thumbnails: allFile(filter: { name: { regex: "/thumbnail/" } }) {
         nodes {
           relativePath
@@ -56,6 +73,7 @@ exports.createPages = async ({ graphql, actions }) => {
             mdate
             tags
             title
+            stack
           }
         }
       }
@@ -72,6 +90,13 @@ exports.createPages = async ({ graphql, actions }) => {
     return {
       ...acc,
       [getSlug(node.relativePath)]: node.childImageSharp.fluid,
+    }
+  }, {})
+
+  const techAvatars = result.data.techAvatars.nodes.reduce((acc, node) => {
+    return {
+      ...acc,
+      [node.name]: node.childImageSharp.fluid,
     }
   }, {})
 
@@ -99,6 +124,10 @@ exports.createPages = async ({ graphql, actions }) => {
           article: {
             ...allMdxNode,
             thumbnail: thumbnails[allMdxNode.slug],
+            stack: allMdxNode.frontmatter.stack.split(",").map(id => ({
+              id,
+              avatar: techAvatars[id],
+            })),
             author: {
               ...authors.find(
                 auth => auth.id === allMdxNode.frontmatter.authorId
