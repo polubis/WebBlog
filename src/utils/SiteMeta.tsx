@@ -27,7 +27,7 @@ export const SiteMeta = ({
 
   return (
     <>
-      <Helmet>
+      <Helmet htmlAttributes={{ lang: "en-GB" }}>
         <title>{title}</title>
         <meta property="og:title" content={title} />
 
