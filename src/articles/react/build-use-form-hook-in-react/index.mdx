@@ -1,6 +1,6 @@
 ---
-cdate: 2022-06-23
-mdate: 2022-06-24
+cdate: 2022-06-29
+mdate: 2022-06-29
 authorId: polubis
 stack: typescript,react,rxjs,jest
 tags: hooks,forms management
@@ -11,33 +11,34 @@ title: Build useForm hook in React
 
 <Prelude>
   <M>
-    Form management sometimes can be tricky. During the development of a simple
-    login form, of course, there is no option to have problems. Anyway, problems
-    occur when there is a requirement for{" "}
-    <B>multi-step form, dynamic fields, async validation or customization</B>.
+    Forms management can be tricky. During the development of a simple login
+    form, of course, there is no option to have problems. Anyway, problems occur
+    when there is a requirement for{" "}
+    <B>multi-step forms, dynamic fields, async validation or customization</B>.
   </M>
   <M>
     Your first choice will be a library. It's not bad, generally, that's a good
-    idea. However, if you need customization, more advanced features or fix
-    frustrating bugs - there is a headache.
+    idea. However, if you need more advanced features or to fix bugs - there is
+    a headache.
   </M>
   <M>
-    In addition, there is a risk connected with library usage. They often start
-    to be not supported, then you need to migrate to other technologies and libs
-    uses other libs with code that is usually useless for you.
+    In addition, there is a risk connected with library usage. They often lose
+    support over time, then you need to migrate to other technologies. As a
+    result, you might end up using other libs with code that is usually useless
+    for you.
   </M>
   <M>
-    I had situations like this many, many times... Projects start, you picking
-    up library <B>formik</B>, <B>redux-form</B> or other. There is a feature
-    which you need and right now it starts... The big pain of creating
-    workarounds and adding additional dependencies, maintaining versions or even
-    worse rewriting your code base because the lib which you used creates an
-    impact on architecture - <B>redux-form</B>.
+    I experienced this many, many times... Projects start, <B>formik</B> or
+    other is installed, there is a feature which you need and right now it
+    starts... The big pain of creating workarounds and adding additional
+    dependencies, maintaining versions or even worse - rewriting your codebase
+    because the lib which you used creates an impact on architecture -{" "}
+    <B>redux-form</B>.
   </M>
   <M>
-    So in this article, I try to show you, that there is nothing bad with
-    creating something that already exists, because sometimes with good
-    conditions it can be worthy -{" "}
+    So in this article, I'll try to show you, that there is nothing bad with
+    creating something that already exists, because sometimes, under good
+    conditions, it can be worthwhile -{" "}
     <B>
       "Software is a composition of iterations, hard work and knowledge (someone
       from the project, after not delivered sprint)"
@@ -48,16 +49,15 @@ title: Build useForm hook in React
     Let's create <B>useForm</B> hook and check how it will work with forms.
   </M>
   <Hint hasBg>
-    Remember all custom solutions require additional maintenance. Use stuff like
-    that wisely.
+    Remember all custom solutions require additional maintenance. Use it wisely.
   </Hint>
 </Prelude>
 
 <Section>
   <XL>1. What are we building?</XL>
   <M>
-    It will be the multi-step form for creating a user account. You can check
-    how it works{" "}
+    It will be the multi-step form for user account creation. You can check how
+    it works on{" "}
     <A href="https://pillarclient.z16.web.core.windows.net/register" outside>
       Jupi.io
     </A>
@@ -72,8 +72,8 @@ title: Build useForm hook in React
 <Section>
   <XL>2. Let's design our basic API</XL>
   <M>
-    This is a really important step. We should cover all features and design a
-    nice, clean API for handling our form logic.
+    This is a really important step. We should cover all features and design dev
+    friendly API.
   </M>
   <Code
     description="Generic API for form management"
@@ -84,20 +84,20 @@ title: Build useForm hook in React
 <Section>
   <XL>3. Creating test cases</XL>
   <M>
-    It's really important to have tests written during development. Without
-    tests, you can break your previous features.
+    Tests during development guarantee that you don't break anything after
+    providing code changes.
   </M>
   <Code
     description="Testing is important"
     src="https://raw.githubusercontent.com/polubis/Build-useForm-hook-in-React/main/src/snippets/2-creating-test-cases.ts"
   />
   <Hint hasBg>
-    Please check the tests implementation{" "}
+    Please check the tests implementation in{" "}
     <A
       href="https://github.com/polubis/Build-useForm-hook-in-React/blob/main/src/libs/form/useForm.test.ts"
       outside
     >
-      in test file
+      test file
     </A>{" "}
     if you're curious. This is skipped to save your time.
   </Hint>
@@ -108,26 +108,20 @@ title: Build useForm hook in React
   <M>
     Before implementing real code, firstly you need to create the type
     definitions. It will be much easier to write code to fit them instead of
-    adding it later. In addition, when you've unit tests you can just relax and
-    take it easy 👽. Green means it works.
+    adding it later. With unit tests and types, you can take it easy 👽. Green
+    means it works.
   </M>
   <Code
     description="Defining API shape"
     src="https://raw.githubusercontent.com/polubis/Build-useForm-hook-in-React/main/src/snippets/3-add-type-defs.ts"
   />
-  <M>
-    Take a look at generic types. The type which you require must be an object.
-    Also, your type definitions will remember all given keys and values for
-    future usage in the code base. It will guarantee that later used values will
-    have the same type as the initial ones.
-  </M>
 </Section>
 
 <Section>
   <XL>5. Implementing values change API</XL>
   <M>
     It's time to write real code. Here you have basic logic which allows to
-    update values via <B>set</B> and <B>change</B> functions. Second one
+    update values via <B>set</B> and <B>change</B> functions. Second function
     contains additional logic which validates <B>event</B> object and informs
     you in runtime.
   </M>
@@ -156,14 +150,14 @@ title: Build useForm hook in React
 <Section>
   <XL>6. You need validation!</XL>
   <M>
-    You need mechanism which will run functions passed via validator object to{" "}
+    You need mechanism which will run functions passed via validation object to{" "}
     <B>useForm</B> hook and here it is.
   </M>
   <Code
     description="Validate with for loops in 2022"
     src="https://raw.githubusercontent.com/polubis/Build-useForm-hook-in-React/main/src/snippets/5-add-validation-function.ts"
   />
-  <M>You used loops because:</M>
+  <M>You used for loops because:</M>
   <List items="They are little bit faster than forEach() | reduce() | map() or others, We have an option to stop execution at any time" />
   <M>
     It can look a little bit old but the performance is much better. I'm 100%
@@ -218,11 +212,11 @@ title: Build useForm hook in React
 </Section>
 
 <Section>
-  <XL>11. Listen for changes</XL>
+  <XL>11. Push subscribe button</XL>
   <M>
-    Right now you can listen for single field changes and perform side effects.
-    Imagine a situation when a user types something in input and you need to
-    perform the request. Here is the perfect place and also you can add{" "}
+    Right now you can subscribe for single field changes and perform side
+    effects. Imagine a situation when a user types something in input and you
+    need to perform the request. Here is the perfect place and also you can add{" "}
     <B>rxjs</B> operators.
   </M>
   <Code
@@ -249,16 +243,14 @@ title: Build useForm hook in React
 
 <Summary>
   <M>
-    Right now you have a base API. The sky is the limit right now. Bored with
-    prop drilling? Wrap it with <B>Context API</B>. Frustrated with the lack of
-    support for class components? Write <B>higher order component</B> which adds
-    that.
+    Right now you have a base API. You can use <B>Context API</B> if you don't
+    like prop drilling or create <B>higher order component</B> with additional
+    logic.
   </M>
   <M>
-    Use stuff like this wisely. I will repeat it always in almost every article
-    that you need to understand the problems and benefits of technology and
-    techniques which you are using. Check if your project fits into solutions
-    like this before you use them.
+    Use these tools wisely. You need to understand the problems and benefits of
+    technology, techniques that you are using. Make sure that your project fits
+    into solutions like those before you use them.
   </M>
   <M>
     Feel free to contact me if you have any questions/proposals. Have a nice day
