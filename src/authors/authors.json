@@ -4,7 +4,7 @@
     "name": "polubis",
     "firstName": "Adrian",
     "lastName": "Połubiński",
-    "role": "Senior Frontend developer",
+    "role": "Senior Frontend Developer",
     "bio": "Software development and application design are more than just a job for me. I have been a freelancer for a few years and I carried out projects in various technologies. Focused on React, TypeScript, NodeJS. In my free time, I play guitar.",
     "githubURL": "https://github.com/polubis",
     "linkedinURL": "https://www.linkedin.com/in/adrian-po%C5%82ubi%C5%84ski-281ab2172/"
@@ -25,5 +25,15 @@
     "lastName": "Reszko",
     "role": "Editor & Reviewer",
     "bio": "Creative, open minded and cheerful. Working with teenagers and adults. Hobbies and interests: swimming, fitness and video games."
+  },
+  {
+    "id": "kwozniak",
+    "name": "kwozniak",
+    "firstName": "Kacper",
+    "lastName": "Woźniak",
+    "role": "Frontend developer",
+    "bio": "Professionally - frontend developer focused on React, Vue and Typescript. I am happy to engage in additional activities related to programming. Privately - motorization enthusiast.",
+    "githubURL": "https://github.com/ajronn",
+    "linkedinURL": "https://www.linkedin.com/in/ajronn/"
   }
 ]

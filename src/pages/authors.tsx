@@ -73,6 +73,7 @@ const Media = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: auto;
   padding: 32px 0 16px 0;
 
   & > *:not(:first-child) {

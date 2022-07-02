@@ -33,6 +33,7 @@ module.exports = {
             { family: "Open Sans" },
           ],
         },
+        usePreconnect: true,
       },
     },
     {
