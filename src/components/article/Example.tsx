@@ -1,11 +1,13 @@
-import React from "react"
+import React, { ReactNode } from "react"
+import { XL } from "../../ui"
 
 import Section from "./Section"
 
-interface Props {
-  children: React.ReactNode
-}
-
-export default function ({ children }: Props): React.ReactElement {
-  return <Section containerType="example">{children}</Section>
+export const Example = ({ children }: { children: ReactNode }) => {
+  return (
+    <Section containerType="example">
+      <XL>Full example</XL>
+      {children}
+    </Section>
+  )
 }

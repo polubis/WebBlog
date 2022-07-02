@@ -4,6 +4,11 @@
             "language": "mdx",
             "scheme": "file",
             "pattern": "src/articles/react/build-use-form-hook-in-react/index.mdx"
+        },
+        {
+            "language": "json",
+            "scheme": "file",
+            "pattern": "src/authors/authors.json"
         }
     ]
 }

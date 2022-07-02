@@ -4,8 +4,8 @@
     "name": "polubis",
     "firstName": "Adrian",
     "lastName": "Połubiński",
-    "role": "Senior Frontend developer",
-    "bio": "Software development and application design is more than just a job for me. I have been a freelancer for a few years and I carried out projects in various technologies. Focused on React, TypeScript, NodeJS. In free time playing guitar.",
+    "role": "Senior Frontend Developer",
+    "bio": "Software development and application design are more than just a job for me. I have been a freelancer for a few years and I carried out projects in various technologies. Focused on React, TypeScript, NodeJS. In my free time, I play guitar.",
     "githubURL": "https://github.com/polubis",
     "linkedinURL": "https://www.linkedin.com/in/adrian-po%C5%82ubi%C5%84ski-281ab2172/"
   },
@@ -15,7 +15,25 @@
     "firstName": "Artur",
     "lastName": "Węgrodzki",
     "role": ".NET developer",
-    "bio": "On daily basis working in C# and .NET environments. Specialized in Backend APIs, Xamarin mobile applications and databases. In my free time I ride a bike and play games.",
+    "bio": "Daily working in C# and .NET environments. Specialized in Backend APIs, Xamarin mobile applications and databases. In my free time, I ride a bike and play games.",
     "linkedinURL": "https://www.linkedin.com/in/artur-w%C4%99grodzki-926109194/"
+  },
+  {
+    "id": "kreszko",
+    "name": "kreszko",
+    "firstName": "Krzysztof",
+    "lastName": "Reszko",
+    "role": "Editor & Reviewer",
+    "bio": "Creative, open minded and cheerful. Working with teenagers and adults. Hobbies and interests: swimming, fitness and video games."
+  },
+  {
+    "id": "kwozniak",
+    "name": "kwozniak",
+    "firstName": "Kacper",
+    "lastName": "Woźniak",
+    "role": "Frontend developer",
+    "bio": "Professionally - frontend developer focused on React, Vue and Typescript. I am happy to engage in additional activities related to programming. Privately - motorization enthusiast.",
+    "githubURL": "https://github.com/ajronn",
+    "linkedinURL": "https://www.linkedin.com/in/ajronn/"
   }
 ]

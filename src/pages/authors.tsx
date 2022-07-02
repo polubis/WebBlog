@@ -18,7 +18,7 @@ interface Author {
   role: string
   bio: string
   githubURL?: string
-  linkedinURL: string
+  linkedinURL?: string
 }
 
 interface AuthorWithAvatar extends Author {
@@ -73,6 +73,7 @@ const Media = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: auto;
   padding: 32px 0 16px 0;
 
   & > *:not(:first-child) {
@@ -155,13 +156,15 @@ export default function ({ data }: Props): React.ReactElement {
                     <GithubIcon />
                   </a>
                 )}
-                <a
-                  href={author.linkedinURL}
-                  title="Linkedin profile"
-                  target="_blank"
-                >
-                  <LinkedinIcon />
-                </a>
+                {author.linkedinURL && (
+                  <a
+                    href={author.linkedinURL}
+                    title="Linkedin profile"
+                    target="_blank"
+                  >
+                    <LinkedinIcon />
+                  </a>
+                )}
               </Media>
             </Tile>
           ))}
