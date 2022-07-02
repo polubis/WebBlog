@@ -1,14 +1,13 @@
-import React from "react"
+import React, { ReactNode } from "react"
 import { XL } from "../../ui"
-import { IframeProps, Iframe } from "./Iframe"
 
 import Section from "./Section"
 
-export const Example = ({ src, title }: IframeProps) => {
+export const Example = ({ children }: { children: ReactNode }) => {
   return (
     <Section containerType="example">
       <XL>Full example</XL>
-      <Iframe src={src} title={title} />
+      {children}
     </Section>
   )
 }
