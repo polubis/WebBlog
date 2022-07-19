@@ -1,0 +1,370 @@
+---
+cdate: 2022-07-19
+mdate: 2022-07-19
+authorId: polubis
+tags: practice,challenge
+stack: typescript,react,jest
+description: Discover the process of creating a react timeline component and check out the sites that will help you increase your developer skills.
+readTime: 20
+title: React timeline component
+---
+
+<Prelude>
+  <M>
+    In the frontend world, you need to practice so that you don't lose fluidity
+    in writing code. I like to pick a specific problem and solve it. It doesn't
+    have to be big, as long as it's a challenge.
+  </M>
+  <M>
+    I recommend you this approach. It is especially good if you feel stagnant in
+    the project or are beginning to program.
+  </M>
+  <M>
+    So let's move on to today's little challenge, in which you will create a
+    component for visualizing articles on the timeline and you will call it{" "}
+    <B>react timeline component</B>.
+  </M>
+  <Hint hasBg>
+    Someone wise 🤓 once said - "If you are not moving forward you are moving
+    backward".
+  </Hint>
+  <Hint hasBg>
+    You can find inspiration for similar components on{" "}
+    <A
+      href="https://pl.pinterest.com/search/pins/?q=fancy%20web%20apps&rs=typed&term_meta[]=fancy%7Ctyped&term_meta[]=web%7Ctyped&term_meta[]=apps%7Ctyped"
+      outside
+    >
+      Pinterest
+    </A>
+    , and for algorithmic tasks I recommend <A
+      href="https://www.codewars.com/"
+      outside
+    >
+      Codewars
+    </A>.
+  </Hint>
+</Prelude>
+
+<Section>
+  <XL>1. How react timeline component will work?</XL>
+  <M>
+    It will be a presentational component to which we will pass data and
+    instructions for displaying the elements.
+  </M>
+  <Img
+    src="https://raw.githubusercontent.com/polubis/WebBlog/React-timeline-component/src/articles/practice/react-timeline-component/demo1.gif"
+    description="The gif file shows everything"
+    border
+  />
+</Section>
+
+<Section>
+  <XL>2. Legend</XL>
+  <M>
+    Before you start work, determine which elements your component will consist
+    of. This is helpful later when naming variables.
+  </M>
+  <Img
+    src="https://raw.githubusercontent.com/polubis/WebBlog/React-timeline-component/src/articles/practice/react-timeline-component/legend1.png"
+    description="Think first then do"
+    border
+  />
+</Section>
+
+<Section>
+  <XL>3. Positioning method</XL>
+  <M>
+    The layout of the component is a bit non-standard. So using a grid or
+    flexbox, in this case, will be very difficult or impossible.
+  </M>
+  <M>
+    Use good old <B>position: absolute</B> and <B>transform: translate(a,b)</B>{" "}
+    to define the position of the elements.
+  </M>
+  <M>
+    <B>Transform</B> instead of <B>top | right | bottom | left</B> properties
+    will guarantee you better animation performance.
+  </M>
+  <Hint hasBg>
+    More about animations on{" "}
+    <A href="https://web.dev/animations-guide/" outside>
+      web.dev
+    </A>
+    .
+  </Hint>
+</Section>
+
+<Section>
+  <XL>4. Inline styles???</XL>
+  <M>
+    Why do you use inline styles? First, for code consistency. Most of the
+    styles are calculated dynamically, so using class names and inline styles is
+    not very consistent.
+  </M>
+  <M>
+    Secondly, snapshots of the tests which you will use later, compare real
+    styles, not class names.
+  </M>
+  <M>
+    Lastly, the component will work in any <B>React</B> project without the need
+    to install additional packages or attach styles.
+  </M>
+</Section>
+
+<Section>
+  <XL>5. API design</XL>
+  <M>Below is an example of the use of your future component.</M>
+  <Code
+    description="Clean and compact"
+    src="https://raw.githubusercontent.com/polubis/React-timeline-component/main/src/snippets/usage.tsx"
+  />
+  <M>
+    Now you know what your component will accept. It's time to create types for
+    data.
+  </M>
+  <Code
+    description="Data shape"
+    src="https://raw.githubusercontent.com/polubis/React-timeline-component/main/src/timeline/models/data.ts"
+  />
+  <M>Now it's time to model the components.</M>
+  <Code
+    description="Components API"
+    src="https://raw.githubusercontent.com/polubis/React-timeline-component/main/src/timeline/models/props.ts"
+  />
+  <M>
+    Your component will also take a <B>setup</B> which specifies sizes and
+    distances between elements.
+  </M>
+  <Code
+    description="Setup object"
+    src="https://raw.githubusercontent.com/polubis/React-timeline-component/main/src/timeline/models/setup.ts"
+  />
+  <M>
+    Finally, an example of such an object that you can pass to a component, but
+    it is not required. The component will use the default implementation.
+  </M>
+  <Code
+    description="Default setup"
+    src="https://raw.githubusercontent.com/polubis/React-timeline-component/main/src/timeline/setup.ts"
+  />
+</Section>
+
+<Section>
+  <XL>5. Generating sample data</XL>
+  <M>
+    How can you guarantee the convenience of manual component testing? All you
+    need to do is to create functions for generating data and create several
+    sets for different cases.
+  </M>
+  <Code
+    description="Data sets for testing"
+    src="https://raw.githubusercontent.com/polubis/React-timeline-component/main/src/snippets/generator.ts"
+  />
+  <M>
+    Now you can display <B>react timeline component</B> in various
+    configurations and test manually if it works as expected.
+  </M>
+</Section>
+
+<Section>
+  <XL>6. Implementing container</XL>
+  <M>
+    Firstly, we count the maximum number of elements on the top and bottom. This
+    is needed for height calculation.
+  </M>
+  <Code
+    description="Counted"
+    src="https://raw.githubusercontent.com/polubis/React-timeline-component/main/src/timeline/utils/useCount.ts"
+  />
+  <M>
+    Then you must create a component with 2 simple divs and some base styles.
+  </M>
+  <Code
+    description="I take care of the content"
+    src="https://raw.githubusercontent.com/polubis/React-timeline-component/main/src/timeline/components/Container.tsx"
+  />
+  <M>
+    You calculate the height based on the <B>setup</B> object and the{" "}
+    <B>maximum number of elements</B> on the top and bottom. Now you can use the
+    created component, which will adjust the height based on the amount of data.
+  </M>
+  <Code
+    description="Container used"
+    src="https://raw.githubusercontent.com/polubis/React-timeline-component/main/src/snippets/container.tsx"
+  />
+  <Img
+    src="https://raw.githubusercontent.com/polubis/WebBlog/React-timeline-component/src/articles/practice/react-timeline-component/container.png"
+    description="Container displayed"
+    border
+  />
+</Section>
+
+<Section>
+  <XL>7. Implementing lineX</XL>
+  <M>
+    In this component, you will implement the center line. You need to calculate
+    the width of the line and distance from the top.
+  </M>
+  <Code
+    description="LineX component implementation"
+    src="https://raw.githubusercontent.com/polubis/React-timeline-component/main/src/timeline/components/LineX.tsx"
+  />
+  <M>
+    Pay attention to the width and top - it's dynamically calculated like height
+    in a container. You used <B>transform</B> to move it from the top.
+  </M>
+  <Code
+    description="Container and LineX"
+    src="https://raw.githubusercontent.com/polubis/React-timeline-component/main/src/snippets/line-x.tsx"
+  />
+  <Img
+    src="https://raw.githubusercontent.com/polubis/WebBlog/React-timeline-component/src/articles/practice/react-timeline-component/lineX.png"
+    description="LineX displayed"
+    border
+  />
+</Section>
+
+<Section>
+  <XL>8. Implementing markers</XL>
+  <M>
+    Each marker must have a distance to the left based on the{" "}
+    <B>group index, setup object and orientation</B>.
+  </M>
+  <Code
+    description="Mid marker and edge marker"
+    src="https://raw.githubusercontent.com/polubis/React-timeline-component/main/src/timeline/components/Marker.tsx"
+  />
+  <M>
+    Now you need to use the new component in <B>Timeline.tsx</B>. Just use the
+    dataset and provide the required information to calculate the position of
+    the marker at each iteration.
+  </M>
+  <Code
+    description="Markers displayed"
+    src="https://raw.githubusercontent.com/polubis/React-timeline-component/main/src/snippets/markers.tsx"
+  />
+  <M>
+    In addition, several conditional instructions will allow you to modify what
+    is visible.
+  </M>
+  <Img
+    src="https://raw.githubusercontent.com/polubis/WebBlog/React-timeline-component/src/articles/practice/react-timeline-component/markers.png"
+    description="With markers"
+    border
+  />
+</Section>
+
+<Section>
+  <XL>9. Rendering of the y-line</XL>
+  <M>
+    Analogous to markers, you must calculate the distance from the left side and
+    the top/bottom depending on the orientation.
+  </M>
+  <M>
+    In addition, you also need the height, which will vary depending on the
+    several items in the group.
+  </M>
+  <Code
+    description="Drawing y-line"
+    src="https://raw.githubusercontent.com/polubis/React-timeline-component/main/src/timeline/components/LineY.tsx"
+  />
+  <M>
+    Now use the <B>LineY</B> component in <B>Timeline</B>.
+  </M>
+  <Code
+    description="Usage"
+    src="https://raw.githubusercontent.com/polubis/React-timeline-component/main/src/snippets/line-y.tsx"
+  />
+  <Img
+    src="https://raw.githubusercontent.com/polubis/WebBlog/React-timeline-component/src/articles/practice/react-timeline-component/line-y.png"
+    description="It's almost done"
+    border
+  />
+</Section>
+
+<Section>
+  <XL>10. Rendering group items</XL>
+  <M>
+    This is the final step. All you need to do is create a <B>GroupItem</B>{" "}
+    component, which will take care of displaying the <B>avatar</B> and the{" "}
+    <B>title</B>.
+  </M>
+  <M>
+    As before, we need to calculate the distances depending on the group/item
+    indexes.
+  </M>
+  <Code
+    description="Grouping items"
+    src="https://raw.githubusercontent.com/polubis/React-timeline-component/main/src/timeline/components/GroupItem.tsx"
+  />
+  <M>
+    Now use the <B>GroupItem</B> component in <B>Timeline</B>.
+  </M>
+  <Code
+    description="Usage"
+    src="https://raw.githubusercontent.com/polubis/React-timeline-component/main/src/timeline/Timeline.tsx"
+  />
+  <M>
+    Then use the generated data for testing in the <B>App</B> component.
+  </M>
+  <Code
+    description="Sandbox prepared"
+    src="https://raw.githubusercontent.com/polubis/React-timeline-component/main/src/App.tsx"
+  />
+  <Img
+    src="https://raw.githubusercontent.com/polubis/WebBlog/React-timeline-component/src/articles/practice/react-timeline-component/demo1.gif"
+    description="Done!"
+    border
+  />
+</Section>
+
+<Section>
+  <XL>Bonus!</XL>
+  <M>
+    If you would like to start to refactor or improve performance - you can use{" "}
+    <B>jest snapshot testing</B> technique.
+  </M>
+  <M>
+    Just create file <B>Timeline.test.tsx</B> and add this code.
+  </M>
+  <Code
+    description="Snapshot testing"
+    src="https://raw.githubusercontent.com/polubis/React-timeline-component/main/src/timeline/Timeline.test.tsx"
+  />
+  <M>
+    Then run <B>npm run test</B> which will generate a snapshot file. This file
+    is like a "checkpoint" in games. If you change the code, and this change
+    affects the styles that are crucial to the operation of this component, you
+    will be informed about it.
+  </M>
+  <Img
+    src="https://raw.githubusercontent.com/polubis/WebBlog/React-timeline-component/src/articles/practice/react-timeline-component/snapshots.png"
+    description="All works!"
+    border
+  />
+  <Hint hasBg>
+    Snapshot tests do not work on <B>codesandbox</B>. Download the repository
+    and run it in your <B>IDE</B> to test this mechanism.
+  </Hint>
+</Section>
+
+<Example>
+  <iframe
+    src="https://codesandbox.io/embed/react-timeline-component-fwuj0l?fontsize=14&hidenavigation=1&theme=dark"
+    style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+    title="React timeline component"
+    allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+    sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+  ></iframe>
+</Example>
+
+<Summary>
+  <M>
+    I hope you enjoyed this tutorial 🙂. Remember that practice makes perfect
+    and brings fun.
+  </M>
+  <M>
+    Feel free to contact me if you have any questions/proposals. Have a nice day
+    and good health!
+  </M>
+</Summary>
