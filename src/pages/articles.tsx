@@ -97,6 +97,7 @@ export default function ({ data }: Props): React.ReactElement {
       robots="index,follow"
       title="GreenOn Software articles"
       type="website"
+      image="/icon-192x192.png"
       description="A blog created to share programming knowledge in a easy way."
     >
       <Layout>

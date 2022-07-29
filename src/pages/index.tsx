@@ -67,6 +67,7 @@ export default function ({ data }: HomeProps) {
       robots="index,follow"
       title="GreenOn Software"
       type="website"
+      image="/icon-192x192.png"
       description="We do everything to provide programming knowledge in a short, user-friendly form. It allows you to walk away from your computer faster and reduce your carbon footprint."
     >
       <Layout

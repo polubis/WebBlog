@@ -2,7 +2,6 @@ import React, { useState, useCallback } from "react"
 
 import styled, { css } from "styled-components"
 
-import { usePortal } from "../../utils/usePortal"
 import Logo from "../logo/Logo"
 import { L_UP } from "../../utils/viewport"
 import Links from "./Links"
@@ -70,12 +69,8 @@ interface MobileNavigationProps {
   greenVariant?: boolean
 }
 
-export default function ({
-  greenVariant,
-}: MobileNavigationProps): React.ReactElement {
+export default function ({ greenVariant }: MobileNavigationProps) {
   const [open, setOpen] = useState(false)
-
-  const render = usePortal()
 
   const toggleOpen = useCallback(() => {
     setOpen(prevOpen => !prevOpen)
@@ -83,7 +78,7 @@ export default function ({
 
   useDocumentScrollDisable(open)
 
-  return render(
+  return (
     <>
       <Expander greenVariant={greenVariant} open={open}>
         {greenVariant ? (

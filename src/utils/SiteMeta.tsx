@@ -30,9 +30,12 @@ export const SiteMeta = ({
       <Helmet htmlAttributes={{ lang: "en-US" }}>
         <title>{title}</title>
         <meta property="og:title" content={title} />
+        <meta name="parsely-title" content={title}></meta>
+        <meta name="twitter:title" content={title}></meta>
 
         <meta name="description" content={description} />
         <meta property="og:description" content={description}></meta>
+        <meta name="twitter:description" content={description}></meta>
 
         <meta property="og:site_name" content="GreenOn Software"></meta>
 
@@ -45,10 +48,24 @@ export const SiteMeta = ({
           property="og:url"
           content={`https://greenonsoftware.com/${url}`}
         ></meta>
+        <meta
+          name="parsely-link"
+          content={`https://greenonsoftware.com/${url}`}
+        ></meta>
 
-        {image && <meta property="og:image" content={image}></meta>}
-        {image && <meta name="msapplication-TileImage" content={image}></meta>}
-        {author && <meta name="author" content={author}></meta>}
+        {image && (
+          <>
+            <meta property="og:image" content={image}></meta>
+            <meta property="og:image:secure_url" content={image}></meta>
+            <meta name="msapplication-TileImage" content={image}></meta>
+            <meta name="twitter:image" content={image}></meta>
+          </>
+        )}
+        {author && (
+          <>
+            <meta name="author" content={author}></meta>
+          </>
+        )}
       </Helmet>
       {children}
     </>
