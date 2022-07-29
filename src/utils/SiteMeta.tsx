@@ -53,19 +53,11 @@ export const SiteMeta = ({
           content={`https://greenonsoftware.com/${url}`}
         ></meta>
 
-        {image && (
-          <>
-            <meta property="og:image" content={image}></meta>
-            <meta property="og:image:secure_url" content={image}></meta>
-            <meta name="msapplication-TileImage" content={image}></meta>
-            <meta name="twitter:image" content={image}></meta>
-          </>
-        )}
-        {author && (
-          <>
-            <meta name="author" content={author}></meta>
-          </>
-        )}
+        {image && <meta property="og:image" content={image}></meta>}
+        {image && <meta property="og:image:secure_url" content={image}></meta>}
+        {image && <meta name="msapplication-TileImage" content={image}></meta>}
+        {image && <meta name="twitter:image" content={image}></meta>}
+        {author && <meta name="author" content={author}></meta>}
       </Helmet>
       {children}
     </>
