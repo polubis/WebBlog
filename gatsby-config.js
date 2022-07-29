@@ -7,6 +7,46 @@ module.exports = {
   plugins: [
     "gatsby-plugin-styled-components",
     {
+      resolve: `gatsby-plugin-manifest`,
+      options: {
+        name: `GreenOn Software`,
+        short_name: `GreenOn Software`,
+        description: `We do everything to provide programming knowledge in a short, user-friendly form. It allows you to walk away from your computer faster and reduce your carbon footprint.`,
+        start_url: `/`,
+        background_color: `#0A0A0A`,
+        lang: "en-US",
+        theme_color: `#fff`,
+        display: `standalone`,
+        icons: [
+          {
+            src: "/icon-192x192.png",
+            sizes: "192x192",
+            type: "image/png",
+            purpose: "maskable",
+          },
+          {
+            src: "/icon-256x256.png",
+            sizes: "256x256",
+            type: "image/png",
+            purpose: "maskable",
+          },
+          {
+            src: "/icon-384x384.png",
+            sizes: "384x384",
+            type: "image/png",
+            purpose: "maskable",
+          },
+          {
+            src: "/icon-512x512.png",
+            sizes: "512x512",
+            type: "image/png",
+            purpose: "maskable",
+          },
+        ],
+      },
+    },
+    `gatsby-plugin-offline`,
+    {
       resolve: `gatsby-plugin-mdx`,
       options: {
         extensions: [".mdx", ".md"],

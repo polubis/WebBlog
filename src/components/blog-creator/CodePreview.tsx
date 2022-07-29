@@ -7,6 +7,15 @@ import styled from "styled-components"
 const Container = styled.div`
   background: #282a36;
   padding: 16px;
+  width: 100%;
+
+  pre {
+    overflow-x: auto;
+
+    code {
+      width: 100%;
+    }
+  }
 `
 
 const Dot = styled.div`
