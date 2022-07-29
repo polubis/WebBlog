@@ -85,10 +85,10 @@ export const WelcomeSection = () => {
     <Container>
       <Content>
         <TextContent>
-          <XXL>Reduce your carbon footprint</XXL>
+          <XXL>Boost your programming skills</XXL>
           <M>
-            Learn programming faster by reading short articles or via our
-            developer spell books and turn off your computer earlier.
+            If you are interested in learning about programming in a concise and
+            clean form - this is the perfect place for you.
           </M>
           <Link to="/articles/">
             <Button>CHECK BLOG</Button>
