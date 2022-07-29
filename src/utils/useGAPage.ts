@@ -4,11 +4,9 @@ import { isInSSR } from "./isInSSR"
 
 export const useGAPage = page => {
   useEffect(() => {
-    if (
-      !isInSSR() &&
-      page !== undefined &&
-      window.origin === "https://greenonsoftware.com"
-    ) {
+    const isLocalHost = () => window.location.protocol === "http"
+
+    if (!isInSSR() && !isLocalHost() && page !== undefined) {
       ReactGA.initialize("G-NVC90KSB0J")
       ReactGA.send({ hitType: "pageview", page })
     }
