@@ -26,9 +26,16 @@ const getSize = (size: AvatarSize) => {
     }
   }
 
+  if (size === "big") {
+    return {
+      height: "200px",
+      width: "200px",
+    }
+  }
+
   return {
-    height: "200px",
-    width: "200px",
+    height: undefined,
+    width: undefined,
   }
 }
 
