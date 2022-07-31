@@ -1,19 +1,19 @@
 ---
-cdate: 2022-07-19
-mdate: 2022-07-19
+cdate: 2022-07-31
+mdate: 2022-07-31
 authorId: polubis
 tags: practice,challenge
 stack: typescript,react,jest
-description: Discover the process of creating a react timeline component and check out the sites that will help you increase your developer skills.
-readTime: 20
+description: Discover the process of creating a react timeline component and increase your developer skills.
+readTime: 11
 title: React timeline component
 ---
 
 <Prelude>
   <M>
-    In the frontend world, you need to practice so that you don't lose fluidity
-    in writing code. I like to pick a specific problem and solve it. It doesn't
-    have to be big, as long as it's a challenge.
+    In the frontend world, you need to practice so that you don't lose
+    flexibility in writing code. I like to pick a specific problem and solve it.
+    It doesn't have to be big, as long as it's a challenge.
   </M>
   <M>
     I recommend you this approach. It is especially good if you feel stagnant in
@@ -25,8 +25,7 @@ title: React timeline component
     <B>react timeline component</B>.
   </M>
   <Hint hasBg>
-    Someone wise 🤓 once said - "If you are not moving forward you are moving
-    backward".
+    Someone once said - "If you are not moving forward you are moving backward".
   </Hint>
   <Hint hasBg>
     You can find inspiration for similar components on{" "}
@@ -61,8 +60,8 @@ title: React timeline component
 <Section>
   <XL>2. Legend</XL>
   <M>
-    Before you start work, determine which elements your component will consist
-    of. This is helpful later when naming variables.
+    Before you start to work, determine which elements your component will
+    consist of. This is helpful later when naming variables.
   </M>
   <Img
     src="https://raw.githubusercontent.com/polubis/WebBlog/React-timeline-component/src/articles/practice/react-timeline-component/legend1.png"
@@ -132,7 +131,7 @@ title: React timeline component
     src="https://raw.githubusercontent.com/polubis/React-timeline-component/main/src/timeline/models/props.ts"
   />
   <M>
-    Your component will also take a <B>setup</B> which specifies sizes and
+    Your component will also take a <B>setup</B> prop which specifies sizes and
     distances between elements.
   </M>
   <Code
@@ -140,8 +139,8 @@ title: React timeline component
     src="https://raw.githubusercontent.com/polubis/React-timeline-component/main/src/timeline/models/setup.ts"
   />
   <M>
-    Finally, an example of such an object that you can pass to a component, but
-    it is not required. The component will use the default implementation.
+    Finally, an example of an object that you can pass to a component, but it is
+    not required. The component will use the default implementation.
   </M>
   <Code
     description="Default setup"
@@ -162,7 +161,7 @@ title: React timeline component
   />
   <M>
     Now you can display <B>react timeline component</B> in various
-    configurations and test manually if it works as expected.
+    configurations and test it manually to see if it works as expected.
   </M>
 </Section>
 
@@ -228,7 +227,7 @@ title: React timeline component
   <XL>8. Implementing markers</XL>
   <M>
     Each marker must have a distance to the left based on the{" "}
-    <B>group index, setup object and orientation</B>.
+    <B>group index, setup object</B> and <B>orientation</B>.
   </M>
   <Code
     description="Mid marker and edge marker"
@@ -257,12 +256,12 @@ title: React timeline component
 <Section>
   <XL>9. Rendering of the y-line</XL>
   <M>
-    Analogous to markers, you must calculate the distance from the left side and
+    Similarly to markers, you must calculate the distance from the left side and
     the top/bottom depending on the orientation.
   </M>
   <M>
-    In addition, you also need the height, which will vary depending on the
-    several items in the group.
+    Moreover, you also need the height, which will vary depending on the items
+    count in the group.
   </M>
   <Code
     description="Drawing y-line"
@@ -285,7 +284,7 @@ title: React timeline component
 <Section>
   <XL>10. Rendering group items</XL>
   <M>
-    This is the final step. All you need to do is create a <B>GroupItem</B>{" "}
+    This is the final step. All you need to do is to create a <B>GroupItem</B>{" "}
     component, which will take care of displaying the <B>avatar</B> and the{" "}
     <B>title</B>.
   </M>
@@ -321,11 +320,11 @@ title: React timeline component
 <Section>
   <XL>Bonus!</XL>
   <M>
-    If you would like to start to refactor or improve performance - you can use{" "}
+    If you'd like to start to refactor or improve performance - you can use{" "}
     <B>jest snapshot testing</B> technique.
   </M>
   <M>
-    Just create file <B>Timeline.test.tsx</B> and add this code.
+    Just create a file <B>Timeline.test.tsx</B> and add this code.
   </M>
   <Code
     description="Snapshot testing"
