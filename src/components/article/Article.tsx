@@ -16,6 +16,7 @@ import { SiteMeta } from "../../utils/SiteMeta"
 
 import { defineCustomElements as deckDeckGoHighlightElement } from "@deckdeckgo/highlight-code/dist/loader"
 import { Stack } from "./Stack"
+import { Rating } from "./Rating"
 
 deckDeckGoHighlightElement()
 
@@ -60,10 +61,11 @@ export default function ({ pageContext }: Props) {
   const { title, description, tags, readTime } = frontmatter
 
   const pageTitle = `${title} | by ${author.firstName} ${author.lastName} | GreenOn Software`
+  const formattedSlug = slug.substring(0, slug.length - 1)
 
   return (
     <SiteMeta
-      url={`/articles/${slug}`}
+      url={`articles/${formattedSlug}`}
       robots="index,follow,max-image-preview:large"
       title={pageTitle}
       type="article"
@@ -89,6 +91,7 @@ export default function ({ pageContext }: Props) {
           </Details>
           <Stack items={stack} />
           <MDXRenderer>{body}</MDXRenderer>
+          <Rating />
         </Article>
         <ProgressDisplayer />
       </Layout>
