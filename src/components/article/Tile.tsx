@@ -53,6 +53,8 @@ export default function ({ article }: Props): React.ReactElement {
     isNew,
   } = article
 
+  const formattedSlug = slug.substring(0, slug.length - 1)
+
   return (
     <Tile>
       <Tags tags={tags} />
@@ -64,7 +66,7 @@ export default function ({ article }: Props): React.ReactElement {
         <ReadTimeBadge minutes={readTime} />
         {isNew && <Badge color={theme.green}>new</Badge>}
       </Details>
-      <Link to={`/articles/${slug}`}>
+      <Link to={`/articles/${formattedSlug}`}>
         <Button>READ ARTICLE</Button>
       </Link>
     </Tile>

@@ -93,7 +93,7 @@ export default function ({ data }: Props): React.ReactElement {
 
   return (
     <SiteMeta
-      url="/articles/"
+      url="articles"
       robots="index,follow"
       title="GreenOn Software articles"
       type="website"

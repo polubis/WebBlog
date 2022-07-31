@@ -9,6 +9,11 @@
             "language": "json",
             "scheme": "file",
             "pattern": "src/authors/authors.json"
+        },
+        {
+            "language": "mdx",
+            "scheme": "file",
+            "pattern": "src/articles/practice/react-timeline-component/index.mdx"
         }
     ]
 }
