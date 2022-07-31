@@ -1,4 +1,4 @@
-import React, { memo, ReactNode, useEffect, useMemo, useRef } from "react"
+import React, { memo, useEffect, useMemo } from "react"
 import { useState } from "react"
 import { XL, M, Hint, X } from "../../ui/text"
 import { debounceTime, Subject, tap } from "rxjs"
@@ -11,11 +11,16 @@ import Button from "../button/Button"
 import { BlogPreview } from "./BlogPreview"
 import { Code } from "./Code"
 import { useCopyToClipboard } from "../../utils/useCopyToClipboard"
+import { M_DOWN, T_DOWN } from "../../utils/viewport"
 
 const Container = styled.div`
   display: flex;
   position: relative;
   height: 100%;
+
+  @media ${T_DOWN} {
+    flex-flow: column;
+  }
 `
 
 const CodeContainer = styled.div`
@@ -23,6 +28,12 @@ const CodeContainer = styled.div`
   flex-flow: column;
   width: 48%;
   max-height: calc(100vh - 112px);
+
+  @media ${T_DOWN} {
+    width: 100%;
+    max-height: 100%;
+    height: 600px;
+  }
 `
 
 const CodeScroll = styled.div`
@@ -42,6 +53,20 @@ const PreviewScroll = styled.div`
   max-height: calc(100vh - 112px);
   margin-left: 4%;
   padding-right: 24px;
+
+  section {
+    width: 100%;
+  }
+
+  @media ${T_DOWN} {
+    width: 100%;
+    max-height: 100%;
+    overflow-y: unset;
+    padding-right: 0;
+    margin-left: 0;
+    padding-top: 42px;
+    padding-bottom: 42px;
+  }
 
   ${XL} {
     margin-bottom: 32px;
@@ -79,10 +104,21 @@ const Errors = styled.div`
 const Heading = styled.header`
   height: 112px;
   display: flex;
+  flex-shrink: 0;
   align-items: center;
 
-  & > :first-child {
+  ${XL} {
     margin-right: 10px;
+  }
+
+  @media ${M_DOWN} {
+    ${XL} {
+      display: none;
+    }
+
+    ${Badge} {
+      display: none;
+    }
   }
 
   & > :last-child {
@@ -93,11 +129,15 @@ const Heading = styled.header`
 const SyntaxPreview = styled.div`
   display: flex;
   align-items: center;
-  height: 52px;
+  flex-flow: wrap;
+
+  @media ${T_DOWN} {
+    display: none;
+  }
 
   & > * {
     cursor: pointer;
-    margin-right: 8px;
+    margin: 0 8px 8px 0;
   }
 `
 
@@ -144,9 +184,15 @@ const ClipboardPrompt = styled.div`
   width: 300px;
   border-radius: 4px;
   background: ${theme.green};
+  z-index: 1;
   color: ${theme.black};
   padding: 10px;
   animation: ${ClipboardPromptAnimation} 0.4s ease-in-out forwards;
+
+  @media ${M_DOWN} {
+    top: unset;
+    bottom: 10px;
+  }
 `
 
 export default function () {

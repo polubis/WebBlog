@@ -1,15 +1,15 @@
 import React, { useState, useCallback } from "react"
 
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 
-import { usePortal } from "../../utils/usePortal"
 import Logo from "../logo/Logo"
 import { L_UP } from "../../utils/viewport"
 import Links from "./Links"
 import theme from "../../utils/theme"
 import { useDocumentScrollDisable } from "../../utils/useDocumentScrollDisable"
+import { GreenOnLogo } from "../GreenOnLogo"
 
-const Expander = styled.aside`
+const Expander = styled.aside<{ greenVariant?: boolean; open: boolean }>`
   display: flex;
   flex-flow: column;
   justify-content: flex-end;
@@ -17,10 +17,29 @@ const Expander = styled.aside`
   right: 24px;
   bottom: 24px;
   z-index: 102;
+  cursor: pointer;
 
   @media ${L_UP} {
     display: none;
   }
+
+  ${props =>
+    props.greenVariant &&
+    css`
+      background: ${theme.bg};
+      border-radius: 50%;
+      padding: 12px;
+      border: 1px solid #565656;
+    `}
+
+  ${props =>
+    props.greenVariant &&
+    props.open &&
+    css`
+      transition: 0.4s ease-in-out all;
+      transform: scale(2) rotate(45deg);
+      opacity: 0.4;
+    `}
 `
 
 const Navigation = styled.nav`
@@ -46,10 +65,12 @@ const Navigation = styled.nav`
   }
 `
 
-export default function (): React.ReactElement {
-  const [open, setOpen] = useState(false)
+interface MobileNavigationProps {
+  greenVariant?: boolean
+}
 
-  const render = usePortal()
+export default function ({ greenVariant }: MobileNavigationProps) {
+  const [open, setOpen] = useState(false)
 
   const toggleOpen = useCallback(() => {
     setOpen(prevOpen => !prevOpen)
@@ -57,10 +78,14 @@ export default function (): React.ReactElement {
 
   useDocumentScrollDisable(open)
 
-  return render(
+  return (
     <>
-      <Expander>
-        <Logo rotated={open} slim={open} onClick={toggleOpen} />
+      <Expander greenVariant={greenVariant} open={open}>
+        {greenVariant ? (
+          <GreenOnLogo onClick={toggleOpen} />
+        ) : (
+          <Logo rotated={open} slim={open} onClick={toggleOpen} />
+        )}
       </Expander>
       {open && (
         <Navigation>

@@ -134,6 +134,7 @@ export default function ({ data }: Props): React.ReactElement {
       robots="index,follow"
       title="GreenOn Software blog authors"
       type="website"
+      image="/icon-192x192.png"
       description="Contact the blog authors and start writing."
     >
       <Layout>
