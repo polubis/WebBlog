@@ -1,0 +1,322 @@
+---
+cdate: 2022-08-29
+mdate: 2022-08-29
+authorId: pjurczyk
+stack: react,chromatic,storybook
+tags: testing,documentation
+description: The process of creating small components library supported by chromatic and storybook.
+readTime: 10
+title: Chromatic and storybook
+---
+
+<Prelude>
+  <M>
+    I don't know about you, but I like creating components - especially the more
+    advanced ones.
+  </M>
+  <M>
+    Creating one, two or even several is not a problem. They are easy to use
+    because, after all, I wrote them myself. Testing is also not a problem
+    because of their number I can do it quickly - even manually.
+  </M>
+  <M>
+    What about a larger number? Well, it is not so simple anymore. That's why
+    such technologies as <B>chromatic</B> and <B>storybook</B> were created,
+    which you will learn now.
+  </M>
+</Prelude>
+
+<Section>
+  <XL>1. Creating example project</XL>
+  <M>
+    Demonstrating the technologies under discussion makes no sense without a
+    project. Here I will use a typical React project generated from this{" "}
+    <A outside href="https://github.com/polubis/CRA-TEMPLATE">
+      repository template
+    </A>
+    .
+  </M>
+</Section>
+
+<Section>
+  <XL>2. Storybook</XL>
+  <M>
+    Technology that gives you a separate development environment, playground for
+    components, automatic documentation and cool tools for debugging.
+  </M>
+  <Img
+    src="https://raw.githubusercontent.com/polubis/WebBlog/Chromatic-and-storybook/src/articles/testing/chromatic-and-storybook/storybook.gif"
+    description="Storybook presented"
+  />
+  <M>
+    Play with this{" "}
+    <A
+      href="https://62ce7adbf7c713bbdfa19105-rvnajffmkp.chromatic.com/?path=/story/avatar--basic"
+      outside
+    >
+      example library
+    </A>{" "}
+    used in one of our projects to see the benefits of <B>storybook</B> usage.
+  </M>
+  <Hint hasBg>
+    <B>Storybook</B> is not reserved only for React. Check the{" "}
+    <A
+      href="https://storybook.js.org/docs/react/get-started/introduction"
+      outside
+    >
+      docs
+    </A>{" "}
+    for more information.
+  </Hint>
+</Section>
+
+<Section>
+  <XL>3. Adding storybook to project</XL>
+  <M>
+    It's ultra simple. Be sure that you are in the root directory of the project
+    and all you need to do is type commands described in{" "}
+    <A href="https://storybook.js.org/docs/react/get-started/install" outside>
+      docs
+    </A>
+    . Just run <B>npx storybook init</B> and wait until process end.
+  </M>
+  <M>
+    When files will be generated - run <B>npm run storybook</B>. This command
+    will run <B>storybook environment</B> and you can start the real fun.
+  </M>
+  <Hint hasBg>
+    Changes from this step can be found in this{" "}
+    <A
+      href="https://github.com/polubis/Chromatic-and-storybook/commit/3d1eafb0ab611fb3764782133aa199d8f9795323"
+      outside
+    >
+      commit
+    </A>
+    .
+  </Hint>
+  <Hint hasBg>
+    The script can ask you about migration to <B>npm7</B> if you are using{" "}
+    <B>npm8</B> or higher - just confirm that.
+  </Hint>
+</Section>
+
+<Section>
+  <XL>4. Removing generated stories</XL>
+  <M>
+    In our case, we need to document real components which we are using in our
+    small app. So let's remove <B>src/stories</B> directory.
+  </M>
+  <Hint hasBg>
+    Changes from this step can be found in this{" "}
+    <A
+      href="https://github.com/polubis/Chromatic-and-storybook/commit/50a5abe6bc805bf51e248777a5a6b2c036324f02"
+      outside
+    >
+      commit
+    </A>
+    .
+  </Hint>
+</Section>
+
+<Section>
+  <XL>5. Adding first story</XL>
+  <M>
+    Let's add story for <B>InputField</B> component. As you can see it's a
+    pretty small amount of code to get nice documentation and be able to play
+    with it while developing without any need to run the full app.
+  </M>
+  <Code
+    description="Story added"
+    src="https://raw.githubusercontent.com/polubis/Chromatic-and-storybook/main/src/ui/input-field/InputField.stories.tsx"
+  />
+  <Hint hasBg>
+    Changes from this step can be found in this{" "}
+    <A
+      href="https://github.com/polubis/Chromatic-and-storybook/commit/4f3215478bfef324467861ef9ada93fef08acafd#diff-4df550f19ec86d7ca5cc131deaf12062401a3d38b9c9fd85f82e616e916a0a63"
+      outside
+    >
+      commit
+    </A>
+    .
+  </Hint>
+</Section>
+
+<Section>
+  <XL>6. Chromatic</XL>
+  <M>
+    When you have <B>storybook</B> - you can use <B>chromatic</B>. Now the magic
+    starts. <B>Chromatic</B> it's a game changer. This technology takes your
+    components with stories and builds them into an automatically deployed web
+    app.
+  </M>
+  <M>
+    You can trigger the build manually or perform it on the pipeline - after
+    merging or creating a pull request to a dedicated branch.
+  </M>
+  <M>
+    The best feature is an option to compare your component's look between
+    different code versions. <B>Chromatic</B> detects that and draws differences
+    for you in UI. Also, code change is displayed too.
+  </M>
+  <Img
+    src="https://raw.githubusercontent.com/polubis/WebBlog/Chromatic-and-storybook/src/articles/testing/chromatic-and-storybook/chromatic.gif"
+    description="Life is great now"
+  />
+  <M>
+    Code that impacts components look is marked with yellow bullets. After that,
+    you need to go and accept or reject this change. This is a great job for{" "}
+    <B>project owner</B>.
+  </M>
+</Section>
+
+<Section>
+  <XL>7. Chromatic configuration</XL>
+  <M>
+    Just go to{" "}
+    <A href="https://www.chromatic.com" outside>
+      chromatic
+    </A>{" "}
+    and log in via your source control provider.
+  </M>
+  <M>
+    Now create <B>chromatic</B> project via choosing repository. A token will be
+    generated. Type <B>npm install --save-dev chromatic</B> in terminal. After
+    this push your commit via <B>git push</B> and type{" "}
+    <B>npx chromatic --project-token=YOUR_TOKEN</B> - this create the first
+    build.
+  </M>
+  <M>
+    The script will ask you to add the build script into <B>package.json</B>{" "}
+    file - just confirm that.
+  </M>
+  <Hint hasBg>
+    Changes from this step can be found in this{" "}
+    <A
+      href="https://github.com/polubis/Chromatic-and-storybook/commit/d49f91b80ed6695b4eb056ad99126dae63328ced"
+      outside
+    >
+      commit
+    </A>
+    .
+  </Hint>
+</Section>
+
+<Section>
+  <XL>8. Detecting first changes</XL>
+  <M>
+    Now you need to change the implementation of the component that indicates
+    changes in UI. After that just type <B>npm run chromatic</B> to trigger a
+    new snapshot build and check changes.
+  </M>
+  <M>
+    If changes will be found you need to review them and accept them. Without
+    that it will always compare with the previously accepted version of the
+    build :).
+  </M>
+  <Img
+    src="https://raw.githubusercontent.com/polubis/WebBlog/Chromatic-and-storybook/src/articles/testing/chromatic-and-storybook/changes-found.jpg"
+    description="Changes found"
+  />
+  <Hint hasBg>
+    Changes from this step can be found in this{" "}
+    <A
+      href="https://github.com/polubis/Chromatic-and-storybook/commit/c2dfd772b48f9136a8635720bf2f4d7374be879d"
+      outside
+    >
+      commit
+    </A>
+    .
+  </Hint>
+</Section>
+
+<Section>
+  <XL>9. Last improvements</XL>
+  <M>
+    In this step we remove <B>build-storybook.log</B> from repo. Just add that
+    file name to <B>.gitignore</B>.
+  </M>
+  <M>
+    Also, you need to remove the project token from the source repository and
+    use it from <B>.env</B> files as documentation recommends. Also, we can
+    achieve that by <B>secrets</B>. I prefer this approach.
+  </M>
+  <Img
+    src="https://raw.githubusercontent.com/polubis/WebBlog/Chromatic-and-storybook/src/articles/testing/chromatic-and-storybook/secrets.jpg"
+    description="Changes found"
+  />
+  <M>
+    After that remove{" "}
+    <B>"chromatic": "npx chromatic --project-token=YOUR_TOKEN"</B> from{" "}
+    <B>package.json</B> - it's not needed. Soon you will run your builds
+    automatically.
+  </M>
+  <Hint hasBg>
+    Changes from this step can be found in this{" "}
+    <A
+      href="https://github.com/polubis/Chromatic-and-storybook/commit/640fa8c6504a88bbaee4b0a352bc0e93436d764a"
+      outside
+    >
+      commit
+    </A>
+    .
+  </Hint>
+</Section>
+
+<Section>
+  <XL>10. Integrating with pipeline</XL>
+  <M>
+    Let's trigger our builds on PR to the main branch. So current workflow will
+    be:
+  </M>
+  <List items="Developer changes implementation, PR is raised to main, Chromatic builds components and requests review, Review is accepted -> you can merge into main" />
+  <M>
+    Of course, the process can be aligned to your project it doesn't matter.
+    This is just the simplest one.
+  </M>
+  <M>
+    To achieve that we need to add pipeline configuration to the repository.
+  </M>
+  <Code
+    description="Configuration"
+    src="https://raw.githubusercontent.com/polubis/Chromatic-and-storybook/a67b143fb64a5a1555ad660300b308017e4e2e84/.github/workflows/chromatic.yaml"
+  />
+  <M>
+    It should be added under <B>.github/workflows</B>. Now to test that follow
+    the steps below:
+  </M>
+  <List items="Create a new branch from main, Change component implementation which indicates UI, Raises PR to main, Check is build created" />
+  <Img
+    src="https://raw.githubusercontent.com/polubis/WebBlog/Chromatic-and-storybook/src/articles/testing/chromatic-and-storybook/final.gif"
+    description="Automation"
+  />
+  <Hint hasBg>
+    Changes from this step can be found in this{" "}
+    <A
+      href="https://github.com/polubis/Chromatic-and-storybook/commit/a67b143fb64a5a1555ad660300b308017e4e2e84"
+      outside
+    >
+      commit
+    </A>
+    .
+  </Hint>
+</Section>
+
+<Example>
+  <M>
+    <A href="https://github.com/polubis/Chromatic-and-storybook" outside>
+      Repository
+    </A>{" "}
+    to play with.
+  </M>
+</Example>
+
+<Summary>
+  <M>
+    After this short adventure, you know how to boost your work with these nice
+    tools.
+  </M>
+  <M>
+    Feel free to contact me if you have any questions/proposals. Have a nice day
+    and good health!
+  </M>
+</Summary>

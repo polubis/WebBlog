@@ -35,5 +35,15 @@
     "bio": "Professionally - frontend developer focused on React, Vue and Typescript. I am happy to engage in additional activities related to programming. Privately - motorization enthusiast.",
     "githubURL": "https://github.com/ajronn",
     "linkedinURL": "https://www.linkedin.com/in/ajronn/"
+  },
+  {
+    "id": "pjurczyk",
+    "name": "pjurczyk",
+    "firstName": "Patryk",
+    "lastName": "Jurczyk",
+    "role": "Frontend developer",
+    "bio": "The technologies I develop are React and TypeScript. I like to take on more and more difficult things because with them I can learn the most. I spend my free time actively at the gym or cycling.",
+    "githubURL": "https://github.com/PatrykJurczyk",
+    "linkedinURL": "https://www.linkedin.com/in/patryk-jurczyk-832311241/"
   }
 ]
