@@ -1,6 +1,6 @@
 ---
-cdate: 2022-08-28
-mdate: 2022-08-28
+cdate: 2022-08-29
+mdate: 2022-08-29
 authorId: pjurczyk
 stack: react,chromatic,storybook
 tags: testing,documentation
@@ -15,22 +15,24 @@ title: Chromatic and storybook
     advanced ones.
   </M>
   <M>
-    Creating one, two or even several is not a problem. They are easy to use
-    because, after all, I wrote them myself. Testing is also not a problem
-    because of their number I can do it quickly - even manually.
+    If you write a component library yourself, and you have a small number of
+    components - testing is not problematic, and documentation is not needed.
   </M>
   <M>
-    What about a larger number? Well, it is not so simple anymore. That's why
-    such technologies as <B>chromatic</B> and <B>storybook</B> were created,
-    which you will learn now.
+    However, if you have much more components and they will be used by other
+    developers - you have a problem.
+  </M>
+  <M>
+    That's why such technologies as <B>chromatic</B> and <B>storybook</B> were
+    created, which you will learn now.
   </M>
 </Prelude>
 
 <Section>
-  <XL>1. Creating starter project</XL>
+  <XL>1. Creating example project</XL>
   <M>
-    Demonstrating the technologies under discussion makes no sense without a
-    project. Here I will use a typical React project generated from this{" "}
+    Demonstrating these technologies makes no sense without a project. Here I
+    will use a typical React project generated from this{" "}
     <A outside href="https://github.com/polubis/CRA-TEMPLATE">
       repository template
     </A>
@@ -42,22 +44,14 @@ title: Chromatic and storybook
   <XL>2. Storybook</XL>
   <M>
     Technology that gives you a separate development environment, playground for
-    components, automatic documentation and cool tools for debugging.
+    components, automatic documentation and cool tools for debugging. In simple
+    words - just take all of your components and render them in another app
+    separately.
   </M>
   <Img
     src="https://raw.githubusercontent.com/polubis/WebBlog/Chromatic-and-storybook/src/articles/testing/chromatic-and-storybook/storybook.gif"
     description="Storybook presented"
   />
-  <M>
-    Play with this{" "}
-    <A
-      href="https://62ce7adbf7c713bbdfa19105-rvnajffmkp.chromatic.com/?path=/story/avatar--basic"
-      outside
-    >
-      example library
-    </A>{" "}
-    used in one of our projects to see the benefits of <B>storybook</B> usage.
-  </M>
   <Hint hasBg>
     <B>Storybook</B> is not reserved only for React. Check the{" "}
     <A
@@ -73,16 +67,16 @@ title: Chromatic and storybook
 <Section>
   <XL>3. Adding storybook to project</XL>
   <M>
-    It's ultra simple. Be sure that you are in the root directory of the project
-    and all you need to do is type commands described in{" "}
+    It's very simple. Be sure that you are in the root directory of the project.
+    Then all you need to do is type commands described in{" "}
     <A href="https://storybook.js.org/docs/react/get-started/install" outside>
       docs
     </A>
     . Just run <B>npx storybook init</B> and wait until process end.
   </M>
   <M>
-    When files will be generated - run <B>npm run storybook</B>. This command
-    will run <B>storybook environment</B> and you can start the real fun.
+    When files are generated - run <B>npm run storybook</B>. This command will
+    run <B>storybook environment</B> and you can start the real fun.
   </M>
   <Hint hasBg>
     Changes from this step can be found in this{" "}
@@ -121,7 +115,7 @@ title: Chromatic and storybook
 <Section>
   <XL>5. Adding first story</XL>
   <M>
-    Let's add story for <B>InputField</B> component. As you can see it's a
+    Let's add story for <B>InputField</B> component. As you can see, it's a
     pretty small amount of code to get nice documentation and be able to play
     with it while developing without any need to run the full app.
   </M>
@@ -150,22 +144,22 @@ title: Chromatic and storybook
     app.
   </M>
   <M>
-    You can trigger the build manually or perform it on the pipeline - after
+    You can trigger the build manually or perform it on the pipeline after
     merging or creating a pull request to a dedicated branch.
   </M>
   <M>
-    The best feature is an option to compare your component's look between
+    The best feature is an option to compare how your components look between
     different code versions. <B>Chromatic</B> detects that and draws differences
-    for you in UI. Also, code change is displayed too.
+    for you in UI. The code change is displayed as well.
   </M>
   <Img
     src="https://raw.githubusercontent.com/polubis/WebBlog/Chromatic-and-storybook/src/articles/testing/chromatic-and-storybook/chromatic.gif"
     description="Life is great now"
   />
   <M>
-    Code that impacts components look is marked with yellow bullets. After that,
-    you need to go and accept or reject this change. This is a great job for{" "}
-    <B>project owner</B>.
+    The code that impacts the look of the components is marked with yellow
+    bullets. After that, you need to go and accept or reject this change. This
+    is a great job for <B>project owner</B>.
   </M>
 </Section>
 
@@ -209,9 +203,8 @@ title: Chromatic and storybook
     new snapshot build and check changes.
   </M>
   <M>
-    If changes will be found you need to review them and accept them. Without
-    that it will always compare with the previously accepted version of the
-    build :).
+    If changes are found you need to review them and accept them. Without this,
+    it will always compare with the previously accepted version of the build :).
   </M>
   <Img
     src="https://raw.githubusercontent.com/polubis/WebBlog/Chromatic-and-storybook/src/articles/testing/chromatic-and-storybook/changes-found.jpg"
@@ -270,11 +263,11 @@ title: Chromatic and storybook
   </M>
   <List items="Developer changes implementation, PR is raised to main, Chromatic builds components and requests review, Review is accepted -> you can merge into main" />
   <M>
-    Of course, the process can be aligned to your project it doesn't matter.
-    This is just the simplest one.
+    Of course, the process can be aligned with your project. This is just the
+    simplest one.
   </M>
   <M>
-    To achieve that we need to add pipeline configuration to the repository.
+    To achieve that, we need to add pipeline configuration to the repository.
   </M>
   <Code
     description="Configuration"
