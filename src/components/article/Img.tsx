@@ -1,7 +1,7 @@
 import React from "react"
 import styled, { css } from "styled-components"
 
-import { S } from "../../ui"
+import { M, S } from "../../ui"
 import theme from "../../utils/theme"
 
 interface Props {
@@ -27,6 +27,10 @@ const Img = styled.figure<{ border: Props["border"] }>`
   ${S} {
     display: block;
     margin-top: 12px;
+  }
+
+  & + ${M} {
+    margin-top: 24px;
   }
 `
 

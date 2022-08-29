@@ -214,8 +214,8 @@ export const StatsSection = ({ data }: HomeProps) => {
             <BloggerTileContent>
               <XXL>Become a blogger</XXL>
               <M>
-                Use our article editor and create your first article. You will
-                get the necessary technical assistance.
+                Use our creator and add your first article. You will get the
+                necessary technical assistance.
               </M>
               <Link to="/blog-creator/">
                 <Button>WRITE YOUR FIRST ARTICLE</Button>

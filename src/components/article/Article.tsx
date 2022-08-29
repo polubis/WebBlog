@@ -59,14 +59,13 @@ export default function ({ pageContext }: Props) {
 
   const { title, description, tags, readTime } = frontmatter
 
-  const pageTitle = `${title} | by ${author.firstName} ${author.lastName} | GreenOn Software`
   const formattedSlug = slug.substring(0, slug.length - 1)
 
   return (
     <SiteMeta
       url={`articles/${formattedSlug}`}
       robots="index,follow,max-image-preview:large"
-      title={pageTitle}
+      title={title}
       type="article"
       author={author.firstName + " " + author.lastName}
       description={description}
