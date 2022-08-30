@@ -66,7 +66,7 @@ export default function ({ article }: Props): React.ReactElement {
         <ReadTimeBadge minutes={readTime} />
         {isNew && <Badge color={theme.green}>new</Badge>}
       </Details>
-      <Link to={`/articles/${formattedSlug}`}>
+      <Link to={`articles/${formattedSlug}`}>
         <Button>READ ARTICLE</Button>
       </Link>
     </Tile>

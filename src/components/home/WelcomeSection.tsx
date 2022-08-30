@@ -90,7 +90,7 @@ export const WelcomeSection = () => {
             If you are interested in learning about programming in a concise and
             clean form - this is the perfect place for you.
           </M>
-          <Link to="/articles/">
+          <Link to="articles">
             <Button>CHECK BLOG</Button>
           </Link>
         </TextContent>

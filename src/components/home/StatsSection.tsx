@@ -217,7 +217,7 @@ export const StatsSection = ({ data }: HomeProps) => {
                 Use our creator and add your first article. You will get the
                 necessary technical assistance.
               </M>
-              <Link to="/blog-creator/">
+              <Link to="blog-creator">
                 <Button>WRITE YOUR FIRST ARTICLE</Button>
               </Link>
             </BloggerTileContent>

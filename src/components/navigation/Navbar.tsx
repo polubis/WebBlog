@@ -33,20 +33,20 @@ export default function (): React.ReactElement {
     <Navbar>
       <Links
         items={[
-          { label: "articles", url: "/articles" },
-          { label: "creator", url: "/blog-creator" },
+          { label: "articles", url: "articles" },
+          { label: "creator", url: "blog-creator" },
         ]}
       />
 
       <Divider />
 
-      <GatsbyLink to="/">
+      <GatsbyLink to="">
         <Logo />
       </GatsbyLink>
 
       <Divider />
 
-      <Links items={[{ label: "authors", url: "/authors" }]} />
+      <Links items={[{ label: "authors", url: "authors" }]} />
     </Navbar>
   )
 }

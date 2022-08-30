@@ -91,10 +91,10 @@ export default function ({ greenVariant }: MobileNavigationProps) {
         <Navigation>
           <Links
             items={[
-              { label: "home", url: "/" },
-              { label: "articles", url: "/articles" },
-              { label: "creator", url: "/blog-creator" },
-              { label: "authors", url: "/authors" },
+              { label: "home", url: "" },
+              { label: "articles", url: "articles" },
+              { label: "creator", url: "blog-creator" },
+              { label: "authors", url: "authors" },
             ]}
           />
         </Navigation>

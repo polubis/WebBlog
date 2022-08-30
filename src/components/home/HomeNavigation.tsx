@@ -72,8 +72,8 @@ export const HomeNavigation = () => {
         <LinksContainer>
           <Links
             items={[
-              { label: "creator", url: "/blog-creator" },
-              { label: "authors", url: "/authors" },
+              { label: "creator", url: "blog-creator" },
+              { label: "authors", url: "authors" },
             ]}
           />
         </LinksContainer>
@@ -81,7 +81,7 @@ export const HomeNavigation = () => {
         <BlogLogo full />
       </MidContent>
 
-      <Link to="/authors/">
+      <Link to="authors">
         <Button>JOIN</Button>
       </Link>
     </Container>
