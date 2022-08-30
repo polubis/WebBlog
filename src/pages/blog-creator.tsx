@@ -5,7 +5,7 @@ import { SiteMeta } from "../utils/SiteMeta"
 export default function () {
   return (
     <SiteMeta
-      url="blog-creator"
+      url="blog-creator/"
       robots="index,follow"
       title="Blog creator"
       type="website"
