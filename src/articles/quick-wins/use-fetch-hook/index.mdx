@@ -31,8 +31,8 @@ title: useFetch hook
 <Section>
   <XL>1. What do you implement?</XL>
   <M>
-    It will be a small app for loading users from free API. You will be able to
-    load users and display their avatars. Also, there will be an option to
+    It will be a small app for loading users from a free API. You will be able
+    to load users and display their avatars. Also, there will be an option to
     perform requests for details.
   </M>
   <M>
@@ -49,10 +49,7 @@ title: useFetch hook
 
 <Section>
   <XL>2. Looking at spaghetti</XL>
-  <M>
-    The first attempt should work. It works indeed but the used approach is
-    dirty like a mug.
-  </M>
+  <M>It works indeed, but the used approach is dirty like a mug.</M>
   <Code
     description="I like pasta but what the **** is this?"
     src="https://raw.githubusercontent.com/polubis/useFetch-hook/main/snippets/spaghetti.tsx"
@@ -74,7 +71,7 @@ title: useFetch hook
     user details.
   </M>
   <M>Problems with this code:</M>
-  <List items="Flags - easy to add a bug, A lot to test, It's hard to determine what this code does on first look, Lack of single responsibility, You can access data property when it's not ready to be accessed, Repetitive approach and sensitive to human mistake" />
+  <List items="Flags - easy to add a bug, A lot to test, It's hard to determine what this code does on first look, Lack of single responsibility, You can access data property when it's not ready to be accessed, Repetitive approach and sensitive to a human mistake" />
   <Hint hasBg>Imagine the whole application written like that 😺.</Hint>
 </Section>
 
@@ -181,7 +178,7 @@ title: useFetch hook
 
 <Section>
   <XL>7. Implementing useForm</XL>
-  <M>Firstly let's start with interfaces.</M>
+  <M>Firstly, let's start with interfaces.</M>
   <Code
     description="Some needed type definitions"
     src="https://raw.githubusercontent.com/polubis/useFetch-hook/main/snippets/type-defs.ts"
@@ -204,7 +201,7 @@ title: useFetch hook
   <XL>8. Create renderer</XL>
   <M>
     We can also improve rendering. Instead of several <B>if</B> statements - you
-    can create component for handling that.
+    can create a component for handling that.
   </M>
   <Code
     description="Renderer for hiding ugly ifs"
@@ -264,8 +261,8 @@ title: useFetch hook
   <M>I hope you enjoyed this quick win 🙂.</M>
   <M>
     Together we explored a pretty interesting topic of creating abstractions in
-    your code base and dealing with not needed requests. I think right now you
-    can boost your work a little bit.
+    your code base and dealing with unneeded requests. I think that right now
+    you can boost your work a little bit.
   </M>
   <M>
     Feel free to contact me if you have any questions/proposals. Have a nice day
