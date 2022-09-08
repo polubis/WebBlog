@@ -4,6 +4,7 @@ import { useGAPage } from "./useGAPage"
 
 interface SiteMetaProps {
   url: string
+  gaPage: string
   title: string
   description: string
   children: ReactNode
@@ -21,9 +22,10 @@ export const SiteMeta = ({
   robots,
   author,
   url,
+  gaPage,
   image,
 }: SiteMetaProps) => {
-  useGAPage(url)
+  useGAPage(gaPage)
 
   return (
     <>

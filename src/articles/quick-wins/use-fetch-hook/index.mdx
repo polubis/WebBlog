@@ -4,7 +4,7 @@ mdate: 2022-09-12
 authorId: polubis
 stack: typescript,react,jest
 tags: code improvements,patterns
-description: The process of creating a useForm hook to handle asynchronous operations sprinkled with a dose of real-life examples.
+description: The process of creating a useFetch hook to handle asynchronous operations sprinkled with a dose of real-life examples.
 readTime: 9
 title: useFetch hook
 ---
@@ -23,7 +23,7 @@ title: useFetch hook
     easier to create an abstraction and encapsulate repetitive logic inside.
   </M>
   <M>
-    So let's jump into <B>useForm</B> hook creation process and see how it
+    So let's jump into <B>useFetch</B> hook creation process and see how it
     behaves in a real example.
   </M>
 </Prelude>
@@ -131,22 +131,22 @@ title: useFetch hook
   <M>
     This class must be created one per request. Created instance exposes{" "}
     <B>signal</B> property and <B>abort</B> function. <B>Signal</B> must be
-    passed to <B>fetch</B> function.
+    passed to <B>fetch</B>.
   </M>
   <M>
     When you pass the signal property, then you can cancel the request via{" "}
     <B>abort</B> function. You can do it at any time - depends on your needs.
   </M>
   <Code
-    description="Control abort"
+    description="Abort controlled"
     src="https://raw.githubusercontent.com/polubis/useFetch-hook/main/snippets/abort-controller.tsx"
   />
   <M>
-    In our case, we call abort all time when the <B>useEffect</B> function is
-    executed.
+    In our case, we call <B>abort</B> all time when the <B>useEffect</B>{" "}
+    function is executed.
   </M>
   <M>Also it's good to cancel:</M>
-  <List items="Duplicated requests, When a user leaves the page, When components unmount" />
+  <List items="Duplicated requests, When a user leaves the page, When components unmount, In any other case" />
   <M>
     All of this will be possible by the usage of your <B>useFetch</B> hook.
   </M>
@@ -177,7 +177,7 @@ title: useFetch hook
 </Section>
 
 <Section>
-  <XL>7. Implementing useForm</XL>
+  <XL>7. Implementing useFetch</XL>
   <M>Firstly, let's start with interfaces.</M>
   <Code
     description="Some needed type definitions"
@@ -261,8 +261,8 @@ title: useFetch hook
   <M>I hope you enjoyed this quick win 🙂.</M>
   <M>
     Together we explored a pretty interesting topic of creating abstractions in
-    your code base and dealing with unneeded requests. I think that right now
-    you can boost your work a little bit.
+    your code base and dealing with unneeded requests. Right now you can boost
+    your work a little bit.
   </M>
   <M>
     Feel free to contact me if you have any questions/proposals. Have a nice day
