@@ -1,0 +1,16 @@
+PL
+
+Cześć wszystkim. Zapraszam do lektury kolejnego artykułu.
+
+Tym razem o oszczędności czasu w projekcie, ujednolicaniu kodu oraz wykonywaniu operacji asynchronicznych w efektywny i efektowny sposób.
+
+Przepraszam z drobny click bait :).
+
+EN
+
+Hi everyone. I invite you to read another article.
+
+This time is about saving time in the project, unifying 
+code and perform asynchronous operations efficiently and effectively.
+
+Sorry for the small clickbait :).
