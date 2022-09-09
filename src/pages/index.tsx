@@ -63,6 +63,7 @@ export const query = graphql`
 export default function ({ data }: HomeProps) {
   return (
     <SiteMeta
+      gaPage=""
       url=""
       robots="index,follow"
       title="GreenOn Software"

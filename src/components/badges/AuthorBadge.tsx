@@ -32,7 +32,7 @@ export const AuthorBadge = ({
   mini,
 }: Props) => {
   return (
-    <GatsbyLink to="/authors">
+    <GatsbyLink to="/authors/">
       <Badge>
         <AuthorAvatar avatar={avatar} />
         {mini || (

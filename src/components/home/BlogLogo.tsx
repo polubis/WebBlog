@@ -19,7 +19,7 @@ export interface BlogLogoProps {
 
 export const BlogLogo = ({ full }: BlogLogoProps) => {
   return (
-    <Container to="/articles">
+    <Container to="/articles/">
       <svg
         width="52"
         height="30"
