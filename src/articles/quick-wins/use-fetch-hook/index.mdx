@@ -1,9 +1,9 @@
 ---
-cdate: 2022-09-12
-mdate: 2022-09-12
+cdate: 2022-09-10
+mdate: 2022-09-10
 authorId: polubis
 stack: typescript,react,jest
-tags: code improvements,patterns
+tags: code improvements,hooks
 description: The process of creating a useFetch hook to handle asynchronous operations sprinkled with a dose of real-life examples.
 readTime: 9
 title: useFetch hook
@@ -147,6 +147,17 @@ title: useFetch hook
   </M>
   <M>Also it's good to cancel:</M>
   <List items="Duplicated requests, When a user leaves the page, When components unmount, In any other case" />
+  <M>
+    When a request is aborted you can see it in the console and network tab.
+  </M>
+  <Img
+    description="In console"
+    src="https://raw.githubusercontent.com/polubis/WebBlog/Add-useFetch-article-improvements/src/articles/quick-wins/use-fetch-hook/aborted.jpg"
+  />
+  <Img
+    description="In network tab"
+    src="https://raw.githubusercontent.com/polubis/WebBlog/Add-useFetch-article-improvements/src/articles/quick-wins/use-fetch-hook/cancelled.jpg"
+  />
   <M>
     All of this will be possible by the usage of your <B>useFetch</B> hook.
   </M>
