@@ -63,7 +63,8 @@ export default function ({ pageContext }: Props) {
 
   return (
     <SiteMeta
-      url={`articles/${formattedSlug}`}
+      gaPage={`articles/${formattedSlug}`}
+      url={`articles/${formattedSlug}/`}
       robots="index,follow,max-image-preview:large"
       title={title}
       type="article"

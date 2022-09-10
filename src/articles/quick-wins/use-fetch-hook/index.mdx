@@ -1,0 +1,282 @@
+---
+cdate: 2022-09-10
+mdate: 2022-09-10
+authorId: polubis
+stack: typescript,react,jest
+tags: code improvements,hooks
+description: The process of creating a useFetch hook to handle asynchronous operations sprinkled with a dose of real-life examples.
+readTime: 9
+title: useFetch hook
+---
+
+<Prelude>
+  <M>
+    Fetching and processing data from an API is one of the most repetitive
+    activities in web applications.
+  </M>
+  <M>
+    That's why it's a good idea to make sure that the code you write is
+    readable, consistent and easy to understand for others.
+  </M>
+  <M>
+    Don't count on developers. Everyone has different habits. It will be much
+    easier to create an abstraction and encapsulate repetitive logic inside.
+  </M>
+  <M>
+    So let's jump into <B>useFetch</B> hook creation process and see how it
+    behaves in a real example.
+  </M>
+</Prelude>
+
+<Section>
+  <XL>1. What do you implement?</XL>
+  <M>
+    It will be a small app for loading users from a free API. You will be able
+    to load users and display their avatars. Also, there will be an option to
+    perform requests for details.
+  </M>
+  <M>
+    In addition, when the request is still pending you will be able to cancel
+    the operation to save some browser resources after clicking <B>Back</B>{" "}
+    button.
+  </M>
+  <Img
+    src="https://raw.githubusercontent.com/polubis/WebBlog/77ed3446ceb9cb77cc232f2c990c744a0d4f9877/src/articles/quick-wins/use-fetch-hook/app_demo.gif"
+    description="Application demo"
+    border
+  />
+</Section>
+
+<Section>
+  <XL>2. Looking at spaghetti</XL>
+  <M>It works indeed, but the used approach is dirty like a mug.</M>
+  <Code
+    description="I like pasta but what the **** is this?"
+    src="https://raw.githubusercontent.com/polubis/useFetch-hook/main/snippets/spaghetti.tsx"
+  />
+  <M>
+    Try to multiply it by the number of requests in the application or add
+    another code - I wish you luck.
+  </M>
+  <M>
+    Generally, you can hide this logic in something like <B>useUsersFetch</B> -
+    but implementation inside will be the same.
+  </M>
+  <Code
+    description="Hidding dirty code"
+    src="https://raw.githubusercontent.com/polubis/useFetch-hook/main/snippets/hide-in-use-fetch.tsx"
+  />
+  <M>
+    In addition - it's only users fetch logic. Still, we need to do the same for
+    user details.
+  </M>
+  <M>Problems with this code:</M>
+  <List items="Flags - easy to add a bug, A lot to test, It's hard to determine what this code does on first look, Lack of single responsibility, You can access data property when it's not ready to be accessed, Repetitive approach and sensitive to a human mistake" />
+  <Hint hasBg>Imagine the whole application written like that 😺.</Hint>
+</Section>
+
+<Section>
+  <XL>3. Can you do better?</XL>
+  <M>
+    Of course... Just look at the code below and try to understand it. I think
+    it's obvious what is happening immediately.
+  </M>
+  <Code
+    description="Read the code like a good book"
+    src="https://raw.githubusercontent.com/polubis/useFetch-hook/main/snippets/how-it-should-look-like.tsx"
+  />
+  <M>
+    Look at if statements. Inside <B>useFetch</B> hook we implement later{" "}
+    <B>exhaustiveness checking</B>. It will be discussed soon but in simple
+    words - it prevents us from accessing properties when they aren't available
+    and guide us by hand when writing conditional instructions.
+  </M>
+  <Img
+    src="https://raw.githubusercontent.com/polubis/WebBlog/77ed3446ceb9cb77cc232f2c990c744a0d4f9877/src/articles/quick-wins/use-fetch-hook/checking.gif"
+    description="Typescript power"
+    border
+  />
+  <M>All benefits:</M>
+  <List items="Less code = smaller bundle, Better readability, Option to develop similar features faster, Typesafety, Typescript support when writing if statements, Consistent code, Easy to test and easy to replace" />
+</Section>
+
+<Section>
+  <XL>4. Understanding exhaustiveness checking</XL>
+  <M>
+    You must have seen the difference in code and complexity that we discussed
+    earlier. Now you need to understand how to implement this mechanism in{" "}
+    <B>Typescript</B>.
+  </M>
+  <M>
+    It is simple - just create several types that have a common property and
+    make the union of them.
+  </M>
+  <Code
+    description="Union of types"
+    src="https://raw.githubusercontent.com/polubis/useFetch-hook/main/snippets/exh-check.ts"
+  />
+  <M>
+    Right now you are not able to access properties other than <B>type</B>{" "}
+    without <B>if</B> statement. This protects you from potential bugs and
+    prevents you from adding code in the "other" style.
+  </M>
+</Section>
+
+<Section>
+  <XL>5. Abort controller</XL>
+  <M>
+    Before we start implementation there is one more thing to explain -{" "}
+    <B>AbortController</B> class.
+  </M>
+  <M>
+    This class must be created one per request. Created instance exposes{" "}
+    <B>signal</B> property and <B>abort</B> function. <B>Signal</B> must be
+    passed to <B>fetch</B>.
+  </M>
+  <M>
+    When you pass the signal property, then you can cancel the request via{" "}
+    <B>abort</B> function. You can do it at any time - depends on your needs.
+  </M>
+  <Code
+    description="Abort controlled"
+    src="https://raw.githubusercontent.com/polubis/useFetch-hook/main/snippets/abort-controller.tsx"
+  />
+  <M>
+    In our case, we call <B>abort</B> all time when the <B>useEffect</B>{" "}
+    function is executed.
+  </M>
+  <M>Also it's good to cancel:</M>
+  <List items="Duplicated requests, When a user leaves the page, When components unmount, In any other case" />
+  <M>
+    When a request is aborted you can see it in the console and network tab.
+  </M>
+  <Img
+    description="In console"
+    src="https://raw.githubusercontent.com/polubis/WebBlog/Add-useFetch-article-improvements/src/articles/quick-wins/use-fetch-hook/aborted.jpg"
+  />
+  <Img
+    description="In network tab"
+    src="https://raw.githubusercontent.com/polubis/WebBlog/Add-useFetch-article-improvements/src/articles/quick-wins/use-fetch-hook/cancelled.jpg"
+  />
+  <M>
+    All of this will be possible by the usage of your <B>useFetch</B> hook.
+  </M>
+</Section>
+
+<Section>
+  <XL>6. Adding tests suites</XL>
+  <M>
+    Let's create <B>useFetch.ts</B> file and same file for tests. You will use{" "}
+    <B>TDD</B>. You need to cover the following test scenarios with
+    implementation.
+  </M>
+  <Code
+    description="Test paths"
+    src="https://raw.githubusercontent.com/polubis/useFetch-hook/main/snippets/tests-suites.test.ts"
+  />
+  <Hint hasBg>
+    Test implementation is skipped. If you are interested - you can check it in
+    this{" "}
+    <A
+      href="https://raw.githubusercontent.com/polubis/useFetch-hook/main/src/utils/useFetch.test.ts"
+      outside
+    >
+      file
+    </A>{" "}
+    or in the example at the end.
+  </Hint>
+</Section>
+
+<Section>
+  <XL>7. Implementing useFetch</XL>
+  <M>Firstly, let's start with interfaces.</M>
+  <Code
+    description="Some needed type definitions"
+    src="https://raw.githubusercontent.com/polubis/useFetch-hook/main/snippets/type-defs.ts"
+  />
+  <M>
+    Next, we need to create a hook and implement a handler function with a state
+    management transition which includes the option to abort a request.
+  </M>
+  <Code
+    description="Hook implemented"
+    src="https://raw.githubusercontent.com/polubis/useFetch-hook/main/snippets/hook-final.ts"
+  />
+  <M>
+    Nothing fancy in this code. You just make generic everything that we
+    discussed before.
+  </M>
+</Section>
+
+<Section>
+  <XL>8. Create renderer</XL>
+  <M>
+    We can also improve rendering. Instead of several <B>if</B> statements - you
+    can create a component for handling that.
+  </M>
+  <Code
+    description="Renderer for hiding ugly ifs"
+    src="https://raw.githubusercontent.com/polubis/useFetch-hook/main/snippets/renderer.tsx"
+  />
+  <M>
+    It simplifies rendering. Now it will be the same in the whole application.
+  </M>
+</Section>
+
+<Section>
+  <XL>9. Implementing our small app</XL>
+  <M>
+    Let's create two hooks that wrap logic for loading users and user details.
+    These hooks will use your newly created <B>useFetch</B> hook.
+  </M>
+  <Code
+    description="Two facade hooks"
+    src="https://raw.githubusercontent.com/polubis/useFetch-hook/main/snippets/two-facade-hooks.ts"
+  />
+  <M>
+    Now in <B>UsersService</B> we can use <B>signal</B> in <B>fetch</B>.
+  </M>
+  <Code
+    description="Typical service logic"
+    src="https://raw.githubusercontent.com/polubis/useFetch-hook/main/snippets/UsersService.ts"
+  />
+  <M>
+    Right now it's time for the final step. Just use created hooks in the
+    component and display dedicated UI.
+  </M>
+  <Code
+    description="Already done!"
+    src="https://raw.githubusercontent.com/polubis/useFetch-hook/main/snippets/final.tsx"
+  />
+</Section>
+
+<Section>
+  <XL>Full example</XL>
+  <M>
+    Fork{" "}
+    <A href="https://github.com/polubis/useFetch-hook" outside>
+      repository
+    </A>{" "}
+    to check the full solution or play with it on{" "}
+    <A
+      href="https://codesandbox.io/p/github/polubis/useFetch-hook/Showcase?file=%2Fpackage.json&selection=%5B%7B%22endColumn%22%3A1%2C%22endLineNumber%22%3A1%2C%22startColumn%22%3A1%2C%22startLineNumber%22%3A1%7D%5D&workspace=%257B%2522activeFileId%2522%253A%2522cl7rs146p0000logj71v7e9wg%2522%252C%2522openFiles%2522%253A%255B%2522%252Fsrc%252Findex.tsx%2522%252C%2522%252Fpackage.json%2522%255D%252C%2522sidebarPanel%2522%253A%2522EXPLORER%2522%252C%2522gitSidebarPanel%2522%253A%2522COMMIT%2522%252C%2522sidekickItems%2522%253A%255B%257B%2522type%2522%253A%2522PREVIEW%2522%252C%2522taskId%2522%253A%2522start%2522%252C%2522port%2522%253A3000%252C%2522key%2522%253A%2522cl7rsdiys01t0356ko7rlvngq%2522%252C%2522isMinimized%2522%253Afalse%257D%255D%257D"
+      outside
+    >
+      Codesandbox
+    </A>{" "}
+    platform.
+  </M>
+</Section>
+
+<Summary>
+  <M>I hope you enjoyed this quick win 🙂.</M>
+  <M>
+    Together we explored a pretty interesting topic of creating abstractions in
+    your code base and dealing with unneeded requests. Right now you can boost
+    your work a little bit.
+  </M>
+  <M>
+    Feel free to contact me if you have any questions/proposals. Have a nice day
+    and good health!
+  </M>
+</Summary>

@@ -130,7 +130,8 @@ export default function ({ data }: Props): React.ReactElement {
 
   return (
     <SiteMeta
-      url="authors"
+      gaPage="authors"
+      url="authors/"
       robots="index,follow"
       title="GreenOn Software blog authors"
       type="website"

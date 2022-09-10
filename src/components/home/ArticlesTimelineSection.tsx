@@ -74,7 +74,7 @@ export const ArticlesTimelineSection = ({ data }: HomeProps) => {
         {
           avatar: thumbnails[articles[i].slug],
           title: articles[i].frontmatter.title,
-          url: articles[i].slug.substring(0, articles[i].slug.length - 1),
+          url: articles[i].slug.substring(0, articles[i].slug.length - 1) + "/",
         },
       ],
     })
