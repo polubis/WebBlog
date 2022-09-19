@@ -1,0 +1,280 @@
+---
+cdate: 2022-09-27
+mdate: 2022-09-27
+authorId: polubis
+stack: typescript,react
+tags: architecture,design
+description: A blog post in which we design and implement the architecture for specific client apps which will be inspired by Angular framework ecosystem.
+readTime: 13
+title: Modular architecture for medium frontend apps
+---
+
+<Prelude>
+  <M>
+    There is nothing more beautiful in a developer's career than good
+    architecture in a project. Such architecture is easy to recognize. If
+    everything you do is:
+  </M>
+  <List items="Obvious, Repeatable, Decoupled, Has small impact on other features" />
+  <M>
+    Then, probably your project has well-designed architecture, but what exactly
+    means <B>well-designed</B> or <B>good</B>? This topic is complex and to
+    understand it, you need a real-life example, with real problems. These
+    concepts will be covered today.
+  </M>
+</Prelude>
+
+<Section>
+  <XL>1. The problem</XL>
+  <M>
+    Let's say you have a simple feature to implement. It will be loading users
+    and showing loader/error based on API response.
+  </M>
+  <Img
+    border
+    src="https://raw.githubusercontent.com/polubis/WebBlog/Implementing-bug-free-web-applications/src/articles/architecture/implementing-bug-free-web-applications/app.gif"
+    description="Small demo"
+  />
+  <M>
+    If you don't have layers in your application and your code looks like the
+    one below, don't be surprised that your project doesn't scale at all,
+    refactors are hard and you have tons of bugs.
+  </M>
+  <Code
+    src="https://raw.githubusercontent.com/polubis/Implementing-bug-free-web-applications/main/snippets/no-layers.tsx"
+    description="A messy solution"
+  />
+  <M>
+    This is just simple load users feature with spinner and error message
+    components, which are rendered based on API call status.
+  </M>
+  <M>
+    Such an approach is vulnerable to changes in requirements and it violates
+    the <B>open/closed</B> and <B>single responsibility principle</B> from{" "}
+    <B>SOLID</B>.
+  </M>
+  <Img
+    border
+    src="https://raw.githubusercontent.com/polubis/WebBlog/Implementing-bug-free-web-applications/src/articles/architecture/implementing-bug-free-web-applications/1-layer.jpg"
+    description="You won't call it architecture"
+  />
+  <M>Let's refactor this code and design architecture step by step.</M>
+</Section>
+
+<Section>
+  <XL>2. Presentation/logic</XL>
+  <M>
+    Every application should have layers with clearly defined references. By
+    layers I mean logically connected parts of code which expose only partial
+    API to perform some operations.
+  </M>
+  <M>
+    In client apps, we can split our code base to <B>logic and presentation</B>.
+    That's two layers.
+  </M>
+  <Img
+    border
+    src="https://raw.githubusercontent.com/polubis/WebBlog/Implementing-bug-free-web-applications/src/articles/architecture/implementing-bug-free-web-applications/logic-and-presentation.jpg"
+    description="Now you have 2 layers"
+  />
+  <M>
+    To be honest... It's not enough. The presentation can be split into
+    additional layers and the same for logic. You should achieve this because if
+    not - you are able only to reuse big blocks of code instead of small parts
+    which can be valuable for other features.
+  </M>
+</Section>
+
+<Section>
+  <XL>3. Design layers</XL>
+  <M>
+    Firstly, I will show you a diagram with all layers and after we will discuss
+    their responsibilities.
+  </M>
+  <Img
+    border
+    src="https://raw.githubusercontent.com/polubis/WebBlog/Implementing-bug-free-web-applications/src/articles/architecture/implementing-bug-free-web-applications/architecture-final.jpg"
+    description="Modular architecture diagram"
+  />
+  <M>These blue boxes represent features. Every feature should have:</M>
+  <List items="Module - the starting point for every feature, Container - components which connect logic with the components, Logic - manages core logic for the feature, Component - presentational component which is aware of the application domain, Service - manages API connection logic and needed mappings, ui - includes simple components like Button, development-kit - stores generic code independent from an app" />
+</Section>
+
+<Section>
+  <XL>4. Implementing libraries</XL>
+  <M>
+    Firstly, let's start with the pure presentation. We will create three
+    components which will be located in <B>ui</B> library.
+  </M>
+  <Code
+    src="https://raw.githubusercontent.com/polubis/Implementing-bug-free-web-applications/main/src/libs/ui/avatar/Avatar.tsx"
+    description="Avatar component"
+  />
+  <Code
+    src="https://raw.githubusercontent.com/polubis/Implementing-bug-free-web-applications/main/src/libs/ui/avatars-grid/AvatarsGrid.tsx"
+    description="Avatars grid component"
+  />
+  <M>
+    Secondly, we can implement generic logic to handle rendering depending on
+    the state and hook for performing fetch operations. This will be located in{" "}
+    <B>development-kit</B> library.
+  </M>
+  <Code
+    src="https://raw.githubusercontent.com/polubis/Implementing-bug-free-web-applications/main/src/libs/development-kit/Renderer.tsx"
+    description="Render handler"
+  />
+  <Code
+    src="https://raw.githubusercontent.com/polubis/Implementing-bug-free-web-applications/main/src/libs/development-kit/useFetch.ts"
+    description="Generic hook for fetching"
+  />
+  <Hint hasBg>
+    If you are interested about <B>useFetch</B> hook you can check this{" "}
+    <A
+      href="https://greenonsoftware.com/articles/quick-wins/use-fetch-hook/"
+      outside
+    >
+      article
+    </A>
+    .
+  </Hint>
+</Section>
+
+<Section>
+  <XL>5. Implementing app code</XL>
+  <M>Let's start from the service.</M>
+  <Code
+    src="https://raw.githubusercontent.com/polubis/Implementing-bug-free-web-applications/main/src/features/users/services/users.service.ts"
+    description="Now you can fetch users"
+  />
+  <M>
+    Nextly, we need the presentational component which will render{" "}
+    <B>users avatars</B>.
+  </M>
+  <Code
+    src="https://raw.githubusercontent.com/polubis/Implementing-bug-free-web-applications/main/src/features/users/components/users-list/users-list.component.tsx"
+    description="Rendering users avatars"
+  />
+  <M>
+    Now we can implement fetch users logic via <B>useFetch</B> hook.
+  </M>
+  <Code
+    src="https://raw.githubusercontent.com/polubis/Implementing-bug-free-web-applications/main/src/features/users/logic/use-users.ts"
+    description="Handling fetch users and request abort"
+  />
+  <M>
+    It's time to glue everything via <B>Container</B>.
+  </M>
+  <Code
+    src="https://raw.githubusercontent.com/polubis/Implementing-bug-free-web-applications/main/src/features/users/containers/users.container.tsx"
+    description="Looks like old React?"
+  />
+  <M>
+    Last layer will be <B>Module</B>.
+  </M>
+  <Code
+    src="https://raw.githubusercontent.com/polubis/Implementing-bug-free-web-applications/main/src/features/users/users.module.tsx"
+    description="Here everything starts"
+  />
+</Section>
+
+<Section>
+  <XL>6. A few doubts</XL>
+  <M>
+    What about the situation when <B>module A</B> should consume something that
+    is available in <B>module B</B>? It will probably happen when you would like
+    to implement an authorization mechanism in the app. It's kinda simple. You
+    can create <B>shared</B> module which will be used by other modules.
+  </M>
+  <M>
+    You already created stuff like that - in <B>libs</B> directory. So you can
+    use a similar approach and just create the next folder <B>shared</B> and put
+    there everything that should be shared and is application specific. To
+    understand it let's create an authorization feature.
+  </M>
+</Section>
+
+<Section>
+  <XL>7. Adding authorization</XL>
+  <M>
+    Let's imagine a situation when <B>UsersModule</B> is a protected view. Only
+    authorized users can access it. Check the gif below to understand how it
+    should work.
+  </M>
+  <Img
+    border
+    src="https://raw.githubusercontent.com/polubis/WebBlog/Implementing-bug-free-web-applications/src/articles/architecture/implementing-bug-free-web-applications/app-final.gif"
+    description="Aka authorization feature"
+  />
+  <M>
+    To access authorization state in different modules and be able to trigger
+    authorization we need <B>context api</B> from <B>React</B> and{" "}
+    <B>AuthModule</B> itself.
+  </M>
+  <M>
+    As before we will split it into layers to achieve goals. Firstly, we add
+    service.
+  </M>
+  <Code
+    src="https://raw.githubusercontent.com/polubis/Implementing-bug-free-web-applications/main/src/shared/auth/services/auth.service.ts"
+    description="Authorization service"
+  />
+  <M>Next we need authorization logic.</M>
+  <Code
+    src="https://raw.githubusercontent.com/polubis/Implementing-bug-free-web-applications/main/src/shared/auth/logic/use-auth.ts"
+    description="Short and easy to understand"
+  />
+  <M>
+    It's time to implement context api. <B>Module</B> will be good place for
+    that.
+  </M>
+  <Code
+    src="https://raw.githubusercontent.com/polubis/Implementing-bug-free-web-applications/main/src/shared/auth/auth.module.tsx"
+    description="I'm providing authorization api to all children"
+  />
+  <M>
+    Now we need to wrap our entire application with <B>AuthModule</B> to be able
+    to use it.
+  </M>
+  <Code
+    src="https://raw.githubusercontent.com/polubis/Implementing-bug-free-web-applications/main/src/index.tsx"
+    description="App wrapped"
+  />
+  <M>
+    Last step - just consume authorization api via <B>useAuthContext</B> hook.
+  </M>
+  <Code
+    src="https://raw.githubusercontent.com/polubis/Implementing-bug-free-web-applications/main/src/features/users/users.module.tsx"
+    description="Consuming auth api"
+  />
+</Section>
+
+<Section>
+  <XL>8. When to use?</XL>
+  <M>
+    Consider using this approach when at least 2 or 3 of these points are
+    truthy.
+  </M>
+  <List items="It's single page application, There is a small amount of shared state across components, Application is small/medium size, Your team is familiar with these architectural concepts" />
+</Section>
+
+<Section>
+  <XL>Full example</XL>
+</Section>
+
+<Summary>
+  <M>
+    I hope you enjoyed my architectural proposal. It's mostly based on{" "}
+    <B>Angular's</B> one. I like some stuff from different technologies and like
+    to combine them if possible. Remember, it's designed for apps that have a
+    lot of separated views and for small/medium size apps.
+  </M>
+  <M>
+    It's not a perfect solution. However, you have the next skill in your
+    spellbook and you should be able to use this kind of approach after this
+    article.
+  </M>
+  <M>
+    Feel free to contact me if you have any questions/proposals. Have a nice day
+    and good health!
+  </M>
+</Summary>
