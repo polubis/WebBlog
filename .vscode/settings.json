@@ -24,6 +24,16 @@
             "language": "mdx",
             "scheme": "file",
             "pattern": "src/articles/quick-wins/use-fetch-hook/index.mdx"
+        },
+        {
+            "language": "mdx",
+            "scheme": "file",
+            "pattern": "src/articles/architecture/implementing-bug-free-web-applications/index.mdx"
+        },
+        {
+            "language": "mdx",
+            "scheme": "file",
+            "pattern": "src/articles/architecture/modular-architecture-for-medium-frontend-apps/index.mdx"
         }
     ]
 }
