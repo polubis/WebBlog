@@ -1,0 +1,336 @@
+---
+cdate: 2022-10-03
+mdate: 2022-10-03
+authorId: polubis
+stack: typescript,react
+tags: architecture,design
+description: An entry that will try to dispel any doubts about the use of modular architecture in frontend applications.
+readTime: 10
+title: Modular architecture for medium frontend apps
+---
+
+<Prelude>
+  <M>
+    There is nothing more beautiful in a developer's career than{" "}
+    <B>well-designed</B> architecture.
+  </M>
+  <M>
+    Good architecture is easy to recognize. Ask yourself simple questions. Is
+    what I'm doing obvious? Is it repeatable? Doesn't my work block others?
+  </M>
+  <M>
+    If all the answers are true, then you are working with a{" "}
+    <B>well-designed</B> architecture.
+  </M>
+  <M>What it means in practice? Together we will find the answer.</M>
+</Prelude>
+
+<Section>
+  <XL>1. The problem</XL>
+  <M>
+    Let's say you have a simple feature to implement. It will be loading users
+    and displaying loader/error based on API response.
+  </M>
+  <Img
+    border
+    src="https://raw.githubusercontent.com/polubis/WebBlog/Modular-architecture-for-medium-frontend-apps/src/articles/architecture/modular-architecture-for-medium-frontend-apps/app.gif"
+    description="Small demo"
+  />
+  <M>
+    Your code may look like the code you are about to see. If that's the case,
+    you'll have problems that show up late, or to be more precise, as new
+    functionality is added.
+  </M>
+  <Code
+    src="https://raw.githubusercontent.com/polubis/Modular-architecture-for-medium-frontend-apps/main/snippets/no-layers.tsx"
+    description="A messy solution"
+  />
+  <M>
+    The issue will grow with the amount of functionality and the number of
+    developers in the project.
+  </M>
+  <M>
+    Such an approach is vulnerable to changes in requirements and it violates
+    the <B>open/closed</B> and <B>single responsibility principle</B> from{" "}
+    <B>SOLID</B>.
+  </M>
+  <Img
+    border
+    src="https://raw.githubusercontent.com/polubis/WebBlog/Modular-architecture-for-medium-frontend-apps/src/articles/architecture/modular-architecture-for-medium-frontend-apps/1-layer.jpg"
+    description="Your current architecture diagram"
+  />
+  <M>Let's refactor this code and design real architecture step by step.</M>
+  <Hint hasBg>
+    If you write an entire application like this, you have to reckon with the
+    fact that it will not be stable and friendly to changes in business
+    requirements.
+  </Hint>
+</Section>
+
+<Section>
+  <XL>2. Logic/presentation</XL>
+  <M>
+    Each application should have layers with clearly defined relations. When I
+    say layers, I mean code fragments that are logically related to each other
+    and recur across different functionalities.
+  </M>
+  <M>
+    An example of such a layer could be logic for <B>API requests</B> or{" "}
+    <B>business logic</B>. In addition to identifying it, you still need to name
+    it somehow, create abstractions and design relations.
+  </M>
+  <M>
+    In frontend applications, we can easily separate two layers -{" "}
+    <B>logic and presentation</B>.
+  </M>
+  <Img
+    border
+    src="https://raw.githubusercontent.com/polubis/WebBlog/Modular-architecture-for-medium-frontend-apps/src/articles/architecture/modular-architecture-for-medium-frontend-apps/lp.jpg"
+    description="Now you have 2 layers"
+  />
+  <Code
+    src="https://raw.githubusercontent.com/polubis/Modular-architecture-for-medium-frontend-apps/main/snippets/2-layers.tsx"
+    description="2 layers in code"
+  />
+  <M>
+    To be honest - it's not enough. The presentation can be split into
+    additional layers and the same for logic. You should achieve this because if
+    not - you are not able to reuse code.
+  </M>
+</Section>
+
+<Section>
+  <XL>3. Design phase</XL>
+  <M>Firstly, check this diagram.</M>
+  <Img
+    border
+    src="https://raw.githubusercontent.com/polubis/WebBlog/Modular-architecture-for-medium-frontend-apps/src/articles/architecture/modular-architecture-for-medium-frontend-apps/a-final.jpg"
+    description="Modular architecture diagram"
+  />
+  <M>
+    These blue boxes represent features. Each functionality should take
+    advantage of this structure and relations. These rules are crucial when the
+    solution is growing 🐍.
+  </M>
+  <M>
+    This approach gives us a division of application code and generic code that
+    can be used in other solutions. Also, you can easily publish libraries via{" "}
+    <B>npm</B> or migrate to <B>monorepo</B> later.
+  </M>
+</Section>
+
+<Section>
+  <XL>4. Libraries</XL>
+  <M>
+    First, let's create some components and place them in the <B>ui</B>{" "}
+    directory. This library will store purely presentation components, you can
+    treat it as a <B>design system</B> implementation.
+  </M>
+  <Code
+    src="https://raw.githubusercontent.com/polubis/Modular-architecture-for-medium-frontend-apps/main/src/libs/ui/avatar/Avatar.tsx"
+    description="Avatar component"
+  />
+  <Code
+    src="https://raw.githubusercontent.com/polubis/Modular-architecture-for-medium-frontend-apps/main/src/libs/ui/avatars-grid/AvatarsGrid.tsx"
+    description="AvatarsGrid component"
+  />
+  <M>
+    Next, we will create a <B>development-kit</B> library that will store
+    generic logic to handle API requests, rendering and anything that will be
+    useful in various applications.
+  </M>
+  <Code
+    src="https://raw.githubusercontent.com/polubis/Modular-architecture-for-medium-frontend-apps/main/src/libs/development-kit/useFetch.ts"
+    description="Generic hook for fetching"
+  />
+  <Code
+    src="https://raw.githubusercontent.com/polubis/Modular-architecture-for-medium-frontend-apps/main/src/libs/development-kit/Renderer.tsx"
+    description="Render handler"
+  />
+  <M>
+    Now when you create another app, you already have some base - design system
+    and a set of useful features that speed up the work.
+  </M>
+  <Hint hasBg>
+    If you are interested about <B>useFetch</B> hook you can check{" "}
+    <A
+      href="https://greenonsoftware.com/articles/quick-wins/use-fetch-hook/"
+      outside
+    >
+      useFetch hook
+    </A>{" "}
+    article.
+  </Hint>
+</Section>
+
+<Section>
+  <XL>5. Features</XL>
+  <M>
+    Let's start with the <B>service</B> layer that will be responsible for{" "}
+    encapsulating the logic, performing API requests and carrying out the
+    necessary data mapping.
+  </M>
+  <Code
+    src="https://raw.githubusercontent.com/polubis/Modular-architecture-for-medium-frontend-apps/main/src/features/users/services/users.service.ts"
+    description="Now you can fetch users"
+  />
+  <M>
+    Now, look at the next layer - <B>logic</B>. We will use <B>useFetch</B>{" "}
+    generic hook to implement users fetch.
+  </M>
+  <Code
+    src="https://raw.githubusercontent.com/polubis/Modular-architecture-for-medium-frontend-apps/main/src/features/users/logic/use-users.ts"
+    description="Handling fetch users"
+  />
+  <M>
+    Logic done. Now it's time for the next layer - <B>components</B>, which can
+    be used only inside this application. This layer can use models from the
+    application domain.
+  </M>
+  <Code
+    src="https://raw.githubusercontent.com/polubis/Modular-architecture-for-medium-frontend-apps/main/src/features/users/components/users-list/users-list.component.tsx"
+    description="Rendering users list"
+  />
+  <M>
+    It's time to glue everything with <B>container</B>. The layer that is
+    supposed to bind the <B>logic</B> to the <B>component</B>.
+  </M>
+  <Code
+    src="https://raw.githubusercontent.com/polubis/Modular-architecture-for-medium-frontend-apps/Showcase/snippets/users.container.tsx"
+    description="Looks simple?"
+  />
+  <M>
+    Last layer will be a <B>module</B>. A starting point for using the
+    functionality. Here you can add things like <B>lazy loading</B> or{" "}
+    <B>authorization</B> logic.
+  </M>
+  <Code
+    src="https://raw.githubusercontent.com/polubis/Modular-architecture-for-medium-frontend-apps/main/snippets/users.module.tsx"
+    description="Here everything starts"
+  />
+  <Hint hasBg>
+    For easier recognition of individual layers, you can add a post fix to the
+    file name - <B>Angular</B> is doing that and me too.
+  </Hint>
+</Section>
+
+<Section>
+  <XL>6. A few doubts</XL>
+  <M>
+    What about the situation when module <B>A</B> should consume something
+    available in module <B>B</B>? It will probably happen when you would like to
+    implement an authorization mechanism in the app or something similar.
+  </M>
+  <M>
+    You can use the same approach as in <B>libs</B> directory. Just create{" "}
+    <B>shared</B> folder and put there all reusable stuff connected with
+    application.
+  </M>
+  <Img
+    border
+    src="https://raw.githubusercontent.com/polubis/WebBlog/Modular-architecture-for-medium-frontend-apps/src/articles/architecture/modular-architecture-for-medium-frontend-apps/a-final4x.png"
+    description="Architecture with shared module"
+  />
+</Section>
+
+<Section>
+  <XL>7. Adding authorization</XL>
+  <M>
+    Let's imagine a situation when <B>UsersModule</B> is a protected view. Only
+    authorized users can access it. Check the gif below to understand how it
+    should work.
+  </M>
+  <Img
+    border
+    src="https://raw.githubusercontent.com/polubis/WebBlog/Modular-architecture-for-medium-frontend-apps/src/articles/architecture/modular-architecture-for-medium-frontend-apps/app-final.gif"
+    description="Authorization feature"
+  />
+  <M>
+    To access authorization state in different modules and be able to trigger
+    authorization we need <B>Context API</B> from <B>React</B> and{" "}
+    <B>AuthModule</B> itself. This stuff will be added to <B>shared</B>{" "}
+    directory.
+  </M>
+  <M>
+    As before we will split it into layers to achieve goals. Firstly, we add
+    service.
+  </M>
+  <Code
+    src="https://raw.githubusercontent.com/polubis/Modular-architecture-for-medium-frontend-apps/main/src/shared/auth/services/auth.service.ts"
+    description="Authorization service"
+  />
+  <M>Next, we need authorization logic.</M>
+  <Code
+    src="https://raw.githubusercontent.com/polubis/Modular-architecture-for-medium-frontend-apps/main/src/shared/auth/logic/auth.tsx"
+    description="Context used"
+  />
+  <M>
+    It's time for <B>module</B>. It groups the whole feature.
+  </M>
+  <Code
+    src="https://raw.githubusercontent.com/polubis/Modular-architecture-for-medium-frontend-apps/main/src/shared/auth/auth.module.tsx"
+    description="Module is ultra simple"
+  />
+  <M>
+    Now we need to wrap our entire application with <B>AuthModule</B>. Now you
+    can use authorization!
+  </M>
+  <Code
+    src="https://raw.githubusercontent.com/polubis/Modular-architecture-for-medium-frontend-apps/main/src/index.tsx"
+    description="App wrapped"
+  />
+  <M>
+    Last step - just consume authorization API via <B>useAuthContext</B> hook
+    and decide what should be displayed.
+  </M>
+  <Code
+    src="https://raw.githubusercontent.com/polubis/Modular-architecture-for-medium-frontend-apps/main/src/features/users/containers/users.container.tsx"
+    description="Consuming auth API"
+  />
+</Section>
+
+<Section>
+  <XL>8. When to use?</XL>
+  <M>
+    Consider using this architecture when at least 2 or 3 of these points are
+    truthy.
+  </M>
+  <List items="It's single page application, There is a small amount of shared state across components, Application is small/medium size, Your team is familiar with these architectural concepts" />
+</Section>
+
+<Section>
+  <XL>Full example</XL>
+  <M>
+    Fork{" "}
+    <A
+      href="https://github.com/polubis/Modular-architecture-for-medium-frontend-apps/tree/Showcase"
+      outside
+    >
+      repository
+    </A>{" "}
+    to check the full solution or play with it on{" "}
+    <A
+      href="https://codesandbox.io/p/github/polubis/Modular-architecture-for-medium-frontend-apps/Showcase?import=true&selection=%5B%7B%22endColumn%22%3A3%2C%22endLineNumber%22%3A16%2C%22startColumn%22%3A3%2C%22startLineNumber%22%3A16%7D%5D"
+      outside
+    >
+      Codesandbox
+    </A>{" "}
+    platform.
+  </M>
+</Section>
+
+<Summary>
+  <M>
+    I hope you enjoyed my architectural proposal. It's mostly based on{" "}
+    <B>Angular's</B> one.
+  </M>
+  <M>
+    It's not a perfect solution - as always it depends on the project. However,
+    you have the next skill in your spellbook and you should be able to use this
+    kind of approach.
+  </M>
+  <M>
+    Feel free to contact me if you have any questions/proposals. Have a nice day
+    and good health!
+  </M>
+</Summary>
