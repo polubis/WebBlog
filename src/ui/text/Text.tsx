@@ -11,6 +11,7 @@ interface Props {
   primary?: boolean
   grayedOut?: boolean
   hasBg?: boolean
+  fullBg?: boolean
 }
 
 enum Weight {
@@ -49,11 +50,16 @@ const style = css`
   font-style: ${getStyle};
   opacity: ${({ grayedOut }: Props) => (grayedOut ? 0.7 : 1)};
 
-  ${({ hasBg }: Props) =>
+  ${({ hasBg, fullBg }: Props) =>
     hasBg &&
     css`
       position: relative;
       padding-left: 18px;
+
+      ${fullBg &&
+      css`
+        padding-right: 18px;
+      `}
 
       &::after {
         content: "";
@@ -61,7 +67,7 @@ const style = css`
         bottom: 0;
         left: 0;
         height: calc(100% + 16px);
-        width: 10%;
+        width: ${fullBg ? "100%" : "10%"};
         opacity: 0.2;
         background: ${theme.secondary};
         position: absolute;
