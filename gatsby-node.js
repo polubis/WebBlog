@@ -124,10 +124,12 @@ exports.createPages = async ({ graphql, actions }) => {
           article: {
             ...allMdxNode,
             thumbnail: thumbnails[allMdxNode.slug],
-            stack: allMdxNode.frontmatter.stack.split(",").map(id => ({
-              id,
-              avatar: techAvatars[id],
-            })),
+            stack: allMdxNode.frontmatter.stack
+              ? allMdxNode.frontmatter.stack.split(",").map(id => ({
+                  id,
+                  avatar: techAvatars[id],
+                }))
+              : [],
             author: {
               ...authors.find(
                 auth => auth.id === allMdxNode.frontmatter.authorId
