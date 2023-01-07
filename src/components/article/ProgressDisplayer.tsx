@@ -10,7 +10,7 @@ const TRESHOLDS = [
   [240, "Holy cow, did you really read this? Thanks! 🤓"] as const,
   [480, "Thanks for reading 🤓"] as const,
   [1000, "Hmmm... Are you afk? 🤓"] as const,
-  [100000, "What???????????????? 🤓"] as const,
+  [100000, "Thanks 🤓"] as const,
 ] as const
 
 const slideIn = keyframes`
@@ -48,6 +48,7 @@ const ReadProgress = styled.div`
 
 const ReadStatsManager = ({ readedIn }: { readedIn: number }) => {
   const [message, setMessage] = useState("")
+  const [hide, setHide] = useState(false)
 
   useEffect(() => {
     if (readedIn > 0) {
@@ -57,13 +58,18 @@ const ReadStatsManager = ({ readedIn }: { readedIn: number }) => {
         )!
         setMessage(messageToSet)
       }, 2000)
+      const hideTimeout = setTimeout(() => {
+        setHide(true)
+      }, 10000)
+
       return () => {
         clearTimeout(appearTimeout)
+        clearTimeout(hideTimeout)
       }
     }
   }, [readedIn])
 
-  if (readedIn > 0) {
+  if (readedIn > 0 && !hide) {
     return (
       <>
         {message === "" ? (

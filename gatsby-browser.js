@@ -1,4 +1,4 @@
-import './src/styles/index.css';
+import "./src/styles/index.css"
 
 import "@fontsource/lexend/400.css"
 import "@fontsource/lexend/500.css"

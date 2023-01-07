@@ -2,6 +2,8 @@ export interface ArticleFrontmatter {
   cdate: string
   mdate: string
   authorId: string
+  treviewerId: string
+  lreviewerId: string
   tags: string
   description: string
   readTime: number
@@ -54,4 +56,6 @@ export interface Article {
   thumbnail: ArticleThumbnail
   body?: string
   isNew?: boolean
+  lingReviewer: ArticleAuthor
+  techReviewer: ArticleAuthor
 }

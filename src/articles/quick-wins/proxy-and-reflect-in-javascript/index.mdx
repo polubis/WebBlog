@@ -1,7 +1,9 @@
 ---
-cdate: 2022-12-19
-mdate: 2022-12-19
+cdate: 2023-01-07
+mdate: 2023-01-07
 authorId: kwozniak
+treviewerId: polubis
+lreviewerId: kreszko
 stack: javascript
 tags: language,syntax,apis
 description: Learn the difference between Proxy and Reflect and their useful use cases.
@@ -15,12 +17,12 @@ title: Proxy and reflect in JavaScript
     programmers without intruding on their code?
   </M>
   <M>
-    There is something called <B>metaprogramming</B>. Thanks to it you will
-    achieve what I mentioned above.
+    There is something called <B>metaprogramming</B>. Thanks to it you can
+    achieve it.
   </M>
   <M>
     Two objects will help you: <B>Proxy</B> and <B>Reflect</B>. Today you will
-    learn how, when and where you can use them to master a powerful technique.
+    learn how, when, and where you can use them to master a powerful technique.
   </M>
   <Hint hasBg>
     Metaprogramming is not invented by <B>Meta</B> company 🤡.
@@ -30,17 +32,17 @@ title: Proxy and reflect in JavaScript
 <Section>
   <XL>1. Metaprogramming</XL>
   <M>
-    To start talking about <B>metaprogramming</B>, you need to answer the
-    question: what is <B>data</B> and <B>code</B>? Every programming language
-    has both of these but what it exactly mean?
+    To start talking about metaprogramming, you need to answer the question:
+    what is data and code? Every programming language has both of these but what
+    do they mean, exactly?
   </M>
   <M>
     <B>Data</B> can be for example:
   </M>
   <List items="number, symbol, array, object, string" />
   <M>
-    <B>Code</B> is an expression - an instruction to be executed on this{" "}
-    <B>data</B>. It can be:{" "}
+    <B>Code</B> is an expression - an instruction to be executed on this data.
+    It can be:{" "}
     <B hasBg fullBg>
       const result = 1 + (2 * 3)
     </B>
@@ -55,8 +57,8 @@ title: Proxy and reflect in JavaScript
   <List items="by data: '1 + (2 * 3)' - is a string!, by code: '1 + (2 * 3)' - is it code snippet? Then it is 7!" />
   <M>
     From this it follows that the same representation of an expression can have
-    different interpretations. This approach is what <B>metaprogramming</B> is
-    all about.
+    different interpretations. This approach is what metaprogramming is all
+    about.
   </M>
   <M>
     Knowing this is a powerful tool for building data and expressions. It allows
@@ -69,37 +71,38 @@ title: Proxy and reflect in JavaScript
     src="/snippets/proxy-and-reflect-in-javascript/for.js"
   />
   <M>
-    According to the data, it is plain text, but according to the code, it is
+    According to the data it is a plain text, but according to the code it is
     something to be interpreted as an instruction, so:
   </M>
   <Code
     description="For as set of instructions"
     src="/snippets/proxy-and-reflect-in-javascript/for-pseudo.txt"
   />
-  <Hint hasBg>
+  <M>
     Congratulations, you have just successfully interpreted a piece of code
-    through metaprogramming! You're probably wondering what this has to do with
-    the topic of the article? "Stay awhile and listen".
-  </Hint>
+    through metaprogramming!
+  </M>
 </Section>
 
 <Section>
-  <XL>2. What is an Proxy pattern</XL>
+  <XL>2. Proxy pattern explained</XL>
   <M>
-    A proxy is a structural design pattern that allows you to create a proxy
-    object in place of another object. A proxy is a kind of guardian that
-    protects access to the original object, or changes its behavior during a
-    specific action.
+    A <B>proxy</B> is a <B>structural design pattern</B> that allows you to
+    create a proxy object in place of another object. A proxy is a kind of
+    guardian that protects access to the original object, or changes its
+    behavior.
   </M>
   <M>
-    How do you translate this into a simple example from life? Cash! Hmm? Cash
-    is the physical representation of the capital placed in your bank account.
-    But what about it? Have you ever used a credit card? Well, think about it, a
-    card is actually a proxy for your cash in the bank. You don't need to
-    physically have paper money with you to buy something. Both of these
-    entities implement the same interface (you can perform an action with them:
-    pay). At the same time, you are actually operating an object that protects
-    another object (in the bank).
+    How do you translate this into a simple example from life?... Cash! Cash is
+    the physical representation of the capital placed in your bank account. But
+    what about it? Have you ever used a credit card?
+  </M>
+  <M>
+    Well, think about it. Credit card is an actually proxy for your cash in the
+    bank. You don't need to physically have paper money with you to buy
+    something. Both of these entities implement the same interface (you can
+    perform an action with them - pay). At the same time, you are actually
+    operating an object that protects another object (in the bank).
   </M>
 </Section>
 
@@ -107,21 +110,32 @@ title: Proxy and reflect in JavaScript
   <XL>3. Proxy in JavaScript</XL>
   <M>Let's start with a simple example for reference:</M>
   <Code
-    description="Your first Proxy"
-    src="/snippets/proxy-and-reflect-in-javascript/what-it-comes-with.js"
+    description="Your first proxy"
+    src="/snippets/proxy-and-reflect-in-javascript/first-proxy.js"
   />
-  <M>This syntax has several important aspects to describe the proxy:</M>
-  <List items="target - (ProtectedObject) is a object to protect by guard, trap - proxy config that has methods that intercept operations, handler - object of traps definitions" />
   <M>
-    Some of the methods have certain implementation conditions. SET must return
-    true if the value was assigned correctly and false otherwise, DELETE must
-    return true if the value was deleted correctly and false otherwise etc.
+    As you can see, we have overwritten the <B>get</B> mechanism for reading the
+    properties for the <B>ProtectedObject</B> without interfering with its
+    implementation. Now reading a property separated by the symbol "_", you are
+    able to transform several properties into a string of characters.
   </M>
   <M>
+    Even more can be achieved by overwriting <B>set</B> behavior. Just look at
+    this:
+  </M>
+  <Code
+    description="Strict"
+    src="/snippets/proxy-and-reflect-in-javascript/set-change.js"
+  />
+  <M>
+    We added validation which makes sense. Who normally tries to add something
+    to an object with a certain shape?
+  </M>
+  <Hint hasBg>
     When does a proxy make sense? The proxy should totally replace the target
     object everywhere. No one should ever reference the target object after it
     got proxied. Otherwise it’s easy to mess up.
-  </M>
+  </Hint>
 </Section>
 
 <Section>
@@ -141,30 +155,44 @@ title: Proxy and reflect in JavaScript
     description="Like a guard"
     src="/snippets/proxy-and-reflect-in-javascript/guard.js"
   />
-  <M>Lazy Initialization:</M>
+  <M>Lazy initialization:</M>
   <Code
-    description="Lazy af"
+    description="Lazy"
     src="/snippets/proxy-and-reflect-in-javascript/lazy.js"
   />
 </Section>
 
 <Section>
-  <XL>5. Reflect feature in JavaScript</XL>
+  <XL>5. What is Reflection?</XL>
   <M>
-    Reflect is a Javascript native object that provides methods same as proxy
-    feature. It is not a functional object, so its methods are static (not
-    constructable). What does this mean? We can't create an instance of a
-    Reflect object through the 'new' operator or call it like a function.
+    Reflection is a closely related concept to object-oriented programming.
+    Among other things, it is used to check the properties of a{" "}
+    <B>class/object/method</B>. This technique allows building more dynamic
+    functionality that is native to a particular programming language.
   </M>
   <M>
-    So which approach should I use? Which is better? In my opinion: <B>both</B>.
+    Languages that use this functionality are able to modify their own
+    environment. So the use of reflection should be thoughtful and used only in
+    specific cases to avoid messy effects.
+  </M>
+</Section>
+<Section>
+  <XL>6. Reflect feature in JavaScript</XL>
+  <M>
+    <B>Reflect</B> is a Javascript native object that provides methods same as
+    proxy feature. It is not a functional object, so its methods are static (not
+    constructable). What does this mean? We can't create an instance of a
+    Reflect object through the <B>new</B> operator or call it like a function.
+  </M>
+  <M>
+    So which approach should I use? In my opinion: <B>both</B>.
   </M>
   <M>
     Proxy provides us with a number of options for changing an object's behavior
     during particular actions, while Reflect gives us access to their default
     behavior.
   </M>
-  <M>It is a modified example 'Protect the object field':</M>
+  <M>It is a modified example "Protect the object field":</M>
   <Code
     description="Guard but with Reflect"
     src="/snippets/proxy-and-reflect-in-javascript/reflect-guard.js"
@@ -172,12 +200,12 @@ title: Proxy and reflect in JavaScript
   <M>Simpler? Clearer? Without an additional condition? Of course it is.</M>
   <M>
     Besides, the Reflect object provides us with a lot of functionality, which
-    can be categorized as 'sugar syntax'.
+    can be categorized as "syntax sugar".
   </M>
 </Section>
 
 <Section>
-  <XL>6. Reflect use cases</XL>
+  <XL>7. Reflect use cases</XL>
   <M>Need to find out if an object has a field?</M>
   <Code
     description="Searching..."
@@ -197,12 +225,12 @@ title: Proxy and reflect in JavaScript
 
 <Summary>
   <M>
-    I hope you understand now Proxy and Reflect 🧑‍💻. I must say they are tricky but
-    useful and powerful.
+    I hope you now understand Proxy and Reflect 🧑‍💻. I must say, they are
+    tricky, yet useful and powerful.
   </M>
   <M>
-    Next time when you see an ugly, old legacy code. Remember, that you have
-    these API's and there is maybe good use case for them.
+    Next time when you see an ugly, old legacy code remember that you have these
+    API's and there may be a good use case for them.
   </M>
   <M>
     Feel free to contact me if you have any questions/proposals. Have a nice day
