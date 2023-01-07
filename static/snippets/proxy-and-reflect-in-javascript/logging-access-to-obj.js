@@ -6,10 +6,10 @@ const obj = {
 const objProxy = new Proxy(obj, {
   get: function (obj, prop) {
     /** Send information to another module. */
-    console.log(`${prop} was read`)
+    console.log(`${prop} readed`)
 
     return obj[prop]
   },
 })
 
-const nameRead = objProxy.name // Name was read.
+const nameRead = objProxy.name // Name readed.
