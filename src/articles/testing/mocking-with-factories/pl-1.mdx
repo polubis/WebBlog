@@ -1,0 +1,46 @@
+Intro
+
+#Ulatwiamy sobie pisanie testow za pomoca mock factories.
+
+#Wstep
+
+Testowanie to wazny etap tworzenia stabilnego
+oprogramowania. Testy manualne sa zbyt czasochlonne, dodatkowo
+podatne na blad ludzki, wiec ktos madry wymyslil testy
+automatycznie (kod, ktory sprawdza kod).
+
+Tak jak aplikacja moze byc zle napisana, tak i rowniez
+moze stac sie z testami. Praca z nimi moze okazac sie mordega.
+Sa jednak techniki, ktore ulatwiaja pisanie testow oraz
+utrzymanie ich. Dzis przyjrzymy sie jednej z nich, czyli mock factories.
+
+#Czym sa mocki?
+
+Mock to nic innego jak fragment kodu, ktory ma udac inny
+fragment kodu, ale dlaczego i kiedy` to robimy?
+
+1. Gdy chcemy uniknac efektow ubocznych
+   jak zapytania do bazy, API czy modyfikacji rzeczy zwyczajnie
+   nie dostepnych podczas testow (local storage, session storage, ...itp)
+2. Gdy fragment kodu, ktory testujemy nie jest istotny z punktu
+   widzenia przypadku, ktory testujemy.
+   // Add przyklad here
+3. Kiedy dalsze dzialanie programu zalezy od czynnikow zewnetrznych
+   (odpowiedz z API, bazy).`
+4. Kiedy nasz kod jest zalezny od modulow nie znajdujacych sie w
+   naszym kodzie zrodlowym (gdy korzystamy z bibliotek).`
+
+// W artykule omawiamy zachowanie sie testow na przykladzie jest,
+// ktore symuluje zachowanie API przegladarki. (sprwadzic to)
+
+#Jak tworzymy mocki zazwyczaj?
+
+Zazwyczaj w kazdym pliku testowym tworzymy oddzielne mocki, czasami
+stworzmy plik, gdzie udostepniamy mocki dla innych testow. Jednak importowanie
+jakiegos obiektu i uzywanie go w wielu testach stwarza jeden problem.
+
+Testy sa podatne na popsucie ich w momencie zmiany tego "glownego" obiektu.
+To jest sytuacja, ktorej powinnismy unikac, i tu przyjdzie nam na pomoc
+wzorzec fabryki.
+
+#Mocking factories czyli mozna lepiej

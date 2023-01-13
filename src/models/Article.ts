@@ -7,6 +7,8 @@ export interface ArticleFrontmatter {
   readTime: number
   stack: string
   title: string
+  linguistic: string
+  substantive: string
 }
 
 export interface ArticleThumbnail {

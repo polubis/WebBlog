@@ -72,6 +72,8 @@ exports.createPages = async ({ graphql, actions }) => {
             readTime
             mdate
             tags
+            substantive
+            linguistic
             title
             stack
           }
