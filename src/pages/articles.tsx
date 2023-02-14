@@ -2,10 +2,11 @@ import React from "react"
 import { graphql } from "gatsby"
 
 import Layout from "../components/layout/Layout"
-import { Article, ArticleAuthorAvatar } from "../models/Article"
+import { Article } from "../models/Article"
 import Grid from "../components/article/Grid"
 import authors from "../authors/authors.json"
 import { SiteMeta } from "../utils/SiteMeta"
+import { Image } from "../models"
 
 interface Props {
   data: {
@@ -17,7 +18,7 @@ interface Props {
         name: string
         relativePath: string
         childImageSharp: {
-          fluid: ArticleAuthorAvatar
+          fluid: Image
         }
       }[]
     }
@@ -41,7 +42,7 @@ export const query = graphql`
         }
       }
     }
-    allMdx {
+    allMdx(filter: {fileAbsolutePath: {regex: "/index.mdx/"}}) {
       nodes {
         frontmatter {
           cdate
