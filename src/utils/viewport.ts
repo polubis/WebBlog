@@ -1,3 +1,4 @@
+const SMALL_MOBILE = 420;
 const MOBILE = 600
 const TABLET = 900
 const LAPTOP = 1440
@@ -12,6 +13,7 @@ export const T_UP = getUpViewport(TABLET)
 export const L_UP = getUpViewport(LAPTOP)
 export const D_UP = getUpViewport(DESKTOP)
 
+export const SM_DOWN = getDownViewport(SMALL_MOBILE)
 export const M_DOWN = getDownViewport(MOBILE)
 export const T_DOWN = getDownViewport(TABLET)
 export const L_DOWN = getDownViewport(LAPTOP)

@@ -7,15 +7,18 @@ import { Article as ArticleModel } from "../../models/Article"
 import Thumbnail from "../article/Thumbnail"
 import Tags from "../article/Tags"
 import { M } from "../../ui"
-import Details from "../article/Details"
-import { AuthorBadge, ReadTimeBadge } from "../badges"
 import Intro from "./Intro"
 import Loadable from "react-loadable"
-import { L_UP } from "../../utils/viewport"
+import { L_UP, SM_DOWN } from "../../utils/viewport"
 import { SiteMeta } from "../../utils/SiteMeta"
 
 import { defineCustomElements as deckDeckGoHighlightElement } from "@deckdeckgo/highlight-code/dist/loader"
 import { Stack } from "./Stack"
+import { Reviewers } from "./Reviewers"
+import { AuthorBadge } from "../badges/AuthorBadge"
+import Badge from "./Badge"
+import { formatDistanceStrict } from "date-fns"
+import theme from "../../utils/theme"
 
 deckDeckGoHighlightElement()
 
@@ -23,6 +26,16 @@ const ProgressDisplayer = Loadable({
   loader: () => import("./ProgressDisplayer").then(m => m.ProgressDisplayer),
   loading: () => null,
 })
+
+const Author = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+const Dates = styled.div`
+  display: flex;
+  flex-flow: wrap;
+`
 
 const Article = styled.main`
   display: flex;
@@ -38,10 +51,17 @@ const Article = styled.main`
     margin: 62px 0 28px 0;
   }
 
-  ${Details} {
-    & > :nth-child(2) {
-      margin: 0 28px 0 42px;
-      flex-shrink: 0;
+  ${Dates} {
+    margin: 32px 0 40px 0;
+
+    & > * {
+      margin: 0 10px 10px 0;
+
+      @media ${SM_DOWN} {
+        width: 100%;
+        margin: 0 0 10px 0;
+        text-align: center;
+      }
     }
   }
 `
@@ -54,7 +74,16 @@ interface Props {
 
 export default function ({ pageContext }: Props) {
   const {
-    article: { frontmatter, author, thumbnail, body, slug, stack },
+    article: {
+      frontmatter,
+      author,
+      thumbnail,
+      body,
+      slug,
+      stack,
+      lingReviewer,
+      techReviewer,
+    },
   } = pageContext
 
   const { title, description, tags, readTime } = frontmatter
@@ -74,22 +103,33 @@ export default function ({ pageContext }: Props) {
     >
       <Layout>
         <Article>
-          <Thumbnail
-            thumbnail={thumbnail}
-            title={title}
-            cdate={frontmatter.cdate}
-            mdate={frontmatter.mdate}
-          />
+          <Thumbnail readTime={readTime} thumbnail={thumbnail} title={title} />
           <Tags tags={tags} />
           <Intro>
             <M>{description}</M>
           </Intro>
-          <Details>
-            <AuthorBadge author={author} />
-            <ReadTimeBadge minutes={readTime} />
-          </Details>
+          <Reviewers
+            author={author}
+            techReviewer={techReviewer}
+            lingReviewer={lingReviewer}
+          />
           <Stack items={stack} />
           <MDXRenderer>{body}</MDXRenderer>
+          <Author>
+            <AuthorBadge author={author} />
+          </Author>
+          <Dates>
+            <Badge color={theme.secondary}>
+              created:{" "}
+              {formatDistanceStrict(new Date(frontmatter.cdate), new Date())}{" "}
+              ago
+            </Badge>
+            <Badge color={theme.secondary}>
+              updated:{" "}
+              {formatDistanceStrict(new Date(frontmatter.mdate), new Date())}{" "}
+              ago
+            </Badge>
+          </Dates>
         </Article>
         <ProgressDisplayer />
       </Layout>

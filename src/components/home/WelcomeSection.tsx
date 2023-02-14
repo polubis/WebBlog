@@ -5,7 +5,7 @@ import Button from "../button/Button"
 import { Link } from "gatsby"
 import { ManGraphic } from "./ManGraphic"
 import { Shape } from "./Shape"
-import { L_DOWN, T_DOWN, M_DOWN, M_UP } from "../../utils/viewport"
+import { L_DOWN, T_DOWN, M_DOWN } from "../../utils/viewport"
 
 const Container = styled.section`
   padding: 76px 32px;
@@ -39,7 +39,6 @@ const TextContent = styled.div`
 
   & > *:nth-child(2) {
     margin: 22px 0 48px 0;
-    text-align: justify;
   }
 
   & > button {
@@ -87,8 +86,7 @@ export const WelcomeSection = () => {
         <TextContent>
           <XXL>Boost your programming skills</XXL>
           <M>
-            If you are interested in learning about programming in a concise and
-            clean form - this is the perfect place for you.
+            A place for people who love programming and personal development.
           </M>
           <Link to="/articles/">
             <Button>CHECK BLOG</Button>

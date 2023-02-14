@@ -1,0 +1,103 @@
+---
+cdate: 2023-02-14
+mdate: 2023-02-14
+authorId: polubis
+treviewerId: kwozniak
+lreviewerId: kreszko
+stack: react,jest,typescript
+tags: patterns,practices
+description: Quick overview of a simple factory method pattern which reduces headaches connected with mocking.
+readTime: 4
+title: Mocking up with factories
+---
+
+<Prelude>
+  <M>
+    Mocking is a common practice during application testing, and sometimes also
+    in application logic (when backend is not ready yet).
+  </M>
+  <M>In this article we will explore best practices for mocks creation.</M>
+</Prelude>
+
+<Section>
+  <XL>1. The problem</XL>
+  <M>Imagine the situation when you have two endpoints:</M>
+  <List items="get/users,/get/users/:id" />
+  <M>
+    Both of them return the same entity - user object. That object can be
+    described with following interface:
+  </M>
+  <Code
+    description="User shape"
+    src="/snippets/mocking-up-with-factories/typical-mock.ts"
+  />
+  <M>
+    Nothing fancy. Where you will call these API's, they will return{" "}
+    <B>list of users</B> and <B>user by id</B>. So let's use a typical UI/logic
+    implementation for this.
+  </M>
+  <Code
+    description="Mocks used in application"
+    src="/snippets/mocking-up-with-factories/typical-mock-usage.tsx"
+  />
+  <M>
+    If you will have more layers in your architecture, it will be more
+    complicated. In addition, there will be a need to apply same mocks in tests.
+  </M>
+  <Code
+    description="Mocks used in testing"
+    src="/snippets/mocking-up-with-factories/typical-mocks-in-tests.test.ts"
+  />
+  <M>
+    So where is the problem? Think about that in perspective of code
+    maintenance. If you want to change the shape of an object you need to change
+    every place in app where this object is imported and used. Also, this is the
+    same instance of object so you can mess up your tests.
+  </M>
+</Section>
+
+<Section>
+  <XL>2. Factories for the rescue</XL>
+  <M>
+    <B>Factory method</B> is a simple design pattern which reduces complexity of
+    object creation and moves this logic to separate, encapsulated code.
+  </M>
+  <M>
+    So instead of importing static object, we will import a function (factory
+    method) which will create this object for us based on configuration or
+    chained methods call.
+  </M>
+  <Code
+    description="Factory created!"
+    src="/snippets/mocking-up-with-factories/users-factory.ts"
+  />
+  <M>
+    You're using function to generate always new object. With factory you can
+    chain methods to achieve object shape which you need.
+  </M>
+  <Code
+    description="Refactors friendly mocking"
+    src="/snippets/mocking-up-with-factories/improved-mock-usage.tsx"
+  />
+  <M>Same for tests.</M>
+  <Code
+    description="Tests improved"
+    src="/snippets/mocking-up-with-factories/improved-mocks-in-tests.test.ts"
+  />
+  <M>
+    We have only 2 files but imagine the mess which you can avoid and time spend
+    on refactor in bigger apps.
+  </M>
+</Section>
+
+<Summary>
+  <M>
+    Nothing more to add. It's a really simple quick win. I'm using it in all of
+    my projects. It also boosts development for green field projects when
+    backend is not ready yet.
+  </M>
+  <M>
+    Feel free to contact me if you have any questions/proposals. Have a nice day
+    and good health!
+  </M>
+</Summary>

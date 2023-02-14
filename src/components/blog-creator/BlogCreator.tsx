@@ -2,7 +2,7 @@ import React, { memo, useEffect, useMemo } from "react"
 import { useState } from "react"
 import { XL, M, Hint, X } from "../../ui/text"
 import { debounceTime, Subject, tap } from "rxjs"
-import styled, { keyframes } from "styled-components"
+import styled from "styled-components"
 import Badge from "../article/Badge"
 import theme from "../../utils/theme"
 import BlogCreatorLayout from "./BlogCreatorLayout"
@@ -10,8 +10,8 @@ import { TAGS, INIT_MDX } from "./config"
 import Button from "../button/Button"
 import { BlogPreview } from "./BlogPreview"
 import { Code } from "./Code"
-import { useCopyToClipboard } from "../../utils/useCopyToClipboard"
 import { M_DOWN, T_DOWN } from "../../utils/viewport"
+import { useJoinUsModal, WithJoinUsModal } from "../article/WithJoinUsModal"
 
 const Container = styled.div`
   display: flex;
@@ -162,43 +162,17 @@ const CurrentlyUsedTags = memo(
   (prev, curr) => prev.mdx === curr.mdx
 )
 
-const ClipboardPromptAnimation = keyframes`
-  0% {
-    transform: translateY(-15px);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
-`
+const ConnectedSubmitButton = ({ disabled }: { disabled: boolean }) => {
+  const ctx = useJoinUsModal()
 
-const ClipboardPrompt = styled.div`
-  display: flex;
-  align-items: center;
-  position: fixed;
-  top: 10px;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  width: 300px;
-  border-radius: 4px;
-  background: ${theme.green};
-  z-index: 1;
-  color: ${theme.black};
-  padding: 10px;
-  animation: ${ClipboardPromptAnimation} 0.4s ease-in-out forwards;
-
-  @media ${M_DOWN} {
-    top: unset;
-    bottom: 10px;
-  }
-`
+  return (
+    <Button disabled={disabled} onClick={ctx.open}>
+      SUBMIT YOUR BLOG
+    </Button>
+  )
+}
 
 export default function () {
-  const [, copyToClipboard] = useCopyToClipboard()
-  const [displayPrompt, setDisplayPrompt] = useState(false)
-
   const change = useMemo(() => new Subject<string>(), [])
   const change$ = useMemo(() => change.asObservable(), [])
 
@@ -208,30 +182,7 @@ export default function () {
 
   const handleChange = (value: string) => {
     change.next(value)
-    setDisplayPrompt(false)
   }
-
-  const handleCopyToClipboard = () => {
-    copyToClipboard(mdx)
-
-    if (displayPrompt) {
-      return
-    }
-
-    setDisplayPrompt(true)
-  }
-
-  useEffect(() => {
-    if (displayPrompt) {
-      const timeout = setTimeout(() => {
-        setDisplayPrompt(false)
-      }, 8000)
-
-      return () => {
-        clearTimeout(timeout)
-      }
-    }
-  }, [displayPrompt])
 
   useEffect(() => {
     const sub = change$
@@ -254,61 +205,48 @@ export default function () {
   }, [])
 
   return (
-    <BlogCreatorLayout>
-      <Heading>
-        <XL>Blog creator</XL>
-        <Badge color={theme.green}>beta</Badge>
+    <WithJoinUsModal>
+      <BlogCreatorLayout>
+        <Heading>
+          <XL>Blog creator</XL>
+          <Badge color={theme.green}>beta</Badge>
+          <ConnectedSubmitButton disabled={checking} />
+        </Heading>
+        <Container>
+          <CodeContainer>
+            <CodeScroll>
+              <Code
+                id="blog-creator-code"
+                code={INIT_MDX}
+                onChange={handleChange}
+              />
+            </CodeScroll>
+            <CurrentlyUsedTags mdx={mdx} />
+          </CodeContainer>
 
-        {displayPrompt && (
-          <ClipboardPrompt>
-            <span>
-              Your blog content copied! Now send it on{" "}
-              <b>greenonsoftware@gmail.com</b> and we will contact you
-            </span>
-          </ClipboardPrompt>
-        )}
+          <PreviewScroll>
+            {hasErrors && (
+              <Errors>
+                <X>Errors detected.</X>
+                <M>
+                  It may be caused by not supported tag usage, not closed tag or
+                  after {"<iframe></iframe>"} use.
+                </M>
+              </Errors>
+            )}
 
-        <Button
-          disabled={displayPrompt || checking}
-          onClick={handleCopyToClipboard}
-        >
-          SUBMIT YOUR BLOG
-        </Button>
-      </Heading>
-      <Container>
-        <CodeContainer>
-          <CodeScroll>
-            <Code
-              id="blog-creator-code"
-              code={INIT_MDX}
-              onChange={handleChange}
-            />
-          </CodeScroll>
-          <CurrentlyUsedTags mdx={mdx} />
-        </CodeContainer>
+            <BlogPreview mdx={mdx} onError={() => setHasErrors(true)} />
+          </PreviewScroll>
 
-        <PreviewScroll>
-          {hasErrors && (
-            <Errors>
-              <X>Errors detected.</X>
-              <M>
-                It may be caused by not supported tag usage, not closed tag or
-                after {"<iframe></iframe>"} use.
-              </M>
-            </Errors>
+          {checking && (
+            <Loader>
+              <Badge color={theme.bg} background={theme.secondary}>
+                Updating...
+              </Badge>
+            </Loader>
           )}
-
-          <BlogPreview mdx={mdx} onError={() => setHasErrors(true)} />
-        </PreviewScroll>
-
-        {checking && (
-          <Loader>
-            <Badge color={theme.bg} background={theme.secondary}>
-              Updating...
-            </Badge>
-          </Loader>
-        )}
-      </Container>
-    </BlogCreatorLayout>
+        </Container>
+      </BlogCreatorLayout>
+    </WithJoinUsModal>
   )
 }

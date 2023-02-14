@@ -2,11 +2,10 @@ import React from "react"
 import styled from "styled-components"
 import Image from "gatsby-image"
 
-import { XXL } from "../../ui"
+import { ReadTimeIcon, XXL } from "../../ui"
 import { ArticleThumbnail } from "../../models/Article"
 import Badge from "./Badge"
 import theme from "../../utils/theme"
-import { formatDistanceStrict } from "date-fns"
 
 const Figure = styled.figure`
   position: relative;
@@ -39,7 +38,7 @@ const Figure = styled.figure`
 const Badges = styled.div`
   display: flex;
   flex-flow: wrap;
-  justify-content: flex-end;
+  align-items: center;
   position: absolute;
   top: 12px;
   right: 12px;
@@ -48,20 +47,29 @@ const Badges = styled.div`
   ${Badge} {
     margin: 0 0 10px 10px;
   }
+
+  .read-time-badge {
+    display: flex;
+    align-items: center;
+
+    & > *:first-child {
+      margin-right: 2px;
+      width: 14px;
+      height: 14px;
+    }
+  }
 `
 
 interface Props {
   title: string
-  cdate: string
-  mdate: string
   thumbnail: ArticleThumbnail
+  readTime: number
 }
 
 export default function ({
   title,
-  cdate,
-  mdate,
   thumbnail,
+  readTime,
 }: Props): React.ReactElement {
   return (
     <Figure>
@@ -78,11 +86,9 @@ export default function ({
       />
       <XXL>{title}</XXL>
       <Badges>
-        <Badge color={theme.secondary}>
-          created: {formatDistanceStrict(new Date(cdate), new Date())} ago
-        </Badge>
-        <Badge color={theme.secondary}>
-          updated: {formatDistanceStrict(new Date(mdate), new Date())} ago
+        <Badge className="read-time-badge" color={theme.secondary}>
+          <ReadTimeIcon />
+          {readTime}m
         </Badge>
         <Badge color={theme.green}>new</Badge>
       </Badges>

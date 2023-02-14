@@ -9,6 +9,11 @@ import AuthorAvatar from "../components/article/AuthorAvatar"
 import { XL, M, GithubIcon, LinkedinIcon, X } from "../ui"
 import theme from "../utils/theme"
 import { SiteMeta } from "../utils/SiteMeta"
+import { EmptyAuthorTile } from "../components/empty-author-tile/EmptyAuthorTile"
+import {
+  useJoinUsModal,
+  WithJoinUsModal,
+} from "../components/article/WithJoinUsModal"
 
 interface Author {
   id: string
@@ -44,7 +49,7 @@ const Grid = styled.div`
   display: grid;
   justify-content: center;
   width: 100%;
-  grid-template-columns: repeat(auto-fill, minmax(310px, 400px));
+  grid-template-columns: repeat(auto-fill, minmax(240px, 400px));
   grid-gap: 28px;
   padding: 100px 0;
 `
@@ -57,6 +62,10 @@ const Tile = styled.div`
   padding: 26px 22px;
   border-radius: 2px;
   border: 1px solid ${theme.primary};
+
+  ${XL}, ${X} {
+    text-align: center;
+  }
 
   & > *:nth-child(2) {
     margin: 24px 0 12px 0;
@@ -110,6 +119,12 @@ export const query = graphql`
   }
 `
 
+const ConnectedEmptyAuthorTile = () => {
+  const ctx = useJoinUsModal()
+
+  return <EmptyAuthorTile onClick={ctx.open} />
+}
+
 export default function ({ data }: Props): React.ReactElement {
   const authorsWithAvatars = (authors as Author[]).map(
     (author): AuthorWithAvatar => {
@@ -138,40 +153,43 @@ export default function ({ data }: Props): React.ReactElement {
       image="/icon-192x192.png"
       description="Contact the blog authors and start writing."
     >
-      <Layout>
-        <Grid>
-          {authorsWithAvatars.map(author => (
-            <Tile key={author.id}>
-              <AuthorAvatar size="medium" avatar={author.avatar} />
-              <XL>
-                {author.firstName} {author.lastName}
-              </XL>
-              <X>{author.role}</X>
-              <M>{author.bio}</M>
-              <Media>
-                {author.githubURL && (
-                  <a
-                    href={author.githubURL}
-                    title="Github profile"
-                    target="_blank"
-                  >
-                    <GithubIcon />
-                  </a>
-                )}
-                {author.linkedinURL && (
-                  <a
-                    href={author.linkedinURL}
-                    title="Linkedin profile"
-                    target="_blank"
-                  >
-                    <LinkedinIcon />
-                  </a>
-                )}
-              </Media>
-            </Tile>
-          ))}
-        </Grid>
-      </Layout>
+      <WithJoinUsModal>
+        <Layout>
+          <Grid>
+            <ConnectedEmptyAuthorTile />
+            {authorsWithAvatars.map(author => (
+              <Tile key={author.id}>
+                <AuthorAvatar size="medium" avatar={author.avatar} />
+                <XL>
+                  {author.firstName} {author.lastName}
+                </XL>
+                <X>{author.role}</X>
+                <M>{author.bio}</M>
+                <Media>
+                  {author.githubURL && (
+                    <a
+                      href={author.githubURL}
+                      title="Github profile"
+                      target="_blank"
+                    >
+                      <GithubIcon />
+                    </a>
+                  )}
+                  {author.linkedinURL && (
+                    <a
+                      href={author.linkedinURL}
+                      title="Linkedin profile"
+                      target="_blank"
+                    >
+                      <LinkedinIcon />
+                    </a>
+                  )}
+                </Media>
+              </Tile>
+            ))}
+          </Grid>
+        </Layout>
+      </WithJoinUsModal>
     </SiteMeta>
   )
 }
