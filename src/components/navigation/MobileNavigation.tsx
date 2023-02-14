@@ -38,7 +38,6 @@ const Expander = styled.aside<{ greenVariant?: boolean; open: boolean }>`
     css`
       transition: 0.4s ease-in-out all;
       transform: scale(2) rotate(45deg);
-      opacity: 0.4;
     `}
 `
 

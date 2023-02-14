@@ -70,6 +70,8 @@ exports.createPages = async ({ graphql, actions }) => {
             cdate
             description
             readTime
+            treviewerId 
+            lreviewerId
             mdate
             tags
             title
@@ -113,8 +115,16 @@ exports.createPages = async ({ graphql, actions }) => {
       return 1
     })
     .forEach((allMdxNode, idx) => {
-      const childImageSharp = result.data.allFile.nodes.find(
+      const authorImage = result.data.allFile.nodes.find(
         allFileNode => allFileNode.name === allMdxNode.frontmatter.authorId
+      )
+      const techReviewerImage = result.data.allFile.nodes.find(
+        allFileNode =>
+          allFileNode.name === allMdxNode.frontmatter.treviewerId
+      )
+      const lingReviewerImage = result.data.allFile.nodes.find(
+        allFileNode =>
+          allFileNode.name === allMdxNode.frontmatter.lreviewerId
       )
 
       createPage({
@@ -133,7 +143,21 @@ exports.createPages = async ({ graphql, actions }) => {
                 auth => auth.id === allMdxNode.frontmatter.authorId
               ),
               id: allMdxNode.frontmatter.authorId,
-              avatar: childImageSharp.childImageSharp.fluid,
+              avatar: authorImage.childImageSharp.fluid,
+            },
+            lingReviewer: {
+              ...authors.find(
+                auth => auth.id === allMdxNode.frontmatter.lreviewerId
+              ),
+              id: allMdxNode.frontmatter.lreviewerId,
+              avatar: lingReviewerImage.childImageSharp.fluid,
+            },
+            techReviewer: {
+              ...authors.find(
+                auth => auth.id === allMdxNode.frontmatter.treviewerId
+              ),
+              id: allMdxNode.frontmatter.treviewerId,
+              avatar: techReviewerImage.childImageSharp.fluid,
             },
             isNew: idx === 0,
           },

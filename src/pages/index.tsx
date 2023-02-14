@@ -69,7 +69,7 @@ export default function ({ data }: HomeProps) {
       title="GreenOn Software"
       type="website"
       image="/icon-192x192.png"
-      description="If you are interested in learning about programming in a concise and clean form - this is the perfect place for you."
+      description="A place for people who love programming and personal development."
     >
       <Layout
         navigation={<HomeNavigation />}

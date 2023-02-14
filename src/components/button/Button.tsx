@@ -1,13 +1,12 @@
 import React from "react"
 
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 
 import theme from "../../utils/theme"
 
-const Button = styled.button`
+const common = css`
   text-transform: uppercase;
   background: none;
-  color: ${theme.primary};
   font-size: 14px;
   font-weight: bolder;
   padding: 12px 18px;
@@ -16,7 +15,6 @@ const Button = styled.button`
   border-radius: 4px;
   cursor: pointer;
   font-family: inherit;
-  border: 1px solid ${theme.primary};
 
   &:disabled {
     cursor: not-allowed;
@@ -26,6 +24,12 @@ const Button = styled.button`
   &:focus {
     outline: none;
   }
+`
+
+const Button = styled.button`
+  ${common}
+  border: 1px solid ${theme.primary};
+  color: ${theme.primary};
 
   &:hover:not(:disabled) {
     background: ${theme.primary};
@@ -42,3 +46,25 @@ interface Props
 export default function (props: Props): React.ReactElement {
   return <Button {...(props as any)} />
 }
+
+export const SecondaryButton = styled.button`
+  ${common}
+  border: 1px solid ${theme.white};
+  color: ${theme.white};
+
+  &:hover:not(:disabled) {
+    background: transparent;
+    color: ${theme.white};
+  }
+`
+
+export const SecondaryTextButton = styled.button`
+  ${common}
+  border: 1px solid transparent;
+  color: ${theme.white};
+
+  &:hover:not(:disabled) {
+    background: transparent;
+    color: ${theme.white};
+  }
+`
