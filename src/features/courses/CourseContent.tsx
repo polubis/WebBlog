@@ -151,6 +151,7 @@ const StatisticsSection = styled.div`
 
 export const CourseContent = () => {
   const { course } = useCourseProvider()
+
   return (
     <Layout>
       <Container>
@@ -161,7 +162,9 @@ export const CourseContent = () => {
                 <ArrowLeftIcon />
               </IconButton>
             </GatsbyLink>
-            <Button>Start</Button>
+            <GatsbyLink to={course.chapters[0].lessons[0].path}>
+              <Button>Start</Button>
+            </GatsbyLink>
           </Header>
           <Label className="label">Course overview</Label>
           <XXL className="name">{course.name}</XXL>

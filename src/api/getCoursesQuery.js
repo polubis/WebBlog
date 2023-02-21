@@ -144,10 +144,10 @@ exports.getCoursesQuery = data => {
       path,
       chapters: chapters.map(chapter => ({
         ...chapter,
-        path: `${path}${chapter.id}/`,
+        path: `${path}/chapter/${chapter.id}/`,
         lessons: chapter.lessons.map(lesson => ({
           ...lesson,
-          path: `${path}${chapter.id}/${lesson.id}/`,
+          path: `${path}/chapter/${chapter.id}/lesson/${lesson.id}/`,
         })),
       })),
     }

@@ -250,6 +250,18 @@ const createCoursePage = async ({ graphql, actions }) => {
         course,
       },
     })
+
+    course.chapters.forEach(chapter => {
+      chapter.lessons.forEach(lesson => {
+        createPage({
+          path: lesson.path,
+          component: resolve(`src/features/lessons/Lesson.tsx`),
+          context: {
+            lesson,
+          },
+        })
+      })
+    })
   })
 }
 

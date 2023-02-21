@@ -3,6 +3,7 @@ import { SiteMeta } from "../../utils/SiteMeta"
 import { Course } from "../../models"
 import { CourseContent } from "./CourseContent"
 import { CourseProvider } from "./CourseProvider"
+import { removeEdgeSlashes } from "../../utils/removeEdgeSlashses"
 
 interface Props {
   pageContext: {
@@ -13,7 +14,7 @@ interface Props {
 export default function ({ pageContext: { course } }: Props) {
   return (
     <SiteMeta
-      gaPage={`courses/${course.name}`}
+      gaPage={removeEdgeSlashes(course.path)}
       url={course.path}
       robots="index,follow,max-image-preview:large"
       title={course.name}

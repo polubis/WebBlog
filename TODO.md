@@ -1,21 +1,23 @@
 # Now
 
 // improve course tiles
-// display article page in course page
 // improve statistics
 // display course lessons in timeline
-// add new section inn PR
+// add new section inn home page
 // add thumbnail for course?
 // add internal navigation for course
-// change title of blog creator - to Create an article
-// connect start button
 // add extra navigation for course chapters when in lessons mode?
 // add other articles in article - recommended
-// verify analytics paths for courses list and course
-
-
-## Future
-
+// add comments section
+// add voting system
 // add support for videos?
 // rewrite button from article and move it to ui
 // add constant hover for buttons
+// Improve course lesson page layout and content
+// add option to hide and show mobile navigation on scroll
+// add unified layout and navigation
+
+## Future
+
+// add linkedin profile invitation to web app
+// add footer
