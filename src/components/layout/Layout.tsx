@@ -29,11 +29,13 @@ const Layout = styled.div`
 
 interface Props {
   children: React.ReactNode
+  banner?: React.ReactNode
 }
 
-export default function ({ children }: Props): React.ReactElement {
+export default function ({ children, banner }: Props): React.ReactElement {
   return (
     <Layout>
+      {banner}
       <Navbar />
       <MobileNavigation />
       {children}

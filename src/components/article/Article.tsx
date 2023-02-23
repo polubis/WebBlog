@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useMemo } from "react"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import styled from "styled-components"
 
@@ -24,6 +24,12 @@ deckDeckGoHighlightElement()
 
 const ProgressDisplayer = Loadable({
   loader: () => import("./ProgressDisplayer").then(m => m.ProgressDisplayer),
+  loading: () => null,
+})
+
+const WillBeContinuedBanner = Loadable({
+  loader: () =>
+    import("./WillBeContinuedBanner").then(m => m.WillBeContinuedBanner),
   loading: () => null,
 })
 
@@ -89,6 +95,10 @@ export default function ({ pageContext }: Props) {
   const { title, description, tags, readTime } = frontmatter
 
   const formattedSlug = slug.substring(0, slug.length - 1)
+  const willBeContinuedAt = useMemo(
+    () => (frontmatter.tbcdate ? new Date(frontmatter.tbcdate) : null),
+    []
+  )
 
   return (
     <SiteMeta
@@ -101,7 +111,13 @@ export default function ({ pageContext }: Props) {
       description={description}
       image={thumbnail.src}
     >
-      <Layout>
+      <Layout
+        banner={
+          willBeContinuedAt ? (
+            <WillBeContinuedBanner date={willBeContinuedAt} />
+          ) : undefined
+        }
+      >
         <Article>
           <Thumbnail readTime={readTime} thumbnail={thumbnail} title={title} />
           <Tags tags={tags} />
