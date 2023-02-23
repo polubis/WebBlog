@@ -1,16 +1,18 @@
 import React from "react"
 import { SiteMeta } from "../../utils/SiteMeta"
 import { removeEdgeSlashes } from "../../utils/removeEdgeSlashses"
-import { Lesson } from "../../models"
-import { XXL } from "../../ui"
+import { Author, Chapter, Lesson } from "../../models"
+import { LessonContent } from "./containers"
 
 interface Props {
   pageContext: {
     lesson: Lesson
+    chapters: Chapter[]
+    author: Author
   }
 }
 
-export default function ({ pageContext: { lesson } }: Props) {
+export default function ({ pageContext: { lesson, chapters, author } }: Props) {
   return (
     <SiteMeta
       gaPage={removeEdgeSlashes(lesson.path)}
@@ -18,10 +20,10 @@ export default function ({ pageContext: { lesson } }: Props) {
       robots="index,follow,max-image-preview:large"
       title={lesson.name}
       type="article"
-      author={"TODO"}
+      author={author.firstName + " " + author.lastName}
       description="TODO"
     >
-      <XXL>siema</XXL>
+      <LessonContent />
     </SiteMeta>
   )
 }

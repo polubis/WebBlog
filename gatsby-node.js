@@ -258,6 +258,8 @@ const createCoursePage = async ({ graphql, actions }) => {
           component: resolve(`src/features/lessons/Lesson.tsx`),
           context: {
             lesson,
+            chapters: course.chapters,
+            author: course.author,
           },
         })
       })

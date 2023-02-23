@@ -1,7 +1,7 @@
 import React from "react"
 import { SiteMeta } from "../../utils/SiteMeta"
 import { Course } from "../../models"
-import { CourseContent } from "./CourseContent"
+import { CourseContent } from "./containers"
 import { CourseProvider } from "./CourseProvider"
 import { removeEdgeSlashes } from "../../utils/removeEdgeSlashses"
 
