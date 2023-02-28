@@ -68,6 +68,7 @@ exports.createPages = async ({ graphql, actions }) => {
           frontmatter {
             authorId
             cdate
+            tbcdate
             description
             readTime
             treviewerId 
