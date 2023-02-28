@@ -1,0 +1,9 @@
+-- PL --
+
+Masz problem z doborem technologii w projekcie Web? 
+Sprawdz przed jakimi problemami mozesz sie zabezpieczyc w naszym nowym artykule.
+
+-- EN -- 
+
+Are you having trouble choosing technology for your Web project? 
+Check out what problems you can guard against in our new article.

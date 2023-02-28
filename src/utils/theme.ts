@@ -9,4 +9,6 @@ export default {
   backdrop: "rgba(0,0,0,.24)",
   bg2: "#2D2D2D",
   placeholderText: "#9d9d9d",
+  bannerInfoBg: "#c7bdbd",
+  bannerInfoText: "#000",
 }

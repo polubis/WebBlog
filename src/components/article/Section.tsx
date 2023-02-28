@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react"
 import styled from "styled-components"
 
-import { XL, M, Hint, S } from "../../ui"
+import { XL, M, Hint } from "../../ui"
 
 const Section = styled.section`
   margin-bottom: 48px;
@@ -12,6 +12,14 @@ const Section = styled.section`
 
   ${M} {
     margin-bottom: 12px;
+  }
+
+  ${M} + ${Hint} {
+    margin-bottom: 20px;
+  }
+
+  ${Hint} + ${Hint} {
+    margin-bottom: 20px;
   }
 
   ${Hint} {
