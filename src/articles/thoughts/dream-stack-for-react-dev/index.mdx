@@ -8,14 +8,14 @@ lreviewerId: kreszko
 tags: architecture,project setup,patterns,quality gates
 stack: typescript,react,rxjs,nx,cypress,jest,storybook,chromatic,redux,styled-components,next
 description: It will be a longer article about project setup. Prepare a huge mug of coffee before you start reading.
-readTime: 10
+readTime: 12
 title: Dream stack for React dev
 ---
 
 <Prelude>
   <M>Developers could work on functionalities. Did I say something weird?</M>
   <M>
-    Many of you may disagree here. What about creating a project? What about
+    Many of you may disagree. What about creating a project? What about
     connecting <B>eslint</B>, <B>prettier</B>? What about preparing a test
     environment for <B>unit</B> and <B>e2e</B> tests? Seems like a lot of work.
     Honestly, it may be...
@@ -36,88 +36,84 @@ title: Dream stack for React dev
 <Section>
   <XL>1. Monorepo</XL>
   <M>
-    We will divide our solution into <B>applications</B> and <B>libraries</B>.
-    All of these we'll store in single repository with same configuration for
+    We'll divide our solution into <B>applications</B> and <B>libraries</B>. All
+    of these will be stored in a single repository with same configuration for
     linting, formatting, TypeScript, jest, cypress, storybook, ...etc.
   </M>
   <M>
-    We will have the opportunity to run these applications separately or
-    together. In addition, we will get the ability to easily track commits in
-    git, change the entire system in an easy way and give developers access to
-    all applications with a single click.
+    Thanks to this you will have the opportunity to run the applications
+    separately or together. This is what you can achieve with <B>monorepo</B>.
+    Maybe the definition is not bookish. In simple words, it's a way of storing
+    and managing a solution, which involves keeping the code in a single
+    repository and dividing it into packages and applications accordingly.
   </M>
-  <M>
-    This is what you can achieve with <B>monorepo</B>. Maybe the definition is
-    not bookish. It is a way to store applications, libraries, configurations in
-    one repository.
-  </M>
-  <Hint hasBg>That's enough for now...</Hint>
 </Section>
 
 <Section>
   <XL>2. Monorepo with nx</XL>
   <M>
-    It's mainly a <B>CLI</B> with <B>scripts</B> and <B>patterns</B> which helps
-    you to create and organize an applications with their libraries. Below is a
-    list of cool things you will get with this technology:
+    It's mainly a <B>CLI</B> and <B>patterns</B> that helps you to create and
+    manage monorepo. Below is a list of cool things you will get with this
+    technology:
   </M>
-  <List items="apps and libs generation via CLI,organized structure,option to configure stuff like storybook via one command,dependency preview via graph,same configs for everything,configuration of TypeScript,option to choose way of styling your components,routing configuration,bundler configuration, unit and e2e tests configuration" />
-  <M>
-    That's just a part of things. I encourage you to check the{" "}
-    <A outside href="https://nx.dev/getting-started/intro/">
-      documentation
-    </A>{" "}
-    to see all pros.
-  </M>
+  <List items="apps and libs generation via CLI,organized structure,option to configure stuff like storybook via one command,dependency preview via graph,same configs for everything,configuration of the TypeScript,option to choose way of styling your components,routing configuration,bundler configuration, unit and e2e tests configuration,many more..." />
 </Section>
 
 <Section>
   <XL>3. What we'll create?</XL>
   <M>
-    It will be a solution that allows you to manage your blog and display
-    articles/tutorials. So let's describe the components:
+    It will be a solution that will allow you to manage your blog and display
+    the created articles/courses. So let's describe the components we'll create:
   </M>
   <List items="application for presenting the blog content and homepage,a blog management application,library for communicating with the API,utils library,a library with components" />
   <M>
-    Each component will be independent. This will give the possibility of easier
-    replacement in the future or independent, simultaneous work.
+    Each component will be independent. It will redress the risk of conflicts.
+    Libs will be consumed by apps.
   </M>
   <Img
     border
     src="/assets/dream-stack-for-react-dev/graph.png"
     description="Building blocks"
   />
+  <M>
+    Each component will be independent. It will redress the risk of conflicts.
+    Libs will be consumed by apps.
+  </M>
+  <Hint hasBg>
+    Check out{" "}
+    <A
+      outside
+      href="/articles/architecture/modular-architecture-for-medium-frontend-apps/"
+    >
+      this article
+    </A>{" "}
+    if you are interested in architecture.
+  </Hint>
 </Section>
 
 <Section>
-  <XL>4. Creating applications</XL>
+  <XL>4. Initialization of project & applications creation</XL>
   <M>
-    Before we start you need to make sure that you have installed the script
-    that initializes the <B>nx repository</B>. Type in your command line in git
-    repository:{" "}
+    First, install this script, which will start the <B>nx repository</B>:
   </M>
   <Hint hasBg>npm i -g create-nx-workspace@latest --legacy-peer-deps</Hint>
-  <M>It will install script package globally. Later you need to type: </M>
+  <M>Later you need to type: </M>
   <Hint hasBg>npx create-nx-workspace@latest</Hint>
   <M>
-    The above command will start creating the project. The CLI will ask you one
-    by one what you want to get. I'll skip describing the options, you can find
-    them in{" "}
+    The CLI will ask you the following questions sequentially. I'll skip
+    describing the options. You can find them in{" "}
     <A outside href="https://nx.dev/getting-started/intro/">
       nx documentation
     </A>
     . Let's focus on creating our dream project.
   </M>
-  <M>Answer the question the same way I did.</M>
+  <M>Answer the questions the same way I did.</M>
   <Img
     border
     src="/assets/dream-stack-for-react-dev/questions.jpg"
     description="Questions and answers"
   />
-  <M>
-    The file and folder structure generated by nx should look more or less like
-    this:
-  </M>
+  <M>The file and folder structure generated by nx should look like this:</M>
   <Img
     border
     src="/assets/dream-stack-for-react-dev/folders-and-files.jpg"
@@ -129,26 +125,24 @@ title: Dream stack for React dev
     <B>jest</B> have been configured and e2e in <B>cypress</B>.
   </M>
   <M>
-    We already have an app in <B>Next.js</B>, now it's time for the{" "}
-    <B>single page application in React</B>, in which we will also use{" "}
-    <B>styled-components</B>.
+    We already have an project and app in <B>Next.js</B>. Now it's time for the{" "}
+    <B>single page application in React</B>.
   </M>
   <Hint hasBg>cd .\system\</Hint>
   <Hint hasBg>npx nx g @nrwl/react:application blog-creator</Hint>
   <M>
-    The tool may ask you to install additional dependencies - just confirm it.
-    These will be the developer dependencies needed for <B>nx</B> to generate
-    more stuff. After typing these commands, you will see similar questions as
+    The tool may ask you to install additional dependencies, which it uses to
+    generate stuff. Confirm it. After that, you will see similar questions as
     before. Answer them the same way I did:
   </M>
   <Img
     border
     src="/assets/dream-stack-for-react-dev/react-questions.jpg"
-    description="React questions answered"
+    description="React app done"
   />
   <M>
-    We have an apps! After a while you should see two new folders in the{" "}
-    <B>apps</B> directory.
+    We have an apps! After a while you'll see two new folders in the <B>apps</B>{" "}
+    directory.
   </M>
   <Hint hasBg>
     In this nice looking{" "}
@@ -165,17 +159,13 @@ title: Dream stack for React dev
 <Section>
   <XL>5. Creating libraries</XL>
   <M>
-    The idea is the same just questions and answers are different. It's
-    beautiful... ❤️
-  </M>
-  <M>
-    Make sure you are in the directory where the <B>nx.json</B> file is located
-    and type the command:{" "}
+    The idea is the same, only the questions and your answers differ. It's
+    beautiful ❤️. Type the command:
   </M>
   <Hint hasBg>npx nx g @nrwl/react:lib figa-ui</Hint>
   <M>
-    I named my component library after my beloved cat - <B>Figa</B>, you can
-    name it after a turtle or whatever you have at home. Answer as I did:
+    I named my component library after my beloved cat - <B>Figa</B>. You can
+    name it after a turtle or whatever you have at home. These are my answers:
   </M>
   <Img
     border
@@ -183,10 +173,8 @@ title: Dream stack for React dev
     description="You have figa-ui installed :D"
   />
   <M>
-    Now you probably have a new folder with the name of the library which we
-    created. Now it's time to do the two simplest things. Generate pure{" "}
-    <B>TypeScript</B> libraries for <B>utils</B> and <B>API connection</B>. Type
-    the following two commands:
+    Now it's time to do the two simplest things. We need to create two{" "}
+    <B>TypeScript</B> libraries. Type the following two commands:
   </M>
   <Hint hasBg>npx nx generate @nrwl/js:lib utils</Hint>
   <Hint hasBg>npx nx generate @nrwl/js:lib blog-api</Hint>
@@ -196,11 +184,7 @@ title: Dream stack for React dev
     src="/assets/dream-stack-for-react-dev/pure-ts-lib-answers.jpg"
     description="TypeScript libs are cool"
   />
-  <M>
-    Now you have two more folders, in my case it's <B>utils</B> and{" "}
-    <B>blog-api</B> in the libs directory. We have what we wanted, so let's move
-    on.
-  </M>
+  <M>We have what we wanted, so let's move on.</M>
   <Hint hasBg>
     In this nice looking{" "}
     <A
@@ -216,7 +200,7 @@ title: Dream stack for React dev
 <Section>
   <XL>6. Adding storybook to UI library</XL>
   <M>
-    <B>Storybook</B> will be needed for our component library. <B>Nx</B> allows
+    <B>Storybook</B> will be needed for our components library. <B>Nx</B> allows
     per scope configuration or global one. We need scoped. So let's enter some
     commands:
   </M>
@@ -229,13 +213,8 @@ title: Dream stack for React dev
   <Img
     border
     src="/assets/dream-stack-for-react-dev/storybook-answers.jpg"
-    description="Components UI documentation ready!"
+    description="Storybook ready!"
   />
-  <M>
-    Firstly, we installed the configuration generator package for the{" "}
-    <B>storybook</B>, and then we generated configurations only for the
-    components library, not the entire repository.
-  </M>
   <M>
     Now you can start the storybook process and play with it via this command:
   </M>
@@ -266,26 +245,24 @@ title: Dream stack for React dev
   <M>
     Now it begins :D. You can run all applications, one of them, or just an
     storybook for UI components. It depends what kind of feature you are already
-    working on.
+    working on. To run single app just type:
   </M>
-  <M>Running single app:</M>
   <Hint hasBg>npx nx serve blog</Hint>
   <M>You can run all apps via: </M>
   <Hint hasBg>
     npx nx run-many --parallel --target=serve --projects=blog,blog-creator
   </Hint>
-  <M>or:</M>
+  <M>or</M>
   <Hint hasBg>npx nx run-many --target=serve --all</Hint>
   <M>
     You can get an error about same port usage attempt. To fix it you need to
     visit <B>project.json</B> files and just add port number. For each
-    application different one and it will work.
+    application different one. After that just type:
   </M>
-  <M>When you type again:</M>
   <Hint hasBg>npx nx run-many --target=serve --all</Hint>
   <M>
-    applications will be served on different ports, in my case <B>3001</B> and{" "}
-    <B>3002</B>. Looks cool? Yea!
+    and all applications will be served on different ports, in my case{" "}
+    <B>3001</B> and <B>3002</B>. Looks cool? Yea!
   </M>
   <Hint hasBg>
     In this nice looking{" "}
@@ -302,8 +279,9 @@ title: Dream stack for React dev
 <Section>
   <XL>8. Using libraries</XL>
   <M>
-    Look now. Want to use a component library in two different applications?
-    Forget about <B>npm install</B>. All you need is a simple import statement.
+    Take a look at this. Do you want to use a component library in two
+    applications? Forget about <B>npm install</B>. All you need is a simple
+    <B>import</B> statement.
   </M>
   <Code
     src="/snippets/dream-stack-for-react-dev/how-to-import.tsx"
@@ -323,7 +301,7 @@ title: Dream stack for React dev
 </Section>
 
 <Section>
-  <XL>9. Adding support for custom fonts</XL>
+  <XL>9. Adding custom fonts</XL>
   <M>I will appear here in next week... :).</M>
 </Section>
 
@@ -362,6 +340,26 @@ title: Dream stack for React dev
   <M>I will appear here in next week... :).</M>
 </Section>
 
+<Section>
+  <XL>17. Bumping packages</XL>
+  <M>I will appear here in next week... :).</M>
+</Section>
+
+<Section>
+  <XL>18. Add common hooks</XL>
+  <M>I will appear here in next week... :).</M>
+</Section>
+
+<Section>
+  <XL>19. Implement theming</XL>
+  <M>I will appear here in next week... :).</M>
+</Section>
+
+<Section>
+  <XL>20. Add visual regression e2e tests</XL>
+  <M>I will appear here in next week... :).</M>
+</Section>
+
 <Example>
   <M>
     <A href="https://github.com/polubis/Dream-stack-for-React-dev/" outside>
@@ -373,12 +371,17 @@ title: Dream stack for React dev
 
 <Summary>
   <M>
-    I tell you right away, this is going to be a huge article, but don't worry
-    at the end you will have great starter for future projects.
+    I tell you right away, this is going to be a huge article. Don't worry. At
+    the end you will have great starter for future projects.
   </M>
   <M>
     We went through the wonderful tool together. I recommend playing with it. We
     have described only a part of the possibilities.
+  </M>
+  <M>
+    As always, this is just my point of view and opinion based on experience,
+    not a buzzword saying that this is the only approach you should use. As
+    always, it depends.
   </M>
   <M>
     Feel free to contact me if you have any questions/proposals. Have a nice day
