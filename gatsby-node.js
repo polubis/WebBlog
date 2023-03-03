@@ -68,6 +68,7 @@ const createArticlePage = async ({ actions, graphql }) => {
           frontmatter {
             authorId
             cdate
+            tbcdate
             description
             readTime
             treviewerId

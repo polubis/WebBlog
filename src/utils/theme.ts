@@ -13,4 +13,6 @@ export default {
   placeholderText: "#9d9d9d",
   grayA: "#c7c7c7",
   blackA: "#292929",
+  bannerInfoBg: "#c7bdbd",
+  bannerInfoText: "#000",
 }

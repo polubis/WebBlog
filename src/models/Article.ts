@@ -5,6 +5,7 @@ import { Technology } from "./Technology"
 export interface ArticleFrontmatter {
   cdate: string
   mdate: string
+  tbcdate?: string
   authorId: string
   treviewerId: string
   lreviewerId: string
