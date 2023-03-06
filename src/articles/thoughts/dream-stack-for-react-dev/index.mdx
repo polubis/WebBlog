@@ -1,7 +1,7 @@
 ---
 cdate: 2023-02-28
-mdate: 2023-02-28
-tbcdate: 2023-03-06
+mdate: 2023-03-06
+tbcdate: 2023-03-14
 authorId: polubis
 treviewerId: kwozniak
 lreviewerId: kreszko
@@ -13,7 +13,7 @@ title: Dream stack for React dev
 ---
 
 <Prelude>
-  <M>Developers could work on functionalities. Did I say something weird?</M>
+  <M>Developers should work on functionalities. Did I say something weird?</M>
   <M>
     Many of you may disagree. What about creating a project? What about
     connecting <B>eslint</B>, <B>prettier</B>? What about preparing a test
@@ -37,15 +37,15 @@ title: Dream stack for React dev
   <XL>1. Monorepo</XL>
   <M>
     We'll divide our solution into <B>applications</B> and <B>libraries</B>. All
-    of these will be stored in a single repository with same configuration for
-    linting, formatting, TypeScript, jest, cypress, storybook, ...etc.
+    of these will be stored in a single repository with the same configuration
+    for linting, formatting, TypeScript, jest, cypress, storybook, ...etc.
   </M>
   <M>
     Thanks to this you will have the opportunity to run the applications
     separately or together. This is what you can achieve with <B>monorepo</B>.
-    Maybe the definition is not bookish. In simple words, it's a way of storing
-    and managing a solution, which involves keeping the code in a single
-    repository and dividing it into packages and applications accordingly.
+    In simple words, it's a way of storing and managing a solution, which
+    involves keeping the code in a single repository and dividing it into
+    packages and applications accordingly.
   </M>
 </Section>
 
@@ -56,18 +56,19 @@ title: Dream stack for React dev
     manage monorepo. Below is a list of cool things you will get with this
     technology:
   </M>
-  <List items="apps and libs generation via CLI,organized structure,option to configure stuff like storybook via one command,dependency preview via graph,same configs for everything,configuration of the TypeScript,option to choose way of styling your components,routing configuration,bundler configuration, unit and e2e tests configuration,many more..." />
+  <List items="apps and libs generation via CLI,organized structure,option to configure stuff like storybook via one command,dependency preview via graph,same configs for everything,configuration of the TypeScript,option to choose way of styling your components,routing configuration,bundler configuration, unit and e2e tests configuration, and many more..." />
 </Section>
 
 <Section>
-  <XL>3. What we'll create?</XL>
+  <XL>3. What will we create?</XL>
   <M>
-    It will be a solution that will allow you to manage your blog and display
-    the created articles/courses. So let's describe the components we'll create:
+    We are going to make a solution that will allow you to manage your blog and
+    display the created articles/courses. So let's describe the components we'll
+    create:
   </M>
-  <List items="application for presenting the blog content and homepage,a blog management application,library for communicating with the API,utils library,a library with components" />
+  <List items="application for presenting the blog content and homepage,a blog management application,library for communicating with the API,utilities library,a library with components" />
   <M>
-    Each component will be independent. It will redress the risk of conflicts.
+    Each component will be independent. It will reduce the risk of conflicts.
     Libs will be consumed by apps.
   </M>
   <Img
@@ -75,10 +76,7 @@ title: Dream stack for React dev
     src="/assets/dream-stack-for-react-dev/graph.png"
     description="Building blocks"
   />
-  <M>
-    Each component will be independent. It will redress the risk of conflicts.
-    Libs will be consumed by apps.
-  </M>
+
   <Hint hasBg>
     Check out{" "}
     <A
@@ -92,7 +90,7 @@ title: Dream stack for React dev
 </Section>
 
 <Section>
-  <XL>4. Initialization of project & applications creation</XL>
+  <XL>4. Initialization of the project</XL>
   <M>
     First, install this script, which will start the <B>nx repository</B>:
   </M>
@@ -100,8 +98,8 @@ title: Dream stack for React dev
   <M>Later you need to type: </M>
   <Hint hasBg>npx create-nx-workspace@latest</Hint>
   <M>
-    The CLI will ask you the following questions sequentially. I'll skip
-    describing the options. You can find them in{" "}
+    The CLI will ask you the following questions sequentially. You can find
+    description of the options in{" "}
     <A outside href="https://nx.dev/getting-started/intro/">
       nx documentation
     </A>
@@ -125,15 +123,15 @@ title: Dream stack for React dev
     <B>jest</B> have been configured and e2e in <B>cypress</B>.
   </M>
   <M>
-    We already have an project and app in <B>Next.js</B>. Now it's time for the{" "}
+    We already have a project and app in <B>Next.js</B>. Now it's time for the{" "}
     <B>single page application in React</B>.
   </M>
   <Hint hasBg>cd .\system\</Hint>
   <Hint hasBg>npx nx g @nrwl/react:application blog-creator</Hint>
   <M>
     The tool may ask you to install additional dependencies, which it uses to
-    generate stuff. Confirm it. After that, you will see similar questions as
-    before. Answer them the same way I did:
+    generate folders and files. Confirm it. After that, you will see similar
+    questions as before. Answer them the same way I did:
   </M>
   <Img
     border
@@ -141,8 +139,8 @@ title: Dream stack for React dev
     description="React app done"
   />
   <M>
-    We have an apps! After a while you'll see two new folders in the <B>apps</B>{" "}
-    directory.
+    We have the apps! After a while you'll see two new folders in the{" "}
+    <B>apps</B> directory.
   </M>
   <Hint hasBg>
     In this nice looking{" "}
@@ -152,7 +150,7 @@ title: Dream stack for React dev
     >
       commit
     </A>{" "}
-    you have current progress.
+    you have the current progress.
   </Hint>
 </Section>
 
@@ -165,7 +163,8 @@ title: Dream stack for React dev
   <Hint hasBg>npx nx g @nrwl/react:lib figa-ui</Hint>
   <M>
     I named my component library after my beloved cat - <B>Figa</B>. You can
-    name it after a turtle or whatever you have at home. These are my answers:
+    name it after a turtle (or whatever pet you have at home). These are my
+    answers:
   </M>
   <Img
     border
@@ -193,7 +192,7 @@ title: Dream stack for React dev
     >
       commit
     </A>{" "}
-    you have current progress.
+    you have the current progress.
   </Hint>
 </Section>
 
@@ -236,16 +235,16 @@ title: Dream stack for React dev
     >
       commit
     </A>{" "}
-    you have current progress.
+    you have the current progress.
   </Hint>
 </Section>
 
 <Section>
   <XL>7. Running the applications</XL>
   <M>
-    Now it begins :D. You can run all applications, one of them, or just an
-    storybook for UI components. It depends what kind of feature you are already
-    working on. To run single app just type:
+    Now it begins :D. You can run all applications, one of them, or just the
+    storybook. It depends what kind of feature you are already working on. To
+    run single app type:
   </M>
   <Hint hasBg>npx nx serve blog</Hint>
   <M>You can run all apps via: </M>
@@ -256,13 +255,13 @@ title: Dream stack for React dev
   <Hint hasBg>npx nx run-many --target=serve --all</Hint>
   <M>
     You can get an error about same port usage attempt. To fix it you need to
-    visit <B>project.json</B> files and just add port number. For each
-    application different one. After that just type:
+    visit <B>project.json</B> files and add port number. For each application
+    add different one. After that type:
   </M>
   <Hint hasBg>npx nx run-many --target=serve --all</Hint>
   <M>
-    and all applications will be served on different ports, in my case{" "}
-    <B>3001</B> and <B>3002</B>. Looks cool? Yea!
+    and all applications will be run on different ports, in my case <B>3001</B>{" "}
+    and <B>3002</B>. Looks cool? Yea!
   </M>
   <Hint hasBg>
     In this nice looking{" "}
@@ -272,7 +271,7 @@ title: Dream stack for React dev
     >
       commit
     </A>{" "}
-    you have current progress.
+    you have the current progress.
   </Hint>
 </Section>
 
@@ -296,7 +295,7 @@ title: Dream stack for React dev
     >
       commit
     </A>{" "}
-    you have current progress.
+    you have the current progress.
   </Hint>
 </Section>
 
@@ -326,7 +325,7 @@ title: Dream stack for React dev
 </Section>
 
 <Section>
-  <XL>14. Adding code style and standards document</XL>
+  <XL>14. Adding code style and standards</XL>
   <M>I will appear here in next week... :).</M>
 </Section>
 
@@ -346,17 +345,17 @@ title: Dream stack for React dev
 </Section>
 
 <Section>
-  <XL>18. Add common hooks</XL>
+  <XL>18. Adding common hooks</XL>
   <M>I will appear here in next week... :).</M>
 </Section>
 
 <Section>
-  <XL>19. Implement theming</XL>
+  <XL>19. Implementing themes</XL>
   <M>I will appear here in next week... :).</M>
 </Section>
 
 <Section>
-  <XL>20. Add visual regression e2e tests</XL>
+  <XL>20. Adding visual regression and e2e tests</XL>
   <M>I will appear here in next week... :).</M>
 </Section>
 
@@ -372,17 +371,13 @@ title: Dream stack for React dev
 <Summary>
   <M>
     I tell you right away, this is going to be a huge article. Don't worry. At
-    the end you will have great starter for future projects.
+    the end you will have a great starter for future projects.
   </M>
   <M>
     We went through the wonderful tool together. I recommend playing with it. We
     have described only a part of the possibilities.
   </M>
-  <M>
-    As always, this is just my point of view and opinion based on experience,
-    not a buzzword saying that this is the only approach you should use. As
-    always, it depends.
-  </M>
+  <M>As always, this is my point of view and opinion based on my experience.</M>
   <M>
     Feel free to contact me if you have any questions/proposals. Have a nice day
     and good health!
