@@ -152,6 +152,9 @@ const StatisticsSection = styled.div`
 export const CourseContent = () => {
   const { course } = useCourseProvider()
 
+  const chaptersCount = course.chapters.length
+  const { lessonsCount } = course
+
   return (
     <Layout>
       <Container>
@@ -205,9 +208,14 @@ export const CourseContent = () => {
           <StatisticsSection>
             <Label className="label">Statistics</Label>
             <Statistics>
-              <NumberStatistic label="Total views" value={30} />
-              <NumberStatistic label="Added comments" value={50} />
-              <NumberStatistic label="Health score" value={30} />
+              <NumberStatistic
+                label={chaptersCount === 1 ? "Chapter" : "Chapters"}
+                value={chaptersCount}
+              />
+              <NumberStatistic
+                label={lessonsCount === 1 ? "Lesson" : "Lessons"}
+                value={lessonsCount}
+              />
             </Statistics>
           </StatisticsSection>
         </Area>

@@ -49,6 +49,7 @@ const Layout = styled.main`
 
     ${CourseChaptersWrapper} {
       grid-row: 1/2;
+      max-width: 400px;
     }
   }
 `

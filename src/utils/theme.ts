@@ -15,4 +15,5 @@ export default {
   blackA: "#292929",
   bannerInfoBg: "#c7bdbd",
   bannerInfoText: "#000",
+  grayB: "#484545",
 }

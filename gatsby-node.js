@@ -170,6 +170,20 @@ const createCoursePage = async ({ graphql, actions }) => {
 
   const result = await graphql(`
     {
+      coursesThumbnails: allFile(filter: {relativePath: {regex: "/course.jpg/"}}) {
+        nodes {
+          relativePath
+          childImageSharp {
+            fluid {
+              base64
+              aspectRatio
+              src
+              srcSet
+              sizes
+            }
+          }
+        }
+      }
       courses: allMdx(filter: { fileAbsolutePath: { regex: "/course.mdx/" } }) {
         nodes {
           slug
@@ -219,6 +233,7 @@ const createCoursePage = async ({ graphql, actions }) => {
           frontmatter {
             name
             duration
+            description
           }
         }
       }

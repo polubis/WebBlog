@@ -9,6 +9,20 @@ import { CourseTile } from "../features/courses/components"
 
 export const query = graphql`
   {
+    coursesThumbnails: allFile(filter: {relativePath: {regex: "/course.jpg/"}}) {
+      nodes {
+        relativePath
+        childImageSharp {
+          fluid {
+            base64
+            aspectRatio
+            src
+            srcSet
+            sizes
+          }
+        }
+      }
+    }
     courses: allMdx(filter: { fileAbsolutePath: { regex: "/course.mdx/" } }) {
       nodes {
         slug
@@ -58,6 +72,7 @@ export const query = graphql`
         frontmatter {
           name
           duration
+          description
         }
       }
     }

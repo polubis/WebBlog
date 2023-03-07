@@ -18,7 +18,7 @@ export default function ({ pageContext: { lesson, course, chapter } }: Props) {
       title={lesson.name}
       type="article"
       author={course.author.firstName + " " + course.author.lastName}
-      description="TODO"
+      description={lesson.description}
     >
       <LessonProvider lesson={lesson} course={course} chapter={chapter}>
         <LessonContent />

@@ -1,11 +1,8 @@
 # In progress
 
-# Now
-
-// improve course tiles
-// improve statistics
-// add thumbnail for course?
 // add basic content for course
+
+# Now
 
 ## Future
 
@@ -23,4 +20,5 @@
 // display course lessons in timeline
 // add new section inn home page
 // Add sub headers
+// Fix timeline display for articles
 // Unify layouts...

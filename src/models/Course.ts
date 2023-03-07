@@ -1,5 +1,6 @@
 import { Author } from "./Author"
 import { Chapter } from "./Chapter"
+import { Image } from "./Image"
 import { Technology } from "./Technology"
 
 export type CourseStatus = "SHEDULED" | "PENDING" | "FINISHED"
@@ -31,4 +32,6 @@ export interface Course {
   createdAt: string
   stack: Technology[]
   modifiedAt: string
+  lessonsCount: number
+  thumbnail: Image
 }

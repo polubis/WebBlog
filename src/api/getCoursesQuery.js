@@ -42,6 +42,7 @@ exports.getCoursesQuery = data => {
         duration: frontmatter.duration,
         name: frontmatter.name,
         body,
+        description: frontmatter.description,
       }
 
       if (Array.isArray(acc[chapterId]) && acc[chapterId].length > 0) {
@@ -151,6 +152,11 @@ exports.getCoursesQuery = data => {
           path: `${path}${chapter.id}/${lesson.id}/`,
         })),
       })),
+      lessonsCount: chapters.reduce(
+        (acc, chapter) => acc + chapter.lessons.length,
+        0
+      ),
+      thumbnail: data.coursesThumbnails.nodes[0].childImageSharp.fluid,
     }
   })
 }

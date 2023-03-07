@@ -10,4 +10,5 @@ export interface Lesson {
   slug: string
   path: string
   body: string
+  description: string
 }
