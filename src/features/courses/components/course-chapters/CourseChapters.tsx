@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react"
 import styled from "styled-components"
-import { Chapter } from "../../../../models"
+import { Chapter, Lesson } from "../../../../models"
 import { ChevronIcon, IconButton, Label, M, S } from "../../../../ui"
 import { formatMinutes } from "../../../../utils/formatMinutes"
 import theme from "../../../../utils/theme"
@@ -41,17 +41,17 @@ const LessonListItem = styled.li`
       margin-left: 12px;
     }
   }
+
+  &.active p {
+    color: ${theme.green};
+  }
 `
 
 const LessonsList = styled.ul`
   display: flex;
   flex-flow: column;
-  padding: 0 0 20px 60px;
+  padding: 0 0 20px 0;
   margin: 0;
-
-  @media ${M_DOWN} {
-    padding: 0 0 20px 0;
-  }
 
   ${LessonListItem} {
     margin: 0 0 12px 0;
@@ -61,10 +61,17 @@ const LessonsList = styled.ul`
 const ChaptersListItem = styled.li`
   display: flex;
   align-items: center;
+  justify-content: space-between;
   cursor: pointer;
 
+  &.active {
+    .chapter-name {
+      color: ${theme.green};
+    }
+  }
+
   ${TextContent} {
-    margin-left: 16px;
+    margin-right: 16px;
 
     .chapter-name {
       display: flex;
@@ -102,10 +109,16 @@ const ChaptersList = styled.ul`
 `
 
 export interface CourseChaptersProps {
+  activeLessonId?: Lesson["id"]
+  activeChapterId?: Chapter["id"]
   chapters: Chapter[]
 }
 
-export const CourseChapters = ({ chapters }: CourseChaptersProps) => {
+export const CourseChapters = ({
+  activeLessonId,
+  activeChapterId,
+  chapters,
+}: CourseChaptersProps) => {
   const [hiddenChapters, setHiddenChapters] = useState<Record<string, boolean>>(
     {}
   )
@@ -121,7 +134,16 @@ export const CourseChapters = ({ chapters }: CourseChaptersProps) => {
     <ChaptersList>
       {chapters.map((chapter, index) => (
         <Fragment key={chapter.name}>
-          <ChaptersListItem onClick={() => handleChapterToggle(chapter.name)}>
+          <ChaptersListItem
+            className={activeChapterId === chapter.id ? "active" : ""}
+            onClick={() => handleChapterToggle(chapter.name)}
+          >
+            <TextContent>
+              <Label className="chapter-name">
+                {index + 1}. {chapter.name}
+              </Label>
+              <S>{formatMinutes(chapter.duration)}</S>
+            </TextContent>
             <IconButton
               className={`toggle-btn ${
                 hiddenChapters[chapter.name] ? "expanded" : ""
@@ -130,18 +152,20 @@ export const CourseChapters = ({ chapters }: CourseChaptersProps) => {
             >
               <ChevronIcon />
             </IconButton>
-            <TextContent>
-              <Label className="chapter-name">
-                {index + 1}. {chapter.name}
-              </Label>
-              <S>{formatMinutes(chapter.duration)}</S>
-            </TextContent>
           </ChaptersListItem>
 
           {hiddenChapters[chapter.name] || (
             <LessonsList>
               {chapter.lessons.map(lesson => (
-                <LessonListItem key={lesson.name}>
+                <LessonListItem
+                  className={
+                    activeChapterId === chapter.id &&
+                    activeLessonId === lesson.id
+                      ? "active"
+                      : ""
+                  }
+                  key={lesson.name}
+                >
                   <GatsbyLink to={lesson.path}>
                     <M>{lesson.name}</M>
                     <S className="minutes">

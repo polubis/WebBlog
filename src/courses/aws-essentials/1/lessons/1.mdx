@@ -2,3 +2,101 @@
 name: Creating AWS account
 duration: 4
 ---
+
+<Prelude>
+  <M>Test</M>
+</Prelude>
+
+<Section>
+  <XL>1. useRef() in documentation</XL>
+  <M>
+    Docs explain useRef() as a hook that allows you to read real DOM data during
+    the component life cycle. For example, if you would like to read the
+    position of HTML div in real DOM, useRef() is the perfect tool.
+  </M>
+  <Code
+    description="This is the most popular use case"
+    src="https://raw.githubusercontent.com/polubis/React-useRef-hook/main/src/snippets/typical-use-ref-usage.tsx"
+  />
+</Section>
+
+<Section>
+  <XL>2. Candidate for caching</XL>
+  <M>
+    We have a big user list that needs to be filtered by the query. This is an
+    ideal candidate for caching. With caching - aka "flyweight" pattern - we can
+    reduce the time complexity of the search algorithm. Of course, it increases
+    memory usage but we're not building Mars lounger so who cares about the
+    small amount of additional memory usage for better UX.
+  </M>
+  <M>
+    As you probably figured out, in our search function we have a performance
+    bottleneck.
+  </M>
+  <Code
+    description="Bottleneck"
+    src="https://raw.githubusercontent.com/polubis/React-useRef-hook/main/src/snippets/cache-candidate.ts"
+  />
+</Section>
+
+<Section>
+  <XL>3. Adding caching feature</XL>
+  <M>To cache data in that case useRef() is an ideal candidate.</M>
+  <M>
+    It's because useRef() is 100% synchronous, which means you can read/write
+    immediately. At this point you are using something similar to class property
+    which can be changed during the object lifecycle.
+  </M>
+  <Code
+    description="Immediate read/write with useRef()"
+    src="https://raw.githubusercontent.com/polubis/React-useRef-hook/main/src/snippets/use-ref-as-cache.ts"
+  />
+  <Hint hasBg>
+    You have right now the same behavior as class property without a class.
+  </Hint>
+</Section>
+
+<Section>
+  <XL>4. Understanding sync vs async</XL>
+  <M>
+    Using useState() setter it can be described as request to change value.
+    React decide when.
+  </M>
+  <M>Changing value in useRef() it's just immediate change.</M>
+  <M>
+    The same thing happened in your childhood when your mother asked you to take
+    out the rubbish. It was also not an order but a request, and you did it late
+    or not.
+  </M>
+  <Code
+    description="Sync or async?"
+    src="https://raw.githubusercontent.com/polubis/React-useRef-hook/main/src/snippets/as-immediate-state-manager.ts"
+  />
+</Section>
+
+<Section>
+  <XL>5. Read changes immediately</XL>
+  <M>
+    Look at handleChange() function call. We can read values immediately and
+    they are always up to date. It's because of useRef() usage inside useForm()
+    hook instead of useState().
+  </M>
+  <M>The setCounter() is used only for trigger rerender - that's all.</M>
+  <Code
+    description="No need to use useEffect()"
+    src="https://raw.githubusercontent.com/polubis/React-useRef-hook/main/src/snippets/real-case-usage.tsx"
+  />
+</Section>
+
+<Summary>
+  <M>I hope you understand useRef() power now.</M>
+  <M>
+    Looks like someone again created a function with an unfriendly name 👽. As
+    you saw useRef() can be used to access immediate state change, as cache and
+    also, like an option to reading DOM data in real-time.
+  </M>
+  <M>
+    Feel free to contact me if you have any questions/proposals. Have a nice day
+    and good health!
+  </M>
+</Summary>

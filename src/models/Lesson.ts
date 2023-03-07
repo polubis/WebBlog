@@ -9,4 +9,5 @@ export interface Lesson {
   duration: number
   slug: string
   path: string
+  body: string
 }

@@ -33,7 +33,7 @@ const sortById = items => {
 
 exports.getCoursesQuery = data => {
   const lessonsByChapterId = data.lessons.nodes.reduce(
-    (acc, { slug, frontmatter }) => {
+    (acc, { slug, body, frontmatter }) => {
       const chapterId = getChapterIdFromSlug(slug)
       const lessonId = getLessonIdFromSlug(slug)
       const lessonToAdd = {
@@ -41,6 +41,7 @@ exports.getCoursesQuery = data => {
         slug,
         duration: frontmatter.duration,
         name: frontmatter.name,
+        body,
       }
 
       if (Array.isArray(acc[chapterId]) && acc[chapterId].length > 0) {

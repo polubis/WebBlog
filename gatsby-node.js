@@ -215,6 +215,7 @@ const createCoursePage = async ({ graphql, actions }) => {
       lessons: allMdx(filter: { slug: { regex: "/lessons/" } }) {
         nodes {
           slug
+          body
           frontmatter {
             name
             duration
@@ -259,8 +260,8 @@ const createCoursePage = async ({ graphql, actions }) => {
           component: resolve(`src/features/lessons/Lesson.tsx`),
           context: {
             lesson,
-            chapters: course.chapters,
-            author: course.author,
+            chapter,
+            course,
           },
         })
       })

@@ -54,6 +54,7 @@ export const query = graphql`
     lessons: allMdx(filter: { slug: { regex: "/lessons/" } }) {
       nodes {
         slug
+        body
         frontmatter {
           name
           duration
