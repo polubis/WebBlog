@@ -114,7 +114,6 @@ module.exports = {
                 context {
                   article {
                     frontmatter {
-                      cdate
                       mdate
                     }
                   }

@@ -1,7 +1,5 @@
 # In progress
 
-// add basic content for course
-
 # Now
 
 ## Future
@@ -9,6 +7,7 @@
 // add comments section
 // add voting system
 // add support for videos?
+// Improve page titles - not numbers but names of chapters and titles
 // add footer
 // use credits on linkedin
 // fix problem with url meta???
@@ -22,3 +21,9 @@
 // Add sub headers
 // Fix timeline display for articles
 // Unify layouts...
+// Add next/back buttons
+// Add random button
+// Find a way to move static files
+// add option to copy code
+// remove child image sharp warnings
+// Remove warnings component was not provided in global scope

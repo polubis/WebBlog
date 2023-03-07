@@ -1,7 +1,6 @@
 import { formatDistanceStrict } from "date-fns"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import React from "react"
-import Loadable from "react-loadable"
 import styled from "styled-components"
 import Badge from "../../../components/article/Badge"
 import { AuthorBadge } from "../../../components/badges/AuthorBadge"
@@ -14,14 +13,6 @@ import { useLessonProvider } from "../LessonProvider"
 import { defineCustomElements as deckDeckGoHighlightElement } from "@deckdeckgo/highlight-code/dist/loader"
 
 deckDeckGoHighlightElement()
-
-const ProgressDisplayer = Loadable({
-  loader: () =>
-    import("../../../components/article/ProgressDisplayer").then(
-      m => m.ProgressDisplayer
-    ),
-  loading: () => null,
-})
 
 const CourseChaptersWrapper = styled.div`
   position: relative;
@@ -38,10 +29,10 @@ const CourseChaptersWrapper = styled.div`
 const Layout = styled.main`
   display: grid;
   grid-template-columns: 1fr 340px;
-  gap: 40px;
+  gap: 40px 62px;
   padding: 80px 24px 100px 24px;
   margin: 0 auto;
-  max-width: 1400px;
+  max-width: 1280px;
 
   @media ${L_DOWN} {
     grid-template-columns: 1fr;
@@ -85,7 +76,6 @@ export const LessonContent = () => {
 
   return (
     <>
-      <ProgressDisplayer />
       <Navbar />
       <MobileNavigation />
       <Layout>
