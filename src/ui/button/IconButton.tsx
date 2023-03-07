@@ -66,8 +66,8 @@ export const IconButton = styled.button<IconButtonProps>`
   ${props => {
     if (!props.size || props.size === "small") {
       return css`
-        height: 44px;
-        width: 44px;
+        height: 40px;
+        width: 40px;
         font-size: 20px;
         font-size: bold;
       `

@@ -1,7 +1,5 @@
 # In progress
 
-// add description to lessons and chapters
-
 # Now
 
 // improve course tiles
@@ -25,3 +23,4 @@
 // display course lessons in timeline
 // add new section inn home page
 // Add sub headers
+// Unify layouts...

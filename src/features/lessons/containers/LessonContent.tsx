@@ -23,6 +23,18 @@ const ProgressDisplayer = Loadable({
   loading: () => null,
 })
 
+const CourseChaptersWrapper = styled.div`
+  position: relative;
+
+  & > * {
+    position: sticky;
+    top: 0;
+    right: 0;
+    padding-top: 20px;
+    background: ${theme.bg};
+  }
+`
+
 const Layout = styled.main`
   display: grid;
   grid-template-columns: 1fr 340px;
@@ -33,8 +45,11 @@ const Layout = styled.main`
 
   @media ${L_DOWN} {
     grid-template-columns: 1fr;
-    grid-template-rows: unset;
-    gap: 0;
+    grid-template-rows: auto auto;
+
+    ${CourseChaptersWrapper} {
+      grid-row: 1/2;
+    }
   }
 `
 
@@ -61,18 +76,6 @@ const Content = styled.div`
         text-align: center;
       }
     }
-  }
-`
-
-const CourseChaptersWrapper = styled.div`
-  position: relative;
-
-  & > * {
-    position: sticky;
-    top: 0;
-    right: 0;
-    padding-top: 20px;
-    background: ${theme.bg};
   }
 `
 
