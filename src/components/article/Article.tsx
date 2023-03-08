@@ -1,4 +1,4 @@
-import React, { useMemo } from "react"
+import React from "react"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import styled from "styled-components"
 
@@ -95,10 +95,6 @@ export default function ({ pageContext }: Props) {
   const { title, description, tags, readTime } = frontmatter
 
   const formattedSlug = slug.substring(0, slug.length - 1)
-  const willBeContinuedAt = useMemo(
-    () => (frontmatter.tbcdate ? new Date(frontmatter.tbcdate) : null),
-    []
-  )
 
   return (
     <SiteMeta
@@ -112,11 +108,7 @@ export default function ({ pageContext }: Props) {
       image={thumbnail.src}
     >
       <Layout
-        banner={
-          willBeContinuedAt ? (
-            <WillBeContinuedBanner date={willBeContinuedAt} />
-          ) : undefined
-        }
+        banner={frontmatter.tbcdate ? <WillBeContinuedBanner /> : undefined}
       >
         <Article>
           <Thumbnail readTime={readTime} thumbnail={thumbnail} title={title} />

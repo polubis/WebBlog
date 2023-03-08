@@ -1,8 +1,8 @@
 import React from "react"
 import styled from "styled-components"
-import Image from "gatsby-image"
+import Img from "gatsby-image"
 
-import { ArticleAuthorAvatar } from "../../models/Article"
+import { Image } from "../../models"
 
 type AvatarSize = "small" | "medium" | "big"
 
@@ -10,7 +10,7 @@ interface Props {
   size?: AvatarSize
   title?: string
   alt?: string
-  avatar: ArticleAuthorAvatar
+  avatar: Image
 }
 
 const getSize = (size: AvatarSize) => {
@@ -58,7 +58,7 @@ export default function ({
 }: Props): React.ReactElement {
   return (
     <AuthorAvatar className="author-avatar">
-      <Image
+      <Img
         alt={alt}
         title={title}
         fluid={avatar}

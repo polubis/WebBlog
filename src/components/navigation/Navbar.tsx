@@ -34,7 +34,7 @@ export default function (): React.ReactElement {
       <Links
         items={[
           { label: "articles", url: "/articles/" },
-          { label: "creator", url: "/blog-creator/" },
+          { label: "courses", url: "/courses/" },
         ]}
       />
 
@@ -46,7 +46,12 @@ export default function (): React.ReactElement {
 
       <Divider />
 
-      <Links items={[{ label: "authors", url: "/authors/" }]} />
+      <Links
+        items={[
+          { label: "authors", url: "/authors/" },
+          { label: "creator", url: "/blog-creator/" },
+        ]}
+      />
     </Navbar>
   )
 }

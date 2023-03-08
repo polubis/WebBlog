@@ -1,12 +1,12 @@
 import React from "react"
 import styled from "styled-components"
-import { ArticleTechnology } from "../../models/Article"
 import Image from "gatsby-image"
 import Divider from "./Divider"
 import theme from "../../utils/theme"
+import { Technology } from "../../models"
 
 interface StackProps {
-  items: ArticleTechnology[]
+  items: Technology[]
 }
 
 const Li = styled.li`
@@ -48,7 +48,7 @@ const Container = styled.div`
 
 export const Stack = ({ items }: StackProps) => {
   return (
-    <Container>
+    <Container className='components-stack'>
       <Divider />
       <Ul>
         {items.map(item => (

@@ -1,9 +1,9 @@
 import React from "react"
 import styled from "styled-components"
-import Image from "gatsby-image"
+import Img from "gatsby-image"
 
 import { ReadTimeIcon, XXL } from "../../ui"
-import { ArticleThumbnail } from "../../models/Article"
+import { Image } from "../../models"
 import Badge from "./Badge"
 import theme from "../../utils/theme"
 
@@ -62,7 +62,7 @@ const Badges = styled.div`
 
 interface Props {
   title: string
-  thumbnail: ArticleThumbnail
+  thumbnail: Image
   readTime: number
 }
 
@@ -73,7 +73,7 @@ export default function ({
 }: Props): React.ReactElement {
   return (
     <Figure>
-      <Image
+      <Img
         fluid={thumbnail}
         alt="Article thumbnail"
         style={{

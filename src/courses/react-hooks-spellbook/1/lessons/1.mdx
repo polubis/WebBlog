@@ -1,0 +1,39 @@
+---
+name: usePortal
+duration: 2
+description: About rendering components outside the main react tag.
+---
+
+<Section>
+  <XL>Why?</XL>
+  <M>
+    Sometimes you want to render component outside <B>div</B> with{" "}
+    <B>id="root"</B>. It may happen when you're working on some component that
+    uses <B>z-index</B> or <B>absolute/fixed/static</B> positions in css. These
+    could be modals, alerts or prompts.
+  </M>
+  <M>
+    This can be achieved by usage of <B>React.createPortal()</B>. Honestly,
+    using this API everywhere and copying the logic breaks the rule -{" "}
+    <B>don't repeat yourself</B>. That's why it's a good idea to create a hook
+    that will contain this logic and reduce the amount of duplicated code.
+  </M>
+</Section>
+
+<Section>
+  <XL>Usage</XL>
+  <M>The hook created by us can be used in the following way:</M>
+  <Code
+    description="Move your components"
+    src="/snippets/courses/react-hooks-spellbook/UsePortalUsage.tsx"
+  />
+</Section>
+
+<Section>
+  <XL>Implementation</XL>
+  <M>Now to use the portal you can use a shortened version.</M>
+  <Code
+    description="Play with portals"
+    src="/snippets/courses/react-hooks-spellbook/usePortal.ts"
+  />
+</Section>

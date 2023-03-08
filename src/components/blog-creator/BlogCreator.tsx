@@ -167,7 +167,7 @@ const ConnectedSubmitButton = ({ disabled }: { disabled: boolean }) => {
 
   return (
     <Button disabled={disabled} onClick={ctx.open}>
-      SUBMIT YOUR BLOG
+      SUBMIT ARTICLE
     </Button>
   )
 }
@@ -208,7 +208,7 @@ export default function () {
     <WithJoinUsModal>
       <BlogCreatorLayout>
         <Heading>
-          <XL>Blog creator</XL>
+          <XL>Create an article</XL>
           <Badge color={theme.green}>beta</Badge>
           <ConnectedSubmitButton disabled={checking} />
         </Heading>

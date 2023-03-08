@@ -6,7 +6,6 @@ import Logo from "../logo/Logo"
 import { L_UP } from "../../utils/viewport"
 import Links from "./Links"
 import theme from "../../utils/theme"
-import { useDocumentScrollDisable } from "../../utils/useDocumentScrollDisable"
 import { GreenOnLogo } from "../GreenOnLogo"
 
 const Expander = styled.aside<{ greenVariant?: boolean; open: boolean }>`
@@ -75,8 +74,6 @@ export default function ({ greenVariant }: MobileNavigationProps) {
     setOpen(prevOpen => !prevOpen)
   }, [])
 
-  useDocumentScrollDisable(open)
-
   return (
     <>
       <Expander greenVariant={greenVariant} open={open}>
@@ -92,6 +89,7 @@ export default function ({ greenVariant }: MobileNavigationProps) {
             items={[
               { label: "home", url: "/" },
               { label: "articles", url: "/articles/" },
+              { label: "courses", url: "/courses/" },
               { label: "creator", url: "/blog-creator/" },
               { label: "authors", url: "/authors/" },
             ]}
