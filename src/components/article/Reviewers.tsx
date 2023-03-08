@@ -1,6 +1,6 @@
 import React from "react"
 import styled from "styled-components"
-import { ArticleAuthor } from "../../models/Article"
+import { Author } from "../../models"
 import theme from "../../utils/theme"
 import AuthorAvatar from "./AuthorAvatar"
 import { S } from "../../ui"
@@ -52,9 +52,9 @@ const AvatarContainer = styled.div`
 `
 
 export interface ReviewersProps {
-  author: ArticleAuthor
-  techReviewer: ArticleAuthor
-  lingReviewer: ArticleAuthor
+  author: Author
+  techReviewer: Author
+  lingReviewer: Author
 }
 
 export const Reviewers = ({
@@ -63,7 +63,7 @@ export const Reviewers = ({
   techReviewer,
 }: ReviewersProps) => {
   return (
-    <Container>
+    <Container className="components-reviewers">
       <GatsbyLink to="/authors/">
         <AvatarContainer>
           <AuthorAvatar

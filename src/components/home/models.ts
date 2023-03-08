@@ -1,4 +1,5 @@
-import { ArticleAuthorAvatar, ArticleFrontmatter } from "../../models/Article"
+import { Image } from "../../models"
+import { ArticleFrontmatter } from "../../models/Article"
 
 export interface Author {
   id: string
@@ -12,7 +13,7 @@ export interface Author {
 }
 
 export interface AuthorWithAvatar extends Author {
-  avatar: ArticleAuthorAvatar
+  avatar: Image
 }
 
 export interface HomeProps {
@@ -22,7 +23,7 @@ export interface HomeProps {
         node: {
           name: string
           childImageSharp: {
-            fluid: ArticleAuthorAvatar
+            fluid: Image
           }
         }
       }[]
@@ -31,7 +32,7 @@ export interface HomeProps {
       nodes: {
         relativePath: string
         childImageSharp: {
-          fluid: ArticleAuthorAvatar
+          fluid: Image
         }
       }[]
     }

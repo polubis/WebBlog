@@ -1,3 +1,7 @@
+import { Author } from "./Author"
+import { Image } from "./Image"
+import { Technology } from "./Technology"
+
 export interface ArticleFrontmatter {
   cdate: string
   mdate: string
@@ -12,51 +16,14 @@ export interface ArticleFrontmatter {
   title: string
 }
 
-export interface ArticleThumbnail {
-  aspectRatio: number
-  base64: string
-  sizes: string
-  src: string
-  srcSet: string
-}
-
-export interface ArticleAuthorAvatar {
-  aspectRatio: number
-  base64: string
-  sizes: string
-  src: string
-  srcSet: string
-}
-
-export interface ArticleAuthor {
-  firstName: string
-  lastName: string
-  id: string
-  role: string
-  avatar: ArticleAuthorAvatar
-}
-
-export interface ArticleTechnologyAvatar {
-  aspectRatio: number
-  base64: string
-  sizes: string
-  src: string
-  srcSet: string
-}
-
-export interface ArticleTechnology {
-  avatar: ArticleTechnologyAvatar
-  id: string
-}
-
 export interface Article {
-  author: ArticleAuthor
-  stack: ArticleTechnology[]
+  author: Author
+  stack: Technology[]
   frontmatter: ArticleFrontmatter
   slug: string
-  thumbnail: ArticleThumbnail
+  thumbnail: Image
   body?: string
   isNew?: boolean
-  lingReviewer: ArticleAuthor
-  techReviewer: ArticleAuthor
+  lingReviewer: Author
+  techReviewer: Author
 }

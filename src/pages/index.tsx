@@ -42,7 +42,7 @@ export const query = graphql`
         }
       }
     }
-    articles: allMdx(limit: 50) {
+    articles: allMdx(filter: {fileAbsolutePath: {regex: "/index.mdx/"}}) {
       nodes {
         frontmatter {
           cdate

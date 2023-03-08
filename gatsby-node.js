@@ -1,4 +1,5 @@
-const path = require("path")
+const { resolve } = require("path")
+const { getCoursesQuery } = require("./src/api/getCoursesQuery")
 const authors = require("./src/authors/authors.json")
 
 exports.onCreateWebpackConfig = ({ actions }) => {
@@ -9,8 +10,7 @@ exports.onCreateWebpackConfig = ({ actions }) => {
   })
 }
 
-// create pages dynamically
-exports.createPages = async ({ graphql, actions }) => {
+const createArticlePage = async ({ actions, graphql }) => {
   const { createPage } = actions
 
   const result = await graphql(`
@@ -61,17 +61,17 @@ exports.createPages = async ({ graphql, actions }) => {
           }
         }
       }
-      allMdx {
+      allMdx(filter: { fileAbsolutePath: { regex: "/index.mdx/" } }) {
         nodes {
-          body
           slug
+          body
           frontmatter {
             authorId
             cdate
             tbcdate
             description
             readTime
-            treviewerId 
+            treviewerId
             lreviewerId
             mdate
             tags
@@ -120,17 +120,15 @@ exports.createPages = async ({ graphql, actions }) => {
         allFileNode => allFileNode.name === allMdxNode.frontmatter.authorId
       )
       const techReviewerImage = result.data.allFile.nodes.find(
-        allFileNode =>
-          allFileNode.name === allMdxNode.frontmatter.treviewerId
+        allFileNode => allFileNode.name === allMdxNode.frontmatter.treviewerId
       )
       const lingReviewerImage = result.data.allFile.nodes.find(
-        allFileNode =>
-          allFileNode.name === allMdxNode.frontmatter.lreviewerId
+        allFileNode => allFileNode.name === allMdxNode.frontmatter.lreviewerId
       )
 
       createPage({
         path: `/articles/${allMdxNode.slug}`,
-        component: path.resolve(`src/components/article/Article.tsx`),
+        component: resolve(`src/components/article/Article.tsx`),
         context: {
           article: {
             ...allMdxNode,
@@ -165,4 +163,129 @@ exports.createPages = async ({ graphql, actions }) => {
         },
       })
     })
+}
+
+const createCoursePage = async ({ graphql, actions }) => {
+  const { createPage } = actions
+
+  const result = await graphql(`
+    {
+      coursesThumbnails: allFile(filter: {relativePath: {regex: "/course.jpg/"}}) {
+        nodes {
+          relativePath
+          childImageSharp {
+            fluid {
+              base64
+              aspectRatio
+              src
+              srcSet
+              sizes
+            }
+          }
+        }
+      }
+      courses: allMdx(filter: { fileAbsolutePath: { regex: "/course.mdx/" } }) {
+        nodes {
+          slug
+          fileAbsolutePath
+          frontmatter {
+            authorId
+            treviewerId
+            lreviewerId
+            stack
+            tags
+            description
+            name
+            status
+            cdate
+            mdate
+          }
+        }
+      }
+      chapters: allMdx(filter: { slug: { regex: "/chapter/" } }) {
+        nodes {
+          slug
+          frontmatter {
+            name
+          }
+        }
+      }
+      techAvatars: allFile(
+        filter: { relativeDirectory: { regex: "/technologies/" } }
+      ) {
+        nodes {
+          name
+          childImageSharp {
+            fluid {
+              base64
+              aspectRatio
+              src
+              srcSet
+              sizes
+            }
+          }
+        }
+      }
+      lessons: allMdx(filter: { slug: { regex: "/lessons/" } }) {
+        nodes {
+          slug
+          body
+          frontmatter {
+            name
+            duration
+            description
+          }
+        }
+      }
+      avatars: allFile(filter: { absolutePath: { regex: "/avatars/" } }) {
+        nodes {
+          name
+          childImageSharp {
+            fluid {
+              base64
+              aspectRatio
+              src
+              srcSet
+              sizes
+            }
+          }
+        }
+      }
+    }
+  `)
+
+  const courses = getCoursesQuery({
+    ...result.data,
+    authors,
+  })
+
+  courses.forEach(course => {
+    createPage({
+      path: course.path,
+      component: resolve(`src/features/courses/Course.tsx`),
+      context: {
+        course,
+      },
+    })
+
+    course.chapters.forEach(chapter => {
+      chapter.lessons.forEach(lesson => {
+        createPage({
+          path: lesson.path,
+          component: resolve(`src/features/lessons/Lesson.tsx`),
+          context: {
+            lesson,
+            chapter,
+            course,
+          },
+        })
+      })
+    })
+  })
+}
+
+// create pages dynamically
+exports.createPages = async props => {
+  await createArticlePage(props)
+  await createCoursePage(props)
 }
