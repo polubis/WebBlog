@@ -2,8 +2,6 @@ import React, { useEffect } from "react"
 
 import Prism from "prismjs"
 
-import "./Code.css"
-
 export const Code = ({
   id,
   code,

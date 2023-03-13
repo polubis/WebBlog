@@ -16,7 +16,7 @@ const createMetadata = (
   ref.current = metadata
 }
 
-export const useScrollMetadata = (config?: Config) => {
+export const useScroll = (config?: Config) => {
   const [_, setCounter] = useState(0)
   const metadata = useRef<ScrollMetadata>({
     direction: "idle",

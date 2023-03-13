@@ -1,22 +1,27 @@
 # In progress
 
+// Add code snippets caching to prevent jumps
+
 # Now
 
 // add footer
 // Add random button
-// add option to copy code
 // Add option to disable file names display
 // Make descriptions optional under images and code snippets
-// Add code snippets caching to prevent jumps
 // fix problem with url meta???
 // use credits on linkedin
 // display course lessons in timeline
 // add new section inn home page
 // Change article tile and add button
 // add other articles in article - recommended
+// Move navigation in courses for mobile at bottom for better UX
+// Add X instead of rotation for mobile nav
+// Improve UX of application
+// Add button to course tile
 
 ## Future
 
+// add storybook and start from implementation all components as standalone
 // add comments section
 // add voting system
 // add support for videos?

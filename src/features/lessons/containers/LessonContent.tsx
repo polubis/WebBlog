@@ -10,6 +10,7 @@ import { useLessonProvider } from "../LessonProvider"
 import { defineCustomElements as deckDeckGoHighlightElement } from "@deckdeckgo/highlight-code/dist/loader"
 import Button from "../../../components/button/Button"
 import { Link as GatsbyLink } from "gatsby"
+import { Snippet } from "../../../ui"
 
 deckDeckGoHighlightElement()
 

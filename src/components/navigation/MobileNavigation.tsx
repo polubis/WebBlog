@@ -7,7 +7,7 @@ import { L_UP } from "../../utils/viewport"
 import Links from "./Links"
 import theme from "../../utils/theme"
 import { GreenOnLogo } from "../GreenOnLogo"
-import { useScrollMetadata } from "../../utils/useScrollMetadata"
+import { useScroll } from "../../utils/useScroll"
 
 const Expander = styled.aside<{ greenVariant?: boolean; open: boolean }>`
   display: flex;
@@ -74,7 +74,7 @@ export default function ({ greenVariant }: MobileNavigationProps) {
     setOpen(prevOpen => !prevOpen)
   }, [])
 
-  const { direction } = useScrollMetadata()
+  const { direction } = useScroll()
 
   return (
     <>
