@@ -112,11 +112,7 @@ export default function ({ pageContext }: Props) {
       image={thumbnail.src}
     >
       <Layout
-        banner={
-          willBeContinuedAt ? (
-            <WillBeContinuedBanner date={willBeContinuedAt} />
-          ) : undefined
-        }
+        banner={willBeContinuedAt ? <WillBeContinuedBanner /> : undefined}
       >
         <Article>
           <Thumbnail readTime={readTime} thumbnail={thumbnail} title={title} />
