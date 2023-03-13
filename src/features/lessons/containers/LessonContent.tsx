@@ -8,6 +8,8 @@ import { L_DOWN, SM_DOWN } from "../../../utils/viewport"
 import { CourseChapters } from "../../courses/components/course-chapters/CourseChapters"
 import { useLessonProvider } from "../LessonProvider"
 import { defineCustomElements as deckDeckGoHighlightElement } from "@deckdeckgo/highlight-code/dist/loader"
+import Button from "../../../components/button/Button"
+import { Link as GatsbyLink } from "gatsby"
 
 deckDeckGoHighlightElement()
 
@@ -27,7 +29,7 @@ const Layout = styled.main`
   display: grid;
   grid-template-columns: 1fr 340px;
   gap: 40px 62px;
-  padding: 80px 24px 100px 24px;
+  padding: 80px 24px 120px 24px;
   margin: 0 auto;
   max-width: 1280px;
 
@@ -63,6 +65,16 @@ const Content = styled.div`
   }
 `
 
+const CourseNavigation = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: right;
+
+  & > *:first-child {
+    margin-right: 20px;
+  }
+`
+
 export const LessonContent = () => {
   const { course, chapter, lesson } = useLessonProvider()
 
@@ -73,6 +85,18 @@ export const LessonContent = () => {
       <Layout>
         <Content>
           <MDXRenderer>{lesson.body}</MDXRenderer>
+          <CourseNavigation>
+            {lesson.prevLesson && (
+              <GatsbyLink to={lesson.prevLesson.path}>
+                <Button>PREVIOUS</Button>
+              </GatsbyLink>
+            )}
+            {lesson.nextLesson && (
+              <GatsbyLink to={lesson.nextLesson.path}>
+                <Button>NEXT</Button>
+              </GatsbyLink>
+            )}
+          </CourseNavigation>
         </Content>
         <CourseChaptersWrapper>
           <CourseChapters

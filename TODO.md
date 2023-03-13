@@ -1,6 +1,6 @@
 # In progress
 
-// Add next/back buttons
+// add option to hide and show mobile navigation on scroll
 
 # Now
 
@@ -14,7 +14,6 @@
 // use credits on linkedin
 // display course lessons in timeline
 // add new section inn home page
-// add option to hide and show mobile navigation on scroll
 // Change article tile and add button
 // add other articles in article - recommended
 

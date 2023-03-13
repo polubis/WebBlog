@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef } from "react"
+import { useState, useMemo, useRef, useCallback } from "react"
 
 // The type that we'll use to check if the passed generic type is an object.
 type ObjectBased = Record<string | number | symbol, any>
@@ -120,32 +120,37 @@ const useForm = <V extends ObjectBased>({
   }
 
   // Allows you to change a single field and runs validations.
-  const set = <K extends keyof V>({
-    key,
-    value,
-  }: {
-    key: K
-    value: V[K]
-  }): void => {
-    const newValues = { ...state.current.values, [key]: value }
-    const result = validate(state.current.keys, newValues, validators)
+  // Callback hook added to avoid rerenders in children when passing function as a prop.
+  const set = useCallback(
+    () => <K extends keyof V>({
+      key,
+      value,
+    }: {
+      key: K
+      value: V[K]
+    }): void => {
+      const newValues = { ...state.current.values, [key]: value }
+      const result = validate(state.current.keys, newValues, validators)
 
-    state.current = {
-      ...state.current,
-      ...result,
-      touched: true,
-      values: newValues,
-      affected: {
-        ...state.current.affected,
-        [key]: true,
-      },
-    }
+      state.current = {
+        ...state.current,
+        ...result,
+        touched: true,
+        values: newValues,
+        affected: {
+          ...state.current.affected,
+          [key]: true,
+        },
+      }
 
-    rerender()
-  }
+      rerender()
+    },
+    []
+  )
 
   // Simulates form confirmation - triggers validation.
-  const submit = (): void => {
+  // Callback hook added to avoid rerenders in children when passing function as a prop.
+  const submit = useCallback((): void => {
     const result = validate(
       state.current.keys,
       state.current.values,
@@ -159,13 +164,14 @@ const useForm = <V extends ObjectBased>({
     }
 
     rerender()
-  }
+  }, [])
 
   // Resets the state to the initial values.
-  const reset = (): void => {
+  // Callback hook added to avoid rerenders in children when passing function as a prop.
+  const reset = useCallback((): void => {
     state.current = initialState
     rerender()
-  }
+  }, [])
 
   return [state.current, { set, reset, submit }] as const
 }
