@@ -1,7 +1,5 @@
 # In progress
 
-// add option to hide and show mobile navigation on scroll
-
 # Now
 
 // add footer
@@ -32,3 +30,4 @@
 // remove child image sharp warnings
 // Remove warnings component was not provided in global scope
 // Add likes for code snippets
+// Refactor navigation
