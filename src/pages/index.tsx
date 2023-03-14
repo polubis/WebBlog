@@ -42,7 +42,7 @@ export const query = graphql`
         }
       }
     }
-    articles: allMdx(filter: {fileAbsolutePath: {regex: "/index.mdx/"}}) {
+    articles: allMdx(filter: { fileAbsolutePath: { regex: "/index.mdx/" } }) {
       nodes {
         frontmatter {
           cdate
@@ -55,6 +55,35 @@ export const query = graphql`
           stack
         }
         slug
+      }
+    }
+    courses: allMdx(filter: { fileAbsolutePath: { regex: "/course.mdx/" } }) {
+      nodes {
+        slug
+        fileAbsolutePath
+        frontmatter {
+          authorId
+          treviewerId
+          lreviewerId
+          stack
+          tags
+          description
+          name
+          status
+          cdate
+          mdate
+        }
+      }
+    }
+    lessons: allMdx(filter: { slug: { regex: "/lessons/" } }) {
+      nodes {
+        slug
+        body
+        frontmatter {
+          name
+          duration
+          description
+        }
       }
     }
   }

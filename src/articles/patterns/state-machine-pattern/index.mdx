@@ -58,7 +58,8 @@ title: State machine pattern
     correct order of declarations. This would not be possible with classes or
     function expressions.
   </Hint>
-  <Code
+  <Snippet
+    linesCount={60}
     src="https://raw.githubusercontent.com/polubis/state-machine-pattern/main/src/snippets/coffee-express-state-machine-functional.ts"
     description="Function declarations are cool"
   />
@@ -71,8 +72,9 @@ title: State machine pattern
     black-boxed. It reduces solution flexibility - you want this. After all, the
     coffee machine does not start with a state other than Idle.
   </M>
-  <Code
+  <Snippet
     description="Boxed stuff"
+    linesCount={46}
     src="https://raw.githubusercontent.com/polubis/state-machine-pattern/main/src/snippets/reducing-boilerplate.ts"
   />
 </Section>
@@ -85,8 +87,9 @@ title: State machine pattern
     have always a union of possible states because of the exhaustiveness
     checking mechanism from TypeScript.
   </M>
-  <Code
+  <Snippet
     description="We are reactive"
+    linesCount={17}
     src="https://raw.githubusercontent.com/polubis/state-machine-pattern/main/src/snippets/use-with-react.tsx"
   />
 </Section>
@@ -101,8 +104,9 @@ title: State machine pattern
     Instead of implementing it from scratch, you can use prod ready solution -
     xstate library which gives additional features and adds cool visualization.
   </Hint>
-  <Code
+  <Snippet
     description="TypeScript code from libs can destroy your brain"
+    linesCount={110}
     src="https://raw.githubusercontent.com/polubis/state-machine-pattern/main/src/final/generic-state-machine.ts"
   />
 </Section>

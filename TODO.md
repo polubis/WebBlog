@@ -1,28 +1,25 @@
 # In progress
 
-// Add code snippets caching to prevent jumps
+// add footer
+// display course lessons in timeline
+// Move navigation in courses for mobile at bottom for better UX
+// Make descriptions optional under images
+// use credits on linkedin
+// Add button to course tile
 
 # Now
 
-// add footer
-// Add random button
-// Add option to disable file names display
-// Make descriptions optional under images and code snippets
-// fix problem with url meta???
-// use credits on linkedin
-// display course lessons in timeline
-// add new section inn home page
-// Change article tile and add button
-// add other articles in article - recommended
-// Move navigation in courses for mobile at bottom for better UX
-// Add X instead of rotation for mobile nav
-// Improve UX of application
-// Add button to course tile
-
 ## Future
 
+// Add random button
+// add other articles in article - recommended
+// Make cat to be animated
+// Add X instead of rotation for mobile nav
+// Fikes lines for timeline on first render
+// Improve UX of application
 // add storybook and start from implementation all components as standalone
 // add comments section
+// add option to pass lang type to snippets
 // add voting system
 // add support for videos?
 // add unified layout and navigation
@@ -36,3 +33,5 @@
 // Remove warnings component was not provided in global scope
 // Add likes for code snippets
 // Refactor navigation
+// Make tiles on home page hoverable
+// Add animated cat and option to choose animal in navigation

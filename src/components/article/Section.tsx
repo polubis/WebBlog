@@ -25,6 +25,34 @@ const Section = styled.section`
   ${Hint} {
     margin: 24px 0 0 0;
   }
+
+  .ui-snippet {
+    & + ${M} {
+      margin-top: 24px;
+    }
+
+    & + .ui-snippet {
+      margin-top: 24px;
+    }
+
+    & + .ui-image {
+      margin-top: 24px;
+    }
+  }
+
+  .ui-image {
+    & + ${M} {
+      margin-top: 24px;
+    }
+
+    & + .ui-snippet {
+      margin-top: 24px;
+    }
+
+    & + .ui-image {
+      margin-top: 24px;
+    }
+  }
 `
 
 export default ({

@@ -1,11 +1,3 @@
-import Section from "../article/Section"
-import Summary from "../article/Summary"
-import Prelude from "../article/Prelude"
-import Img from "../article/Img"
-import { XL, M, Hint, A, B } from "../../ui/text"
-import { List } from "../article/List"
-import { CodePreview as Code } from "./CodePreview"
-
 export const INIT_MDX = `<Prelude>
   <M>
     I don't know about you, but I like creating components - especially the more
@@ -116,8 +108,9 @@ export const INIT_MDX = `<Prelude>
     pretty small amount of code to get nice documentation and be able to play
     with it while developing without any need to run the full app.
   </M>
-  <Code
+  <Snippet
     description="Story added"
+    linesCount={23}
     src="https://raw.githubusercontent.com/polubis/Chromatic-and-storybook/main/src/ui/input-field/InputField.stories.tsx"
   />
   <Hint hasBg>
@@ -266,8 +259,9 @@ export const INIT_MDX = `<Prelude>
   <M>
     To achieve that, we need to add pipeline configuration to the repository.
   </M>
-  <Code
+  <Snippet
     description="Configuration"
+    linesCount={23}
     src="https://raw.githubusercontent.com/polubis/Chromatic-and-storybook/a67b143fb64a5a1555ad660300b308017e4e2e84/.github/workflows/chromatic.yaml"
   />
   <M>
@@ -311,19 +305,3 @@ export const INIT_MDX = `<Prelude>
   </M>
 </Summary>
 `
-
-export const COMPONENTS = {
-  Prelude,
-  Section,
-  Summary,
-  Code,
-  List,
-  Img,
-  XL,
-  M,
-  Hint,
-  A,
-  B,
-}
-
-export const TAGS = Object.keys(COMPONENTS)

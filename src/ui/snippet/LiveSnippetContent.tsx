@@ -94,9 +94,7 @@ const LiveContent = ({
         fetch(src).then(res => res.text()) as Promise<string>
       ).subscribe({
         next: content => {
-          setTimeout(() => {
-            setChildren(content)
-          }, 5000)
+          setChildren(content)
         },
       })
       return () => {

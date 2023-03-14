@@ -1,7 +1,7 @@
 import React from "react"
 import Highlight, { defaultProps } from "prism-react-renderer"
 import styled from "styled-components"
-import { useCopyToClipboard } from "../../utils/useCopyToClipboard"
+import { useClipboard } from "../../utils/useClipboard"
 import { S } from "../text"
 import { SNIPPET_THEME } from "./snippetTheme"
 import { InteractiveButton } from "./InteractiveButton"
@@ -58,13 +58,12 @@ const Container = styled.div`
   }
   pre[class*="language-"] {
     padding: 1em;
-    margin: 0.5em 0;
     overflow: auto;
   }
   :not(pre) > code[class*="language-"],
   :not(pre) > code[class*="language-"] {
     padding: 0.1em;
-    border-radius: 0.3em;
+    border-radius: 2px;
     white-space: normal;
   }
   .token.bold,
@@ -109,17 +108,21 @@ const LineContent = styled.span`
   display: table-cell;
 `
 
-const Footer = styled.footer`
+const Header = styled.header`
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   flex-flow: wrap;
-  padding-top: 4px;
+  background: ${SNIPPET_THEME.plain.backgroundColor};
+  padding: 12px 12px 0 12px;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
 
   & > * {
-    margin: 8px 8px 0 0;
+    margin: 0 8px 8px 0;
 
     &:last-child {
-      margin: 8px 0 0 0;
+      margin: 0 0 8px 0;
     }
   }
 `
@@ -129,21 +132,25 @@ interface SnippetContentProps {
   description?: string
 }
 
-const useContentCopy = (children: SnippetContentProps["children"]) => {
-  const { copy } = useCopyToClipboard()
+const SnippetContent = ({ children, description }: SnippetContentProps) => {
+  const { copy } = useClipboard()
 
   const handleCopy = (): void => {
     copy(children.trim())
   }
 
-  return { copy: handleCopy }
-}
-
-const SnippetContent = ({ children, description }: SnippetContentProps) => {
-  const { copy } = useContentCopy(children)
-
   return (
     <Container className="ui-snippet">
+      <Header>
+        <InteractiveButton onClick={handleCopy}>
+          {status => (status === "pending" ? <>✂️ Copied</> : <>✂️ Copy</>)}
+        </InteractiveButton>
+        {/* <FeedbackButton>👍</FeedbackButton>
+          <FeedbackButton>👎</FeedbackButton>
+          <FeedbackButton>🐛 Doesn't work</FeedbackButton>
+          <FeedbackButton>💬 Feedback</FeedbackButton> */}
+      </Header>
+
       <Wrapper className="ui-snippet-code">
         <Highlight
           {...defaultProps}
@@ -169,16 +176,6 @@ const SnippetContent = ({ children, description }: SnippetContentProps) => {
       </Wrapper>
 
       {description && <S italic>{description}</S>}
-
-      <Footer>
-        <InteractiveButton onClick={copy}>
-          {status => (status === "pending" ? <>✂️ Copied</> : <>✂️ Copy</>)}
-        </InteractiveButton>
-        {/* <FeedbackButton>👍</FeedbackButton>
-          <FeedbackButton>👎</FeedbackButton>
-          <FeedbackButton>🐛 Doesn't work</FeedbackButton>
-          <FeedbackButton>💬 Feedback</FeedbackButton> */}
-      </Footer>
     </Container>
   )
 }
