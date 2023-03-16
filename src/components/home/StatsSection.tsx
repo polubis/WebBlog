@@ -117,17 +117,38 @@ export const StatsSection = ({ data }: HomeProps) => {
     }
   )
 
+  const articlesCount = data.articles.nodes.length
+  const authorsCount = data.authors.edges.length
+  const coursesCount = data.courses.nodes.length
+  const lessonsCount = data.lessons.nodes.length
+
   return (
     <Wrapper>
       <Shape />
 
       <Container>
         <CodeEditorTile>
-          <XXL>{data.articles.nodes.length} articles</XXL>
+          <XXL>
+            {articlesCount} {articlesCount <= 1 ? "article" : "articles"}
+          </XXL>
         </CodeEditorTile>
 
         <CodeEditorTile>
-          <XXL>{data.authors.edges.length} authors</XXL>
+          <XXL>
+            {authorsCount} {authorsCount <= 1 ? "author" : "authors"}
+          </XXL>
+        </CodeEditorTile>
+
+        <CodeEditorTile>
+          <XXL>
+            {coursesCount} {coursesCount <= 1 ? "course" : "courses"}
+          </XXL>
+        </CodeEditorTile>
+
+        <CodeEditorTile>
+          <XXL>
+            {lessonsCount} {lessonsCount <= 1 ? "lesson" : "lessons"}
+          </XXL>
         </CodeEditorTile>
 
         <CodeEditorTile>

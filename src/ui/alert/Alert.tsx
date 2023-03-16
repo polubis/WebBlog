@@ -19,7 +19,7 @@ export interface AlertProps {
 }
 
 export const Alert = ({ message }: AlertProps) => {
-  const render = usePortal()
+  const { render } = usePortal()
 
   return render(
     <Container>

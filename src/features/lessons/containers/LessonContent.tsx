@@ -1,18 +1,14 @@
-import { formatDistanceStrict } from "date-fns"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import React from "react"
 import styled from "styled-components"
-import Badge from "../../../components/article/Badge"
-import { AuthorBadge } from "../../../components/badges/AuthorBadge"
 import MobileNavigation from "../../../components/navigation/MobileNavigation"
 import Navbar from "../../../components/navigation/Navbar"
 import theme from "../../../utils/theme"
 import { L_DOWN, SM_DOWN } from "../../../utils/viewport"
 import { CourseChapters } from "../../courses/components/course-chapters/CourseChapters"
 import { useLessonProvider } from "../LessonProvider"
-import { defineCustomElements as deckDeckGoHighlightElement } from "@deckdeckgo/highlight-code/dist/loader"
-
-deckDeckGoHighlightElement()
+import Button from "../../../components/button/Button"
+import { Link as GatsbyLink } from "gatsby"
 
 const CourseChaptersWrapper = styled.div`
   position: relative;
@@ -28,9 +24,9 @@ const CourseChaptersWrapper = styled.div`
 
 const Layout = styled.main`
   display: grid;
-  grid-template-columns: 1fr 340px;
-  gap: 40px 62px;
-  padding: 80px 24px 100px 24px;
+  grid-template-columns: 920px 1fr;
+  gap: 32px;
+  padding: 80px 24px 120px 24px;
   margin: 0 auto;
   max-width: 1280px;
 
@@ -43,11 +39,6 @@ const Layout = styled.main`
       max-width: 400px;
     }
   }
-`
-
-const Author = styled.div`
-  display: flex;
-  align-items: center;
 `
 
 const Dates = styled.div`
@@ -71,6 +62,16 @@ const Content = styled.div`
   }
 `
 
+const CourseNavigation = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: right;
+
+  & > *:first-child {
+    margin-right: 20px;
+  }
+`
+
 export const LessonContent = () => {
   const { course, chapter, lesson } = useLessonProvider()
 
@@ -81,20 +82,18 @@ export const LessonContent = () => {
       <Layout>
         <Content>
           <MDXRenderer>{lesson.body}</MDXRenderer>
-          <Author>
-            <AuthorBadge author={course.author} />
-          </Author>
-          <Dates>
-            <Badge color={theme.secondary}>
-              created:{" "}
-              {formatDistanceStrict(new Date(course.createdAt), new Date())} ago
-            </Badge>
-            <Badge color={theme.secondary}>
-              updated:{" "}
-              {formatDistanceStrict(new Date(course.modifiedAt), new Date())}{" "}
-              ago
-            </Badge>
-          </Dates>
+          <CourseNavigation>
+            {lesson.prevLesson && (
+              <GatsbyLink to={lesson.prevLesson.path}>
+                <Button>PREVIOUS</Button>
+              </GatsbyLink>
+            )}
+            {lesson.nextLesson && (
+              <GatsbyLink to={lesson.nextLesson.path}>
+                <Button>NEXT</Button>
+              </GatsbyLink>
+            )}
+          </CourseNavigation>
         </Content>
         <CourseChaptersWrapper>
           <CourseChapters

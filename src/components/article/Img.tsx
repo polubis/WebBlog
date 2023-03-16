@@ -40,7 +40,7 @@ export default function ({
   border,
 }: Props): React.ReactElement {
   return (
-    <Img border={border}>
+    <Img className="ui-image" border={border}>
       <img src={src} loading="lazy" alt={description} />
       <S italic>{description}</S>
     </Img>

@@ -33,7 +33,7 @@ const Content = styled.div`
 `
 
 export const Modal = ({ children, onClose }: ModalProps) => {
-  const render = usePortal()
+  const { render } = usePortal()
 
   return render(
     <>

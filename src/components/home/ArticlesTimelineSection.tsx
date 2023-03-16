@@ -117,6 +117,8 @@ export const ArticlesTimelineSection = ({ data }: HomeProps) => {
     })
   }
 
+  timelineData.reverse()
+
   return (
     <Container>
       <Timeline

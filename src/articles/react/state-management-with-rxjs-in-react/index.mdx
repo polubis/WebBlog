@@ -41,8 +41,9 @@ title: State management with rxjs in React
     more time to implement something but later it saves a lot of your time if
     it's not too complicated.
   </M>
-  <Code
+  <Snippet
     description="Behavior what?"
+    linesCount={28}
     src="https://raw.githubusercontent.com/polubis/State-management-with-RxJs-in-React/main/src/snippets/simple-store.tsx"
   />
   <M>
@@ -60,8 +61,9 @@ title: State management with rxjs in React
     object per component's life cycle. With <B>useEffect()</B> we update the
     state based on the signals from our module store and this triggers rerender.
   </M>
-  <Code
+  <Snippet
     description="Hello React component"
+    linesCount={52}
     src="https://raw.githubusercontent.com/polubis/State-management-with-RxJs-in-React/main/src/snippets/usage-in-component.tsx"
   />
   <M>
@@ -77,8 +79,9 @@ title: State management with rxjs in React
     between files. This gives you the same behavior as with redux without tons
     of boilerplate. As in redux you will need to reset the state if needed.
   </M>
-  <Code
+  <Snippet
     description="Works but you can modularize that thing"
+    linesCount={39}
     src="https://raw.githubusercontent.com/polubis/State-management-with-RxJs-in-React/main/src/snippets/sharing-state-without-context-api.tsx"
   />
 </Section>
@@ -90,16 +93,18 @@ title: State management with rxjs in React
     ecosystem. Right now, there is no need to reset the state. You determine in
     components where dedicated store API can be exposed in the component tree.
   </M>
-  <Code
+  <Snippet
     description="ContextAPI implementation"
+    linesCount={38}
     src="https://raw.githubusercontent.com/polubis/State-management-with-RxJs-in-React/main/src/snippets/sharing-state-with-context-api.tsx"
   />
   <M>
     As you probably noticed we're exposing a dedicated hook to hide Context
     details.
   </M>
-  <Code
+  <Snippet
     description="ContextAPI Consuming"
+    linesCount={31}
     src="https://raw.githubusercontent.com/polubis/State-management-with-RxJs-in-React/main/src/snippets/consuming-shared-context-state.tsx"
   />
   <M>
@@ -119,16 +124,18 @@ title: State management with rxjs in React
     Firstly, lets create <B>createStore()</B> function which allows us to create
     store object.
   </M>
-  <Code
+  <Snippet
     description="Factory method"
+    linesCount={50}
     src="https://raw.githubusercontent.com/polubis/State-management-with-RxJs-in-React/main/src/framework/createStore.ts"
   />
   <M>
     Next, we need a hook which reduces boilerplate and connects us to React
     ecosystem.
   </M>
-  <Code
+  <Snippet
     description="Hook for connection with React"
+    linesCount={19}
     src="https://raw.githubusercontent.com/polubis/State-management-with-RxJs-in-React/main/src/framework/useStore.tsx"
   />
   <M>
@@ -136,21 +143,24 @@ title: State management with rxjs in React
     This function will return the wrapper component and hook to consume provided
     API in the component tree.
   </M>
-  <Code
+  <Snippet
     description="Connection with ContextAPI"
+    linesCount={70}
     src="https://raw.githubusercontent.com/polubis/State-management-with-RxJs-in-React/main/src/framework/createContextStore.tsx"
   />
   <M>
     Let's construct ContextAPI provider and hook for reading state/performing
     actions.
   </M>
-  <Code
+  <Snippet
     description="Fast and without boilerplate"
+    linesCount={9}
     src="https://raw.githubusercontent.com/polubis/State-management-with-RxJs-in-React/main/src/final/ChatProvider.tsx"
   />
   <M>Right now you can use it in an easy way inside the component.</M>
-  <Code
+  <Snippet
     description="Usage"
+    linesCount={53}
     src="https://raw.githubusercontent.com/polubis/State-management-with-RxJs-in-React/main/src/final/Chat.tsx"
   />
 </Section>

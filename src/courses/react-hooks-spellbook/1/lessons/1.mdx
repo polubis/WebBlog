@@ -1,7 +1,7 @@
 ---
-name: usePortal()
-duration: 3
-description: An entry on how to place a component outside the main root tag.
+name: usePortal
+duration: 2
+description: About rendering components outside the main react tag.
 ---
 
 <Section>
@@ -21,18 +21,21 @@ description: An entry on how to place a component outside the main root tag.
 </Section>
 
 <Section>
-  <XL>Implementation & usage</XL>
-  <M>
-    Now to use the portal you can use a shortened version. Here we used two
-    design patterns - <B>facade</B> and <B>factory method</B>.
-  </M>
-  <Code
-    description="Play with portals!"
-    src="/snippets/courses/react-hooks-spellbook/usePortal.ts"
-  />
+  <XL>Usage</XL>
   <M>The hook created by us can be used in the following way:</M>
-  <Code
-    description="Play with portals!"
-    src="/snippets/courses/react-hooks-spellbook/Usage.tsx"
+  <Snippet
+    description="Move your components"
+    linesCount={28}
+    src="/snippets/courses/react-hooks-spellbook/UsePortalUsage.tsx"
+  />
+</Section>
+
+<Section>
+  <XL>Implementation</XL>
+  <M>Now to use the portal you can use a shortened version.</M>
+  <Snippet
+    description="Play with portals"
+    linesCount={29}
+    src="/snippets/courses/react-hooks-spellbook/usePortal.ts"
   />
 </Section>

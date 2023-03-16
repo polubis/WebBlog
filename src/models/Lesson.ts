@@ -11,4 +11,6 @@ export interface Lesson {
   path: string
   body: string
   description: string
+  nextLesson: Lesson | undefined
+  prevLesson: Lesson | undefined
 }

@@ -2,7 +2,7 @@ import React from "react"
 import { MDXProvider } from "@mdx-js/react"
 
 import Section from "./src/components/article/Section"
-import { Code } from "./src/components/article/Code"
+import { Snippet } from "./src/ui/snippet"
 import Summary from "./src/components/article/Summary"
 import Prelude from "./src/components/article/Prelude"
 import { Example } from "./src/components/article/Example"
@@ -12,7 +12,7 @@ import { List } from "./src/components/article/List"
 
 const shortcodes = {
   Section,
-  Code,
+  Snippet,
   Summary,
   Prelude,
   Example,
