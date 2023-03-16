@@ -12,15 +12,12 @@ import Loadable from "react-loadable"
 import { L_UP, SM_DOWN } from "../../utils/viewport"
 import { SiteMeta } from "../../utils/SiteMeta"
 
-import { defineCustomElements as deckDeckGoHighlightElement } from "@deckdeckgo/highlight-code/dist/loader"
 import { Stack } from "./Stack"
 import { Reviewers } from "./Reviewers"
 import { AuthorBadge } from "../badges/AuthorBadge"
 import Badge from "./Badge"
 import { formatDistanceStrict } from "date-fns"
 import theme from "../../utils/theme"
-
-deckDeckGoHighlightElement()
 
 const ProgressDisplayer = Loadable({
   loader: () => import("./ProgressDisplayer").then(m => m.ProgressDisplayer),

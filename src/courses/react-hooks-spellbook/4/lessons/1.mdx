@@ -1,0 +1,38 @@
+---
+name: useAuth
+duration: 3
+description: Authorization management.
+---
+
+<Section>
+  <XL>Why?</XL>
+  <M>
+    Authorization is one of the most repetitive things in an application. The
+    logic of it varies depending on what we use for authorization.
+  </M>
+  <M>
+    Suppose you have three methods of authorization - <B>Google</B>,{" "}
+    <B>Facebook</B> and the <B>usual login form</B>. For the application, it
+    should make no difference what kind of provider it is. So we need an
+    abstraction that will give the application all the tools to authorize with
+    any provider.
+  </M>
+</Section>
+
+<Section>
+  <XL>Usage</XL>
+  <Snippet
+    linesCount={16}
+    description="Now everywhere the model is the same, only the login providers differ"
+    src="/snippets/courses/react-hooks-spellbook/UseAuthUsage.tsx"
+  />
+</Section>
+
+<Section>
+  <XL>Implementation</XL>
+  <Snippet
+    linesCount={63}
+    description="A reactive approach can do wonders"
+    src="/snippets/courses/react-hooks-spellbook/useAuth.ts"
+  />
+</Section>

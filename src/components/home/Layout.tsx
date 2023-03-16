@@ -1,5 +1,6 @@
 import React, { ReactNode } from "react"
 import styled from "styled-components"
+import { Footer } from "../../ui"
 
 const Container = styled.div`
   display: flex;
@@ -20,6 +21,7 @@ export const Layout = ({
     <Container>
       {navigation}
       <Main>{main}</Main>
+      <Footer></Footer>
     </Container>
   )
 }

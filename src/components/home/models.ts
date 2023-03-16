@@ -1,4 +1,4 @@
-import { Image } from "../../models"
+import { CourseFrontmatter, Image, LessonFrontmatter } from "../../models"
 import { ArticleFrontmatter } from "../../models/Article"
 
 export interface Author {
@@ -40,6 +40,18 @@ export interface HomeProps {
       nodes: {
         frontmatter: ArticleFrontmatter
         slug: string
+      }[]
+    }
+    courses: {
+      nodes: {
+        frontmatter: CourseFrontmatter
+        slug: string
+      }[]
+    }
+    lessons: {
+      nodes: {
+        slug: string
+        frontmatter: LessonFrontmatter
       }[]
     }
   }

@@ -1,7 +1,6 @@
 import React, { memo } from "react"
 import { ErrorBoundary } from "../../utils/ErrorBoundary"
 import MDX from "@mdx-js/runtime"
-import { COMPONENTS } from "./config"
 import { isInSSR } from "../../utils/isInSSR"
 
 const Preview = memo(
@@ -11,7 +10,7 @@ const Preview = memo(
       fallback={() => <>Invalid format - please correct</>}
       onError={onError}
     >
-      <MDX components={COMPONENTS}>{mdx}</MDX>
+      <MDX>{mdx}</MDX>
     </ErrorBoundary>
   ),
   (prev, curr) => prev.mdx === curr.mdx

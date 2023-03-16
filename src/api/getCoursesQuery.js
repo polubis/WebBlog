@@ -31,6 +31,16 @@ const sortById = items => {
   })
 }
 
+const toDashed = str => {
+  let kebabCase = str.replace(/([A-Z])/g, "-$1").toLowerCase()
+
+  if (kebabCase.charAt(0) === "-") {
+    kebabCase = kebabCase.slice(1, kebabCase.length)
+  }
+
+  return kebabCase
+}
+
 exports.getCoursesQuery = data => {
   const lessonsByChapterId = data.lessons.nodes.reduce(
     (acc, { slug, body, frontmatter }) => {
@@ -58,7 +68,7 @@ exports.getCoursesQuery = data => {
     {}
   )
 
-  const chapters = sortById(
+  let chapters = sortById(
     data.chapters.nodes.map(({ frontmatter, slug }) => {
       const chapterId = getChapterIdFromSlug(slug)
       const lessons = lessonsByChapterId[chapterId]
@@ -127,6 +137,55 @@ exports.getCoursesQuery = data => {
       (acc, chapter) => acc + chapter.duration,
       0
     )
+    const finalChapters = chapters.map(chapter => ({
+      ...chapter,
+      path: `${path}${toDashed(chapter.name)}/`,
+      lessons: chapter.lessons.map(lesson => ({
+        ...lesson,
+        path: `${path}${toDashed(chapter.name)}/${toDashed(lesson.name)}/`,
+      })),
+    }))
+    const fullChapters = finalChapters.map(
+      (chapter, chapterIdx, chaptersArr) => {
+        return {
+          ...chapter,
+          lessons: chapter.lessons.map((lesson, lessonIdx, lessonsArr) => {
+            const finalLesson = {
+              ...lesson,
+              nextLesson: lessonsArr[lessonIdx + 1] ?? undefined,
+              prevLesson: lessonsArr[lessonIdx - 1] ?? undefined,
+            }
+
+            if (!finalLesson.nextLesson) {
+              const nextChapter = chaptersArr[chapterIdx + 1]
+
+              if (nextChapter) {
+                const firstLesson = nextChapter.lessons[0]
+
+                if (firstLesson) {
+                  finalLesson.nextLesson = nextChapter.lessons[0]
+                }
+              }
+            }
+
+            if (!finalLesson.prevLesson) {
+              const prevChapter = chaptersArr[chapterIdx - 1]
+
+              if (prevChapter) {
+                const lastLesson =
+                  prevChapter.lessons[prevChapter.lessons.length - 1]
+
+                if (lastLesson) {
+                  finalLesson.prevLesson = lastLesson
+                }
+              }
+            }
+
+            return finalLesson
+          }),
+        }
+      }
+    )
 
     return {
       id: folderName,
@@ -144,14 +203,7 @@ exports.getCoursesQuery = data => {
       techReviewer,
       lingReviewer,
       path,
-      chapters: chapters.map(chapter => ({
-        ...chapter,
-        path: `${path}${chapter.id}/`,
-        lessons: chapter.lessons.map(lesson => ({
-          ...lesson,
-          path: `${path}${chapter.id}/${lesson.id}/`,
-        })),
-      })),
+      chapters: fullChapters,
       lessonsCount: chapters.reduce(
         (acc, chapter) => acc + chapter.lessons.length,
         0

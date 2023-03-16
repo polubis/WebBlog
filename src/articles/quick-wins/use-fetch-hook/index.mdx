@@ -52,8 +52,9 @@ title: useFetch hook
 <Section>
   <XL>2. Looking at spaghetti</XL>
   <M>It works indeed, but the used approach is dirty like a mug.</M>
-  <Code
+  <Snippet
     description="I like pasta but what the **** is this?"
+    linesCount={50}
     src="https://raw.githubusercontent.com/polubis/useFetch-hook/main/snippets/spaghetti.tsx"
   />
   <M>
@@ -64,8 +65,9 @@ title: useFetch hook
     Generally, you can hide this logic in something like <B>useUsersFetch</B> -
     but implementation inside will be the same.
   </M>
-  <Code
+  <Snippet
     description="Hidding dirty code"
+    linesCount={57}
     src="https://raw.githubusercontent.com/polubis/useFetch-hook/main/snippets/hide-in-use-fetch.tsx"
   />
   <M>
@@ -83,8 +85,9 @@ title: useFetch hook
     Of course... Just look at the code below and try to understand it. I think
     it's obvious what is happening immediately.
   </M>
-  <Code
+  <Snippet
     description="Read the code like a good book"
+    linesCount={37}
     src="https://raw.githubusercontent.com/polubis/useFetch-hook/main/snippets/how-it-should-look-like.tsx"
   />
   <M>
@@ -113,8 +116,9 @@ title: useFetch hook
     It is simple - just create several types that have a common property and
     make the union of them.
   </M>
-  <Code
+  <Snippet
     description="Union of types"
+    linesCount={57}
     src="https://raw.githubusercontent.com/polubis/useFetch-hook/main/snippets/exh-check.ts"
   />
   <M>
@@ -139,8 +143,9 @@ title: useFetch hook
     When you pass the signal property, then you can cancel the request via{" "}
     <B>abort</B> function. You can do it at any time - depends on your needs.
   </M>
-  <Code
+  <Snippet
     description="Abort controlled"
+    linesCount={48}
     src="https://raw.githubusercontent.com/polubis/useFetch-hook/main/snippets/abort-controller.tsx"
   />
   <M>
@@ -172,8 +177,9 @@ title: useFetch hook
     <B>TDD</B>. You need to cover the following test scenarios with
     implementation.
   </M>
-  <Code
+  <Snippet
     description="Test paths"
+    linesCount={17}
     src="https://raw.githubusercontent.com/polubis/useFetch-hook/main/snippets/tests-suites.test.ts"
   />
   <Hint hasBg>
@@ -192,16 +198,18 @@ title: useFetch hook
 <Section>
   <XL>7. Implementing useFetch</XL>
   <M>Firstly, let's start with interfaces.</M>
-  <Code
+  <Snippet
     description="Some needed type definitions"
+    linesCount={25}
     src="https://raw.githubusercontent.com/polubis/useFetch-hook/main/snippets/type-defs.ts"
   />
   <M>
     Next, we need to create a hook and implement a handler function with a state
     management transition which includes the option to abort a request.
   </M>
-  <Code
+  <Snippet
     description="Hook implemented"
+    linesCount={47}
     src="https://raw.githubusercontent.com/polubis/useFetch-hook/main/snippets/hook-final.ts"
   />
   <M>
@@ -216,8 +224,9 @@ title: useFetch hook
     We can also improve rendering. Instead of several <B>if</B> statements - you
     can create a component for handling that.
   </M>
-  <Code
+  <Snippet
     description="Renderer for hiding ugly ifs"
+    linesCount={50}
     src="https://raw.githubusercontent.com/polubis/useFetch-hook/main/snippets/renderer.tsx"
   />
   <M>
@@ -231,23 +240,26 @@ title: useFetch hook
     Let's create two hooks that wrap logic for loading users and user details.
     These hooks will use your newly created <B>useFetch</B> hook.
   </M>
-  <Code
+  <Snippet
     description="Two facade hooks"
+    linesCount={39}
     src="https://raw.githubusercontent.com/polubis/useFetch-hook/main/snippets/two-facade-hooks.ts"
   />
   <M>
     Now in <B>UsersService</B> we can use <B>signal</B> in <B>fetch</B>.
   </M>
-  <Code
+  <Snippet
     description="Typical service logic"
+    linesCount={12}
     src="https://raw.githubusercontent.com/polubis/useFetch-hook/main/snippets/UsersService.ts"
   />
   <M>
     Right now it's time for the final step. Just use created hooks in the
     component and display dedicated UI.
   </M>
-  <Code
+  <Snippet
     description="Already done!"
+    linesCount={80}
     src="https://raw.githubusercontent.com/polubis/useFetch-hook/main/snippets/final.tsx"
   />
 </Section>
