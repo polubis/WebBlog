@@ -102,8 +102,8 @@ const AvatarWrapper = styled.div`
 export const StatsSection = ({ data }: HomeProps) => {
   const authorsWithAvatars = (authors as Author[]).map(
     (author): AuthorWithAvatar => {
-      const foundNode = data.authors.edges.find(
-        ({ node }) => node.name === author.id
+      const foundNode = data.authorsAvatars.nodes.find(
+        avatar => avatar.name === author.id
       )
 
       if (!foundNode) {
@@ -112,13 +112,13 @@ export const StatsSection = ({ data }: HomeProps) => {
 
       return {
         ...author,
-        avatar: foundNode.node.childImageSharp.fluid,
+        avatar: foundNode.childImageSharp.fluid,
       }
     }
   )
 
   const articlesCount = data.articles.nodes.length
-  const authorsCount = data.authors.edges.length
+  const authorsCount = authorsWithAvatars.length
   const coursesCount = data.courses.nodes.length
   const lessonsCount = data.lessons.nodes.length
 

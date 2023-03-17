@@ -131,7 +131,7 @@ export const CourseChapters = ({
   }
 
   return (
-    <ChaptersList>
+    <ChaptersList className="components-course-chapters">
       {chapters.map((chapter, index) => (
         <Fragment key={chapter.name}>
           <ChaptersListItem

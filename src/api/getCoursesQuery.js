@@ -152,8 +152,12 @@ exports.getCoursesQuery = data => {
           lessons: chapter.lessons.map((lesson, lessonIdx, lessonsArr) => {
             const finalLesson = {
               ...lesson,
-              nextLesson: lessonsArr[lessonIdx + 1] ?? undefined,
-              prevLesson: lessonsArr[lessonIdx - 1] ?? undefined,
+              nextLesson: lessonsArr[lessonIdx + 1]
+                ? lessonsArr[lessonIdx + 1]
+                : undefined,
+              prevLesson: lessonsArr[lessonIdx - 1]
+                ? lessonsArr[lessonIdx - 1]
+                : undefined,
             }
 
             if (!finalLesson.nextLesson) {

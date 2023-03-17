@@ -9,6 +9,7 @@ import { CourseChapters } from "../../courses/components/course-chapters/CourseC
 import { useLessonProvider } from "../LessonProvider"
 import Button from "../../../components/button/Button"
 import { Link as GatsbyLink } from "gatsby"
+import { MobileCourseChapters } from "../../courses/components"
 
 const CourseChaptersWrapper = styled.div`
   position: relative;
@@ -26,17 +27,24 @@ const Layout = styled.main`
   display: grid;
   grid-template-columns: 920px 1fr;
   gap: 32px;
-  padding: 80px 24px 120px 24px;
+  padding: 40px 24px;
   margin: 0 auto;
   max-width: 1280px;
+
+  .ui-snippet {
+    max-width: 920px;
+
+    @media ${L_DOWN} {
+      max-width: calc(100vw - 48px);
+    }
+  }
 
   @media ${L_DOWN} {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto;
 
     ${CourseChaptersWrapper} {
-      grid-row: 1/2;
-      max-width: 400px;
+      display: none;
     }
   }
 `
@@ -79,6 +87,11 @@ export const LessonContent = () => {
     <>
       <Navbar />
       <MobileNavigation />
+      <MobileCourseChapters
+        chapters={course.chapters}
+        lessonId={lesson.id}
+        chapterId={chapter.id}
+      />
       <Layout>
         <Content>
           <MDXRenderer>{lesson.body}</MDXRenderer>

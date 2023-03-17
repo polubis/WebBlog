@@ -28,7 +28,7 @@ export const useScroll = (config?: Config) => {
 
   useEffect(() => {
     let prevPageYOffset = window.pageYOffset
-    const delay = config?.delay ?? 150
+    const delay = config?.delay ?? 50
 
     const handleScroll = () => {
       const currentPageYOffset = window.pageYOffset

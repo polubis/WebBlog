@@ -3,13 +3,15 @@ import { graphql } from "gatsby"
 
 import Layout from "../components/layout/Layout"
 import { SiteMeta } from "../utils/SiteMeta"
-import { GetCoursesResponse, serializeToCourses } from "../api"
+import { GetCoursesResponse, getCourses } from "../api"
 import styled from "styled-components"
 import { CourseTile } from "../features/courses/components"
 
 export const query = graphql`
   {
-    coursesThumbnails: allFile(filter: {relativePath: {regex: "/course.jpg/"}}) {
+    coursesThumbnails: allFile(
+      filter: { relativePath: { regex: "/course.jpg/" } }
+    ) {
       nodes {
         relativePath
         childImageSharp {
@@ -106,7 +108,7 @@ const Grid = styled.div`
   }
 `
 
-export default function (props: GetCoursesResponse): React.ReactElement {
+export default function (props: GetCoursesResponse) {
   return (
     <SiteMeta
       gaPage="courses"
@@ -119,7 +121,7 @@ export default function (props: GetCoursesResponse): React.ReactElement {
     >
       <Layout>
         <Grid>
-          {serializeToCourses(props).map(course => (
+          {getCourses(props).map(course => (
             <CourseTile key={course.name} data={course} />
           ))}
         </Grid>

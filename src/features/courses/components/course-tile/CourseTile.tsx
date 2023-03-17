@@ -5,34 +5,23 @@ import { CodeEditorTile, M, XL } from "../../../../ui"
 import { Link as GatsbyLink } from "gatsby"
 import { CourseTimeBadge } from "../course-time-badge"
 import { CourseStatusBadge } from "../course-status-badge/CourseStatusBadge"
-import theme from "../../../../utils/theme"
+import Button from "../../../../components/button/Button"
 
 const Container = styled.div`
   border-radius: 2px;
 
-  .link {
-    text-decoration: none;
-
-    &:hover {
-      ${XL} {
-        color: ${theme.primary};
-      }
-    }
-  }
-
-  .components-stack {
-    margin: 0;
+  ${XL} {
+    margin-top: 8px;
   }
 
   ${M} {
-    margin: 12px 0 20px 0;
+    margin: 8px 0 24px 0;
   }
 `
 
 const Content = styled.div`
   display: flex;
   flex-flow: column;
-  width: 100%;
 `
 
 const Badges = styled.div`
@@ -58,14 +47,15 @@ export const CourseTile = ({ data }: CourseTileProps) => {
     <Container>
       <CodeEditorTile>
         <Content>
-          <GatsbyLink className="link" to={data.path}>
-            <XL>{data.name}</XL>
-          </GatsbyLink>
-          <M>{data.description}</M>
           <Badges>
             <CourseTimeBadge value={data.duration} />
             <CourseStatusBadge value={data.status} />
           </Badges>
+          <XL>{data.name}</XL>
+          <M>{data.description}</M>
+          <GatsbyLink to={data.path}>
+            <Button>CHECK COURSE</Button>
+          </GatsbyLink>
         </Content>
       </CodeEditorTile>
     </Container>

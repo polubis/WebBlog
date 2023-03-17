@@ -36,7 +36,10 @@ export const IconButton = styled.button<IconButtonProps>`
   ${base}
 
   ${props => {
-    const byDefault = css``
+    const byDefault = css`
+      color: ${theme.black};
+      background: ${theme.primary};
+    `
 
     if (props.variant === "primary") {
       return byDefault
@@ -68,6 +71,15 @@ export const IconButton = styled.button<IconButtonProps>`
       return css`
         height: 40px;
         width: 40px;
+        font-size: 20px;
+        font-size: bold;
+      `
+    }
+
+    if (props.size === "medium") {
+      return css`
+        height: 48px;
+        width: 48px;
         font-size: 20px;
         font-size: bold;
       `

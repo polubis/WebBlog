@@ -1,6 +1,5 @@
 import React, { ReactNode } from "react"
 import styled from "styled-components"
-import { Footer } from "../../ui"
 
 const Container = styled.div`
   display: flex;
@@ -13,15 +12,17 @@ const Main = styled.main``
 export const Layout = ({
   navigation,
   main,
+  footer
 }: {
   navigation: ReactNode
   main: ReactNode
+  footer?: ReactNode
 }) => {
   return (
     <Container>
       {navigation}
       <Main>{main}</Main>
-      <Footer></Footer>
+      {footer}
     </Container>
   )
 }

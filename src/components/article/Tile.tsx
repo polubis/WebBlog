@@ -46,14 +46,7 @@ const Tile = styled.div`
 `
 
 export default function ({ article }: Props): React.ReactElement {
-  const {
-    author,
-    frontmatter: { tags, title, description, readTime },
-    slug,
-    isNew,
-  } = article
-
-  const formattedSlug = slug.substring(0, slug.length - 1)
+  const { author, tags, title, description, readTime, isNew, path } = article
 
   return (
     <Tile>
@@ -66,7 +59,7 @@ export default function ({ article }: Props): React.ReactElement {
         <ReadTimeBadge minutes={readTime} />
         {isNew && <Badge color={theme.green}>new</Badge>}
       </Details>
-      <Link to={`/articles/${formattedSlug}/`}>
+      <Link to={path}>
         <Button>READ ARTICLE</Button>
       </Link>
     </Tile>

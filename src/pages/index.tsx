@@ -9,27 +9,46 @@ import { ArticlesTimelineSection } from "../components/home/ArticlesTimelineSect
 import { HomeProps } from "../components/home/models"
 import { Layout } from "../components/home/Layout"
 import MobileNavigation from "../components/navigation/MobileNavigation"
+import { Footer } from "../ui"
+import { getArticles } from "../api/getArticles"
 
 export const query = graphql`
   {
-    authors: allFile(filter: { absolutePath: { regex: "/avatars/" } }) {
-      edges {
-        node {
-          name
-          childImageSharp {
-            fluid {
-              base64
-              aspectRatio
-              src
-              srcSet
-              sizes
-            }
+    technologiesAvatars: allFile(
+      filter: { relativePath: { regex: "/technologies/" } }
+    ) {
+      nodes {
+        name
+        relativePath
+        childImageSharp {
+          fluid {
+            base64
+            aspectRatio
+            src
+            srcSet
+            sizes
           }
         }
       }
     }
     thumbnails: allFile(filter: { name: { regex: "/thumbnail/" } }) {
       nodes {
+        name
+        relativePath
+        childImageSharp {
+          fluid {
+            base64
+            aspectRatio
+            src
+            srcSet
+            sizes
+          }
+        }
+      }
+    }
+    authorsAvatars: allFile(filter: { relativePath: { regex: "/avatars/" } }) {
+      nodes {
+        name
         relativePath
         childImageSharp {
           fluid {
@@ -47,13 +66,18 @@ export const query = graphql`
         frontmatter {
           cdate
           mdate
+          tbcdate
           authorId
+          treviewerId
+          lreviewerId
+          tags
           description
           readTime
-          tags
-          title
+          graphicauthor
           stack
+          title
         }
+        body
         slug
       }
     }
@@ -90,6 +114,7 @@ export const query = graphql`
 `
 
 export default function ({ data }: HomeProps) {
+  const articles = getArticles({ data })
   return (
     <SiteMeta
       gaPage=""
@@ -102,6 +127,7 @@ export default function ({ data }: HomeProps) {
     >
       <Layout
         navigation={<HomeNavigation />}
+        footer={<Footer articles={articles} />}
         main={
           <>
             <WelcomeSection />

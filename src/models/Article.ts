@@ -14,16 +14,25 @@ export interface ArticleFrontmatter {
   readTime: number
   stack: string
   title: string
+  graphicauthor?: string
 }
 
 export interface Article {
+  title: ArticleFrontmatter["title"]
+  description: ArticleFrontmatter["description"]
+  readTime: ArticleFrontmatter["readTime"]
+  tags: ArticleFrontmatter["tags"]
   author: Author
   stack: Technology[]
-  frontmatter: ArticleFrontmatter
+  path: string
   slug: string
   thumbnail: Image
-  body?: string
-  isNew?: boolean
+  body: string
+  isNew: boolean
   lingReviewer: Author
   techReviewer: Author
+  createdAt: string
+  modifiedAt: string
+  toBeContinuedDate?: string
+  graphicAuthorLink?: string
 }
