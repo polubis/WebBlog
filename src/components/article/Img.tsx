@@ -6,7 +6,7 @@ import theme from "../../utils/theme"
 
 interface Props {
   src: string
-  description: string
+  description?: string
   border?: boolean
 }
 
@@ -42,7 +42,7 @@ export default function ({
   return (
     <Img className="ui-image" border={border}>
       <img src={src} loading="lazy" alt={description} />
-      <S italic>{description}</S>
+      {description && <S italic>{description}</S>}
     </Img>
   )
 }

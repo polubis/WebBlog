@@ -6,11 +6,9 @@ import { S } from "../text"
 import { SNIPPET_THEME } from "./snippetTheme"
 import { InteractiveButton } from "./InteractiveButton"
 
-const Wrapper = styled.div`
-  max-width: calc(100vw - 56px);
-`
-
 const Container = styled.div`
+  max-width: 100vw;
+
   .prism-code {
     margin: 0;
   }
@@ -151,29 +149,27 @@ const SnippetContent = ({ children, description }: SnippetContentProps) => {
           <FeedbackButton>💬 Feedback</FeedbackButton> */}
       </Header>
 
-      <Wrapper className="ui-snippet-code">
-        <Highlight
-          {...defaultProps}
-          theme={SNIPPET_THEME}
-          code={children.trim()}
-          language="jsx"
-        >
-          {({ className, style, tokens, getLineProps, getTokenProps }) => (
-            <Pre className={className} style={style}>
-              {tokens.map((line, i) => (
-                <Line key={i} {...getLineProps({ line, key: i })}>
-                  <LineNo>{i + 1}</LineNo>
-                  <LineContent>
-                    {line.map((token, key) => (
-                      <span key={key} {...getTokenProps({ token, key })} />
-                    ))}
-                  </LineContent>
-                </Line>
-              ))}
-            </Pre>
-          )}
-        </Highlight>
-      </Wrapper>
+      <Highlight
+        {...defaultProps}
+        theme={SNIPPET_THEME}
+        code={children.trim()}
+        language="jsx"
+      >
+        {({ className, style, tokens, getLineProps, getTokenProps }) => (
+          <Pre className={className} style={style}>
+            {tokens.map((line, i) => (
+              <Line key={i} {...getLineProps({ line, key: i })}>
+                <LineNo>{i + 1}</LineNo>
+                <LineContent>
+                  {line.map((token, key) => (
+                    <span key={key} {...getTokenProps({ token, key })} />
+                  ))}
+                </LineContent>
+              </Line>
+            ))}
+          </Pre>
+        )}
+      </Highlight>
 
       {description && <S italic>{description}</S>}
     </Container>

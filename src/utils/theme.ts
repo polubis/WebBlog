@@ -16,4 +16,6 @@ export default {
   bannerInfoBg: "#c7bdbd",
   bannerInfoText: "#000",
   grayB: "#484545",
+  grayC: "#3C3C3C",
+  grayD: "#ABA7A7",
 }

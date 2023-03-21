@@ -1,6 +1,6 @@
 ---
-cdate: 2023-04-24
-mdate: 2023-04-24
+cdate: 2023-03-23
+mdate: 2023-03-23
 authorId: kwozniak
 treviewerId: polubis
 lreviewerId: kreszko
@@ -9,6 +9,7 @@ tags: hooks,authorization
 description: Short and simple on the topic of authorization in React, so as not to get hung up on it.
 readTime: 4
 title: Authorization made simple
+graphicauthor: https://unsplash.com/@pawel_czerwinski/
 ---
 
 <Prelude>
@@ -23,7 +24,7 @@ title: Authorization made simple
 </Prelude>
 
 <Section>
-  <XL>2. Utils</XL>
+  <XL>1. Service</XL>
   <M>
     To fully illustrate the problem, we will use the prepared login 🔑 mockup.
     The following function waits 3s and then simulates a BE query that returns a
@@ -31,29 +32,28 @@ title: Authorization made simple
   </M>
   <Snippet
     description="Login endpoint mock"
-    linesCount={15}
-    src="https://raw.githubusercontent.com/ajronn/useAuth/main/src/mocks/index.ts"
+    linesCount={20}
+    src="/snippets/authorization-made-simple/service.ts"
   />
 </Section>
 
 <Section>
-  <XL>3. useAuth</XL>
+  <XL>2. Provider</XL>
   <M>
     So we create a <B>provider</B> that will hold information via the{" "}
-    <B>context</B>
-    whether the user is already correctly authorized. The function starts by asking
-    BE about the login. The result is stored in the state. Of course, this action
-    can happen in a separate site which would be good practice 👌.
+    <B>context</B> whether the user is already correctly authorized. The
+    function starts by asking BE about the login. The result is stored in the
+    state.
   </M>
   <Snippet
-    description="useAuth provider and hook"
-    linesCount={26}
-    src="https://raw.githubusercontent.com/ajronn/useAuth/main/src/useAuth/index.tsx"
+    description="Provider and context hook"
+    linesCount={54}
+    src="/snippets/authorization-made-simple/provider.tsx"
   />
 </Section>
 
 <Section>
-  <XL>4. Guards</XL>
+  <XL>3. Guards</XL>
   <M>
     As we mentioned our custom hook will be used to implement <B>reusable</B>{" "}
     components. We will now write two guards 💂‍♂️ that, depending on the flag
@@ -61,21 +61,21 @@ title: Authorization made simple
   </M>
   <Snippet
     description="Guards"
-    linesCount={13}
-    src="https://raw.githubusercontent.com/ajronn/useAuth/main/src/guards/index.tsx"
+    linesCount={46}
+    src="/snippets/authorization-made-simple/guard.tsx"
   />
 </Section>
 
 <Section>
-  <XL>5. Use case</XL>
+  <XL>4. Usage</XL>
   <M>
     It's time for a use case example. We will use the default layout rendered
     with <B>create-react-app</B>.
   </M>
   <Snippet
     description="Guards"
-    linesCount={37}
-    src="https://raw.githubusercontent.com/ajronn/useAuth/main/src/App.tsx"
+    linesCount={25}
+    src="/snippets/authorization-made-simple/usage.tsx"
   />
   <M>
     As you can see, hiding or showing parts of the layout is trivial 🤡 from now

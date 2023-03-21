@@ -1,19 +1,15 @@
 # In progress
 
-// add footer
-// display course lessons in timeline
-// Move navigation in courses for mobile at bottom for better UX
-// Make descriptions optional under images
-// use credits on linkedin
-// Add button to course tile
-
 # Now
 
 ## Future
 
+// display course lessons in timeline
+// Add courses on timeline
 // Add random button
 // add other articles in article - recommended
 // Make cat to be animated
+// Make all pages dynamic instead of statically created
 // Add X instead of rotation for mobile nav
 // Fikes lines for timeline on first render
 // Improve UX of application
@@ -35,3 +31,9 @@
 // Refactor navigation
 // Make tiles on home page hoverable
 // Add animated cat and option to choose animal in navigation
+// Add cool error page
+// Add hover on links
+// Add error handling to snippet
+// Add option to pass language to template snippet
+// Make code snippets interactive and editable
+// Add one layout

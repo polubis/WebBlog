@@ -1,5 +1,5 @@
+import { GetArticlesResponse } from "../../api/getArticles"
 import { CourseFrontmatter, Image, LessonFrontmatter } from "../../models"
-import { ArticleFrontmatter } from "../../models/Article"
 
 export interface Author {
   id: string
@@ -17,31 +17,7 @@ export interface AuthorWithAvatar extends Author {
 }
 
 export interface HomeProps {
-  data: {
-    authors: {
-      edges: {
-        node: {
-          name: string
-          childImageSharp: {
-            fluid: Image
-          }
-        }
-      }[]
-    }
-    thumbnails: {
-      nodes: {
-        relativePath: string
-        childImageSharp: {
-          fluid: Image
-        }
-      }[]
-    }
-    articles: {
-      nodes: {
-        frontmatter: ArticleFrontmatter
-        slug: string
-      }[]
-    }
+  data: GetArticlesResponse["data"] & {
     courses: {
       nodes: {
         frontmatter: CourseFrontmatter

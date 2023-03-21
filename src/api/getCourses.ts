@@ -1,5 +1,6 @@
 import {
   ChapterFrontmatter,
+  Course,
   CourseFrontmatter,
   Image,
   LessonFrontmatter,
@@ -38,7 +39,7 @@ export interface GetCoursesResponse {
   }
 }
 
-export const serializeToCourses = ({ data }: GetCoursesResponse) => {
+export const getCourses = ({ data }: GetCoursesResponse): Course[] => {
   const courses = getCoursesQuery({
     ...data,
     authors,
