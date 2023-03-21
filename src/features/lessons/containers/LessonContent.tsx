@@ -9,7 +9,15 @@ import { CourseChapters } from "../../courses/components/course-chapters/CourseC
 import { useLessonProvider } from "../LessonProvider"
 import Button from "../../../components/button/Button"
 import { Link as GatsbyLink } from "gatsby"
-import { MobileCourseChapters } from "../../courses/components"
+import Loadable from "react-loadable"
+
+const MobileCourseChapters = Loadable({
+  loader: () =>
+    import("../../courses/components/mobile-course-chapters").then(
+      m => m.MobileCourseChapters
+    ),
+  loading: () => null,
+})
 
 const CourseChaptersWrapper = styled.div`
   position: relative;

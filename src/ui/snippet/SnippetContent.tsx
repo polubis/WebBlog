@@ -61,7 +61,7 @@ const Container = styled.div`
   :not(pre) > code[class*="language-"],
   :not(pre) > code[class*="language-"] {
     padding: 0.1em;
-    border-radius: 2px;
+    border-radius: 4px;
     white-space: normal;
   }
   .token.bold,

@@ -27,7 +27,7 @@ const Content = styled.div`
   padding: 24px;
   transform: translate(-50%, -50%);
   background: ${theme.black};
-  border-radius: 2px;
+  border-radius: 4px;
   z-index: 201;
   border: 1px solid ${theme.bg2};
 `

@@ -60,7 +60,7 @@ const Tile = styled.div`
   flex-flow: column;
   align-items: center;
   padding: 26px 22px;
-  border-radius: 2px;
+  border-radius: 4px;
   border: 1px solid ${theme.primary};
 
   ${XL}, ${X} {

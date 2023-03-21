@@ -18,7 +18,7 @@ const TextContent = styled.div`
 `
 
 const LessonListItem = styled.li`
-  border-radius: 2px;
+  border-radius: 4px;
   background: ${theme.blackA};
   padding: 12px;
   cursor: pointer;

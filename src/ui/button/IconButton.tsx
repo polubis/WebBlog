@@ -92,6 +92,6 @@ export const IconButton = styled.button<IconButtonProps>`
           border-radius: 50%;
         `
       : css`
-          border-radius: 2px;
+          border-radius: 4px;
         `}
 `

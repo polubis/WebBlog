@@ -20,7 +20,7 @@ const Img = styled.figure<{ border: Props["border"] }>`
       props.border &&
       css`
         border: 1px solid ${theme.primary};
-        border-radius: 2px;
+        border-radius: 4px;
       `}
   }
 

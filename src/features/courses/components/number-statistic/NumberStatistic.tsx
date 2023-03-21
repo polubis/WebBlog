@@ -7,7 +7,7 @@ const Container = styled.div`
   display: flex;
   flex-flow: column;
   padding: 16px 12px 12px 12px;
-  border-radius: 2px;
+  border-radius: 4px;
   background: ${theme.blackA};
 
   ${S} {

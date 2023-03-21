@@ -12,7 +12,7 @@ const common = css`
   padding: 10px 18px;
   box-sizing: border-box;
   min-width: 72px;
-  border-radius: 2px;
+  border-radius: 4px;
   cursor: pointer;
   font-family: inherit;
 

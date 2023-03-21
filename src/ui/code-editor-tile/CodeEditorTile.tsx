@@ -12,7 +12,7 @@ const Container = styled.div`
   display: flex;
   z-index: 1;
   flex-flow: column;
-  border-radius: 2px;
+  border-radius: 4px;
   width: 100%;
 `
 

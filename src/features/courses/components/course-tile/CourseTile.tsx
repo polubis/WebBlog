@@ -8,7 +8,7 @@ import { CourseStatusBadge } from "../course-status-badge/CourseStatusBadge"
 import Button from "../../../../components/button/Button"
 
 const Container = styled.div`
-  border-radius: 2px;
+  border-radius: 4px;
 
   ${XL} {
     margin-top: 8px;
