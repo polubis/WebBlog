@@ -104,9 +104,13 @@ module.exports = {
                 path
                 context {
                   article {
-                    frontmatter {
-                      mdate
-                    }
+                    modifiedAt
+                  }
+                  lesson {
+                    path
+                  }
+                  course {
+                    modifiedAt
                   }
                 }
               }
@@ -116,27 +120,17 @@ module.exports = {
         resolveSiteUrl: () => siteUrl,
         resolvePages: ({ allSitePage: { nodes } }) => {
           return nodes.map(page => {
-            const isArticleGeneratedPage =
-              !!page.context && !!page.context.article
-            let mdate = null
-
-            if (!!page.context && !!page.context.article) {
-              mdate = page.context.article.frontmatter.mdate
-            }
-
             return {
               path: page.path,
-              mdate,
-              isArticleGeneratedPage,
             }
           })
         },
-        serialize: ({ path, isArticleGeneratedPage, mdate }) => {
+        serialize: ({ path }) => {
           return {
             url: path,
-            lastmod: mdate ? mdate : new Date().toISOString(),
-            priority: isArticleGeneratedPage ? 1 : 0.7,
-            changefreq: isArticleGeneratedPage ? "daily" : "weekly",
+            lastmod: new Date().toISOString(),
+            priority: 1,
+            changefreq: "weekly",
           }
         },
       },

@@ -2,6 +2,8 @@
 
 # Now
 
+// Add one layout
+
 ## Future
 
 // display course lessons in timeline
@@ -36,4 +38,3 @@
 // Add error handling to snippet
 // Add option to pass language to template snippet
 // Make code snippets interactive and editable
-// Add one layout
