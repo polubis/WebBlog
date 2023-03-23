@@ -9,27 +9,16 @@ import { ArticlesTimelineSection } from "../components/home/ArticlesTimelineSect
 import { HomeProps } from "../components/home/models"
 import { Layout } from "../components/home/Layout"
 import MobileNavigation from "../components/navigation/MobileNavigation"
+import { Footer } from "../ui"
+import { getArticles } from "../api/getArticles"
 
 export const query = graphql`
   {
-    authors: allFile(filter: { absolutePath: { regex: "/avatars/" } }) {
-      edges {
-        node {
-          name
-          childImageSharp {
-            fluid {
-              base64
-              aspectRatio
-              src
-              srcSet
-              sizes
-            }
-          }
-        }
-      }
-    }
-    thumbnails: allFile(filter: { name: { regex: "/thumbnail/" } }) {
+    technologiesAvatars: allFile(
+      filter: { relativePath: { regex: "/technologies/" } }
+    ) {
       nodes {
+        name
         relativePath
         childImageSharp {
           fluid {
@@ -42,25 +31,90 @@ export const query = graphql`
         }
       }
     }
-    articles: allMdx(limit: 50) {
+    thumbnails: allFile(filter: { name: { regex: "/thumbnail/" } }) {
+      nodes {
+        name
+        relativePath
+        childImageSharp {
+          fluid {
+            base64
+            aspectRatio
+            src
+            srcSet
+            sizes
+          }
+        }
+      }
+    }
+    authorsAvatars: allFile(filter: { relativePath: { regex: "/avatars/" } }) {
+      nodes {
+        name
+        relativePath
+        childImageSharp {
+          fluid {
+            base64
+            aspectRatio
+            src
+            srcSet
+            sizes
+          }
+        }
+      }
+    }
+    articles: allMdx(filter: { fileAbsolutePath: { regex: "/index.mdx/" } }) {
       nodes {
         frontmatter {
           cdate
           mdate
+          tbcdate
           authorId
+          treviewerId
+          lreviewerId
+          tags
           description
           readTime
-          tags
-          title
+          graphicauthor
           stack
+          title
         }
+        body
         slug
+      }
+    }
+    courses: allMdx(filter: { fileAbsolutePath: { regex: "/course.mdx/" } }) {
+      nodes {
+        slug
+        fileAbsolutePath
+        frontmatter {
+          authorId
+          treviewerId
+          lreviewerId
+          stack
+          tags
+          description
+          name
+          status
+          cdate
+          mdate
+        }
+      }
+    }
+    lessons: allMdx(filter: { slug: { regex: "/lessons/" } }) {
+      nodes {
+        slug
+        body
+        frontmatter {
+          name
+          duration
+          description
+        }
       }
     }
   }
 `
 
 export default function ({ data }: HomeProps) {
+  const articles = getArticles({ data })
   return (
     <SiteMeta
       gaPage=""
@@ -73,6 +127,7 @@ export default function ({ data }: HomeProps) {
     >
       <Layout
         navigation={<HomeNavigation />}
+        footer={<Footer articles={articles} />}
         main={
           <>
             <WelcomeSection />

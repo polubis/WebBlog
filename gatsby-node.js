@@ -1,4 +1,6 @@
-const path = require("path")
+const { resolve } = require("path")
+const { getArticlesQuery } = require("./src/api/getArticlesQuery")
+const { getCoursesQuery } = require("./src/api/getCoursesQuery")
 const authors = require("./src/authors/authors.json")
 
 exports.onCreateWebpackConfig = ({ actions }) => {
@@ -9,14 +11,13 @@ exports.onCreateWebpackConfig = ({ actions }) => {
   })
 }
 
-// create pages dynamically
-exports.createPages = async ({ graphql, actions }) => {
+const createArticlePages = async ({ actions, graphql }) => {
   const { createPage } = actions
 
   const result = await graphql(`
     {
-      techAvatars: allFile(
-        filter: { relativeDirectory: { regex: "/technologies/" } }
+      technologiesAvatars: allFile(
+        filter: { relativePath: { regex: "/technologies/" } }
       ) {
         nodes {
           name
@@ -34,6 +35,7 @@ exports.createPages = async ({ graphql, actions }) => {
       }
       thumbnails: allFile(filter: { name: { regex: "/thumbnail/" } }) {
         nodes {
+          name
           relativePath
           childImageSharp {
             fluid {
@@ -46,7 +48,9 @@ exports.createPages = async ({ graphql, actions }) => {
           }
         }
       }
-      allFile(filter: { name: { ne: "index" } }) {
+      authorsAvatars: allFile(
+        filter: { relativePath: { regex: "/avatars/" } }
+      ) {
         nodes {
           name
           relativePath
@@ -61,108 +65,168 @@ exports.createPages = async ({ graphql, actions }) => {
           }
         }
       }
-      allMdx {
+      articles: allMdx(filter: { fileAbsolutePath: { regex: "/index.mdx/" } }) {
         nodes {
-          body
-          slug
           frontmatter {
-            authorId
             cdate
+            mdate
+            graphicauthor
             tbcdate
+            authorId
+            treviewerId
+            lreviewerId
+            tags
             description
             readTime
-            treviewerId 
-            lreviewerId
-            mdate
-            tags
-            title
             stack
+            title
+          }
+          body
+          slug
+        }
+      }
+    }
+  `)
+
+  const articles = getArticlesQuery({
+    ...result.data,
+    authors,
+  })
+
+  articles.forEach(article => {
+    createPage({
+      path: article.path,
+      component: resolve(`src/components/article/Article.tsx`),
+      context: {
+        article,
+      },
+    })
+  })
+}
+
+const createCoursePages = async ({ graphql, actions }) => {
+  const { createPage } = actions
+
+  const result = await graphql(`
+    {
+      coursesThumbnails: allFile(
+        filter: { relativePath: { regex: "/course.jpg/" } }
+      ) {
+        nodes {
+          relativePath
+          childImageSharp {
+            fluid {
+              base64
+              aspectRatio
+              src
+              srcSet
+              sizes
+            }
+          }
+        }
+      }
+      courses: allMdx(filter: { fileAbsolutePath: { regex: "/course.mdx/" } }) {
+        nodes {
+          slug
+          fileAbsolutePath
+          frontmatter {
+            authorId
+            treviewerId
+            lreviewerId
+            stack
+            tags
+            description
+            name
+            status
+            cdate
+            mdate
+          }
+        }
+      }
+      chapters: allMdx(filter: { slug: { regex: "/chapter/" } }) {
+        nodes {
+          slug
+          frontmatter {
+            name
+          }
+        }
+      }
+      techAvatars: allFile(
+        filter: { relativeDirectory: { regex: "/technologies/" } }
+      ) {
+        nodes {
+          name
+          childImageSharp {
+            fluid {
+              base64
+              aspectRatio
+              src
+              srcSet
+              sizes
+            }
+          }
+        }
+      }
+      lessons: allMdx(filter: { slug: { regex: "/lessons/" } }) {
+        nodes {
+          slug
+          body
+          frontmatter {
+            name
+            duration
+            description
+          }
+        }
+      }
+      avatars: allFile(filter: { absolutePath: { regex: "/avatars/" } }) {
+        nodes {
+          name
+          childImageSharp {
+            fluid {
+              base64
+              aspectRatio
+              src
+              srcSet
+              sizes
+            }
           }
         }
       }
     }
   `)
 
-  const getSlug = relativePath => {
-    const parts = relativePath.split("/")
-    const filtered = parts.filter((_, i) => i !== 0 && i < parts.length - 1)
-    return `${filtered.join("/")}/`
-  }
+  const courses = getCoursesQuery({
+    ...result.data,
+    authors,
+  })
 
-  const thumbnails = result.data.thumbnails.nodes.reduce((acc, node) => {
-    return {
-      ...acc,
-      [getSlug(node.relativePath)]: node.childImageSharp.fluid,
-    }
-  }, {})
-
-  const techAvatars = result.data.techAvatars.nodes.reduce((acc, node) => {
-    return {
-      ...acc,
-      [node.name]: node.childImageSharp.fluid,
-    }
-  }, {})
-
-  result.data.allMdx.nodes
-    .sort((a, b) => {
-      if (a.frontmatter.cdate > b.frontmatter.cdate) {
-        return -1
-      }
-
-      if (a.frontmatter.cdate === b.frontmatter.cdate) {
-        return 0
-      }
-
-      return 1
+  courses.forEach(course => {
+    createPage({
+      path: course.path,
+      component: resolve(`src/features/courses/Course.tsx`),
+      context: {
+        course,
+      },
     })
-    .forEach((allMdxNode, idx) => {
-      const authorImage = result.data.allFile.nodes.find(
-        allFileNode => allFileNode.name === allMdxNode.frontmatter.authorId
-      )
-      const techReviewerImage = result.data.allFile.nodes.find(
-        allFileNode =>
-          allFileNode.name === allMdxNode.frontmatter.treviewerId
-      )
-      const lingReviewerImage = result.data.allFile.nodes.find(
-        allFileNode =>
-          allFileNode.name === allMdxNode.frontmatter.lreviewerId
-      )
 
-      createPage({
-        path: `/articles/${allMdxNode.slug}`,
-        component: path.resolve(`src/components/article/Article.tsx`),
-        context: {
-          article: {
-            ...allMdxNode,
-            thumbnail: thumbnails[allMdxNode.slug],
-            stack: allMdxNode.frontmatter.stack.split(",").map(id => ({
-              id,
-              avatar: techAvatars[id],
-            })),
-            author: {
-              ...authors.find(
-                auth => auth.id === allMdxNode.frontmatter.authorId
-              ),
-              id: allMdxNode.frontmatter.authorId,
-              avatar: authorImage.childImageSharp.fluid,
-            },
-            lingReviewer: {
-              ...authors.find(
-                auth => auth.id === allMdxNode.frontmatter.lreviewerId
-              ),
-              id: allMdxNode.frontmatter.lreviewerId,
-              avatar: lingReviewerImage.childImageSharp.fluid,
-            },
-            techReviewer: {
-              ...authors.find(
-                auth => auth.id === allMdxNode.frontmatter.treviewerId
-              ),
-              id: allMdxNode.frontmatter.treviewerId,
-              avatar: techReviewerImage.childImageSharp.fluid,
-            },
-            isNew: idx === 0,
+    course.chapters.forEach(chapter => {
+      chapter.lessons.forEach(lesson => {
+        createPage({
+          path: lesson.path,
+          component: resolve(`src/features/lessons/Lesson.tsx`),
+          context: {
+            lesson,
+            chapter,
+            course,
           },
-        },
+        })
       })
     })
+  })
+}
+
+// create pages dynamically
+exports.createPages = async props => {
+  await createArticlePages(props)
+  await createCoursePages(props)
 }

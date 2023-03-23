@@ -4,7 +4,7 @@ import { Banner } from "../../ui"
 export const WillBeContinuedBanner = () => {
   return (
     <Banner>
-      This is just the beginning. In some time we will add more headlines. 🚀
+      This article will be even bigger. We need some time to complete it.
     </Banner>
   )
 }

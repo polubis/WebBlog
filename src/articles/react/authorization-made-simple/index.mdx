@@ -1,0 +1,84 @@
+---
+cdate: 2023-03-23
+mdate: 2023-03-23
+authorId: kwozniak
+treviewerId: polubis
+lreviewerId: kreszko
+stack: typescript,react
+tags: hooks,authorization
+description: Short and simple article on the topic of authorization in React, so as not to get hung up on it.
+readTime: 4
+title: Authorization made simple
+graphicauthor: https://unsplash.com/@pawel_czerwinski/
+---
+
+<Prelude>
+  <M>
+    <B>Authorization</B> is one of the more common functionalities when it comes
+    to web applications. Checking whether a user is logged in or not can
+    generate a lot of code. Let's write some utils, that will make it easy.
+  </M>
+</Prelude>
+
+<Section>
+  <XL>1. Service</XL>
+  <M>
+    To fully illustrate the problem, we will use the prepared login mock API
+    call. The following function waits 3 seconds and then simulates a BE query
+    that returns a flag.
+  </M>
+  <Snippet
+    linesCount={20}
+    src="/snippets/authorization-made-simple/service.ts"
+  />
+</Section>
+
+<Section>
+  <XL>2. Provider</XL>
+  <M>
+    We create a <B>provider</B> that will hold information via the{" "}
+    <B>Context API</B>. In <B>useEffect</B> we're calling backend for status.
+  </M>
+  <Snippet
+    linesCount={54}
+    src="/snippets/authorization-made-simple/provider.tsx"
+  />
+</Section>
+
+<Section>
+  <XL>3. Guards</XL>
+  <M>
+    Our custom hook will be used to implement <B>reusable</B> logic. We will now
+    write two guards that depending on the values stored in the provider will
+    render (or not) part of the UI.
+  </M>
+  <Snippet
+    linesCount={46}
+    src="/snippets/authorization-made-simple/guard.tsx"
+  />
+</Section>
+
+<Section>
+  <XL>4. Usage</XL>
+  <M>
+    It's time for a use case example. We are going to use the default layout
+    rendered with <B>create-react-app</B>.
+  </M>
+  <Snippet
+    linesCount={25}
+    src="/snippets/authorization-made-simple/usage.tsx"
+  />
+  <M>
+    As you can see, from now on hiding or showing parts of the layout is trivial
+    🤡. Of course, let's not forget that we need to use our provider in the
+    parent component 😉.
+  </M>
+</Section>
+
+<Summary>
+  <M>
+    In summary, this short article shows how authorization logic can be
+    implemented with context API and some design patterns commonly used in
+    React.
+  </M>
+</Summary>

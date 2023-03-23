@@ -1,35 +1,23 @@
+import type { ReactPortal, ReactNode } from "react"
+
 import { useEffect, useMemo } from "react"
 import { createPortal } from "react-dom"
-import { isInSSR } from "./isInSSR"
 
-export const usePortal = () => {
-  const el = useMemo(() => {
-    if (isInSSR()) {
-      return
-    }
-
-    return document.createElement("div")
-  }, [])
+const usePortal = () => {
+  const wrapper = useMemo(() => document.createElement("div"), [])
 
   useEffect(() => {
-    if (isInSSR()) {
-      return
-    }
-
-    document.body.prepend(el)
+    document.body.prepend(wrapper)
 
     return () => {
-      if (isInSSR()) {
-        return
-      }
-
-      document.body.removeChild(el)
+      document.body.removeChild(wrapper)
     }
   }, [])
 
-  if (isInSSR()) {
-    return () => null
+  return {
+    render: (children: ReactNode): ReactPortal | null =>
+      createPortal(children, wrapper),
   }
-
-  return children => createPortal(children, el)
 }
+
+export { usePortal }

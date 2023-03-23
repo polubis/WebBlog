@@ -30,8 +30,9 @@ title: Closures, currying, function composition as your new friends
     outside scope, returns different values ​​each time and modifies input
     parameters.
   </M>
-  <Code
+  <Snippet
     description="Not a pure function"
+    linesCount={29}
     src="https://raw.githubusercontent.com/polubis/Closures-currying-function-composition-as-your-new-friends/main/src/snippets/notPureFunction.ts"
   />
 </Section>
@@ -43,8 +44,9 @@ title: Closures, currying, function composition as your new friends
     does not modify input parameters and has no side effects like asynchronous
     code or changing something outside its range.
   </M>
-  <Code
+  <Snippet
     description="Easier life with pure function"
+    linesCount={27}
     src="https://raw.githubusercontent.com/polubis/Closures-currying-function-composition-as-your-new-friends/main/src/snippets/pureFunction.ts"
   />
 </Section>
@@ -55,8 +57,9 @@ title: Closures, currying, function composition as your new friends
     It's just passing one function result to other functions. Great composition
     is always implemented with pure functions.
   </M>
-  <Code
+  <Snippet
     description="Create functionalities and read them like a book"
+    linesCount={8}
     src="https://raw.githubusercontent.com/polubis/Closures-currying-function-composition-as-your-new-friends/main/src/snippets/composition.ts"
   />
 </Section>
@@ -67,8 +70,9 @@ title: Closures, currying, function composition as your new friends
     A closure occurs when a function returns another function, and this function
     may use the value contained in the "parent" function.
   </M>
-  <Code
+  <Snippet
     description={`"I will remember your value and will not let anyone else read it" - Mr Closure`}
+    linesCount={16}
     src="https://raw.githubusercontent.com/polubis/Closures-currying-function-composition-as-your-new-friends/main/src/snippets/closure.ts"
   />
 </Section>
@@ -79,8 +83,9 @@ title: Closures, currying, function composition as your new friends
     In simple words, transforming one multi-argument function to many unary
     functions. We can do it ourselves or write a function to do it for us.
   </M>
-  <Code
+  <Snippet
     description="From fn(a,b) to fn(a)(b)"
+    linesCount={12}
     src="https://raw.githubusercontent.com/polubis/Closures-currying-function-composition-as-your-new-friends/main/src/snippets/currying.ts"
   />
 </Section>

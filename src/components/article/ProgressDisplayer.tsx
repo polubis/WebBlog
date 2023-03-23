@@ -35,6 +35,7 @@ const ReadTimeStats = styled.div`
   opacity: 0;
   border-top-right-radius: 4px;
   max-width: 220px;
+  z-index: 20;
 `
 
 const ReadProgress = styled.div`
@@ -44,6 +45,7 @@ const ReadProgress = styled.div`
   width: 4px;
   height: 100vh;
   transition: 0.3s height ease-in-out;
+  z-index: 20;
 `
 
 const ReadStatsManager = ({ readedIn }: { readedIn: number }) => {

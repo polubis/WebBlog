@@ -1,11 +1,15 @@
 import React from "react"
 import styled from "styled-components"
-import Image from "gatsby-image"
+import Img from "gatsby-image"
 
-import { ReadTimeIcon, XXL } from "../../ui"
-import { ArticleThumbnail } from "../../models/Article"
+import { A, ReadTimeIcon, XXL } from "../../ui"
+import { Image } from "../../models"
 import Badge from "./Badge"
 import theme from "../../utils/theme"
+
+const GraphicAuthor = styled.div`
+  display: flex;
+`
 
 const Figure = styled.figure`
   position: relative;
@@ -15,6 +19,13 @@ const Figure = styled.figure`
   width: 100%;
   min-height: 320px;
   margin: 0;
+
+  ${GraphicAuthor} {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    z-index: 1;
+  }
 
   ${XXL} {
     text-shadow: 0 3px 6px rgba(0, 0, 0, 0.51);
@@ -62,7 +73,8 @@ const Badges = styled.div`
 
 interface Props {
   title: string
-  thumbnail: ArticleThumbnail
+  thumbnail: Image
+  graphicAuthorLink?: string
   readTime: number
 }
 
@@ -70,10 +82,11 @@ export default function ({
   title,
   thumbnail,
   readTime,
-}: Props): React.ReactElement {
+  graphicAuthorLink,
+}: Props) {
   return (
     <Figure>
-      <Image
+      <Img
         fluid={thumbnail}
         alt="Article thumbnail"
         style={{
@@ -92,6 +105,13 @@ export default function ({
         </Badge>
         <Badge color={theme.green}>new</Badge>
       </Badges>
+      {graphicAuthorLink && (
+        <GraphicAuthor>
+          <A href={graphicAuthorLink} outside>
+            Graphic author
+          </A>
+        </GraphicAuthor>
+      )}
     </Figure>
   )
 }

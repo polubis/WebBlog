@@ -2,7 +2,6 @@ import React from "react"
 import { graphql } from "gatsby"
 
 import Layout from "../components/layout/Layout"
-import { ArticleAuthorAvatar } from "../models/Article"
 import authors from "../authors/authors.json"
 import styled from "styled-components"
 import AuthorAvatar from "../components/article/AuthorAvatar"
@@ -14,6 +13,7 @@ import {
   useJoinUsModal,
   WithJoinUsModal,
 } from "../components/article/WithJoinUsModal"
+import { Image } from "../models"
 
 interface Author {
   id: string
@@ -27,7 +27,7 @@ interface Author {
 }
 
 interface AuthorWithAvatar extends Author {
-  avatar: ArticleAuthorAvatar
+  avatar: Image
 }
 
 interface Props {
@@ -37,7 +37,7 @@ interface Props {
         node: {
           name: string
           childImageSharp: {
-            fluid: ArticleAuthorAvatar
+            fluid: Image
           }
         }
       }[]
@@ -60,7 +60,7 @@ const Tile = styled.div`
   flex-flow: column;
   align-items: center;
   padding: 26px 22px;
-  border-radius: 2px;
+  border-radius: 4px;
   border: 1px solid ${theme.primary};
 
   ${XL}, ${X} {

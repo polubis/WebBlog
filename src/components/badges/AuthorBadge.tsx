@@ -4,10 +4,10 @@ import { Link as GatsbyLink } from "gatsby"
 
 import { M, S } from "../../ui"
 import AuthorAvatar from "../article/AuthorAvatar"
-import { ArticleAuthor } from "../../models/Article"
+import { Author } from "../../models"
 
 interface Props {
-  author: ArticleAuthor
+  author: Author
   mini?: boolean
 }
 

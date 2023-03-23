@@ -6,8 +6,8 @@ import Logo from "../logo/Logo"
 import { L_UP } from "../../utils/viewport"
 import Links from "./Links"
 import theme from "../../utils/theme"
-import { useDocumentScrollDisable } from "../../utils/useDocumentScrollDisable"
 import { GreenOnLogo } from "../GreenOnLogo"
+import { useScroll } from "../../utils/useScroll"
 
 const Expander = styled.aside<{ greenVariant?: boolean; open: boolean }>`
   display: flex;
@@ -36,7 +36,6 @@ const Expander = styled.aside<{ greenVariant?: boolean; open: boolean }>`
     props.greenVariant &&
     props.open &&
     css`
-      transition: 0.4s ease-in-out all;
       transform: scale(2) rotate(45deg);
     `}
 `
@@ -75,28 +74,41 @@ export default function ({ greenVariant }: MobileNavigationProps) {
     setOpen(prevOpen => !prevOpen)
   }, [])
 
-  useDocumentScrollDisable(open)
+  const { direction } = useScroll()
 
   return (
     <>
-      <Expander greenVariant={greenVariant} open={open}>
-        {greenVariant ? (
-          <GreenOnLogo onClick={toggleOpen} />
-        ) : (
-          <Logo rotated={open} slim={open} onClick={toggleOpen} />
-        )}
-      </Expander>
+      {!open && (direction === "up" || direction === "idle") && (
+        <Expander greenVariant={greenVariant} open={false}>
+          {greenVariant ? (
+            <GreenOnLogo onClick={toggleOpen} />
+          ) : (
+            <Logo rotated={false} slim={false} onClick={toggleOpen} />
+          )}
+        </Expander>
+      )}
+
       {open && (
-        <Navigation>
-          <Links
-            items={[
-              { label: "home", url: "/" },
-              { label: "articles", url: "/articles/" },
-              { label: "creator", url: "/blog-creator/" },
-              { label: "authors", url: "/authors/" },
-            ]}
-          />
-        </Navigation>
+        <>
+          <Expander greenVariant={greenVariant} open>
+            {greenVariant ? (
+              <GreenOnLogo onClick={toggleOpen} />
+            ) : (
+              <Logo rotated slim onClick={toggleOpen} />
+            )}
+          </Expander>
+          <Navigation>
+            <Links
+              items={[
+                { label: "home", url: "/" },
+                { label: "articles", url: "/articles/" },
+                { label: "courses", url: "/courses/" },
+                { label: "creator", url: "/blog-creator/" },
+                { label: "authors", url: "/authors/" },
+              ]}
+            />
+          </Navigation>
+        </>
       )}
     </>
   )

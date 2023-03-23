@@ -9,7 +9,7 @@ const common = css`
   background: none;
   font-size: 14px;
   font-weight: bolder;
-  padding: 12px 18px;
+  padding: 10px 18px;
   box-sizing: border-box;
   min-width: 72px;
   border-radius: 4px;

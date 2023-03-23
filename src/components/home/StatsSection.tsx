@@ -1,6 +1,6 @@
 import React from "react"
 import styled from "styled-components"
-import { M, XXL } from "../../ui"
+import { CodeEditorTile, M, XXL } from "../../ui"
 import AuthorAvatar from "../article/AuthorAvatar"
 import Button from "../button/Button"
 import authors from "../../authors/authors.json"
@@ -23,14 +23,6 @@ const Wrapper = styled.div`
       transform: scale(3);
     }
   }
-`
-
-const Tile = styled.div`
-  display: flex;
-  z-index: 1;
-  flex-flow: column;
-  border-radius: 4px;
-  width: 100%;
 `
 
 const Container = styled.section`
@@ -57,52 +49,6 @@ const Container = styled.section`
       grid-column: 1/3;
     }
   }
-`
-
-const TileHeader = styled.header`
-  background: #565656;
-  padding: 28px 32px;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-`
-
-const TileContent = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 22px 12px 22px 32px;
-  background: #292929;
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
-
-  @media ${M_DOWN} {
-    padding: 22px 32px 22px 32px;
-  }
-`
-
-const ThreeDots = styled.div`
-  display: flex;
-
-  & > *:not(:last-child) {
-    margin-right: 16px;
-  }
-
-  & > *:nth-child(1) {
-    background: #00ff38;
-  }
-
-  & > *:nth-child(2) {
-    background: #ffd200;
-  }
-
-  & > *:nth-child(3) {
-    background: #30404b;
-  }
-`
-
-const Dot = styled.div`
-  border-radius: 50%;
-  width: 16px;
-  height: 16px;
 `
 
 const BloggerTileContent = styled.div`
@@ -156,8 +102,8 @@ const AvatarWrapper = styled.div`
 export const StatsSection = ({ data }: HomeProps) => {
   const authorsWithAvatars = (authors as Author[]).map(
     (author): AuthorWithAvatar => {
-      const foundNode = data.authors.edges.find(
-        ({ node }) => node.name === author.id
+      const foundNode = data.authorsAvatars.nodes.find(
+        avatar => avatar.name === author.id
       )
 
       if (!foundNode) {
@@ -166,66 +112,60 @@ export const StatsSection = ({ data }: HomeProps) => {
 
       return {
         ...author,
-        avatar: foundNode.node.childImageSharp.fluid,
+        avatar: foundNode.childImageSharp.fluid,
       }
     }
   )
+
+  const articlesCount = data.articles.nodes.length
+  const authorsCount = authorsWithAvatars.length
+  const coursesCount = data.courses.nodes.length
+  const lessonsCount = data.lessons.nodes.length
 
   return (
     <Wrapper>
       <Shape />
 
       <Container>
-        <Tile>
-          <TileHeader>
-            <ThreeDots>
-              <Dot />
-              <Dot />
-              <Dot />
-            </ThreeDots>
-          </TileHeader>
-          <TileContent>
-            <XXL>{data.articles.nodes.length} articles</XXL>
-          </TileContent>
-        </Tile>
+        <CodeEditorTile>
+          <XXL>
+            {articlesCount} {articlesCount <= 1 ? "article" : "articles"}
+          </XXL>
+        </CodeEditorTile>
 
-        <Tile>
-          <TileHeader>
-            <ThreeDots>
-              <Dot />
-              <Dot />
-              <Dot />
-            </ThreeDots>
-          </TileHeader>
-          <TileContent>
-            <XXL>{data.authors.edges.length} authors</XXL>
-          </TileContent>
-        </Tile>
+        <CodeEditorTile>
+          <XXL>
+            {authorsCount} {authorsCount <= 1 ? "author" : "authors"}
+          </XXL>
+        </CodeEditorTile>
 
-        <Tile>
-          <TileHeader>
-            <ThreeDots>
-              <Dot />
-              <Dot />
-              <Dot />
-            </ThreeDots>
-          </TileHeader>
-          <TileContent>
-            <BloggerTileContent>
-              <XXL>Become a blogger</XXL>
-              <M>
-                Use our creator and add your first article. You will get the
-                necessary technical assistance.
-              </M>
-              <Link to="/blog-creator/">
-                <Button>WRITE YOUR FIRST ARTICLE</Button>
-              </Link>
-            </BloggerTileContent>
-            <AvatarWrapper>
-              <AuthorAvatar size="big" avatar={authorsWithAvatars[0].avatar} />
-            </AvatarWrapper>
-          </TileContent>
-        </Tile>
+        <CodeEditorTile>
+          <XXL>
+            {coursesCount} {coursesCount <= 1 ? "course" : "courses"}
+          </XXL>
+        </CodeEditorTile>
+
+        <CodeEditorTile>
+          <XXL>
+            {lessonsCount} {lessonsCount <= 1 ? "lesson" : "lessons"}
+          </XXL>
+        </CodeEditorTile>
+
+        <CodeEditorTile>
+          <BloggerTileContent>
+            <XXL>Become a blogger</XXL>
+            <M>
+              Use our creator and add your first article. You will get the
+              necessary technical assistance.
+            </M>
+            <Link to="/blog-creator/">
+              <Button>WRITE YOUR FIRST ARTICLE</Button>
+            </Link>
+          </BloggerTileContent>
+          <AvatarWrapper>
+            <AuthorAvatar size="big" avatar={authorsWithAvatars[0].avatar} />
+          </AvatarWrapper>
+        </CodeEditorTile>
       </Container>
     </Wrapper>
   )

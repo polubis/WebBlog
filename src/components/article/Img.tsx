@@ -6,7 +6,7 @@ import theme from "../../utils/theme"
 
 interface Props {
   src: string
-  description: string
+  description?: string
   border?: boolean
 }
 
@@ -20,7 +20,7 @@ const Img = styled.figure<{ border: Props["border"] }>`
       props.border &&
       css`
         border: 1px solid ${theme.primary};
-        border-radius: 2px;
+        border-radius: 4px;
       `}
   }
 
@@ -40,9 +40,9 @@ export default function ({
   border,
 }: Props): React.ReactElement {
   return (
-    <Img border={border}>
+    <Img className="ui-image" border={border}>
       <img src={src} loading="lazy" alt={description} />
-      <S italic>{description}</S>
+      {description && <S italic>{description}</S>}
     </Img>
   )
 }

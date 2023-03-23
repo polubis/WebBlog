@@ -34,8 +34,9 @@ title: React useRef hook
     the component life cycle. For example, if you would like to read the
     position of HTML div in real DOM, useRef() is the perfect tool.
   </M>
-  <Code
+  <Snippet
     description="This is the most popular use case"
+    linesCount={29}
     src="https://raw.githubusercontent.com/polubis/React-useRef-hook/main/src/snippets/typical-use-ref-usage.tsx"
   />
 </Section>
@@ -53,8 +54,9 @@ title: React useRef hook
     As you probably figured out, in our search function we have a performance
     bottleneck.
   </M>
-  <Code
+  <Snippet
     description="Bottleneck"
+    linesCount={32}
     src="https://raw.githubusercontent.com/polubis/React-useRef-hook/main/src/snippets/cache-candidate.ts"
   />
 </Section>
@@ -67,8 +69,9 @@ title: React useRef hook
     immediately. At this point you are using something similar to class property
     which can be changed during the object lifecycle.
   </M>
-  <Code
+  <Snippet
     description="Immediate read/write with useRef()"
+    linesCount={43}
     src="https://raw.githubusercontent.com/polubis/React-useRef-hook/main/src/snippets/use-ref-as-cache.ts"
   />
   <Hint hasBg>
@@ -88,8 +91,9 @@ title: React useRef hook
     out the rubbish. It was also not an order but a request, and you did it late
     or not.
   </M>
-  <Code
+  <Snippet
     description="Sync or async?"
+    linesCount={24}
     src="https://raw.githubusercontent.com/polubis/React-useRef-hook/main/src/snippets/as-immediate-state-manager.ts"
   />
 </Section>
@@ -102,8 +106,9 @@ title: React useRef hook
     hook instead of useState().
   </M>
   <M>The setCounter() is used only for trigger rerender - that's all.</M>
-  <Code
+  <Snippet
     description="No need to use useEffect()"
+    linesCount={34}
     src="https://raw.githubusercontent.com/polubis/React-useRef-hook/main/src/snippets/real-case-usage.tsx"
   />
 </Section>

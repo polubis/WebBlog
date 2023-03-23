@@ -1,0 +1,48 @@
+---
+name: useForm
+duration: 4
+description: About managing forms in an easy way.
+---
+
+<Section>
+  <XL>Why?</XL>
+  <M>
+    Duplication of <B>logic for forms</B> from the perspective of different
+    requirements is a bad idea. Especially validation.
+  </M>
+  <M>
+    The <B>data model</B> is also important. After all, for each view it would
+    be easier to use the same properties to describe the interface, rather than
+    different ones, depending on the developer who is currently writing the
+    solution.
+  </M>
+  <M>
+    Therefore, it is worthwhile to enclose such a part of the application in a
+    hook, and even, if necessary, later replace it with a library.
+  </M>
+</Section>
+
+<Section>
+  <XL>Usage</XL>
+  <Snippet
+    description="Easy forms with useForm"
+    linesCount={60}
+    src="/snippets/courses/react-hooks-spellbook/UseFormUsage.tsx"
+  />
+</Section>
+
+<Section>
+  <XL>Implementation</XL>
+  <Snippet
+    description="Looks tricky because of TypeScript generics"
+    src="/snippets/courses/react-hooks-spellbook/useForm.ts"
+    linesCount={181}
+  />
+  <Hint hasBg>
+    More about form management in{" "}
+    <A href="/articles/react/build-use-form-hook-in-react/" outside>
+      this article
+    </A>
+    .
+  </Hint>
+</Section>

@@ -77,8 +77,9 @@ title: Build useForm hook in React
     This is a really important step. We should cover all features and design dev
     friendly API.
   </M>
-  <Code
+  <Snippet
     description="Generic API for form management"
+    linesCount={35}
     src="https://raw.githubusercontent.com/polubis/Build-useForm-hook-in-React/main/src/snippets/1-design-api.ts"
   />
 </Section>
@@ -89,8 +90,9 @@ title: Build useForm hook in React
     Tests during development guarantee that you don't break anything after
     providing code changes.
   </M>
-  <Code
+  <Snippet
     description="Testing is important"
+    linesCount={49}
     src="https://raw.githubusercontent.com/polubis/Build-useForm-hook-in-React/main/src/snippets/2-creating-test-cases.ts"
   />
   <Hint hasBg>
@@ -113,8 +115,9 @@ title: Build useForm hook in React
     adding it later. With unit tests and types, you can take it easy 👽. Green
     means it works.
   </M>
-  <Code
+  <Snippet
     description="Defining API shape"
+    linesCount={54}
     src="https://raw.githubusercontent.com/polubis/Build-useForm-hook-in-React/main/src/snippets/3-add-type-defs.ts"
   />
 </Section>
@@ -127,8 +130,9 @@ title: Build useForm hook in React
     contains additional logic which validates <B>event</B> object and informs
     you in runtime.
   </M>
-  <Code
+  <Snippet
     description="Right now you can change stuff"
+    linesCount={58}
     src="https://raw.githubusercontent.com/polubis/Build-useForm-hook-in-React/main/src/snippets/4-basic-api-implementation.ts"
   />
   <M>
@@ -155,8 +159,9 @@ title: Build useForm hook in React
     You need mechanism which will run functions passed via validation object to{" "}
     <B>useForm</B> hook and here it is.
   </M>
-  <Code
+  <Snippet
     description="Validate with for loops in 2022"
+    linesCount={44}
     src="https://raw.githubusercontent.com/polubis/Build-useForm-hook-in-React/main/src/snippets/5-add-validation-function.ts"
   />
   <M>You used for loops because:</M>
@@ -173,8 +178,9 @@ title: Build useForm hook in React
     Right now you just need to connect your <B>validate</B> function with{" "}
     <B>useForm</B> hook.
   </M>
-  <Code
+  <Snippet
     description="Validation connected"
+    linesCount={17}
     src="https://raw.githubusercontent.com/polubis/Build-useForm-hook-in-React/main/src/snippets/6-add-validation-to-use-form.ts"
   />
 </Section>
@@ -185,8 +191,9 @@ title: Build useForm hook in React
     Metadata is important. You definetelly need that to show different
     components on UI or highlight interactions.
   </M>
-  <Code
+  <Snippet
     description="Metadata attached"
+    linesCount={22}
     src="https://raw.githubusercontent.com/polubis/Build-useForm-hook-in-React/main/src/snippets/7-add-metadata-support.ts"
   />
 </Section>
@@ -198,8 +205,9 @@ title: Build useForm hook in React
     important because sometimes you run validation always and sometimes only
     after the first submission. Depends on UX which you want to achieve.
   </M>
-  <Code
+  <Snippet
     description="You can submit now"
+    linesCount={17}
     src="https://raw.githubusercontent.com/polubis/Build-useForm-hook-in-React/main/src/snippets/8-add-confirm-handle.ts"
   />
 </Section>
@@ -207,8 +215,9 @@ title: Build useForm hook in React
 <Section>
   <XL>10. Be able to reset</XL>
   <M>Simple function which resets state to initial.</M>
-  <Code
+  <Snippet
     description="Reset everything"
+    linesCount={14}
     src="https://raw.githubusercontent.com/polubis/Build-useForm-hook-in-React/main/src/snippets/9-add-option-to-reset.ts"
   />
 </Section>
@@ -221,8 +230,9 @@ title: Build useForm hook in React
     need to perform the request. Here is the perfect place and also you can add{" "}
     <B>rxjs</B> operators.
   </M>
-  <Code
+  <Snippet
     description="Subscribe for changes"
+    linesCount={18}
     src="https://raw.githubusercontent.com/polubis/Build-useForm-hook-in-React/main/src/snippets/10-add-option-to-listen.ts"
   />
 </Section>
@@ -232,8 +242,9 @@ title: Build useForm hook in React
   <M>
     Right now you can use <B>useForm</B> for all cases.
   </M>
-  <Code
+  <Snippet
     description="Steps, steps and steps"
+    linesCount={212}
     src="https://raw.githubusercontent.com/polubis/Build-useForm-hook-in-React/main/src/containers/register/Register.tsx"
   />
 </Section>

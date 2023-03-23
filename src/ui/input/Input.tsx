@@ -3,7 +3,7 @@ import styled from "styled-components"
 import theme from "../../utils/theme"
 
 const Container = styled.div`
-  border-radius: 2px;
+  border-radius: 4px;
   background: ${theme.bg2};
   min-width: 200px;
 

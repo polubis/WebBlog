@@ -10,7 +10,7 @@ interface Props {
 export default styled.div<Props>`
   padding: 5px 6px;
   font-size: 12px;
-  border-radius: 2px;
+  border-radius: 4px;
   width: max-content;
   text-transform: uppercase;
 
