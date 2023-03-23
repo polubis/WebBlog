@@ -1,3 +1,5 @@
+const { removeEdgeSlashes } = require("./removeEdgeSlashes")
+
 const getChapterIdFromSlug = slug => {
   const [, id] = slug.split("/")
   return id
@@ -105,14 +107,14 @@ exports.getCoursesQuery = data => {
     }),
     {}
   )
-  const avatarsObj = data.avatars.nodes.reduce(
+  const avatarsObj = data.authorsAvatars.nodes.reduce(
     (acc, avatar) => ({
       ...acc,
       [avatar.name]: avatar.childImageSharp.fluid,
     }),
     {}
   )
-  const techAvatarsObj = data.techAvatars.nodes.reduce((acc, node) => {
+  const techAvatarsObj = data.technologiesAvatars.nodes.reduce((acc, node) => {
     return {
       ...acc,
       [node.name]: node.childImageSharp.fluid,
@@ -137,14 +139,25 @@ exports.getCoursesQuery = data => {
       (acc, chapter) => acc + chapter.duration,
       0
     )
-    const finalChapters = chapters.map(chapter => ({
-      ...chapter,
-      path: `${path}${toDashed(chapter.name)}/`,
-      lessons: chapter.lessons.map(lesson => ({
-        ...lesson,
-        path: `${path}${toDashed(chapter.name)}/${toDashed(lesson.name)}/`,
-      })),
-    }))
+    const finalChapters = chapters.map(chapter => {
+      const chapterPath = `${path}${toDashed(chapter.name)}/`
+
+      return {
+        ...chapter,
+        path: chapterPath,
+        gaPage: removeEdgeSlashes(chapterPath),
+        lessons: chapter.lessons.map(lesson => {
+          const lessonPath = `${path}${toDashed(chapter.name)}/${toDashed(
+            lesson.name
+          )}/`
+          return {
+            ...lesson,
+            path: lessonPath,
+            gaPage: removeEdgeSlashes(lessonPath),
+          }
+        }),
+      }
+    })
     const fullChapters = finalChapters.map(
       (chapter, chapterIdx, chaptersArr) => {
         return {
@@ -204,6 +217,7 @@ exports.getCoursesQuery = data => {
         id,
         avatar: techAvatarsObj[id],
       })),
+      gaPage: removeEdgeSlashes(path),
       techReviewer,
       lingReviewer,
       path,

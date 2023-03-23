@@ -33,6 +33,7 @@ export interface Article {
   techReviewer: Author
   createdAt: string
   modifiedAt: string
+  gaPage: string
   toBeContinuedDate?: string
   graphicAuthorLink?: string
 }

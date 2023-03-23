@@ -7,8 +7,7 @@ type Variant = "info"
 
 const Container = styled.div<{ variant?: Variant }>`
   padding: 8px 12px;
-  border-bottom-right-radius: 4px;
-  border-bottom-left-radius: 4px;
+  border-radius: 4px;
 
   ${props => {
     const defaultStyle = css`

@@ -1,89 +1,78 @@
 import React from "react"
-import styled from "styled-components"
-import Divider from "../divider/Divider"
-import { BlogLogo } from "./BlogLogo"
-import Button from "../button/Button"
+import { Navigation } from "../../ui"
 import theme from "../../utils/theme"
-import Links from "../navigation/Links"
-import { Link } from "gatsby"
-import { L_UP, T_DOWN } from "../../utils/viewport"
+import Button from "../button/Button"
 import { GreenOnLogo } from "../GreenOnLogo"
+import { Link as GatsbyLink } from "gatsby"
+import styled from "styled-components"
 
-const Container = styled.header`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 99px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  border-bottom: 1px solid #565656;
-  padding: 0 32px;
-  z-index: 100;
-  background: ${theme.bg};
+const leftLinks = [
+  { label: "creator", url: "/blog-creator/" },
+  { label: "authors", url: "/authors/" },
+] as const
+const rightLinks = [
+  { label: "articles", url: "/articles/" },
+  { label: "courses", url: "/courses/" },
+] as const
+const otherLinks = [{ label: "home", url: "/" }] as const
+const allLinks = [...otherLinks, ...rightLinks, ...leftLinks]
 
-  @media ${L_UP} {
-    padding: 0 104px;
-  }
+const activeStyle = { color: theme.primary }
 
-  & > a {
-    display: none;
-
-    @media ${L_UP} {
-      display: block;
-    }
-  }
+const Link = styled(GatsbyLink)`
+  font-size: 16px;
+  font-weight: bolder;
+  color: ${theme.secondary};
+  text-decoration: none;
+  text-transform: uppercase;
 `
 
-const LinksContainer = styled.div`
-  display: flex;
-  align-items: center;
-
-  & > *:not(:first-child) {
-    margin-left: 62px;
-  }
+const UnstyledLink = styled(GatsbyLink)`
+  text-decoration: none;
 `
 
-const MidContent = styled.div`
-  display: flex;
-  align-items: center;
-  padding-right: 24px;
-
-  @media ${L_UP} {
-    padding-right: 0;
-  }
-
-  @media ${T_DOWN} {
-    display: none;
-  }
-
-  ${Divider} {
-    margin: 0 62px;
-  }
-`
-
-export const HomeNavigation = () => {
+const HomeNavigation = () => {
   return (
-    <Container>
-      <GreenOnLogo full />
-
-      <MidContent>
-        <LinksContainer>
-          <Links
-            items={[
-              { label: "creator", url: "/blog-creator/" },
-              { label: "authors", url: "/authors/" },
-            ]}
-          />
-        </LinksContainer>
-        <Divider />
-        <BlogLogo full />
-      </MidContent>
-
-      <Link to="/authors/">
-        <Button>JOIN</Button>
-      </Link>
-    </Container>
+    <Navigation
+      logo={
+        <UnstyledLink to={otherLinks[0].url}>
+          <GreenOnLogo full />
+        </UnstyledLink>
+      }
+      leftLinks={
+        <>
+          {leftLinks.map(link => (
+            <Link to={link.url} key={link.url} activeStyle={activeStyle}>
+              {link.label}
+            </Link>
+          ))}
+        </>
+      }
+      rightLinks={
+        <>
+          {rightLinks.map(link => (
+            <Link to={link.url} key={link.url} activeStyle={activeStyle}>
+              {link.label}
+            </Link>
+          ))}
+        </>
+      }
+      mobileLinks={
+        <>
+          {allLinks.map(link => (
+            <Link to={link.url} key={link.url} activeStyle={activeStyle}>
+              {link.label}
+            </Link>
+          ))}
+        </>
+      }
+      action={
+        <UnstyledLink to={leftLinks[1].url}>
+          <Button>JOIN</Button>
+        </UnstyledLink>
+      }
+    />
   )
 }
+
+export { HomeNavigation }

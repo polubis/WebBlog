@@ -1,1 +1,1 @@
-export * from "./getCourses"
+export * from "./getAllData"

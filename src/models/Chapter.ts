@@ -9,6 +9,7 @@ export interface Chapter {
   name: string
   slug: string
   path: string
+  gaPage: string
   duration: number
   lessons: Lesson[]
 }

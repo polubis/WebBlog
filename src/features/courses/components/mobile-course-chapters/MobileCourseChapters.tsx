@@ -33,14 +33,15 @@ const Wrapper = styled.div`
 const CloseButtonWrapper = styled.div`
   position: absolute;
   z-index: 104;
-  top: 24px;
+  top: 124px;
   right: 24px;
 `
 
 const Expander = styled.div`
   position: fixed;
-  top: 24px;
+  top: 124px;
   right: 24px;
+  z-index: 104;
 
   @media ${L_UP} {
     display: none;

@@ -4,30 +4,14 @@ import { M, XXL } from "../../ui"
 import Button from "../button/Button"
 import { Link } from "gatsby"
 import { ManGraphic } from "./ManGraphic"
-import { Shape } from "./Shape"
 import { L_DOWN, T_DOWN, M_DOWN } from "../../utils/viewport"
 
 const Container = styled.section`
   padding: 76px 32px;
-  position: relative;
   background: #151515;
-
-  @media ${L_DOWN} {
-    overflow: hidden;
-  }
 
   @media ${T_DOWN} {
     padding: 32px 32px;
-  }
-
-  & > svg {
-    position: absolute;
-    left: -260px;
-    bottom: -280px;
-
-    @media ${L_DOWN} {
-      transform: scale(3);
-    }
   }
 `
 
@@ -94,7 +78,6 @@ export const WelcomeSection = () => {
         </TextContent>
         <ManGraphic />
       </Content>
-      <Shape />
     </Container>
   )
 }

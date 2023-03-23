@@ -1,6 +1,6 @@
 import React from "react"
 import { Authorized, Unauthorized } from "./guard"
-import { useAuthContext } from "./provider"
+import { AuthProvider, useAuthContext } from "./provider"
 
 // We're using our hook and components to render content.
 const App = () => {
@@ -22,4 +22,9 @@ const App = () => {
   )
 }
 
-export default App
+export default () => (
+  <AuthProvider>
+    {/* Application wrapped with provider. */}
+    <App />
+  </AuthProvider>
+)

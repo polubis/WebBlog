@@ -6,11 +6,9 @@ import theme from "../../utils/theme"
 import { T_DOWN } from "../../utils/viewport"
 
 const Layout = styled.div`
-  height: 100vh;
   background: ${theme.bg};
   display: flex;
   flex-flow: column;
-  padding: 0 28px;
 
   & > a:not(:last-of-type) {
     margin-right: 62px;

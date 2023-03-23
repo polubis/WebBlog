@@ -1,3 +1,5 @@
+const { removeEdgeSlashes } = require("./removeEdgeSlashes")
+
 const getSlug = relativePath => {
   const parts = relativePath.split("/")
   const filtered = parts.filter((_, i) => i !== 0 && i < parts.length - 1)
@@ -21,7 +23,7 @@ const sort = articles => {
 exports.getArticlesQuery = data => {
   const {
     articles,
-    thumbnails,
+    articleThumbnails,
     authors,
     technologiesAvatars,
     authorsAvatars,
@@ -34,7 +36,7 @@ exports.getArticlesQuery = data => {
     }
   }, {})
 
-  const thumbnailsMap = thumbnails.nodes.reduce((acc, node) => {
+  const thumbnailsMap = articleThumbnails.nodes.reduce((acc, node) => {
     return {
       ...acc,
       [getSlug(node.relativePath)]: node.childImageSharp.fluid,
@@ -75,6 +77,11 @@ exports.getArticlesQuery = data => {
       avatar: authorAvatar.childImageSharp.fluid,
     }
 
+    const path = `/articles/${article.slug.substring(
+      0,
+      article.slug.length - 1
+    )}/`
+
     return {
       slug: article.slug,
       body: article.body,
@@ -86,8 +93,9 @@ exports.getArticlesQuery = data => {
       lingReviewer,
       author,
       techReviewer,
+      gaPage: removeEdgeSlashes(path),
       graphicAuthorLink: article.frontmatter.graphicauthor,
-      path: `/articles/${article.slug.substring(0, article.slug.length - 1)}/`,
+      path,
       thumbnail: thumbnailsMap[article.slug],
       stack: article.frontmatter.stack.split(",").map(id => ({
         id,
