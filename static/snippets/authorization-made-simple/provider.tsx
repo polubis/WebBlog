@@ -9,9 +9,9 @@ import React, {
 
 import { logIn, LogInModel } from "./service"
 
-type AuthContext = LogInModel;
+type AuthContext = LogInModel
 
-// Context may be undefined if you forget Provider.
+// Context can be udefined if you forget to use the provider.
 const Context = createContext<AuthContext | undefined>(undefined)
 
 interface AuthProviderProps {
@@ -23,7 +23,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   const [authorized, setAuthorized] = useState(false)
 
   useEffect(() => {
-    // Handling log in.
+    // Log in call.
     const handleLogIn = async () => {
       const data = await logIn()
       setAuthorized(data.authorized)
@@ -42,7 +42,7 @@ const useAuthContext = () => {
   const ctx = useContext(Context)
 
   if (!ctx) {
-    // Error for developer which forget to use AuthProvider.
+    // A Error for the developer if he forgets to use a provider.
     throw Error("Lack of AuthProvider in components tree")
   }
 
