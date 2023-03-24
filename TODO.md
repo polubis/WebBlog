@@ -12,7 +12,6 @@
 // Make all pages dynamic instead of statically created
 // Add X instead of rotation for mobile nav
 // Fikes lines for timeline on first render
-// Improve UX of application
 // add storybook and start from implementation all components as standalone
 // add comments section
 // add option to pass lang type to snippets
@@ -23,12 +22,10 @@
 // add constant hover for buttons
 // Add sub headers
 // Fix timeline display for articles
-// Unify layouts...
 // Find a way to move static files
 // remove child image sharp warnings
 // Remove warnings component was not provided in global scope
 // Add likes for code snippets
-// Refactor navigation
 // Make tiles on home page hoverable
 // Add animated cat and option to choose animal in navigation
 // Add cool error page
@@ -36,4 +33,3 @@
 // Add error handling to snippet
 // Add option to pass language to template snippet
 // Make code snippets interactive and editable
-// Add one layout

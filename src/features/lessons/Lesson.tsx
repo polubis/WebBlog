@@ -1,28 +1,36 @@
 import React from "react"
 import { SiteMeta } from "../../utils/SiteMeta"
-import { removeEdgeSlashes } from "../../utils/removeEdgeSlashses"
 import { LessonContent } from "./containers"
-import { LessonProvider } from "./LessonProvider"
-import { LessonPageContext } from "./models"
+import { Chapter, Course, Lesson } from "../../models"
+import { AllDataResponse } from "../../api"
 
 interface Props {
-  pageContext: LessonPageContext
+  pageContext: AllDataResponse & {
+    lesson: Lesson
+    course: Course
+    chapter: Chapter
+  }
 }
 
-export default function ({ pageContext: { lesson, course, chapter } }: Props) {
+export default function ({
+  pageContext: { lesson, course, chapter, articles },
+}: Props) {
   return (
     <SiteMeta
-      gaPage={removeEdgeSlashes(lesson.path)}
-      url={lesson.path}
+      gaPage={lesson.gaPage}
+      url={lesson.gaPage + "/"}
       robots="index,follow,max-image-preview:large"
       title={lesson.name}
       type="article"
       author={course.author.firstName + " " + course.author.lastName}
       description={lesson.description}
     >
-      <LessonProvider lesson={lesson} course={course} chapter={chapter}>
-        <LessonContent />
-      </LessonProvider>
+      <LessonContent
+        lesson={lesson}
+        course={course}
+        chapter={chapter}
+        articles={articles}
+      />
     </SiteMeta>
   )
 }

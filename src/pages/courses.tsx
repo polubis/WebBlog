@@ -3,16 +3,18 @@ import { graphql } from "gatsby"
 
 import Layout from "../components/layout/Layout"
 import { SiteMeta } from "../utils/SiteMeta"
-import { GetCoursesResponse, getCourses } from "../api"
 import styled from "styled-components"
 import { CourseTile } from "../features/courses/components"
+import { AllDataPageProps, getAllData } from "../api"
+import { Content } from "../ui"
 
 export const query = graphql`
   {
-    coursesThumbnails: allFile(
-      filter: { relativePath: { regex: "/course.jpg/" } }
+    technologiesAvatars: allFile(
+      filter: { relativePath: { regex: "/technologies/" } }
     ) {
       nodes {
+        name
         relativePath
         childImageSharp {
           fluid {
@@ -23,6 +25,56 @@ export const query = graphql`
             sizes
           }
         }
+      }
+    }
+    articleThumbnails: allFile(filter: { name: { regex: "/thumbnail/" } }) {
+      nodes {
+        name
+        relativePath
+        childImageSharp {
+          fluid {
+            base64
+            aspectRatio
+            src
+            srcSet
+            sizes
+          }
+        }
+      }
+    }
+    authorsAvatars: allFile(filter: { relativePath: { regex: "/avatars/" } }) {
+      nodes {
+        name
+        relativePath
+        childImageSharp {
+          fluid {
+            base64
+            aspectRatio
+            src
+            srcSet
+            sizes
+          }
+        }
+      }
+    }
+    articles: allMdx(filter: { fileAbsolutePath: { regex: "/index.mdx/" } }) {
+      nodes {
+        frontmatter {
+          cdate
+          mdate
+          tbcdate
+          authorId
+          treviewerId
+          lreviewerId
+          tags
+          description
+          readTime
+          graphicauthor
+          stack
+          title
+        }
+        body
+        slug
       }
     }
     courses: allMdx(filter: { fileAbsolutePath: { regex: "/course.mdx/" } }) {
@@ -43,30 +95,6 @@ export const query = graphql`
         }
       }
     }
-    techAvatars: allFile(
-      filter: { relativeDirectory: { regex: "/technologies/" } }
-    ) {
-      nodes {
-        name
-        childImageSharp {
-          fluid {
-            base64
-            aspectRatio
-            src
-            srcSet
-            sizes
-          }
-        }
-      }
-    }
-    chapters: allMdx(filter: { slug: { regex: "/chapter/" } }) {
-      nodes {
-        slug
-        frontmatter {
-          name
-        }
-      }
-    }
     lessons: allMdx(filter: { slug: { regex: "/lessons/" } }) {
       nodes {
         slug
@@ -78,9 +106,19 @@ export const query = graphql`
         }
       }
     }
-    avatars: allFile(filter: { absolutePath: { regex: "/avatars/" } }) {
+    chapters: allMdx(filter: { slug: { regex: "/chapter/" } }) {
       nodes {
-        name
+        slug
+        frontmatter {
+          name
+        }
+      }
+    }
+    coursesThumbnails: allFile(
+      filter: { relativePath: { regex: "/course.jpg/" } }
+    ) {
+      nodes {
+        relativePath
         childImageSharp {
           fluid {
             base64
@@ -100,7 +138,6 @@ const Grid = styled.div`
   gap: 32px;
   flex-flow: wrap;
   justify-content: center;
-  padding: 100px 0;
 
   & > * {
     width: 100%;
@@ -108,7 +145,9 @@ const Grid = styled.div`
   }
 `
 
-export default function (props: GetCoursesResponse) {
+export default function (props: AllDataPageProps) {
+  const { courses, articles } = getAllData(props)
+
   return (
     <SiteMeta
       gaPage="courses"
@@ -119,12 +158,14 @@ export default function (props: GetCoursesResponse) {
       image="/icon-192x192.png"
       description="Browse through the list of courses and choose something for yourself."
     >
-      <Layout>
-        <Grid>
-          {getCourses(props).map(course => (
-            <CourseTile key={course.name} data={course} />
-          ))}
-        </Grid>
+      <Layout articles={articles}>
+        <Content paddingY>
+          <Grid>
+            {courses.map(course => (
+              <CourseTile key={course.name} data={course} />
+            ))}
+          </Grid>
+        </Content>
       </Layout>
     </SiteMeta>
   )

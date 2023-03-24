@@ -11,7 +11,6 @@ const Grid = styled.div`
   grid-template-rows: auto;
   justify-content: center;
   grid-gap: 62px;
-  padding: 100px 0;
   box-sizing: border-box;
 
   @media ${M_UP} {

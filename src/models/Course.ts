@@ -33,5 +33,6 @@ export interface Course {
   stack: Technology[]
   modifiedAt: string
   lessonsCount: number
+  gaPage: string
   thumbnail: Image
 }

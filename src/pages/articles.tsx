@@ -4,11 +4,14 @@ import { graphql } from "gatsby"
 import Layout from "../components/layout/Layout"
 import Grid from "../components/article/Grid"
 import { SiteMeta } from "../utils/SiteMeta"
-import { getArticles, GetArticlesResponse } from "../api/getArticles"
+import { AllDataPageProps, getAllData } from "../api"
+import { Content } from "../ui"
 
 export const query = graphql`
   {
-    technologiesAvatars: allFile(filter: {relativePath: {regex: "/technologies/"}}) {
+    technologiesAvatars: allFile(
+      filter: { relativePath: { regex: "/technologies/" } }
+    ) {
       nodes {
         name
         relativePath
@@ -23,7 +26,7 @@ export const query = graphql`
         }
       }
     }
-    thumbnails: allFile(filter: {name: {regex: "/thumbnail/"}}) {
+    articleThumbnails: allFile(filter: { name: { regex: "/thumbnail/" } }) {
       nodes {
         name
         relativePath
@@ -38,7 +41,7 @@ export const query = graphql`
         }
       }
     }
-    authorsAvatars: allFile(filter: {relativePath: {regex: "/avatars/"}}) {
+    authorsAvatars: allFile(filter: { relativePath: { regex: "/avatars/" } }) {
       nodes {
         name
         relativePath
@@ -73,10 +76,65 @@ export const query = graphql`
         slug
       }
     }
+    courses: allMdx(filter: { fileAbsolutePath: { regex: "/course.mdx/" } }) {
+      nodes {
+        slug
+        fileAbsolutePath
+        frontmatter {
+          authorId
+          treviewerId
+          lreviewerId
+          stack
+          tags
+          description
+          name
+          status
+          cdate
+          mdate
+        }
+      }
+    }
+    lessons: allMdx(filter: { slug: { regex: "/lessons/" } }) {
+      nodes {
+        slug
+        body
+        frontmatter {
+          name
+          duration
+          description
+        }
+      }
+    }
+    chapters: allMdx(filter: { slug: { regex: "/chapter/" } }) {
+      nodes {
+        slug
+        frontmatter {
+          name
+        }
+      }
+    }
+    coursesThumbnails: allFile(
+      filter: { relativePath: { regex: "/course.jpg/" } }
+    ) {
+      nodes {
+        relativePath
+        childImageSharp {
+          fluid {
+            base64
+            aspectRatio
+            src
+            srcSet
+            sizes
+          }
+        }
+      }
+    }
   }
 `
 
-export default function (props: GetArticlesResponse) {
+export default function (props: AllDataPageProps) {
+  const { articles } = getAllData(props)
+
   return (
     <SiteMeta
       gaPage="articles"
@@ -87,8 +145,10 @@ export default function (props: GetArticlesResponse) {
       image="/icon-192x192.png"
       description="A blog created to share programming knowledge in a easy way."
     >
-      <Layout>
-        <Grid articles={getArticles(props)} />
+      <Layout articles={articles}>
+        <Content paddingY>
+          <Grid articles={articles} />
+        </Content>
       </Layout>
     </SiteMeta>
   )

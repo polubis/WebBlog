@@ -2,10 +2,9 @@ import React from "react"
 import { graphql } from "gatsby"
 
 import Layout from "../components/layout/Layout"
-import authors from "../authors/authors.json"
 import styled from "styled-components"
 import AuthorAvatar from "../components/article/AuthorAvatar"
-import { XL, M, GithubIcon, LinkedinIcon, X } from "../ui"
+import { XL, M, GithubIcon, LinkedinIcon, X, Content } from "../ui"
 import theme from "../utils/theme"
 import { SiteMeta } from "../utils/SiteMeta"
 import { EmptyAuthorTile } from "../components/empty-author-tile/EmptyAuthorTile"
@@ -13,45 +12,14 @@ import {
   useJoinUsModal,
   WithJoinUsModal,
 } from "../components/article/WithJoinUsModal"
-import { Image } from "../models"
-
-interface Author {
-  id: string
-  name: string
-  firstName: string
-  lastName: string
-  role: string
-  bio: string
-  githubURL?: string
-  linkedinURL?: string
-}
-
-interface AuthorWithAvatar extends Author {
-  avatar: Image
-}
-
-interface Props {
-  data: {
-    allFile: {
-      edges: {
-        node: {
-          name: string
-          childImageSharp: {
-            fluid: Image
-          }
-        }
-      }[]
-    }
-  }
-}
+import { AllDataPageProps, getAllData } from "../api/getAllData"
 
 const Grid = styled.div`
   display: grid;
   justify-content: center;
   width: 100%;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 400px));
-  grid-gap: 28px;
-  padding: 100px 0;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 400px));
+  grid-gap: 20px;
 `
 
 const Tile = styled.div`
@@ -100,18 +68,122 @@ const Media = styled.div`
 
 export const query = graphql`
   {
-    allFile(filter: { absolutePath: { regex: "/avatars/" } }) {
-      edges {
-        node {
+    technologiesAvatars: allFile(
+      filter: { relativePath: { regex: "/technologies/" } }
+    ) {
+      nodes {
+        name
+        relativePath
+        childImageSharp {
+          fluid {
+            base64
+            aspectRatio
+            src
+            srcSet
+            sizes
+          }
+        }
+      }
+    }
+    articleThumbnails: allFile(filter: { name: { regex: "/thumbnail/" } }) {
+      nodes {
+        name
+        relativePath
+        childImageSharp {
+          fluid {
+            base64
+            aspectRatio
+            src
+            srcSet
+            sizes
+          }
+        }
+      }
+    }
+    authorsAvatars: allFile(filter: { relativePath: { regex: "/avatars/" } }) {
+      nodes {
+        name
+        relativePath
+        childImageSharp {
+          fluid {
+            base64
+            aspectRatio
+            src
+            srcSet
+            sizes
+          }
+        }
+      }
+    }
+    articles: allMdx(filter: { fileAbsolutePath: { regex: "/index.mdx/" } }) {
+      nodes {
+        frontmatter {
+          cdate
+          mdate
+          tbcdate
+          authorId
+          treviewerId
+          lreviewerId
+          tags
+          description
+          readTime
+          graphicauthor
+          stack
+          title
+        }
+        body
+        slug
+      }
+    }
+    courses: allMdx(filter: { fileAbsolutePath: { regex: "/course.mdx/" } }) {
+      nodes {
+        slug
+        fileAbsolutePath
+        frontmatter {
+          authorId
+          treviewerId
+          lreviewerId
+          stack
+          tags
+          description
           name
-          childImageSharp {
-            fluid {
-              base64
-              aspectRatio
-              src
-              srcSet
-              sizes
-            }
+          status
+          cdate
+          mdate
+        }
+      }
+    }
+    lessons: allMdx(filter: { slug: { regex: "/lessons/" } }) {
+      nodes {
+        slug
+        body
+        frontmatter {
+          name
+          duration
+          description
+        }
+      }
+    }
+    chapters: allMdx(filter: { slug: { regex: "/chapter/" } }) {
+      nodes {
+        slug
+        frontmatter {
+          name
+        }
+      }
+    }
+    coursesThumbnails: allFile(
+      filter: { relativePath: { regex: "/course.jpg/" } }
+    ) {
+      nodes {
+        relativePath
+        childImageSharp {
+          fluid {
+            base64
+            aspectRatio
+            src
+            srcSet
+            sizes
           }
         }
       }
@@ -125,23 +197,8 @@ const ConnectedEmptyAuthorTile = () => {
   return <EmptyAuthorTile onClick={ctx.open} />
 }
 
-export default function ({ data }: Props): React.ReactElement {
-  const authorsWithAvatars = (authors as Author[]).map(
-    (author): AuthorWithAvatar => {
-      const foundNode = data.allFile.edges.find(
-        ({ node }) => node.name === author.id
-      )
-
-      if (!foundNode) {
-        throw new Error("Lack of avatar for given user")
-      }
-
-      return {
-        ...author,
-        avatar: foundNode.node.childImageSharp.fluid,
-      }
-    }
-  )
+export default function (props: AllDataPageProps) {
+  const { authors, articles } = getAllData(props)
 
   return (
     <SiteMeta
@@ -154,40 +211,42 @@ export default function ({ data }: Props): React.ReactElement {
       description="Contact the blog authors and start writing."
     >
       <WithJoinUsModal>
-        <Layout>
-          <Grid>
-            <ConnectedEmptyAuthorTile />
-            {authorsWithAvatars.map(author => (
-              <Tile key={author.id}>
-                <AuthorAvatar size="medium" avatar={author.avatar} />
-                <XL>
-                  {author.firstName} {author.lastName}
-                </XL>
-                <X>{author.role}</X>
-                <M>{author.bio}</M>
-                <Media>
-                  {author.githubURL && (
-                    <a
-                      href={author.githubURL}
-                      title="Github profile"
-                      target="_blank"
-                    >
-                      <GithubIcon />
-                    </a>
-                  )}
-                  {author.linkedinURL && (
-                    <a
-                      href={author.linkedinURL}
-                      title="Linkedin profile"
-                      target="_blank"
-                    >
-                      <LinkedinIcon />
-                    </a>
-                  )}
-                </Media>
-              </Tile>
-            ))}
-          </Grid>
+        <Layout articles={articles}>
+          <Content paddingY>
+            <Grid>
+              <ConnectedEmptyAuthorTile />
+              {authors.map(author => (
+                <Tile key={author.id}>
+                  <AuthorAvatar size="medium" avatar={author.avatar} />
+                  <XL>
+                    {author.firstName} {author.lastName}
+                  </XL>
+                  <X>{author.role}</X>
+                  <M>{author.bio}</M>
+                  <Media>
+                    {author.githubURL && (
+                      <a
+                        href={author.githubURL}
+                        title="Github profile"
+                        target="_blank"
+                      >
+                        <GithubIcon />
+                      </a>
+                    )}
+                    {author.linkedinURL && (
+                      <a
+                        href={author.linkedinURL}
+                        title="Linkedin profile"
+                        target="_blank"
+                      >
+                        <LinkedinIcon />
+                      </a>
+                    )}
+                  </Media>
+                </Tile>
+              ))}
+            </Grid>
+          </Content>
         </Layout>
       </WithJoinUsModal>
     </SiteMeta>

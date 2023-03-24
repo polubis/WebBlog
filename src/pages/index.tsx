@@ -2,15 +2,11 @@ import React from "react"
 
 import { SiteMeta } from "../utils/SiteMeta"
 import { graphql } from "gatsby"
-import { HomeNavigation } from "../components/home/HomeNavigation"
 import { WelcomeSection } from "../components/home/WelcomeSection"
 import { StatsSection } from "../components/home/StatsSection"
 import { ArticlesTimelineSection } from "../components/home/ArticlesTimelineSection"
-import { HomeProps } from "../components/home/models"
-import { Layout } from "../components/home/Layout"
-import MobileNavigation from "../components/navigation/MobileNavigation"
-import { Footer } from "../ui"
-import { getArticles } from "../api/getArticles"
+import Layout from "../components/layout/Layout"
+import { getAllData, AllDataPageProps } from "../api/getAllData"
 
 export const query = graphql`
   {
@@ -31,7 +27,7 @@ export const query = graphql`
         }
       }
     }
-    thumbnails: allFile(filter: { name: { regex: "/thumbnail/" } }) {
+    articleThumbnails: allFile(filter: { name: { regex: "/thumbnail/" } }) {
       nodes {
         name
         relativePath
@@ -110,11 +106,38 @@ export const query = graphql`
         }
       }
     }
+    chapters: allMdx(filter: { slug: { regex: "/chapter/" } }) {
+      nodes {
+        slug
+        frontmatter {
+          name
+        }
+      }
+    }
+    coursesThumbnails: allFile(
+      filter: { relativePath: { regex: "/course.jpg/" } }
+    ) {
+      nodes {
+        relativePath
+        childImageSharp {
+          fluid {
+            base64
+            aspectRatio
+            src
+            srcSet
+            sizes
+          }
+        }
+      }
+    }
   }
 `
 
-export default function ({ data }: HomeProps) {
-  const articles = getArticles({ data })
+export default function (props: AllDataPageProps) {
+  const { articles, authors, courses, totalLessons, timeline } = getAllData(
+    props
+  )
+
   return (
     <SiteMeta
       gaPage=""
@@ -125,18 +148,17 @@ export default function ({ data }: HomeProps) {
       image="/icon-192x192.png"
       description="A place for people who love programming and personal development."
     >
-      <Layout
-        navigation={<HomeNavigation />}
-        footer={<Footer articles={articles} />}
-        main={
-          <>
-            <WelcomeSection />
-            <StatsSection data={data} />
-            <ArticlesTimelineSection data={data} />
-            <MobileNavigation greenVariant />
-          </>
-        }
-      />
+      <Layout articles={articles}>
+        <WelcomeSection />
+        <StatsSection
+          articlesCount={articles.length}
+          authorsCount={authors.length}
+          coursesCount={courses.length}
+          lessonsCount={totalLessons}
+          topAuthor={authors[0]}
+        />
+        <ArticlesTimelineSection data={timeline} />
+      </Layout>
     </SiteMeta>
   )
 }
