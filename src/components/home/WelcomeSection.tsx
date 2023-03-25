@@ -5,10 +5,13 @@ import Button from "../button/Button"
 import { Link } from "gatsby"
 import { ManGraphic } from "./ManGraphic"
 import { L_DOWN, T_DOWN, M_DOWN } from "../../utils/viewport"
+import theme from "../../utils/theme"
 
 const Container = styled.section`
   padding: 76px 20px;
-  background: #151515;
+  background: ${theme.bg};
+  border-top: 1px solid ${theme.grayC};
+  border-bottom: 1px solid ${theme.grayC};
 
   @media ${T_DOWN} {
     padding: 32px 20px;

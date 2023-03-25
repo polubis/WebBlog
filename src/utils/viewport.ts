@@ -1,4 +1,4 @@
-const SMALL_MOBILE = 420;
+const SMALL_MOBILE = 420
 const MOBILE = 600
 const TABLET = 900
 const LAPTOP = 1440
