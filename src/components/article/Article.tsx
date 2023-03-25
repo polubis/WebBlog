@@ -9,7 +9,7 @@ import Tags from "../article/Tags"
 import { Content, M } from "../../ui"
 import Intro from "./Intro"
 import Loadable from "react-loadable"
-import { L_UP, M_UP, SM_DOWN, T_UP } from "../../utils/viewport"
+import { L_UP, SM_DOWN } from "../../utils/viewport"
 import { SiteMeta } from "../../utils/SiteMeta"
 
 import { Stack } from "./Stack"
@@ -43,22 +43,6 @@ const Article = styled.main`
 
   @media ${L_UP} {
     width: 920px;
-  }
-
-  .ui-snippet {
-    max-width: calc(100vw - 56px);
-
-    @media ${M_UP} {
-      max-width: calc(100vw - 84px);
-    }
-
-    @media ${T_UP} {
-      max-width: calc(100vw - 136px);
-    }
-
-    @media ${L_UP} {
-      max-width: 920px;
-    }
   }
 
   & > :nth-child(2) {

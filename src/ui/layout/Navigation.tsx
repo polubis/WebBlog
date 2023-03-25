@@ -14,11 +14,6 @@ const MobileNavigation = Loadable({
 const Container = styled.header`
   height: 99px;
   border-bottom: 1px solid ${theme.grayC};
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
   background: ${theme.bg};
 
   & > .ui-layout-content {

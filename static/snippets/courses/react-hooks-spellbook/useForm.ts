@@ -58,6 +58,7 @@ const validate = <V extends ObjectBased>(
   const errors = {} as Errors<V>
   let valid = true
 
+  // We used for loop to be able to stop at first error.
   for (let i = 0; i < length; i++) {
     const key = keys[i]
     const value = values[key]
@@ -81,6 +82,7 @@ const validate = <V extends ObjectBased>(
   return { errors, valid, invalid: !valid }
 }
 
+// This creates first state shape.
 const initializeState = <V extends ObjectBased>({
   values,
   validators = {},
@@ -111,7 +113,9 @@ const useForm = <V extends ObjectBased>({
     () => initializeState({ values, validators }),
     []
   )
+  // We used ref instead of state - because it allows to read always up to date data.
   const state = useRef(initialState)
+  // This is added only to trigger re-render.
   const [_, setUpdateCount] = useState(0)
 
   // Performs rerender.
@@ -132,6 +136,7 @@ const useForm = <V extends ObjectBased>({
       const newValues = { ...state.current.values, [key]: value }
       const result = validate(state.current.keys, newValues, validators)
 
+      // Updating state according to new values and validation result.
       state.current = {
         ...state.current,
         ...result,
@@ -143,6 +148,7 @@ const useForm = <V extends ObjectBased>({
         },
       }
 
+      // Triggers rerenders.
       rerender()
     },
     []
@@ -157,12 +163,14 @@ const useForm = <V extends ObjectBased>({
       validators
     )
 
+    // Updating state according to new values and validation result.
     state.current = {
       ...state.current,
       ...result,
       confirmed: true,
     }
 
+    // Triggers rerenders.
     rerender()
   }, [])
 

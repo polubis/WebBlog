@@ -7,7 +7,7 @@ const usePortal = () => {
   const wrapper = useMemo(() => document.createElement("div"), [])
 
   useEffect(() => {
-    document.body.prepend(wrapper)
+    document.body.appendChild(wrapper)
 
     return () => {
       document.body.removeChild(wrapper)
