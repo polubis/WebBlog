@@ -1,7 +1,6 @@
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import React from "react"
 import styled from "styled-components"
-import theme from "../../../utils/theme"
 import { L_DOWN, SM_DOWN } from "../../../utils/viewport"
 import { CourseChapters } from "../../courses/components/course-chapters/CourseChapters"
 import Button from "../../../components/button/Button"
@@ -26,8 +25,7 @@ const CourseChaptersWrapper = styled.div`
     position: sticky;
     top: 0;
     right: 0;
-    padding-top: 128px;
-    background: ${theme.bg};
+    padding-top: 20px;
   }
 `
 
@@ -57,23 +55,15 @@ const CourseNavigation = styled.div`
   align-items: center;
   justify-content: right;
 
-  & > *:first-child {
-    margin-right: 20px;
+  & > *:not(:first-child) {
+    margin-left: 20px;
   }
 `
 
 const Container = styled.main`
   display: grid;
   grid-template-columns: 920px 1fr;
-  gap: 40px;
-
-  .ui-snippet {
-    max-width: 920px;
-
-    @media ${L_DOWN} {
-      max-width: calc(100vw - 48px);
-    }
-  }
+  gap: 32px;
 
   @media ${L_DOWN} {
     grid-template-columns: 1fr;

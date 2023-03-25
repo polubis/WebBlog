@@ -14,7 +14,7 @@ const Container = styled.section`
   gap: 32px;
   width: 668px;
   margin: 0 auto;
-  padding: 162px 24px;
+  padding: 162px 20px;
 
   @media ${M_DOWN} {
     grid-template-columns: 1fr;
@@ -23,7 +23,7 @@ const Container = styled.section`
 
   @media ${T_DOWN} {
     width: 100%;
-    padding: 32px 24px;
+    padding: 32px 20px;
   }
 
   & > *:last-child {

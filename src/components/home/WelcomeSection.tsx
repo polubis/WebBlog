@@ -7,11 +7,11 @@ import { ManGraphic } from "./ManGraphic"
 import { L_DOWN, T_DOWN, M_DOWN } from "../../utils/viewport"
 
 const Container = styled.section`
-  padding: 76px 32px;
+  padding: 76px 20px;
   background: #151515;
 
   @media ${T_DOWN} {
-    padding: 32px 32px;
+    padding: 32px 20px;
   }
 `
 

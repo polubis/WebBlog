@@ -2,6 +2,9 @@
 
 # Now
 
+Remove errors in home page
+Improve form add modal
+
 ## Future
 
 // display course lessons in timeline

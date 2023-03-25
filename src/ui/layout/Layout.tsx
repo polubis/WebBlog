@@ -6,7 +6,6 @@ const Container = styled.div`
   display: flex;
   flex-flow: column;
   margin: 0 auto;
-  padding-top: 100px;
 `
 
 interface LayoutProps {
