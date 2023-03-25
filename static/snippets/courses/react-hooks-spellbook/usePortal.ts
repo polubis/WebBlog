@@ -9,8 +9,8 @@ const usePortal = () => {
   const wrapper = useMemo(() => document.createElement("div"), [])
 
   useEffect(() => {
-    // Adds div tag to body tag.
-    document.body.prepend(wrapper)
+    // Adds div tag to body.
+    document.body.appendChild(wrapper)
 
     return () => {
       // After unmounting the component - removes the div created earlier.
