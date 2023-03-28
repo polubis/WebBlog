@@ -136,7 +136,7 @@ const Footer = ({ articles }: FooterProps) => {
             </M>
           </Section>
           <Section>
-            <X>Latest</X>
+            <X>Recent articles</X>
             <Articles>
               {articles.map(article => (
                 <Link key={article.title} to={article.path}>
