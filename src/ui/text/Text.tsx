@@ -92,6 +92,11 @@ const style = css`
     `};
 `
 
+export const Huge = styled.h1<Props>`
+  font-size: 62px;
+  ${style}
+`
+
 const XXL = styled.h1<Props>`
   font-size: 32px;
   font-weight: ${(props: Props) => getWeight(props, Weight.BOLD)};
