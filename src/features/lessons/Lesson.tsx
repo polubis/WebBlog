@@ -24,6 +24,7 @@ export default function ({
       type="article"
       author={course.author.firstName + " " + course.author.lastName}
       description={lesson.description}
+      image={course.thumbnail.src}
     >
       <LessonContent
         lesson={lesson}

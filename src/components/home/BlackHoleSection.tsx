@@ -1,4 +1,4 @@
-import React, { useRef } from "react"
+import React from "react"
 import styled from "styled-components"
 import { Content, Huge } from "../../ui"
 import theme from "../../utils/theme"
@@ -17,6 +17,7 @@ const Container = styled.section`
     max-width: 300px;
     text-align: center;
     text-shadow: -6px 11px 15px ${theme.black};
+    z-index: 1;
 
     @media ${M_DOWN} {
       font-size: 48px;
@@ -46,14 +47,12 @@ const BlackHoleWrapper = Loadable({
 })
 
 const BlackHoleSection = () => {
-  const ref = useRef<HTMLDivElement | null>(null)
-
   return (
     <Wrapper>
       <Content>
-        <Container ref={ref}>
+        <Container>
           <Huge>Cosmic dose of knowledge</Huge>
-          <BlackHoleWrapper ref={ref} />
+          <BlackHoleWrapper />
         </Container>
       </Content>
     </Wrapper>

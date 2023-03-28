@@ -7,7 +7,6 @@ import { StatsSection } from "../components/home/StatsSection"
 import { ArticlesTimelineSection } from "../components/home/ArticlesTimelineSection"
 import Layout from "../components/layout/Layout"
 import { getAllData, AllDataPageProps } from "../api/getAllData"
-import { BlackHole } from "../components/black-hole/BlackHole"
 import { BlackHoleSection } from "../components/home/BlackHoleSection"
 
 export const query = graphql`

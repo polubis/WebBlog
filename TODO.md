@@ -4,8 +4,6 @@
 
 ## Future
 
-// display course lessons in timeline
-// Add courses on timeline
 // Add random button
 // add other articles in article - recommended
 // Make cat to be animated
@@ -33,3 +31,12 @@
 // Add error handling to snippet
 // Add option to pass language to template snippet
 // Make code snippets interactive and editable
+
+## Articles ideas
+
+1. Comparing map,reduce with for loop.
+2. Normalizing objects.
+3. SOLID course on real examples.
+4. Creating code snippets component.
+5. Creating black hole animation in canvas.
+6. Creating schema validation app.
