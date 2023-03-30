@@ -1,0 +1,238 @@
+---
+cdate: 2023-04-07
+mdate: 2023-04-07
+authorId: polubis
+treviewerId: kwozniak
+lreviewerId: kreszko
+tags: practice,component
+stack: typescript,react,jest,styled-components
+description: We will create a unique component to display code snippets and the ASCII graphic cat to improve UX.
+readTime: 11
+title: React code snippet component
+graphicauthor: https://unsplash.com/@lucabravo/
+---
+
+<Prelude>
+  <M>
+    Code written by programmers is like a unique signature. We can recognize the
+    author by a few lines. So let's create our unique signature by creating a
+    flexible component for code snippets.
+  </M>
+</Prelude>
+
+<Section>
+  <XL>1. Library choice</XL>
+  <M>
+    The most complicated part of the component will be code syntax highlighting.
+    It is better to use a battle-tested library like prism for this. In our
+    case, we will use the popular wrapper - <B>prism-react-renderer</B>.
+  </M>
+  <M>
+    The reason is simple - I can easily customize how the component works with
+    props. Below is an example of how you can display an example piece of{" "}
+    <B>jsx</B> code.
+  </M>
+  <Snippet
+    linesCount={15}
+    src="https://raw.githubusercontent.com/polubis/React-code-snippet-component/main/snippets/1.tsx"
+  />
+  <M>
+    The component injects the appropriate styles, and we can customize the
+    behavior and appearance to suit our needs.
+  </M>
+</Section>
+
+<Section>
+  <XL>2. Overwriting the theme</XL>
+  <M>All you need to do is create an array with new styles.</M>
+  <Snippet
+    linesCount={55}
+    src="https://raw.githubusercontent.com/polubis/React-code-snippet-component/main/src/code/setup.ts"
+  />
+</Section>
+
+<Section>
+  <XL>3. Creating Code component</XL>
+  <M>
+    We need a wrapper for our library. First, let's determine what the{" "}
+    <B>props</B> object will look like. We will define the interfaces in a
+    separate file for better clarity.
+  </M>
+  <Snippet
+    linesCount={8}
+    src="https://raw.githubusercontent.com/polubis/React-code-snippet-component/main/src/code/models.ts"
+  />
+  <M>
+    Then the component itself - basically what you've seen before, only this
+    time packaged and tailored to our needs.
+  </M>
+  <Snippet
+    linesCount={45}
+    src="https://raw.githubusercontent.com/polubis/React-code-snippet-component/main/src/code/Code.tsx"
+  />
+  <M>
+    We used <B>memo</B> to limit rerenderers only to the situation in which a
+    piece of code is passed as a <B>string</B> to the <B>children</B> property.
+    All that's left is to overwrite the styles we don't like.
+  </M>
+  <Snippet
+    linesCount={97}
+    src="https://raw.githubusercontent.com/polubis/React-code-snippet-component/main/src/code/style.ts"
+  />
+</Section>
+
+<Section>
+  <XL>4. Creating Snippet component</XL>
+  <M>
+    This component will be responsible for retrieving the content and deciding
+    how to pass the parameters. It will use the previously created <B>Code</B>{" "}
+    component. Let's start with the models.
+  </M>
+  <Snippet
+    linesCount={43}
+    src="https://raw.githubusercontent.com/polubis/React-code-snippet-component/main/src/snippet/models.ts"
+  />
+  <M>
+    The created models will be used to implement several components. Each of
+    them will have a different role. Let's start with the <B>Snippet</B>{" "}
+    component.
+  </M>
+  <Snippet
+    linesCount={43}
+    description="I decide based on parameters what to render"
+    src="https://raw.githubusercontent.com/polubis/React-code-snippet-component/main/src/snippet/Snippet.tsx"
+  />
+  <M>
+    Pay attention to the exception that we <B>throw</B> if the passed properties
+    do not allow the component to be used correctly.
+  </M>
+  <M>
+    Also noteworthy is the import of the <B>SnippetProps</B> interface from
+    another file. Separation of interfaces from implementations can be helpful
+    when trying to reuse models in other components.
+  </M>
+  <M>
+    It also changes the way how developer thinks. It is a bit like{" "}
+    <B>test driven development</B> approach. After all, <B>TypeScript</B> is
+    similar to big one test which checks our codebase in real time when
+    compiling.
+  </M>
+  <Hint hasBg>
+    In this{" "}
+    <A
+      href="/articles/quick-wins/improving-code-that-was-not-written-by-us/"
+      outside
+    >
+      article
+    </A>{" "}
+    you can read more about TDD.
+  </Hint>
+</Section>
+
+<Section>
+  <XL>5. Implementing StaticSnippet component</XL>
+  <M>
+    This one will just render code snippet passed as <B>children</B> property
+    and that's all.
+  </M>
+  <Snippet
+    linesCount={43}
+    src="https://raw.githubusercontent.com/polubis/React-code-snippet-component/main/src/snippet/StaticSnippet.tsx"
+  />
+  <M>
+    As before we importing model from same file and just implementing what is
+    required. In that case we'll just wrap our <B>SnippetContent</B> component.
+  </M>
+  <Hint hasBg>
+    This one is almost same as <B>SnippetContent</B> one. We're doing that
+    because of better transparency.
+  </Hint>
+</Section>
+
+<Section>
+  <XL>6. Creating SnippetContent component</XL>
+  <M>
+    This one will be very simple. We import models from the same file as before.
+    We will display additional elements like <B>header</B> and{" "}
+    <B>description</B>.
+  </M>
+  <Snippet
+    linesCount={8}
+    description="Only presentation"
+    src="https://raw.githubusercontent.com/polubis/React-code-snippet-component/main/src/snippet/SnippetContent.tsx"
+  />
+  <M>
+    The missing part are only styles. Nothing fancy here. Just some flex and
+    style for <B>header</B> and <B>description</B>.
+  </M>
+  <Snippet
+    linesCount={8}
+    src="https://raw.githubusercontent.com/polubis/React-code-snippet-component/main/src/snippet/style.ts"
+  />
+</Section>
+
+<Section>
+  <XL>7. Creating DynamicSnippet component</XL>
+  <M>
+    We'll use presentation from <B>SnippetContent</B> and models that we created
+    before.
+  </M>
+  <Snippet
+    linesCount={8}
+    src="https://raw.githubusercontent.com/polubis/React-code-snippet-component/main/src/snippet/DynamicSnippet.tsx"
+  />
+  <M>What is going on here?</M>
+  <List items="ASCII art is generated, We're fetching snippet via src, Code is parsed to text, During retrieve snippet we changing state, When state is pending we return ASCII art instead of code" />
+</Section>
+
+<Section>
+  <XL>8. Generating ASCII art</XL>
+  <M>
+    We need to add some dummy characters when there is more lines in code
+    snippet than in ASCII art to prevent content size change.
+  </M>
+  <M>
+    Also, when our snippet is smaller than height of ASCII art, we need to
+    remove some lines from graphic. Reason is the same - user experience.
+  </M>
+  <Snippet
+    linesCount={8}
+    src="https://raw.githubusercontent.com/polubis/React-code-snippet-component/main/src/snippet/ASCII.ts"
+  />
+  <M>Cat is default ASCII graphic - you can add your own</M>
+</Section>
+
+<Section>
+  <XL>9. How to use</XL>
+  <M>It's easy, just pass correct props and you can customize what you need.</M>
+  <Snippet
+    linesCount={8}
+    src="https://raw.githubusercontent.com/polubis/React-code-snippet-component/main/src/App.tsx"
+  />
+</Section>
+
+<Example>
+  <iframe
+    src="https://codesandbox.io/embed/frosty-grass-9tjoqv?fontsize=14&hidenavigation=1&theme=dark"
+    style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+    title="frosty-grass-9tjoqv"
+    allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+    sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+  ></iframe>
+</Example>
+
+<Summary>
+  <M>
+    Right now you we're able to render the code in a cool and fancy way. We
+    checked how separation of models can be useful to use type definitions
+    between different files to achieve required goals.
+  </M>
+  <M>
+    Maybe there is a place for improvements. Feel free to try and remember to
+    share results on our{" "}
+    <A href="https://www.linkedin.com/company/greenon-software/" outside>
+      Linkedin
+    </A>
+    .
+  </M>
+</Summary>
