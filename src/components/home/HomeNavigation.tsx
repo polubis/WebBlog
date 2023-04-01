@@ -67,7 +67,7 @@ const HomeNavigation = () => {
         </>
       }
       action={
-        <UnstyledLink to={leftLinks[1].url}>
+        <UnstyledLink data-id='HomeNavigationJoinLink' to={leftLinks[1].url}>
           <Button>JOIN</Button>
         </UnstyledLink>
       }
