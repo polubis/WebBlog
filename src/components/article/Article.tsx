@@ -129,7 +129,6 @@ export default function ({ pageContext: { article, articles } }: Props) {
                 created: {formatDistanceStrict(new Date(createdAt), new Date())}{" "}
                 ago
               </Badge>
-              {"siema Aron"}
               <Badge color={theme.secondary}>
                 updated:{" "}
                 {formatDistanceStrict(new Date(modifiedAt), new Date())} ago
