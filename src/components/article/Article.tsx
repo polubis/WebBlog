@@ -19,7 +19,6 @@ import Badge from "./Badge"
 import { formatDistanceStrict } from "date-fns"
 import theme from "../../utils/theme"
 import { WillBeContinuedBanner } from "./WillBeContinuedBanner"
-import { AllDataResponse } from "../../api"
 
 const ProgressDisplayer = Loadable({
   loader: () => import("./ProgressDisplayer").then(m => m.ProgressDisplayer),
@@ -86,6 +85,7 @@ export default function ({ pageContext: { article, articles } }: Props) {
     description,
     tags,
     gaPage,
+    isNew,
     readTime,
   } = article
 
@@ -109,6 +109,7 @@ export default function ({ pageContext: { article, articles } }: Props) {
               readTime={readTime}
               thumbnail={thumbnail}
               title={title}
+              isNew={isNew}
             />
             <Tags tags={tags} />
             <Intro>

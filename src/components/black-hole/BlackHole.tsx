@@ -8,8 +8,6 @@ interface BlackHoleProps {
   radius: number
 }
 
-const animate = window.requestAnimationFrame
-
 const useBlackHoleAnimation = ({
   id,
   height,
@@ -104,6 +102,16 @@ const useBlackHoleAnimation = ({
     var emitter = new Emitter(canvas.width / 2, canvas.height / 2)
 
     let reg
+
+    const animate =
+      window.requestAnimationFrame ||
+      window.webkitRequestAnimationFrame ||
+      window.mozRequestAnimationFrame ||
+      window.oRequestAnimationFrame ||
+      window.msRequestAnimationFrame ||
+      function (/* function */ callback) {
+        window.setTimeout(callback, 1000 / 60)
+      }
 
     function loop() {
       ctx.clearRect(0, 0, canvas.width, canvas.height)
