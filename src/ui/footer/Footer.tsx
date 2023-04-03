@@ -129,7 +129,7 @@ const Footer = ({ articles }: FooterProps) => {
             </M>
             <M>
               You can join our community via{" "}
-              <GatsbyLink className="ui-footer-primary" to="/blog-creator/">
+              <GatsbyLink className="ui-footer-primary" to="/authors/">
                 this form
               </GatsbyLink>
               .
@@ -157,12 +157,6 @@ const Footer = ({ articles }: FooterProps) => {
           <Section>
             <X>Navigation</X>
             <Links>
-              <Link to="/" activeStyle={{ color: theme.primary }}>
-                Home
-              </Link>
-              <Link to="/articles/" activeStyle={{ color: theme.primary }}>
-                Blog
-              </Link>
               <Link to="/articles/" activeStyle={{ color: theme.primary }}>
                 Articles
               </Link>
@@ -171,6 +165,12 @@ const Footer = ({ articles }: FooterProps) => {
               </Link>
               <Link to="/blog-creator/" activeStyle={{ color: theme.primary }}>
                 Creator
+              </Link>
+              <Link to="/courses/" activeStyle={{ color: theme.primary }}>
+                Courses
+              </Link>
+              <Link to="/" activeStyle={{ color: theme.primary }}>
+                Home
               </Link>
             </Links>
           </Section>
