@@ -33,6 +33,11 @@ const Link = styled(GatsbyLink)`
 
 const UnstyledLink = styled(GatsbyLink)`
   text-decoration: none;
+
+  &.home-navigation-active-unstyled-link button {
+    background: ${theme.primary};
+    color: ${theme.bg};
+  }
 `
 
 const HomeNavigation = () => {
@@ -71,7 +76,10 @@ const HomeNavigation = () => {
         </>
       }
       action={
-        <UnstyledLink to={leftLinks[1].url}>
+        <UnstyledLink
+          activeClassName="home-navigation-active-unstyled-link"
+          to={leftLinks[1].url}
+        >
           <Button>JOIN</Button>
         </UnstyledLink>
       }

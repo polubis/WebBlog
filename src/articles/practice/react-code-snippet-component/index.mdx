@@ -1,12 +1,12 @@
 ---
-cdate: 2023-04-07
-mdate: 2023-04-07
+cdate: 2023-04-04
+mdate: 2023-04-04
 authorId: polubis
 treviewerId: kwozniak
 lreviewerId: kreszko
 tags: practice,component
 stack: typescript,react,jest,styled-components
-description: We will create a unique component to display code snippets and the ASCII graphic cat to improve UX.
+description: We will create a component to display code snippets and ASCII arts during loading to improve UX.
 readTime: 11
 title: React code snippet component
 graphicauthor: https://unsplash.com/@lucabravo/
@@ -24,12 +24,12 @@ graphicauthor: https://unsplash.com/@lucabravo/
   <XL>1. Library choice</XL>
   <M>
     The most complicated part of the component will be code syntax highlighting.
-    It is better to use a battle-tested library like prism for this. In our
-    case, we will use the popular wrapper - <B>prism-react-renderer</B>.
+    It is better to use a battle-tested library like <B>prism</B>. In our case,
+    we will use the popular wrapper - <B>prism-react-renderer</B>.
   </M>
   <M>
-    The reason is simple - I can easily customize how the component works with
-    props. Below is an example of how you can display an example piece of{" "}
+    The reason is simple - we can easily customize how the component works with{" "}
+    <B>props</B>. Below is an example of how you can display a piece of{" "}
     <B>jsx</B> code.
   </M>
   <Snippet
@@ -44,7 +44,10 @@ graphicauthor: https://unsplash.com/@lucabravo/
 
 <Section>
   <XL>2. Overwriting the theme</XL>
-  <M>All you need to do is create an array with new styles.</M>
+  <M>
+    To override the theme we need an array in which we define styles for each
+    element.
+  </M>
   <Snippet
     linesCount={55}
     src="https://raw.githubusercontent.com/polubis/React-code-snippet-component/main/src/code/setup.ts"
@@ -62,21 +65,17 @@ graphicauthor: https://unsplash.com/@lucabravo/
     linesCount={8}
     src="https://raw.githubusercontent.com/polubis/React-code-snippet-component/main/src/code/models.ts"
   />
-  <M>
-    Then the component itself - basically what you've seen before, only this
-    time packaged and tailored to our needs.
-  </M>
+  <M>Then the component itself.</M>
   <Snippet
     linesCount={45}
     src="https://raw.githubusercontent.com/polubis/React-code-snippet-component/main/src/code/Code.tsx"
   />
   <M>
-    We used <B>memo</B> to limit rerenderers only to the situation in which a
-    piece of code is passed as a <B>string</B> to the <B>children</B> property.
-    All that's left is to overwrite the styles we don't like.
+    We used <B>memo</B> to limit rerenders. Component will update only when code
+    snippet changes. All that's left is to overwrite the styles we don't like.
   </M>
   <Snippet
-    linesCount={97}
+    linesCount={85}
     src="https://raw.githubusercontent.com/polubis/React-code-snippet-component/main/src/code/style.ts"
   />
 </Section>
@@ -86,10 +85,10 @@ graphicauthor: https://unsplash.com/@lucabravo/
   <M>
     This component will be responsible for retrieving the content and deciding
     how to pass the parameters. It will use the previously created <B>Code</B>{" "}
-    component. Let's start with the models.
+    component. As before, let's start with the models.
   </M>
   <Snippet
-    linesCount={43}
+    linesCount={69}
     src="https://raw.githubusercontent.com/polubis/React-code-snippet-component/main/src/snippet/models.ts"
   />
   <M>
@@ -98,24 +97,21 @@ graphicauthor: https://unsplash.com/@lucabravo/
     component.
   </M>
   <Snippet
-    linesCount={43}
-    description="I decide based on parameters what to render"
+    linesCount={17}
     src="https://raw.githubusercontent.com/polubis/React-code-snippet-component/main/src/snippet/Snippet.tsx"
   />
   <M>
-    Pay attention to the exception that we <B>throw</B> if the passed properties
-    do not allow the component to be used correctly.
+    Pay attention to the exception that we <B>throw</B>. We did that because in
+    the absence of <B>children</B> and <B>src</B>, our component will not work
+    properly.
   </M>
   <M>
     Also noteworthy is the import of the <B>SnippetProps</B> interface from
     another file. Separation of interfaces from implementations can be helpful
-    when trying to reuse models in other components.
-  </M>
-  <M>
-    It also changes the way how developer thinks. It is a bit like{" "}
-    <B>test driven development</B> approach. After all, <B>TypeScript</B> is
-    similar to big one test which checks our codebase in real time when
-    compiling.
+    when we want to reuse models in other components. It also changes the way
+    how developer thinks. It is a bit like <B>test driven development</B>{" "}
+    approach. After all, <B>TypeScript</B> is similar to one big test which
+    checks our codebase in real time during compilation.
   </M>
   <Hint hasBg>
     In this{" "}
@@ -125,48 +121,41 @@ graphicauthor: https://unsplash.com/@lucabravo/
     >
       article
     </A>{" "}
-    you can read more about TDD.
+    you can read more about <B>TDD</B>.
   </Hint>
 </Section>
 
 <Section>
   <XL>5. Implementing StaticSnippet component</XL>
   <M>
-    This one will just render code snippet passed as <B>children</B> property
-    and that's all.
+    This one will just render code snippet passed as <B>children</B>.
   </M>
   <Snippet
-    linesCount={43}
+    linesCount={9}
     src="https://raw.githubusercontent.com/polubis/React-code-snippet-component/main/src/snippet/StaticSnippet.tsx"
   />
   <M>
-    As before we importing model from same file and just implementing what is
-    required. In that case we'll just wrap our <B>SnippetContent</B> component.
+    As before, we added implementation to the prepared model. In that case we
+    just wrapped our <B>SnippetContent</B> component. We did this for the sake
+    of transparency.
   </M>
-  <Hint hasBg>
-    This one is almost same as <B>SnippetContent</B> one. We're doing that
-    because of better transparency.
-  </Hint>
 </Section>
 
 <Section>
   <XL>6. Creating SnippetContent component</XL>
   <M>
-    This one will be very simple. We import models from the same file as before.
-    We will display additional elements like <B>header</B> and{" "}
-    <B>description</B>.
+    This component adds the layout, header and description if they are passed.
   </M>
   <Snippet
-    linesCount={8}
-    description="Only presentation"
+    linesCount={28}
     src="https://raw.githubusercontent.com/polubis/React-code-snippet-component/main/src/snippet/SnippetContent.tsx"
   />
   <M>
-    The missing part are only styles. Nothing fancy here. Just some flex and
-    style for <B>header</B> and <B>description</B>.
+    Next styles. Nothing fancy here. Just some flex and css for <B>header</B>{" "}
+    and <B>description</B>.
   </M>
   <Snippet
-    linesCount={8}
+    linesCount={32}
     src="https://raw.githubusercontent.com/polubis/React-code-snippet-component/main/src/snippet/style.ts"
   />
 </Section>
@@ -193,18 +182,17 @@ graphicauthor: https://unsplash.com/@lucabravo/
   </M>
   <M>
     Also, when our snippet is smaller than height of ASCII art, we need to
-    remove some lines from graphic. Reason is the same - user experience.
+    remove some lines from graphic. Reason is the same - <B>user experience</B>.
   </M>
   <Snippet
-    linesCount={8}
+    linesCount={126}
     src="https://raw.githubusercontent.com/polubis/React-code-snippet-component/main/src/snippet/ASCII.ts"
   />
-  <M>Cat is default ASCII graphic - you can add your own</M>
 </Section>
 
 <Section>
-  <XL>9. How to use</XL>
-  <M>It's easy, just pass correct props and you can customize what you need.</M>
+  <XL>9. Usage</XL>
+  <M>Just pass correct props and you can customize what you need.</M>
   <Snippet
     linesCount={8}
     src="https://raw.githubusercontent.com/polubis/React-code-snippet-component/main/src/App.tsx"
@@ -223,9 +211,9 @@ graphicauthor: https://unsplash.com/@lucabravo/
 
 <Summary>
   <M>
-    Right now you we're able to render the code in a cool and fancy way. We
-    checked how separation of models can be useful to use type definitions
-    between different files to achieve required goals.
+    Right now you're able to render the code in a cool and fancy way. We checked
+    how separation of models can be useful to share type definitions between
+    different files.
   </M>
   <M>
     Maybe there is a place for improvements. Feel free to try and remember to

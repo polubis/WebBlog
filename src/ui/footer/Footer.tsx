@@ -163,11 +163,11 @@ const Footer = ({ articles }: FooterProps) => {
               <Link to="/authors/" activeStyle={{ color: theme.primary }}>
                 Authors
               </Link>
-              <Link to="/blog-creator/" activeStyle={{ color: theme.primary }}>
-                Creator
-              </Link>
               <Link to="/courses/" activeStyle={{ color: theme.primary }}>
                 Courses
+              </Link>
+              <Link to="/blog-creator/" activeStyle={{ color: theme.primary }}>
+                Creator
               </Link>
               <Link to="/" activeStyle={{ color: theme.primary }}>
                 Home
