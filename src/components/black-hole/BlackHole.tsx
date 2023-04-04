@@ -27,7 +27,7 @@ const useBlackHoleAnimation = ({
       this.radius = Math.random() + 1
       this.opacity = (Math.random() * 5 + 2) / 10
       this.distance = (1 / this.opacity) * distance
-      this.speed = this.distance * 0.000003
+      this.speed = this.distance * 0.000008
       this.direction = this.position = {
         x: x + this.distance * Math.cos(this.angle),
         y: y + this.distance * Math.sin(this.angle),
