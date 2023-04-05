@@ -45,5 +45,15 @@
     "bio": "The technologies I develop are React and TypeScript. I like to take on more and more difficult things because with them I can learn the most. I spend my free time actively at the gym or cycling.",
     "githubURL": "https://github.com/PatrykJurczyk",
     "linkedinURL": "https://www.linkedin.com/in/patryk-jurczyk-832311241/"
+  },
+  {
+    "id": "kzalewska",
+    "name": "kzalewska",
+    "firstName": "Klaudia",
+    "lastName": "Zalewska",
+    "role": "Junior Q&A",
+    "bio": "I have a foundation in programming and JavaScript, which helps me ensure software quality and create seamless user experiences. Outside of work, I enjoy reading criminal books.",
+    "githubURL": "https://github.com/klaudiazalewska",
+    "linkedinURL": "https://www.linkedin.com/in/klaudia-zalewska-725902231/"
   }
 ]

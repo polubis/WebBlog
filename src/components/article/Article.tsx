@@ -6,10 +6,10 @@ import Layout from "../layout/Layout"
 import { Article as ArticleModel } from "../../models/Article"
 import Thumbnail from "../article/Thumbnail"
 import Tags from "../article/Tags"
-import { M } from "../../ui"
+import { Content, M } from "../../ui"
 import Intro from "./Intro"
 import Loadable from "react-loadable"
-import { L_UP, M_UP, SM_DOWN, T_UP } from "../../utils/viewport"
+import { L_UP, SM_DOWN } from "../../utils/viewport"
 import { SiteMeta } from "../../utils/SiteMeta"
 
 import { Stack } from "./Stack"
@@ -18,15 +18,10 @@ import { AuthorBadge } from "../badges/AuthorBadge"
 import Badge from "./Badge"
 import { formatDistanceStrict } from "date-fns"
 import theme from "../../utils/theme"
+import { WillBeContinuedBanner } from "./WillBeContinuedBanner"
 
 const ProgressDisplayer = Loadable({
   loader: () => import("./ProgressDisplayer").then(m => m.ProgressDisplayer),
-  loading: () => null,
-})
-
-const WillBeContinuedBanner = Loadable({
-  loader: () =>
-    import("./WillBeContinuedBanner").then(m => m.WillBeContinuedBanner),
   loading: () => null,
 })
 
@@ -44,26 +39,9 @@ const Article = styled.main`
   display: flex;
   flex-flow: column;
   margin: 0 auto;
-  padding: 48px 0;
 
   @media ${L_UP} {
     width: 920px;
-  }
-
-  .ui-snippet {
-    max-width: calc(100vw - 56px);
-
-    @media ${M_UP} {
-      max-width: calc(100vw - 84px);
-    }
-
-    @media ${T_UP} {
-      max-width: calc(100vw - 136px);
-    }
-
-    @media ${L_UP} {
-      max-width: 920px;
-    }
   }
 
   & > :nth-child(2) {
@@ -86,39 +64,35 @@ const Article = styled.main`
 `
 
 interface Props {
-  pageContext: {
+  pageContext: AllDataResponse & {
     article: ArticleModel
   }
 }
 
-export default function ({ pageContext }: Props) {
+export default function ({ pageContext: { article, articles } }: Props) {
   const {
-    article: {
-      author,
-      thumbnail,
-      body,
-      slug,
-      stack,
-      createdAt,
-      modifiedAt,
-      toBeContinuedDate,
-      lingReviewer,
-      techReviewer,
-      title,
-      graphicAuthorLink,
-      path,
-      description,
-      tags,
-      readTime,
-    },
-  } = pageContext
-
-  const formattedSlug = slug.substring(0, slug.length - 1)
+    author,
+    thumbnail,
+    body,
+    stack,
+    createdAt,
+    modifiedAt,
+    toBeContinuedDate,
+    lingReviewer,
+    techReviewer,
+    title,
+    graphicAuthorLink,
+    description,
+    tags,
+    gaPage,
+    isNew,
+    readTime,
+  } = article
 
   return (
     <SiteMeta
-      gaPage={`articles/${formattedSlug}`}
-      url={path}
+      gaPage={gaPage}
+      url={gaPage + "/"}
       robots="index,follow,max-image-preview:large"
       title={title}
       type="article"
@@ -126,41 +100,43 @@ export default function ({ pageContext }: Props) {
       description={description}
       image={thumbnail.src}
     >
-      <Layout
-        banner={toBeContinuedDate ? <WillBeContinuedBanner /> : undefined}
-      >
-        <Article>
-          <Thumbnail
-            graphicAuthorLink={graphicAuthorLink}
-            readTime={readTime}
-            thumbnail={thumbnail}
-            title={title}
-          />
-          <Tags tags={tags} />
-          <Intro>
-            <M>{description}</M>
-          </Intro>
-          <Reviewers
-            author={author}
-            techReviewer={techReviewer}
-            lingReviewer={lingReviewer}
-          />
-          <Stack items={stack} />
-          <MDXRenderer>{body}</MDXRenderer>
-          <Author>
-            <AuthorBadge author={author} />
-          </Author>
-          <Dates>
-            <Badge color={theme.secondary}>
-              created: {formatDistanceStrict(new Date(createdAt), new Date())}{" "}
-              ago
-            </Badge>
-            <Badge color={theme.secondary}>
-              updated: {formatDistanceStrict(new Date(modifiedAt), new Date())}{" "}
-              ago
-            </Badge>
-          </Dates>
-        </Article>
+      <Layout articles={articles}>
+        <Content paddingY>
+          <Article>
+            {toBeContinuedDate && <WillBeContinuedBanner />}
+            <Thumbnail
+              graphicAuthorLink={graphicAuthorLink}
+              readTime={readTime}
+              thumbnail={thumbnail}
+              title={title}
+              isNew={isNew}
+            />
+            <Tags tags={tags} />
+            <Intro>
+              <M>{description}</M>
+            </Intro>
+            <Reviewers
+              author={author}
+              techReviewer={techReviewer}
+              lingReviewer={lingReviewer}
+            />
+            <Stack items={stack} />
+            <MDXRenderer>{body}</MDXRenderer>
+            <Author>
+              <AuthorBadge author={author} />
+            </Author>
+            <Dates>
+              <Badge color={theme.secondary}>
+                created: {formatDistanceStrict(new Date(createdAt), new Date())}{" "}
+                ago
+              </Badge>
+              <Badge color={theme.secondary}>
+                updated:{" "}
+                {formatDistanceStrict(new Date(modifiedAt), new Date())} ago
+              </Badge>
+            </Dates>
+          </Article>
+        </Content>
         <ProgressDisplayer />
       </Layout>
     </SiteMeta>

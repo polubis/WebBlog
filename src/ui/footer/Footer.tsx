@@ -9,6 +9,7 @@ import Link from "../../components/link/Link"
 import { L_DOWN, M_DOWN, T_DOWN } from "../../utils/viewport"
 import { Article } from "../../models"
 import Img from "gatsby-image"
+import { Content } from "../layout"
 
 const Container = styled.footer`
   background: ${theme.black};
@@ -21,16 +22,14 @@ const Container = styled.footer`
   .ui-footer-primary {
     color: ${theme.primary};
   }
-`
 
-const Content = styled.div`
-  display: flex;
-  flex-flow: column;
-  width: 1080px;
-  margin: 0 auto;
+  & > .ui-layout-content {
+    display: flex;
+    flex-flow: column;
 
-  @media ${L_DOWN} {
-    width: 100%;
+    @media ${L_DOWN} {
+      width: 100%;
+    }
   }
 `
 
@@ -38,7 +37,7 @@ const ContentFooter = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 20px 16px 20px;
+  padding: 12px 0 16px 0;
   border-top: 2px solid ${theme.grayC};
 `
 
@@ -62,7 +61,7 @@ const TopSection = styled.div`
   display: grid;
   grid-template-columns: 1fr 1.5fr 0.5fr;
   gap: 28px;
-  padding: 32px 20px 24px 20px;
+  padding: 32px 0 24px 0;
 
   @media ${T_DOWN} {
     grid-template-columns: 1fr;
@@ -130,14 +129,14 @@ const Footer = ({ articles }: FooterProps) => {
             </M>
             <M>
               You can join our community via{" "}
-              <GatsbyLink className="ui-footer-primary" to="/blog-creator/">
+              <GatsbyLink className="ui-footer-primary" to="/authors/">
                 this form
               </GatsbyLink>
               .
             </M>
           </Section>
           <Section>
-            <X>Latest</X>
+            <X>Recent articles</X>
             <Articles>
               {articles.map(article => (
                 <Link key={article.title} to={article.path}>
@@ -158,20 +157,20 @@ const Footer = ({ articles }: FooterProps) => {
           <Section>
             <X>Navigation</X>
             <Links>
-              <Link to="/" activeStyle={{ color: theme.primary }}>
-                Home
-              </Link>
-              <Link to="/articles/" activeStyle={{ color: theme.primary }}>
-                Blog
-              </Link>
               <Link to="/articles/" activeStyle={{ color: theme.primary }}>
                 Articles
               </Link>
               <Link to="/authors/" activeStyle={{ color: theme.primary }}>
                 Authors
               </Link>
+              <Link to="/courses/" activeStyle={{ color: theme.primary }}>
+                Courses
+              </Link>
               <Link to="/blog-creator/" activeStyle={{ color: theme.primary }}>
                 Creator
+              </Link>
+              <Link to="/" activeStyle={{ color: theme.primary }}>
+                Home
               </Link>
             </Links>
           </Section>

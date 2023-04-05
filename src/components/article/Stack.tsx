@@ -14,7 +14,7 @@ const Li = styled.li`
   align-items: center;
   justify-content: center;
   padding: 6px;
-  background: ${theme.bg};
+  background: ${theme.black};
 `
 
 const Ul = styled.ul`

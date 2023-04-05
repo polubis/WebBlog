@@ -1,7 +1,6 @@
 import React from "react"
 import styled from "styled-components"
-import { XXL, ArrowLeftIcon, IconButton, M, Label } from "../../../ui"
-import { useCourseProvider } from "../CourseProvider"
+import { XXL, ArrowLeftIcon, IconButton, M, Label, Content } from "../../../ui"
 import { Link as GatsbyLink } from "gatsby"
 import Divider from "../../../components/divider/Divider"
 import Button from "../../../components/button/Button"
@@ -15,6 +14,7 @@ import theme from "../../../utils/theme"
 import Badge from "../../../components/article/Badge"
 import { formatDistanceStrict } from "date-fns"
 import { Stack } from "../../../components/article/Stack"
+import { Article, Course } from "../../../models"
 
 const Details = styled.div`
   display: flex;
@@ -66,14 +66,11 @@ const Statistics = styled.div`
 `
 
 const Container = styled.div`
-  padding: 80px 0 100px 0;
   display: grid;
   gap: 20px;
   height: 100%;
   grid-template-columns: 70% 40px 1fr;
   grid-template-rows: 1fr;
-  max-width: 1280px;
-  margin: 0 auto;
 
   .components-stack {
     margin: 12px 0 72px 0;
@@ -149,77 +146,83 @@ const StatisticsSection = styled.div`
   }
 `
 
-export const CourseContent = () => {
-  const { course } = useCourseProvider()
+interface CourseContentProps {
+  course: Course
+  articles: Article[]
+}
 
+export const CourseContent = ({ course, articles }: CourseContentProps) => {
   const chaptersCount = course.chapters.length
   const { lessonsCount } = course
 
   return (
-    <Layout>
-      <Container>
-        <Area className="details-area">
-          <Header>
-            <GatsbyLink to="/courses/">
-              <IconButton variant="secondary-outlined">
-                <ArrowLeftIcon />
-              </IconButton>
-            </GatsbyLink>
-            <GatsbyLink to={course.chapters[0].lessons[0].path}>
-              <Button>Start</Button>
-            </GatsbyLink>
-          </Header>
-          <Label className="label">Course overview</Label>
-          <XXL className="name">{course.name}</XXL>
-          <Details>
-            <CourseTimeBadge value={course.duration} />
-            <Badge color={theme.secondary}>
-              created:{" "}
-              {formatDistanceStrict(new Date(course.createdAt), new Date())} ago
-            </Badge>
-            <Badge color={theme.secondary}>
-              updated:{" "}
-              {formatDistanceStrict(new Date(course.modifiedAt), new Date())}{" "}
-              ago
-            </Badge>
-            <CourseStatusBadge value={course.status} />
-          </Details>
-          <Divider className="divider" horizontal />
-          <Section>
-            <Label className="label">Description</Label>
-            <M>{course.description}</M>
-          </Section>
-          <Reviewers
-            author={course.author}
-            techReviewer={course.techReviewer}
-            lingReviewer={course.lingReviewer}
-          />
-          <Section>
-            <Label className="label">Technologies</Label>
-            <Stack items={course.stack} />
-          </Section>
-          <ChaptersSection>
-            <Label className="label">Chapters & lessons</Label>
-            <CourseChapters chapters={course.chapters} />
-          </ChaptersSection>
-        </Area>
-        <Divider className="areas-divider" />
-        <Area className="stats-area">
-          <StatisticsSection>
-            <Label className="label">Statistics</Label>
-            <Statistics>
-              <NumberStatistic
-                label={chaptersCount === 1 ? "Chapter" : "Chapters"}
-                value={chaptersCount}
-              />
-              <NumberStatistic
-                label={lessonsCount === 1 ? "Lesson" : "Lessons"}
-                value={lessonsCount}
-              />
-            </Statistics>
-          </StatisticsSection>
-        </Area>
-      </Container>
+    <Layout articles={articles}>
+      <Content paddingY>
+        <Container>
+          <Area className="details-area">
+            <Header>
+              <GatsbyLink to="/courses/">
+                <IconButton variant="secondary-outlined">
+                  <ArrowLeftIcon />
+                </IconButton>
+              </GatsbyLink>
+              <GatsbyLink to={course.chapters[0].lessons[0].path}>
+                <Button>Start</Button>
+              </GatsbyLink>
+            </Header>
+            <Label className="label">Course overview</Label>
+            <XXL className="name">{course.name}</XXL>
+            <Details>
+              <CourseTimeBadge value={course.duration} />
+              <Badge color={theme.secondary}>
+                created:{" "}
+                {formatDistanceStrict(new Date(course.createdAt), new Date())}{" "}
+                ago
+              </Badge>
+              <Badge color={theme.secondary}>
+                updated:{" "}
+                {formatDistanceStrict(new Date(course.modifiedAt), new Date())}{" "}
+                ago
+              </Badge>
+              <CourseStatusBadge value={course.status} />
+            </Details>
+            <Divider className="divider" horizontal />
+            <Section>
+              <Label className="label">Description</Label>
+              <M>{course.description}</M>
+            </Section>
+            <Reviewers
+              author={course.author}
+              techReviewer={course.techReviewer}
+              lingReviewer={course.lingReviewer}
+            />
+            <Section>
+              <Label className="label">Technologies</Label>
+              <Stack items={course.stack} />
+            </Section>
+            <ChaptersSection>
+              <Label className="label">Chapters & lessons</Label>
+              <CourseChapters chapters={course.chapters} />
+            </ChaptersSection>
+          </Area>
+          <Divider className="areas-divider" />
+          <Area className="stats-area">
+            <StatisticsSection>
+              <Label className="label">Statistics</Label>
+              <Statistics>
+                <NumberStatistic
+                  label={chaptersCount === 1 ? "Chapter" : "Chapters"}
+                  value={chaptersCount}
+                />
+                <NumberStatistic
+                  label={lessonsCount === 1 ? "Lesson" : "Lessons"}
+                  value={lessonsCount}
+                />
+              </Statistics>
+            </StatisticsSection>
+          </Area>
+        </Container>
+      </Content>
     </Layout>
   )
 }

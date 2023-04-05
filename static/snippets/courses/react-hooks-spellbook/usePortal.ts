@@ -9,8 +9,8 @@ const usePortal = () => {
   const wrapper = useMemo(() => document.createElement("div"), [])
 
   useEffect(() => {
-    // Adds div tag to body tag.
-    document.body.prepend(wrapper)
+    // Adds div tag to body.
+    document.body.appendChild(wrapper)
 
     return () => {
       // After unmounting the component - removes the div created earlier.
@@ -18,7 +18,7 @@ const usePortal = () => {
     }
   }, [])
 
-  // Returns a object with function that will allow you to use the portal.
+  // Returns an object with function that will allow you to use the portal.
   return {
     // This anonymous function is an implementation of the factory method pattern.
     render: (children: ReactNode): ReactPortal | null =>

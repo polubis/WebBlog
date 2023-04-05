@@ -3,27 +3,9 @@ import styled from "styled-components"
 import { CodeEditorTile, M, XXL } from "../../ui"
 import AuthorAvatar from "../article/AuthorAvatar"
 import Button from "../button/Button"
-import authors from "../../authors/authors.json"
-import { Author, AuthorWithAvatar, HomeProps } from "./models"
 import { Link } from "gatsby"
-import { Shape } from "./Shape"
-import { L_DOWN, T_DOWN, M_DOWN, M_UP } from "../../utils/viewport"
-
-const Wrapper = styled.div`
-  position: relative;
-  overflow: hidden;
-
-  & > svg {
-    right: -250px;
-    bottom: 0;
-    transform: rotate(90deg);
-    position: absolute;
-
-    @media ${L_DOWN} {
-      transform: scale(3);
-    }
-  }
-`
+import { T_DOWN, M_DOWN, M_UP } from "../../utils/viewport"
+import { Author } from "../../models"
 
 const Container = styled.section`
   display: grid;
@@ -32,7 +14,7 @@ const Container = styled.section`
   gap: 32px;
   width: 668px;
   margin: 0 auto;
-  padding: 162px 24px;
+  padding: 162px 20px;
 
   @media ${M_DOWN} {
     grid-template-columns: 1fr;
@@ -41,7 +23,7 @@ const Container = styled.section`
 
   @media ${T_DOWN} {
     width: 100%;
-    padding: 32px 24px;
+    padding: 32px 20px;
   }
 
   & > *:last-child {
@@ -99,74 +81,66 @@ const AvatarWrapper = styled.div`
   }
 `
 
-export const StatsSection = ({ data }: HomeProps) => {
-  const authorsWithAvatars = (authors as Author[]).map(
-    (author): AuthorWithAvatar => {
-      const foundNode = data.authorsAvatars.nodes.find(
-        avatar => avatar.name === author.id
-      )
+interface StatsSectionProps {
+  articlesCount: number
+  authorsCount: number
+  coursesCount: number
+  lessonsCount: number
+  topAuthor: Author
+}
 
-      if (!foundNode) {
-        throw new Error("Lack of avatar for given user")
-      }
-
-      return {
-        ...author,
-        avatar: foundNode.childImageSharp.fluid,
-      }
-    }
-  )
-
-  const articlesCount = data.articles.nodes.length
-  const authorsCount = authorsWithAvatars.length
-  const coursesCount = data.courses.nodes.length
-  const lessonsCount = data.lessons.nodes.length
-
+const StatsSection = ({
+  articlesCount,
+  authorsCount,
+  coursesCount,
+  lessonsCount,
+  topAuthor,
+}: StatsSectionProps) => {
   return (
-    <Wrapper>
-      <Shape />
+    <Container>
+      <CodeEditorTile>
+        <XXL>
+          {articlesCount} {articlesCount === 1 ? "article" : "articles"}
+        </XXL>
+      </CodeEditorTile>
 
-      <Container>
-        <CodeEditorTile>
-          <XXL>
-            {articlesCount} {articlesCount <= 1 ? "article" : "articles"}
-          </XXL>
-        </CodeEditorTile>
+      <CodeEditorTile>
+        <XXL>
+          {authorsCount} {authorsCount === 1 ? "author" : "authors"}
+        </XXL>
+      </CodeEditorTile>
 
-        <CodeEditorTile>
-          <XXL>
-            {authorsCount} {authorsCount <= 1 ? "author" : "authors"}
-          </XXL>
-        </CodeEditorTile>
+      <CodeEditorTile>
+        <XXL>
+          {coursesCount} {coursesCount === 1 ? "course" : "courses"}
+        </XXL>
+      </CodeEditorTile>
 
-        <CodeEditorTile>
-          <XXL>
-            {coursesCount} {coursesCount <= 1 ? "course" : "courses"}
-          </XXL>
-        </CodeEditorTile>
+      <CodeEditorTile>
+        <XXL>
+          {lessonsCount} {lessonsCount === 1 ? "lesson" : "lessons"}
+        </XXL>
+      </CodeEditorTile>
 
-        <CodeEditorTile>
-          <XXL>
-            {lessonsCount} {lessonsCount <= 1 ? "lesson" : "lessons"}
-          </XXL>
-        </CodeEditorTile>
-
-        <CodeEditorTile>
-          <BloggerTileContent>
-            <XXL>Become a blogger</XXL>
-            <M>
-              Use our creator and add your first article. You will get the
-              necessary technical assistance.
-            </M>
-            <Link to="/blog-creator/">
-              <Button>WRITE YOUR FIRST ARTICLE</Button>
-            </Link>
-          </BloggerTileContent>
-          <AvatarWrapper>
-            <AuthorAvatar size="big" avatar={authorsWithAvatars[0].avatar} />
-          </AvatarWrapper>
-        </CodeEditorTile>
-      </Container>
-    </Wrapper>
+      <CodeEditorTile>
+        <BloggerTileContent>
+          <XXL>Become a blogger</XXL>
+          <M>
+            Use our creator and add your first article. You will get the
+            necessary technical assistance.
+          </M>
+          <Link to="/blog-creator/">
+            <Button>WRITE YOUR FIRST ARTICLE</Button>
+          </Link>
+        </BloggerTileContent>
+        <AvatarWrapper>
+          <AuthorAvatar size="big" avatar={topAuthor.avatar} />
+        </AvatarWrapper>
+      </CodeEditorTile>
+    </Container>
   )
 }
+
+export type { StatsSectionProps }
+
+export { StatsSection }

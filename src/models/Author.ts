@@ -1,3 +1,5 @@
+import { Image } from "./Image"
+
 export interface AuthorJSON {
   id: string
   name: string
@@ -9,18 +11,6 @@ export interface AuthorJSON {
   linkedinURL?: string
 }
 
-export interface AuthorAvatar {
-  aspectRatio: number
-  base64: string
-  sizes: string
-  src: string
-  srcSet: string
-}
-
-export interface Author {
-  firstName: string
-  lastName: string
-  id: string
-  role: string
-  avatar: AuthorAvatar
+export interface Author extends AuthorJSON {
+  avatar: Image
 }

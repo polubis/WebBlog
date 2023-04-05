@@ -11,7 +11,7 @@ import { logIn, LogInModel } from "./service"
 
 type AuthContext = LogInModel
 
-// Context can be udefined if you forget to use the provider.
+// Context can be undefined if you forget to use the provider.
 const Context = createContext<AuthContext | undefined>(undefined)
 
 interface AuthProviderProps {

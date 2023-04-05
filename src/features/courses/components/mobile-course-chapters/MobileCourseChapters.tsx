@@ -11,7 +11,7 @@ import { L_UP, M_UP } from "../../../../utils/viewport"
 const Wrapper = styled.div`
   display: flex;
   background: ${theme.bg};
-  padding: 36px 24px 24px 24px;
+  padding: 36px 20px 20px 20px;
   position: fixed;
   top: 0;
   left: 0;
@@ -33,14 +33,15 @@ const Wrapper = styled.div`
 const CloseButtonWrapper = styled.div`
   position: absolute;
   z-index: 104;
-  top: 24px;
-  right: 24px;
+  top: 20px;
+  right: 20px;
 `
 
 const Expander = styled.div`
   position: fixed;
-  top: 24px;
-  right: 24px;
+  top: 20px;
+  right: 20px;
+  z-index: 104;
 
   @media ${L_UP} {
     display: none;

@@ -1,0 +1,34 @@
+---
+name: useElementSize
+duration: 4
+description: Listening for changes in element size.
+---
+
+<Section>
+  <XL>Why?</XL>
+  <M>
+    Sometimes there is a need to read the size of a <B>window</B> or a specific{" "}
+    <B>HTML element</B>. The most common reason for that is to display a
+    particular element in an application based on the size of a device.
+  </M>
+  <M>
+    This is a perfect example of logic that will repeat itself in many
+    applications, so it is worth to encapsulate it in a hook.
+  </M>
+</Section>
+
+<Section>
+  <XL>Usage</XL>
+  <Snippet
+    linesCount={38}
+    src="/snippets/courses/react-hooks-spellbook/UseElementSizeUsage.tsx"
+  />
+</Section>
+
+<Section>
+  <XL>Implementation</XL>
+  <Snippet
+    linesCount={107}
+    src="/snippets/courses/react-hooks-spellbook/useElementSize.ts"
+  />
+</Section>

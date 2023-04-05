@@ -1,44 +1,22 @@
-import React from "react"
+import React, { ReactNode } from "react"
+import { Article } from "../../models"
+import { Footer, Layout } from "../../ui"
+import { HomeNavigation } from "../home/HomeNavigation"
 
-import styled from "styled-components"
-
-import theme from "../../utils/theme"
-import Navbar from "../navigation/Navbar"
-import { T_UP, M_UP } from "../../utils/viewport"
-import MobileNavigation from "../navigation/MobileNavigation"
-
-const Layout = styled.div`
-  min-height: 100vh;
-  background: ${theme.bg};
-  display: flex;
-  flex-flow: column;
-  padding: 0 28px;
-
-  @media ${M_UP} {
-    padding: 0 42px;
-  }
-
-  @media ${T_UP} {
-    padding: 0 68px;
-  }
-
-  & > a:not(:last-of-type) {
-    margin-right: 62px;
-  }
-`
-
-interface Props {
-  children: React.ReactNode
-  banner?: React.ReactNode
+interface LayoutProps {
+  children: ReactNode
+  articles: Article[]
 }
 
-export default function ({ children, banner }: Props): React.ReactElement {
+export default function ({ children, articles }: LayoutProps) {
   return (
-    <Layout>
-      {banner}
-      <Navbar />
-      <MobileNavigation />
+    <Layout
+      navigation={<HomeNavigation />}
+      footer={<Footer articles={articles} />}
+    >
       {children}
     </Layout>
   )
 }
+
+export { LayoutProps }

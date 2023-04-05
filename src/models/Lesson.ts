@@ -9,6 +9,7 @@ export interface Lesson {
   duration: number
   slug: string
   path: string
+  gaPage: string
   body: string
   description: string
   nextLesson: Lesson | undefined

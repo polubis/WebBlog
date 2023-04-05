@@ -2,7 +2,7 @@
   "name": "web-blog",
   "private": true,
   "description": "A simplified bare-bones starter for Gatsby",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "license": "0BSD",
   "scripts": {
     "build": "gatsby build",
@@ -48,7 +48,8 @@
     "@types/react-helmet": "^6.1.5",
     "@types/react-loadable": "^5.5.6",
     "@types/styled-components": "^5.1.7",
-    "prettier": "2.2.1"
+    "prettier": "2.2.1",
+    "typescript": "^5.0.3"
   },
   "repository": {
     "type": "git",
