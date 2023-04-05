@@ -22,7 +22,10 @@ const sortById = items => {
 }
 
 const toDashed = str => {
-  let kebabCase = str.replace(/([A-Z])/g, "-$1").toLowerCase()
+  let kebabCase = str
+    .replace(/([A-Z])/g, "-$1")
+    .replace(/ /g, "-")
+    .toLowerCase()
 
   if (kebabCase.charAt(0) === "-") {
     kebabCase = kebabCase.slice(1, kebabCase.length)
