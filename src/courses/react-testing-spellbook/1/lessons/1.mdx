@@ -1,0 +1,109 @@
+---
+name: Software testing
+duration: 5
+description: Describing the root and basics of software testing.
+---
+
+<Section>
+  <XL>Question</XL>
+  <M>
+    Imagine a situation in which you are talking to a powerful AI. It's the year
+    2137, and all you have to do is ask a good question.... Exactly, but what
+    does good mean?
+  </M>
+  <M>
+    In my opinion, it's a question that is short and specific. The kind you are
+    currently asking in the GPT chat room. After all, by asking an overly
+    complicated question before you get an answer, you have to ask more
+    questions. It is much easier to ask one.
+  </M>
+  <M>
+    Of course, some problems are too complicated to be solved by a single
+    question, so the problem should be broken down into smaller parts and to
+    each of them ask a simple question - the <B>divide and conquer</B>{" "}
+    methodology.
+  </M>
+  <M>
+    That's what software testing is. You should divide the problem if it is
+    complicated into <B>n</B> parts, then ask specific questions and find
+    answers to them.
+  </M>
+</Section>
+
+<Section>
+  <XL>Answer</XL>
+  <M>
+    People have been looking for answers forever. It's the same with testing.
+    You look for answers to the questions you ask. Is the table flat? Is the
+    earth flat? What will be the answers to these questions?
+  </M>
+  <M>
+    Of course, the table is flat, and the earth is not. However, if you go into
+    the details, the table is not "perfectly flat" and the earth is not
+    perfectly round.{" "}
+  </M>
+  <M>
+    I know I may be approaching this too philosophically, but it is relevant.
+    Tests can't 100% guarantee that something works or not, rather they answer a
+    specific question.
+  </M>
+  <M>
+    For example, to answer the above questions, the earth is not flat it is
+    true, but it is not perfectly round either. As well as the table is flat,
+    but it is not perfectly flat. Here you can see the erroneously asked
+    question. So the answer was also convoluted. Instead of hearing <B>yes</B>{" "}
+    or <B>no</B> in the answer itself I had to resolve the doubts of the
+    question....
+  </M>
+  <M>
+    As you can see the answers are dependent on the questions, not vice versa so
+    before you start looking for them make sure that the question is the right
+    one.
+  </M>
+</Section>
+
+<Section>
+  <XL>Divide and conquer</XL>
+  <M>
+    Let's suppose you work in a restaurant and teach a colleague to make pizza.
+    How do you determine that your friend is making pizza the right way. The
+    obvious thing is that you need to ask some questions and find answers to
+    them. One question whether the pizza is good asked to the customer is too
+    complex ¯\_(ツ)_/¯.
+  </M>
+  <M>
+    So, instead of one, let's ask several of them, but specific ones that will
+    give us a result and allow us to decide whether our colleague is a good
+    enough pizzerman.
+  </M>
+  <List items="Is the cake brown?,Is the cheese melted?,Is the pizza warm?,Isn't the pizza plate dirty?,Did the pizza taste good for 90% customers?" />
+  <M>
+    The answer to each of them is actually yes or no. If all the answers are
+    positive, it means that our colleague is "good enough" pizzerman.
+  </M>
+</Section>
+
+<Section>
+  <XL>Well, let's check it</XL>
+  <M>
+    We already have the questions so let's now look for the answers - let's play
+    the role of the tester. Next to each question we will add a corresponding
+    icon suggesting yes (✔️) or no (❌).
+  </M>
+  <List items="Is the cake brown? ✔️,Is the cheese melted? ✔️,Is the pizza warm? ✔️,Isn't the pizza plate dirty? ✔️,Did the pizza taste good for 90% customers? ❌" />
+  <M>
+    During testing, it turned out that the pizza tasted good to only half of the
+    customers, so our colleague needs to train. We gave him a few days and we
+    ran the same tests again - because other aspects may be worse{" "}
+    <B>(regression)</B>. At the same time, we added another question.
+  </M>
+  <List
+    items="
+  Is the pizza size between 30 cm and 34 cm? ✔️,Is the cake brown? ✔️,Is the cheese melted? ✔️,Is the pizza warm? ✔️,Isn't the pizza plate dirty? ✔️,Did the pizza taste good for 90% customers? ✔️"
+  />
+  <M>
+    All questions have a positive answer, so our colleague can start work, and
+    you, my dear colleague, already understand the idea of tests and how to
+    formulate questions and answer them.
+  </M>
+</Section>
