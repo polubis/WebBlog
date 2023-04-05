@@ -1,4 +1,4 @@
-const SMALL_MOBILE = 420;
+const SMALL_MOBILE = 420
 const MOBILE = 600
 const TABLET = 900
 const LAPTOP = 1440
@@ -7,6 +7,11 @@ const DESKTOP = 1920
 const getUpViewport = (size: number): string => `(min-width: ${size}px)`
 
 const getDownViewport = (size: number): string => `(max-width: ${size - 1}px)`
+
+export const mUp = (width: number): boolean => width >= MOBILE
+export const tUp = (width: number): boolean => width >= TABLET
+export const lUp = (width: number): boolean => width >= LAPTOP
+export const dUp = (width: number): boolean => width >= DESKTOP
 
 export const M_UP = getUpViewport(MOBILE)
 export const T_UP = getUpViewport(TABLET)

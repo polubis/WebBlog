@@ -20,7 +20,7 @@ export const Timeline = ({ data, setup = DEFAULT_SETUP }: TimelineProps) => {
       <LineX setup={setup} count={count} data={data}>
         {data.map((group, groupIdx) => {
           return (
-            <Fragment key={group.date.toDateString()}>
+            <Fragment key={`group-${groupIdx}`}>
               {group.blank || <MidMarker setup={setup} groupIdx={groupIdx} />}
 
               {group.items.length > 0 && group.displayed && !group.blank && (
@@ -31,7 +31,7 @@ export const Timeline = ({ data, setup = DEFAULT_SETUP }: TimelineProps) => {
 
                   {group.items.map((item, itemIdx) => (
                     <GroupItem
-                      key={itemIdx}
+                      key={`group-${groupIdx}-item-${itemIdx}`}
                       itemIdx={itemIdx}
                       item={item}
                       group={group}

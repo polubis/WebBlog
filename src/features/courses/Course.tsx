@@ -20,6 +20,7 @@ export default function ({ pageContext: { course, articles } }: Props) {
       type="article"
       author={course.author.firstName + " " + course.author.lastName}
       description={course.description}
+      image={course.thumbnail.src}
     >
       <CourseContent course={course} articles={articles} />
     </SiteMeta>

@@ -7,15 +7,19 @@ import { Link as GatsbyLink } from "gatsby"
 import styled from "styled-components"
 
 const leftLinks = [
-  { label: "creator", url: "/blog-creator/" },
+  { label: "articles", url: "/articles/" },
   { label: "authors", url: "/authors/" },
 ] as const
 const rightLinks = [
-  { label: "articles", url: "/articles/" },
   { label: "courses", url: "/courses/" },
+  { label: "creator", url: "/blog-creator/" },
 ] as const
 const otherLinks = [{ label: "home", url: "/" }] as const
-const allLinks = [...otherLinks, ...rightLinks, ...leftLinks]
+const allLinks = [...leftLinks, ...rightLinks, ...otherLinks].sort((a, b) => {
+  if (a.label > b.label) return 1
+  if (a.label === b.label) return 0
+  return -1
+})
 
 const activeStyle = { color: theme.primary }
 
@@ -29,6 +33,11 @@ const Link = styled(GatsbyLink)`
 
 const UnstyledLink = styled(GatsbyLink)`
   text-decoration: none;
+
+  &.home-navigation-active-unstyled-link button {
+    background: ${theme.primary};
+    color: ${theme.bg};
+  }
 `
 
 const HomeNavigation = () => {
@@ -67,7 +76,10 @@ const HomeNavigation = () => {
         </>
       }
       action={
-        <UnstyledLink to={leftLinks[1].url}>
+        <UnstyledLink
+          activeClassName="home-navigation-active-unstyled-link"
+          to={leftLinks[1].url}
+        >
           <Button>JOIN</Button>
         </UnstyledLink>
       }

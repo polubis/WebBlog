@@ -76,6 +76,7 @@ interface Props {
   thumbnail: Image
   graphicAuthorLink?: string
   readTime: number
+  isNew: boolean
 }
 
 export default function ({
@@ -83,6 +84,7 @@ export default function ({
   thumbnail,
   readTime,
   graphicAuthorLink,
+  isNew,
 }: Props) {
   return (
     <Figure>
@@ -103,7 +105,7 @@ export default function ({
           <ReadTimeIcon />
           {readTime}m
         </Badge>
-        <Badge color={theme.green}>new</Badge>
+        {isNew && <Badge color={theme.green}>new</Badge>}
       </Badges>
       {graphicAuthorLink && (
         <GraphicAuthor>

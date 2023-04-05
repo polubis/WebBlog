@@ -3,12 +3,31 @@ const { serializeToAuthors } = require("./serializeToAuthors")
 const { getCoursesQuery } = require("./getCoursesQuery")
 const { addDays, differenceInDays } = require("date-fns")
 
-const getTimeline = ({ articles }) => {
+const getTimeline = ({ articles, courses }) => {
+  const data = [
+    ...articles.map(article => ({
+      createdAt: article.createdAt,
+      title: article.title,
+      avatar: article.thumbnail,
+      url: article.path,
+    })),
+    ...courses.map(course => ({
+      createdAt: course.createdAt,
+      title: course.name,
+      avatar: course.thumbnail,
+      url: course.path,
+    })),
+  ].sort((a, b) => {
+    if (a.createdAt < b.createdAt) return 1
+    if (a.createdAt === b.createdAt) return 0
+    return -1
+  })
+
   const timelineData = []
   const GAP = 5
-  const firstArticleDate = new Date(articles[0].createdAt)
+  const firstArticleDate = new Date(data[0].createdAt)
   const fromDate = addDays(firstArticleDate, -GAP)
-  const toDate = addDays(new Date(articles[articles.length - 1].createdAt), GAP)
+  const toDate = addDays(new Date(data[data.length - 1].createdAt), GAP)
 
   let top = true
 
@@ -23,8 +42,8 @@ const getTimeline = ({ articles }) => {
     })
   }
 
-  for (let i = 0; i < articles.length; i++) {
-    const { createdAt, thumbnail, title, path } = articles[i]
+  for (let i = 0; i < data.length; i++) {
+    const { createdAt, avatar, title, url } = data[i]
     const date = new Date(createdAt)
 
     timelineData.push({
@@ -35,22 +54,22 @@ const getTimeline = ({ articles }) => {
       blank: false,
       items: [
         {
-          avatar: thumbnail,
+          avatar,
           title,
-          url: path,
+          url,
         },
       ],
     })
 
-    const nextArticle = articles[i + 1]
+    const nextNode = data[i + 1]
 
-    if (!nextArticle) {
+    if (!nextNode) {
       break
     }
 
     const diffToNextDate =
-      (nextArticle
-        ? Math.abs(differenceInDays(date, new Date(nextArticle.createdAt)))
+      (nextNode
+        ? Math.abs(differenceInDays(date, new Date(nextNode.createdAt)))
         : GAP) / 3
 
     for (let j = 0; j < diffToNextDate; j++) {
@@ -89,7 +108,7 @@ exports.getAllDataQuery = data => {
     (sum, course) => sum + course.lessonsCount,
     0
   )
-  const timeline = getTimeline({ articles })
+  const timeline = getTimeline({ articles, courses })
 
   return {
     articles,

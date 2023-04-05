@@ -7,6 +7,7 @@ import { StatsSection } from "../components/home/StatsSection"
 import { ArticlesTimelineSection } from "../components/home/ArticlesTimelineSection"
 import Layout from "../components/layout/Layout"
 import { getAllData, AllDataPageProps } from "../api/getAllData"
+import { BlackHoleSection } from "../components/home/BlackHoleSection"
 
 export const query = graphql`
   {
@@ -149,6 +150,7 @@ export default function (props: AllDataPageProps) {
       description="A place for people who love programming and personal development."
     >
       <Layout articles={articles}>
+        <BlackHoleSection />
         <WelcomeSection />
         <StatsSection
           articlesCount={articles.length}
