@@ -19,6 +19,8 @@ import Badge from "./Badge"
 import { formatDistanceStrict } from "date-fns"
 import theme from "../../utils/theme"
 import { WillBeContinuedBanner } from "./WillBeContinuedBanner"
+import { AllDataResponse } from "../../api"
+import { Breadcrumbs } from "../breadcrumbs"
 
 const ProgressDisplayer = Loadable({
   loader: () => import("./ProgressDisplayer").then(m => m.ProgressDisplayer),
@@ -44,8 +46,8 @@ const Article = styled.main`
     width: 920px;
   }
 
-  & > :nth-child(2) {
-    margin: 62px 0 28px 0;
+  .ui-banner {
+    margin-bottom: 28px;
   }
 
   ${Dates} {
@@ -104,6 +106,14 @@ export default function ({ pageContext: { article, articles } }: Props) {
         <Content paddingY>
           <Article>
             {toBeContinuedDate && <WillBeContinuedBanner />}
+            <Breadcrumbs
+              items={[
+                { label: "Home", path: "/" },
+                { label: "Articles", path: "/articles/" },
+                { label: article.title, path: article.path },
+              ]}
+            />
+
             <Thumbnail
               graphicAuthorLink={graphicAuthorLink}
               readTime={readTime}

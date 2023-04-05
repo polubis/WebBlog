@@ -9,6 +9,7 @@ import Loadable from "react-loadable"
 import Layout from "../../../components/layout/Layout"
 import { Article, Chapter, Course, Lesson } from "../../../models"
 import { Content } from "../../../ui"
+import { Breadcrumbs } from "../../../components/breadcrumbs/Breadcrumbs"
 
 const MobileCourseChapters = Loadable({
   loader: () =>
@@ -99,6 +100,14 @@ const LessonContent = ({
         <Content paddingY>
           <Container>
             <Wrapper>
+              <Breadcrumbs
+                items={[
+                  { label: "Home", path: "/" },
+                  { label: "Courses", path: "/courses/" },
+                  { label: course.name, path: course.path },
+                  { label: lesson.name, path: lesson.path },
+                ]}
+              />
               <MDXRenderer>{lesson.body}</MDXRenderer>
               <CourseNavigation>
                 {lesson.prevLesson && (
