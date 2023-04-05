@@ -14,8 +14,8 @@ graphicauthor: https://unsplash.com/@lucabravo/
 
 <Prelude>
   <M>
-    Code written by programmers is like a unique signature. We can recognize the
-    author by a few lines. So let's create our unique signature by creating a
+    Code written by programmer is like a unique signature. We can recognize the
+    author by a few lines. Let's create our unique signature by creating a
     flexible component for code snippets.
   </M>
 </Prelude>
@@ -106,8 +106,8 @@ graphicauthor: https://unsplash.com/@lucabravo/
     properly.
   </M>
   <M>
-    Also noteworthy is the import of the <B>SnippetProps</B> interface from
-    another file. Separation of interfaces from implementations can be helpful
+    Also, the import of the <B>SnippetProps</B> interface from another file is
+    noteworthy. Separation of interfaces from implementations can be helpful
     when we want to reuse models in other components. It also changes the way
     how developer thinks. It is a bit like <B>test driven development</B>{" "}
     approach. After all, <B>TypeScript</B> is similar to one big test which
@@ -135,7 +135,7 @@ graphicauthor: https://unsplash.com/@lucabravo/
     src="https://raw.githubusercontent.com/polubis/React-code-snippet-component/main/src/snippet/StaticSnippet.tsx"
   />
   <M>
-    As before, we added implementation to the prepared model. In that case we
+    As before, we added implementation to the prepared model. In this case we
     just wrapped our <B>SnippetContent</B> component. We did this for the sake
     of transparency.
   </M>
@@ -151,8 +151,8 @@ graphicauthor: https://unsplash.com/@lucabravo/
     src="https://raw.githubusercontent.com/polubis/React-code-snippet-component/main/src/snippet/SnippetContent.tsx"
   />
   <M>
-    Next styles. Nothing fancy here. Just some flex and css for <B>header</B>{" "}
-    and <B>description</B>.
+    Next are styles. Nothing fancy here. Just some css for <B>header</B> and{" "}
+    <B>description</B>.
   </M>
   <Snippet
     linesCount={32}
@@ -171,13 +171,13 @@ graphicauthor: https://unsplash.com/@lucabravo/
     src="https://raw.githubusercontent.com/polubis/React-code-snippet-component/main/src/snippet/DynamicSnippet.tsx"
   />
   <M>What is going on here?</M>
-  <List items="ASCII art is generated, We're fetching snippet via src, Code is parsed to text, During retrieve snippet we changing state, When state is pending we return ASCII art instead of code" />
+  <List items="ASCII art is generated, We're fetching snippet via src, Code is parsed to text, We're changing state during the retrieval of the snippet, When state is pending we return ASCII art instead of code" />
 </Section>
 
 <Section>
   <XL>8. Generating ASCII art</XL>
   <M>
-    We need to add some dummy characters when there is more lines in code
+    We need to add some dummy characters when there are more lines in code
     snippet than in ASCII art to prevent content size change.
   </M>
   <M>
@@ -211,9 +211,9 @@ graphicauthor: https://unsplash.com/@lucabravo/
 
 <Summary>
   <M>
-    Right now you're able to render the code in a cool and fancy way. We checked
-    how separation of models can be useful to share type definitions between
-    different files.
+    Right now you're able to render the code in a cool and fancy way. We've
+    checked how separation of models can be useful to share type definitions
+    between different files.
   </M>
   <M>
     Maybe there is a place for improvements. Feel free to try and remember to

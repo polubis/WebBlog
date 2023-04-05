@@ -7,16 +7,15 @@ description: About rendering components outside the main react tag.
 <Section>
   <XL>Why?</XL>
   <M>
-    Sometimes you want to render component outside <B>div</B> with{" "}
-    <B>id="root"</B>. It may happen when you're working on some component that
-    uses <B>z-index</B> or <B>absolute/fixed/static</B> positions in css. These
+    Sometimes you want to render components outside <B>div</B> with{" "}
+    <B>id="root"</B>. It may happen when you're working on some components that
+    use <B>z-index</B> or <B>absolute/fixed/static</B> positions in css - these
     could be modals, alerts or prompts.
   </M>
   <M>
-    This can be achieved by usage of <B>React.createPortal()</B>. Honestly,
-    using this API everywhere and copying the logic breaks the rule -{" "}
-    <B>don't repeat yourself</B>. That's why it's a good idea to create a hook
-    that will contain this logic and reduce the amount of duplicated code.
+    This can be achieved by usage of <B>React.createPortal()</B>. Remember{" "}
+    <B>don't repeat yourself</B>. Don't use this API everywhere and stop copying
+    the logic all the time. It's a good idea to create a hook for that.
   </M>
 </Section>
 
@@ -32,7 +31,7 @@ description: About rendering components outside the main react tag.
 
 <Section>
   <XL>Implementation</XL>
-  <M>Now to use the portal you can use a shortened version.</M>
+  <M>Check implementation below to understand the power of encapsulation.</M>
   <Snippet
     description="Play with portals"
     linesCount={29}
