@@ -15,6 +15,7 @@ import Badge from "../../../components/article/Badge"
 import { formatDistanceStrict } from "date-fns"
 import { Stack } from "../../../components/article/Stack"
 import { Article, Course } from "../../../models"
+import { Breadcrumbs } from "../../../components/breadcrumbs"
 
 const Details = styled.div`
   display: flex;
@@ -160,6 +161,13 @@ export const CourseContent = ({ course, articles }: CourseContentProps) => {
       <Content paddingY>
         <Container>
           <Area className="details-area">
+            <Breadcrumbs
+              items={[
+                { label: "Home", path: "/" },
+                { label: "Courses", path: "/courses/" },
+                { label: course.name, path: course.path },
+              ]}
+            />
             <Header>
               <GatsbyLink to="/courses/">
                 <IconButton variant="secondary-outlined">
