@@ -50,6 +50,10 @@ const Article = styled.main`
     margin-bottom: 28px;
   }
 
+  .components-article-tags {
+    margin: 62px 0px 28px;
+  }
+
   ${Dates} {
     margin: 32px 0 40px 0;
 
@@ -64,7 +68,6 @@ const Article = styled.main`
     }
   }
 `
-
 interface Props {
   pageContext: AllDataResponse & {
     article: ArticleModel

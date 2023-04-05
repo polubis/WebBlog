@@ -43,8 +43,8 @@ interface Props {
 
 export default function ({ tags }: Props): React.ReactElement {
   return (
-    <Tags>
-      {tags.split(',').map(tag => (
+    <Tags className="components-article-tags">
+      {tags.split(",").map(tag => (
         <Tag key={tag}>{tag}</Tag>
       ))}
     </Tags>
