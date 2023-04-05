@@ -1,7 +1,7 @@
 const { getArticlesQuery } = require("./getArticlesQuery")
 const { serializeToAuthors } = require("./serializeToAuthors")
 const { getCoursesQuery } = require("./getCoursesQuery")
-const { addDays, differenceInDays } = require("date-fns")
+const { addDays, differenceInDays, format } = require("date-fns")
 
 const getTimeline = ({ articles, courses }) => {
   const data = [
@@ -48,7 +48,7 @@ const getTimeline = ({ articles, courses }) => {
 
     timelineData.push({
       top,
-      date: new Date(createdAt),
+      date: format(new Date(createdAt), "dd/MM/yyyy"),
       displayed: true,
       empty: false,
       blank: false,
@@ -74,7 +74,7 @@ const getTimeline = ({ articles, courses }) => {
 
     for (let j = 0; j < diffToNextDate; j++) {
       timelineData.push({
-        date: addDays(date, j + 1),
+        date: format(addDays(date, j + 1), "dd/MM/yyyy"),
         top: false,
         displayed: false,
         empty: true,
@@ -88,7 +88,7 @@ const getTimeline = ({ articles, courses }) => {
 
   for (let i = 0; i < GAP; i++) {
     timelineData.push({
-      date: addDays(toDate, i + 1),
+      date: format(addDays(toDate, i + 1), "dd/MM/yyyy"),
       top: false,
       displayed: false,
       empty: true,
