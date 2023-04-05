@@ -62,13 +62,13 @@ interface MobileNavigation {
 const MobileNavigation = ({ links }: MobileNavigation) => {
   const [isOpen, setIsOpen] = useState(false)
   const { render } = usePortal()
-  const { direction } = useScroll()
+  const { direction, offsetY } = useScroll()
 
   const toggleOpen = useCallback(() => {
     setIsOpen(prevOpen => !prevOpen)
   }, [])
 
-  const isVisible = direction === "up" || direction === "idle"
+  const isVisible = (direction === "up" || direction === "idle") && offsetY > 0
 
   return render(
     <>
