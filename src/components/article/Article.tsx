@@ -1,7 +1,8 @@
 import React from "react"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import styled from "styled-components"
-
+import Link from "../link/Link"
+import Button from "../button/Button"
 import Layout from "../layout/Layout"
 import { Article as ArticleModel } from "../../models/Article"
 import Thumbnail from "../article/Thumbnail"
@@ -19,7 +20,7 @@ import Badge from "./Badge"
 import { formatDistanceStrict } from "date-fns"
 import theme from "../../utils/theme"
 import { WillBeContinuedBanner } from "./WillBeContinuedBanner"
-import { AllDataResponse } from "../../api"
+import { AllDataResponse, getAllData } from "../../api"
 
 const ProgressDisplayer = Loadable({
   loader: () => import("./ProgressDisplayer").then(m => m.ProgressDisplayer),
@@ -88,7 +89,24 @@ export default function ({ pageContext: { article, articles } }: Props) {
     gaPage,
     readTime,
   } = article
-
+  let i = 0
+  let j = 0
+  articles.forEach((n, index) => {
+    if (n.title === article.title) {
+      console.log("srodek", i, index)
+      if (index !== 0 && index !== articles.length - 1) {
+        i = index + 1
+        j = index - 1
+      } else if (index === 0) {
+        i = index + 1
+        j = articles.length - 1
+      } else if (index === articles.length - 1) {
+        i = 0
+        j = index - 1
+      }
+    }
+    console.log("I: ", i, " J: ", j)
+  })
   return (
     <SiteMeta
       gaPage={gaPage}
@@ -134,6 +152,18 @@ export default function ({ pageContext: { article, articles } }: Props) {
                 {formatDistanceStrict(new Date(modifiedAt), new Date())} ago
               </Badge>
             </Dates>
+            <Link to={`/${articles[i].gaPage}`} key={articles[i].gaPage}>
+              <Button>
+                {articles[i].title}
+                {`->`}
+              </Button>
+            </Link>
+            <Link to={`/${articles[j].gaPage}`} key={articles[j].gaPage}>
+              <Button>
+                {`<-`}
+                {articles[j].title}
+              </Button>
+            </Link>
           </Article>
         </Content>
         <ProgressDisplayer />
