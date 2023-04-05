@@ -20,7 +20,7 @@ import Badge from "./Badge"
 import { formatDistanceStrict } from "date-fns"
 import theme from "../../utils/theme"
 import { WillBeContinuedBanner } from "./WillBeContinuedBanner"
-import { AllDataResponse, getAllData } from "../../api"
+import { AllDataResponse } from "../../api"
 
 const ProgressDisplayer = Loadable({
   loader: () => import("./ProgressDisplayer").then(m => m.ProgressDisplayer),
@@ -88,25 +88,10 @@ export default function ({ pageContext: { article, articles } }: Props) {
     tags,
     gaPage,
     readTime,
+    next,
+    previous,
   } = article
-  let i = 0
-  let j = 0
-  articles.forEach((n, index) => {
-    if (n.title === article.title) {
-      console.log("srodek", i, index)
-      if (index !== 0 && index !== articles.length - 1) {
-        i = index + 1
-        j = index - 1
-      } else if (index === 0) {
-        i = index + 1
-        j = articles.length - 1
-      } else if (index === articles.length - 1) {
-        i = 0
-        j = index - 1
-      }
-    }
-    console.log("I: ", i, " J: ", j)
-  })
+
   return (
     <SiteMeta
       gaPage={gaPage}
@@ -152,18 +137,18 @@ export default function ({ pageContext: { article, articles } }: Props) {
                 {formatDistanceStrict(new Date(modifiedAt), new Date())} ago
               </Badge>
             </Dates>
-            <Link to={`/${articles[i].gaPage}`} key={articles[i].gaPage}>
-              <Button>
-                {articles[i].title}
-                {`->`}
-              </Button>
-            </Link>
-            <Link to={`/${articles[j].gaPage}`} key={articles[j].gaPage}>
-              <Button>
-                {`<-`}
-                {articles[j].title}
-              </Button>
-            </Link>
+
+            {previous && (
+              <Link to={previous.path}>
+                <Button>Previous</Button>
+              </Link>
+            )}
+
+            {next && (
+              <Link to={next.path}>
+                <Button>Next</Button>
+              </Link>
+            )}
           </Article>
         </Content>
         <ProgressDisplayer />
