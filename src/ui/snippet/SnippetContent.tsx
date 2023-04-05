@@ -1,5 +1,5 @@
 import React from "react"
-import Highlight, { defaultProps } from "prism-react-renderer"
+import PrismSnippet, { defaultProps } from "prism-react-renderer"
 import styled from "styled-components"
 import { useClipboard } from "../../utils/useClipboard"
 import { S } from "../text"
@@ -113,8 +113,8 @@ const Header = styled.header`
   flex-flow: wrap;
   background: ${SNIPPET_THEME.plain.backgroundColor};
   padding: 12px 12px 0 12px;
-  border-top-left-radius: 2px;
-  border-top-right-radius: 2px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
 
   & > * {
     margin: 0 8px 8px 0;
@@ -149,7 +149,7 @@ const SnippetContent = ({ children, description }: SnippetContentProps) => {
           <FeedbackButton>💬 Feedback</FeedbackButton> */}
       </Header>
 
-      <Highlight
+      <PrismSnippet
         {...defaultProps}
         theme={SNIPPET_THEME}
         code={children.trim()}
@@ -169,7 +169,7 @@ const SnippetContent = ({ children, description }: SnippetContentProps) => {
             ))}
           </Pre>
         )}
-      </Highlight>
+      </PrismSnippet>
 
       {description && <S italic>{description}</S>}
     </Container>

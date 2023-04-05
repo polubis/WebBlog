@@ -1,0 +1,52 @@
+---
+name: Grouping the tests
+duration: 4
+description: We will group our tests into features and learn what test scenarios are.
+---
+
+<Section>
+  <XL>Features</XL>
+  <M>
+    It's time to look at the tests from a broader perspective. In everyday life,
+    we don't deal solely with teaching a colleague how to make a pizza. We can
+    also teach him other things - cutting with a knife, cooking pasta, driving a
+    car. Each of these topics will have different questions and answers{" "}
+    <B>(our tests)</B>. So let's group our functionalities and write the
+    appropriate questions for them.
+  </M>
+  <Snippet>
+    {`
+Feature: Our friend knows how to make a pizza.
+1. Is the pizza size between 30 cm and 34 cm? ✔️
+2. Is the cake brown? ✔️
+3. Is the cheese melted? ✔️
+4. Is the pizza warm? ✔️
+5. Isn't the pizza plate dirty? ✔️
+6. Did the pizza taste good for 90% customers? ✔️
+   `}
+  </Snippet>
+  <Snippet>
+    {`
+Feature: Our friend knows how to use knife.
+1. Is the knife sharp? ✔️
+   `}
+  </Snippet>
+  <Snippet>
+    {`
+Feature: Our friend knows how to cook pasta.
+1. Is the water between 90 and 100 degrees? ✔️
+2. Has the pasta been cooked for 5 minutes? ✔️
+   `}
+  </Snippet>
+  <Snippet>
+    {`
+Feature: Our friend knows how to drive a car.
+1. Does our friend have a driver's license? ✔️
+   `}
+  </Snippet>
+  <M>
+    You already know what the tests are, how it is recorded and grouped. Now
+    it's time for some conventions and best practices before we start messing
+    around in code.
+  </M>
+</Section>

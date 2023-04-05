@@ -33,7 +33,7 @@ export interface BannerProps {
 
 export const Banner = ({ children, variant }: BannerProps) => {
   return (
-    <Container variant={variant}>
+    <Container className="ui-banner" variant={variant}>
       <S>{children}</S>
     </Container>
   )
