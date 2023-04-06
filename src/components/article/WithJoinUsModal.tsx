@@ -1,9 +1,13 @@
 import React, { createContext, ReactNode, useContext } from "react"
 import { useModal } from "../../ui"
-
-import { JoinUsModal } from "./JoinUsModal"
+import Loadable from "react-loadable"
 
 const Ctx = createContext<ReturnType<typeof useModal> | null>(null)
+
+const JoinUsModal = Loadable({
+  loader: () => import("./JoinUsModal").then(m => m.JoinUsModal),
+  loading: () => null,
+})
 
 interface WithJoinUsModalProps {
   children: ReactNode
