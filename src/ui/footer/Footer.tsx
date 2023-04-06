@@ -86,7 +86,9 @@ const Links = styled.div`
   @media ${T_DOWN} {
     flex-flow: wrap;
   }
-
+  & > :hover {
+    text-decoration: underline;
+  }
   & > *:not(:last-child) {
     margin: 0 0 12px 0;
 

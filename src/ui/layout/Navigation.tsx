@@ -43,6 +43,10 @@ const Container = styled.header`
         display: flex;
         align-items: center;
 
+        & > :hover {
+          text-decoration: underline;
+        }
+
         & > *:not(:first-child) {
           margin-left: 62px;
         }
