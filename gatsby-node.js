@@ -10,7 +10,6 @@ exports.onCreateWebpackConfig = ({ actions }) => {
   })
 }
 
-// create pages dynamically
 exports.createPages = async ({ actions, graphql }) => {
   const { createPage } = actions
 
@@ -147,6 +146,36 @@ exports.createPages = async ({ actions, graphql }) => {
   })
 
   const { articles, courses } = data
+
+  createPage({
+    path: "/",
+    component: resolve(`src/components/home/HomePage.tsx`),
+    context: data,
+  })
+
+  createPage({
+    path: "/articles/",
+    component: resolve(`src/features/articles/ArticlesPage.tsx`),
+    context: data,
+  })
+
+  createPage({
+    path: "/authors/",
+    component: resolve(`src/features/authors/AuthorsPage.tsx`),
+    context: data,
+  })
+
+  createPage({
+    path: "/courses/",
+    component: resolve(`src/features/courses/CoursesPage.tsx`),
+    context: data,
+  })
+
+  createPage({
+    path: "/blog-creator/",
+    component: resolve(`src/features/blog-creator/BlogCreatorPage.tsx`),
+    context: data,
+  })
 
   articles.forEach(article => {
     createPage({
