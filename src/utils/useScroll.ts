@@ -3,6 +3,7 @@ import { debounceTime, fromEvent } from "rxjs"
 
 interface ScrollMetadata {
   direction: "up" | "down" | "idle"
+  offsetY: number
 }
 
 interface Config {
@@ -20,6 +21,7 @@ export const useScroll = (config?: Config) => {
   const [_, setCounter] = useState(0)
   const metadata = useRef<ScrollMetadata>({
     direction: "idle",
+    offsetY: 0,
   })
 
   const rerender = (): void => {
@@ -34,9 +36,15 @@ export const useScroll = (config?: Config) => {
       const currentPageYOffset = window.pageYOffset
 
       if (prevPageYOffset < currentPageYOffset) {
-        createMetadata(metadata, { direction: "down" })
+        createMetadata(metadata, {
+          direction: "down",
+          offsetY: currentPageYOffset,
+        })
       } else {
-        createMetadata(metadata, { direction: "up" })
+        createMetadata(metadata, {
+          direction: "up",
+          offsetY: currentPageYOffset,
+        })
       }
 
       prevPageYOffset = currentPageYOffset
