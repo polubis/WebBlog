@@ -88,6 +88,7 @@ const Links = styled.div`
   }
   & > :hover {
     text-decoration: underline;
+    color: ${theme.grayD};
   }
   & > *:not(:last-child) {
     margin: 0 0 12px 0;

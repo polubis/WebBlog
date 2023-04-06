@@ -45,6 +45,7 @@ const Container = styled.header`
 
         & > :hover {
           text-decoration: underline;
+          color: ${theme.grayD};
         }
 
         & > *:not(:first-child) {
