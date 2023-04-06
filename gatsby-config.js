@@ -41,31 +41,40 @@ module.exports = {
         ],
       },
     },
-    {
-      resolve: "gatsby-plugin-remove-serviceworker",
-    },
     // {
-    //   resolve: "gatsby-plugin-offline",
-    //   runtimeCaching: [
-    //     {
-    //       urlPattern: /(\.js$|\.css$|static\/)/,
-    //       handler: `StaleWhileRevalidate`,
-    //       maxAgeSeconds: 24 * 60 * 60 // 1 day
-    //     },
-    //     {
-    //       urlPattern: /^https?:.*\/page-data\/.*\.json/,
-    //       handler: `StaleWhileRevalidate`,
-    //     },
-    //     {
-    //       urlPattern: /^https?:.*\.(png|jpg|jpeg|webp|svg|gif|tiff|js|woff|woff2|json|css)$/,
-    //       handler: `StaleWhileRevalidate`,
-    //     },
-    //     {
-    //       urlPattern: /^https?:\/\/fonts\.googleapis\.com\/css/,
-    //       handler: `StaleWhileRevalidate`,
-    //     },
-    //   ],
+    //   resolve: "gatsby-plugin-remove-serviceworker",
     // },
+    {
+      resolve: "gatsby-plugin-offline",
+      options: {
+        workboxConfig: {
+          runtimeCaching: [
+            {
+              urlPattern: /(\.js$|\.css$|static\/)/,
+              handler: `CacheFirst`,
+              options: {
+                cacheName: "app-assets",
+                expiration: {
+                  maxAgeSeconds: 3 * 24 * 60 * 60,
+                },
+              },
+            },
+            {
+              urlPattern: /^https?:.*\/page-data\/.*\.json/,
+              handler: `StaleWhileRevalidate`,
+            },
+            {
+              urlPattern: /^https?:.*\.(png|jpg|jpeg|webp|svg|gif|tiff|js|woff|woff2|json|css)$/,
+              handler: `StaleWhileRevalidate`,
+            },
+            {
+              urlPattern: /^https?:\/\/fonts\.googleapis\.com\/css/,
+              handler: `StaleWhileRevalidate`,
+            },
+          ],
+        },
+      },
+    },
     {
       resolve: "gatsby-plugin-robots-txt",
       options: {

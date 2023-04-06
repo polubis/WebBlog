@@ -91,10 +91,10 @@ const Links = styled.div`
   }
 
   & > *:not(:last-child) {
-    margin: 0 0 8px 0;
+    margin: 0 0 12px 0;
 
     @media ${T_DOWN} {
-      margin: 0 8px 8px 0;
+      margin: 0 8px 12px 0;
     }
   }
 `

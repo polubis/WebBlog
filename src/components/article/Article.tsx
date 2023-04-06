@@ -38,6 +38,16 @@ const Dates = styled.div`
   flex-flow: wrap;
 `
 
+const BottomNavigation = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: right;
+
+  & > *:not(:first-child) {
+    margin-left: 20px;
+  }
+`
+
 const Article = styled.main`
   display: flex;
   flex-flow: column;
@@ -152,17 +162,19 @@ export default function ({ pageContext: { article, articles } }: Props) {
               </Badge>
             </Dates>
 
-            {previous && (
-              <Link to={previous.path}>
-                <Button>Previous</Button>
-              </Link>
-            )}
+            <BottomNavigation>
+              {previous && (
+                <Link to={previous.path}>
+                  <Button>Previous</Button>
+                </Link>
+              )}
 
-            {next && (
-              <Link to={next.path}>
-                <Button>Next</Button>
-              </Link>
-            )}
+              {next && (
+                <Link to={next.path}>
+                  <Button>Next</Button>
+                </Link>
+              )}
+            </BottomNavigation>
           </Article>
         </Content>
         <ProgressDisplayer />
