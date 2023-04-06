@@ -6,13 +6,23 @@ import { BlackHoleSection } from "./BlackHoleSection"
 import { WelcomeSection } from "./WelcomeSection"
 import { StatsSection } from "./StatsSection"
 import { ArticlesTimelineSection } from "./ArticlesTimelineSection"
+import { Image } from "../../models"
 
 interface HomePageProps {
-  pageContext: AllDataResponse
+  pageContext: {
+    holeImg: Image
+  } & AllDataResponse
 }
 
 const HomePage = ({ pageContext }: HomePageProps) => {
-  const { articles, authors, courses, totalLessons, timeline } = pageContext
+  const {
+    articles,
+    authors,
+    courses,
+    totalLessons,
+    timeline,
+    holeImg,
+  } = pageContext
 
   return (
     <SiteMeta
@@ -25,7 +35,7 @@ const HomePage = ({ pageContext }: HomePageProps) => {
       description="A place for people who love programming and personal development."
     >
       <Layout articles={articles}>
-        <BlackHoleSection />
+        <BlackHoleSection holeImg={holeImg} />
         <WelcomeSection />
         <StatsSection
           articlesCount={articles.length}

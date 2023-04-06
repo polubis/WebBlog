@@ -4,6 +4,8 @@ import { Content, Huge } from "../../ui"
 import theme from "../../utils/theme"
 import { M_DOWN } from "../../utils/viewport"
 import Loadable from "react-loadable"
+import { Image } from "../../models"
+import GatsbyImage from "gatsby-image"
 
 const Container = styled.section`
   display: flex;
@@ -12,6 +14,15 @@ const Container = styled.section`
   height: calc(100vh - 100px);
   position: relative;
   overflow: hidden;
+
+  canvas {
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
 
   ${Huge} {
     max-width: 300px;
@@ -23,22 +34,10 @@ const Container = styled.section`
       font-size: 48px;
     }
   }
-
-  canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
-  }
 `
 
 const Wrapper = styled.div`
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  background-image: url(/hole.png);
+  position: relative;
 `
 
 const BlackHoleWrapper = Loadable({
@@ -46,9 +45,25 @@ const BlackHoleWrapper = Loadable({
   loading: () => null,
 })
 
-const BlackHoleSection = () => {
+interface BlackHoleSectionProps {
+  holeImg: Image
+}
+
+const BlackHoleSection = ({ holeImg }: BlackHoleSectionProps) => {
   return (
     <Wrapper>
+      <GatsbyImage
+        className="components-black-hole-section-image"
+        fluid={holeImg}
+        alt="Black hole"
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+        }}
+      />
       <Content>
         <Container>
           <Huge>Cosmic dose of knowledge</Huge>
@@ -58,5 +73,7 @@ const BlackHoleSection = () => {
     </Wrapper>
   )
 }
+
+export type { BlackHoleSectionProps }
 
 export { BlackHoleSection }

@@ -137,6 +137,22 @@ exports.createPages = async ({ actions, graphql }) => {
           }
         }
       }
+      blackHoleImg: allFile(
+        filter: { relativePath: { regex: "/hole.png/" } }
+      ) {
+        nodes {
+          relativePath
+          childImageSharp {
+            fluid {
+              base64
+              aspectRatio
+              src
+              srcSet
+              sizes
+            }
+          }
+        }
+      }
     }
   `)
 
@@ -150,7 +166,10 @@ exports.createPages = async ({ actions, graphql }) => {
   createPage({
     path: "/",
     component: resolve(`src/components/home/HomePage.tsx`),
-    context: data,
+    context: {
+      ...data,
+      holeImg: result.data.blackHoleImg.nodes[0].childImageSharp.fluid,
+    },
   })
 
   createPage({
