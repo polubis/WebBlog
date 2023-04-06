@@ -116,5 +116,6 @@ exports.getAllDataQuery = data => {
     courses,
     totalLessons,
     timeline,
+    site: data.site.siteMetadata,
   }
 }

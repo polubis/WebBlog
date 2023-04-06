@@ -1,90 +1,65 @@
-1.  **Start developing.**
-    Clone repository:
-    ```
-      git clone https://github.com/polubis/WebBlog.git
-      cd WebBlog
-      code .
-    ```
-    Should be in project directory.
+# Running the project first time
 
-    Navigate into your new site’s directory and start it up.
+1. Clone repository
 
-    ```shell
-      npm install
-      gatsby develop
-    ```
-    
-    Right now you can change code and changes will automatically added in the browser
+```yaml
+  git clone https://github.com/polubis/WebBlog.git
+  cd WebBlog
+  code .
+```
 
-1.  **Open the source code and start editing!**
+2. Open terminal and type:
 
-    Your site is now running at `http://localhost:8000`!
+```yaml
+npm i --legacy-peer-deps
+npm start
+```
 
-    _Note: You'll also see a second link: _`http://localhost:8000/___graphql`_. This is a tool you can use to experiment with querying your data. Learn more about using this tool in the [Gatsby tutorial](https://www.gatsbyjs.com/tutorial/part-five/#introducing-graphiql)._
+3. If you see an errors please check the version of following packages which are installed globally.
 
-    Open the `my-hello-world-starter` directory in your code editor of choice and edit `src/pages/index.js`. Save your changes and the browser will update in real time!
+```yaml
+node 16.15.1
+npm 8.12.1
+```
 
-## 🧐 What's inside?
+4. Make sure you have same packages versions.
 
-A quick look at the top-level files and directories you'll see in a Gatsby project.
 
-    .
-    ├── node_modules
-    ├── src
-    ├── .gitignore
-    ├── .prettierrc
-    ├── gatsby-browser.js
-    ├── gatsby-config.js
-    ├── gatsby-node.js
-    ├── gatsby-ssr.js
-    ├── LICENSE
-    ├── package-lock.json
-    ├── package.json
-    └── README.md
+Application is served on development server - `http://localhost:8000/`.
 
-1.  **`/node_modules`**: This directory contains all of the modules of code that your project depends on (npm packages) are automatically installed.
+# How to work on task?
 
-2.  **`/src`**: This directory will contain all of the code related to what you will see on the front-end of your site (what you see in the browser) such as your site header or a page template. `src` is a convention for “source code”.
+1. Open terminal and type `git fetch` -> it downloads all branches from cloud and updates them.
+2. Go to `develop` branch, you can achieve it via command `git checkout develop`.
+3. Next, type command which takes all updates from `develop` to be sure that nobody pushed anything. Type command `git pull`. Makue sure you are on `develop` branch.
+4. Right now you need to create your own `branch` for ticket. Go to project board in `github`, find your ticket which you are assigned to and check name of the ticket. In my case it's - **Add next and previous article buttons#57**. Now you need to type `git checkout -b "57-some-test"`. 
 
-3.  **`.gitignore`**: This file tells git which files it should not track / not maintain a version history for.
+> IMPORTANT -> Please to add at begining number of ticket. It's easier to track later in history of changes.
 
-4.  **`.prettierrc`**: This is a configuration file for [Prettier](https://prettier.io/). Prettier is a tool to help keep the formatting of your code consistent.
+5. You need to push your local branch to remote. To achieve this just type `git push --set-upstream origin name-of-your-branch`
+6. After this you'll see in terminal message about switched to new branch.
+7. Start doing your ticket and put some changes in file. You can `stash` them, which means they're prepared to be pushed via `commit`. To stash changes just type `git add .` - this stash all your changed and saved files.
+8. Now it's time to push your first `commit` - which means your current stable progress. Do achieve that you need to type command `git commit -m "Your commit message"`.
+9. Now it's time to push everything to cloud. Do it via `git push`.
+10. When finish all your work, raise pull request on github and assign Adrian Połubiński as reviewer. If you have questions according to any ticket - just ping me directly. After testing cycle tester will add testing scenarios to your branch and confirm that all is working correctly.
+11. After this - you contributed to project and we can add you to authors page. If you want to be displayed here, ping directly Adrian Połubiński.
 
-5.  **`gatsby-browser.js`**: This file is where Gatsby expects to find any usage of the [Gatsby browser APIs](https://www.gatsbyjs.com/docs/browser-apis/) (if any). These allow customization/extension of default Gatsby settings affecting the browser.
+# FAQ
 
-6.  **`gatsby-config.js`**: This is the main configuration file for a Gatsby site. This is where you can specify information about your site (metadata) like the site title and description, which Gatsby plugins you’d like to include, etc. (Check out the [config docs](https://www.gatsbyjs.com/docs/gatsby-config/) for more detail).
+**(Q)**: Why I see an errors after pulling latest changes from develop or after changing branch?
 
-7.  **`gatsby-node.js`**: This file is where Gatsby expects to find any usage of the [Gatsby Node APIs](https://www.gatsbyjs.com/docs/node-apis/) (if any). These allow customization/extension of default Gatsby settings affecting pieces of the site build process.
+**(A)**: You need stop `gatsby` process in terminal and run commands:
+```yaml
+npm run clean
+npm start
+```
 
-8.  **`gatsby-ssr.js`**: This file is where Gatsby expects to find any usage of the [Gatsby server-side rendering APIs](https://www.gatsbyjs.com/docs/ssr-apis/) (if any). These allow customization of default Gatsby settings affecting server-side rendering.
+**(Q)**: I did what has been described in above step but still I see an errors. Why?
 
-9.  **`LICENSE`**: This Gatsby starter is licensed under the 0BSD license. This means that you can see this file as a placeholder and replace it with your own license.
+**(A)**: It may happen because someone added new package to `package.json`. So to fix that you need to type following commands:
 
-10. **`package-lock.json`** (See `package.json` below, first). This is an automatically generated file based on the exact versions of your npm dependencies that were installed for your project. **(You won’t change this file directly).**
-
-11. **`package.json`**: A manifest file for Node.js projects, which includes things like metadata (the project’s name, author, etc). This manifest is how npm knows which packages to install for your project.
-
-12. **`README.md`**: A text file containing useful reference information about your project.
-
-## 🎓 Learning Gatsby
-
-Looking for more guidance? Full documentation for Gatsby lives [on the website](https://www.gatsbyjs.com/). Here are some places to start:
-
-- **For most developers, we recommend starting with our [in-depth tutorial for creating a site with Gatsby](https://www.gatsbyjs.com/tutorial/).** It starts with zero assumptions about your level of ability and walks through every step of the process.
-
-- **To dive straight into code samples, head [to our documentation](https://www.gatsbyjs.com/docs/).** In particular, check out the _Guides_, _API Reference_, and _Advanced Tutorials_ sections in the sidebar.
-
-## 💫 Deploy
-
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/gatsbyjs/gatsby-starter-hello-world)
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/import/project?template=https://github.com/gatsbyjs/gatsby-starter-hello-world)
-
-<!-- AUTO-GENERATED-CONTENT:END -->
-
-## Creating article
-
-1. Add folder with article category.
-2. Add subfolder with article name.
-3. Add index.mdx file and populate article content.
-4. Add thumbnail in static thumbnails via same convention.
+```yaml
+npm run clean
+npm i --legacy-peer-deps
+npm start
+```

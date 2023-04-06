@@ -42,14 +42,19 @@ const HomeNavigation = () => {
   return (
     <Navigation
       logo={
-        <UnstyledLink to={otherLinks[0].url}>
+        <UnstyledLink to={otherLinks[0].url} id="home-navigation-logo">
           <GreenOnLogo full />
         </UnstyledLink>
       }
       leftLinks={
         <>
           {leftLinks.map(link => (
-            <Link to={link.url} key={link.url} activeStyle={activeStyle}>
+            <Link
+              to={link.url}
+              key={link.url}
+              activeStyle={activeStyle}
+              id={`home-navigation-link-${link.label}`}
+            >
               {link.label}
             </Link>
           ))}
@@ -58,7 +63,12 @@ const HomeNavigation = () => {
       rightLinks={
         <>
           {rightLinks.map(link => (
-            <Link to={link.url} key={link.url} activeStyle={activeStyle}>
+            <Link
+              to={link.url}
+              key={link.url}
+              activeStyle={activeStyle}
+              id={`home-navigation-link-${link.label}`}
+            >
               {link.label}
             </Link>
           ))}
@@ -67,13 +77,22 @@ const HomeNavigation = () => {
       mobileLinks={
         <>
           {allLinks.map(link => (
-            <Link to={link.url} key={link.url} activeStyle={activeStyle}>
+            <Link
+              to={link.url}
+              key={link.url}
+              activeStyle={activeStyle}
+              id={`home-navigation-mobile-link-${link.label}`}
+            >
               {link.label}
             </Link>
           ))}
         </>
       }
-      action={<Button onClick={ctx.open}>JOIN</Button>}
+      action={
+        <Button id="home-navigation-join-button" onClick={ctx.open}>
+          JOIN
+        </Button>
+      }
     />
   )
 }
