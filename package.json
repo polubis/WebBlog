@@ -11,7 +11,8 @@
     "start": "npm run develop",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
-    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
+    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1",
+    "cypress": "cypress open"
   },
   "dependencies": {
     "@fontsource/lexend": "^4.5.10",
@@ -49,6 +50,7 @@
     "@types/react-helmet": "^6.1.5",
     "@types/react-loadable": "^5.5.6",
     "@types/styled-components": "^5.1.7",
+    "cypress": "^12.9.0",
     "gatsby-plugin-robots-txt": "^1.8.0",
     "prettier": "2.2.1",
     "typescript": "^5.0.3"

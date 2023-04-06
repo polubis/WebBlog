@@ -78,6 +78,7 @@ const HomeNavigation = () => {
       action={
         <UnstyledLink
           activeClassName="home-navigation-active-unstyled-link"
+          data-id='HomeNavigationJoinLink'
           to={leftLinks[1].url}
         >
           <Button>JOIN</Button>
