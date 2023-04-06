@@ -5,7 +5,7 @@ describe("Navigation bar", () => {
   })
 
   it("Navigation bar at top works as expected", () => {
-    cy.get(`[data-id="HomeNavigationJoinLink"]`).should(
+    cy.get(`#home-navigation-link-authors`).should(
       "have.attr",
       "href",
       "/authors/"
