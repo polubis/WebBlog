@@ -30,6 +30,8 @@ const Content = styled.div`
   border-radius: 4px;
   z-index: 201;
   border: 1px solid ${theme.bg2};
+  overflow-y: auto;
+  max-height: 96vh;
 `
 
 export const Modal = ({ children, onClose }: ModalProps) => {
