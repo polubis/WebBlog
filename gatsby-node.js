@@ -153,6 +153,33 @@ exports.createPages = async ({ actions, graphql }) => {
           }
         }
       }
+      site {
+        siteMetadata {
+          siteUrl
+          routes {
+            articles {
+              label
+              to
+            }
+            authors {
+              label
+              to
+            }
+            courses {
+              label
+              to
+            }
+            creator {
+              label
+              to
+            }
+            home {
+              label
+              to
+            }
+          }
+        }
+      }
     }
   `)
 

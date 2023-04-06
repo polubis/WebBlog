@@ -6,6 +6,8 @@ import {
   CourseFrontmatter,
   Image,
   LessonFrontmatter,
+  Site,
+  SiteMetadata,
 } from "../models"
 import authors from "../authors/authors.json"
 import { getAllDataQuery } from "./getAllDataQuery"
@@ -75,6 +77,7 @@ interface AllDataPageProps {
         }
       }[]
     }
+    site: Site
   }
 }
 
@@ -84,6 +87,7 @@ interface AllDataResponse {
   courses: Course[]
   totalLessons: number
   timeline: TimelineData
+  site: SiteMetadata
 }
 
 const getAllData = (props: AllDataPageProps): AllDataResponse => {

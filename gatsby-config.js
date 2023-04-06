@@ -1,17 +1,43 @@
 const siteUrl = process.env.URL || `https://www.greenonsoftware.com`
+const siteName = "GreenOn Software"
+const siteDescription = `We do everything to provide programming knowledge in a short, user-friendly form. It allows you to walk away from your computer faster and reduce your carbon footprint.`
 
 module.exports = {
   siteMetadata: {
     siteUrl,
+    siteName,
+    siteDescription,
+    routes: {
+      articles: {
+        label: "Articles",
+        to: "/articles/",
+      },
+      authors: {
+        label: "Authors",
+        to: "/authors/",
+      },
+      courses: {
+        label: "Courses",
+        to: "/courses/",
+      },
+      creator: {
+        label: "Creator",
+        to: "/blog-creator/",
+      },
+      home: {
+        label: "Home",
+        to: "/",
+      },
+    },
   },
   plugins: [
     "gatsby-plugin-styled-components",
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `GreenOn Software`,
-        short_name: `GreenOn Software`,
-        description: `We do everything to provide programming knowledge in a short, user-friendly form. It allows you to walk away from your computer faster and reduce your carbon footprint.`,
+        name: siteName,
+        short_name: siteName,
+        description: siteDescription,
         start_url: `/`,
         background_color: `#0A0A0A`,
         lang: "en-US",
