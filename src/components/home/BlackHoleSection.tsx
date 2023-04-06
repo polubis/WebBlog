@@ -1,11 +1,23 @@
 import React from "react"
-import styled from "styled-components"
+import styled, { keyframes } from "styled-components"
 import { Content, Huge } from "../../ui"
 import theme from "../../utils/theme"
 import { M_DOWN } from "../../utils/viewport"
 import Loadable from "react-loadable"
 import { Image } from "../../models"
 import GatsbyImage from "gatsby-image"
+
+const animateIn = keyframes`
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+`
 
 const Container = styled.section`
   display: flex;
@@ -22,6 +34,7 @@ const Container = styled.section`
     left: 0;
     right: 0;
     bottom: 0;
+    animation: ${animateIn} 0.4s ease-in-out 0s forwards;
   }
 
   ${Huge} {
