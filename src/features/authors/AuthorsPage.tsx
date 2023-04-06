@@ -1,8 +1,5 @@
 import React from "react"
-import {
-  WithJoinUsModal,
-  useJoinUsModal,
-} from "../../components/article/WithJoinUsModal"
+import { useJoinUsModal } from "../../components/article/WithJoinUsModal"
 import Layout from "../../components/layout/Layout"
 import { Content, GithubIcon, LinkedinIcon, M, X, XL } from "../../ui"
 import { SiteMeta } from "../../utils/SiteMeta"
@@ -87,45 +84,43 @@ const AuthorsPage = ({
       image="/icon-192x192.png"
       description="Contact the blog authors and start writing."
     >
-      <WithJoinUsModal>
-        <Layout articles={articles}>
-          <Content paddingY>
-            <Grid>
-              <ConnectedEmptyAuthorTile />
-              {authors.map(author => (
-                <Tile key={author.id}>
-                  <AuthorAvatar size="medium" avatar={author.avatar} />
-                  <XL>
-                    {author.firstName} {author.lastName}
-                  </XL>
-                  <X>{author.role}</X>
-                  <M>{author.bio}</M>
-                  <Media>
-                    {author.githubURL && (
-                      <a
-                        href={author.githubURL}
-                        title="Github profile"
-                        target="_blank"
-                      >
-                        <GithubIcon />
-                      </a>
-                    )}
-                    {author.linkedinURL && (
-                      <a
-                        href={author.linkedinURL}
-                        title="Linkedin profile"
-                        target="_blank"
-                      >
-                        <LinkedinIcon />
-                      </a>
-                    )}
-                  </Media>
-                </Tile>
-              ))}
-            </Grid>
-          </Content>
-        </Layout>
-      </WithJoinUsModal>
+      <Layout articles={articles}>
+        <Content paddingY>
+          <Grid>
+            <ConnectedEmptyAuthorTile />
+            {authors.map(author => (
+              <Tile key={author.id}>
+                <AuthorAvatar size="medium" avatar={author.avatar} />
+                <XL>
+                  {author.firstName} {author.lastName}
+                </XL>
+                <X>{author.role}</X>
+                <M>{author.bio}</M>
+                <Media>
+                  {author.githubURL && (
+                    <a
+                      href={author.githubURL}
+                      title="Github profile"
+                      target="_blank"
+                    >
+                      <GithubIcon />
+                    </a>
+                  )}
+                  {author.linkedinURL && (
+                    <a
+                      href={author.linkedinURL}
+                      title="Linkedin profile"
+                      target="_blank"
+                    >
+                      <LinkedinIcon />
+                    </a>
+                  )}
+                </Media>
+              </Tile>
+            ))}
+          </Grid>
+        </Content>
+      </Layout>
     </SiteMeta>
   )
 }

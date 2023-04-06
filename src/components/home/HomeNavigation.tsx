@@ -5,6 +5,7 @@ import Button from "../button/Button"
 import { GreenOnLogo } from "../GreenOnLogo"
 import { Link as GatsbyLink } from "gatsby"
 import styled from "styled-components"
+import { useJoinUsModal } from "../article/WithJoinUsModal"
 
 const leftLinks = [
   { label: "articles", url: "/articles/" },
@@ -33,14 +34,11 @@ const Link = styled(GatsbyLink)`
 
 const UnstyledLink = styled(GatsbyLink)`
   text-decoration: none;
-
-  &.home-navigation-active-unstyled-link button {
-    background: ${theme.primary};
-    color: ${theme.bg};
-  }
 `
 
 const HomeNavigation = () => {
+  const ctx = useJoinUsModal()
+
   return (
     <Navigation
       logo={
@@ -75,15 +73,7 @@ const HomeNavigation = () => {
           ))}
         </>
       }
-      action={
-        <UnstyledLink
-          activeClassName="home-navigation-active-unstyled-link"
-          data-id='HomeNavigationJoinLink'
-          to={leftLinks[1].url}
-        >
-          <Button>JOIN</Button>
-        </UnstyledLink>
-      }
+      action={<Button onClick={ctx.open}>JOIN</Button>}
     />
   )
 }

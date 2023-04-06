@@ -9,7 +9,7 @@ import { INIT_MDX } from "./config"
 import Button from "../button/Button"
 import { BlogPreview } from "./BlogPreview"
 import { M_DOWN, T_DOWN } from "../../utils/viewport"
-import { useJoinUsModal, WithJoinUsModal } from "../article/WithJoinUsModal"
+import { useJoinUsModal } from "../article/WithJoinUsModal"
 import { EditableSnippet } from "../../ui"
 
 const Container = styled.div`
@@ -121,33 +121,31 @@ export default function () {
   }
 
   return (
-    <WithJoinUsModal>
-      <BlogCreatorLayout>
-        <Heading>
-          <XL>Article preview</XL>
-          <Badge color={theme.green}>beta</Badge>
-          <ConnectedSubmitButton />
-        </Heading>
-        <Container>
-          <CodeContainer>
-            <EditableSnippet value={mdx} onChange={handleChange} />
-          </CodeContainer>
+    <BlogCreatorLayout>
+      <Heading>
+        <XL>Article preview</XL>
+        <Badge color={theme.green}>beta</Badge>
+        <ConnectedSubmitButton />
+      </Heading>
+      <Container>
+        <CodeContainer>
+          <EditableSnippet value={mdx} onChange={handleChange} />
+        </CodeContainer>
 
-          <PreviewScroll>
-            {hasErrors && (
-              <Errors>
-                <X>Errors detected.</X>
-                <M>
-                  It may be caused by not supported tag usage, not closed tag or
-                  after {"<iframe></iframe>"} use.
-                </M>
-              </Errors>
-            )}
+        <PreviewScroll>
+          {hasErrors && (
+            <Errors>
+              <X>Errors detected.</X>
+              <M>
+                It may be caused by not supported tag usage, not closed tag or
+                after {"<iframe></iframe>"} use.
+              </M>
+            </Errors>
+          )}
 
-            <BlogPreview mdx={mdx} onError={() => setHasErrors(true)} />
-          </PreviewScroll>
-        </Container>
-      </BlogCreatorLayout>
-    </WithJoinUsModal>
+          <BlogPreview mdx={mdx} onError={() => setHasErrors(true)} />
+        </PreviewScroll>
+      </Container>
+    </BlogCreatorLayout>
   )
 }
