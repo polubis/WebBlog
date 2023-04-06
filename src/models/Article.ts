@@ -36,4 +36,6 @@ export interface Article {
   gaPage: string
   toBeContinuedDate?: string
   graphicAuthorLink?: string
+  next?: Article
+  previous?: Article
 }

@@ -1,7 +1,8 @@
 import React from "react"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import styled from "styled-components"
-
+import Link from "../link/Link"
+import Button from "../button/Button"
 import Layout from "../layout/Layout"
 import { Article as ArticleModel } from "../../models/Article"
 import Thumbnail from "../article/Thumbnail"
@@ -92,6 +93,8 @@ export default function ({ pageContext: { article, articles } }: Props) {
     gaPage,
     isNew,
     readTime,
+    next,
+    previous,
   } = article
 
   return (
@@ -148,6 +151,18 @@ export default function ({ pageContext: { article, articles } }: Props) {
                 {formatDistanceStrict(new Date(modifiedAt), new Date())} ago
               </Badge>
             </Dates>
+
+            {previous && (
+              <Link to={previous.path}>
+                <Button>Previous</Button>
+              </Link>
+            )}
+
+            {next && (
+              <Link to={next.path}>
+                <Button>Next</Button>
+              </Link>
+            )}
           </Article>
         </Content>
         <ProgressDisplayer />
