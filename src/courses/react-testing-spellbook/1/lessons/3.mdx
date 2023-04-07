@@ -1,0 +1,51 @@
+---
+name: The usage of describe and it
+duration: 4
+description: Our tests will become understandable to the computer.
+---
+
+<Section>
+  <XL>We are converting the syntax</XL>
+  <M>
+    There is very little left to write our first tests. Let's convert one of the
+    features created earlier into something the computer can understand.
+    Typically, most testing tools use blocks <B>describe</B> and <B>it</B> to
+    describe tests. <B>Describe</B> means functionality, and <B>it</B> means a
+    specific test. Thus, for the functionality of pizza making, we will make the
+    following transformation:
+  </M>
+  <Snippet description="For humans">
+    {`
+Feature: Our friend knows how to make a pizza.
+1. Is the pizza size between 30 cm and 34 cm?
+2. Is the cake brown?
+3. Is the cheese melted?
+4. Is the pizza warm?
+5. Isn't the pizza plate dirty?
+6. Did the pizza taste good for 90% customers?
+   `}
+  </Snippet>
+  <Snippet description="For computers">
+    {`
+describe("Our friend knows how to make a pizza", () => {
+  it("Pizza size is between 30cm and 40 cm", () => {});
+ 
+  it("Cake is brown", () => {});
+ 
+  it("Cheese is melted", () => {});
+   
+  it("Pizza is warm", () => {});
+   
+  it("Pizza plate is clean", () => {}); // We changed it to a shorter form without negation.
+   
+  it("Pizza tastes good to 90% of customers", () => {});
+});
+    `}
+  </Snippet>
+  <M>
+    Note that we have moved from questions to assertions. The reason is simple -
+    less text is produced and it is more intuitive to read. Also, if it is
+    possible to simplify an assertion to a shorter form, it is worth doing so{" "}
+    <B>(see Pizza plate is clean)</B>.
+  </M>
+</Section>
