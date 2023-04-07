@@ -13,6 +13,7 @@ import {
   EMPTY,
   filter,
   from,
+  Observable,
   Subject,
   Subscription,
   switchMap,
@@ -66,6 +67,34 @@ interface WithDiscussionProps {
   children: ReactNode
 }
 
+const getComments = (): Observable<Comment[]> => {
+  return from(
+    new Promise<Comment[]>(async resolve => {
+      try {
+        const response = await fetch((process.env as any).GATSBY_API_URL)
+        const json = await response.json()
+
+        resolve([
+          {
+            id: "0",
+            targetId: "react-code-snippet-component/",
+            content: "My some content",
+            date: new Date().toISOString(),
+            author: {
+              avatar:
+                "/static/0f4f2984b29787ec733bbf691dd4c934/14b42/polubis.jpg",
+              username: "tomcio",
+            },
+            comments: [],
+          },
+        ])
+      } catch (err) {
+        throw err
+      }
+    })
+  )
+}
+
 const WithDiscussion = ({ children }: WithDiscussionProps) => {
   const [state, setState] = useState(defaultState)
 
@@ -82,29 +111,9 @@ const WithDiscussion = ({ children }: WithDiscussionProps) => {
         .pipe(
           throttleTime(500),
           filter(currState => currState.status === "idle"),
-          switchMap(() => {
-            setState({ status: "loading" })
-
-            return from(
-              new Promise<Comment[]>(resolve => {
-                setTimeout(() => {
-                  resolve([
-                    {
-                      id: "0",
-                      targetId: "react-code-snippet-component/",
-                      content: "My some content",
-                      date: new Date().toISOString(),
-                      author: {
-                        avatar:
-                          "/static/0f4f2984b29787ec733bbf691dd4c934/14b42/polubis.jpg",
-                        username: "tomcio",
-                      },
-                      comments: [],
-                    },
-                  ] as Comment[])
-                }, 3000)
-              })
-            ).pipe(
+          tap(() => setState({ status: "loading" })),
+          switchMap(() =>
+            getComments().pipe(
               takeUntil(closeAction$),
               tap(comments => setState({ status: "loaded", comments })),
               catchError(() => {
@@ -112,7 +121,7 @@ const WithDiscussion = ({ children }: WithDiscussionProps) => {
                 return EMPTY
               })
             )
-          })
+          )
         )
         .subscribe()
     )
@@ -139,13 +148,14 @@ const WithDiscussion = ({ children }: WithDiscussionProps) => {
     closeAction.next(state)
   }
 
-  const value = useMemo(() => {
-    return {
+  const value = useMemo(
+    () => ({
       state,
       open,
       close,
-    }
-  }, [state])
+    }),
+    [state]
+  )
 
   return (
     <Ctx.Provider value={value}>

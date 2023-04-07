@@ -116,7 +116,7 @@ const DiscussionWidget = () => {
             )}
           </>
         )}
-        {ctx.state.status === "loadFailed" && <div>Load failed</div>}
+        {ctx.state.status === "loadFailed" && <XL>LOAD FAILED</XL>}
       </Content>
     </Container>
   )
