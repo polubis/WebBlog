@@ -1,6 +1,6 @@
 const siteUrl = `https://www.greenonsoftware.com`
 const siteName = "GreenOn Software"
-const siteDescription = `We do everything to provide programming knowledge in a short, user-friendly form. It allows you to walk away from your computer faster and reduce your carbon footprint.`
+const siteDescription = `A place for people who love programming and personal development.`
 const siteLang = "en-US"
 
 module.exports = {
@@ -13,22 +13,27 @@ module.exports = {
       articles: {
         label: "Articles",
         to: "/articles/",
+        gaPage: "articles",
       },
       authors: {
         label: "Authors",
         to: "/authors/",
+        gaPage: "authors",
       },
       courses: {
         label: "Courses",
         to: "/courses/",
+        gaPage: "courses",
       },
       creator: {
         label: "Creator",
         to: "/blog-creator/",
+        gaPage: "blog-creator",
       },
       home: {
         label: "Home",
         to: "/",
+        gaPage: "",
       },
     },
   },

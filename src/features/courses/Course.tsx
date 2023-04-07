@@ -10,9 +10,11 @@ interface Props {
   }
 }
 
-export default function ({ pageContext: { course, articles } }: Props) {
+export default function ({ pageContext: { course, articles, site } }: Props) {
   return (
     <SiteMeta
+      siteName={site.siteName}
+      siteLang={site.siteLang}
       gaPage={course.gaPage}
       url={course.gaPage + "/"}
       robots="index,follow,max-image-preview:large"

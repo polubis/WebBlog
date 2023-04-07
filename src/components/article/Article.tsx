@@ -85,7 +85,7 @@ interface Props {
   }
 }
 
-export default function ({ pageContext: { article, articles } }: Props) {
+export default function ({ pageContext: { article, articles, site } }: Props) {
   const {
     author,
     thumbnail,
@@ -109,6 +109,8 @@ export default function ({ pageContext: { article, articles } }: Props) {
 
   return (
     <SiteMeta
+      siteName={site.siteName}
+      siteLang={site.siteLang}
       gaPage={gaPage}
       url={gaPage + "/"}
       robots="index,follow,max-image-preview:large"

@@ -109,6 +109,7 @@ exports.getAllDataQuery = data => {
     0
   )
   const timeline = getTimeline({ articles, courses })
+  const site = data.site.siteMetadata
 
   return {
     articles,
@@ -116,6 +117,18 @@ exports.getAllDataQuery = data => {
     courses,
     totalLessons,
     timeline,
-    site: data.site.siteMetadata,
+    site: {
+      ...site,
+      routes: Object.entries(site.routes).reduce(
+        (acc, [key, route]) => ({
+          ...acc,
+          [key]: {
+            ...route,
+            fullTo: `${site.siteName}${route.to}`,
+          },
+        }),
+        {}
+      ),
+    },
   }
 }

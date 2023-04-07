@@ -72,14 +72,16 @@ interface AuthorsPageProps {
 }
 
 const AuthorsPage = ({
-  pageContext: { authors, articles },
+  pageContext: { authors, articles, site },
 }: AuthorsPageProps) => {
   return (
     <SiteMeta
-      gaPage="authors"
-      url="authors/"
+      siteName={site.siteName}
+      siteLang={site.siteLang}
+      gaPage={site.routes.authors.gaPage}
+      url={site.routes.authors.fullTo}
       robots="index,follow"
-      title="GreenOn Software blog authors"
+      title={`${site.siteName} authors: Meet our content creators and developers.`}
       type="website"
       image="/icon-192x192.png"
       description="Contact the blog authors and start writing."

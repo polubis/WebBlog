@@ -22,17 +22,20 @@ const HomePage = ({ pageContext }: HomePageProps) => {
     totalLessons,
     timeline,
     holeImg,
+    site,
   } = pageContext
 
   return (
     <SiteMeta
-      gaPage=""
-      url=""
+      siteName={site.siteName}
+      siteLang={site.siteLang}
+      title={site.siteName}
+      description={site.siteName + " - " + site.siteDescription}
+      url={site.routes.home.fullTo}
+      gaPage={site.routes.home.gaPage}
       robots="index,follow"
-      title="GreenOn Software"
       type="website"
       image="/icon-192x192.png"
-      description="A place for people who love programming and personal development."
     >
       <Layout articles={articles}>
         <BlackHoleSection holeImg={holeImg} />

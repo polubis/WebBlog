@@ -13,10 +13,12 @@ interface Props {
 }
 
 export default function ({
-  pageContext: { lesson, course, chapter, articles },
+  pageContext: { lesson, course, chapter, articles, site },
 }: Props) {
   return (
     <SiteMeta
+      siteName={site.siteName}
+      siteLang={site.siteLang}
       gaPage={lesson.gaPage}
       url={lesson.gaPage + "/"}
       robots="index,follow,max-image-preview:large"
