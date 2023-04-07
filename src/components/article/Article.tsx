@@ -28,6 +28,11 @@ const ProgressDisplayer = Loadable({
   loading: () => null,
 })
 
+const DiscussionTrigger = Loadable({
+  loader: () => import("../discussion-trigger").then(m => m.DiscussionTrigger),
+  loading: () => <Button>LOADING...</Button>,
+})
+
 const Author = styled.div`
   display: flex;
   align-items: center;
@@ -165,6 +170,8 @@ export default function ({ pageContext: { article, articles, site } }: Props) {
             </Dates>
 
             <BottomNavigation>
+              <DiscussionTrigger />
+
               {previous && (
                 <Link to={previous.path}>
                   <Button>Previous</Button>
