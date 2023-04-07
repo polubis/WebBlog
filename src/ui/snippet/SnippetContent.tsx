@@ -128,18 +128,33 @@ const Header = styled.header`
 interface SnippetContentProps {
   children: string
   description?: string
+  src?: string
 }
 
-const SnippetContent = ({ children, description }: SnippetContentProps) => {
+const SnippetContent = ({
+  children,
+  description,
+  src,
+}: SnippetContentProps) => {
   const { copy } = useClipboard()
 
   const handleCopy = (): void => {
     copy(children.trim())
   }
+  const handleOpenSource = (): void => {
+    window.open(src, "_blank")
+  }
 
   return (
     <Container className="ui-snippet">
       <Header>
+        {src && (
+          <InteractiveButton onClick={handleOpenSource}>
+            {status =>
+              status === "pending" ? <>🔗 Opening</> : <>🔗 Source</>
+            }
+          </InteractiveButton>
+        )}
         <InteractiveButton onClick={handleCopy}>
           {status => (status === "pending" ? <>✂️ Copied</> : <>✂️ Copy</>)}
         </InteractiveButton>
