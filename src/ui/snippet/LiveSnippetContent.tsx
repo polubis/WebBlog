@@ -103,7 +103,9 @@ const LiveContent = ({
     }
   }, [])
 
-  return <SnippetContent children={children} description={description} />
+  return (
+    <SnippetContent children={children} description={description} src={src} />
+  )
 }
 
 export type { LiveContentProps }
