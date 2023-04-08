@@ -153,6 +153,20 @@ exports.createPages = async ({ actions, graphql }) => {
           }
         }
       }
+      animalsAvatars: allFile(filter: {relativePath: {regex: "/animals/"}}) {
+        nodes {
+          relativePath
+          childImageSharp {
+            fluid {
+              base64
+              aspectRatio
+              src
+              srcSet
+              sizes
+            }
+          }
+        }
+      }
       site {
         siteMetadata {
           siteUrl

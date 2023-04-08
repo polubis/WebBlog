@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Article,
   ArticleFrontmatter,
   Author,
@@ -77,6 +78,14 @@ interface AllDataPageProps {
         }
       }[]
     }
+    animalsAvatars: {
+      nodes: {
+        relativePath: string
+        childImageSharp: {
+          fluid: Image
+        }
+      }[]
+    }
     site: Site
   }
 }
@@ -88,6 +97,7 @@ interface AllDataResponse {
   totalLessons: number
   timeline: TimelineData
   site: SiteMetadata
+  animalsAvatars: Avatar[]
 }
 
 const getAllData = (props: AllDataPageProps): AllDataResponse => {
