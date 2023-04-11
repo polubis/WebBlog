@@ -1,11 +1,6 @@
-import { format } from "date-fns";
-import {
-  EdgeMarkerProps,
-  MarkerProps,
-  TimelineSetup,
-} from "../models";
-import { CSSProperties } from "react";
 import React from "react"
+import { EdgeMarkerProps, MarkerProps, TimelineSetup } from "../models"
+import { CSSProperties } from "react"
 
 const baseStyle: CSSProperties = {
   background: "#ffd200",
@@ -15,10 +10,10 @@ const baseStyle: CSSProperties = {
   position: "absolute",
   left: 0,
   transition: "0.3s transform ease-in-out",
-};
+}
 
 const getLeft = (groupIdx: number, setup: TimelineSetup): number =>
-  groupIdx * (setup.marker.gap + setup.marker.size);
+  groupIdx * (setup.marker.gap + setup.marker.size)
 
 export const MidMarker = ({ groupIdx, setup }: MarkerProps) => {
   return (
@@ -31,19 +26,19 @@ export const MidMarker = ({ groupIdx, setup }: MarkerProps) => {
         transform: `translate(${getLeft(groupIdx, setup)}px, 0px)`,
       }}
     />
-  );
-};
+  )
+}
 
 export const EdgeMarker = ({ groupIdx, group, setup }: EdgeMarkerProps) => {
-  const left = getLeft(groupIdx, setup);
+  const left = getLeft(groupIdx, setup)
   const height =
     setup.group.padding * 2 +
     setup.item.height * group.items.length +
-    setup.item.gap * (group.items.length - 1);
+    setup.item.gap * (group.items.length - 1)
 
   const top = group.top
     ? -1 * (height + setup.marker.size)
-    : height + setup.marker.size;
+    : height + setup.marker.size
 
   return (
     <div
@@ -63,7 +58,7 @@ export const EdgeMarker = ({ groupIdx, group, setup }: EdgeMarkerProps) => {
             fontSize: "20px",
             fontFamily: "Lexend, sans-serif",
             fontWeight: "bold",
-            color: '#fff',
+            color: "#fff",
             paddingLeft: `${
               setup.marker.size / 2 +
               setup.item.height / 2 +
@@ -71,9 +66,9 @@ export const EdgeMarker = ({ groupIdx, group, setup }: EdgeMarkerProps) => {
             }px`,
           }}
         >
-          {format(group.date, "dd/MM/yyyy")}
+          {group.date}
         </span>
       )}
     </div>
-  );
-};
+  )
+}

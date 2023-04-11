@@ -11,7 +11,7 @@ export interface TimelineGroupItem {
 }
 
 export interface TimelineDataGroup {
-  date: Date
+  date: string
   top: boolean
   displayed: boolean
   blank: boolean

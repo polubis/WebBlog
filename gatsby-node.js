@@ -10,7 +10,6 @@ exports.onCreateWebpackConfig = ({ actions }) => {
   })
 }
 
-// create pages dynamically
 exports.createPages = async ({ actions, graphql }) => {
   const { createPage } = actions
 
@@ -138,6 +137,71 @@ exports.createPages = async ({ actions, graphql }) => {
           }
         }
       }
+      blackHoleImg: allFile(
+        filter: { relativePath: { regex: "/hole.png/" } }
+      ) {
+        nodes {
+          relativePath
+          childImageSharp {
+            fluid {
+              base64
+              aspectRatio
+              src
+              srcSet
+              sizes
+            }
+          }
+        }
+      }
+      animalsAvatars: allFile(filter: {relativePath: {regex: "/animals/"}}) {
+        nodes {
+          relativePath
+          childImageSharp {
+            fluid {
+              base64
+              aspectRatio
+              src
+              srcSet
+              sizes
+            }
+          }
+        }
+      }
+      site {
+        siteMetadata {
+          siteUrl
+          siteName
+          siteDescription
+          siteLang
+          routes {
+            articles {
+              label
+              to
+              gaPage
+            }
+            authors {
+              label
+              to
+              gaPage
+            }
+            courses {
+              label
+              to
+              gaPage
+            }
+            creator {
+              label
+              to
+              gaPage
+            }
+            home {
+              label
+              to
+              gaPage
+            }
+          }
+        }
+      }
     }
   `)
 
@@ -147,6 +211,39 @@ exports.createPages = async ({ actions, graphql }) => {
   })
 
   const { articles, courses } = data
+
+  createPage({
+    path: "/",
+    component: resolve(`src/components/home/HomePage.tsx`),
+    context: {
+      ...data,
+      holeImg: result.data.blackHoleImg.nodes[0].childImageSharp.fluid,
+    },
+  })
+
+  createPage({
+    path: "/articles/",
+    component: resolve(`src/features/articles/ArticlesPage.tsx`),
+    context: data,
+  })
+
+  createPage({
+    path: "/authors/",
+    component: resolve(`src/features/authors/AuthorsPage.tsx`),
+    context: data,
+  })
+
+  createPage({
+    path: "/courses/",
+    component: resolve(`src/features/courses/CoursesPage.tsx`),
+    context: data,
+  })
+
+  createPage({
+    path: "/blog-creator/",
+    component: resolve(`src/features/blog-creator/BlogCreatorPage.tsx`),
+    context: data,
+  })
 
   articles.forEach(article => {
     createPage({

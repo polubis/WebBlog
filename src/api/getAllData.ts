@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Article,
   ArticleFrontmatter,
   Author,
@@ -6,6 +7,8 @@ import {
   CourseFrontmatter,
   Image,
   LessonFrontmatter,
+  Site,
+  SiteMetadata,
 } from "../models"
 import authors from "../authors/authors.json"
 import { getAllDataQuery } from "./getAllDataQuery"
@@ -75,6 +78,15 @@ interface AllDataPageProps {
         }
       }[]
     }
+    animalsAvatars: {
+      nodes: {
+        relativePath: string
+        childImageSharp: {
+          fluid: Image
+        }
+      }[]
+    }
+    site: Site
   }
 }
 
@@ -84,6 +96,8 @@ interface AllDataResponse {
   courses: Course[]
   totalLessons: number
   timeline: TimelineData
+  site: SiteMetadata
+  animalsAvatars: Avatar[]
 }
 
 const getAllData = (props: AllDataPageProps): AllDataResponse => {

@@ -4,12 +4,13 @@ import { GreenOnLogo } from "../../components/GreenOnLogo"
 import theme from "../../utils/theme"
 import { LinkedinIcon } from "../icons"
 import { M, S, X } from "../text"
-import { Link as GatsbyLink } from "gatsby"
 import Link from "../../components/link/Link"
 import { L_DOWN, M_DOWN, T_DOWN } from "../../utils/viewport"
 import { Article } from "../../models"
 import Img from "gatsby-image"
 import { Content } from "../layout"
+import { useJoinUsModal } from "../../components/article/WithJoinUsModal"
+import { LinkButton } from "../../components/button/Button"
 
 const Container = styled.footer`
   background: ${theme.black};
@@ -17,10 +18,6 @@ const Container = styled.footer`
 
   .ui-footer-gray {
     color: ${theme.grayD};
-  }
-
-  .ui-footer-primary {
-    color: ${theme.primary};
   }
 
   & > .ui-layout-content {
@@ -91,10 +88,10 @@ const Links = styled.div`
   }
 
   & > *:not(:last-child) {
-    margin: 0 0 8px 0;
+    margin: 0 0 12px 0;
 
     @media ${T_DOWN} {
-      margin: 0 8px 8px 0;
+      margin: 0 8px 12px 0;
     }
   }
 `
@@ -117,6 +114,8 @@ interface FooterProps {
 }
 
 const Footer = ({ articles }: FooterProps) => {
+  const ctx = useJoinUsModal()
+
   return (
     <Container className="ui-footer">
       <Content>
@@ -129,10 +128,7 @@ const Footer = ({ articles }: FooterProps) => {
             </M>
             <M>
               You can join our community via{" "}
-              <GatsbyLink className="ui-footer-primary" to="/authors/">
-                this form
-              </GatsbyLink>
-              .
+              <LinkButton onClick={ctx.open}>this form</LinkButton>.
             </M>
           </Section>
           <Section>

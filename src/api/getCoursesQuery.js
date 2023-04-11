@@ -1,17 +1,5 @@
 const { removeEdgeSlashes } = require("./removeEdgeSlashes")
 
-const getChapterIdFromSlug = slug => {
-  const [, id] = slug.split("/")
-  return id
-}
-const getCourseNameFromSlug = slug => {
-  const [name] = slug.split("/")
-  return name
-}
-const getLessonIdFromSlug = slug => {
-  return slug.split("/")[3]
-}
-
 const createUser = (json, avatarsObject) => ({
   firstName: json.firstName,
   lastName: json.lastName,
@@ -34,7 +22,10 @@ const sortById = items => {
 }
 
 const toDashed = str => {
-  let kebabCase = str.replace(/([A-Z])/g, "-$1").toLowerCase()
+  let kebabCase = str
+    .replace(/([A-Z])/g, "-$1")
+    .replace(/ /g, "-")
+    .toLowerCase()
 
   if (kebabCase.charAt(0) === "-") {
     kebabCase = kebabCase.slice(1, kebabCase.length)
@@ -46,8 +37,8 @@ const toDashed = str => {
 exports.getCoursesQuery = data => {
   const lessonsByChapterId = data.lessons.nodes.reduce(
     (acc, { slug, body, frontmatter }) => {
-      const chapterId = getChapterIdFromSlug(slug)
-      const lessonId = getLessonIdFromSlug(slug)
+      const chapterId = [slug.split("/")[0], slug.split("/")[1]].join("/")
+      const lessonId = slug
       const lessonToAdd = {
         id: lessonId,
         slug,
@@ -72,7 +63,7 @@ exports.getCoursesQuery = data => {
 
   let chapters = sortById(
     data.chapters.nodes.map(({ frontmatter, slug }) => {
-      const chapterId = getChapterIdFromSlug(slug)
+      const chapterId = [slug.split("/")[0], slug.split("/")[1]].join("/")
       const lessons = lessonsByChapterId[chapterId]
       const chapterToAdd = {
         id: chapterId,
@@ -87,16 +78,16 @@ exports.getCoursesQuery = data => {
   )
 
   const chaptersByCourseName = chapters.reduce((acc, chapter) => {
-    const name = getCourseNameFromSlug(chapter.slug)
+    const courseId = chapter.slug.split("/")[0]
 
-    if (Array.isArray(acc[name]) && acc[name].length > 0) {
-      acc[name].push(chapter)
+    if (Array.isArray(acc[courseId]) && acc[courseId].length > 0) {
+      acc[courseId].push(chapter)
       return acc
     }
 
     return {
       ...acc,
-      [name]: [chapter],
+      [courseId]: [chapter],
     }
   }, {})
 
@@ -134,7 +125,7 @@ exports.getCoursesQuery = data => {
     )
     const path = `/courses/${folderName}/`
 
-    const chapters = chaptersByCourseName[getCourseNameFromSlug(slug)]
+    const chapters = chaptersByCourseName[folderName]
     const duration = chapters.reduce(
       (acc, chapter) => acc + chapter.duration,
       0
@@ -226,7 +217,10 @@ exports.getCoursesQuery = data => {
         (acc, chapter) => acc + chapter.lessons.length,
         0
       ),
-      thumbnail: data.coursesThumbnails.nodes[0].childImageSharp.fluid,
+      thumbnail: data.coursesThumbnails.nodes.find(node => {
+        const id = node.relativePath.split("/")[0]
+        return id === folderName
+      }).childImageSharp.fluid,
     }
   })
 }

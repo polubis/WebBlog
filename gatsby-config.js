@@ -1,20 +1,53 @@
-const siteUrl = process.env.URL || `https://www.greenonsoftware.com`
+const siteUrl = `https://www.greenonsoftware.com`
+const siteName = "GreenOn Software"
+const siteDescription = `A place for people who love programming and personal development.`
+const siteLang = "en-US"
 
 module.exports = {
   siteMetadata: {
     siteUrl,
+    siteName,
+    siteDescription,
+    siteLang,
+    routes: {
+      articles: {
+        label: "Articles",
+        to: "/articles/",
+        gaPage: "articles",
+      },
+      authors: {
+        label: "Authors",
+        to: "/authors/",
+        gaPage: "authors",
+      },
+      courses: {
+        label: "Courses",
+        to: "/courses/",
+        gaPage: "courses",
+      },
+      creator: {
+        label: "Creator",
+        to: "/blog-creator/",
+        gaPage: "blog-creator",
+      },
+      home: {
+        label: "Home",
+        to: "/",
+        gaPage: "",
+      },
+    },
   },
   plugins: [
     "gatsby-plugin-styled-components",
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `GreenOn Software`,
-        short_name: `GreenOn Software`,
-        description: `We do everything to provide programming knowledge in a short, user-friendly form. It allows you to walk away from your computer faster and reduce your carbon footprint.`,
+        name: siteName,
+        short_name: siteName,
+        description: siteDescription,
         start_url: `/`,
         background_color: `#0A0A0A`,
-        lang: "en-US",
+        lang: siteLang,
         theme_color: `#fff`,
         display: `standalone`,
         icons: [
@@ -41,7 +74,48 @@ module.exports = {
         ],
       },
     },
-    `gatsby-plugin-offline`,
+    // {
+    //   resolve: "gatsby-plugin-remove-serviceworker",
+    // },
+    {
+      resolve: "gatsby-plugin-offline",
+      options: {
+        workboxConfig: {
+          runtimeCaching: [
+            {
+              urlPattern: /(\.js$|\.css$|static\/)/,
+              handler: `CacheFirst`,
+              options: {
+                cacheName: "app-assets",
+                expiration: {
+                  maxAgeSeconds: 3 * 24 * 60 * 60,
+                },
+              },
+            },
+            {
+              urlPattern: /^https?:.*\/page-data\/.*\.json/,
+              handler: `StaleWhileRevalidate`,
+            },
+            {
+              urlPattern: /^https?:.*\.(png|jpg|jpeg|webp|svg|gif|tiff|js|woff|woff2|json|css)$/,
+              handler: `StaleWhileRevalidate`,
+            },
+            {
+              urlPattern: /^https?:\/\/fonts\.googleapis\.com\/css/,
+              handler: `StaleWhileRevalidate`,
+            },
+          ],
+        },
+      },
+    },
+    {
+      resolve: "gatsby-plugin-robots-txt",
+      options: {
+        host: siteUrl,
+        sitemap: `${siteUrl}/sitemap/sitemap-index.xml`,
+        policy: [{ userAgent: "*", allow: ["/"] }],
+      },
+    },
     {
       resolve: `gatsby-plugin-mdx`,
       options: {

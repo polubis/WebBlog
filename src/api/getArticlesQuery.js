@@ -51,7 +51,7 @@ exports.getArticlesQuery = data => {
     {}
   )
 
-  return sort(articles.nodes).map((article, idx) => {
+  const sortedArticles = sort(articles.nodes).map((article, idx) => {
     const authorAvatar = authorsAvatars.nodes.find(
       thumbnail => thumbnail.name === article.frontmatter.authorId
     )
@@ -106,4 +106,10 @@ exports.getArticlesQuery = data => {
       toBeContinuedDate: article.frontmatter.tbcdate,
     }
   })
+
+  return sortedArticles.map((article, idx, arr) => ({
+    ...article,
+    previous: arr[idx - 1],
+    next: arr[idx + 1],
+  }))
 }

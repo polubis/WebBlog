@@ -1,9 +1,20 @@
 import React, { createContext, ReactNode, useContext } from "react"
 import { useModal } from "../../ui"
+import Loadable from "react-loadable"
 
-import { JoinUsModal } from "./JoinUsModal"
+const defaultCtxValue: ReturnType<typeof useModal> = {
+  isOpen: false,
+  open: () => {},
+  close: () => {},
+  toggle: () => {},
+}
 
-const Ctx = createContext<ReturnType<typeof useModal> | null>(null)
+const Ctx = createContext(defaultCtxValue)
+
+const JoinUsModal = Loadable({
+  loader: () => import("./JoinUsModal").then(m => m.JoinUsModal),
+  loading: () => null,
+})
 
 interface WithJoinUsModalProps {
   children: ReactNode
@@ -23,9 +34,5 @@ export const WithJoinUsModal = ({ children }: WithJoinUsModalProps) => {
 export const useJoinUsModal = () => {
   const ctx = useContext(Ctx)
 
-  if (!ctx) {
-    throw Error("Lack of Provider")
-  }
-
-  return ctx
+  return ctx ? ctx : defaultCtxValue
 }

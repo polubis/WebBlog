@@ -68,3 +68,18 @@ export const SecondaryTextButton = styled.button`
     color: ${theme.white};
   }
 `
+
+export const LinkButton = styled.button`
+  color: ${theme.primary};
+  border: none;
+  text-decoration: underline;
+  background: none;
+  font-size: 16px;
+  line-height: 28px;
+  cursor: pointer;
+  padding: 0;
+
+  &:hover {
+    color: ${theme.primaryA};
+  }
+`

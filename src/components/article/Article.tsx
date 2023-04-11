@@ -1,7 +1,8 @@
 import React from "react"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import styled from "styled-components"
-
+import Link from "../link/Link"
+import Button from "../button/Button"
 import Layout from "../layout/Layout"
 import { Article as ArticleModel } from "../../models/Article"
 import Thumbnail from "../article/Thumbnail"
@@ -19,6 +20,8 @@ import Badge from "./Badge"
 import { formatDistanceStrict } from "date-fns"
 import theme from "../../utils/theme"
 import { WillBeContinuedBanner } from "./WillBeContinuedBanner"
+import { AllDataResponse } from "../../api"
+import { Breadcrumbs } from "../breadcrumbs"
 
 const ProgressDisplayer = Loadable({
   loader: () => import("./ProgressDisplayer").then(m => m.ProgressDisplayer),
@@ -35,6 +38,16 @@ const Dates = styled.div`
   flex-flow: wrap;
 `
 
+const BottomNavigation = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: right;
+
+  & > *:not(:first-child) {
+    margin-left: 20px;
+  }
+`
+
 const Article = styled.main`
   display: flex;
   flex-flow: column;
@@ -44,8 +57,12 @@ const Article = styled.main`
     width: 920px;
   }
 
-  & > :nth-child(2) {
-    margin: 62px 0 28px 0;
+  .ui-banner {
+    margin-bottom: 28px;
+  }
+
+  .components-article-tags {
+    margin: 62px 0px 28px;
   }
 
   ${Dates} {
@@ -62,14 +79,13 @@ const Article = styled.main`
     }
   }
 `
-
 interface Props {
   pageContext: AllDataResponse & {
     article: ArticleModel
   }
 }
 
-export default function ({ pageContext: { article, articles } }: Props) {
+export default function ({ pageContext: { article, articles, site } }: Props) {
   const {
     author,
     thumbnail,
@@ -87,10 +103,14 @@ export default function ({ pageContext: { article, articles } }: Props) {
     gaPage,
     isNew,
     readTime,
+    next,
+    previous,
   } = article
 
   return (
     <SiteMeta
+      siteName={site.siteName}
+      siteLang={site.siteLang}
       gaPage={gaPage}
       url={gaPage + "/"}
       robots="index,follow,max-image-preview:large"
@@ -104,6 +124,14 @@ export default function ({ pageContext: { article, articles } }: Props) {
         <Content paddingY>
           <Article>
             {toBeContinuedDate && <WillBeContinuedBanner />}
+            <Breadcrumbs
+              items={[
+                { label: "Home", path: "/" },
+                { label: "Articles", path: "/articles/" },
+                { label: article.title, path: article.path },
+              ]}
+            />
+
             <Thumbnail
               graphicAuthorLink={graphicAuthorLink}
               readTime={readTime}
@@ -135,6 +163,20 @@ export default function ({ pageContext: { article, articles } }: Props) {
                 {formatDistanceStrict(new Date(modifiedAt), new Date())} ago
               </Badge>
             </Dates>
+
+            <BottomNavigation>
+              {previous && (
+                <Link to={previous.path}>
+                  <Button>Previous</Button>
+                </Link>
+              )}
+
+              {next && (
+                <Link to={next.path}>
+                  <Button>Next</Button>
+                </Link>
+              )}
+            </BottomNavigation>
           </Article>
         </Content>
         <ProgressDisplayer />

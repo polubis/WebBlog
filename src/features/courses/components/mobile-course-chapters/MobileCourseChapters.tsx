@@ -64,7 +64,7 @@ const MobileCourseChapters = ({
   chapters,
 }: MobileCourseChaptersProps) => {
   const { render } = usePortal()
-  const { direction } = useScroll()
+  const { direction, offsetY } = useScroll()
   const [open, setOpen] = useState(false)
 
   const toggleOpen = (): void => {
@@ -73,7 +73,7 @@ const MobileCourseChapters = ({
 
   return render(
     <>
-      {!open && (direction === "up" || direction === "idle") && (
+      {!open && (direction === "up" || direction === "idle") && offsetY > 0 && (
         <Expander>
           <IconButton rounded size="medium" onClick={toggleOpen}>
             <ListIcon />

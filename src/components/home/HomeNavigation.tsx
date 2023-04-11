@@ -5,6 +5,7 @@ import Button from "../button/Button"
 import { GreenOnLogo } from "../GreenOnLogo"
 import { Link as GatsbyLink } from "gatsby"
 import styled from "styled-components"
+import { useJoinUsModal } from "../article/WithJoinUsModal"
 
 const leftLinks = [
   { label: "articles", url: "/articles/" },
@@ -33,25 +34,27 @@ const Link = styled(GatsbyLink)`
 
 const UnstyledLink = styled(GatsbyLink)`
   text-decoration: none;
-
-  &.home-navigation-active-unstyled-link button {
-    background: ${theme.primary};
-    color: ${theme.bg};
-  }
 `
 
 const HomeNavigation = () => {
+  const ctx = useJoinUsModal()
+
   return (
     <Navigation
       logo={
-        <UnstyledLink to={otherLinks[0].url}>
+        <UnstyledLink to={otherLinks[0].url} id="home-navigation-logo">
           <GreenOnLogo full />
         </UnstyledLink>
       }
       leftLinks={
         <>
           {leftLinks.map(link => (
-            <Link to={link.url} key={link.url} activeStyle={activeStyle}>
+            <Link
+              to={link.url}
+              key={link.url}
+              activeStyle={activeStyle}
+              id={`home-navigation-link-${link.label}`}
+            >
               {link.label}
             </Link>
           ))}
@@ -60,7 +63,12 @@ const HomeNavigation = () => {
       rightLinks={
         <>
           {rightLinks.map(link => (
-            <Link to={link.url} key={link.url} activeStyle={activeStyle}>
+            <Link
+              to={link.url}
+              key={link.url}
+              activeStyle={activeStyle}
+              id={`home-navigation-link-${link.label}`}
+            >
               {link.label}
             </Link>
           ))}
@@ -69,19 +77,21 @@ const HomeNavigation = () => {
       mobileLinks={
         <>
           {allLinks.map(link => (
-            <Link to={link.url} key={link.url} activeStyle={activeStyle}>
+            <Link
+              to={link.url}
+              key={link.url}
+              activeStyle={activeStyle}
+              id={`home-navigation-mobile-link-${link.label}`}
+            >
               {link.label}
             </Link>
           ))}
         </>
       }
       action={
-        <UnstyledLink
-          activeClassName="home-navigation-active-unstyled-link"
-          to={leftLinks[1].url}
-        >
-          <Button>JOIN</Button>
-        </UnstyledLink>
+        <Button id="home-navigation-join-button" onClick={ctx.open}>
+          JOIN
+        </Button>
       }
     />
   )
