@@ -17,6 +17,8 @@ export interface ArticleFrontmatter {
   graphicauthor?: string
 }
 
+type ArticleLang = "pl" | "en"
+
 export interface Article {
   title: ArticleFrontmatter["title"]
   description: ArticleFrontmatter["description"]
@@ -28,6 +30,7 @@ export interface Article {
   slug: string
   thumbnail: Image
   body: string
+  lang?: ArticleLang
   isNew: boolean
   lingReviewer: Author
   techReviewer: Author
