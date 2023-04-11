@@ -1,6 +1,7 @@
 const { getArticlesQuery } = require("./getArticlesQuery")
 const { serializeToAuthors } = require("./serializeToAuthors")
 const { getCoursesQuery } = require("./getCoursesQuery")
+const { getTranslatedArticles } = require("./getTranslatedArticles")
 const { addDays, differenceInDays, format } = require("date-fns")
 
 const getTimeline = ({ articles, courses }) => {
@@ -101,6 +102,8 @@ const getTimeline = ({ articles, courses }) => {
 }
 
 exports.getAllDataQuery = data => {
+  const site = data.site.siteMetadata
+  const translationObject = data.translationObject
   const articles = getArticlesQuery(data)
   const authors = serializeToAuthors(data)
   const courses = getCoursesQuery(data)
@@ -109,31 +112,21 @@ exports.getAllDataQuery = data => {
     0
   )
   const timeline = getTimeline({ articles, courses })
-  const site = data.site.siteMetadata
   const animalsAvatars = data.animalsAvatars.nodes.map(node => ({
     name: node.relativePath.split("/").pop().split(".")[0],
     fluid: node.childImageSharp.fluid,
   }))
+  const translatedArticles = getTranslatedArticles(data)
 
   return {
     articles,
     authors,
     courses,
+    translatedArticles,
     totalLessons,
     animalsAvatars,
     timeline,
-    site: {
-      ...site,
-      routes: Object.entries(site.routes).reduce(
-        (acc, [key, route]) => ({
-          ...acc,
-          [key]: {
-            ...route,
-            fullTo: `${site.siteName}${route.to}`,
-          },
-        }),
-        {}
-      ),
-    },
+    site,
+    translationObject,
   }
 }

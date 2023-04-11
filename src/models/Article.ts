@@ -1,6 +1,8 @@
-import { Author } from "./Author"
-import { Image } from "./Image"
-import { Technology } from "./Technology"
+import type { Author } from "./Author"
+import type { Image } from "./Image"
+import type { LangKey } from "./Site"
+import type { Technology } from "./Technology"
+import type { Translated, Translation } from "./Translation"
 
 export interface ArticleFrontmatter {
   cdate: string
@@ -14,10 +16,9 @@ export interface ArticleFrontmatter {
   readTime: number
   stack: string
   title: string
+  langs: string[] | null
   graphicauthor?: string
 }
-
-type ArticleLang = "pl" | "en"
 
 export interface Article {
   title: ArticleFrontmatter["title"]
@@ -30,15 +31,25 @@ export interface Article {
   slug: string
   thumbnail: Image
   body: string
-  lang?: ArticleLang
   isNew: boolean
   lingReviewer: Author
+  translations: Translation[]
   techReviewer: Author
+  lang: LangKey
   createdAt: string
+  t: Translated
   modifiedAt: string
   gaPage: string
   toBeContinuedDate?: string
   graphicAuthorLink?: string
   next?: Article
   previous?: Article
+}
+
+export interface TranslatedArticleFrontmatter
+  extends Omit<ArticleFrontmatter, "langs"> {}
+
+export interface TranslatedArticle
+  extends Omit<Article, "next" | "previous" | "translations"> {
+  originalArticlePath: string
 }

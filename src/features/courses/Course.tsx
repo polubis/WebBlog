@@ -10,11 +10,15 @@ interface Props {
   }
 }
 
-export default function ({ pageContext: { course, articles, site } }: Props) {
+export default function ({
+  pageContext: { course, articles, site, translationObject },
+}: Props) {
+  const t = translationObject["en"]
+
   return (
     <SiteMeta
       siteName={site.siteName}
-      siteLang={site.siteLang}
+      siteLang={site.langs.en.html}
       gaPage={course.gaPage}
       url={course.gaPage + "/"}
       robots="index,follow,max-image-preview:large"
@@ -24,7 +28,7 @@ export default function ({ pageContext: { course, articles, site } }: Props) {
       description={course.description}
       image={course.thumbnail.src}
     >
-      <CourseContent course={course} articles={articles} />
+      <CourseContent course={course} articles={articles} site={site} t={t} />
     </SiteMeta>
   )
 }

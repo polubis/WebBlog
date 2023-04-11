@@ -1,10 +1,8 @@
 import React from "react"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import styled from "styled-components"
-import Link from "../link/Link"
-import Button from "../button/Button"
 import Layout from "../layout/Layout"
-import { Article as ArticleModel } from "../../models/Article"
+import { TranslatedArticle } from "../../models/Article"
 import Thumbnail from "../article/Thumbnail"
 import Tags from "../article/Tags"
 import { Content, M } from "../../ui"
@@ -37,16 +35,6 @@ const Author = styled.div`
 const Dates = styled.div`
   display: flex;
   flex-flow: wrap;
-`
-
-const BottomNavigation = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: right;
-
-  & > *:not(:first-child) {
-    margin-left: 20px;
-  }
 `
 
 const Article = styled.main`
@@ -82,12 +70,24 @@ const Article = styled.main`
 `
 interface Props {
   pageContext: AllDataResponse & {
-    article: ArticleModel
+    translatedArticle: TranslatedArticle
   }
 }
 
+const getDistanceLabel = (dateAsString: string, label: string) => {
+  const distanceLabel = formatDistanceStrict(new Date(dateAsString), new Date())
+
+  return `${label} ${distanceLabel} temu`
+    .replace("days", "dni")
+    .replace("day", "dzień")
+    .replace("months", "miesięcy")
+    .replace("month", "miesiąc")
+    .replace("years", "lat")
+    .replace("year", "rok")
+}
+
 export default function ({
-  pageContext: { article, articles, site, translationObject },
+  pageContext: { translatedArticle, articles, site, translationObject },
 }: Props) {
   const {
     author,
@@ -106,18 +106,16 @@ export default function ({
     gaPage,
     isNew,
     readTime,
-    next,
-    previous,
-    translations,
+    originalArticlePath,
     lang,
-  } = article
+  } = translatedArticle
 
   const t = translationObject[lang]
 
   return (
     <SiteMeta
       siteName={site.siteName}
-      siteLang={site.langs.en.html}
+      siteLang={site.langs.pl.html}
       gaPage={gaPage}
       url={gaPage + "/"}
       robots="index,follow,max-image-preview:large"
@@ -130,19 +128,20 @@ export default function ({
       <Layout articles={articles} t={t} routes={site.routes}>
         <Content paddingY>
           <Article>
-            {translations.length > 0 && (
-              <ReadInOtherLanguageBanner
-                text="This article is also published in Polish language."
-                url={translations[0].path}
-                linkLabel="Change language"
-              />
-            )}
+            <ReadInOtherLanguageBanner
+              text="Ten artykuł jest również dostępny w wersji angielskiej."
+              url={originalArticlePath}
+              linkLabel="Zmień język"
+            />
             {toBeContinuedDate && <WillBeContinuedBanner />}
             <Breadcrumbs
               items={[
-                { label: "Home", path: "/" },
-                { label: "Articles", path: "/articles/" },
-                { label: article.title, path: article.path },
+                { label: "Strona główna", path: "/" },
+                { label: "Artykuły", path: "/articles/" },
+                {
+                  label: translatedArticle.title,
+                  path: translatedArticle.path,
+                },
               ]}
             />
 
@@ -152,6 +151,9 @@ export default function ({
               thumbnail={thumbnail}
               title={title}
               isNew={isNew}
+              newLabel="nowy"
+              graphicAuthorLabel="Autor zdjęcia"
+              thumbnailAlt="Zdjęcie artykułu"
             />
             <Tags tags={tags} />
             <Intro>
@@ -161,6 +163,9 @@ export default function ({
               author={author}
               techReviewer={techReviewer}
               lingReviewer={lingReviewer}
+              authorLabel={t.author}
+              linguisticCheckLabel={t.linguisticCheck}
+              technicalCheckLabel={t.technicalCheck}
             />
             <Stack items={stack} />
             <MDXRenderer>{body}</MDXRenderer>
@@ -169,28 +174,12 @@ export default function ({
             </Author>
             <Dates>
               <Badge color={theme.secondary}>
-                created: {formatDistanceStrict(new Date(createdAt), new Date())}{" "}
-                ago
+                {getDistanceLabel(createdAt, t.dates.created)}
               </Badge>
               <Badge color={theme.secondary}>
-                updated:{" "}
-                {formatDistanceStrict(new Date(modifiedAt), new Date())} ago
+                {getDistanceLabel(modifiedAt, t.dates.updated)}
               </Badge>
             </Dates>
-
-            <BottomNavigation>
-              {previous && (
-                <Link to={previous.path}>
-                  <Button>Previous</Button>
-                </Link>
-              )}
-
-              {next && (
-                <Link to={next.path}>
-                  <Button>Next</Button>
-                </Link>
-              )}
-            </BottomNavigation>
           </Article>
         </Content>
         <ProgressDisplayer labels={t.progressDisplay} />

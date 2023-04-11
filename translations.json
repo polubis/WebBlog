@@ -1,0 +1,76 @@
+{
+    "en": {
+        "author": "Author",
+        "linguisticCheck": "Linguistic check",
+        "technicalCheck": "Technical check",
+        "dates": {
+            "created": "created",
+            "updated": "updated"
+        },
+        "join": "Join",
+        "navigationLabel": "Navigation",
+        "navigation": {
+            "home": "Home",
+            "articles": "Articles",
+            "courses": "Courses",
+            "authors": "Authors",
+            "creator": "Creator"
+        },
+        "footer": {
+            "aboutUs": "About us",
+            "aboutUsText": "We're an educational platform that produces high quality articles, courses and teaching materials.",
+            "aboutUsTextCommunity": "You can join our community via",
+            "thisFormLink": "this form",
+            "recentArticles": "Recent articles",
+            "poweredBy": "Powered by"
+        },
+        "progressDisplay": [
+            "Don't scroll, just read it 🐼.",
+            "Well, let me believe you've read it 🐍.",
+            "Holy cow, did you really read this? Thanks 🤓!",
+            "Thanks for reading 🤓.",
+            "Hmmm... Are you afk 🤓?",
+            "Thanks 🤓."
+        ]
+    },
+    "pl": {
+        "author": "Autor",
+        "linguisticCheck": "Weryfikacja lingwistyczna",
+        "technicalCheck": "Weryfikacja techniczna",
+        "navigationLabel": "Nawigacja",
+        "join": "Do dzieła!",
+        "navigation": {
+            "home": "Strona główna",
+            "articles": "Artykuły",
+            "courses": "Kursy",
+            "authors": "Autorzy",
+            "creator": "Edytor artykułów"
+        },
+        "dates": {
+            "day": "dzień",
+            "days": "dni",
+            "month": "miesiąc",
+            "months": "miesięcy",
+            "years": "lat",
+            "year": "rok",
+            "created": "utworzono",
+            "updated": "zaktualizowano"
+        },
+        "footer": {
+            "aboutUs": "O nas",
+            "aboutUsText": "Jesteśmy platformą edukacyjną, która tworzy wysokiej jakości artykuły, kursy i materiały dydaktyczne.",
+            "aboutUsTextCommunity": "Możesz dołączyć do naszej społeczności poprzez",
+            "thisFormLink": "ten formularz",
+            "recentArticles": "Ostatnie artykuły",
+            "poweredBy": "Stworzone przez"
+        },
+        "progressDisplay": [
+            "Nie przewijaj, tylko spróbuj przeczytać 🐼.",
+            "Niech będzie, że przeczytałeś 🐍.",
+            "Jasna cholera, naprawdę to przeczytałeś? Dzięki 🤓!",
+            "Dzięki za przeczytanie 🤓.",
+            "Hmmm... Afk 🤓?",
+            "Dzięki 🤓."
+        ]
+    }
+}

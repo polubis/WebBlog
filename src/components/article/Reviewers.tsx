@@ -55,12 +55,18 @@ export interface ReviewersProps {
   author: Author
   techReviewer: Author
   lingReviewer: Author
+  authorLabel?: string
+  linguisticCheckLabel?: string
+  technicalCheckLabel?: string
 }
 
 export const Reviewers = ({
   author,
   lingReviewer,
   techReviewer,
+  authorLabel = "Author",
+  linguisticCheckLabel = "Linguistic check",
+  technicalCheckLabel = "Technical check",
 }: ReviewersProps) => {
   return (
     <Container className="components-reviewers">
@@ -71,7 +77,7 @@ export const Reviewers = ({
             title={techReviewer.firstName + " " + techReviewer.lastName}
             alt={techReviewer.firstName + " " + techReviewer.lastName}
           />
-          <S>Technical check</S>
+          <S>{technicalCheckLabel}</S>
         </AvatarContainer>
       </GatsbyLink>
 
@@ -83,7 +89,7 @@ export const Reviewers = ({
             title={author.firstName + " " + author.lastName}
             alt={author.firstName + " " + author.lastName}
           />
-          <S>Author</S>
+          <S>{authorLabel}</S>
         </AvatarContainer>
       </GatsbyLink>
 
@@ -94,7 +100,7 @@ export const Reviewers = ({
             title={lingReviewer.firstName + " " + lingReviewer.lastName}
             alt={lingReviewer.firstName + " " + lingReviewer.lastName}
           />
-          <S>Linguistic check</S>
+          <S>{linguisticCheckLabel}</S>
         </AvatarContainer>
       </GatsbyLink>
     </Container>
