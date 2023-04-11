@@ -110,12 +110,17 @@ exports.getAllDataQuery = data => {
   )
   const timeline = getTimeline({ articles, courses })
   const site = data.site.siteMetadata
+  const animalsAvatars = data.animalsAvatars.nodes.map(node => ({
+    name: node.relativePath.split("/").pop().split(".")[0],
+    fluid: node.childImageSharp.fluid,
+  }))
 
   return {
     articles,
     authors,
     courses,
     totalLessons,
+    animalsAvatars,
     timeline,
     site: {
       ...site,
