@@ -1,4 +1,4 @@
-import React from "react"
+import React, { ReactNode } from "react"
 import styled from "styled-components"
 import { GreenOnLogo } from "../../components/GreenOnLogo"
 import theme from "../../utils/theme"
@@ -11,6 +11,7 @@ import Img from "gatsby-image"
 import { Content } from "../layout"
 import { useJoinUsModal } from "../../components/article/WithJoinUsModal"
 import { LinkButton } from "../../components/button/Button"
+import { Translated } from "../../models"
 
 const Container = styled.footer`
   background: ${theme.black};
@@ -111,9 +112,11 @@ const Figure = styled.figure`
 
 interface FooterProps {
   articles: Article[]
+  t: Translated
+  renderLinks: (LinkComponent: typeof Link) => ReactNode
 }
 
-const Footer = ({ articles }: FooterProps) => {
+const Footer = ({ articles, t, renderLinks }: FooterProps) => {
   const ctx = useJoinUsModal()
 
   return (
@@ -121,18 +124,18 @@ const Footer = ({ articles }: FooterProps) => {
       <Content>
         <TopSection>
           <Section>
-            <X>About us</X>
+            <X>{t.footer.aboutUs}</X>
+            <M>{t.footer.aboutUsText}</M>
             <M>
-              We're an educational platform that produces high quality articles,
-              courses and teaching materials.{" "}
-            </M>
-            <M>
-              You can join our community via{" "}
-              <LinkButton onClick={ctx.open}>this form</LinkButton>.
+              {t.footer.aboutUsTextCommunity}{" "}
+              <LinkButton onClick={ctx.open}>
+                {t.footer.thisFormLink}
+              </LinkButton>
+              .
             </M>
           </Section>
           <Section>
-            <X>Recent articles</X>
+            <X>{t.footer.recentArticles}</X>
             <Articles>
               {articles.map(article => (
                 <Link key={article.title} to={article.path}>
@@ -151,24 +154,8 @@ const Footer = ({ articles }: FooterProps) => {
             </Articles>
           </Section>
           <Section>
-            <X>Navigation</X>
-            <Links>
-              <Link to="/articles/" activeStyle={{ color: theme.primary }}>
-                Articles
-              </Link>
-              <Link to="/authors/" activeStyle={{ color: theme.primary }}>
-                Authors
-              </Link>
-              <Link to="/courses/" activeStyle={{ color: theme.primary }}>
-                Courses
-              </Link>
-              <Link to="/blog-creator/" activeStyle={{ color: theme.primary }}>
-                Creator
-              </Link>
-              <Link to="/" activeStyle={{ color: theme.primary }}>
-                Home
-              </Link>
-            </Links>
+            <X>{t.navigationLabel}</X>
+            <Links>{renderLinks(Link)}</Links>
           </Section>
         </TopSection>
         <ContentFooter>
@@ -180,7 +167,9 @@ const Footer = ({ articles }: FooterProps) => {
             <LinkedinIcon />
           </a>
           <CompanyWrapper>
-            <S className="ui-footer-gray">Powered by GreenOn Software</S>
+            <S className="ui-footer-gray">
+              {t.footer.poweredBy} GreenOn Software
+            </S>
             <GreenOnLogo />
           </CompanyWrapper>
         </ContentFooter>

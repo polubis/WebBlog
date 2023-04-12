@@ -82,6 +82,12 @@ exports.getArticlesQuery = data => {
       article.slug.length - 1
     )}/`
 
+    const langs = Array.isArray(article.frontmatter.langs)
+      ? article.frontmatter.langs
+      : []
+
+    const lang = "en"
+
     return {
       slug: article.slug,
       body: article.body,
@@ -93,6 +99,10 @@ exports.getArticlesQuery = data => {
       lingReviewer,
       author,
       techReviewer,
+      translations: langs.map(lang => ({
+        lang,
+        path: `/${lang}${path}`,
+      })),
       gaPage: removeEdgeSlashes(path),
       graphicAuthorLink: article.frontmatter.graphicauthor,
       path,
@@ -104,6 +114,7 @@ exports.getArticlesQuery = data => {
       createdAt: article.frontmatter.cdate,
       modifiedAt: article.frontmatter.mdate,
       toBeContinuedDate: article.frontmatter.tbcdate,
+      lang,
     }
   })
 
