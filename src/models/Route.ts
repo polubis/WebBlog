@@ -1,8 +1,11 @@
+type RouteKeys = "articles" | "authors" | "courses" | "creator" | "home"
+
 interface Route {
-  label: string
   to: string
-  fullTo: string
   gaPage: string
+  key: RouteKeys
 }
 
-export type { Route }
+type Routes = Record<RouteKeys, Route>
+
+export type { Route, RouteKeys, Routes }

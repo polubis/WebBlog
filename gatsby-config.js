@@ -1,41 +1,51 @@
 const siteUrl = `https://www.greenonsoftware.com`
 const siteName = "GreenOn Software"
 const siteDescription = `A place for people who love programming and personal development.`
-const siteLang = "en-US"
+const langs = {
+  en: {
+    html: "en-US",
+    key: "en",
+  },
+  pl: {
+    html: "pl-PL",
+    key: "pl",
+  },
+}
+const routes = {
+  articles: {
+    to: "/articles/",
+    gaPage: "articles",
+    key: "articles",
+  },
+  authors: {
+    to: "/authors/",
+    gaPage: "authors",
+    key: "authors",
+  },
+  courses: {
+    to: "/courses/",
+    gaPage: "courses",
+    key: "courses",
+  },
+  creator: {
+    to: "/blog-creator/",
+    gaPage: "blog-creator",
+    key: "creator",
+  },
+  home: {
+    to: "/",
+    gaPage: "",
+    key: "home",
+  },
+}
 
 module.exports = {
   siteMetadata: {
     siteUrl,
     siteName,
     siteDescription,
-    siteLang,
-    routes: {
-      articles: {
-        label: "Articles",
-        to: "/articles/",
-        gaPage: "articles",
-      },
-      authors: {
-        label: "Authors",
-        to: "/authors/",
-        gaPage: "authors",
-      },
-      courses: {
-        label: "Courses",
-        to: "/courses/",
-        gaPage: "courses",
-      },
-      creator: {
-        label: "Creator",
-        to: "/blog-creator/",
-        gaPage: "blog-creator",
-      },
-      home: {
-        label: "Home",
-        to: "/",
-        gaPage: "",
-      },
-    },
+    langs,
+    routes,
   },
   plugins: [
     "gatsby-plugin-styled-components",
@@ -45,9 +55,9 @@ module.exports = {
         name: siteName,
         short_name: siteName,
         description: siteDescription,
-        start_url: `/`,
+        start_url: routes.home.to,
         background_color: `#0A0A0A`,
-        lang: siteLang,
+        lang: langs.en.html,
         theme_color: `#fff`,
         display: `standalone`,
         icons: [

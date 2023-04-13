@@ -1,1 +1,1 @@
-export * from "./getAllData"
+export * from "./models"

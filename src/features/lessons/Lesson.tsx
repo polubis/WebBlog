@@ -13,12 +13,14 @@ interface Props {
 }
 
 export default function ({
-  pageContext: { lesson, course, chapter, articles, site },
+  pageContext: { lesson, course, chapter, articles, site, translationObject },
 }: Props) {
+  const t = translationObject["en"]
+
   return (
     <SiteMeta
       siteName={site.siteName}
-      siteLang={site.siteLang}
+      siteLang={site.langs.en.html}
       gaPage={lesson.gaPage}
       url={lesson.gaPage + "/"}
       robots="index,follow,max-image-preview:large"
@@ -29,6 +31,8 @@ export default function ({
       image={course.thumbnail.src}
     >
       <LessonContent
+        t={t}
+        site={site}
         lesson={lesson}
         course={course}
         chapter={chapter}

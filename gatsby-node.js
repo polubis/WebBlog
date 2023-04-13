@@ -1,6 +1,7 @@
 const { resolve } = require("path")
 const { getAllDataQuery } = require("./src/api/getAllDataQuery")
 const authors = require("./src/authors/authors.json")
+const translationObject = require("./translations.json")
 
 exports.onCreateWebpackConfig = ({ actions }) => {
   actions.setWebpackConfig({
@@ -64,6 +65,28 @@ exports.createPages = async ({ actions, graphql }) => {
           }
         }
       }
+      translatedArticles: allMdx(
+        filter: { fileAbsolutePath: { regex: "/article-[a-z][a-z].mdx/" } }
+      ) {
+        nodes {
+          frontmatter {
+            cdate
+            mdate
+            tbcdate
+            authorId
+            treviewerId
+            lreviewerId
+            tags
+            description
+            readTime
+            graphicauthor
+            stack
+            title
+          }
+          slug
+          body
+        }
+      }
       articles: allMdx(filter: { fileAbsolutePath: { regex: "/index.mdx/" } }) {
         nodes {
           frontmatter {
@@ -74,6 +97,7 @@ exports.createPages = async ({ actions, graphql }) => {
             treviewerId
             lreviewerId
             tags
+            langs
             description
             readTime
             graphicauthor
@@ -137,9 +161,7 @@ exports.createPages = async ({ actions, graphql }) => {
           }
         }
       }
-      blackHoleImg: allFile(
-        filter: { relativePath: { regex: "/hole.png/" } }
-      ) {
+      blackHoleImg: allFile(filter: { relativePath: { regex: "/hole.png/" } }) {
         nodes {
           relativePath
           childImageSharp {
@@ -153,7 +175,9 @@ exports.createPages = async ({ actions, graphql }) => {
           }
         }
       }
-      animalsAvatars: allFile(filter: {relativePath: {regex: "/animals/"}}) {
+      animalsAvatars: allFile(
+        filter: { relativePath: { regex: "/animals/" } }
+      ) {
         nodes {
           relativePath
           childImageSharp {
@@ -172,30 +196,39 @@ exports.createPages = async ({ actions, graphql }) => {
           siteUrl
           siteName
           siteDescription
-          siteLang
+          langs {
+            en {
+              html
+              key
+            }
+            pl {
+              html
+              key
+            }
+          }
           routes {
             articles {
-              label
+              key
               to
               gaPage
             }
             authors {
-              label
+              key
               to
               gaPage
             }
             courses {
-              label
+              key
               to
               gaPage
             }
             creator {
-              label
+              key
               to
               gaPage
             }
             home {
-              label
+              key
               to
               gaPage
             }
@@ -208,12 +241,14 @@ exports.createPages = async ({ actions, graphql }) => {
   const data = getAllDataQuery({
     ...result.data,
     authors,
+    translationObject,
   })
 
-  const { articles, courses } = data
+  const { articles, courses, translatedArticles, site } = data
+  const { routes } = site
 
   createPage({
-    path: "/",
+    path: routes.home.to,
     component: resolve(`src/components/home/HomePage.tsx`),
     context: {
       ...data,
@@ -222,27 +257,38 @@ exports.createPages = async ({ actions, graphql }) => {
   })
 
   createPage({
-    path: "/articles/",
+    path: routes.articles.to,
     component: resolve(`src/features/articles/ArticlesPage.tsx`),
     context: data,
   })
 
   createPage({
-    path: "/authors/",
+    path: routes.authors.to,
     component: resolve(`src/features/authors/AuthorsPage.tsx`),
     context: data,
   })
 
   createPage({
-    path: "/courses/",
+    path: routes.courses.to,
     component: resolve(`src/features/courses/CoursesPage.tsx`),
     context: data,
   })
 
   createPage({
-    path: "/blog-creator/",
+    path: routes.creator.to,
     component: resolve(`src/features/blog-creator/BlogCreatorPage.tsx`),
     context: data,
+  })
+
+  translatedArticles.forEach(translatedArticle => {
+    createPage({
+      path: translatedArticle.path,
+      component: resolve(`src/components/article/TranslatedArticlePage.tsx`),
+      context: {
+        ...data,
+        translatedArticle,
+      },
+    })
   })
 
   articles.forEach(article => {

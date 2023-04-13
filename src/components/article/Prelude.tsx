@@ -5,12 +5,16 @@ import { XL } from "../../ui"
 
 interface Props {
   children: React.ReactNode
+  label?: string
 }
 
-export default function ({ children }: Props): React.ReactElement {
+export default function ({
+  children,
+  label = "Prelude",
+}: Props): React.ReactElement {
   return (
     <Section containerType="prelude">
-      <XL shifted>Prelude</XL>
+      <XL shifted>{label}</XL>
       {children}
     </Section>
   )

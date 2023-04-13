@@ -29,13 +29,13 @@ type ClipboardState =
   | ClipboardCopiedState
   | ClipboardErrorState
 
-// Helper function to verify copy support.
+// Helper function to verify copying support.
 const createStatus = (): ClipboardState => {
   return navigator?.clipboard ? { status: "ready" } : { status: "unsupported" }
 }
 
 const useClipboard = () => {
-  // Doing it only once per hook usage.
+  // Creating status only once per hook usage.
   const initState = useMemo(createStatus, [])
   const [state, setState] = useState(initState)
 

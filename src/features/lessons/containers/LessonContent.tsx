@@ -7,7 +7,14 @@ import Button from "../../../components/button/Button"
 import { Link as GatsbyLink } from "gatsby"
 import Loadable from "react-loadable"
 import Layout from "../../../components/layout/Layout"
-import { Article, Chapter, Course, Lesson } from "../../../models"
+import {
+  Article,
+  Chapter,
+  Course,
+  Lesson,
+  SiteMetadata,
+  Translated,
+} from "../../../models"
 import { Content } from "../../../ui"
 import { Breadcrumbs } from "../../../components/breadcrumbs/Breadcrumbs"
 
@@ -81,6 +88,8 @@ interface LessonContentProps {
   lesson: Lesson
   chapter: Chapter
   articles: Article[]
+  t: Translated
+  site: SiteMetadata
 }
 
 const LessonContent = ({
@@ -88,6 +97,8 @@ const LessonContent = ({
   lesson,
   chapter,
   articles,
+  t,
+  site,
 }: LessonContentProps) => {
   return (
     <>
@@ -96,7 +107,7 @@ const LessonContent = ({
         lessonId={lesson.id}
         chapterId={chapter.id}
       />
-      <Layout articles={articles}>
+      <Layout articles={articles} t={t} routes={site.routes}>
         <Content paddingY>
           <Container>
             <Wrapper>

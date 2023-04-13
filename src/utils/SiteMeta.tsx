@@ -1,16 +1,17 @@
 import React, { ReactNode } from "react"
 import { Helmet } from "react-helmet"
 import { useGAPage } from "./useGAPage"
-import { SiteMetadata } from "../models"
 
-interface SiteMetaProps extends Pick<SiteMetadata, "siteLang" | "siteName"> {
+interface SiteMetaProps {
   url: string
   gaPage: string
   title: string
   description: string
   children: ReactNode
+  siteLang: string
   type: "website" | "article"
   robots: string
+  siteName: string
   author?: string
   image?: string
 }
