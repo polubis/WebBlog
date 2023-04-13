@@ -9,6 +9,8 @@ export interface AuthorJSON {
   bio: string
   githubURL?: string
   linkedinURL?: string
+  projects: Object
+
 }
 
 export interface Author extends AuthorJSON {
