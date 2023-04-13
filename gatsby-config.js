@@ -1,4 +1,4 @@
-const siteUrl = `https://www.greenonsoftware.com`
+const siteUrl = `https://greenonsoftware.com`
 const siteName = "GreenOn Software"
 const siteDescription = `A place for people who love programming and personal development.`
 const langs = {
