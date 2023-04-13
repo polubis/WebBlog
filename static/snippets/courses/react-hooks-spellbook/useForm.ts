@@ -34,15 +34,15 @@ type ValidationResult<V extends ObjectBased> = Pick<
   "errors" | "valid" | "invalid"
 >
 
-// Validator function definition.
+// Definition of validator function.
 type Validator<T> = (value: T) => string
 
-// Validators object definition.
+// Definition of validators object.
 type Validators<V extends ObjectBased> = {
   [K in keyof V]?: Validator<V[K]>[]
 }
 
-// Specifies the shape of the form configuration object.
+// Specifies the shape of the form configuration.
 interface Config<V extends ObjectBased> {
   values: V
   validators?: Validators<V>
@@ -58,7 +58,7 @@ const validate = <V extends ObjectBased>(
   const errors = {} as Errors<V>
   let valid = true
 
-  // We used for loop to be able to stop at first error.
+  // We used "for loop" to be able to stop at first error.
   for (let i = 0; i < length; i++) {
     const key = keys[i]
     const value = values[key]
@@ -108,14 +108,14 @@ const useForm = <V extends ObjectBased>({
   values,
   validators = {},
 }: Config<V>) => {
-  // It contains the initial state and creates it only once.
+  // It contains the initial state. It's created only once.
   const initialState = useMemo(
     () => initializeState({ values, validators }),
     []
   )
-  // We used ref instead of state - because it allows to read always up to date data.
+  // We used ref instead of state because it allows to read always up to date data.
   const state = useRef(initialState)
-  // This is added only to trigger re-render.
+  // This is added only to trigger rerender.
   const [_, setUpdateCount] = useState(0)
 
   // Performs rerender.
@@ -123,8 +123,8 @@ const useForm = <V extends ObjectBased>({
     setUpdateCount(prev => prev + 1)
   }
 
-  // Allows you to change a single field and runs validations.
-  // Callback hook added to avoid rerenders in children when passing function as a prop.
+  // Allows you to change a single field and runs validation.
+  // useCallback hook added to avoid rerenders in children when passing function as a prop.
   const set = useCallback(
     () => <K extends keyof V>({
       key,
@@ -136,7 +136,7 @@ const useForm = <V extends ObjectBased>({
       const newValues = { ...state.current.values, [key]: value }
       const result = validate(state.current.keys, newValues, validators)
 
-      // Updating state according to new values and validation result.
+      // Updating state according to the new values and the validation result.
       state.current = {
         ...state.current,
         ...result,
@@ -155,7 +155,6 @@ const useForm = <V extends ObjectBased>({
   )
 
   // Simulates form confirmation - triggers validation.
-  // Callback hook added to avoid rerenders in children when passing function as a prop.
   const submit = useCallback((): void => {
     const result = validate(
       state.current.keys,
@@ -163,19 +162,16 @@ const useForm = <V extends ObjectBased>({
       validators
     )
 
-    // Updating state according to new values and validation result.
     state.current = {
       ...state.current,
       ...result,
       confirmed: true,
     }
 
-    // Triggers rerenders.
     rerender()
   }, [])
 
   // Resets the state to the initial values.
-  // Callback hook added to avoid rerenders in children when passing function as a prop.
   const reset = useCallback((): void => {
     state.current = initialState
     rerender()

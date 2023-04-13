@@ -20,7 +20,7 @@ const createMetadata = (
 export const useScroll = (config?: Config) => {
   // Just for rerender.
   const [_, setCounter] = useState(0)
-  // Ref to hold data and be able to read always up to date object.
+  // Reference used to be able to read always up to date object.
   const metadata = useRef<ScrollMetadata>({
     direction: "idle",
   })
