@@ -1,0 +1,47 @@
+# Test scenarios on desktop
+
+In the article, course, and lesson as a user I want to see breadcrumbs
+that allow me to go back. The last breadcrumb is not clickable.
+So that I can easily back on previous page.
+
+Scenario: View breadcrumbs in the articles' page
+Given I am on the articles' page
+When I click on the dedicated button which move to an article
+Then I see breadcrumbs that allow me to go back
+
+Scenario: View breadcrumbs in the courses page
+Given I am on the courses page
+When I click on the dedicated button which move to a course
+Then I see breadcrumbs that allow me to go back
+
+Scenario: View breadcrumbs in the lessons
+Given I am on the courses page
+When I click on the dedicated button which move to a course
+And I click on the dedicated button which start a course
+Then I see breadcrumbs that allow me to go back
+
+# Test scenarios on mobile
+
+In the article, course, and lesson as a user I want to see breadcrumbs
+that allow me to go back. The last breadcrumb is not clickable.
+If is too many elements there is an option to scroll in the x-axis.
+So that I can easily back on previous page.
+
+Scenario: View breadcrumbs in the articles' page
+Given I am on the articles' page
+When I click on the dedicated button which move to an article
+Then I see breadcrumbs that allow me to go back and there is an option
+to scroll in the x-axis
+
+Scenario: View breadcrumbs in the courses page
+Given I am on the courses page
+When I click on the dedicated button which move to a course
+Then I see breadcrumbs that allow me to go back and there is an option
+to scroll in the x-axis
+
+Scenario: View breadcrumbs in the lessons
+Given I am on the courses page
+When I click on the dedicated button which move to a course
+And I click on the dedicated button which start a course
+Then I see breadcrumbs that allow me to go back and there is an option
+to scroll in the x-axis
