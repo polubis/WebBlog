@@ -9,6 +9,19 @@ export interface AuthorJSON {
   bio: string
   githubURL?: string
   linkedinURL?: string
+  projects?:
+   [
+    {
+      tittle: string
+      taskProject: string
+      taskDescription: string
+      startProject: string
+      durationProject: string
+      stack: string
+      linkToProject: string
+      linkToCodeTaskProject: string
+    }
+  ]
 }
 
 export interface Author extends AuthorJSON {
