@@ -8,7 +8,7 @@ lreviewerId: kreszko
 tags: architecture,project setup,patterns,quality gates
 stack: typescript,react,rxjs,nx,cypress,jest,storybook,chromatic,redux,styled-components,next
 description: It will be a longer article about project setup. Prepare a huge mug of coffee before you start reading.
-readTime: 12
+readTime: 20
 title: Dream stack for React dev
 ---
 
@@ -302,7 +302,67 @@ title: Dream stack for React dev
 
 <Section>
   <XL>9. Adding custom fonts</XL>
-  <M>I will appear here in next week... :).</M>
+  <M>
+    We need to download the fonts. <B>Lexend</B> variant will be suitable for us
+    so let's take it from{" "}
+    <A href="https://fonts.google.com/specimen/Lexend?query=Lexend" outside>
+      Google Fonts
+    </A>{" "}
+    in the following sizes (300, 400, 500, 700). Immediately after that, we need
+    to place the files in the appropriate directory - our <B>figa-ui</B>{" "}
+    library.
+  </M>
+  <M>
+    We are using <B>styled-components</B> so there is a need to create global
+    styles, in which we'll declare our setup for fonts.
+  </M>
+  <Snippet
+    linesCount={31}
+    src="/snippets/dream-stack-for-react-dev/global-style.ts"
+    description="Almost, but not yet"
+  />
+  <M>
+    I'll tell you right away the current setup doesn't work yet. We need to add
+    minor changes in the <B>preview.js</B> file and in the occasion we change
+    its extension to <B>.tsx</B>.
+  </M>
+  <Snippet
+    linesCount={18}
+    src="/snippets/dream-stack-for-react-dev/preview.tsx"
+  />
+  <M>
+    One last small change. In the <B>ts.config</B> file, we need to add{" "}
+    <B>preview.tsx</B> to <B>include</B> the array because otherwise errors will
+    be displayed.
+  </M>
+  <Snippet>{`  "include": [
+    {/* ...Other files */}
+    "preview.tsx"
+  ]`}</Snippet>
+  <M>
+    Well, how to test it? We need to create a component that will allow us to
+    test the setup. Below is a partial implementation of <B>Font</B> component
+    and usage in various places.
+  </M>
+  <Snippet
+    linesCount={94}
+    description="Partial implementation and usage"
+    src="/snippets/dream-stack-for-react-dev/Font.tsx"
+  />
+  <M>
+    At this stage, the fonts should look the same in the storybook, the SPA
+    application in React, and the Next.js application.
+  </M>
+  <Hint hasBg>
+    In this nice looking{" "}
+    <A
+      outside
+      href="https://github.com/polubis/Dream-stack-for-React-dev/commit/322dbd0290b6cd7ed44d971903647548c9e4e27b/"
+    >
+      commit
+    </A>{" "}
+    you have the current progress.
+  </Hint>
 </Section>
 
 <Section>
