@@ -10,11 +10,10 @@
     "linkedinURL": "https://www.linkedin.com/in/adrian-po%C5%82ubi%C5%84ski-281ab2172/",
     "projects": [
       {
+        "status": "active",
         "name": "Creating a CRM for companies selling heat pumps",
         "description": "FrontEnd: Creating a Customer panel along with CRUD operations. Backend: Creating a controller, model and endPionts, export to JSON",
         "from": "2023.01.01",
-        "to": "2023.01.01",
-        "duration": "2 weeks ",
         "stack": [
           "React",
           "Bootstrap",
@@ -22,7 +21,8 @@
           "Next.js"
         ],
         "appUrl": "www.link.com",
-        "codeUrl": "https://github.com/kmilek73/java_start"
+        "codeUrl": "https://github.com/kmilek73/java_start",
+        "images": []
       }
     ]
   },

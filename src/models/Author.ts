@@ -1,6 +1,7 @@
-import { Image } from "./Image"
+import type { Image } from "./Image"
+import type { Project } from "./Project"
 
-export interface AuthorJSON {
+interface AuthorJSON {
   id: string
   name: string
   firstName: string
@@ -9,10 +10,11 @@ export interface AuthorJSON {
   bio: string
   githubURL?: string
   linkedinURL?: string
-  projects: Object
-
+  projects: Project[]
 }
 
-export interface Author extends AuthorJSON {
+interface Author extends AuthorJSON {
   avatar: Image
 }
+
+export type { AuthorJSON, Author }
