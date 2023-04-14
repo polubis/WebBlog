@@ -61,7 +61,7 @@ const style = css`
         padding-right: 18px;
       `}
 
-      &::after {
+      &::before {
         content: "";
         top: -8px;
         bottom: 0;
