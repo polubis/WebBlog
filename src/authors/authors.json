@@ -7,7 +7,24 @@
     "role": "Senior Frontend Developer",
     "bio": "Software development and application design are more than just a job for me. I have been a freelancer for a few years and I carried out projects in various technologies. Focused on React, TypeScript, NodeJS. In my free time, I play guitar.",
     "githubURL": "https://github.com/polubis",
-    "linkedinURL": "https://www.linkedin.com/in/adrian-po%C5%82ubi%C5%84ski-281ab2172/"
+    "linkedinURL": "https://www.linkedin.com/in/adrian-po%C5%82ubi%C5%84ski-281ab2172/",
+    "projects": [
+      {
+        "status": "active",
+        "name": "Creating a CRM for companies selling heat pumps",
+        "description": "FrontEnd: Creating a Customer panel along with CRUD operations. Backend: Creating a controller, model and endPionts, export to JSON",
+        "from": "2023.01.01",
+        "stack": [
+          "React",
+          "Bootstrap",
+          "MongoDB",
+          "Next.js"
+        ],
+        "appUrl": "www.link.com",
+        "codeUrl": "https://github.com/kmilek73/java_start",
+        "images": []
+      }
+    ]
   },
   {
     "id": "awęgrodzki",
@@ -16,7 +33,8 @@
     "lastName": "Węgrodzki",
     "role": ".NET developer",
     "bio": "Daily working in C# and .NET environments. Specialized in Backend APIs, Xamarin mobile applications and databases. In my free time, I ride a bike and play games.",
-    "linkedinURL": "https://www.linkedin.com/in/artur-w%C4%99grodzki-926109194/"
+    "linkedinURL": "https://www.linkedin.com/in/artur-w%C4%99grodzki-926109194/",
+    "projects": []
   },
   {
     "id": "kreszko",
@@ -24,7 +42,8 @@
     "firstName": "Krzysztof",
     "lastName": "Reszko",
     "role": "Editor & Reviewer",
-    "bio": "English teacher. In the meantime, I do translation and editing work. My Interests are fitness and video games."
+    "bio": "English teacher. In the meantime, I do translation and editing work. My Interests are fitness and video games.",
+    "projects": []
   },
   {
     "id": "kwozniak",
@@ -34,7 +53,8 @@
     "role": "Frontend developer",
     "bio": "Professionally - frontend developer focused on React, Vue and Typescript. I am happy to engage in additional activities related to programming. Privately - motorization enthusiast.",
     "githubURL": "https://github.com/ajronn",
-    "linkedinURL": "https://www.linkedin.com/in/ajronn/"
+    "linkedinURL": "https://www.linkedin.com/in/ajronn/",
+    "projects": []
   },
   {
     "id": "pjurczyk",
@@ -44,7 +64,8 @@
     "role": "Frontend developer",
     "bio": "The technologies I develop are React and TypeScript. I like to take on more and more difficult things because with them I can learn the most. I spend my free time actively at the gym or cycling.",
     "githubURL": "https://github.com/PatrykJurczyk",
-    "linkedinURL": "https://www.linkedin.com/in/patryk-jurczyk-832311241/"
+    "linkedinURL": "https://www.linkedin.com/in/patryk-jurczyk-832311241/",
+    "projects": []
   },
   {
     "id": "kzalewska",
@@ -54,6 +75,7 @@
     "role": "Junior Q&A",
     "bio": "I have a foundation in programming and JavaScript, which helps me ensure software quality and create seamless user experiences. Outside of work, I enjoy reading criminal books.",
     "githubURL": "https://github.com/klaudiazalewska",
-    "linkedinURL": "https://www.linkedin.com/in/klaudia-zalewska-725902231/"
+    "linkedinURL": "https://www.linkedin.com/in/klaudia-zalewska-725902231/",
+    "projects": []
   }
 ]
