@@ -1,14 +1,14 @@
 ---
 cdate: 2023-02-28
-mdate: 2023-03-06
-tbcdate: 2023-03-26
+mdate: 2023-04-17
+tbcdate: 2023-05-26
 authorId: polubis
 treviewerId: kwozniak
 lreviewerId: kreszko
 tags: architecture,project setup,patterns,quality gates
 stack: typescript,react,rxjs,nx,cypress,jest,storybook,chromatic,redux,styled-components,next
 description: It will be a longer article about project setup. Prepare a huge mug of coffee before you start reading.
-readTime: 20
+readTime: 15
 title: Dream stack for React dev
 ---
 
@@ -322,27 +322,24 @@ title: Dream stack for React dev
     description="Almost, but not yet"
   />
   <M>
-    I'll tell you right away the current setup doesn't work yet. We need to add
-    minor changes in the <B>preview.js</B> file and in the occasion we change
-    its extension to <B>.tsx</B>.
+    The current setup doesn't work yet. We need to add minor changes in the{" "}
+    <B>preview.js</B> file and its extension must be changed to <B>.tsx</B>.
   </M>
   <Snippet
     linesCount={18}
     src="/snippets/dream-stack-for-react-dev/preview.tsx"
   />
   <M>
-    One last small change. In the <B>ts.config</B> file, we need to add{" "}
-    <B>preview.tsx</B> to <B>include</B> the array because otherwise errors will
-    be displayed.
+    In the <B>ts.config</B> file, we need to add <B>preview.tsx</B> to{" "}
+    <B>include</B> array. Errors will be displayed if we skip that.
   </M>
   <Snippet>{`  "include": [
     {/* ...Other files */}
     "preview.tsx"
   ]`}</Snippet>
   <M>
-    Well, how to test it? We need to create a component that will allow us to
-    test the setup. Below is a partial implementation of <B>Font</B> component
-    and usage in various places.
+    Well, how to test it? We need a component. Below is a partial implementation
+    of <B>Font</B> component and usage in various places.
   </M>
   <Snippet
     linesCount={94}
@@ -350,14 +347,14 @@ title: Dream stack for React dev
     src="/snippets/dream-stack-for-react-dev/Font.tsx"
   />
   <M>
-    At this stage, the fonts should look the same in the storybook, the SPA
-    application in React, and the Next.js application.
+    At this stage, the fonts should look the same in the storybook, in the SPA
+    application in React, and in the Next.js application.
   </M>
   <Hint hasBg>
     In this nice looking{" "}
     <A
       outside
-      href="https://github.com/polubis/Dream-stack-for-React-dev/commit/322dbd0290b6cd7ed44d971903647548c9e4e27b/"
+      href="https://github.com/polubis/Dream-stack-for-React-dev/commit/9e7c0a7e54913bf4522c0a29c78e5b6d41fc8e8b/"
     >
       commit
     </A>{" "}
@@ -367,57 +364,74 @@ title: Dream stack for React dev
 
 <Section>
   <XL>10. Adding husky</XL>
-  <M>I will appear here in next week... :).</M>
-</Section>
-
-<Section>
-  <XL>11. Adding chromatic</XL>
-  <M>I will appear here in next week... :).</M>
-</Section>
-
-<Section>
-  <XL>12. CI&CD</XL>
-  <M>I will appear here in next week... :).</M>
-</Section>
-
-<Section>
-  <XL>13. State management</XL>
-  <M>I will appear here in next week... :).</M>
-</Section>
-
-<Section>
-  <XL>14. Adding code style and standards</XL>
-  <M>I will appear here in next week... :).</M>
-</Section>
-
-<Section>
-  <XL>15. Architecture design and documentation</XL>
-  <M>I will appear here in next week... :).</M>
-</Section>
-
-<Section>
-  <XL>16. Additional tools and libraries</XL>
-  <M>I will appear here in next week... :).</M>
-</Section>
-
-<Section>
-  <XL>17. Bumping packages</XL>
-  <M>I will appear here in next week... :).</M>
-</Section>
-
-<Section>
-  <XL>18. Adding common hooks</XL>
-  <M>I will appear here in next week... :).</M>
-</Section>
-
-<Section>
-  <XL>19. Implementing themes</XL>
-  <M>I will appear here in next week... :).</M>
-</Section>
-
-<Section>
-  <XL>20. Adding visual regression and e2e tests</XL>
-  <M>I will appear here in next week... :).</M>
+  <M>
+    Husky is a library that allows you to run a scripts before a specific{" "}
+    <B>git hook</B>. It is usually used to check code consistency, run tests and
+    format code before commit. Let's install it via command{" "}
+    <B>npm i --save-dev husky</B>.
+  </M>
+  <Hint hasBg>
+    On{" "}
+    <A href="https://git-scm.com/docs/githooks" outside>
+      this page
+    </A>{" "}
+    you have a list of all hooks.
+  </Hint>
+  <M>
+    Before each commit we need to format code with <B>prettier</B> and perform
+    check with <B>eslint</B>. Fortunately for us, nx provides the configuration
+    of both by default so the only thing left is the husky setup. To do this, we
+    need to define an aliases for the scripts in <B>package.json</B>.
+  </M>
+  <Snippet>
+    {`
+"scripts": {
+   "prepare": "cd .. && husky install system/.husky", // Changes folder and configures husky.
+   "lint:fixAll": "npx nx run-many --target=lint --all --fix", // Runs linter and fixes if possible.
+   "format:fixAll": "prettier --write \"./**/*.{js,ts,tsx}\"" // Runs prettier and formats if possible.
+}
+`}
+  </Snippet>
+  <M>
+    Now every developer must run the <B>prepare</B> command after downloading
+    the repository. Without that, husky will not work. After launching, you
+    should see the <B>.husky directory</B> and the <B>pre-commit</B> file that
+    needs to be changed.
+  </M>
+  <Img
+    border
+    src="/assets/dream-stack-for-react-dev/husky-created.jpg"
+    description="Husky ready"
+  />
+  <M>
+    The last change is to define the scripts that will be executed before the
+    commit.
+  </M>
+  <Snippet>
+    {`
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+cd system 
+echo "Runnig linting and fix..."
+npm run lint:fixAll
+npm run format:fixAll
+`}
+  </Snippet>
+  <M>
+    Now every time when someone tries to do a commit then the scripts will be
+    executed. If you want to skip the husky because you're just checking
+    something, then use the <B>git commit -m "I'm just checking" --no-verify</B>.
+  </M>
+  <Hint hasBg>
+    In this nice looking{" "}
+    <A
+      outside
+      href="https://github.com/polubis/Dream-stack-for-React-dev/commit/6821d08d99e8642ab74835fee34fc421a4472d0d/"
+    >
+      commit
+    </A>{" "}
+    you have the current progress.
+  </Hint>
 </Section>
 
 <Example>
@@ -431,16 +445,18 @@ title: Dream stack for React dev
 
 <Summary>
   <M>
-    I tell you right away, this is going to be a huge article. Don't worry. At
-    the end you will have a great starter for future projects.
-  </M>
-  <M>
     We went through the wonderful tool together. I recommend playing with it. We
     have described only a part of the possibilities.
   </M>
-  <M>As always, this is my point of view and opinion based on my experience.</M>
   <M>
-    Feel free to contact me if you have any questions/proposals. Have a nice day
-    and good health!
+    There is still place to add many more things. However, I think that it is
+    better to add a little less than more.
+  </M>
+  <M>
+    If you enjoyed it, be sure to visit us on{" "}
+    <A href="https://www.linkedin.com/company/greenon-software/" outside>
+      Linkedin
+    </A>
+    , where we regularly upload content from programming.
   </M>
 </Summary>
