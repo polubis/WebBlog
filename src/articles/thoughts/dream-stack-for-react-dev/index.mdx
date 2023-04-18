@@ -1,7 +1,7 @@
 ---
 cdate: 2023-02-28
-mdate: 2023-04-17
-tbcdate: 2023-05-26
+mdate: 2023-04-21
+tbcdate: 2023-06-26
 authorId: polubis
 treviewerId: kwozniak
 lreviewerId: kreszko
@@ -76,7 +76,6 @@ title: Dream stack for React dev
     src="/assets/dream-stack-for-react-dev/graph.png"
     description="Building blocks"
   />
-
   <Hint hasBg>
     Check out{" "}
     <A
@@ -143,14 +142,14 @@ title: Dream stack for React dev
     <B>apps</B> directory.
   </M>
   <Hint hasBg>
-    In this nice looking{" "}
+    In this{" "}
     <A
       outside
       href="https://github.com/polubis/Dream-stack-for-React-dev/commit/25d239e6698c6d862afbff6fa481e784ca1b1a5e/"
     >
       commit
     </A>{" "}
-    you have the current progress.
+    you have the full changes.
   </Hint>
 </Section>
 
@@ -162,7 +161,7 @@ title: Dream stack for React dev
   </M>
   <Hint hasBg>npx nx g @nrwl/react:lib figa-ui</Hint>
   <M>
-    I named my component library after my beloved cat - <B>Figa</B>. You can
+    I named my components library after my beloved cat - <B>Figa</B>. You can
     name it after a turtle (or whatever pet you have at home). These are my
     answers:
   </M>
@@ -185,14 +184,14 @@ title: Dream stack for React dev
   />
   <M>We have what we wanted, so let's move on.</M>
   <Hint hasBg>
-    In this nice looking{" "}
+    In this{" "}
     <A
       outside
       href="https://github.com/polubis/Dream-stack-for-React-dev/commit/5021144480bb788155a6cee17699a62ec5b5a74d/"
     >
       commit
     </A>{" "}
-    you have the current progress.
+    you have the full changes.
   </Hint>
 </Section>
 
@@ -228,14 +227,14 @@ title: Dream stack for React dev
     description="It works!"
   />
   <Hint hasBg>
-    In this nice looking{" "}
+    In this{" "}
     <A
       outside
       href="https://github.com/polubis/Dream-stack-for-React-dev/commit/2bcf4873c2592b032015a24f3485c314230b6118/"
     >
       commit
     </A>{" "}
-    you have the current progress.
+    you have the full changes.
   </Hint>
 </Section>
 
@@ -264,21 +263,21 @@ title: Dream stack for React dev
     and <B>3002</B>. Looks cool? Yea!
   </M>
   <Hint hasBg>
-    In this nice looking{" "}
+    In this{" "}
     <A
       outside
       href="https://github.com/polubis/Dream-stack-for-React-dev/commit/3cd43866db3fe6c780dabb322bba7ba9ff5ac856/"
     >
       commit
     </A>{" "}
-    you have the current progress.
+    you have the full changes.
   </Hint>
 </Section>
 
 <Section>
   <XL>8. Using libraries</XL>
   <M>
-    Take a look at this. Do you want to use a component library in two
+    Take a look at this. Do you want to use a components library in two
     applications? Forget about <B>npm install</B>. All you need is a simple{" "}
     <B>import</B> statement.
   </M>
@@ -289,14 +288,14 @@ title: Dream stack for React dev
   />
   <M>Who cares about configuring aliases for webpack? Certainly not you :D</M>
   <Hint hasBg>
-    In this nice looking{" "}
+    In this{" "}
     <A
       outside
       href="https://github.com/polubis/Dream-stack-for-React-dev/commit/eb157141da07fc66219ef3bbfa76f5784f7062df/"
     >
       commit
     </A>{" "}
-    you have the current progress.
+    you have the full changes.
   </Hint>
 </Section>
 
@@ -351,14 +350,14 @@ title: Dream stack for React dev
     application in React, and in the Next.js application.
   </M>
   <Hint hasBg>
-    In this nice looking{" "}
+    In this{" "}
     <A
       outside
       href="https://github.com/polubis/Dream-stack-for-React-dev/commit/9e7c0a7e54913bf4522c0a29c78e5b6d41fc8e8b/"
     >
       commit
     </A>{" "}
-    you have the current progress.
+    you have the full changes.
   </Hint>
 </Section>
 
@@ -423,14 +422,170 @@ npm run format:fixAll
     something, then use the <B>git commit -m "I'm just checking" --no-verify</B>.
   </M>
   <Hint hasBg>
-    In this nice looking{" "}
+    In this{" "}
     <A
       outside
       href="https://github.com/polubis/Dream-stack-for-React-dev/commit/6821d08d99e8642ab74835fee34fc421a4472d0d/"
     >
       commit
     </A>{" "}
-    you have the current progress.
+    you have the full changes.
+  </Hint>
+</Section>
+
+<Section>
+  <XL>11. Adding themes</XL>
+  <M>
+    We want to give users the ability to set everything in the application
+    according to their preferences. This would be useful for creating predefined
+    themes or to debug interface behavior by developers/designers.
+  </M>
+  <M>
+    It may seem like overkill, but admit that it's a pretty cool feature and not
+    difficult to implement. You just have to stick to the specific guidelines
+    that we're about to establish. Let's start by defining the{" "}
+    <B>design tokens</B> and the <B>shape of theme</B>.
+  </M>
+  <M>
+    Design tokens? These are nothing more than rigidly fixed values that our
+    design system will use. It can be background color, font color, border
+    rounding, font size and others... To simplify, these are nothing more than
+    unique variables to which we assign the settings of our design system.
+  </M>
+  <List items="background.color='#f0f0f0',font.color='#000000',boxes.radius100='4px',font.size100='16px'" />
+  <Snippet
+    linesCount={25}
+    src="/snippets/dream-stack-for-react-dev/design-tokens.ts"
+  />
+  <Hint hasBg>
+    Note the quite "strange" shape of the tokens object. This manner is taken
+    from <B>Material design</B> to which I refer you in this{" "}
+    <A href="https://m3.material.io/foundations/design-tokens/overview" outside>
+      link
+    </A>
+    .
+  </Hint>
+  <M>
+    That themes should allow us to describe each component in our UI library, so
+    we need to make sure that the values are taken from the theme, which the
+    user is using.
+  </M>
+  <Snippet
+    linesCount={26}
+    src="/snippets/dream-stack-for-react-dev/theme-object.ts"
+  />
+  <M>
+    When you add a new component, remember that all settings should be added to
+    the themes, and if you use a new font size, color or anything else, you need
+    to include it in the design tokens. Thanks to this you will get a very
+    scalable components library. Now it's time for real work. Let's use{" "}
+    <B>Context API</B> to provide logic for themes management.
+  </M>
+  <Snippet
+    linesCount={50}
+    src="/snippets/dream-stack-for-react-dev/provider.tsx"
+    description="We're injecting themes and an API to change them"
+  />
+  <M>
+    Done! All that's left is to use the theme in the styles and you can enjoy
+    the ability to set up the UI in any way you want. Now with every next
+    component you just need to use this approach.
+  </M>
+  <Snippet linesCount={5} src="/snippets/dream-stack-for-react-dev/css.ts" />
+  <M>
+    Let's assume that you want to use a component, and later you want to change
+    theme. All you need to do is to wrap the whole application with the provider
+    and import the dedicated component.
+  </M>
+  <Snippet
+    linesCount={8}
+    src="/snippets/dream-stack-for-react-dev/usage-in-all-places.tsx"
+  />
+  <Img border src="/assets/dream-stack-for-react-dev/themes.gif" />
+  <Hint hasBg>
+    In this{" "}
+    <A
+      outside
+      href="https://github.com/polubis/Dream-stack-for-React-dev/commit/ff48962e3899deddabf6fde82de723d3b98afe69"
+    >
+      commit
+    </A>{" "}
+    you have the full changes.
+  </Hint>
+</Section>
+
+<Section>
+  <XL>12. Sharing fonts between libs and apps</XL>
+  <M>
+    If you run the application or storybook and you don't have <B>"Lexend"</B>{" "}
+    fonts installed, then get ready for the error in the browser console. We
+    added the font face and font files, but did we think to move them to the
+    public directories for the application or indicate for the storybook where
+    these fonts are? It seems that no...
+  </M>
+  <M>
+    The case for the storybook is easy. Just indicate the place from where the
+    storybook should copy our assets and it will be done automatically during
+    build. I moved the font files to the very top of the file and folder
+    structure, just for convenience when importing. Next, I changed the
+    configuration in the <B>main.js</B> file.
+  </M>
+  <Snippet>{`staticDirs: [{ from: '../../../assets', to: '/' }]`}</Snippet>
+  <M>
+    I corrected the import in font face to be shorter. The assets directory is
+    redundant. Immediately after that, the fonts in the storybook updated their
+    look and started to look like a real <B>"Lexend"</B>.
+  </M>
+  <Snippet>{`src: url('/fonts/LexendBold.ttf') format('truetype');`}</Snippet>
+  <M>
+    Now the applications. Here is a little more work. We need to use the webpack
+    plugin to copy the contents of one folder to another. We'll do this for both
+    applications in Next.js and in pure React.
+  </M>
+  <Snippet
+    description="React SPA fonts copied!"
+    linesCount={26}
+    src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/0ab6b3c21eecbe7d6446979c3bc1035adfe90c2f/system/apps/blog-creator/webpack.config.js"
+  />
+  <Snippet
+    linesCount={39}
+    src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/0ab6b3c21eecbe7d6446979c3bc1035adfe90c2f/system/apps/blog/next.config.js"
+    description="Next.js fonts copied!"
+  />
+  <Hint hasBg>
+    In this{" "}
+    <A
+      outside
+      href="https://github.com/polubis/Dream-stack-for-React-dev/commit/0ab6b3c21eecbe7d6446979c3bc1035adfe90c2f"
+    >
+      commit
+    </A>{" "}
+    you have the full changes.
+  </Hint>
+</Section>
+
+<Section>
+  <XL>13. Fixing a strange error in styled-components</XL>
+  <M>
+    If you launch the console in the Next.js application, you will see an error
+    indicating that the generated values for the <B>className</B> property, are
+    different on the server and on the client. To fix it we need to add this to{" "}
+    <B>next.config.js</B>.
+  </M>
+  <Snippet>
+    {`compiler: {
+  styledComponents: true // Next.js sets up the Babel plugin for styled-components.
+}`}
+  </Snippet>
+  <Hint hasBg>
+    In this{" "}
+    <A
+      outside
+      href="https://github.com/polubis/Dream-stack-for-React-dev/commit/1d3b87e7d617d729e0d3c6fceed849072fe3c553"
+    >
+      commit
+    </A>{" "}
+    you have the full changes.
   </Hint>
 </Section>
 
@@ -450,13 +605,15 @@ npm run format:fixAll
   </M>
   <M>
     There is still place to add many more things. However, I think that it is
-    better to add a little less than more.
+    better to add a little less than more. The repository we have implemented
+    will be constantly improved so we recommend to taking a look at our{" "}
+    <B>Github</B> from time to time.
   </M>
   <M>
     If you enjoyed it, be sure to visit us on{" "}
     <A href="https://www.linkedin.com/company/greenon-software/" outside>
       Linkedin
-    </A>
-    , where we regularly upload content from programming.
+    </A>{" "}
+    where we regularly upload content from programming.
   </M>
 </Summary>
