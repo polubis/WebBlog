@@ -6,7 +6,8 @@ const Svg = styled.svg`
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  margin: 0 3px 0 3px;
+  // padding-top: 2px;
+  margin: 8px 3px 0 3px;
   path {
     fill: ${theme.secondary};
   }
