@@ -2,7 +2,7 @@ import React, { ReactNode } from "react"
 import styled from "styled-components"
 import { GreenOnLogo } from "../../components/GreenOnLogo"
 import theme from "../../utils/theme"
-import { LinkedinIcon } from "../icons"
+import { GithubIcon, LinkedinIcon } from "../icons"
 import { M, S, X } from "../text"
 import Link from "../../components/link/Link"
 import { L_DOWN, M_DOWN, T_DOWN } from "../../utils/viewport"
@@ -12,6 +12,7 @@ import { Content } from "../layout"
 import { useJoinUsModal } from "../../components/article/WithJoinUsModal"
 import { LinkButton } from "../../components/button/Button"
 import { Translated } from "../../models"
+import { GitIcon } from "../icons/GitIcon"
 
 const Container = styled.footer`
   background: ${theme.black};
@@ -166,6 +167,14 @@ const Footer = ({ articles, t, renderLinks }: FooterProps) => {
           >
             <LinkedinIcon />
           </a>
+        < a
+        href="https://github.com/polubis/WebBlog/tree/develop "
+        title="GitHub GreenOn Software profile"
+        target="_blank"
+        >
+<GithubIcon />
+          </a>
+            
           <CompanyWrapper>
             <S className="ui-footer-gray">
               {t.footer.poweredBy} GreenOn Software
