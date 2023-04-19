@@ -3,6 +3,7 @@ import styled from "styled-components"
 import theme from "../../utils/theme"
 
 const Svg = styled.svg`
+  margin: 0 3px 0 3px;
   path {
     fill: ${theme.secondary};
   }
