@@ -21,6 +21,10 @@ const Container = styled.footer`
   .ui-footer-gray {
     color: ${theme.grayD};
   }
+  ui-icon{
+    text-align: left;
+
+  }
 
   & > .ui-layout-content {
     display: flex;
@@ -160,6 +164,7 @@ const Footer = ({ articles, t, renderLinks }: FooterProps) => {
           </Section>
         </TopSection>
         <ContentFooter>
+          <S className="ui-icon">
           <a
             href="https://www.linkedin.com/company/greenon-software/"
             title="Linkedin GreenOn Software profile"
@@ -174,7 +179,7 @@ const Footer = ({ articles, t, renderLinks }: FooterProps) => {
         >
 <GithubIcon />
           </a>
-            
+          </S>
           <CompanyWrapper>
             <S className="ui-footer-gray">
               {t.footer.poweredBy} GreenOn Software
