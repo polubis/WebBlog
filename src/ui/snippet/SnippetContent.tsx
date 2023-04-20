@@ -5,6 +5,8 @@ import { useClipboard } from "../../utils/useClipboard"
 import { S } from "../text"
 import { SNIPPET_THEME } from "./snippetTheme"
 import { InteractiveButton } from "./InteractiveButton"
+import { SnippetProps } from "./Snippet"
+import { flattenHighlighted } from "../../utils/flattenHighlighted"
 
 const Container = styled.div`
   max-width: 100vw;
@@ -89,17 +91,47 @@ const Pre = styled.pre`
     height: 1.3em;
   }
 `
-
-const Line = styled.div`
+type Highlightable = {
+  highlight: string
+}
+const Line = styled.div<Highlightable>`
   display: table-row;
+  background-color: ${props => {
+    switch (props.highlight) {
+      case "added":
+        return "rgba(0, 255, 0, 0.1)"
+      case "deleted":
+        return "rgba(250, 36, 36, 0.2)"
+      case "changed":
+        return "rgba(255, 255, 0, 0.1)"
+      default:
+        return "transparent"
+    }
+  }};
 `
 
-const LineNo = styled.span`
+const LineNo = styled.span<Highlightable>`
   display: table-cell;
   text-align: right;
   padding-right: 1em;
   user-select: none;
   opacity: 0.5;
+  &::after {
+    position: absolute;
+    margin-left: 0.2em;
+    content: "${props => {
+      switch (props.highlight) {
+        case "added":
+          return "+"
+        case "deleted":
+          return "-"
+        case "changed":
+          return "•"
+        default:
+          return ""
+      }
+    }}";
+  }
 `
 
 const LineContent = styled.span`
@@ -125,24 +157,40 @@ const Header = styled.header`
   }
 `
 
-interface SnippetContentProps {
-  children: string
-  description?: string
-  src?: string
-}
-
 const SnippetContent = ({
   children,
   description,
   src,
-}: SnippetContentProps) => {
+  added,
+  deleted,
+  changed,
+}: SnippetProps) => {
   const { copy } = useClipboard()
 
   const handleCopy = (): void => {
-    copy(children.trim())
+    copy(children!.trim())
   }
   const handleOpenSource = (): void => {
     window.open(src, "_blank")
+  }
+
+  const highlightedLines = {
+    added: added ? flattenHighlighted(added) : [],
+    deleted: deleted ? flattenHighlighted(deleted) : [],
+    changed: changed ? flattenHighlighted(changed) : [],
+  }
+
+  const highlightType = (line: number): string => {
+    if (highlightedLines.added.includes(line)) {
+      return "added"
+    }
+    if (highlightedLines.deleted.includes(line)) {
+      return "deleted"
+    }
+    if (highlightedLines.changed.includes(line)) {
+      return "changed"
+    }
+    return ""
   }
 
   return (
@@ -167,14 +215,18 @@ const SnippetContent = ({
       <PrismSnippet
         {...defaultProps}
         theme={SNIPPET_THEME}
-        code={children.trim()}
+        code={children!.trim()}
         language="jsx"
       >
         {({ className, style, tokens, getLineProps, getTokenProps }) => (
           <Pre className={className} style={style}>
             {tokens.map((line, i) => (
-              <Line key={i} {...getLineProps({ line, key: i })}>
-                <LineNo>{i + 1}</LineNo>
+              <Line
+                highlight={highlightType(i + 1)}
+                key={i}
+                {...getLineProps({ line, key: i })}
+              >
+                <LineNo highlight={highlightType(i + 1)}>{i + 1}</LineNo>
                 <LineContent>
                   {line.map((token, key) => (
                     <span key={key} {...getTokenProps({ token, key })} />
@@ -190,7 +242,5 @@ const SnippetContent = ({
     </Container>
   )
 }
-
-export type { SnippetContentProps }
 
 export { SnippetContent }
