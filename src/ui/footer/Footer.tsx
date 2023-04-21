@@ -2,7 +2,7 @@ import React from "react"
 import styled from "styled-components"
 import { GreenOnLogo } from "../../components/GreenOnLogo"
 import theme from "../../utils/theme"
-import { LinkedinIcon } from "../icons/LinkedinIcon"
+import { LinkedinIcon, DiscordIcon } from "../icons"
 import { M, S, X } from "../text"
 import Link from "../../components/link/Link"
 import { L_DOWN, M_DOWN, T_DOWN } from "../../utils/viewport"
@@ -11,7 +11,6 @@ import Img from "gatsby-image"
 import { Content } from "../layout"
 import { useJoinUsModal } from "../../components/article/WithJoinUsModal"
 import { LinkButton } from "../../components/button/Button"
-import { DiscordIcon } from "../icons/DiscordIcon"
 
 const Container = styled.footer`
   background: ${theme.black};
@@ -37,6 +36,11 @@ const ContentFooter = styled.div`
   justify-content: space-between;
   padding: 12px 0 16px 0;
   border-top: 2px solid ${theme.grayC};
+
+  .discord-link {
+    margin-left: 12px;
+  }
+
   & > :last-child {
     margin-left: auto;
   }
@@ -184,6 +188,7 @@ const Footer = ({ articles }: FooterProps) => {
             <LinkedinIcon />
           </a>
           <a
+            className="discord-link"
             href="https://discord.gg/uJa3KUfFpj"
             title="GreenOn Software Discord channel"
             target="_blank"
