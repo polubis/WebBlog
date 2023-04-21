@@ -22,6 +22,7 @@ import theme from "../../utils/theme"
 import { WillBeContinuedBanner } from "./WillBeContinuedBanner"
 import { AllDataResponse } from "../../api"
 import { Breadcrumbs } from "../breadcrumbs"
+import { ReadInOtherLanguageBanner } from "./ReadInOtherLanguageBanner"
 
 const ProgressDisplayer = Loadable({
   loader: () => import("./ProgressDisplayer").then(m => m.ProgressDisplayer),
@@ -85,7 +86,9 @@ interface Props {
   }
 }
 
-export default function ({ pageContext: { article, articles } }: Props) {
+export default function ({
+  pageContext: { article, articles, site, translationObject },
+}: Props) {
   const {
     author,
     thumbnail,
@@ -105,10 +108,16 @@ export default function ({ pageContext: { article, articles } }: Props) {
     readTime,
     next,
     previous,
+    translations,
+    lang,
   } = article
+
+  const t = translationObject[lang]
 
   return (
     <SiteMeta
+      siteName={site.siteName}
+      siteLang={site.langs.en.html}
       gaPage={gaPage}
       url={gaPage + "/"}
       robots="index,follow,max-image-preview:large"
@@ -118,9 +127,16 @@ export default function ({ pageContext: { article, articles } }: Props) {
       description={description}
       image={thumbnail.src}
     >
-      <Layout articles={articles}>
+      <Layout articles={articles} t={t} routes={site.routes}>
         <Content paddingY>
           <Article>
+            {translations.length > 0 && (
+              <ReadInOtherLanguageBanner
+                text="This article is also published in Polish language."
+                url={translations[0].path}
+                linkLabel="Change language"
+              />
+            )}
             {toBeContinuedDate && <WillBeContinuedBanner />}
             <Breadcrumbs
               items={[
@@ -177,7 +193,7 @@ export default function ({ pageContext: { article, articles } }: Props) {
             </BottomNavigation>
           </Article>
         </Content>
-        <ProgressDisplayer />
+        <ProgressDisplayer labels={t.progressDisplay} />
       </Layout>
     </SiteMeta>
   )

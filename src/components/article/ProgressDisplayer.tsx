@@ -4,14 +4,10 @@ import theme from "../../utils/theme"
 import { toHMS } from "../../utils/toHMS"
 import { usePageProgress } from "../../utils/usePageProgress"
 
-const TRESHOLDS = [
-  [60, "Don't scroll, just read it 🐼"] as const,
-  [180, "Well, let me believe you've read it 🐍"] as const,
-  [240, "Holy cow, did you really read this? Thanks! 🤓"] as const,
-  [480, "Thanks for reading 🤓"] as const,
-  [1000, "Hmmm... Are you afk? 🤓"] as const,
-  [100000, "Thanks 🤓"] as const,
-] as const
+interface ProgressDisplayerProps {
+  labels: string[]
+  delays: number[]
+}
 
 const slideIn = keyframes`
   from {
@@ -48,17 +44,19 @@ const ReadProgress = styled.div`
   z-index: 103;
 `
 
-const ReadStatsManager = ({ readedIn }: { readedIn: number }) => {
+const ReadStatsManager = ({
+  readedIn,
+  labels,
+  delays,
+}: { readedIn: number } & ProgressDisplayerProps) => {
   const [message, setMessage] = useState("")
   const [hide, setHide] = useState(false)
 
   useEffect(() => {
     if (readedIn > 0) {
       const appearTimeout = setTimeout(() => {
-        const [, messageToSet] = TRESHOLDS.find(
-          ([treshold]) => readedIn <= treshold
-        )!
-        setMessage(messageToSet)
+        const foundDelayIdx = delays.findIndex(delay => readedIn <= delay)!
+        setMessage(labels[foundDelayIdx])
       }, 2000)
       const hideTimeout = setTimeout(() => {
         setHide(true)
@@ -86,7 +84,10 @@ const ReadStatsManager = ({ readedIn }: { readedIn: number }) => {
   return null
 }
 
-export const ProgressDisplayer = () => {
+const ProgressDisplayer = ({
+  labels,
+  delays = [60, 180, 240, 480, 1000, 100000],
+}: ProgressDisplayerProps) => {
   const { readedIn, progress } = usePageProgress()
 
   return (
@@ -97,7 +98,11 @@ export const ProgressDisplayer = () => {
           background: progress >= 100 ? theme.green : theme.primary,
         }}
       />
-      <ReadStatsManager readedIn={readedIn} />
+      <ReadStatsManager labels={labels} delays={delays} readedIn={readedIn} />
     </>
   )
 }
+
+export type { ProgressDisplayerProps }
+
+export { ProgressDisplayer }

@@ -23,19 +23,23 @@ interface CoursesPageProps {
 }
 
 const CoursesPage = ({
-  pageContext: { courses, articles },
+  pageContext: { courses, articles, site, translationObject },
 }: CoursesPageProps) => {
+  const t = translationObject["en"]
+
   return (
     <SiteMeta
-      gaPage="courses"
-      url="courses/"
+      siteName={site.siteName}
+      siteLang={site.langs.en.html}
+      gaPage={site.routes.courses.gaPage}
+      url={site.routes.courses.to}
       robots="index,follow"
-      title="Courses"
+      title={`${site.siteName} courses: Quick and concise lessons about programming.`}
       type="website"
       image="/icon-192x192.png"
-      description="Browse through the list of courses and choose something for yourself."
+      description="Browse through the list of our courses and in which you will learn and understand any issues."
     >
-      <Layout articles={articles}>
+      <Layout articles={articles} t={t} routes={site.routes}>
         <Content paddingY>
           <Grid>
             {courses.map(course => (

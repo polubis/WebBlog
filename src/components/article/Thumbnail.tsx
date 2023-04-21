@@ -77,6 +77,9 @@ interface Props {
   graphicAuthorLink?: string
   readTime: number
   isNew: boolean
+  newLabel?: string
+  graphicAuthorLabel?: string
+  thumbnailAlt?: string
 }
 
 export default function ({
@@ -85,12 +88,15 @@ export default function ({
   readTime,
   graphicAuthorLink,
   isNew,
+  newLabel = "new",
+  graphicAuthorLabel = "Graphic author",
+  thumbnailAlt = "Article thumbnail",
 }: Props) {
   return (
     <Figure>
       <Img
         fluid={thumbnail}
-        alt="Article thumbnail"
+        alt={thumbnailAlt}
         style={{
           position: "absolute",
           top: 0,
@@ -105,12 +111,12 @@ export default function ({
           <ReadTimeIcon />
           {readTime}m
         </Badge>
-        {isNew && <Badge color={theme.green}>new</Badge>}
+        {isNew && <Badge color={theme.green}>{newLabel}</Badge>}
       </Badges>
       {graphicAuthorLink && (
         <GraphicAuthor>
           <A href={graphicAuthorLink} outside>
-            Graphic author
+            {graphicAuthorLabel}
           </A>
         </GraphicAuthor>
       )}

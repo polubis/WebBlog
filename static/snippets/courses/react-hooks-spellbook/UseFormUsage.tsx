@@ -38,17 +38,17 @@ const LogInForm = () => {
     <form
       onSubmit={e => {
         e.preventDefault()
-        // Submits trigger validation and state update.
+        // Triggers validation and state update.
         submit()
       }}
     >
       <input
         placeholder="Username"
         value={values.username}
-        // After calling set validation is performed and value changed.
+        // Validation is performed and value is changed.
         onChange={e => set({ key: "username", value: e.target.value })}
       />
-      {/* Displaying errors only when field is already once changed. */}
+      {/* Errors are displayed when the field was changed at least once. */}
       {affected.username && errors.username && <span>{errors.username}</span>}
       <input
         placeholder="Password"

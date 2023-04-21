@@ -1,0 +1,36 @@
+---
+name: The best practices for naming tests
+duration: 2
+description: The nomenclature must be consistent and clear throughout the solution, so we must take care of this from the beginning.
+---
+
+<Section>
+  <XL>Converting the syntax</XL>
+  <M>
+    It will be very simple. Let's use one and the same form, let's avoid
+    superfluous words. The description must reflect what we are testing, and
+    let's not repeat phrases. Look at the following examples to understand the
+    point.
+  </M>
+  <Snippet>
+    {`
+describe("Pizza meets standards when: ", () => { 👍
+  it("size is between 30-40 cm", () => {}); 👍
+ 
+  it("cake is brown", () => {}); 👍
+ 
+  it("cheese is melted", () => {}); 👍
+   
+  it("cake is warm", () => {}); 👍
+   
+  it("plate is clean", () => {}); 👍
+});
+    `}
+  </Snippet>
+  <M>In the above example, we keep an eye on the following rules: </M>
+  <List items="We should use only the Past Simple,Sentences in describe blocks should begin with a capital letter,Sentences in describe blocks should be short and begin with lowercase letters,The sentences in the it blocks should be very short, The sentence at the end of describe ends with : and space" />
+  <M>
+    You will see later how nicely it looks when you display the result of the
+    tests.
+  </M>
+</Section>

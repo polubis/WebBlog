@@ -14,7 +14,7 @@ import theme from "../../../utils/theme"
 import Badge from "../../../components/article/Badge"
 import { formatDistanceStrict } from "date-fns"
 import { Stack } from "../../../components/article/Stack"
-import { Article, Course } from "../../../models"
+import { Article, Course, SiteMetadata, Translated } from "../../../models"
 import { Breadcrumbs } from "../../../components/breadcrumbs"
 
 const Details = styled.div`
@@ -150,14 +150,21 @@ const StatisticsSection = styled.div`
 interface CourseContentProps {
   course: Course
   articles: Article[]
+  t: Translated
+  site: SiteMetadata
 }
 
-export const CourseContent = ({ course, articles }: CourseContentProps) => {
+export const CourseContent = ({
+  course,
+  articles,
+  t,
+  site,
+}: CourseContentProps) => {
   const chaptersCount = course.chapters.length
   const { lessonsCount } = course
 
   return (
-    <Layout articles={articles}>
+    <Layout articles={articles} t={t} routes={site.routes}>
       <Content paddingY>
         <Container>
           <Area className="details-area">

@@ -7,7 +7,7 @@ import AuthorAvatar from "../../components/article/AuthorAvatar"
 import styled from "styled-components"
 import theme from "../../utils/theme"
 import { EmptyAuthorTile } from "../../components/empty-author-tile/EmptyAuthorTile"
-import { AllDataResponse } from "../../api/getAllData"
+import { AllDataResponse } from "../../api"
 
 const Grid = styled.div`
   display: grid;
@@ -72,19 +72,23 @@ interface AuthorsPageProps {
 }
 
 const AuthorsPage = ({
-  pageContext: { authors, articles },
+  pageContext: { authors, articles, site, translationObject },
 }: AuthorsPageProps) => {
+  const t = translationObject["en"]
+
   return (
     <SiteMeta
-      gaPage="authors"
-      url="authors/"
+      siteName={site.siteName}
+      siteLang={site.langs.en.html}
+      gaPage={site.routes.authors.gaPage}
+      url={site.routes.authors.to}
       robots="index,follow"
-      title="GreenOn Software blog authors"
+      title={`${site.siteName} authors: Meet our content creators and developers.`}
       type="website"
       image="/icon-192x192.png"
       description="Contact the blog authors and start writing."
     >
-      <Layout articles={articles}>
+      <Layout articles={articles} t={t} routes={site.routes}>
         <Content paddingY>
           <Grid>
             <ConnectedEmptyAuthorTile />

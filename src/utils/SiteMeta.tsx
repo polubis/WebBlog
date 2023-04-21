@@ -8,8 +8,10 @@ interface SiteMetaProps {
   title: string
   description: string
   children: ReactNode
+  siteLang: string
   type: "website" | "article"
   robots: string
+  siteName: string
   author?: string
   image?: string
 }
@@ -23,13 +25,15 @@ export const SiteMeta = ({
   author,
   url,
   gaPage,
+  siteLang,
+  siteName,
   image,
 }: SiteMetaProps) => {
   useGAPage(gaPage)
 
   return (
     <>
-      <Helmet htmlAttributes={{ lang: "en-US" }}>
+      <Helmet htmlAttributes={{ lang: siteLang }}>
         <title>{title}</title>
         <meta property="og:title" content={title} />
         <meta name="parsely-title" content={title}></meta>
@@ -39,21 +43,15 @@ export const SiteMeta = ({
         <meta property="og:description" content={description}></meta>
         <meta name="twitter:description" content={description}></meta>
 
-        <meta property="og:site_name" content="GreenOn Software"></meta>
+        <meta property="og:site_name" content={siteName}></meta>
 
         <meta property="og:type" content={type}></meta>
         <meta name="robots" content={robots}></meta>
 
-        <meta property="og:locale" content="en_US"></meta>
+        <meta property="og:locale" content={siteLang}></meta>
 
-        <meta
-          property="og:url"
-          content={`https://greenonsoftware.com/${url}`}
-        ></meta>
-        <meta
-          name="parsely-link"
-          content={`https://greenonsoftware.com/${url}`}
-        ></meta>
+        <meta property="og:url" content={url}></meta>
+        <meta name="parsely-link" content={url}></meta>
 
         {image && <meta property="og:image" content={image}></meta>}
         {image && <meta property="og:image:secure_url" content={image}></meta>}

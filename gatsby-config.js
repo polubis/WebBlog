@@ -1,20 +1,63 @@
-const siteUrl = process.env.URL || `https://www.greenonsoftware.com`
+const siteUrl = `https://greenonsoftware.com`
+const siteName = "GreenOn Software"
+const siteDescription = `A place for people who love programming and personal development.`
+const langs = {
+  en: {
+    html: "en-US",
+    key: "en",
+  },
+  pl: {
+    html: "pl-PL",
+    key: "pl",
+  },
+}
+const routes = {
+  articles: {
+    to: "/articles/",
+    gaPage: "articles",
+    key: "articles",
+  },
+  authors: {
+    to: "/authors/",
+    gaPage: "authors",
+    key: "authors",
+  },
+  courses: {
+    to: "/courses/",
+    gaPage: "courses",
+    key: "courses",
+  },
+  creator: {
+    to: "/blog-creator/",
+    gaPage: "blog-creator",
+    key: "creator",
+  },
+  home: {
+    to: "/",
+    gaPage: "",
+    key: "home",
+  },
+}
 
 module.exports = {
   siteMetadata: {
     siteUrl,
+    siteName,
+    siteDescription,
+    langs,
+    routes,
   },
   plugins: [
     "gatsby-plugin-styled-components",
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `GreenOn Software`,
-        short_name: `GreenOn Software`,
-        description: `We do everything to provide programming knowledge in a short, user-friendly form. It allows you to walk away from your computer faster and reduce your carbon footprint.`,
-        start_url: `/`,
+        name: siteName,
+        short_name: siteName,
+        description: siteDescription,
+        start_url: routes.home.to,
         background_color: `#0A0A0A`,
-        lang: "en-US",
+        lang: langs.en.html,
         theme_color: `#fff`,
         display: `standalone`,
         icons: [

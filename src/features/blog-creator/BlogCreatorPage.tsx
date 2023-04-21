@@ -10,19 +10,23 @@ interface BlogCreatorPageProps {
 }
 
 const BlogCreatorPage = ({
-  pageContext: { articles },
+  pageContext: { articles, site, translationObject },
 }: BlogCreatorPageProps) => {
+  const t = translationObject["en"]
+
   return (
     <SiteMeta
-      gaPage="blog-creator"
-      url="blog-creator/"
+      siteName={site.siteName}
+      siteLang={site.langs.en.html}
+      gaPage={site.routes.creator.gaPage}
+      url={site.routes.creator.to}
       robots="index,follow"
-      title="Blog creator"
+      title={`${site.siteName} creator: Tool for creating articles based on mdx syntax.`}
       type="website"
       image="/icon-192x192.png"
-      description="Join the community and create your first article in a fast and fun way."
+      description="Use our tool to create articles and courses in a fast, developer-friendly way."
     >
-      <Layout articles={articles}>
+      <Layout articles={articles} t={t} routes={site.routes}>
         <Content paddingY>
           <BlogCreator />
         </Content>

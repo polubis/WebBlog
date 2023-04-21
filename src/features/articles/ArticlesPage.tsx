@@ -10,18 +10,24 @@ interface ArticlesPageProps {
   pageContext: AllDataResponse
 }
 
-const ArticlesPage = ({ pageContext: { articles } }: ArticlesPageProps) => {
+const ArticlesPage = ({
+  pageContext: { articles, site, translationObject },
+}: ArticlesPageProps) => {
+  const t = translationObject["en"]
+
   return (
     <SiteMeta
-      gaPage="articles"
-      url="articles/"
+      siteName={site.siteName}
+      siteLang={site.langs.en.html}
+      gaPage={site.routes.articles.gaPage}
+      url={site.routes.articles.to}
       robots="index,follow"
-      title="GreenOn Software articles"
+      title={`${site.siteName} articles: Learn with us.`}
+      description="Browse through our articles and find something suitable for you."
       type="website"
       image="/icon-192x192.png"
-      description="A blog created to share programming knowledge in a easy way."
     >
-      <Layout articles={articles}>
+      <Layout articles={articles} t={t} routes={site.routes}>
         <Content paddingY>
           <Grid articles={articles} />
         </Content>

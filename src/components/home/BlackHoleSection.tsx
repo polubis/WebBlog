@@ -66,7 +66,6 @@ const BlackHoleSection = ({ holeImg }: BlackHoleSectionProps) => {
   return (
     <Wrapper>
       <GatsbyImage
-        className="components-black-hole-section-image"
         fluid={holeImg}
         alt="Black hole"
         style={{

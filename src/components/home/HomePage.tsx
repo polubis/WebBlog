@@ -1,6 +1,6 @@
 import React from "react"
 import { SiteMeta } from "../../utils/SiteMeta"
-import { AllDataResponse } from "../../api/getAllData"
+import { AllDataResponse } from "../../api"
 import Layout from "../layout/Layout"
 import { BlackHoleSection } from "./BlackHoleSection"
 import { WelcomeSection } from "./WelcomeSection"
@@ -22,19 +22,25 @@ const HomePage = ({ pageContext }: HomePageProps) => {
     totalLessons,
     timeline,
     holeImg,
+    site,
+    translationObject,
   } = pageContext
+
+  const t = translationObject["en"]
 
   return (
     <SiteMeta
-      gaPage=""
-      url=""
+      siteName={site.siteName}
+      siteLang={site.langs.en.html}
+      title={site.siteName}
+      description={site.siteName + " - " + site.siteDescription}
+      url={site.routes.home.to}
+      gaPage={site.routes.home.gaPage}
       robots="index,follow"
-      title="GreenOn Software"
       type="website"
       image="/icon-192x192.png"
-      description="A place for people who love programming and personal development."
     >
-      <Layout articles={articles}>
+      <Layout articles={articles} t={t} routes={site.routes}>
         <BlackHoleSection holeImg={holeImg} />
         <WelcomeSection />
         <StatsSection
