@@ -2,7 +2,7 @@ import React, { ReactNode } from "react"
 import styled from "styled-components"
 import { GreenOnLogo } from "../../components/GreenOnLogo"
 import theme from "../../utils/theme"
-import { LinkedinIcon } from "../icons"
+import { LinkedinIcon, DiscordIcon } from "../icons"
 import { M, S, X } from "../text"
 import Link from "../../components/link/Link"
 import { L_DOWN, M_DOWN, T_DOWN } from "../../utils/viewport"
@@ -37,6 +37,14 @@ const ContentFooter = styled.div`
   justify-content: space-between;
   padding: 12px 0 16px 0;
   border-top: 2px solid ${theme.grayC};
+
+  .discord-link {
+    margin-left: 12px;
+  }
+
+  & > :last-child {
+    margin-left: auto;
+  }
 `
 
 const CompanyWrapper = styled.div`
@@ -165,6 +173,14 @@ const Footer = ({ articles, t, renderLinks }: FooterProps) => {
             target="_blank"
           >
             <LinkedinIcon />
+          </a>
+          <a
+            className="discord-link"
+            href="https://discord.gg/uJa3KUfFpj"
+            title="GreenOn Software Discord channel"
+            target="_blank"
+          >
+            <DiscordIcon />
           </a>
           <CompanyWrapper>
             <S className="ui-footer-gray">
