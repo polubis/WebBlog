@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from "react"
 import { isInSSR } from "../../utils/isInSSR"
 import { SnippetContent } from "./SnippetContent"
 import { from } from "rxjs"
-import { SnippetProps } from "./Snippet"
+import { SnippetProps } from "./defs"
 
 const generatePlaceholder = (count: number): string => {
   let animal = `⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣤⣤⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -75,14 +75,8 @@ const generatePlaceholder = (count: number): string => {
   return animalArr.join("\n")
 }
 
-const LiveContent = ({
-  description,
-  src,
-  linesCount = 10,
-  added,
-  deleted,
-  changed,
-}: SnippetProps) => {
+const DynamicSnippet = (props: SnippetProps) => {
+  const { linesCount, src } = props
   const placeholder = useMemo(() => generatePlaceholder(linesCount), [])
   const [children, setChildren] = useState(placeholder)
 
@@ -101,16 +95,7 @@ const LiveContent = ({
     }
   }, [])
 
-  return (
-    <SnippetContent
-      children={children}
-      description={description}
-      src={src}
-      added={added}
-      deleted={deleted}
-      changed={changed}
-    />
-  )
+  return <SnippetContent {...props} children={children} src={src} />
 }
 
-export { LiveContent }
+export { DynamicSnippet }

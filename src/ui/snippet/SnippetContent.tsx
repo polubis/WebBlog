@@ -5,8 +5,11 @@ import { useClipboard } from "../../utils/useClipboard"
 import { S } from "../text"
 import { SNIPPET_THEME } from "./snippetTheme"
 import { InteractiveButton } from "./InteractiveButton"
-import { SnippetProps } from "./Snippet"
-import { flattenHighlighted } from "../../utils/flattenHighlighted"
+import { SnippetProps, Range } from "./defs"
+
+type Highlightable = {
+  highlight: string
+}
 
 const Container = styled.div`
   max-width: 100vw;
@@ -91,9 +94,7 @@ const Pre = styled.pre`
     height: 1.3em;
   }
 `
-type Highlightable = {
-  highlight: string
-}
+
 const Line = styled.div<Highlightable>`
   display: table-row;
   background-color: ${props => {
@@ -157,6 +158,34 @@ const Header = styled.header`
   }
 `
 
+const flatRange = (range: Range): number[] => {
+  const flattenedRange = range.reduce<number[]>((acc, item) => {
+    const tuple = Array.isArray(item) ? item : [item]
+
+    if (tuple.some(value => value <= 0)) {
+      throw Error("Less than 1 are not allowed")
+    }
+
+    const isRange = tuple.length === 2
+
+    if (isRange) {
+      const [first, second] = tuple
+
+      if (first > second) {
+        throw Error("First value cannot be greater than second one")
+      }
+
+      for (let i = first; i <= second; i++) {
+        acc.push(i)
+      }
+    }
+
+    return acc
+  }, [])
+
+  return flattenedRange
+}
+
 const SnippetContent = ({
   children,
   description,
@@ -170,26 +199,30 @@ const SnippetContent = ({
   const handleCopy = (): void => {
     copy(children!.trim())
   }
+
   const handleOpenSource = (): void => {
     window.open(src, "_blank")
   }
 
   const highlightedLines = {
-    added: added ? flattenHighlighted(added) : [],
-    deleted: deleted ? flattenHighlighted(deleted) : [],
-    changed: changed ? flattenHighlighted(changed) : [],
+    added: added ? flatRange(added) : [],
+    deleted: deleted ? flatRange(deleted) : [],
+    changed: changed ? flatRange(changed) : [],
   }
 
   const highlightType = (line: number): string => {
     if (highlightedLines.added.includes(line)) {
       return "added"
     }
+
     if (highlightedLines.deleted.includes(line)) {
       return "deleted"
     }
+
     if (highlightedLines.changed.includes(line)) {
       return "changed"
     }
+
     return ""
   }
 
