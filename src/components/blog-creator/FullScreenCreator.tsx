@@ -5,19 +5,27 @@ import { usePortal } from "../../utils/usePortal"
 const Container = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr;
+  gap: 24px;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: red;
+  height: 100vh;
+  background: black;
   z-index: 110;
 `
 
-const FirstWrapper = styled.div``
+const FirstWrapper = styled.div`
+  overflow-y: auto;
+  height: 100%;
+`
 
-const SecondWrapper = styled.div``
+const SecondWrapper = styled.div`
+  padding: 20px;
+  overflow-y: auto;
+  height: 100%;
+`
 
 interface FullScreenCreatorProps {
   children: [ReactNode, ReactNode]

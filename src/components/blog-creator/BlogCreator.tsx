@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useMemo, useEffect } from "react"
 import { useState } from "react"
 import { XL, M, Hint, X } from "../../ui/text"
 import styled from "styled-components"
@@ -12,6 +12,7 @@ import { M_DOWN, T_DOWN } from "../../utils/viewport"
 import { useJoinUsModal } from "../article/WithJoinUsModal"
 import { EditableSnippet, useModal } from "../../ui"
 import Loadable from "react-loadable"
+import { Subject, debounceTime, distinctUntilChanged, tap } from "rxjs"
 
 const FullScreenCreator = Loadable({
   loader: () => import("./FullScreenCreator").then(m => m.FullScreenCreator),
@@ -119,63 +120,81 @@ const ConnectedSubmitButton = () => {
 
 export default function () {
   const [mdx, setMdx] = useState(INIT_MDX)
+  const [currentMdx, setCurrentMdx] = useState(mdx)
   const [hasErrors, setHasErrors] = useState(false)
   const { isOpen, open } = useModal()
+
+  const mdxChanged = useMemo(() => new Subject<string>(), [])
+  const mdxChanged$ = useMemo(() => mdxChanged.asObservable(), [])
 
   const handleChange = (value: string): void => {
     setMdx(value)
     setHasErrors(false)
+    mdxChanged.next(value)
+  }
+
+  useEffect(() => {
+    const sub = mdxChanged$
+      .pipe(
+        debounceTime(4000),
+        tap(value => {
+          setCurrentMdx(value)
+        })
+      )
+      .subscribe()
+
+    return () => {
+      sub.unsubscribe()
+    }
+  }, [])
+
+  if (isOpen) {
+    return (
+      <FullScreenCreator>
+        <EditableSnippet value={mdx} onChange={handleChange} />
+        <>
+          {hasErrors && (
+            <Errors>
+              <X>Errors detected.</X>
+              <M>
+                It may be caused by not supported tag usage, not closed tag or
+                after {"<iframe></iframe>"} use.
+              </M>
+            </Errors>
+          )}
+          <BlogPreview mdx={mdx} onError={() => setHasErrors(true)} />
+        </>
+      </FullScreenCreator>
+    )
   }
 
   return (
-    <>
-      <BlogCreatorLayout>
-        <Heading>
-          <XL>Article preview</XL>
-          <Badge color={theme.green}>beta</Badge>
-          <Button onClick={open}>FULL MODE</Button>
-          <ConnectedSubmitButton />
-        </Heading>
-        <Container>
-          <CodeContainer>
-            <EditableSnippet value={mdx} onChange={handleChange} />
-          </CodeContainer>
+    <BlogCreatorLayout>
+      <Heading>
+        <XL>Article preview</XL>
+        <Badge color={theme.green}>beta</Badge>
+        <Button onClick={open}>FULL MODE</Button>
+        <ConnectedSubmitButton />
+      </Heading>
+      <Container>
+        <CodeContainer>
+          <EditableSnippet value={mdx} onChange={handleChange} />
+        </CodeContainer>
 
-          <PreviewScroll>
-            {hasErrors && (
-              <Errors>
-                <X>Errors detected.</X>
-                <M>
-                  It may be caused by not supported tag usage, not closed tag or
-                  after {"<iframe></iframe>"} use.
-                </M>
-              </Errors>
-            )}
+        <PreviewScroll>
+          {hasErrors && (
+            <Errors>
+              <X>Errors detected.</X>
+              <M>
+                It may be caused by not supported tag usage, not closed tag or
+                after {"<iframe></iframe>"} use.
+              </M>
+            </Errors>
+          )}
 
-            <BlogPreview mdx={mdx} onError={() => setHasErrors(true)} />
-          </PreviewScroll>
-        </Container>
-      </BlogCreatorLayout>
-      {isOpen && (
-        <FullScreenCreator>
-          <CodeContainer>
-            <EditableSnippet value={mdx} onChange={handleChange} />
-          </CodeContainer>
-          <PreviewScroll>
-            {hasErrors && (
-              <Errors>
-                <X>Errors detected.</X>
-                <M>
-                  It may be caused by not supported tag usage, not closed tag or
-                  after {"<iframe></iframe>"} use.
-                </M>
-              </Errors>
-            )}
-
-            <BlogPreview mdx={mdx} onError={() => setHasErrors(true)} />
-          </PreviewScroll>
-        </FullScreenCreator>
-      )}
-    </>
+          <BlogPreview mdx={currentMdx} onError={() => setHasErrors(true)} />
+        </PreviewScroll>
+      </Container>
+    </BlogCreatorLayout>
   )
 }
