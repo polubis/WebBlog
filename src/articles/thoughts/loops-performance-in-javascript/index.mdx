@@ -1,0 +1,299 @@
+---
+cdate: 2023-04-24
+mdate: 2023-04-24
+authorId: polubis
+treviewerId: kwozniak
+lreviewerId: kreszko
+tags: testing,performance
+stack: javascript,typescript
+langs: ["pl"]
+description: We are going to perform tests that will verify what impact different loops in JavaScript may have on the performance.
+readTime: 7
+title: Loops in JavaScript and their performance
+---
+
+<Prelude>
+  <M>
+    Long time ago I've seen <B>pull request</B> in which two developers were
+    arguing about the loop performance. The situation was so funny and it turned
+    into a long conversation in which everyone spammed links to threads on{" "}
+    <B>Github</B> and to articles.
+  </M>
+  <M>
+    This got me curious... I have never had time to check which of the available
+    options is the best. The articles that covered this topic were superficial.
+    Therefore, I decided to educate myself from the inside out, and let's
+    discuss that in today's post.
+  </M>
+  <Hint hasBg>Experience and knowledge work wonders 🚀.</Hint>
+</Prelude>
+
+<Section>
+  <XL>1. How to measure computational complexity in JavaScript?</XL>
+  <M>
+    It is impossible to say exactly how long it takes to call a particular
+    function and, more interestingly, there will be different values for each
+    measurement. At at first glance it is very strange, but think about it - a
+    processor does much more than some dumb JavaScript program, and the browser
+    does a lot more than running your code.
+  </M>
+  <M>
+    Since we already know that time measurement is inaccurate we also know that
+    somehow we can measure it. JavaScript has a built-in API, or even several.
+    We will only focus on <B>performance.now()</B>, because it is not the API
+    used in this case makes the difference, but the way we measure and what we
+    measure.
+  </M>
+  <Snippet
+    linesCount={10}
+    description="A function that measures the duration of any other function"
+    src="https://raw.githubusercontent.com/polubis/loops-performance-in-javascript/main/src/performance/measure.ts"
+  />
+  <Snippet
+    linesCount={12}
+    description="Example use of the measure function"
+    src="https://raw.githubusercontent.com/polubis/loops-performance-in-javascript/main/src/snippets/memory-used.ts"
+  />
+  <M>
+    I have proven to you that time varies. Now we need to determine how we can
+    figure out which loop is faster. We will use a technique that is called{" "}
+    <B>sampling</B>. Instead of calling the code under test once and comparing
+    it with the result of another program we will run it thousands/millions of
+    times and calculate the the sum of the times at each call.
+  </M>
+  <Hint hasBg>
+    Run the given code on your computer and check how running programs affects
+    the result of any 💻 function.
+  </Hint>
+</Section>
+
+<Section>
+  <XL>2. We're sampling and collecting</XL>
+  <M>
+    We have a function <B>measure()</B>, so now we need to run it <B>n</B>{" "}
+    times.
+  </M>
+  <Snippet
+    linesCount={22}
+    description="Function to collect results"
+    src="https://raw.githubusercontent.com/polubis/loops-performance-in-javascript/main/src/performance/run-probes.ts"
+  />
+  <Snippet
+    linesCount={12}
+    description="Use of the runProbes() function"
+    src="https://raw.githubusercontent.com/polubis/loops-performance-in-javascript/main/src/snippets/run-probes-used.ts"
+  />
+</Section>
+
+<Section>
+  <XL>3. Displaying the results</XL>
+  <M>
+    At this stage we have clean data, but who wants to go through it manually.
+    We need to tally them up and round to four decimal places. Only up to four,
+    because if something lasts <B>0.00001532</B> seconds then let's agree - the
+    user is unlikely to notice it.
+  </M>
+  <Snippet
+    linesCount={31}
+    description="Function to summarize the result"
+    src="https://raw.githubusercontent.com/polubis/loops-performance-in-javascript/main/src/performance/summarize.ts"
+  />
+  <Snippet
+    linesCount={23}
+    description="We have the result"
+    src="https://raw.githubusercontent.com/polubis/loops-performance-in-javascript/main/src/snippets/summary-used.ts"
+  />
+  <M>
+    What do we have here? We called the sum function three times and passed to
+    it six numbers from <B>1 to 6</B>. The total duration of these calculations
+    was <B>0.0101</B> seconds.
+  </M>
+  <Hint hasBg>
+    JS is weird. Run the code three times and see that the values are different.
+  </Hint>
+</Section>
+
+<Section>
+  <XL>4. Loops and recurrences</XL>
+  <M>
+    We will write several functions to calculate the sum of any numbers (each
+    will do the same thing, but differently). Later we will compare the result
+    with a ready-made tool for checking optimization and draw conclusions.
+  </M>
+  <Snippet
+    linesCount={49}
+    description="Do you have a favorite?"
+    src="https://raw.githubusercontent.com/polubis/loops-performance-in-javascript/main/src/sum.ts"
+  />
+  <M>
+    Now we will transfer the same data set to each of them and come up with
+    conclusions.
+  </M>
+  <Snippet
+    linesCount={82}
+    description="We show the result and give you the option to change the parameters"
+    src="https://raw.githubusercontent.com/polubis/loops-performance-in-javascript/main/src/App.tsx"
+  />
+  <M>
+    I assume you were chuckled by the absence of the <B>recursiveSum</B> call.
+    It is intentional. Here a small spoiler - this implementation will have the
+    worst result. Bad enough to cause a <B>stack overflow</B> 💥.
+  </M>
+</Section>
+
+<Section>
+  <XL>5. Let's check the results</XL>
+  <M>
+    When there is little data (100-1000) then you can't see much difference. It
+    even looks like the results are random (it takes such a short time that
+    there is no difference which implementation we use). Everything changes at
+    the moment when there is more data. Suddenly it turns out that the{" "}
+    <B>for</B> loop appears at the first place always, and the difference
+    between the others is significant.
+  </M>
+  <Img
+    border
+    src="/assets/loops-performance-in-javascript/demo.gif"
+    description="Tests in our mini app"
+  />
+  <M>
+    Why is this happening? Modern processors are very fast. If they are not
+    overloaded then you will not see much difference between the performance of
+    the program, especially if the algorithm is the same. When increasing the
+    set of numbers the processor begins to "tire" (or rather the browser), so we
+    are starting to see differences in measurements.
+  </M>
+  <M>
+    In addition, it is important to remember that JavaScript is transformed
+    depending on the engine implementation to an intermediate language and then
+    to machine code. So the implementation that hides inside is for us
+    programmers unknown. It may be that the <B>for</B> loop has an advantage
+    over <B>while</B>, because the code "underneath" is optimized for it.
+  </M>
+  <M>
+    However, it cannot be said that the <B>for</B> loop will always be the
+    fastest. Certainly not based on data collected on small sets of numbers.
+    This already depends solely on the problem. We can say that for this problem
+    the <B>for</B> loop is the fastest for a set with some range, not that it is
+    the "fastest".
+  </M>
+  <M>
+    One more point. Why then the methods built into prototype <B>Array</B> are
+    slower if they use a <B>for</B> loop inside anyway? This is due to the
+    additional operations that we as developers agree to, gaining on the code
+    clarity and losing on its speed (according to the principle of something for
+    something). Used abstractions like <B>forEach</B> and <B>reduce</B> adds and
+    removes anonymous functions from the call stack at each iteration, so this
+    probably accounted for their inferior performance compared to the
+    <B>while</B> or <B>for</B>.
+  </M>
+  <Hint hasBg>
+    Nothing is free... While gaining in code readability, we are losing in
+    performance.
+  </Hint>
+  <Hint hasBg>
+    Such time comparisons will work much better for two different solutions
+    (algorithms).
+  </Hint>
+</Section>
+
+<Section>
+  <XL>6. What was the result of the battle-tested tool?</XL>
+  <M>
+    There are really a lot of them on the Internet, and I decided to choose the
+    the prettiest one, that is{" "}
+    <A href="https://perf.link/" outside>
+      perf.link
+    </A>{" "}
+    (such an affliction of a front-end developer). I dropped the earlier
+    examples and came up with exactly the same verdict.Loop <B>for</B> led the
+    way with larger sets of numbers, and with smaller ones it was impossible to
+    judge which is the best. I also checked the recursive function. Just as
+    before, it stood off from the very beginning even on the number of 100
+    elements. This is how presents the result for a hundred thousand numbers.
+  </M>
+  <Hint hasBg>As you can see, recursion doesn't work.</Hint>
+  <Img
+    border
+    src="/assets/loops-performance-in-javascript/perf.jpg"
+    description="The conclusion is the same"
+  />
+  <M>
+    There are still nice libraries available. I have used often{" "}
+    <A href="https://benchmarkjs.com/" outside>
+      Benchmark.js
+    </A>
+    , which in my opinion is great and similar to writing regular unit tests. This
+    time, however, it will be testing the speed of the program and not that it works
+    properly.
+  </M>
+  <Snippet description="It looks beautiful">
+    {`
+    const suite = new Benchmark.Suite;
+    
+suite.add('RegExp#test', () => {
+  /o/.test('Hello World!');
+})
+.add('String#indexOf', () => {
+  'Hello World!'.indexOf('o') > -1;
+})
+.add('String#match', () => {
+  !!'Hello World!'.match(/o/);
+})
+.on('cycle', (event) => {
+  console.log(String(event.target));
+})
+.on('complete', () => {
+  console.log('Fastest is ' + this.filter('fastest').map('name'));
+})
+.run({ 'async': true });`}
+  </Snippet>
+</Section>
+
+<Example>
+  <M>
+    <A
+      href="https://codesandbox.io/p/github/polubis/loops-performance-in-javascript/main?file=%2Fsrc%2FApp.tsx&selection=%5B%7B%22endColumn%22%3A13%2C%22endLineNumber%22%3A37%2C%22startColumn%22%3A13%2C%22startLineNumber%22%3A37%7D%5D&workspace=%257B%2522activeFilepath%2522%253A%2522%252Fsrc%252Fsum.ts%2522%252C%2522openFiles%2522%253A%255B%2522%252Fsrc%252FApp.tsx%2522%252C%2522%252Fsrc%252Fperformance%252Fsummarize.ts%2522%252C%2522%252Fsrc%252Fperformance%252Frun-probes.ts%2522%252C%2522%252Fsrc%252Fsnippets%252Frun-probes-used.ts%2522%252C%2522%252Fsrc%252Fsum.ts%2522%252C%2522%252Fsrc%252Fsnippets%252Fsummary-used.ts%2522%255D%252C%2522sidebarPanel%2522%253A%2522EXPLORER%2522%252C%2522gitSidebarPanel%2522%253A%2522COMMIT%2522%252C%2522spaces%2522%253A%257B%2522clgne8f5s043d356qd2gxmgto%2522%253A%257B%2522key%2522%253A%2522clgne8f5s043d356qd2gxmgto%2522%252C%2522devtools%2522%253A%255B%257B%2522type%2522%253A%2522PREVIEW%2522%252C%2522taskId%2522%253A%2522start%2522%252C%2522port%2522%253A3000%252C%2522key%2522%253A%2522clgne8jkc0450356q218ukqxi%2522%252C%2522isMinimized%2522%253Afalse%257D%252C%257B%2522type%2522%253A%2522TASK_LOG%2522%252C%2522taskId%2522%253A%2522start%2522%252C%2522key%2522%253A%2522clgnea0u405c3356q85mp2ehc%2522%252C%2522isMinimized%2522%253Atrue%257D%255D%252C%2522name%2522%253A%2522start%2520Preview%2522%257D%257D%252C%2522currentSpace%2522%253A%2522clgne8f5s043d356qd2gxmgto%2522%252C%2522spacesOrder%2522%253A%255B%2522clgne8f5s043d356qd2gxmgto%2522%255D%252C%2522hideCodeEditor%2522%253Afalse%257D
+"
+      outside
+    >
+      Code sandbox
+    </A>{" "}
+    to play with and a{" "}
+    <A
+      href="https://github.com/polubis/loops-performance-in-javascript"
+      outside
+    >
+      repository
+    </A>{" "}
+    with final code.
+  </M>
+</Example>
+
+<Summary>
+  <M>
+    After this post, you already know that measuring computational complexity
+    can be "tricky." It turns out that it's hard to tell which loop is fastest.
+  </M>
+  <M>
+    The syntax of the language is important, but not as much as the algorithm
+    and skills of the programmer, on the side of which stands the answer to the
+    question - which solution is faster?
+  </M>
+  <M>
+    Remember that memory complexity is also important and sometimes even more
+    important. I think we'll go through it another time.
+  </M>
+  <M>
+    If you enjoyed it, be sure to visit us on{" "}
+    <A href="https://www.linkedin.com/company/greenon-software/" outside>
+      Linkedin
+    </A>{" "}
+    where we regularly upload content from programming.
+  </M>
+  <Hint hasBg>
+    "A human being learns all his life and usually does it by reinventing the
+    wheel. From childhood - to the end of his days." - a quote from a book, may
+    you know of which one?
+  </Hint>
+</Summary>
