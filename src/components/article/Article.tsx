@@ -23,9 +23,15 @@ import { WillBeContinuedBanner } from "./WillBeContinuedBanner"
 import { AllDataResponse } from "../../api"
 import { Breadcrumbs } from "../breadcrumbs"
 import { ReadInOtherLanguageBanner } from "./ReadInOtherLanguageBanner"
+import { useModal } from "../../ui/modal/Modal"
 
 const ProgressDisplayer = Loadable({
   loader: () => import("./ProgressDisplayer").then(m => m.ProgressDisplayer),
+  loading: () => null,
+})
+
+const ArticleSource = Loadable({
+  loader: () => import("./ArticleSource").then(m => m.ArticleSource),
   loading: () => null,
 })
 
@@ -48,7 +54,6 @@ const BottomNavigation = styled.div`
     margin-left: 20px;
   }
 `
-
 const Article = styled.main`
   display: flex;
   flex-flow: column;
@@ -113,6 +118,7 @@ export default function ({
   } = article
 
   const t = translationObject[lang]
+  const sourceModal = useModal()
 
   return (
     <SiteMeta
@@ -177,8 +183,13 @@ export default function ({
                 {formatDistanceStrict(new Date(modifiedAt), new Date())} ago
               </Badge>
             </Dates>
-
             <BottomNavigation>
+              <Button
+                style={{ marginRight: "auto" }}
+                onClick={sourceModal.open}
+              >
+                Show source
+              </Button>
               {previous && (
                 <Link to={previous.path}>
                   <Button>Previous</Button>
@@ -194,6 +205,9 @@ export default function ({
           </Article>
         </Content>
         <ProgressDisplayer labels={t.progressDisplay} />
+        {sourceModal.isOpen && (
+          <ArticleSource source={body} onClose={sourceModal.close} />
+        )}
       </Layout>
     </SiteMeta>
   )
