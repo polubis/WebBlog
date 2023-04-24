@@ -10,7 +10,13 @@ import Button from "../button/Button"
 import { BlogPreview } from "./BlogPreview"
 import { M_DOWN, T_DOWN } from "../../utils/viewport"
 import { useJoinUsModal } from "../article/WithJoinUsModal"
-import { EditableSnippet } from "../../ui"
+import { EditableSnippet, useModal } from "../../ui"
+import Loadable from "react-loadable"
+
+const FullScreenCreator = Loadable({
+  loader: () => import("./FullScreenCreator").then(m => m.FullScreenCreator),
+  loading: () => null,
+})
 
 const Container = styled.div`
   display: flex;
@@ -114,6 +120,7 @@ const ConnectedSubmitButton = () => {
 export default function () {
   const [mdx, setMdx] = useState(INIT_MDX)
   const [hasErrors, setHasErrors] = useState(false)
+  const { isOpen, open } = useModal()
 
   const handleChange = (value: string): void => {
     setMdx(value)
@@ -121,31 +128,54 @@ export default function () {
   }
 
   return (
-    <BlogCreatorLayout>
-      <Heading>
-        <XL>Article preview</XL>
-        <Badge color={theme.green}>beta</Badge>
-        <ConnectedSubmitButton />
-      </Heading>
-      <Container>
-        <CodeContainer>
-          <EditableSnippet value={mdx} onChange={handleChange} />
-        </CodeContainer>
+    <>
+      <BlogCreatorLayout>
+        <Heading>
+          <XL>Article preview</XL>
+          <Badge color={theme.green}>beta</Badge>
+          <Button onClick={open}>FULL MODE</Button>
+          <ConnectedSubmitButton />
+        </Heading>
+        <Container>
+          <CodeContainer>
+            <EditableSnippet value={mdx} onChange={handleChange} />
+          </CodeContainer>
 
-        <PreviewScroll>
-          {hasErrors && (
-            <Errors>
-              <X>Errors detected.</X>
-              <M>
-                It may be caused by not supported tag usage, not closed tag or
-                after {"<iframe></iframe>"} use.
-              </M>
-            </Errors>
-          )}
+          <PreviewScroll>
+            {hasErrors && (
+              <Errors>
+                <X>Errors detected.</X>
+                <M>
+                  It may be caused by not supported tag usage, not closed tag or
+                  after {"<iframe></iframe>"} use.
+                </M>
+              </Errors>
+            )}
 
-          <BlogPreview mdx={mdx} onError={() => setHasErrors(true)} />
-        </PreviewScroll>
-      </Container>
-    </BlogCreatorLayout>
+            <BlogPreview mdx={mdx} onError={() => setHasErrors(true)} />
+          </PreviewScroll>
+        </Container>
+      </BlogCreatorLayout>
+      {isOpen && (
+        <FullScreenCreator>
+          <CodeContainer>
+            <EditableSnippet value={mdx} onChange={handleChange} />
+          </CodeContainer>
+          <PreviewScroll>
+            {hasErrors && (
+              <Errors>
+                <X>Errors detected.</X>
+                <M>
+                  It may be caused by not supported tag usage, not closed tag or
+                  after {"<iframe></iframe>"} use.
+                </M>
+              </Errors>
+            )}
+
+            <BlogPreview mdx={mdx} onError={() => setHasErrors(true)} />
+          </PreviewScroll>
+        </FullScreenCreator>
+      )}
+    </>
   )
 }
