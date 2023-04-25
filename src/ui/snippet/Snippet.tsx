@@ -1,30 +1,19 @@
 import React from "react"
-import { SnippetContent } from "./SnippetContent"
-import { LiveContent } from "./LiveSnippetContent"
+import { StaticSnippet } from "./StaticSnippet"
+import { DynamicSnippet } from "./DynamicSnippet"
+import { SnippetProps } from "./defs"
 
-interface SnippetProps {
-  children?: string
-  src?: string
-  description?: string
-  linesCount?: number
-}
+const Snippet = (props: SnippetProps) => {
+  const { src, children, linesCount } = props
 
-const Snippet = ({ children, description, src, linesCount }: SnippetProps) => {
   if (typeof src === "string")
-    return (
-      <LiveContent
-        description={description}
-        src={src}
-        linesCount={linesCount}
-      />
-    )
+    return <DynamicSnippet {...props} src={src} linesCount={linesCount} />
 
   if (typeof children === "string")
-    return <SnippetContent description={description} children={children} />
+    return <StaticSnippet {...props} children={children} />
 
+  console.error("Component requires src parameter or children parameter")
   return null
 }
-
-export type { SnippetProps }
 
 export { Snippet }
