@@ -2,17 +2,15 @@ import React, { useMemo, useEffect } from "react"
 import { useState } from "react"
 import { XL, M, Hint, X } from "../../ui/text"
 import styled from "styled-components"
-import Badge from "../article/Badge"
 import theme from "../../utils/theme"
 import BlogCreatorLayout from "./BlogCreatorLayout"
 import { INIT_MDX } from "./config"
-import Button from "../button/Button"
 import { BlogPreview } from "./BlogPreview"
-import { M_DOWN, T_DOWN } from "../../utils/viewport"
-import { useJoinUsModal } from "../article/WithJoinUsModal"
+import { T_DOWN } from "../../utils/viewport"
 import { EditableSnippet, useModal } from "../../ui"
 import Loadable from "react-loadable"
-import { Subject, debounceTime, distinctUntilChanged, tap } from "rxjs"
+import { Subject, debounceTime, tap } from "rxjs"
+import { BlogCreatorHeading } from "./BlogCreatorHeading"
 
 const FullScreenCreator = Loadable({
   loader: () => import("./FullScreenCreator").then(m => m.FullScreenCreator),
@@ -89,34 +87,7 @@ const Errors = styled.div`
 
 const Heading = styled.header`
   height: 112px;
-  display: flex;
-  flex-shrink: 0;
-  align-items: center;
-
-  ${XL} {
-    margin-right: 10px;
-  }
-
-  @media ${M_DOWN} {
-    ${XL} {
-      display: none;
-    }
-
-    ${Badge} {
-      display: none;
-    }
-  }
-
-  & > :last-child {
-    margin-left: auto;
-  }
 `
-
-const ConnectedSubmitButton = () => {
-  const ctx = useJoinUsModal()
-
-  return <Button onClick={ctx.open}>SUBMIT ARTICLE</Button>
-}
 
 export default function () {
   const [mdx, setMdx] = useState(INIT_MDX)
@@ -171,10 +142,7 @@ export default function () {
   return (
     <BlogCreatorLayout>
       <Heading>
-        <XL>Article preview</XL>
-        <Badge color={theme.green}>beta</Badge>
-        <Button onClick={open}>FULL MODE</Button>
-        <ConnectedSubmitButton />
+        <BlogCreatorHeading onFullModeClick={open} />
       </Heading>
       <Container>
         <CodeContainer>
