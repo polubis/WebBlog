@@ -9,16 +9,26 @@ interface AuthorRequest {
   }
 }
 
-type Event = AuthorRequest
+interface FullScreenClicked {
+  name: "full_screen_clicked"
+}
+
+type AnalyticsEvent = AuthorRequest | FullScreenClicked
 
 export const useCustomGAEvent = () => {
-  const track = (e: Event): void => {
+  const track = (e: AnalyticsEvent): void => {
     if (!isProd()) return
 
     ReactGA.initialize("G-NVC90KSB0J")
-    ReactGA.event(e.name, {
-      value: JSON.stringify(e.payload),
-    })
+
+    if (e.name === "author_request") {
+      ReactGA.event(e.name, {
+        value: JSON.stringify(e.payload),
+      })
+      return
+    }
+
+    ReactGA.event(e.name)
   }
 
   return { track }
