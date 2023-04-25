@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react"
 import { isInSSR } from "../../utils/isInSSR"
-import { SnippetContent } from "./SnippetContent"
+import { StaticSnippet } from "./StaticSnippet"
 import { from } from "rxjs"
 import { SnippetProps } from "./defs"
 
@@ -95,7 +95,7 @@ const DynamicSnippet = (props: SnippetProps) => {
     }
   }, [])
 
-  return <SnippetContent {...props} children={children} src={src} />
+  return <StaticSnippet {...props} children={children} src={src} />
 }
 
 export { DynamicSnippet }

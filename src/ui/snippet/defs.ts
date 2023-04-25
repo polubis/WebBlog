@@ -11,4 +11,10 @@ interface SnippetProps {
   linesCount?: number
 }
 
-export type { Range, SnippetProps }
+type HighlightStatus = "added" | "deleted" | "changed" | ""
+
+interface Highlightable {
+  status: HighlightStatus
+}
+
+export type { Range, SnippetProps, HighlightStatus, Highlightable }

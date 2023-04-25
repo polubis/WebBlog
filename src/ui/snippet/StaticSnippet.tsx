@@ -5,11 +5,7 @@ import { useClipboard } from "../../utils/useClipboard"
 import { S } from "../text"
 import { SNIPPET_THEME } from "./snippetTheme"
 import { InteractiveButton } from "./InteractiveButton"
-import { SnippetProps, Range } from "./defs"
-
-type Highlightable = {
-  highlight: string
-}
+import { SnippetProps, Range, Highlightable, HighlightStatus } from "./defs"
 
 const Container = styled.div`
   max-width: 100vw;
@@ -97,8 +93,8 @@ const Pre = styled.pre`
 
 const Line = styled.div<Highlightable>`
   display: table-row;
-  background-color: ${props => {
-    switch (props.highlight) {
+  background: ${props => {
+    switch (props.status) {
       case "added":
         return "rgba(0, 255, 0, 0.1)"
       case "deleted":
@@ -117,11 +113,13 @@ const LineNo = styled.span<Highlightable>`
   padding-right: 1em;
   user-select: none;
   opacity: 0.5;
+
   &::after {
     position: absolute;
     margin-left: 0.2em;
+
     content: "${props => {
-      switch (props.highlight) {
+      switch (props.status) {
         case "added":
           return "+"
         case "deleted":
@@ -186,13 +184,13 @@ const flatRange = (range: Range): number[] => {
   return flattenedRange
 }
 
-const SnippetContent = ({
+const StaticSnippet = ({
   children,
   description,
   src,
-  added,
-  deleted,
-  changed,
+  added = [],
+  deleted = [],
+  changed = [],
 }: SnippetProps) => {
   const { copy } = useClipboard()
 
@@ -204,22 +202,18 @@ const SnippetContent = ({
     window.open(src, "_blank")
   }
 
-  const highlightedLines = {
-    added: added ? flatRange(added) : [],
-    deleted: deleted ? flatRange(deleted) : [],
-    changed: changed ? flatRange(changed) : [],
-  }
+  const getHighlightStatus = (idx: number): HighlightStatus => {
+    const line = idx + 1
 
-  const highlightType = (line: number): string => {
-    if (highlightedLines.added.includes(line)) {
+    if (flatRange(added).includes(line)) {
       return "added"
     }
 
-    if (highlightedLines.deleted.includes(line)) {
+    if (flatRange(deleted).includes(line)) {
       return "deleted"
     }
 
-    if (highlightedLines.changed.includes(line)) {
+    if (flatRange(changed).includes(line)) {
       return "changed"
     }
 
@@ -239,10 +233,6 @@ const SnippetContent = ({
         <InteractiveButton onClick={handleCopy}>
           {status => (status === "pending" ? <>✂️ Copied</> : <>✂️ Copy</>)}
         </InteractiveButton>
-        {/* <FeedbackButton>👍</FeedbackButton>
-          <FeedbackButton>👎</FeedbackButton>
-          <FeedbackButton>🐛 Doesn't work</FeedbackButton>
-          <FeedbackButton>💬 Feedback</FeedbackButton> */}
       </Header>
 
       <PrismSnippet
@@ -253,20 +243,24 @@ const SnippetContent = ({
       >
         {({ className, style, tokens, getLineProps, getTokenProps }) => (
           <Pre className={className} style={style}>
-            {tokens.map((line, i) => (
-              <Line
-                highlight={highlightType(i + 1)}
-                key={i}
-                {...getLineProps({ line, key: i })}
-              >
-                <LineNo highlight={highlightType(i + 1)}>{i + 1}</LineNo>
-                <LineContent>
-                  {line.map((token, key) => (
-                    <span key={key} {...getTokenProps({ token, key })} />
-                  ))}
-                </LineContent>
-              </Line>
-            ))}
+            {tokens.map((line, i) => {
+              const status = getHighlightStatus(i)
+
+              return (
+                <Line
+                  status={status}
+                  key={i}
+                  {...getLineProps({ line, key: i })}
+                >
+                  <LineNo status={status}>{i + 1}</LineNo>
+                  <LineContent>
+                    {line.map((token, key) => (
+                      <span key={key} {...getTokenProps({ token, key })} />
+                    ))}
+                  </LineContent>
+                </Line>
+              )
+            })}
           </Pre>
         )}
       </PrismSnippet>
@@ -276,4 +270,4 @@ const SnippetContent = ({
   )
 }
 
-export { SnippetContent }
+export { StaticSnippet }

@@ -1,5 +1,5 @@
 import React from "react"
-import { SnippetContent } from "./SnippetContent"
+import { StaticSnippet } from "./StaticSnippet"
 import { DynamicSnippet } from "./DynamicSnippet"
 import { SnippetProps } from "./defs"
 
@@ -10,7 +10,7 @@ const Snippet = (props: SnippetProps) => {
     return <DynamicSnippet {...props} src={src} linesCount={linesCount} />
 
   if (typeof children === "string")
-    return <SnippetContent {...props} children={children} />
+    return <StaticSnippet {...props} children={children} />
 
   console.error("Component requires src parameter or children parameter")
   return null
