@@ -122,7 +122,7 @@ export default function () {
   const [mdx, setMdx] = useState(INIT_MDX)
   const [currentMdx, setCurrentMdx] = useState(mdx)
   const [hasErrors, setHasErrors] = useState(false)
-  const { isOpen, open } = useModal()
+  const { isOpen, open, close } = useModal()
 
   const mdxChanged = useMemo(() => new Subject<string>(), [])
   const mdxChanged$ = useMemo(() => mdxChanged.asObservable(), [])
@@ -150,7 +150,7 @@ export default function () {
 
   if (isOpen) {
     return (
-      <FullScreenCreator>
+      <FullScreenCreator onClose={close}>
         <EditableSnippet value={mdx} onChange={handleChange} />
         <>
           {hasErrors && (
