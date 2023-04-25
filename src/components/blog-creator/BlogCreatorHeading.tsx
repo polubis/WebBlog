@@ -1,11 +1,21 @@
-import React from "react"
+import React, { ReactNode } from "react"
 import styled from "styled-components"
 import { XL } from "../../ui"
-import { M_DOWN } from "../../utils/viewport"
+import { L_DOWN, M_DOWN } from "../../utils/viewport"
 import Badge from "../article/Badge"
 import Button from "../button/Button"
 import { useJoinUsModal } from "../article/WithJoinUsModal"
 import theme from "../../utils/theme"
+
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+
+  & > *:not(:first-child) {
+    margin-left: 20px;
+  }
+`
 
 const Heading = styled.header`
   height: 100%;
@@ -27,28 +37,36 @@ const Heading = styled.header`
     }
   }
 
-  & > :last-child {
-    margin-left: auto;
+  .full-mode-btn {
+    @media ${L_DOWN} {
+      display: none;
+    }
   }
 `
 
 const ConnectedSubmitButton = () => {
   const ctx = useJoinUsModal()
 
-  return <Button onClick={ctx.open}>SUBMIT ARTICLE</Button>
+  return (
+    <Button className="submit-article-btn" onClick={ctx.open}>
+      SUBMIT ARTICLE
+    </Button>
+  )
 }
 
 interface BlogCreatorHeadingProps {
-  onFullModeClick: () => void
+  buttons: ReactNode
 }
 
-const BlogCreatorHeading = ({ onFullModeClick }: BlogCreatorHeadingProps) => {
+const BlogCreatorHeading = ({ buttons }: BlogCreatorHeadingProps) => {
   return (
     <Heading className="components-blog-creator-heading">
       <XL>Article preview</XL>
       <Badge color={theme.green}>beta</Badge>
-      <Button onClick={onFullModeClick}>FULL MODE</Button>
-      <ConnectedSubmitButton />
+      <Container>
+        {buttons}
+        <ConnectedSubmitButton />
+      </Container>
     </Heading>
   )
 }

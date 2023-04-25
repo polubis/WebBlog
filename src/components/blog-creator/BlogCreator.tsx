@@ -1,19 +1,23 @@
-import React, { useMemo, useEffect } from "react"
-import { useState } from "react"
+import React from "react"
 import { XL, M, Hint, X } from "../../ui/text"
 import styled from "styled-components"
 import theme from "../../utils/theme"
 import BlogCreatorLayout from "./BlogCreatorLayout"
-import { INIT_MDX } from "./config"
 import { BlogPreview } from "./BlogPreview"
 import { T_DOWN } from "../../utils/viewport"
 import { EditableSnippet, useModal } from "../../ui"
 import Loadable from "react-loadable"
-import { Subject, debounceTime, tap } from "rxjs"
 import { BlogCreatorHeading } from "./BlogCreatorHeading"
+import Button from "../button/Button"
+import { useCustomGAEvent } from "../../utils/useCustomGAEvent"
+import { useEditor } from "./useEditor"
 
 const FullScreenCreator = Loadable({
   loader: () => import("./FullScreenCreator").then(m => m.FullScreenCreator),
+  loading: () => null,
+})
+const UpdateBadge = Loadable({
+  loader: () => import("./UpdateBadge").then(m => m.UpdateBadge),
   loading: () => null,
 })
 
@@ -90,79 +94,68 @@ const Heading = styled.header`
 `
 
 export default function () {
-  const [mdx, setMdx] = useState(INIT_MDX)
-  const [currentMdx, setCurrentMdx] = useState(mdx)
-  const [hasErrors, setHasErrors] = useState(false)
+  const { track } = useCustomGAEvent()
   const { isOpen, open, close } = useModal()
+  const [
+    { currentMdx, mdx, hasErrors, processing },
+    { change, markAsBroken },
+  ] = useEditor()
 
-  const mdxChanged = useMemo(() => new Subject<string>(), [])
-  const mdxChanged$ = useMemo(() => mdxChanged.asObservable(), [])
-
-  const handleChange = (value: string): void => {
-    setMdx(value)
-    setHasErrors(false)
-    mdxChanged.next(value)
+  const handleOpen = () => {
+    track({ name: "full_screen_clicked" })
+    open()
   }
 
-  useEffect(() => {
-    const sub = mdxChanged$
-      .pipe(
-        debounceTime(4000),
-        tap(value => {
-          setCurrentMdx(value)
-        })
-      )
-      .subscribe()
-
-    return () => {
-      sub.unsubscribe()
-    }
-  }, [])
-
-  if (isOpen) {
-    return (
-      <FullScreenCreator onClose={close}>
-        <EditableSnippet value={mdx} onChange={handleChange} />
-        <>
-          {hasErrors && (
-            <Errors>
-              <X>Errors detected.</X>
-              <M>
-                It may be caused by not supported tag usage, not closed tag or
-                after {"<iframe></iframe>"} use.
-              </M>
-            </Errors>
-          )}
-          <BlogPreview mdx={mdx} onError={() => setHasErrors(true)} />
-        </>
-      </FullScreenCreator>
-    )
-  }
+  const Preview = <BlogPreview mdx={currentMdx} onError={markAsBroken} />
+  const Editor = <EditableSnippet value={mdx} onChange={change} />
+  const ErrorsSection = hasErrors ? (
+    <Errors>
+      <X>Errors detected.</X>
+      <M>
+        It may be caused by not supported tag usage, not closed tag or after{" "}
+        {"<iframe></iframe>"} use.
+      </M>
+    </Errors>
+  ) : null
 
   return (
-    <BlogCreatorLayout>
-      <Heading>
-        <BlogCreatorHeading onFullModeClick={open} />
-      </Heading>
-      <Container>
-        <CodeContainer>
-          <EditableSnippet value={mdx} onChange={handleChange} />
-        </CodeContainer>
+    <>
+      {processing && <UpdateBadge />}
+      <BlogCreatorLayout>
+        <Heading>
+          <BlogCreatorHeading
+            buttons={
+              <Button className="full-mode-btn" onClick={handleOpen}>
+                FULL MODE
+              </Button>
+            }
+          />
+        </Heading>
+        <Container
+          style={
+            isOpen
+              ? { opacity: "0", height: "1px", overflow: "hidden" }
+              : undefined
+          }
+        >
+          <CodeContainer>{Editor}</CodeContainer>
 
-        <PreviewScroll>
-          {hasErrors && (
-            <Errors>
-              <X>Errors detected.</X>
-              <M>
-                It may be caused by not supported tag usage, not closed tag or
-                after {"<iframe></iframe>"} use.
-              </M>
-            </Errors>
-          )}
+          <PreviewScroll>
+            {ErrorsSection}
+            {Preview}
+          </PreviewScroll>
+        </Container>
+      </BlogCreatorLayout>
 
-          <BlogPreview mdx={currentMdx} onError={() => setHasErrors(true)} />
-        </PreviewScroll>
-      </Container>
-    </BlogCreatorLayout>
+      {isOpen && (
+        <FullScreenCreator onClose={close}>
+          {Editor}
+          <>
+            {ErrorsSection}
+            {Preview}
+          </>
+        </FullScreenCreator>
+      )}
+    </>
   )
 }

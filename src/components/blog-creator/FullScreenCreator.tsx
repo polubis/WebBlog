@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { usePortal } from "../../utils/usePortal"
 import theme from "../../utils/theme"
 import Button from "../button/Button"
+import { BlogCreatorHeading } from "./BlogCreatorHeading"
 
 const Container = styled.div`
   display: grid;
@@ -21,12 +22,10 @@ const Container = styled.div`
 `
 
 const Header = styled.header`
-  display: flex;
-  align-items: center;
+  padding: 0 20px;
   grid-area: header;
   border-bottom: 1px solid ${theme.grayC};
   background: ${theme.bg};
-  padding: 0 20px;
 `
 
 const FirstWrapper = styled.div`
@@ -36,7 +35,7 @@ const FirstWrapper = styled.div`
 `
 
 const SecondWrapper = styled.div`
-  padding: 40px 20px  20px 20px;
+  padding: 40px 20px 20px 20px;
   overflow-y: auto;
   height: 100%;
   grid-area: second;
@@ -44,7 +43,7 @@ const SecondWrapper = styled.div`
 
 interface FullScreenCreatorProps {
   children: [ReactNode, ReactNode]
-  onClose?: () => void
+  onClose: () => void
 }
 
 const FullScreenCreator = ({ children, onClose }: FullScreenCreatorProps) => {
@@ -55,7 +54,13 @@ const FullScreenCreator = ({ children, onClose }: FullScreenCreatorProps) => {
   return render(
     <Container>
       <Header>
-        <Button onClick={onClose}>CLOSE</Button>
+        <BlogCreatorHeading
+          buttons={
+            <Button className="full-mode-btn" onClick={onClose}>
+              BACK
+            </Button>
+          }
+        />
       </Header>
       <FirstWrapper>{First}</FirstWrapper>
       <SecondWrapper>{Second}</SecondWrapper>
