@@ -1,16 +1,25 @@
 import React from "react"
-import { useState } from "react"
 import { XL, M, Hint, X } from "../../ui/text"
 import styled from "styled-components"
-import Badge from "../article/Badge"
 import theme from "../../utils/theme"
 import BlogCreatorLayout from "./BlogCreatorLayout"
-import { INIT_MDX } from "./config"
-import Button from "../button/Button"
 import { BlogPreview } from "./BlogPreview"
-import { M_DOWN, T_DOWN } from "../../utils/viewport"
-import { useJoinUsModal } from "../article/WithJoinUsModal"
-import { EditableSnippet } from "../../ui"
+import { T_DOWN } from "../../utils/viewport"
+import { EditableSnippet, useModal } from "../../ui"
+import Loadable from "react-loadable"
+import { BlogCreatorHeading } from "./BlogCreatorHeading"
+import Button from "../button/Button"
+import { useCustomGAEvent } from "../../utils/useCustomGAEvent"
+import { useEditor } from "./useEditor"
+
+const FullScreenCreator = Loadable({
+  loader: () => import("./FullScreenCreator").then(m => m.FullScreenCreator),
+  loading: () => null,
+})
+const UpdateBadge = Loadable({
+  loader: () => import("./UpdateBadge").then(m => m.UpdateBadge),
+  loading: () => null,
+})
 
 const Container = styled.div`
   display: flex;
@@ -82,70 +91,71 @@ const Errors = styled.div`
 
 const Heading = styled.header`
   height: 112px;
-  display: flex;
-  flex-shrink: 0;
-  align-items: center;
-
-  ${XL} {
-    margin-right: 10px;
-  }
-
-  @media ${M_DOWN} {
-    ${XL} {
-      display: none;
-    }
-
-    ${Badge} {
-      display: none;
-    }
-  }
-
-  & > :last-child {
-    margin-left: auto;
-  }
 `
 
-const ConnectedSubmitButton = () => {
-  const ctx = useJoinUsModal()
-
-  return <Button onClick={ctx.open}>SUBMIT ARTICLE</Button>
-}
-
 export default function () {
-  const [mdx, setMdx] = useState(INIT_MDX)
-  const [hasErrors, setHasErrors] = useState(false)
+  const { track } = useCustomGAEvent()
+  const { isOpen, open, close } = useModal()
+  const [
+    { currentMdx, mdx, hasErrors, processing },
+    { change, markAsBroken },
+  ] = useEditor()
 
-  const handleChange = (value: string): void => {
-    setMdx(value)
-    setHasErrors(false)
+  const handleOpen = () => {
+    track({ name: "full_screen_clicked" })
+    open()
   }
 
+  const Preview = <BlogPreview mdx={currentMdx} onError={markAsBroken} />
+  const Editor = <EditableSnippet value={mdx} onChange={change} />
+  const ErrorsSection = hasErrors ? (
+    <Errors>
+      <X>Errors detected.</X>
+      <M>
+        It may be caused by not supported tag usage, not closed tag or after{" "}
+        {"<iframe></iframe>"} use.
+      </M>
+    </Errors>
+  ) : null
+
   return (
-    <BlogCreatorLayout>
-      <Heading>
-        <XL>Article preview</XL>
-        <Badge color={theme.green}>beta</Badge>
-        <ConnectedSubmitButton />
-      </Heading>
-      <Container>
-        <CodeContainer>
-          <EditableSnippet value={mdx} onChange={handleChange} />
-        </CodeContainer>
+    <>
+      {processing && <UpdateBadge />}
+      <BlogCreatorLayout>
+        <Heading>
+          <BlogCreatorHeading
+            buttons={
+              <Button className="full-mode-btn" onClick={handleOpen}>
+                FULL MODE
+              </Button>
+            }
+          />
+        </Heading>
+        <Container
+          style={
+            isOpen
+              ? { opacity: "0", height: "1px", overflow: "hidden" }
+              : undefined
+          }
+        >
+          <CodeContainer>{Editor}</CodeContainer>
 
-        <PreviewScroll>
-          {hasErrors && (
-            <Errors>
-              <X>Errors detected.</X>
-              <M>
-                It may be caused by not supported tag usage, not closed tag or
-                after {"<iframe></iframe>"} use.
-              </M>
-            </Errors>
-          )}
+          <PreviewScroll>
+            {ErrorsSection}
+            {Preview}
+          </PreviewScroll>
+        </Container>
+      </BlogCreatorLayout>
 
-          <BlogPreview mdx={mdx} onError={() => setHasErrors(true)} />
-        </PreviewScroll>
-      </Container>
-    </BlogCreatorLayout>
+      {isOpen && (
+        <FullScreenCreator onClose={close}>
+          {Editor}
+          <>
+            {ErrorsSection}
+            {Preview}
+          </>
+        </FullScreenCreator>
+      )}
+    </>
   )
 }
