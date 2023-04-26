@@ -180,17 +180,23 @@ title: Pętle w JavaScript oraz ich performance
     Jest to spowodowane dodatkowymi operacjami, na które jako developerzy się
     godzimy zyskując na przejrzystości kodu a tracąc na jego szybkości (w myśl
     zasady coś za coś). Wykorzystane abstrakcje jak <B>forEach</B> oraz{" "}
-    <B>reduce</B> dorzucają i zdejmują anonimowe funkcje ze stosu wywołań przy
-    każdej iteracji, więc prawdopodobnie to złożyło się na ich gorszy wynik w
-    porównaniu do <B>while</B> czy <B>for</B>.
+    <B>reduce</B> wykonują dodatkowe sprawadzenia przy każdej iteracji, więc to
+    złożyło się na ich gorszy wynik w porównaniu do <B>while</B> czy <B>for</B>.
+    Jako dowód podaje link do{" "}
+    <A
+      outside
+      src="https://tc39.es/ecma262/multipage/indexed-collections.html?fbclid=IwAR1FkOVuwIUDfjfgr2TpsxSDnPY2MFW65-eOndDcifPjMnUt6_3h2yZOGBM#sec-array.prototype.foreach"
+    >
+      specyfikacji
+    </A>
+    .
   </M>
   <Hint hasBg>
-    Nie ma nic za darmo... Zyskując na czytelności kodu tracimy na szybkości
-    działania.
-  </Hint>
-  <Hint hasBg>
-    Takie porównywanie czasu sprawdzi się o wiele bardziej w przypadku dwóch
-    różnych rozwiązań (algorytmów).
+    Dziękuje dla{" "}
+    <A href="https://www.linkedin.com/in/pwolaq/" outside>
+      Pawła Wolaka
+    </A>{" "}
+    za pomoc w tym miejscu.
   </Hint>
 </Section>
 
