@@ -182,18 +182,26 @@ title: Loops in JavaScript and their performance
     slower if they use a <B>for</B> loop inside anyway? This is due to the
     additional operations that we as developers agree to, gaining on the code
     clarity and losing on its speed (according to the principle of something for
-    something). Used abstractions like <B>forEach</B> and <B>reduce</B> adds and
-    removes anonymous functions from the call stack at each iteration, so this
-    probably accounted for their inferior performance compared to the
-    <B>while</B> or <B>for</B>.
+    something). Used abstractions like <B>forEach</B> and <B>reduce</B> performs
+    additional operations at each iteration, so this accounted for their
+    inferior performance compared to the <B>while</B> or <B>for</B>.
   </M>
   <Hint hasBg>
-    Nothing is free... While gaining in code readability, we are losing in
-    performance.
+    Check{" "}
+    <A
+      outside
+      src="https://tc39.es/ecma262/multipage/indexed-collections.html?fbclid=IwAR1FkOVuwIUDfjfgr2TpsxSDnPY2MFW65-eOndDcifPjMnUt6_3h2yZOGBM#sec-array.prototype.foreach"
+    >
+      specification
+    </A>{" "}
+    and you'll see that there is additional <B>if</B> statement.
   </Hint>
   <Hint hasBg>
-    Such time comparisons will work much better for two different solutions
-    (algorithms).
+    Special thanks to{" "}
+    <A href="https://www.linkedin.com/in/pwolaq/" outside>
+      Paweł Wolak
+    </A>{" "}
+    for help here.
   </Hint>
 </Section>
 

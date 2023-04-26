@@ -1,13 +1,8 @@
 import React, { useState, useEffect, useMemo } from "react"
 import { isInSSR } from "../../utils/isInSSR"
-import { SnippetContent } from "./SnippetContent"
+import { StaticSnippet } from "./StaticSnippet"
 import { from } from "rxjs"
-
-interface LiveContentProps {
-  src: string
-  description?: string
-  linesCount?: number
-}
+import { SnippetProps } from "./defs"
 
 const generatePlaceholder = (count: number): string => {
   let animal = `⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣤⣤⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -80,18 +75,15 @@ const generatePlaceholder = (count: number): string => {
   return animalArr.join("\n")
 }
 
-const LiveContent = ({
-  description,
-  src,
-  linesCount = 10,
-}: LiveContentProps) => {
+const DynamicSnippet = (props: SnippetProps) => {
+  const { linesCount, src } = props
   const placeholder = useMemo(() => generatePlaceholder(linesCount), [])
   const [children, setChildren] = useState(placeholder)
 
   useEffect(() => {
     if (!isInSSR()) {
       const obs$ = from(
-        fetch(src).then(res => res.text()) as Promise<string>
+        fetch(src!).then(res => res.text()) as Promise<string>
       ).subscribe({
         next: content => {
           setChildren(content)
@@ -103,11 +95,7 @@ const LiveContent = ({
     }
   }, [])
 
-  return (
-    <SnippetContent children={children} description={description} src={src} />
-  )
+  return <StaticSnippet {...props} children={children} src={src} />
 }
 
-export type { LiveContentProps }
-
-export { LiveContent }
+export { DynamicSnippet }
