@@ -122,6 +122,9 @@ export default function () {
     <>
       {processing && <UpdateBadge />}
       <BlogCreatorLayout>
+        <h1 style={{ visibility: "hidden", height: 0, margin: "0" }}>
+          A powerful editor for articles
+        </h1>
         <Heading>
           <BlogCreatorHeading
             buttons={

@@ -90,6 +90,9 @@ const AuthorsPage = ({
     >
       <Layout articles={articles} t={t} routes={site.routes}>
         <Content paddingY>
+          <h1 style={{ visibility: "hidden", height: 0, margin: "0" }}>
+            Platform authors and content creators
+          </h1>
           <Grid>
             <ConnectedEmptyAuthorTile />
             {authors.map(author => (

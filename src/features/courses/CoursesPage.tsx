@@ -41,6 +41,9 @@ const CoursesPage = ({
     >
       <Layout articles={articles} t={t} routes={site.routes}>
         <Content paddingY>
+          <h1 style={{ visibility: "hidden", height: 0, margin: "0" }}>
+            List of courses
+          </h1>
           <Grid>
             {courses.map(course => (
               <CourseTile key={course.name} data={course} />
