@@ -62,7 +62,7 @@ const BlogCreatorHeading = ({ buttons }: BlogCreatorHeadingProps) => {
   return (
     <Heading className="components-blog-creator-heading">
       <XL>Article preview</XL>
-      <Badge color={theme.green}>beta</Badge>
+      <Badge color={theme.green}>version 1.0</Badge>
       <Container>
         {buttons}
         <ConnectedSubmitButton />
