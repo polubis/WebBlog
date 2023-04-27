@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import styled, { keyframes } from "styled-components"
 import theme from "../../utils/theme"
-import { A, B, Content, M, XL } from "../../ui"
+import { A, B, Content, M, XL, Percentage } from "../../ui"
 import Section from "../article/Section"
 
 const appearIn = keyframes`
@@ -43,6 +43,8 @@ const Container = styled.div`
     justify-content: center;
 
     ${XL} {
+      display: flex;
+      justify-content: space-between;
       opacity: 0;
       animation: ${appearIn} 0.4s ease-in-out 0.4s forwards;
     }
@@ -71,7 +73,9 @@ const BlogCreatorLoader = ({ onClose }: BlogCreatorLoaderProps) => {
     <Container>
       <Content paddingY>
         <Section>
-          <XL>Did you know that?</XL>
+          <XL>
+            Did you know that? <Percentage />
+          </XL>
           <M>
             Use the <B>XL</B> tag as a heading - <B>{"<XL>My heading</XL>"}</B>.
           </M>

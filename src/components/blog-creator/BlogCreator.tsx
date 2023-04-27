@@ -99,6 +99,7 @@ export default function () {
   const handleOpen = () => {
     setLoading(true)
     track({ name: "full_screen_clicked" })
+    document.body.style.overflow = "hidden"
     ref.current = setTimeout(open, 1500)
   }
 
@@ -114,7 +115,14 @@ export default function () {
 
   return (
     <>
-      {loading && <BlogCreatorLoader onClose={() => setLoading(false)} />}
+      {loading && (
+        <BlogCreatorLoader
+          onClose={() => {
+            document.body.style.overflow = "auto"
+            setLoading(false)
+          }}
+        />
+      )}
       {isOpen || (
         <BlogCreatorLayout>
           <h1 style={{ visibility: "hidden", height: 0, margin: "0" }}>
