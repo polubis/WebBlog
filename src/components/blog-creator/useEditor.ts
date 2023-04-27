@@ -7,7 +7,6 @@ const useEditor = () => {
   const [mdx, setMdx] = useState(INIT_MDX)
   const [currentMdx, setCurrentMdx] = useState(mdx)
   const [hasErrors, setHasErrors] = useState(false)
-  const [processing, setProcessing] = useState(false)
 
   const mdxChanged = useMemo(() => new Subject<string>(), [])
   const mdxChanged$ = useMemo(() => mdxChanged.asObservable(), [])
@@ -25,12 +24,8 @@ const useEditor = () => {
   useEffect(() => {
     const sub = mdxChanged$
       .pipe(
-        tap(() => {
-          setProcessing(true)
-        }),
-        debounceTime(4000),
+        debounceTime(150),
         tap(value => {
-          setProcessing(false)
           setCurrentMdx(value)
         })
       )
@@ -42,7 +37,7 @@ const useEditor = () => {
   }, [])
 
   return [
-    { currentMdx, mdx, hasErrors, processing },
+    { currentMdx, mdx, hasErrors },
     { change: handleChange, markAsBroken },
   ] as const
 }

@@ -1,5 +1,5 @@
 import React from "react"
-import { XL, M, Hint, X } from "../../ui/text"
+import { XL, M, Hint, A } from "../../ui/text"
 import styled from "styled-components"
 import theme from "../../utils/theme"
 import BlogCreatorLayout from "./BlogCreatorLayout"
@@ -11,13 +11,11 @@ import { BlogCreatorHeading } from "./BlogCreatorHeading"
 import Button from "../button/Button"
 import { useCustomGAEvent } from "../../utils/useCustomGAEvent"
 import { useEditor } from "./useEditor"
+import { List } from "../article/List"
+import Section from "../article/Section"
 
 const FullScreenCreator = Loadable({
   loader: () => import("./FullScreenCreator").then(m => m.FullScreenCreator),
-  loading: () => null,
-})
-const UpdateBadge = Loadable({
-  loader: () => import("./UpdateBadge").then(m => m.UpdateBadge),
   loading: () => null,
 })
 
@@ -83,7 +81,7 @@ const Errors = styled.div`
   display: flex;
   flex-flow: column;
 
-  & > *:first-child {
+  ${XL} {
     color: ${theme.error};
     margin-bottom: 12px;
   }
@@ -96,10 +94,7 @@ const Heading = styled.header`
 export default function () {
   const { track } = useCustomGAEvent()
   const { isOpen, open, close } = useModal()
-  const [
-    { currentMdx, mdx, hasErrors, processing },
-    { change, markAsBroken },
-  ] = useEditor()
+  const [{ currentMdx, mdx, hasErrors }, { change, markAsBroken }] = useEditor()
 
   const handleOpen = () => {
     track({ name: "full_screen_clicked" })
@@ -110,45 +105,68 @@ export default function () {
   const Editor = <EditableSnippet value={mdx} onChange={change} />
   const ErrorsSection = hasErrors ? (
     <Errors>
-      <X>Errors detected.</X>
-      <M>
-        It may be caused by not supported tag usage, not closed tag or after{" "}
-        {"<iframe></iframe>"} use.
-      </M>
+      <Section>
+        <XL>Errors detected 🔥</XL>
+        <M>
+          It may be caused by not supported tag usage, not closed tag or after{" "}
+          {"<iframe></iframe>"} use, not closed tag or usage of not supported
+          tag. Please use only tags provided in example.
+        </M>
+        <M>There is the list of supported tags:</M>
+        <List
+          items="Section - block with content, Snippet - example with code, Summary - block with summary, Prelude - Block with an introduction, Example - Block with a link to the entire example, List - Allows you to display an list, Img - Allows you to show a picture, XL - Headline text, M - Paragraph, Hint - Italic text with hint,
+          A - link, B - bolding"
+        />
+        <Hint hasBg>
+          If you still have problems please join our community on{" "}
+          <A
+            outside
+            href="https://discord.com/channels/1090959521364586568/1100664861073088572"
+          >
+            Discord
+          </A>{" "}
+          and ask for help.
+        </Hint>
+        <Hint hasBg>
+          Are you missing an feature? Let us know on our dedicated{" "}
+          <A
+            outside
+            href="https://discord.com/channels/1090959521364586568/1100664181847498842"
+          >
+            Discord
+          </A>
+          !
+        </Hint>
+      </Section>
     </Errors>
   ) : null
 
   return (
     <>
-      {processing && <UpdateBadge />}
-      <BlogCreatorLayout>
-        <h1 style={{ visibility: "hidden", height: 0, margin: "0" }}>
-          A powerful editor for articles
-        </h1>
-        <Heading>
-          <BlogCreatorHeading
-            buttons={
-              <Button className="full-mode-btn" onClick={handleOpen}>
-                FULL MODE
-              </Button>
-            }
-          />
-        </Heading>
-        <Container
-          style={
-            isOpen
-              ? { opacity: "0", height: "1px", overflow: "hidden" }
-              : undefined
-          }
-        >
-          <CodeContainer>{Editor}</CodeContainer>
+      {isOpen || (
+        <BlogCreatorLayout>
+          <h1 style={{ visibility: "hidden", height: 0, margin: "0" }}>
+            A powerful editor for articles
+          </h1>
+          <Heading>
+            <BlogCreatorHeading
+              buttons={
+                <Button className="full-mode-btn" onClick={handleOpen}>
+                  FULL MODE
+                </Button>
+              }
+            />
+          </Heading>
+          <Container>
+            <CodeContainer>{Editor}</CodeContainer>
 
-          <PreviewScroll>
-            {ErrorsSection}
-            {Preview}
-          </PreviewScroll>
-        </Container>
-      </BlogCreatorLayout>
+            <PreviewScroll>
+              {ErrorsSection}
+              {Preview}
+            </PreviewScroll>
+          </Container>
+        </BlogCreatorLayout>
+      )}
 
       {isOpen && (
         <FullScreenCreator onClose={close}>
