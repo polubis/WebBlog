@@ -18,11 +18,13 @@ const getTimeline = ({ articles, courses }) => {
       avatar: course.thumbnail,
       url: course.path,
     })),
-  ].sort((a, b) => {
-    if (a.createdAt < b.createdAt) return 1
-    if (a.createdAt === b.createdAt) return 0
-    return -1
-  })
+  ]
+    .sort((a, b) => {
+      if (a.createdAt < b.createdAt) return 1
+      if (a.createdAt === b.createdAt) return 0
+      return -1
+    })
+    .slice(0, 12)
 
   const timelineData = []
   const GAP = 5
