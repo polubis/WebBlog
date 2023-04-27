@@ -108,6 +108,7 @@ export default function ({
     readTime,
     originalArticlePath,
     lang,
+    footerArticles
   } = translatedArticle
 
   const t = translationObject[lang]
@@ -125,7 +126,7 @@ export default function ({
       description={description}
       image={thumbnail.src}
     >
-      <Layout articles={articles} t={t} routes={site.routes}>
+      <Layout articles={footerArticles} t={t} routes={site.routes}>
         <Content paddingY>
           <Article>
             <ReadInOtherLanguageBanner
