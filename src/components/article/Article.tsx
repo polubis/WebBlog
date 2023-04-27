@@ -121,6 +121,11 @@ export default function ({
   const t = translationObject[lang]
   const articleSourceModal = useModal()
 
+  const handleSourceOpen = () => {
+    articleSourceModal.open()
+    //TODO SEND GA EVENT
+  }
+
   return (
     <SiteMeta
       siteName={site.siteName}
@@ -187,7 +192,7 @@ export default function ({
             <BottomNavigation>
               <Button
                 style={{ marginRight: "auto" }}
-                onClick={articleSourceModal.open}
+                onClick={handleSourceOpen}
               >
                 Show source
               </Button>
@@ -207,7 +212,7 @@ export default function ({
         </Content>
         <ProgressDisplayer labels={t.progressDisplay} />
         {articleSourceModal.isOpen && (
-          <ArticleSource body={rawBody} onClose={articleSourceModal.close} />
+          <ArticleSource source={rawBody} onClose={articleSourceModal.close} />
         )}
       </Layout>
     </SiteMeta>
