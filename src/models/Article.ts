@@ -30,6 +30,7 @@ export interface Article {
   path: string
   slug: string
   thumbnail: Image
+  rawBody: string
   body: string
   isNew: boolean
   lingReviewer: Author

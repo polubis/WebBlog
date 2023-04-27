@@ -98,6 +98,7 @@ export default function ({
     author,
     thumbnail,
     body,
+    rawBody,
     stack,
     createdAt,
     modifiedAt,
@@ -118,7 +119,7 @@ export default function ({
   } = article
 
   const t = translationObject[lang]
-  const sourceModal = useModal()
+  const articleSourceModal = useModal()
 
   return (
     <SiteMeta
@@ -186,7 +187,7 @@ export default function ({
             <BottomNavigation>
               <Button
                 style={{ marginRight: "auto" }}
-                onClick={sourceModal.open}
+                onClick={articleSourceModal.open}
               >
                 Show source
               </Button>
@@ -205,8 +206,8 @@ export default function ({
           </Article>
         </Content>
         <ProgressDisplayer labels={t.progressDisplay} />
-        {sourceModal.isOpen && (
-          <ArticleSource source={body} onClose={sourceModal.close} />
+        {articleSourceModal.isOpen && (
+          <ArticleSource body={rawBody} onClose={articleSourceModal.close} />
         )}
       </Layout>
     </SiteMeta>
