@@ -19,6 +19,7 @@ interface AllDataResponse {
   translatedArticles: TranslatedArticle[]
   animalsAvatars: Avatar[]
   translationObject: TranslationObject
+  footerArticles: Article[]
 }
 
 export type { AllDataResponse }

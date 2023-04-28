@@ -165,6 +165,9 @@ export const CourseContent = ({
 
   return (
     <Layout articles={articles} t={t} routes={site.routes}>
+      <h1 style={{ visibility: "hidden", height: 0, margin: "0" }}>
+        {course.name}
+      </h1>
       <Content paddingY>
         <Container>
           <Area className="details-area">

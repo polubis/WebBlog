@@ -24,8 +24,8 @@ const HomePage = ({ pageContext }: HomePageProps) => {
     holeImg,
     site,
     translationObject,
+    footerArticles,
   } = pageContext
-
   const t = translationObject["en"]
 
   return (
@@ -40,7 +40,7 @@ const HomePage = ({ pageContext }: HomePageProps) => {
       type="website"
       image="/icon-192x192.png"
     >
-      <Layout articles={articles} t={t} routes={site.routes}>
+      <Layout articles={footerArticles} t={t} routes={site.routes}>
         <BlackHoleSection holeImg={holeImg} />
         <WelcomeSection />
         <StatsSection

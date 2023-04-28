@@ -1,5 +1,6 @@
 import React from "react"
 import { useLayoutEffect } from "react"
+import { useIsVisible } from "../../utils/useIsVisible"
 
 interface BlackHoleProps {
   id: string
@@ -13,7 +14,8 @@ const useBlackHoleAnimation = ({
   height,
   width,
   radius,
-}: BlackHoleProps) => {
+  paused,
+}: BlackHoleProps & { paused: boolean }) => {
   useLayoutEffect(() => {
     let canvas = document.getElementById(id)! as HTMLCanvasElement
     let ctx = canvas.getContext("2d")!
@@ -69,12 +71,18 @@ const useBlackHoleAnimation = ({
     function Emitter(x, y) {
       this.position = { x: x, y: y }
       this.radius = radius
-      this.count = 3000
+      this.count = 1000
+      const halfCount = this.count / 2
       this.particles = []
 
       for (var i = 0; i < this.count; i++) {
         this.particles.push(
-          new Particle(this.position.x, this.position.y, this.radius, i >= 1500)
+          new Particle(
+            this.position.x,
+            this.position.y,
+            this.radius,
+            i >= halfCount
+          )
         )
       }
     }
@@ -114,25 +122,37 @@ const useBlackHoleAnimation = ({
       }
 
     function loop() {
+      if (paused) {
+        return
+      }
+
       ctx.clearRect(0, 0, canvas.width, canvas.height)
       emitter.update()
       reg = animate(loop)
     }
 
-    if (width > 0 && height > 0) {
+    if (!paused && width > 0 && height > 0) {
       loop()
     }
 
     return () => {
       cancelAnimationFrame(reg)
     }
-  }, [])
+  }, [paused])
 }
 
 const BlackHole = (props: BlackHoleProps) => {
-  useBlackHoleAnimation(props)
+  const { ref, isVisible } = useIsVisible()
+  useBlackHoleAnimation({
+    ...props,
+    paused: !isVisible,
+  })
 
-  return <canvas id={props.id}></canvas>
+  return (
+    <div ref={ref}>
+      <canvas id={props.id}></canvas>
+    </div>
+  )
 }
 
 export type { BlackHoleProps }

@@ -78,10 +78,15 @@ interface Props {
 
 export default function ({ articles }: Props): React.ReactElement {
   return (
-    <Grid>
-      {articles.map(article => (
-        <Tile key={article.slug} article={article} />
-      ))}
-    </Grid>
+    <>
+      <h1 style={{ visibility: "hidden", height: 0, margin: "0" }}>
+        List of articles
+      </h1>
+      <Grid>
+        {articles.map(article => (
+          <Tile key={article.slug} article={article} />
+        ))}
+      </Grid>
+    </>
   )
 }

@@ -18,11 +18,13 @@ const getTimeline = ({ articles, courses }) => {
       avatar: course.thumbnail,
       url: course.path,
     })),
-  ].sort((a, b) => {
-    if (a.createdAt < b.createdAt) return 1
-    if (a.createdAt === b.createdAt) return 0
-    return -1
-  })
+  ]
+    .sort((a, b) => {
+      if (a.createdAt < b.createdAt) return 1
+      if (a.createdAt === b.createdAt) return 0
+      return -1
+    })
+    .slice(0, 12)
 
   const timelineData = []
   const GAP = 5
@@ -101,6 +103,22 @@ const getTimeline = ({ articles, courses }) => {
   return timelineData
 }
 
+const getRandomNumbers = (items, count) => {
+  const [min, max] = [0, items.length - 1]
+
+  const numbers = []
+
+  while (numbers.length < count) {
+    const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min
+
+    if (!numbers.includes(randomNumber)) {
+      numbers.push(randomNumber)
+    }
+  }
+
+  return numbers
+}
+
 exports.getAllDataQuery = data => {
   const site = data.site.siteMetadata
   const translationObject = data.translationObject
@@ -117,6 +135,9 @@ exports.getAllDataQuery = data => {
     fluid: node.childImageSharp.fluid,
   }))
   const translatedArticles = getTranslatedArticles(data)
+  const footerArticles = getRandomNumbers(articles, 16).map(
+    idx => articles[idx]
+  )
 
   return {
     articles,
@@ -128,5 +149,6 @@ exports.getAllDataQuery = data => {
     timeline,
     site,
     translationObject,
+    footerArticles,
   }
 }
