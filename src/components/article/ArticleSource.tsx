@@ -7,7 +7,6 @@ type ArticleSourceProps = {
 }
 
 const ArticleSource = ({ source, onClose }: ArticleSourceProps) => {
-  console.log(source)
   return (
     <Modal onClose={onClose}>
       <EditableSnippet value={source} />
