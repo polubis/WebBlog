@@ -4,8 +4,7 @@ duration: 4
 description: We take a look at how to use the native IntersectionObserver API in a custom hook.
 ---
 
-<Section>
-  <XL>Why?</XL>
+<Prelude>
   <M>
     Let's say you have a great homepage with fancy looking animation - you're
     animating the{" "}
@@ -21,11 +20,19 @@ description: We take a look at how to use the native IntersectionObserver API in
     description="Note how the animation stops when scrolling"
   />
   <M>
-    The browser have a dedicated API for that called <B>IntersectionObserver</B>.
-    When writing in <B>React</B>, it's a good idea to create a proper hook to handle
-    such logic for your own convenience and the ability to use it in every component.
+    The browser have a dedicated API for that - <B>IntersectionObserver</B>.
+    When writing in <B>React</B>, it's a good idea to create a proper hook to
+    handle such logic for your own convenience and the ability to use it in
+    every component.
   </M>
-</Section>
+  <Hint>
+    On this{" "}
+    <A href="https://github.com/polubis/Dream-stack-for-React-dev/tree/main/system/libs/figa-hooks/src/lib/use-intersection-observer">
+      repository
+    </A>{" "}
+    you have the final result.
+  </Hint>
+</Prelude>
 
 <Section>
   <XL>Usage</XL>
@@ -76,17 +83,16 @@ return (
     src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/main/system/libs/figa-hooks/src/lib/use-intersection-observer/use-intersection-observer.ts"
   />
   <M>
-    Hook cannot be used on the server side - so we block this option at the very
-    beginning.
+    Hook cannot be used on the server side - so we blocked this option at the
+    very beginning.
   </M>
   <M>
     In addition, if the native <B>IntersectionObserver</B> API is not supported
-    then our code will not work either. So we do not run it and log an error for
-    the developer.
+    then our code will not work either. So we logged an error for developers.
   </M>
   <M>
-    Next, we create an <B>IntersectionObserver</B> object, we pass callback and
-    configuration object.
+    Next, we created an <B>IntersectionObserver</B> object, we passed a callback
+    and a configuration object.
   </M>
 </Section>
 
@@ -99,3 +105,29 @@ return (
     src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/main/system/libs/figa-hooks/src/lib/use-intersection-observer/use-intersection-observer.test.tsx"
   />
 </Section>
+
+<Example>
+  <M>
+    <A
+      href="https://github.com/polubis/Dream-stack-for-React-dev/tree/main/system/libs/figa-hooks/src/lib/use-intersection-observer"
+      outside
+    >
+      Repository
+    </A>{" "}
+    with the <B>useIntersectionObserver</B> hook.
+  </M>
+</Example>
+
+<Summary>
+  <M>
+    Now you know how to track any element on the interface and respect the
+    resources of the browser.
+  </M>
+  <M>
+    If you enjoyed it, be sure to visit us on{" "}
+    <A href="https://www.linkedin.com/company/greenon-software/" outside>
+      Linkedin
+    </A>{" "}
+    where we regularly upload content from programming.
+  </M>
+</Summary>
