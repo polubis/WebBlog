@@ -24,6 +24,7 @@ import { AllDataResponse } from "../../api"
 import { Breadcrumbs } from "../breadcrumbs"
 import { ReadInOtherLanguageBanner } from "./ReadInOtherLanguageBanner"
 import { useModal } from "../../ui/modal/Modal"
+import { useCustomGAEvent } from "../../utils/useCustomGAEvent"
 
 const ProgressDisplayer = Loadable({
   loader: () => import("./ProgressDisplayer").then(m => m.ProgressDisplayer),
@@ -98,7 +99,6 @@ export default function ({
     author,
     thumbnail,
     body,
-    rawBody,
     stack,
     createdAt,
     modifiedAt,
@@ -116,14 +116,17 @@ export default function ({
     previous,
     translations,
     lang,
+    rawBody,
   } = article
 
   const t = translationObject[lang]
+  const { track } = useCustomGAEvent()
   const articleSourceModal = useModal()
+  const articleSource = rawBody.replace(/^(---\s*\n[\s\S]*?\n?)?---\s*\n/, "")
 
   const handleSourceOpen = () => {
     articleSourceModal.open()
-    //TODO SEND GA EVENT
+    track({ name: "article_source_clicked" })
   }
 
   return (
@@ -212,7 +215,10 @@ export default function ({
         </Content>
         <ProgressDisplayer labels={t.progressDisplay} />
         {articleSourceModal.isOpen && (
-          <ArticleSource source={rawBody} onClose={articleSourceModal.close} />
+          <ArticleSource
+            source={articleSource}
+            onClose={articleSourceModal.close}
+          />
         )}
       </Layout>
     </SiteMeta>

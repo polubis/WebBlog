@@ -105,9 +105,6 @@ exports.createPages = async ({ actions, graphql }) => {
             stack
             title
           }
-          internal {
-            content
-          }
           rawBody
           body
           slug
