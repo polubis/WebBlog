@@ -13,7 +13,11 @@ interface FullScreenClicked {
   name: "full_screen_clicked"
 }
 
-type AnalyticsEvent = AuthorRequest | FullScreenClicked
+interface ArticleSourceClicked {
+  name: "article_source_clicked"
+}
+
+type AnalyticsEvent = AuthorRequest | FullScreenClicked | ArticleSourceClicked
 
 export const useCustomGAEvent = () => {
   const track = (e: AnalyticsEvent): void => {
