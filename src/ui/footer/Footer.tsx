@@ -143,7 +143,7 @@ const Footer = ({ articles, t, renderLinks }: FooterProps) => {
             </M>
           </Section>
           <Section>
-            <X>{t.footer.recentArticles}</X>
+            <X>{t.footer.recommendedArticles}</X>
             <Articles>
               {articles.map(article => (
                 <Link key={article.title} to={article.path}>

@@ -10,7 +10,7 @@ interface BlogCreatorPageProps {
 }
 
 const BlogCreatorPage = ({
-  pageContext: { articles, site, translationObject },
+  pageContext: { articles, site, translationObject, footerArticles },
 }: BlogCreatorPageProps) => {
   const t = translationObject["en"]
 
@@ -26,7 +26,7 @@ const BlogCreatorPage = ({
       image="/icon-192x192.png"
       description="Use our tool to create articles and courses in a fast, developer-friendly way."
     >
-      <Layout articles={articles} t={t} routes={site.routes}>
+      <Layout articles={footerArticles} t={t} routes={site.routes}>
         <Content paddingY>
           <BlogCreator />
         </Content>

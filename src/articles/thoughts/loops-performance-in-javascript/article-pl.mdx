@@ -1,0 +1,303 @@
+---
+cdate: 2023-04-24
+mdate: 2023-04-24
+authorId: polubis
+treviewerId: kwozniak
+lreviewerId: kreszko
+tags: testowanie,optymalizacja
+stack: javascript,typescript
+description: Przeprowadzimy testy weryfikujące jaki wpływ na szybkość programu mogą mieć różne pętle w JavaScript.
+readTime: 7
+title: Pętle w JavaScript oraz ich performance
+---
+
+<Prelude label="Wstęp">
+  <M>
+    Widziałem kiedyś <B>pull requesta</B>, w którym dwóch developerów kłóciło
+    się o zastosowaną pętlę. Sytuacja była o tyle zabawna, że zrobiła się z tego
+    długa konwersacja, w której każdy spamował linkami do wątków na{" "}
+    <B>Github</B> i do artykułów.
+  </M>
+  <M>
+    To mnie zaciekawiło... Nigdy nie miałem czasu sprawdzić, która z dostępnych
+    możliwości jest najlepsza. Artykuły poruszające ten temat były
+    powierzchowne. Dlatego postanowiłem wyedukować się od podszewki i o tym w
+    dzisiejszym wpisie.
+  </M>
+  <Hint hasBg>Doświadczenie i wiedza działają cuda 🚀.</Hint>
+</Prelude>
+
+<Section>
+  <XL>1. Jak mierzyć złożoność obliczeniową w JavaScript?</XL>
+  <M>
+    Nie da się stwierdzić ile dokładnie czasu zajmuje wywołanie konkretnej
+    funkcji oraz co ciekawsze, za każdym pomiarem są to różne wartości. Na
+    pierwszy rzut oka jest to bardzo dziwne, ale pomyśl - procesor robi o wiele
+    więcej niż jakiś durny programik w JavaScript, a przeglądarka o wiele więcej
+    niż uruchamianie twojego kodu.
+  </M>
+  <M>
+    Skoro wiemy już, że pomiar czasu jest niedokładny to wiemy też, że jakoś
+    możemy go mierzyć. JavaScript ma wbudowane API, a nawet kilka. My skupimy
+    się tylko na <B>performance.now()</B>, bo to nie zastosowane API w tym
+    przypadku robi różnice, a sposób pomiaru i to co mierzymy.
+  </M>
+  <Snippet
+    linesCount={10}
+    description="Funkcja mierząca czas trwania dowolnej innej funkcji"
+    src="https://raw.githubusercontent.com/polubis/loops-performance-in-javascript/main/src/performance/measure.ts"
+  />
+  <Snippet
+    linesCount={12}
+    description="Przykładowe wykorzystanie funkcji measure"
+    src="https://raw.githubusercontent.com/polubis/loops-performance-in-javascript/main/src/snippets/memory-used.ts"
+  />
+  <M>
+    Udowodniłem Ci, że czas się różni. Teraz musimy ustalić jak możemy
+    stwierdzić, która pętla jest szybsza. Zastosujemy technikę, która nazywa się{" "}
+    <B>próbkowaniem</B>. Zamiast wywoływać testowany kod raz i porównywać go z
+    rezultatem innego programu uruchomimy go tysiące/miliony razy i obliczymy
+    sumę czasów przy każdym wywołaniu.
+  </M>
+  <Hint hasBg>
+    Odpal na swoim komputerze podany kod i sprawdź jak uruchomienie programów
+    wpływa na wynik dowolnej funkcji 💻.
+  </Hint>
+</Section>
+
+<Section>
+  <XL>2. Próbkujemy i zbieramy</XL>
+  <M>
+    Mamy funkcję <B>measure()</B>, więc teraz musimy ją uruchomić <B>n</B> razy.
+  </M>
+  <Snippet
+    linesCount={22}
+    description="Funkcja do zbierania wyników"
+    src="https://raw.githubusercontent.com/polubis/loops-performance-in-javascript/main/src/performance/run-probes.ts"
+  />
+  <Snippet
+    linesCount={12}
+    description="Wykorzystanie funkcji runProbes()"
+    src="https://raw.githubusercontent.com/polubis/loops-performance-in-javascript/main/src/snippets/run-probes-used.ts"
+  />
+</Section>
+
+<Section>
+  <XL>3. Wyświetlanie i logowanie</XL>
+  <M>
+    Na tym etapie mamy czyste dane, ale kto by je tam chciał ręcznie przeglądać.
+    Musimy je podliczyć i zaokrąglić do czterech miejsc po przecinku. Tylko do
+    czterech, bo jeżeli coś trwa <B>0.00001532</B> sekundy to umówmy się -
+    użytkownik tego raczej nie zauważy.
+  </M>
+  <Snippet
+    linesCount={31}
+    description="Funkcja do podsumowania wyniku"
+    src="https://raw.githubusercontent.com/polubis/loops-performance-in-javascript/main/src/performance/summarize.ts"
+  />
+  <Snippet
+    linesCount={23}
+    description="Mamy rezultat"
+    src="https://raw.githubusercontent.com/polubis/loops-performance-in-javascript/main/src/snippets/summary-used.ts"
+  />
+  <M>
+    Co my tu mamy? Wywołaliśmy funkcję sumującą trzy razy przekazując do niej
+    sześć liczb od <B>1 do 6</B>. Całkowity czas trwania tych obliczeń wyniósł{" "}
+    <B>0.0101</B> sekundy.
+  </M>
+  <Hint hasBg>
+    JS jest dziwny. Uruchom kod trzy razy i zobacz, że wartości są różne.
+  </Hint>
+</Section>
+
+<Section>
+  <XL>4. Pętle i rekurencje</XL>
+  <M>
+    Napiszemy kilka funkcji, które będa miały za zadanie obliczyć sumę dowolnych
+    liczb (czyli każda zrobi to samo, ale inaczej). Później porównamy wynik z
+    gotowym narzędziem do sprawdzania optymalizacji i wyciągniemy wnioski.
+  </M>
+  <Snippet
+    linesCount={49}
+    description="Masz jakiegoś faworyta?"
+    src="https://raw.githubusercontent.com/polubis/loops-performance-in-javascript/main/src/sum.ts"
+  />
+  <M>
+    Teraz ten sam zbiór danych przekażemy do każdej z nich i wyciągniemy
+    wnioski.
+  </M>
+  <Snippet
+    linesCount={82}
+    description="Pokazujemy rezultat i dajemy możliwość zmiany parametrów"
+    src="https://raw.githubusercontent.com/polubis/loops-performance-in-javascript/main/src/App.tsx"
+  />
+  <M>
+    Zakładam, że rzucił Ci się w oczy brak wywołania <B>recursiveSum</B>. Jest
+    to celowe. Tutaj mały spoiler - ta implementacja będzie miała najgorszy
+    wynik. Na tyle zły, że przepełni <B>stos wywołań</B> i wywali nasz program
+    💥.
+  </M>
+</Section>
+
+<Section>
+  <XL>5. Sprawdźmy wyniki</XL>
+  <M>
+    W momencie gdy danych jest mało (100-1000) to nie widać większej różnicy.
+    Wygląda nawet na to, że wyniki są losowe (trwa to tak krótko, że nie ma
+    różnicy, której implementacji użyjemy). Wszystko zmienia się w momencie, gdy
+    danych jest więcej. Nagle okazuje się, że pętla <B>for</B> pojawia się na
+    pierwszym miejscu zawsze, a różnica pomiędzy pozostałymi jest znaczna.
+  </M>
+  <Img
+    border
+    src="/assets/loops-performance-in-javascript/demo.gif"
+    description="Testy w naszej mini apce"
+  />
+  <M>
+    Dlaczego tak się dzieje? Nowoczesne procesory są bardzo szybkie. Jeżeli nie
+    są obciążone to nie będzie widać większej różnicy pomiędzy działaniem
+    programu, przede wszystkim jeżeli algorytm jest ten sam. W momencie
+    zwiększania zbioru liczb procesor zaczyna się "męczyć" (a raczej
+    przeglądarka), więc zaczynamy widzieć różnice w pomiarach.
+  </M>
+  <M>
+    Dodatkowo należy pamiętać, że JavaScript jest przekształcany w zależności od
+    implementacji silnika do języka pośredniego, a następnie do kodu
+    maszynowego. Więc implementacja, która kryje się wewnątrz jest dla nas
+    programistów nieznana. Może być tak, że pętla <B>for</B> ma przewagę nad{" "}
+    <B>while</B>, bo kod "pod spodem" jest do tego zoptymalizowany.
+  </M>
+  <M>
+    Jednak nie można powiedzieć, że pętla <B>for</B> zawsze będzie najszybsza.
+    Na pewno nie w oparciu o dane zebrane na małych zbiorach liczb. To już
+    zależy tylko i wyłącznie od problemu. Możemy powiedzieć, że dla tego
+    problemu pętla <B>for</B> jest najszybsza dla zbioru z jakiegoś przedziału,
+    a nie że jest "najszybsza".
+  </M>
+  <M>
+    Jeszcze jedna sprawa. Dlaczego w takim razie metody wbudowane w prototyp{" "}
+    <B>Array</B> są wolniejsze, jeżeli i tak używaja pętli <B>for</B> wewnątrz?
+    Jest to spowodowane dodatkowymi operacjami, na które jako developerzy się
+    godzimy zyskując na przejrzystości kodu a tracąc na jego szybkości (w myśl
+    zasady coś za coś). Wykorzystane abstrakcje jak <B>forEach</B> oraz{" "}
+    <B>reduce</B> wykonują dodatkowe sprawadzenia przy każdej iteracji, więc to
+    złożyło się na ich gorszy wynik w porównaniu do <B>while</B> czy <B>for</B>.
+    Jako dowód podaje link do{" "}
+    <A
+      outside
+      src="https://tc39.es/ecma262/multipage/indexed-collections.html?fbclid=IwAR1FkOVuwIUDfjfgr2TpsxSDnPY2MFW65-eOndDcifPjMnUt6_3h2yZOGBM#sec-array.prototype.foreach"
+    >
+      specyfikacji
+    </A>
+    .
+  </M>
+  <Hint hasBg>
+    Dziękuje dla{" "}
+    <A href="https://www.linkedin.com/in/pwolaq/" outside>
+      Pawła Wolaka
+    </A>{" "}
+    za pomoc w tym miejscu.
+  </Hint>
+</Section>
+
+<Section>
+  <XL>6. Jaki rezultat dało gotowe narzędzie?</XL>
+  <M>
+    W internecie jest ich naprawdę sporo, a ja postanowiłem wybrać
+    najładniejsze, czyli{" "}
+    <A href="https://perf.link/" outside>
+      perf.link
+    </A>{" "}
+    (taka przypadłość u frątasi). Wrzuciłem wcześniejsze przykłady i wyszedł mi
+    dokładnie taki sam werdykt. Pętla <B>for</B> przodowała przy większych
+    zbiorach liczb, a przy mniejszych nie można było ocenić, która jest
+    najlepsza. Sprawdziłem też funkcję rekurencyjną. Tak samo jak wcześniej od
+    samego początku odstawała nawet na ilości 100 elementów. Tak prezentuje się
+    wynik dla stu tysięcy numerów.
+  </M>
+  <Hint hasBg>Jak widzisz rekurencja nie działa.</Hint>
+  <Img
+    border
+    src="/assets/loops-performance-in-javascript/perf.jpg"
+    description="Wniosek jest ten sam"
+  />
+  <M>
+    Do dyspozycji są jeszcze fajne biblioteki. Ja wykorzystwałem często{" "}
+    <A href="https://benchmarkjs.com/" outside>
+      Benchmark.js
+    </A>
+    , która w mojej opini jest świetna oraz przypomina pisanie zwykłych testów jednostkowych.
+    Tym razem będą to jednak testy szybkości działania programu a nie tego czy prawidłowo
+    działa.
+  </M>
+  <Snippet description="Pięknie to wygląda">
+    {`
+    const suite = new Benchmark.Suite;
+    
+suite.add('RegExp#test', () => {
+  /o/.test('Hello World!');
+})
+.add('String#indexOf', () => {
+  'Hello World!'.indexOf('o') > -1;
+})
+.add('String#match', () => {
+  !!'Hello World!'.match(/o/);
+})
+.on('cycle', (event) => {
+  console.log(String(event.target));
+})
+.on('complete', () => {
+  console.log('Fastest is ' + this.filter('fastest').map('name'));
+})
+.run({ 'async': true });`}
+  </Snippet>
+</Section>
+
+<Example>
+  <M>
+    <A
+      href="https://codesandbox.io/p/github/polubis/loops-performance-in-javascript/main?file=%2Fsrc%2FApp.tsx&selection=%5B%7B%22endColumn%22%3A13%2C%22endLineNumber%22%3A37%2C%22startColumn%22%3A13%2C%22startLineNumber%22%3A37%7D%5D&workspace=%257B%2522activeFilepath%2522%253A%2522%252Fsrc%252Fsum.ts%2522%252C%2522openFiles%2522%253A%255B%2522%252Fsrc%252FApp.tsx%2522%252C%2522%252Fsrc%252Fperformance%252Fsummarize.ts%2522%252C%2522%252Fsrc%252Fperformance%252Frun-probes.ts%2522%252C%2522%252Fsrc%252Fsnippets%252Frun-probes-used.ts%2522%252C%2522%252Fsrc%252Fsum.ts%2522%252C%2522%252Fsrc%252Fsnippets%252Fsummary-used.ts%2522%255D%252C%2522sidebarPanel%2522%253A%2522EXPLORER%2522%252C%2522gitSidebarPanel%2522%253A%2522COMMIT%2522%252C%2522spaces%2522%253A%257B%2522clgne8f5s043d356qd2gxmgto%2522%253A%257B%2522key%2522%253A%2522clgne8f5s043d356qd2gxmgto%2522%252C%2522devtools%2522%253A%255B%257B%2522type%2522%253A%2522PREVIEW%2522%252C%2522taskId%2522%253A%2522start%2522%252C%2522port%2522%253A3000%252C%2522key%2522%253A%2522clgne8jkc0450356q218ukqxi%2522%252C%2522isMinimized%2522%253Afalse%257D%252C%257B%2522type%2522%253A%2522TASK_LOG%2522%252C%2522taskId%2522%253A%2522start%2522%252C%2522key%2522%253A%2522clgnea0u405c3356q85mp2ehc%2522%252C%2522isMinimized%2522%253Atrue%257D%255D%252C%2522name%2522%253A%2522start%2520Preview%2522%257D%257D%252C%2522currentSpace%2522%253A%2522clgne8f5s043d356qd2gxmgto%2522%252C%2522spacesOrder%2522%253A%255B%2522clgne8f5s043d356qd2gxmgto%2522%255D%252C%2522hideCodeEditor%2522%253Afalse%257D
+"
+      outside
+    >
+      Code sandbox
+    </A>{" "}
+    do zabawy oraz{" "}
+    <A
+      href="https://github.com/polubis/loops-performance-in-javascript"
+      outside
+    >
+      repozytorium
+    </A>{" "}
+    z gotowym kodem.
+  </M>
+</Example>
+
+<Summary label="Podsumowanie">
+  <M>
+    Po tym wpisie już wiesz, że mierzenie złożoności obliczeniowej może być
+    "tricky". Okazało się, że ciężko jest stwierdzić, która pętla jest
+    najszybsza.
+  </M>
+  <M>
+    Składnia języka jest istotna, ale nie aż tak jak algorytm i umiejętności
+    programisty, po stronie których stoi odpowiedź na pytanie - które
+    rozwiązanie jest szybsze?
+  </M>
+  <M>
+    Pamiętaj, że złożoność pamięciowa jest także istotna a czasami nawet
+    ważniejsza. Myślę, że jednak o tym innym razem.
+  </M>
+  <M>
+    Jeżeli Ci się podobało to pamiętaj odwiedzić nas na{" "}
+    <A href="https://www.linkedin.com/company/greenon-software/" outside>
+      Linkedin
+    </A>{" "}
+    gdzie regularnie wrzucamy content z programowania.
+  </M>
+  <Hint hasBg>
+    "Człowiek uczy się przez całe życie a robi to zazwyczaj odkrywając koło na
+    nowo. Od dzieciństwa - do końca swoich dni." - cytat z książki, może wiesz
+    jakiej?
+  </Hint>
+</Summary>

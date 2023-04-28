@@ -92,7 +92,7 @@ interface Props {
 }
 
 export default function ({
-  pageContext: { article, articles, site, translationObject },
+  pageContext: { article, site, translationObject, footerArticles },
 }: Props) {
   const {
     author,
@@ -139,7 +139,7 @@ export default function ({
       description={description}
       image={thumbnail.src}
     >
-      <Layout articles={articles} t={t} routes={site.routes}>
+      <Layout articles={footerArticles} t={t} routes={site.routes}>
         <Content paddingY>
           <Article>
             {translations.length > 0 && (

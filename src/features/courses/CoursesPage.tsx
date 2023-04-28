@@ -23,7 +23,7 @@ interface CoursesPageProps {
 }
 
 const CoursesPage = ({
-  pageContext: { courses, articles, site, translationObject },
+  pageContext: { courses, articles, site, translationObject, footerArticles },
 }: CoursesPageProps) => {
   const t = translationObject["en"]
 
@@ -39,8 +39,11 @@ const CoursesPage = ({
       image="/icon-192x192.png"
       description="Browse through the list of our courses and in which you will learn and understand any issues."
     >
-      <Layout articles={articles} t={t} routes={site.routes}>
+      <Layout articles={footerArticles} t={t} routes={site.routes}>
         <Content paddingY>
+          <h1 style={{ visibility: "hidden", height: 0, margin: "0" }}>
+            List of courses
+          </h1>
           <Grid>
             {courses.map(course => (
               <CourseTile key={course.name} data={course} />
