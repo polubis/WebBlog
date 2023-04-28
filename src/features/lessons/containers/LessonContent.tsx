@@ -102,6 +102,9 @@ const LessonContent = ({
 }: LessonContentProps) => {
   return (
     <>
+      <h1 style={{ visibility: "hidden", height: 0, margin: "0" }}>
+        {lesson.name}
+      </h1>
       <MobileCourseChapters
         chapters={course.chapters}
         lessonId={lesson.id}

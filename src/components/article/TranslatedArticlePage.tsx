@@ -87,7 +87,7 @@ const getDistanceLabel = (dateAsString: string, label: string) => {
 }
 
 export default function ({
-  pageContext: { translatedArticle, articles, site, translationObject },
+  pageContext: { translatedArticle, footerArticles, site, translationObject },
 }: Props) {
   const {
     author,
@@ -125,7 +125,7 @@ export default function ({
       description={description}
       image={thumbnail.src}
     >
-      <Layout articles={articles} t={t} routes={site.routes}>
+      <Layout articles={footerArticles} t={t} routes={site.routes}>
         <Content paddingY>
           <Article>
             <ReadInOtherLanguageBanner

@@ -1,0 +1,101 @@
+---
+name: Deep dive into useIntersectionObserver hook
+duration: 4
+description: We take a look at how to use the native IntersectionObserver API in a custom hook.
+---
+
+<Section>
+  <XL>Why?</XL>
+  <M>
+    Let's say you have a great homepage with fancy looking animation - you're
+    animating the{" "}
+    <A href="https://greenonsoftware.com/" outside>
+      black hole
+    </A>{" "}
+    inside <B>canvas</B>. It's good to animate it only when users actually see
+    it. So you could detect whether the user is seeing the section with the
+    animation and based on that, turn it on or off.
+  </M>
+  <Img
+    src="/black-hole.gif"
+    description="Note how the animation stops when scrolling"
+  />
+  <M>
+    The browser have a dedicated API for that called <B>IntersectionObserver</B>.
+    When writing in <B>React</B>, it's a good idea to create a proper hook to handle
+    such logic for your own convenience and the ability to use it in every component.
+  </M>
+</Section>
+
+<Section>
+  <XL>Usage</XL>
+  <M>
+    This is how we will use our <B>useIntersectionObserver</B> hook.{" "}
+  </M>
+  <Snippet description="An example of use">{`
+ // The visible flag will change if the div will have 40% visibility.
+const { visible, ref } = useIntersectionObserver<HTMLDivElement>({ treshhold: 0.4 });
+  
+return (
+  <>
+   {/*We pass ref to element we want to observe.*/}
+    <div ref={ref} style={{ minHeight: '100vh' }}>
+      Your main homepage section.
+    </div>
+    <div style={{ minHeight: '100vh' }}>
+      Other home page content.
+    </div>
+    <div>{visible ? 'Main homepage section is visible' : ''}</div>
+  </>
+)`}</Snippet>
+</Section>
+
+<Section>
+  <XL>Use cases</XL>
+  <List items="Enabling/disabling animations, Showing/hiding an element on the UI,Loading code dynamically" />
+</Section>
+
+<Section>
+  <XL>Implementation</XL>
+  <M>
+    First, let's create interfaces. They will define what our hook will accept
+    and what will return.
+  </M>
+  <Snippet
+    description="The shape of interfaces"
+    linesCount={24}
+    src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/main/system/libs/figa-hooks/src/lib/use-intersection-observer/defs.ts"
+  />
+  <M>
+    Now it's time to implement the <B>useIntersectionObserver</B> hook itself.
+    We have interfaces so we know how it should more or less work.
+  </M>
+  <Snippet
+    description="Implementation"
+    linesCount={66}
+    src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/main/system/libs/figa-hooks/src/lib/use-intersection-observer/use-intersection-observer.ts"
+  />
+  <M>
+    Hook cannot be used on the server side - so we block this option at the very
+    beginning.
+  </M>
+  <M>
+    In addition, if the native <B>IntersectionObserver</B> API is not supported
+    then our code will not work either. So we do not run it and log an error for
+    the developer.
+  </M>
+  <M>
+    Next, we create an <B>IntersectionObserver</B> object, we pass callback and
+    configuration object.
+  </M>
+</Section>
+
+<Section>
+  <XL>Tests</XL>
+  <M>We need to add tests that allow us to do refactors later.</M>
+  <Snippet
+    description="Anty regression tests"
+    linesCount={45}
+    src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/main/system/libs/figa-hooks/src/lib/use-intersection-observer/use-intersection-observer.test.tsx"
+  />
+</Section>

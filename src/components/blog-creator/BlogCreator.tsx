@@ -1,7 +1,6 @@
-import React from "react"
-import { XL, M, Hint, X } from "../../ui/text"
+import React, { useEffect, useRef, useState } from "react"
+import { XL, M, Hint } from "../../ui/text"
 import styled from "styled-components"
-import theme from "../../utils/theme"
 import BlogCreatorLayout from "./BlogCreatorLayout"
 import { BlogPreview } from "./BlogPreview"
 import { T_DOWN } from "../../utils/viewport"
@@ -16,8 +15,14 @@ const FullScreenCreator = Loadable({
   loader: () => import("./FullScreenCreator").then(m => m.FullScreenCreator),
   loading: () => null,
 })
-const UpdateBadge = Loadable({
-  loader: () => import("./UpdateBadge").then(m => m.UpdateBadge),
+
+const ErrorsSection = Loadable({
+  loader: () => import("./ErrorsSection").then(m => m.ErrorsSection),
+  loading: () => null,
+})
+
+const BlogCreatorLoader = Loadable({
+  loader: () => import("./BlogCreatorLoader").then(m => m.BlogCreatorLoader),
   loading: () => null,
 })
 
@@ -79,16 +84,6 @@ const PreviewScroll = styled.div`
   }
 `
 
-const Errors = styled.div`
-  display: flex;
-  flex-flow: column;
-
-  & > *:first-child {
-    color: ${theme.error};
-    margin-bottom: 12px;
-  }
-`
-
 const Heading = styled.header`
   height: 112px;
 `
@@ -96,62 +91,68 @@ const Heading = styled.header`
 export default function () {
   const { track } = useCustomGAEvent()
   const { isOpen, open, close } = useModal()
-  const [
-    { currentMdx, mdx, hasErrors, processing },
-    { change, markAsBroken },
-  ] = useEditor()
+  const [{ currentMdx, mdx, hasErrors }, { change, markAsBroken }] = useEditor()
+  const [loading, setLoading] = useState(false)
+
+  const ref = useRef<NodeJS.Timeout | null>(null)
 
   const handleOpen = () => {
+    setLoading(true)
     track({ name: "full_screen_clicked" })
-    open()
+    document.body.style.overflow = "hidden"
+    ref.current = setTimeout(open, 1500)
   }
+
+  useEffect(() => {
+    return () => {
+      if (ref.current) clearTimeout(ref.current)
+    }
+  }, [])
 
   const Preview = <BlogPreview mdx={currentMdx} onError={markAsBroken} />
   const Editor = <EditableSnippet value={mdx} onChange={change} />
-  const ErrorsSection = hasErrors ? (
-    <Errors>
-      <X>Errors detected.</X>
-      <M>
-        It may be caused by not supported tag usage, not closed tag or after{" "}
-        {"<iframe></iframe>"} use.
-      </M>
-    </Errors>
-  ) : null
+  const Errors = hasErrors ? <ErrorsSection /> : null
 
   return (
     <>
-      {processing && <UpdateBadge />}
-      <BlogCreatorLayout>
-        <Heading>
-          <BlogCreatorHeading
-            buttons={
-              <Button className="full-mode-btn" onClick={handleOpen}>
-                FULL MODE
-              </Button>
-            }
-          />
-        </Heading>
-        <Container
-          style={
-            isOpen
-              ? { opacity: "0", height: "1px", overflow: "hidden" }
-              : undefined
-          }
-        >
-          <CodeContainer>{Editor}</CodeContainer>
+      {loading && (
+        <BlogCreatorLoader
+          onClose={() => {
+            document.body.style.overflow = "auto"
+            setLoading(false)
+          }}
+        />
+      )}
+      {isOpen || (
+        <BlogCreatorLayout>
+          <h1 style={{ visibility: "hidden", height: 0, margin: "0" }}>
+            A powerful editor for articles
+          </h1>
+          <Heading>
+            <BlogCreatorHeading
+              buttons={
+                <Button className="full-mode-btn" onClick={handleOpen}>
+                  FULL MODE
+                </Button>
+              }
+            />
+          </Heading>
+          <Container>
+            <CodeContainer>{Editor}</CodeContainer>
 
-          <PreviewScroll>
-            {ErrorsSection}
-            {Preview}
-          </PreviewScroll>
-        </Container>
-      </BlogCreatorLayout>
+            <PreviewScroll>
+              {Errors}
+              {Preview}
+            </PreviewScroll>
+          </Container>
+        </BlogCreatorLayout>
+      )}
 
       {isOpen && (
         <FullScreenCreator onClose={close}>
           {Editor}
           <>
-            {ErrorsSection}
+            {Errors}
             {Preview}
           </>
         </FullScreenCreator>
