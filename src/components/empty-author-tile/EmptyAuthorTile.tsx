@@ -3,7 +3,8 @@ import styled from "styled-components"
 import { M, X, XL } from "../../ui"
 import { PersonAddIcon } from "../../ui/icons/PersonAddIcon"
 import theme from "../../utils/theme"
-import Button from "../button/Button"
+import ExternalLink, {BtnLink} from "../link/ExternalLink"
+import { getDiscordUrl } from "../../utils/getDiscordUrl"
 
 const Avatar = styled.div`
   display: flex;
@@ -51,11 +52,13 @@ const Media = styled.div`
   padding: 32px 0 16px 0;
 `
 
-export interface EmptyAuthorTileProps {
-  onClick: () => void
-}
+const JoinUsLink = styled(ExternalLink)`
+  ${BtnLink}
+`
 
-export const EmptyAuthorTile = ({ onClick }: EmptyAuthorTileProps) => {
+
+export const EmptyAuthorTile = () => {
+  const discordUrl = getDiscordUrl()
   return (
     <Container>
       <Avatar>
@@ -70,7 +73,7 @@ export const EmptyAuthorTile = ({ onClick }: EmptyAuthorTileProps) => {
         us.
       </M>
       <Media>
-        <Button onClick={onClick}>JOIN US !</Button>
+        <JoinUsLink href={discordUrl} id="author-join-us">JOIN US !</JoinUsLink>
       </Media>
     </Container>
   )

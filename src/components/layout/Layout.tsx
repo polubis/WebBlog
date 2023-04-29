@@ -6,8 +6,8 @@ import theme from "../../utils/theme"
 import styled from "styled-components"
 import { Link as GatsbyLink } from "gatsby"
 import { GreenOnLogo } from "../GreenOnLogo"
-import Button from "../button/Button"
-import { useJoinUsModal } from "../article/WithJoinUsModal"
+import ExternalLink, {BtnLink} from "../link/ExternalLink"
+import { getDiscordUrl } from "../../utils/getDiscordUrl"
 
 interface LayoutProps {
   children: ReactNode
@@ -30,8 +30,13 @@ const UnstyledLink = styled(GatsbyLink)`
   text-decoration: none;
 `
 
+const JoinUsLink = styled(ExternalLink)`
+  ${BtnLink}
+`
+
+
 export default function ({ children, articles, t, routes }: LayoutProps) {
-  const ctx = useJoinUsModal()
+  const discordUrl = getDiscordUrl()
 
   const { links, homeLink, leftLinks, rightLinks } = useMemo(() => {
     const links = sort(
@@ -101,9 +106,9 @@ export default function ({ children, articles, t, routes }: LayoutProps) {
             </>
           }
           action={
-            <Button id="home-navigation-join-button" onClick={ctx.open}>
+            <JoinUsLink id="home-navigation-join-button" href={discordUrl}>
               {t.join}
-            </Button>
+            </JoinUsLink>
           }
         />
       }

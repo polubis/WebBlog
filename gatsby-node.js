@@ -196,6 +196,7 @@ exports.createPages = async ({ actions, graphql }) => {
           siteUrl
           siteName
           siteDescription
+          discordUrl
           langs {
             en {
               html

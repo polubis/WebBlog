@@ -9,9 +9,9 @@ import { L_DOWN, M_DOWN, T_DOWN } from "../../utils/viewport"
 import { Article } from "../../models"
 import Img from "gatsby-image"
 import { Content } from "../layout"
-import { useJoinUsModal } from "../../components/article/WithJoinUsModal"
-import { LinkButton } from "../../components/button/Button"
 import { Translated } from "../../models"
+import ExternalLink, {ExternalRedirect} from "../../components/link/ExternalLink"
+import { getDiscordUrl } from "../../utils/getDiscordUrl"
 
 const Container = styled.footer`
   background: ${theme.black};
@@ -118,6 +118,10 @@ const Figure = styled.figure`
   margin: 0;
 `
 
+const DiscordLink = styled(ExternalLink)`
+  ${ExternalRedirect}
+`
+
 interface FooterProps {
   articles: Article[]
   t: Translated
@@ -125,8 +129,8 @@ interface FooterProps {
 }
 
 const Footer = ({ articles, t, renderLinks }: FooterProps) => {
-  const ctx = useJoinUsModal()
-
+   const discordUrl = getDiscordUrl()
+   
   return (
     <Container className="ui-footer">
       <Content>
@@ -136,9 +140,9 @@ const Footer = ({ articles, t, renderLinks }: FooterProps) => {
             <M>{t.footer.aboutUsText}</M>
             <M>
               {t.footer.aboutUsTextCommunity}{" "}
-              <LinkButton onClick={ctx.open}>
-                {t.footer.thisFormLink}
-              </LinkButton>
+              <DiscordLink href={discordUrl} target="_blank" id="footer-join-us-link">
+                {t.footer.thisLink}
+              </DiscordLink>
               .
             </M>
           </Section>
@@ -176,7 +180,7 @@ const Footer = ({ articles, t, renderLinks }: FooterProps) => {
           </a>
           <a
             className="discord-link"
-            href="https://discord.gg/uJa3KUfFpj"
+            href={discordUrl}
             title="GreenOn Software Discord channel"
             target="_blank"
           >

@@ -3,9 +3,9 @@ import styled from "styled-components"
 import { XL } from "../../ui"
 import { L_DOWN, M_DOWN } from "../../utils/viewport"
 import Badge from "../article/Badge"
-import Button from "../button/Button"
-import { useJoinUsModal } from "../article/WithJoinUsModal"
 import theme from "../../utils/theme"
+import ExternalLink, {BtnLink} from "../link/ExternalLink"
+import { getDiscordUrl } from "../../utils/getDiscordUrl"
 
 const Container = styled.div`
   display: flex;
@@ -44,13 +44,18 @@ const Heading = styled.header`
   }
 `
 
+const JoinUsLink = styled(ExternalLink)`
+  ${BtnLink}
+`
+
+
 const ConnectedSubmitButton = () => {
-  const ctx = useJoinUsModal()
+  const discordUrl = getDiscordUrl()
 
   return (
-    <Button className="submit-article-btn" onClick={ctx.open}>
+    <JoinUsLink href={discordUrl} id="blog-join-us">
       SUBMIT ARTICLE
-    </Button>
+    </JoinUsLink>
   )
 }
 

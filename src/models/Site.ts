@@ -13,6 +13,7 @@ interface SiteMetadata {
   siteDescription: string
   langs: Record<LangKey, Lang>
   routes: Routes
+  discordUrl: string
 }
 
 interface Site {

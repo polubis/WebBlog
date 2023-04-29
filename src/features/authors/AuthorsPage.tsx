@@ -1,5 +1,4 @@
 import React from "react"
-import { useJoinUsModal } from "../../components/article/WithJoinUsModal"
 import Layout from "../../components/layout/Layout"
 import { Content, GithubIcon, LinkedinIcon, M, X, XL } from "../../ui"
 import { SiteMeta } from "../../utils/SiteMeta"
@@ -61,11 +60,7 @@ const Media = styled.div`
   }
 `
 
-const ConnectedEmptyAuthorTile = () => {
-  const ctx = useJoinUsModal()
-
-  return <EmptyAuthorTile onClick={ctx.open} />
-}
+const ConnectedEmptyAuthorTile = () => <EmptyAuthorTile />
 
 interface AuthorsPageProps {
   pageContext: AllDataResponse
