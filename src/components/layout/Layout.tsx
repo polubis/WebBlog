@@ -7,6 +7,7 @@ import styled from "styled-components"
 import { Link as GatsbyLink } from "gatsby"
 import { GreenOnLogo } from "../GreenOnLogo"
 import Button from "../button/Button"
+import { ScrollUpButton } from "../scroll-up-button/ScrollUpButton"
 import { useJoinUsModal } from "../article/WithJoinUsModal"
 
 interface LayoutProps {
@@ -124,6 +125,7 @@ export default function ({ children, articles, t, routes }: LayoutProps) {
       }
     >
       {children}
+      <ScrollUpButton />
     </Layout>
   )
 }
