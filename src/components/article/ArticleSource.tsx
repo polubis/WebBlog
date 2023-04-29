@@ -7,9 +7,10 @@ type ArticleSourceProps = {
 }
 
 const ArticleSource = ({ source, onClose }: ArticleSourceProps) => {
+  const articleContent = source.replace(/^(---\s*\n[\s\S]*?\n?)?---\s*\n/, "")
   return (
     <Modal onClose={onClose}>
-      <EditableSnippet value={source} />
+      <EditableSnippet value={articleContent} />
     </Modal>
   )
 }

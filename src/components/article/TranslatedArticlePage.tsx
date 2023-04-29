@@ -5,7 +5,7 @@ import Layout from "../layout/Layout"
 import { TranslatedArticle } from "../../models/Article"
 import Thumbnail from "../article/Thumbnail"
 import Tags from "../article/Tags"
-import { Content, M } from "../../ui"
+import { Content, M, useModal } from "../../ui"
 import Intro from "./Intro"
 import Loadable from "react-loadable"
 import { L_UP, SM_DOWN } from "../../utils/viewport"
@@ -21,6 +21,9 @@ import { WillBeContinuedBanner } from "./WillBeContinuedBanner"
 import { AllDataResponse } from "../../api"
 import { Breadcrumbs } from "../breadcrumbs"
 import { ReadInOtherLanguageBanner } from "./ReadInOtherLanguageBanner"
+import Button from "../button/Button"
+import { ArticleSource } from "./ArticleSource"
+import { useCustomGAEvent } from "../../utils/useCustomGAEvent"
 
 const ProgressDisplayer = Loadable({
   loader: () => import("./ProgressDisplayer").then(m => m.ProgressDisplayer),
@@ -68,6 +71,16 @@ const Article = styled.main`
     }
   }
 `
+const BottomNavigation = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: right;
+
+  & > *:not(:first-child) {
+    margin-left: 20px;
+  }
+`
+
 interface Props {
   pageContext: AllDataResponse & {
     translatedArticle: TranslatedArticle
@@ -93,6 +106,7 @@ export default function ({
     author,
     thumbnail,
     body,
+    rawBody,
     stack,
     createdAt,
     modifiedAt,
@@ -111,6 +125,13 @@ export default function ({
   } = translatedArticle
 
   const t = translationObject[lang]
+  const articleSourceModal = useModal()
+  const { track } = useCustomGAEvent()
+
+  const handleSourceOpen = () => {
+    articleSourceModal.open()
+    track({ name: "article_source_clicked" })
+  }
 
   return (
     <SiteMeta
@@ -180,9 +201,20 @@ export default function ({
                 {getDistanceLabel(modifiedAt, t.dates.updated)}
               </Badge>
             </Dates>
+            <BottomNavigation>
+              <Button
+                style={{ marginRight: "auto" }}
+                onClick={handleSourceOpen}
+              >
+                {t.showSource}
+              </Button>
+            </BottomNavigation>
           </Article>
         </Content>
         <ProgressDisplayer labels={t.progressDisplay} />
+        {articleSourceModal.isOpen && (
+          <ArticleSource source={rawBody} onClose={articleSourceModal.close} />
+        )}
       </Layout>
     </SiteMeta>
   )

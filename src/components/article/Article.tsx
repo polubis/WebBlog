@@ -122,7 +122,6 @@ export default function ({
   const t = translationObject[lang]
   const { track } = useCustomGAEvent()
   const articleSourceModal = useModal()
-  const articleSource = rawBody.replace(/^(---\s*\n[\s\S]*?\n?)?---\s*\n/, "")
 
   const handleSourceOpen = () => {
     articleSourceModal.open()
@@ -197,7 +196,7 @@ export default function ({
                 style={{ marginRight: "auto" }}
                 onClick={handleSourceOpen}
               >
-                Show source
+                {t.showSource}
               </Button>
               {previous && (
                 <Link to={previous.path}>
@@ -215,10 +214,7 @@ export default function ({
         </Content>
         <ProgressDisplayer labels={t.progressDisplay} />
         {articleSourceModal.isOpen && (
-          <ArticleSource
-            source={articleSource}
-            onClose={articleSourceModal.close}
-          />
+          <ArticleSource source={rawBody} onClose={articleSourceModal.close} />
         )}
       </Layout>
     </SiteMeta>
