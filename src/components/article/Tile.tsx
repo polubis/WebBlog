@@ -23,7 +23,7 @@ const Tile = styled.div`
 
   & > a {
     margin: 0 auto 0 0;
-    color: ${theme.primary};
+    text-decoration: underline ${theme.primary};
   }
 
   ${XL} {
