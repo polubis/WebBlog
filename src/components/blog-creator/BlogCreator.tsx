@@ -132,14 +132,13 @@ export default function () {
             <BlogCreatorHeading
               buttons={
                 <Button className="full-mode-btn" onClick={handleOpen}>
-                  FULL MODE
+                  FULL SCREEN
                 </Button>
               }
             />
           </Heading>
           <Container>
             <CodeContainer>{Editor}</CodeContainer>
-
             <PreviewScroll>
               {Errors}
               {Preview}
