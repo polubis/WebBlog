@@ -26,6 +26,10 @@ const Section = styled.section`
     margin: 24px 0 0 0;
   }
 
+  ${Hint} + ${M} {
+    margin-top: 20px;
+  }
+
   .ui-snippet {
     & + ${M} {
       margin-top: 24px;

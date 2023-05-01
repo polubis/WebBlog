@@ -126,13 +126,7 @@ const useForm = <V extends ObjectBased>({
   // Allows you to change a single field and runs validation.
   // useCallback hook added to avoid rerenders in children when passing function as a prop.
   const set = useCallback(
-    () => <K extends keyof V>({
-      key,
-      value,
-    }: {
-      key: K
-      value: V[K]
-    }): void => {
+    <K extends keyof V>({ key, value }: { key: K; value: V[K] }): void => {
       const newValues = { ...state.current.values, [key]: value }
       const result = validate(state.current.keys, newValues, validators)
 
@@ -182,4 +176,4 @@ const useForm = <V extends ObjectBased>({
 
 export { useForm }
 
-export { FormState, Errors, Affects, ObjectBased, Validator, Validators }
+export type { FormState, Errors, Affects, ObjectBased, Validator, Validators }

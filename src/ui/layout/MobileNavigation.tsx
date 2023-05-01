@@ -3,7 +3,6 @@ import styled, { css } from "styled-components"
 import { GreenOnLogo } from "../../components/GreenOnLogo"
 import theme from "../../utils/theme"
 import { usePortal } from "../../utils/usePortal"
-import { useScroll } from "../../utils/useScroll"
 import { L_UP } from "../../utils/viewport"
 
 const Expander = styled.aside<{ open: boolean }>`
@@ -62,21 +61,16 @@ interface MobileNavigation {
 const MobileNavigation = ({ links }: MobileNavigation) => {
   const [isOpen, setIsOpen] = useState(false)
   const { render } = usePortal()
-  const { direction, offsetY } = useScroll()
 
   const toggleOpen = useCallback(() => {
     setIsOpen(prevOpen => !prevOpen)
   }, [])
 
-  const isVisible = (direction === "up" || direction === "idle") && offsetY > 0
-
   return render(
     <>
-      {isVisible && (
-        <Expander open={isOpen}>
-          <GreenOnLogo onClick={toggleOpen} />
-        </Expander>
-      )}
+      <Expander open={isOpen}>
+        <GreenOnLogo onClick={toggleOpen} />
+      </Expander>
       {isOpen && <Navigation>{links}</Navigation>}
     </>
   )

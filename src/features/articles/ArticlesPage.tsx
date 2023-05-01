@@ -11,7 +11,7 @@ interface ArticlesPageProps {
 }
 
 const ArticlesPage = ({
-  pageContext: { articles, site, translationObject },
+  pageContext: { articles, site, translationObject, footerArticles },
 }: ArticlesPageProps) => {
   const t = translationObject["en"]
 
@@ -27,7 +27,7 @@ const ArticlesPage = ({
       type="website"
       image="/icon-192x192.png"
     >
-      <Layout articles={articles} t={t} routes={site.routes}>
+      <Layout articles={footerArticles} t={t} routes={site.routes}>
         <Content paddingY>
           <Grid articles={articles} />
         </Content>

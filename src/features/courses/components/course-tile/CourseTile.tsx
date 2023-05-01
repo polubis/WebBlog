@@ -22,7 +22,6 @@ const Container = styled.div`
 const Content = styled.div`
   display: flex;
   flex-flow: column;
-  height: 240px;
 
   a {
     margin-top: auto;
