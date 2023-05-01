@@ -1,0 +1,20 @@
+describe("Main page test", () => {
+  beforeEach(() => {
+    cy.visit("http://localhost:8000/")
+    cy.viewport(1650, 795)
+  })
+
+  it('"Check blog" button works as expected', () => {
+    cy.get(".WelcomeSection__TextContent-kMKlwD > a > .Button-dtUzzq")
+      .contains("CHECK BLOG")
+      .click()
+    cy.url().should("include", "articles")
+  })
+
+  it('"Write your first article" button works as expected', () => {
+    cy.get(
+      ".StatsSection__BloggerTileContent-leFqlL > a > .Button-dtUzzq"
+    ).click()
+    cy.url().should("include", "blog-creator")
+  })
+})
