@@ -18,20 +18,6 @@ describe("Main page test", () => {
     cy.url().should("include", "blog-creator")
   })
 
-  // it("Timeline works as expected", () => {
-  //   cy.get(".cJizmy").each(($el, index, $list) => {
-  //     cy.wrap($el).click()
-  //     cy.wait(4000)
-  //     cy.go("back")
-  //   })
-
-  //   // cy.get(
-  //   //   '[href="/articles/testing/mocking-up-with-factories/"] > .Footer__Figure-dNkjlH > .gatsby-image-wrapper > picture > img'
-  //   // ).click()
-  //   // cy.wait(4000)
-  //   // cy.go("back")
-  // })
-
   it("About us section in the footer works as expected", () => {
     cy.get(".Button__LinkButton-fwUmEk").click()
     // cy.get("body").then($body => {
@@ -49,4 +35,18 @@ describe("Main page test", () => {
     )
     cy.get('[type="submit"]').contains("CLOSE").click()
   })
+
+  // it("Recent articles' section works as expected", () => {
+  //   cy.get(".cJizmy").each(($el, index, $list) => {
+  //     cy.wrap($el).click()
+  //     cy.wait(4000)
+  //     cy.go("back")
+  //   })
+
+  //   // cy.get(
+  //   //   '[href="/articles/testing/mocking-up-with-factories/"] > .Footer__Figure-dNkjlH > .gatsby-image-wrapper > picture > img'
+  //   // ).click()
+  //   // cy.wait(4000)
+  //   // cy.go("back")
+  // })
 })

@@ -7,14 +7,6 @@ describe("Join button in the top navigation bar", () => {
     cy.get('[type="email"]').type("example@mail.com")
     cy.get("textarea").type("Some text")
     cy.get('[type="submit"]').contains("SEND").click()
-    // cy.get(".ok").then(function (el) {
-    //   const actualText = el.text()
-    //   expect(
-    //     actualText.includes(
-    //       "We have your submission! We will get back to you within 2 days"
-    //     )
-    //   )
-    // })
     cy.get(".ok").should(
       "have.text",
       "We have your submission! We will get back to you within 2 days"
