@@ -10,6 +10,7 @@ import { BlogCreatorHeading } from "./BlogCreatorHeading"
 import Button from "../button/Button"
 import { useCustomGAEvent } from "../../utils/useCustomGAEvent"
 import { useEditor } from "./useEditor"
+import TemplateSelector from "./TemplateSelector"
 
 const FullScreenCreator = Loadable({
   loader: () => import("./FullScreenCreator").then(m => m.FullScreenCreator),
@@ -112,6 +113,7 @@ export default function () {
   const Preview = <BlogPreview mdx={currentMdx} onError={markAsBroken} />
   const Editor = <EditableSnippet value={mdx} onChange={change} />
   const Errors = hasErrors ? <ErrorsSection /> : null
+  const Templates = <TemplateSelector change={change} />
 
   return (
     <>
@@ -131,9 +133,12 @@ export default function () {
           <Heading>
             <BlogCreatorHeading
               buttons={
-                <Button className="full-mode-btn" onClick={handleOpen}>
-                  FULL SCREEN
-                </Button>
+                <>
+                  {Templates}
+                  <Button className="full-mode-btn" onClick={handleOpen}>
+                    FULL SCREEN
+                  </Button>
+                </>
               }
             />
           </Heading>
@@ -148,7 +153,7 @@ export default function () {
       )}
 
       {isOpen && (
-        <FullScreenCreator onClose={close}>
+        <FullScreenCreator onClose={close} Templates={Templates}>
           {Editor}
           <>
             {Errors}

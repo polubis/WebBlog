@@ -4,7 +4,7 @@ import styled, { css } from "styled-components"
 
 import theme from "../../utils/theme"
 
-const common = css`
+export const common = css`
   text-transform: uppercase;
   background: none;
   font-size: 14px;
