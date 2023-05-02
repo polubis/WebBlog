@@ -7,9 +7,7 @@ describe("Articles' tests", () => {
   it('"Read article" buttons work as expected', () => {
     cy.get("#home-navigation-link-Articles").click()
     cy.url().should("include", "articles")
-    cy.get(
-      '[href="/articles/thoughts/loops-performance-in-javascript/"] > .Button-dtUzzq'
-    ).click()
+    cy.get(".Grid-fPzpTg > :nth-child(1) > [href]").click()
     //Add tests for each article
   })
 
