@@ -1,7 +1,7 @@
 describe("Breadcrumbs on desktop tests", () => {
   beforeEach(() => {
     cy.visit("http://localhost:8000/")
-    cy.viewport(400, 522)
+    cy.viewport(1650, 795)
   })
 
   it("View breadcrumbs in the articles' page", () => {
