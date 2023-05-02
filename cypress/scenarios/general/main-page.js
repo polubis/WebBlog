@@ -17,4 +17,36 @@ describe("Main page test", () => {
     ).click()
     cy.url().should("include", "blog-creator")
   })
+
+  // it("Timeline works as expected", () => {
+  //   cy.get(".cJizmy").each(($el, index, $list) => {
+  //     cy.wrap($el).click()
+  //     cy.wait(4000)
+  //     cy.go("back")
+  //   })
+
+  //   // cy.get(
+  //   //   '[href="/articles/testing/mocking-up-with-factories/"] > .Footer__Figure-dNkjlH > .gatsby-image-wrapper > picture > img'
+  //   // ).click()
+  //   // cy.wait(4000)
+  //   // cy.go("back")
+  // })
+
+  it("About us section in the footer works as expected", () => {
+    cy.get(".Button__LinkButton-fwUmEk").click()
+    // cy.get("body").then($body => {
+    //   if ($body.find(".JoinUsModal__Container-dmxFvw").length > 0) {
+    //     console.log(true)
+    //   }
+    //   console.log(false)
+    // })
+    cy.get('[type="email"]').type("example@mail.com")
+    cy.get("textarea").type("Some text")
+    cy.get('[type="submit"]').contains("SEND").click()
+    cy.get(".ok").should(
+      "have.text",
+      "We have your submission! We will get back to you within 2 days"
+    )
+    cy.get('[type="submit"]').contains("CLOSE").click()
+  })
 })
