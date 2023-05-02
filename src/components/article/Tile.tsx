@@ -23,6 +23,11 @@ const Tile = styled.div`
 
   & > a {
     margin: 0 auto 0 0;
+    text-decoration: none;
+  }
+
+  & > a:hover,
+  & > a:active {
     text-decoration: underline ${theme.primary};
   }
 
