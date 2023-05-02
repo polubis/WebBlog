@@ -101,9 +101,29 @@ export default function ({ children, articles, t, routes }: LayoutProps) {
             </>
           }
           action={
-            <Button id="home-navigation-join-button" onClick={ctx.open}>
-              {t.join}
-            </Button>
+            <>
+              <Link
+                to="https://discord.gg/3N2KYx4f"
+                id="home-navigation-link-discord"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img src="discord.png" alt="Discord" />
+              </Link>
+
+              <Link
+                to="https://www.linkedin.com/company/greenon-software/"
+                id="home-navigation-link-linkedin"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img src="linkedin.png" alt="LinkedIn" />
+              </Link>
+
+              <Button id="home-navigation-join-button" onClick={ctx.open}>
+                {t.join}
+              </Button>
+            </>
           }
         />
       }

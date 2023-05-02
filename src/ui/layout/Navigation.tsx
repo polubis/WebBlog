@@ -48,6 +48,12 @@ const Container = styled.header`
         }
       }
     }
+
+    .ui-layout-action {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
   }
 `
 
@@ -78,7 +84,7 @@ const Navigation = ({
             <nav className="ui-layout-links">{rightLinks}</nav>
           </div>
 
-          {action}
+          <div className="ui-layout-action">{action}</div>
         </Content>
       </Container>
       <MobileNavigation links={mobileLinks} />
