@@ -6,6 +6,8 @@ interface AuthorJSON {
   name: string
   firstName: string
   lastName: string
+  isAuthor: boolean
+  isContributor: boolean
   role: string
   bio: string
   githubURL?: string

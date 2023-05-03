@@ -8,6 +8,10 @@ import styled from "styled-components"
 import theme from "../../utils/theme"
 import { EmptyAuthorTile } from "../../components/empty-author-tile/EmptyAuthorTile"
 import { AllDataResponse } from "../../api"
+import {
+  AuthorBadge,
+  ContributorBadge,
+} from "../../components/badges/CommunityBadges"
 
 const Grid = styled.div`
   display: grid;
@@ -60,6 +64,17 @@ const Media = styled.div`
     }
   }
 `
+const BadgesContainer = styled.div`
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  display: flex;
+  gap: 4px;
+  & > * {
+    width: 24px;
+    height: 100%;
+  }
+`
 
 const ConnectedEmptyAuthorTile = () => {
   const ctx = useJoinUsModal()
@@ -97,6 +112,10 @@ const AuthorsPage = ({
             <ConnectedEmptyAuthorTile />
             {authors.map(author => (
               <Tile key={author.id}>
+                <BadgesContainer>
+                  {author.isAuthor && <AuthorBadge />}
+                  {author.isContributor && <ContributorBadge />}
+                </BadgesContainer>
                 <AuthorAvatar size="medium" avatar={author.avatar} />
                 <XL>
                   {author.firstName} {author.lastName}
