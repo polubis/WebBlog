@@ -21,7 +21,7 @@ const highlight = (code: string): ReactNode => (
           <div {...getLineProps({ line, key: i })}>
             {line.map((token, key) => (
               <>
-                <span className="editorLineNumber">{i + 1}</span>
+                <span className="editor-line-number">{i + 1}</span>
                 <span {...getTokenProps({ token, key })}/>
               </>
             ))}

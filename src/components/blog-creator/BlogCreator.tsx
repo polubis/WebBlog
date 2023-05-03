@@ -50,7 +50,7 @@ const CodeContainer = styled.div`
       outline: none;
       padding-left: 60px !important;
     }   
-    .editorLineNumber {
+    .editor-line-number {
       position: absolute;
       left: 0px;
       color: #444444;
