@@ -3,7 +3,7 @@ import styled from "styled-components"
 import theme from "../../utils/theme"
 import { common } from "../button/Button"
 
-const Select = styled.select`
+const StyledSelect = styled.select`
   ${common}
   border: 1px solid ${theme.primary};
   color: ${theme.primary};
@@ -15,7 +15,7 @@ const Select = styled.select`
     color: ${theme.bg};
   }
 
-  & option {
+  option {
     background: ${theme.bg};
     color: ${theme.primary};
     margin: 0;
@@ -26,12 +26,10 @@ const Select = styled.select`
   }
 `
 
-interface Props
-  extends React.DetailedHTMLProps<
-    React.SelectHTMLAttributes<HTMLSelectElement>,
-    HTMLSelectElement
-  > {}
+interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {}
 
-export default function (props: Props): React.ReactElement {
-  return <Select {...(props as any)} />
+const Select = (props: SelectProps): React.ReactElement => {
+  return <StyledSelect {...props} />
 }
+
+export { Select }

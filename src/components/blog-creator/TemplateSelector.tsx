@@ -1,5 +1,5 @@
 import React from "react"
-import Select from "../Select/Select"
+import { Select } from "../Select/Select"
 import { INIT_MDX, smallMDX, mediumMDX, hugeMDX } from "./config"
 
 interface TemplateSelectorProps {
