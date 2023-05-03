@@ -9,6 +9,7 @@ import { GreenOnLogo } from "../GreenOnLogo"
 import Button from "../button/Button"
 import { ScrollUpButton } from "../scroll-up-button/ScrollUpButton"
 import { useJoinUsModal } from "../article/WithJoinUsModal"
+import { useScrollTo } from "../../utils/useScrollTo"
 
 interface LayoutProps {
   children: ReactNode
@@ -33,6 +34,7 @@ const UnstyledLink = styled(GatsbyLink)`
 
 export default function ({ children, articles, t, routes }: LayoutProps) {
   const ctx = useJoinUsModal()
+  const { containerRef, scrollTop } = useScrollTo()
 
   const { links, homeLink, leftLinks, rightLinks } = useMemo(() => {
     const links = sort(
@@ -52,6 +54,7 @@ export default function ({ children, articles, t, routes }: LayoutProps) {
 
   return (
     <Layout
+      ref={containerRef}
       navigation={
         <Navigation
           logo={
@@ -125,7 +128,7 @@ export default function ({ children, articles, t, routes }: LayoutProps) {
       }
     >
       {children}
-      <ScrollUpButton />
+      <ScrollUpButton onClick={scrollTop} />
     </Layout>
   )
 }

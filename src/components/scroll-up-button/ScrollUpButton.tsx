@@ -1,10 +1,16 @@
-import React, { useState } from "react"
+import React, { FC } from "react"
 
 import Button from "../button/Button"
 import { L_DOWN } from "../../utils/viewport"
-import { SCROLL_UP } from "./ScrollUpButton.constants"
 import styled, { keyframes } from "styled-components"
 import theme from "../../utils/theme"
+import { useScroll } from "../../utils/useScroll"
+
+interface ScrollUpButtonProps {
+  onClick: () => void
+}
+
+const VISIBILITY_LIMIT = 500
 
 const show = keyframes`
   from {
@@ -36,36 +42,16 @@ const Container = styled.div`
   }
 `
 
-export const ScrollUpButton = () => {
-  const [currentScrollPosition, setCurrentScrollPosition] = useState(0)
-  const { stepUpValue, timeInMiliseconds, visibilityLimit } = SCROLL_UP
-
-  window.addEventListener("scroll", () => {
-    setCurrentScrollPosition(document.documentElement.scrollTop)
-  })
-
-  const handleScrollUp = () => {
-    let newPosition = currentScrollPosition
-
-    const scrollInterval = setInterval(() => {
-      document.documentElement.scrollTo(0, (newPosition -= stepUpValue))
-
-      if (newPosition <= 0) {
-        clearInterval(scrollInterval)
-        setCurrentScrollPosition(0)
-      }
-    }, timeInMiliseconds)
-  }
+export const ScrollUpButton: FC<ScrollUpButtonProps> = ({ onClick }) => {
+  const { offsetY } = useScroll()
 
   return (
     <Container>
       <Button
         className={`${
-          currentScrollPosition > visibilityLimit
-            ? "scrollUp-show"
-            : "scrollUp-hide"
+          offsetY > VISIBILITY_LIMIT ? "scrollUp-show" : "scrollUp-hide"
         }`}
-        onClick={handleScrollUp}
+        onClick={onClick}
       >
         Go up
       </Button>
