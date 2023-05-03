@@ -20,7 +20,10 @@ const highlight = (code: string): ReactNode => (
         {tokens.map((line, i) => (
           <div {...getLineProps({ line, key: i })}>
             {line.map((token, key) => (
-              <span {...getTokenProps({ token, key })} />
+              <>
+                <span className="editorLineNumber">{i + 1}</span>
+                <span {...getTokenProps({ token, key })}/>
+              </>
             ))}
           </div>
         ))}
