@@ -12,6 +12,7 @@ import { Content } from "../layout"
 import { useJoinUsModal } from "../../components/article/WithJoinUsModal"
 import { LinkButton } from "../../components/button/Button"
 import { Translated } from "../../models"
+import { FacebookIcon } from "../icons/FacebookIcon"
 
 const Container = styled.footer`
   background: ${theme.black};
@@ -38,7 +39,7 @@ const ContentFooter = styled.div`
   padding: 12px 0 16px 0;
   border-top: 2px solid ${theme.grayC};
 
-  .discord-link {
+  .icon-link {
     margin-left: 12px;
   }
 
@@ -175,12 +176,20 @@ const Footer = ({ articles, t, renderLinks }: FooterProps) => {
             <LinkedinIcon />
           </a>
           <a
-            className="discord-link"
-            href="https://discord.gg/uJa3KUfFpj"
+            className="icon-link"
+            href="https://discord.gg/uJa3KUfFpj/"
             title="GreenOn Software Discord channel"
             target="_blank"
           >
             <DiscordIcon />
+          </a>
+          <a
+            className="icon-link"
+            href="https://www.facebook.com/groups/1472987149805006/"
+            title="GreenOn Software Facebook profile"
+            target="_blank"
+          >
+            <FacebookIcon />
           </a>
           <CompanyWrapper>
             <S className="ui-footer-gray">
