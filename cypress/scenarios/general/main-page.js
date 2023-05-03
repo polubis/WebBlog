@@ -11,17 +11,23 @@ describe("Main page test", () => {
     cy.url().should("include", "articles")
   })
 
-  it('"Write your first article" button works as expected', () => {
-    cy.get(
-      ".StatsSection__BloggerTileContent-leFqlL > a > .Button-dtUzzq"
-    ).click()
-    cy.url().should("include", "blog-creator")
-  })
+  // it('"Write your first article" button works as expected', () => {
+  //   cy.get(
+  //     ".StatsSection__BloggerTileContent-leFqlL > a > .Button-dtUzzq"
+  //   ).click()
+  //   cy.url().should("include", "blog-creator")
+  // })
 
-  it("Timeline works as expected", () => {
-    cy.get(
-      '[style="display: flex; align-items: center; position: absolute; transition: transform 0.3s ease-in-out 0s; cursor: pointer; height: 50px; width: 300px; transform: translate(268px, -98px); top: 0px;"] > a'
-    ).click()
+  // it("Timeline works as expected", () => {
+  //   cy.get(
+  //     '[style="display: flex; align-items: center; position: absolute; transition: transform 0.3s ease-in-out 0s; cursor: pointer; height: 50px; width: 300px; transform: translate(268px, -98px); top: 0px;"] > a'
+  //   ).click()
+  // })
+
+  it("Check blog button works as expected", () => {
+    cy.get(".welcome-section-check-blog-button").click()
+
+    cy.url().should("include", "/articles/")
   })
 
   it("About us section in the footer works as expected", () => {

@@ -75,7 +75,7 @@ export const WelcomeSection = () => {
           <M>
             A place for people who love programming and personal development.
           </M>
-          <Link to="/articles/">
+          <Link className="welcome-section-check-blog-button" to="/articles/">
             <Button>CHECK BLOG</Button>
           </Link>
         </TextContent>
