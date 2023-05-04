@@ -213,6 +213,7 @@ export default function ({
           </Article>
         </Content>
         <ProgressDisplayer labels={t.progressDisplay} />
+      
         {articleSourceModal.isOpen && (
           <ArticleSource source={rawBody} onClose={articleSourceModal.close} />
         )}

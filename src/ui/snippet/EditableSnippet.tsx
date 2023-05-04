@@ -31,7 +31,7 @@ const highlight = (code: string): ReactNode => (
 
 interface EditableSnippetProps {
   value: string
-  onChange?: (value: string) => void
+  onChange: (value: string) => void
 }
 
 const EditableSnippet = ({ value, onChange }: EditableSnippetProps) => {
@@ -40,7 +40,6 @@ const EditableSnippet = ({ value, onChange }: EditableSnippetProps) => {
       className="ui-editable-snippet"
       value={value}
       onValueChange={onChange}
-      readOnly={!onChange}
       highlight={highlight}
       padding={10}
       style={styles.root}

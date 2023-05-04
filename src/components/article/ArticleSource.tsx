@@ -1,16 +1,24 @@
 import React from "react"
-import { EditableSnippet, Modal } from "../../ui"
+import { Modal, Snippet } from "../../ui"
+import styled from "styled-components"
 
-type ArticleSourceProps = {
+interface ArticleSourceProps {
   source: string
-  onClose?: () => void
+  onClose: () => void
 }
+
+const Wrapper = styled.div`
+  max-width: 1080px;
+`
 
 const ArticleSource = ({ source, onClose }: ArticleSourceProps) => {
   const articleContent = source.replace(/^(---\s*\n[\s\S]*?\n?)?---\s*\n/, "")
+
   return (
     <Modal onClose={onClose}>
-      <EditableSnippet value={articleContent} />
+      <Wrapper>
+        <Snippet>{articleContent}</Snippet>
+      </Wrapper>
     </Modal>
   )
 }
