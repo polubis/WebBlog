@@ -3,8 +3,12 @@ import { useState } from "react"
 import { INIT_MDX } from "./config"
 import { Subject, debounceTime, tap } from "rxjs"
 
-const useEditor = () => {
-  const [mdx, setMdx] = useState(INIT_MDX)
+interface EditorConfig {
+  initMdx?: string
+}
+
+const useEditor = ({ initMdx = INIT_MDX }: EditorConfig = {}) => {
+  const [mdx, setMdx] = useState(initMdx)
   const [currentMdx, setCurrentMdx] = useState(mdx)
   const [hasErrors, setHasErrors] = useState(false)
 
