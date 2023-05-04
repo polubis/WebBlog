@@ -1,0 +1,113 @@
+---
+name: Unit tests review
+duration: 4
+description: We'll write basic unit tests for generic functions.
+---
+
+<Prelude>
+  <M>
+    Let's try to use <B>theory</B> in practice. I'm assuming that you have
+    already a project with testing environment configured.
+  </M>
+</Prelude>
+
+<Section>
+  <XL>Your first unit tests</XL>
+  <M>
+    I'm 100% sure that you've used in your career <B>map</B> function. Let's try
+    to write our implementation and later we'll add <B>unit tests</B>.
+  </M>
+  <Hint hasBg>
+    If you're curious about performance of <B>map</B>, <B>reduce</B> and other
+    abstractions you can check our{" "}
+    <A
+      outside
+      href="https://greenonsoftware.com/articles/thoughts/loops-performance-in-javascript/"
+    >
+      article
+    </A>{" "}
+    in which we compared them.
+  </Hint>
+  <M>
+    Take a look at following implementation of <B>map</B>:
+  </M>
+  <Snippet
+    src="https://raw.githubusercontent.com/polubis/Snippets/main/map.ts"
+    description="Map function in a functional paradigm"
+    linesCount={18}
+  />
+  <M>
+    Usage looks a little bit different than in <B>Array</B> prototype but
+    mechanism is the same. Now we can add our <B>unit tests</B>. We'll use
+    conventions from this{" "}
+    <A
+      href="https://greenonsoftware.com/courses/react-testing-spellbook/basics/the-best-practices-for-naming-tests/"
+      outside
+    >
+      lesson
+    </A>
+    . Let's try to imagine what we want to verify - same situation like in our <B>
+      restaurant
+    </B> metaphor.
+  </M>
+  <Snippet
+    src="https://raw.githubusercontent.com/polubis/Snippets/main/map.test.ts"
+    linesCount={7}
+  />
+  <M>Let's add the implementation for tests.</M>
+  <Snippet
+    src="https://raw.githubusercontent.com/polubis/Snippets/main/map-full.test.ts"
+    linesCount={29}
+    description="We added enter to separate execution from expectation"
+  />
+  <M>Congrats! You know the basics!</M>
+</Section>
+
+<Section>
+  <XL>Different convention</XL>
+  <M>
+    I think it's bad when developers using implementation details or refers to
+    an API in test names.{" "}
+  </M>
+  <Snippet
+    src="https://raw.githubusercontent.com/polubis/Snippets/main/do-and-dont-do.ts"
+    linesCount={13}
+  />
+  <M>Why I think it's bad?</M>
+  <List items="Work is doubled in every rename attempt,The focus is on implementation - not on the purpose of something,Test descriptions are not clear,Typos risk" />
+  <M>
+    You can improve that by removing references to the implementation and to the
+    API shape. It will reduce amount of time to maintain code and will make
+    tests like documentation.
+  </M>
+  <Snippet
+    src="https://raw.githubusercontent.com/polubis/Snippets/main/map-good.ts"
+    linesCount={13}
+    description="Less work - better for business and developers"
+  />
+  <M>
+    Sometimes you need to embed implementation details or API reference in
+    descriptions. You will know when it happens. If you have problems with
+    creating description that's 99% the case where it's better to point to
+    implementation details.
+  </M>
+  <Hint hasBg>
+    Remember - I'm not saying it's best practice. I'm using this approach and I
+    pointed out arguments why. Try it and create your own opinion.
+  </Hint>
+</Section>
+
+<Summary>
+  <M>
+    That was quick! Now we know how to test simple generic functions. Sadly,
+    testing is much more complex. We need to dive into details in next lessons.
+    So stay with us!
+  </M>
+  <M>
+    If you enjoyed it, be sure to visit us on{" "}
+    <A href="https://www.linkedin.com/company/greenon-software/" outside>
+      Linkedin
+    </A>{" "}
+    where we regularly upload content from programming.
+  </M>
+</Summary>
