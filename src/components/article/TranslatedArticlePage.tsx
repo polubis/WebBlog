@@ -74,11 +74,6 @@ const Article = styled.main`
 const BottomNavigation = styled.div`
   display: flex;
   align-items: center;
-  justify-content: right;
-
-  & > *:not(:first-child) {
-    margin-left: 20px;
-  }
 `
 
 interface Props {
@@ -202,12 +197,7 @@ export default function ({
               </Badge>
             </Dates>
             <BottomNavigation>
-              <Button
-                style={{ marginRight: "auto" }}
-                onClick={handleSourceOpen}
-              >
-                {t.showSource}
-              </Button>
+              <Button onClick={handleSourceOpen}>{t.showSource}</Button>
             </BottomNavigation>
           </Article>
         </Content>
