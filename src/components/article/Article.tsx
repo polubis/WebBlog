@@ -47,14 +47,19 @@ const Dates = styled.div`
 `
 
 const BottomNavigation = styled.div`
-  display: grid;
+  display: flex;
   justify-content: right;
-  grid-template-columns: max-content max-content max-content;
-  gap: 20px;
+
+  & > *:not(:first-child) {
+    margin: 0 0 0 20px;
+  }
 
   @media ${SM_DOWN} {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
+    flex-flow: column;
+
+    & > *:not(:first-child) {
+      margin: 20px 0 0 0;
+    }
 
     button {
       width: 100%;

@@ -74,6 +74,7 @@ const Article = styled.main`
 const BottomNavigation = styled.div`
   display: flex;
   align-items: center;
+  justify-content: right;
 `
 
 interface Props {
