@@ -3,10 +3,36 @@ import React, { ReactNode } from "react"
 import Editor from "react-simple-code-editor"
 import Highlight, { defaultProps } from "prism-react-renderer"
 import { SNIPPET_THEME } from "./snippetTheme"
+import styled from "styled-components"
 
 const styles = {
   root: SNIPPET_THEME.plain,
 }
+
+const EditorWrapper = styled.div`
+.ui-editable-snippet {
+    overflow: unset !important;
+    pre {
+      padding-left: 60px !important;
+    }
+    textarea {
+      outline: none;
+      padding-left: 60px !important;
+    }   
+    .editor-line-number {
+      position: absolute;
+      left: 0px;
+      color: #444444;
+      text-align: right;
+      width: 40px;
+      font-weight: 100;
+      font-style: italic;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+  }
+  `;
 
 const highlight = (code: string): ReactNode => (
   <Highlight
@@ -39,14 +65,16 @@ interface EditableSnippetProps {
 
 const EditableSnippet = ({ value, onChange }: EditableSnippetProps) => {
   return (
-    <Editor
-      className="ui-editable-snippet"
-      value={value}
-      onValueChange={onChange}
-      highlight={highlight}
-      padding={10}
-      style={styles.root}
-    />
+    <EditorWrapper>
+      <Editor
+        className="ui-editable-snippet"
+        value={value}
+        onValueChange={onChange}
+        highlight={highlight}
+        padding={10}
+        style={styles.root}
+      />
+    </EditorWrapper>
   )
 }
 

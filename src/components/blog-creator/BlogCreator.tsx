@@ -41,29 +41,6 @@ const CodeContainer = styled.div`
   flex-flow: column;
   width: 48%;
 
-  .ui-editable-snippet {
-    overflow: unset !important;
-    pre {
-      padding-left: 60px !important;
-    }
-    textarea {
-      outline: none;
-      padding-left: 60px !important;
-    }   
-    .editor-line-number {
-      position: absolute;
-      left: 0px;
-      color: #444444;
-      text-align: right;
-      width: 40px;
-      font-weight: 100;
-      font-style: italic;
-      font-size: 16px;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-  }
-
   @media ${T_DOWN} {
     width: 100%;
   }
