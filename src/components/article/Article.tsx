@@ -47,12 +47,18 @@ const Dates = styled.div`
 `
 
 const BottomNavigation = styled.div`
-  display: flex;
-  align-items: center;
+  display: grid;
   justify-content: right;
+  grid-template-columns: max-content max-content max-content;
+  gap: 20px;
 
-  & > *:not(:first-child) {
-    margin-left: 20px;
+  @media ${SM_DOWN} {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+
+    button {
+      width: 100%;
+    }
   }
 `
 const Article = styled.main`
@@ -193,11 +199,12 @@ export default function ({
             </Dates>
             <BottomNavigation>
               <Button
-                style={{ marginRight: "auto" }}
+                className="article-source-button"
                 onClick={handleSourceOpen}
               >
                 {t.showSource}
               </Button>
+
               {previous && (
                 <Link to={previous.path}>
                   <Button>Previous</Button>
@@ -213,7 +220,7 @@ export default function ({
           </Article>
         </Content>
         <ProgressDisplayer labels={t.progressDisplay} />
-      
+
         {articleSourceModal.isOpen && (
           <ArticleSource source={rawBody} onClose={articleSourceModal.close} />
         )}
