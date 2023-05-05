@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from "react"
 import { isInSSR } from "../../utils/isInSSR"
 import { StaticSnippet } from "./StaticSnippet"
 import { from } from "rxjs"
-import { SnippetProps } from "./defs"
+import { DynamicSnippetProps } from "./defs"
 
 const generatePlaceholder = (count: number): string => {
   let animal = `⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣤⣤⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -75,23 +75,35 @@ const generatePlaceholder = (count: number): string => {
   return animalArr.join("\n")
 }
 
-const DynamicSnippet = (props: SnippetProps) => {
+const cachedSnippets: Record<string, string> = {}
+
+const getInitialChildren = (count: number, cachedSnippet: string): string => {
+  return cachedSnippet ? cachedSnippet : generatePlaceholder(count)
+}
+
+const DynamicSnippet = (props: DynamicSnippetProps) => {
   const { linesCount, src } = props
-  const placeholder = useMemo(() => generatePlaceholder(linesCount), [])
-  const [children, setChildren] = useState(placeholder)
+  const cachedSnippet = cachedSnippets[src]
+  const initialChildren = useMemo(
+    () => getInitialChildren(linesCount, cachedSnippet),
+    [linesCount, src]
+  )
+  const [children, setChildren] = useState(initialChildren)
 
   useEffect(() => {
-    if (!isInSSR()) {
-      const obs$ = from(
-        fetch(src!).then(res => res.text()) as Promise<string>
-      ).subscribe({
-        next: content => {
-          setChildren(content)
-        },
-      })
-      return () => {
-        obs$.unsubscribe()
-      }
+    if (isInSSR() || cachedSnippet) return
+
+    const obs$ = from(
+      fetch(src).then(res => res.text()) as Promise<string>
+    ).subscribe({
+      next: content => {
+        cachedSnippets[src] = content
+        setChildren(content)
+      },
+    })
+
+    return () => {
+      obs$.unsubscribe()
     }
   }, [])
 
