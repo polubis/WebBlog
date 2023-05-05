@@ -11,10 +11,21 @@ interface SnippetProps {
   linesCount?: number
 }
 
+interface DynamicSnippetProps extends Omit<SnippetProps, "linesCount" | "src"> {
+  linesCount: number
+  src: string
+}
+
 type HighlightStatus = "added" | "deleted" | "changed" | ""
 
 interface Highlightable {
   status: HighlightStatus
 }
 
-export type { Range, SnippetProps, HighlightStatus, Highlightable }
+export type {
+  Range,
+  SnippetProps,
+  HighlightStatus,
+  Highlightable,
+  DynamicSnippetProps,
+}
