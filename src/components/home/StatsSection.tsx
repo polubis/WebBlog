@@ -16,6 +16,10 @@ const Container = styled.section`
   margin: 0 auto;
   padding: 162px 20px;
 
+  & > a {
+    text-decoration: none;
+  }
+
   @media ${M_DOWN} {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto auto;
@@ -98,29 +102,35 @@ const StatsSection = ({
 }: StatsSectionProps) => {
   return (
     <Container>
-      <CodeEditorTile>
-        <XXL>
-          {articlesCount} {articlesCount === 1 ? "article" : "articles"}
-        </XXL>
-      </CodeEditorTile>
+      <Link to="/articles/">
+        <CodeEditorTile>
+          <XXL>
+            {articlesCount} {articlesCount === 1 ? "article" : "articles"}
+          </XXL>
+        </CodeEditorTile>
+      </Link>
 
-      <CodeEditorTile>
-        <XXL>
-          {authorsCount} {authorsCount === 1 ? "author" : "authors"}
-        </XXL>
-      </CodeEditorTile>
+      <Link to="/authors/">
+        <CodeEditorTile>
+          <XXL>
+            {authorsCount} {authorsCount === 1 ? "author" : "authors"}
+          </XXL>
+        </CodeEditorTile>{" "}
+      </Link>
 
-      <CodeEditorTile>
-        <XXL>
-          {coursesCount} {coursesCount === 1 ? "course" : "courses"}
-        </XXL>
-      </CodeEditorTile>
+      <Link to="/courses/">
+        <CodeEditorTile>
+          <XXL>
+            {coursesCount} {coursesCount === 1 ? "course" : "courses"}
+          </XXL>
+        </CodeEditorTile>{" "}
+      </Link>
 
-      <CodeEditorTile>
-        <XXL>
-          {lessonsCount} {lessonsCount === 1 ? "lesson" : "lessons"}
-        </XXL>
-      </CodeEditorTile>
+        <CodeEditorTile>
+          <XXL>
+            {lessonsCount} {lessonsCount === 1 ? "lesson" : "lessons"}
+          </XXL>
+        </CodeEditorTile>{" "}
 
       <CodeEditorTile>
         <BloggerTileContent>

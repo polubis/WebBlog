@@ -11,6 +11,7 @@ import Img from "gatsby-image"
 import { Content } from "../layout"
 import { Translated } from "../../models"
 import ExternalLink, {ExternalRedirect} from "../../components/link/Link"
+import { FacebookIcon } from "../icons/FacebookIcon"
 
 const Container = styled.footer`
   background: ${theme.black};
@@ -37,7 +38,7 @@ const ContentFooter = styled.div`
   padding: 12px 0 16px 0;
   border-top: 2px solid ${theme.grayC};
 
-  .discord-link {
+  .icon-link {
     margin-left: 12px;
   }
 
@@ -177,12 +178,20 @@ const Footer = ({ articles, t, renderLinks, discordUrl }: FooterProps) => {
             <LinkedinIcon />
           </a>
           <a
-            className="discord-link"
+            className="icon-link"
             href={discordUrl}
             title="GreenOn Software Discord channel"
             target="_blank"
           >
             <DiscordIcon />
+          </a>
+          <a
+            className="icon-link"
+            href="https://www.facebook.com/groups/1472987149805006/"
+            title="GreenOn Software Facebook profile"
+            target="_blank"
+          >
+            <FacebookIcon />
           </a>
           <CompanyWrapper>
             <S className="ui-footer-gray">

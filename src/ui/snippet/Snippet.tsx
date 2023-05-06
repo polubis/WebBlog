@@ -7,7 +7,7 @@ const Snippet = (props: SnippetProps) => {
   const { src, children, linesCount } = props
 
   if (typeof src === "string")
-    return <DynamicSnippet {...props} src={src} linesCount={linesCount} />
+    return <DynamicSnippet {...props} src={src} linesCount={linesCount ?? 0} />
 
   if (typeof children === "string")
     return <StaticSnippet {...props} children={children} />

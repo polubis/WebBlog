@@ -23,6 +23,12 @@ const Tile = styled.div`
 
   & > a {
     margin: 0 auto 0 0;
+    text-decoration: none;
+  }
+
+  & > a:hover,
+  & > a:active {
+    text-decoration: underline ${theme.primary};
   }
 
   ${XL} {
@@ -51,7 +57,9 @@ export default function ({ article }: Props): React.ReactElement {
   return (
     <Tile>
       <Tags tags={tags} />
-      <XL>{title}</XL>
+      <Link to={path}>
+        <XL>{title}</XL>
+      </Link>
       <M normal>{description}</M>
 
       <Details>

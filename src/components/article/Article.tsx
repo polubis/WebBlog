@@ -10,7 +10,7 @@ import Tags from "../article/Tags"
 import { Content, M } from "../../ui"
 import Intro from "./Intro"
 import Loadable from "react-loadable"
-import { L_UP, SM_DOWN } from "../../utils/viewport"
+import { L_DOWN, L_UP, SM_DOWN } from "../../utils/viewport"
 import { SiteMeta } from "../../utils/SiteMeta"
 
 import { Stack } from "./Stack"
@@ -23,9 +23,16 @@ import { WillBeContinuedBanner } from "./WillBeContinuedBanner"
 import { AllDataResponse } from "../../api"
 import { Breadcrumbs } from "../breadcrumbs"
 import { ReadInOtherLanguageBanner } from "./ReadInOtherLanguageBanner"
+import { useModal } from "../../ui/modal/Modal"
+import { useCustomGAEvent } from "../../utils/useCustomGAEvent"
 
 const ProgressDisplayer = Loadable({
   loader: () => import("./ProgressDisplayer").then(m => m.ProgressDisplayer),
+  loading: () => null,
+})
+
+const ArticleSource = Loadable({
+  loader: () => import("./ArticleSource").then(m => m.ArticleSource),
   loading: () => null,
 })
 
@@ -41,14 +48,30 @@ const Dates = styled.div`
 
 const BottomNavigation = styled.div`
   display: flex;
-  align-items: center;
   justify-content: right;
 
   & > *:not(:first-child) {
-    margin-left: 20px;
+    margin: 0 0 0 20px;
+  }
+
+  .article-source-button {
+    @media ${L_DOWN} {
+      display: none;
+    }
+  }
+
+  @media ${SM_DOWN} {
+    flex-flow: column;
+
+    & > *:not(:first-child) {
+      margin: 20px 0 0 0;
+    }
+
+    button {
+      width: 100%;
+    }
   }
 `
-
 const Article = styled.main`
   display: flex;
   flex-flow: column;
@@ -110,9 +133,17 @@ export default function ({
     previous,
     translations,
     lang,
+    rawBody,
   } = article
 
   const t = translationObject[lang]
+  const { track } = useCustomGAEvent()
+  const articleSourceModal = useModal()
+
+  const handleSourceOpen = () => {
+    articleSourceModal.open()
+    track({ name: "article_source_clicked" })
+  }
 
   return (
     <SiteMeta
@@ -177,8 +208,14 @@ export default function ({
                 {formatDistanceStrict(new Date(modifiedAt), new Date())} ago
               </Badge>
             </Dates>
-
             <BottomNavigation>
+              <Button
+                className="article-source-button"
+                onClick={handleSourceOpen}
+              >
+                {t.showSource}
+              </Button>
+
               {previous && (
                 <Link to={previous.path}>
                   <Button>Previous</Button>
@@ -194,6 +231,10 @@ export default function ({
           </Article>
         </Content>
         <ProgressDisplayer labels={t.progressDisplay} />
+
+        {articleSourceModal.isOpen && (
+          <ArticleSource source={rawBody} onClose={articleSourceModal.close} />
+        )}
       </Layout>
     </SiteMeta>
   )

@@ -31,7 +31,8 @@
             "Thanks for reading 🤓.",
             "Hmmm... Are you afk 🤓?",
             "Thanks 🤓."
-        ]
+        ],
+        "showSource": "Show source"
     },
     "pl": {
         "author": "Autor",
@@ -71,6 +72,7 @@
             "Dzięki za przeczytanie 🤓.",
             "Hmmm... Afk 🤓?",
             "Dzięki 🤓."
-        ]
+        ],
+        "showSource": "Pokaż źródło"
     }
 }
