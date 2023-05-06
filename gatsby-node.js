@@ -83,6 +83,7 @@ exports.createPages = async ({ actions, graphql }) => {
             stack
             title
           }
+          rawBody
           slug
           body
         }
@@ -104,6 +105,7 @@ exports.createPages = async ({ actions, graphql }) => {
             stack
             title
           }
+          rawBody
           body
           slug
         }

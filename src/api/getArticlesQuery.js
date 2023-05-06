@@ -91,6 +91,7 @@ exports.getArticlesQuery = data => {
     return {
       slug: article.slug,
       body: article.body,
+      rawBody: article.rawBody,
       description: article.frontmatter.description,
       title: article.frontmatter.title,
       readTime: article.frontmatter.readTime,
