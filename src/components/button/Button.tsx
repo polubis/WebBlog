@@ -4,6 +4,10 @@ import styled, { css } from "styled-components"
 
 import theme from "../../utils/theme"
 
+interface StyledButtonProps {
+  active?: boolean
+}
+
 export const common = css`
   text-transform: uppercase;
   background: none;
@@ -26,10 +30,19 @@ export const common = css`
   }
 `
 
-const Button = styled.button`
+const Button = styled.button.attrs((props: StyledButtonProps) => ({
+  active: props.active,
+}))`
   ${common}
   border: 1px solid ${theme.primary};
   color: ${theme.primary};
+
+  ${props =>
+    props.active &&
+    css`
+      background: ${theme.primary};
+      color: ${theme.bg};
+    `}
 
   &:hover:not(:disabled) {
     background: ${theme.primary};
@@ -41,7 +54,9 @@ interface Props
   extends React.DetailedHTMLProps<
     React.ButtonHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
-  > {}
+  > {
+  active?: boolean
+}
 
 export default function (props: Props): React.ReactElement {
   return <Button {...(props as any)} />

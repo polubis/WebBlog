@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useMemo, useState } from "react"
 import { useJoinUsModal } from "../../components/article/WithJoinUsModal"
 import Layout from "../../components/layout/Layout"
 import { Content, GithubIcon, LinkedinIcon, M, X, XL } from "../../ui"
@@ -12,6 +12,8 @@ import {
   AuthorBadge,
   ContributorBadge,
 } from "../../components/badges/CommunityBadges"
+import Button from "../../components/button/Button"
+import { Author } from "../../models"
 
 const Grid = styled.div`
   display: grid;
@@ -76,6 +78,13 @@ const BadgesContainer = styled.div`
   }
 `
 
+const ControlsWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 32px;
+`
+
 const ConnectedEmptyAuthorTile = () => {
   const ctx = useJoinUsModal()
 
@@ -86,10 +95,34 @@ interface AuthorsPageProps {
   pageContext: AllDataResponse
 }
 
+interface FilterProps {
+  isAuthor: boolean
+  isContributor: boolean
+}
+
 const AuthorsPage = ({
   pageContext: { authors, articles, site, translationObject, footerArticles },
 }: AuthorsPageProps) => {
   const t = translationObject["en"]
+  const [filter, setFilter] = useState<FilterProps>({
+    isAuthor: true,
+    isContributor: true,
+  })
+
+  const filteredAuthors: Author[] = useMemo(() => {
+    if (filter.isAuthor && filter.isContributor) {
+      return authors
+    }
+    if (!filter.isAuthor && !filter.isContributor) {
+      return []
+    }
+    return authors.filter(author => {
+      return (
+        (author.isAuthor && filter.isAuthor) ||
+        (author.isContributor && filter.isContributor)
+      )
+    })
+  }, [authors, filter])
 
   return (
     <SiteMeta
@@ -108,9 +141,27 @@ const AuthorsPage = ({
           <h1 style={{ visibility: "hidden", height: 0, margin: "0" }}>
             Platform authors and content creators
           </h1>
+          <ControlsWrapper>
+            <Button
+              active={filter.isAuthor}
+              onClick={() =>
+                setFilter({ ...filter, isAuthor: !filter.isAuthor })
+              }
+            >
+              Authors
+            </Button>
+            <Button
+              active={filter.isContributor}
+              onClick={() =>
+                setFilter({ ...filter, isContributor: !filter.isContributor })
+              }
+            >
+              Contributors
+            </Button>
+          </ControlsWrapper>
           <Grid>
             <ConnectedEmptyAuthorTile />
-            {authors.map(author => (
+            {filteredAuthors.map(author => (
               <Tile key={author.id}>
                 <BadgesContainer>
                   {author.isAuthor && <AuthorBadge />}
