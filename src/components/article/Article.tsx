@@ -10,7 +10,7 @@ import Tags from "../article/Tags"
 import { Content, M } from "../../ui"
 import Intro from "./Intro"
 import Loadable from "react-loadable"
-import { L_UP, SM_DOWN } from "../../utils/viewport"
+import { L_DOWN, L_UP, SM_DOWN } from "../../utils/viewport"
 import { SiteMeta } from "../../utils/SiteMeta"
 
 import { Stack } from "./Stack"
@@ -52,6 +52,12 @@ const BottomNavigation = styled.div`
 
   & > *:not(:first-child) {
     margin: 0 0 0 20px;
+  }
+
+  .article-source-button {
+    @media ${L_DOWN} {
+      display: none;
+    }
   }
 
   @media ${SM_DOWN} {
