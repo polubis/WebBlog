@@ -1,5 +1,5 @@
 import React from "react"
-import { Link as GatsbyLink } from "gatsby"
+import { Link as GatsbyLink, GatsbyLinkProps } from "gatsby"
 
 import styled, { css } from "styled-components"
 
@@ -47,8 +47,14 @@ export const ExternalRedirect = css`
     color: ${theme.primaryA};
     }
 `
+interface LinkProps extends Partial<Omit<HTMLAnchorElement, 'children'>> {
+  children: string;
+}
 
-export default function (props: any): React.ReactElement {
-  if(props.external) return <a {...(props as any)} target="_blank"/>
-  else return <Link {...(props as any)} />
+export const ExternalLink = (props: LinkProps): React.ReactElement  => {
+  return <a {...(props as any)} target="_blank"/>
+}
+
+export default function (props: GatsbyLinkProps<unknown>): React.ReactElement {
+  return <Link {...(props as any)} />
 }

@@ -6,7 +6,7 @@ import theme from "../../utils/theme"
 import styled from "styled-components"
 import { Link as GatsbyLink } from "gatsby"
 import { GreenOnLogo } from "../GreenOnLogo"
-import ExternalLink, {ExternalLinkBtn} from "../link/Link"
+import  {ExternalLink, ExternalLinkBtn} from "../link/Link"
 
 interface LayoutProps {
   children: ReactNode
@@ -106,7 +106,7 @@ export default function ({ children, articles, t, routes, discordUrl }: LayoutPr
             </>
           }
           action={
-            <JoinUsLink id="home-navigation-join-button" href={discordUrl} external={true}>
+            <JoinUsLink id="home-navigation-join-button" href={discordUrl}>
               {t.join}
             </JoinUsLink>
           }

@@ -10,7 +10,7 @@ import { Article } from "../../models"
 import Img from "gatsby-image"
 import { Content } from "../layout"
 import { Translated } from "../../models"
-import ExternalLink, {ExternalRedirect} from "../../components/link/Link"
+import  {ExternalLink, ExternalRedirect} from "../../components/link/Link"
 import { FacebookIcon } from "../icons/FacebookIcon"
 
 const Container = styled.footer`
@@ -139,7 +139,7 @@ const Footer = ({ articles, t, renderLinks, discordUrl }: FooterProps) => {
             <M>{t.footer.aboutUsText}</M>
             <M>
               {t.footer.aboutUsTextCommunity}{" "}
-              <DiscordLink href={discordUrl} target="_blank" id="footer-join-us-link" external={true}>
+              <DiscordLink href={discordUrl} target="_blank" id="footer-join-us-link">
                 {t.footer.thisLink}
               </DiscordLink>
               .

@@ -10,7 +10,7 @@ import { BlogCreatorHeading } from "./BlogCreatorHeading"
 import Button from "../button/Button"
 import { useCustomGAEvent } from "../../utils/useCustomGAEvent"
 import { useEditor } from "./useEditor"
-import Link, { ExternalLinkBtn } from '../link/Link';
+import { ExternalLink, ExternalLinkBtn } from '../link/Link';
 
 const FullScreenCreator = Loadable({
   loader: () => import("./FullScreenCreator").then(m => m.FullScreenCreator),
@@ -89,7 +89,7 @@ const Heading = styled.header`
   height: 112px;
 `
 
-const JoinUsLink = styled(Link)`
+const JoinUsLink = styled(ExternalLink)`
   ${ExternalLinkBtn}
 `
 
@@ -145,7 +145,7 @@ export default function ({discordUrl}: BlogCreatorProps) {
                 </Button>
               }
               submitTrigger={
-                <JoinUsLink href={discordUrl} id="blog-join-us" external={true}>
+                <JoinUsLink href={discordUrl} id="blog-join-us">
                   SUBMIT ARTICLE
                 </JoinUsLink>} />
           </Heading>
@@ -161,7 +161,7 @@ export default function ({discordUrl}: BlogCreatorProps) {
       )}
 
       {isOpen && (
-        <FullScreenCreator onClose={close} submitTrigger={<JoinUsLink href={discordUrl} id="blog-join-us" external={true}>
+        <FullScreenCreator onClose={close} submitTrigger={<JoinUsLink href={discordUrl} id="blog-join-us">
         SUBMIT ARTICLE
       </JoinUsLink>}>
           {Editor}
