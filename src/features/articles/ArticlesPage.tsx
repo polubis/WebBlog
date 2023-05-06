@@ -27,7 +27,7 @@ const ArticlesPage = ({
       type="website"
       image="/icon-192x192.png"
     >
-      <Layout articles={footerArticles} t={t} routes={site.routes}>
+      <Layout articles={footerArticles} t={t} routes={site.routes} discordUrl={site.discordUrl}>
         <Content paddingY>
           <Grid articles={articles} />
         </Content>

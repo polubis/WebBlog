@@ -1,10 +1,8 @@
-import React from "react"
+import React, { ReactNode } from "react"
 import styled from "styled-components"
 import { M, X, XL } from "../../ui"
 import { PersonAddIcon } from "../../ui/icons/PersonAddIcon"
 import theme from "../../utils/theme"
-import ExternalLink, {BtnLink} from "../link/ExternalLink"
-import { getDiscordUrl } from "../../utils/getDiscordUrl"
 
 const Avatar = styled.div`
   display: flex;
@@ -52,13 +50,12 @@ const Media = styled.div`
   padding: 32px 0 16px 0;
 `
 
-const JoinUsLink = styled(ExternalLink)`
-  ${BtnLink}
-`
+interface EmptyAuthorTileProps {
+  joinUs: ReactNode;
+}
 
 
-export const EmptyAuthorTile = () => {
-  const discordUrl = getDiscordUrl()
+export const EmptyAuthorTile = ({joinUs}: EmptyAuthorTileProps ) => {
   return (
     <Container>
       <Avatar>
@@ -72,9 +69,7 @@ export const EmptyAuthorTile = () => {
         with us and teach others. Interested? Click the button below and contact
         us.
       </M>
-      <Media>
-        <JoinUsLink href={discordUrl} id="author-join-us">JOIN US !</JoinUsLink>
-      </Media>
+      {joinUs && <Media>{joinUs}</Media>}
     </Container>
   )
 }

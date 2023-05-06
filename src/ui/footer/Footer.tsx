@@ -10,8 +10,7 @@ import { Article } from "../../models"
 import Img from "gatsby-image"
 import { Content } from "../layout"
 import { Translated } from "../../models"
-import ExternalLink, {ExternalRedirect} from "../../components/link/ExternalLink"
-import { getDiscordUrl } from "../../utils/getDiscordUrl"
+import ExternalLink, {ExternalRedirect} from "../../components/link/Link"
 
 const Container = styled.footer`
   background: ${theme.black};
@@ -126,11 +125,10 @@ interface FooterProps {
   articles: Article[]
   t: Translated
   renderLinks: (LinkComponent: typeof Link) => ReactNode
+  discordUrl: string;
 }
 
-const Footer = ({ articles, t, renderLinks }: FooterProps) => {
-   const discordUrl = getDiscordUrl()
-   
+const Footer = ({ articles, t, renderLinks, discordUrl }: FooterProps) => {
   return (
     <Container className="ui-footer">
       <Content>
@@ -140,7 +138,7 @@ const Footer = ({ articles, t, renderLinks }: FooterProps) => {
             <M>{t.footer.aboutUsText}</M>
             <M>
               {t.footer.aboutUsTextCommunity}{" "}
-              <DiscordLink href={discordUrl} target="_blank" id="footer-join-us-link">
+              <DiscordLink href={discordUrl} target="_blank" id="footer-join-us-link" external={true}>
                 {t.footer.thisLink}
               </DiscordLink>
               .

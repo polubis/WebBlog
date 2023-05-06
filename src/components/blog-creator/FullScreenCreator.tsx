@@ -44,9 +44,10 @@ const SecondWrapper = styled.div`
 interface FullScreenCreatorProps {
   children: [ReactNode, ReactNode]
   onClose: () => void
+  submitTrigger: ReactNode;
 }
 
-const FullScreenCreator = ({ children, onClose }: FullScreenCreatorProps) => {
+const FullScreenCreator = ({ children, onClose, submitTrigger }: FullScreenCreatorProps) => {
   const { render } = usePortal()
 
   const [First, Second] = children
@@ -60,6 +61,7 @@ const FullScreenCreator = ({ children, onClose }: FullScreenCreatorProps) => {
               BACK
             </Button>
           }
+           submitTrigger={submitTrigger} 
         />
       </Header>
       <FirstWrapper>{First}</FirstWrapper>

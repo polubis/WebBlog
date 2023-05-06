@@ -7,6 +7,7 @@ import styled from "styled-components"
 import theme from "../../utils/theme"
 import { EmptyAuthorTile } from "../../components/empty-author-tile/EmptyAuthorTile"
 import { AllDataResponse } from "../../api"
+import ExternalLink, {ExternalLinkBtn} from "../../components/link/Link"
 
 const Grid = styled.div`
   display: grid;
@@ -59,8 +60,20 @@ const Media = styled.div`
     }
   }
 `
+const JoinUsLink = styled(ExternalLink)`
+  ${ExternalLinkBtn}
+`
 
-const ConnectedEmptyAuthorTile = () => <EmptyAuthorTile />
+interface ConnectedEmptyAuthorTileProps {
+  discordUrl: string;
+}
+
+
+const ConnectedEmptyAuthorTile = ({discordUrl}: ConnectedEmptyAuthorTileProps) => {
+  return (
+    <EmptyAuthorTile joinUs={<JoinUsLink href={discordUrl} id="author-join-us" external={true}>JOIN US !</JoinUsLink>} />
+  )
+}
 
 interface AuthorsPageProps {
   pageContext: AllDataResponse
@@ -83,13 +96,13 @@ const AuthorsPage = ({
       image="/icon-192x192.png"
       description="Contact the blog authors and start writing."
     >
-      <Layout articles={footerArticles} t={t} routes={site.routes}>
+      <Layout articles={footerArticles} t={t} routes={site.routes} discordUrl={site.discordUrl}>
         <Content paddingY>
           <h1 style={{ visibility: "hidden", height: 0, margin: "0" }}>
             Platform authors and content creators
           </h1>
           <Grid>
-            <ConnectedEmptyAuthorTile />
+            <ConnectedEmptyAuthorTile discordUrl={site.discordUrl}/>
             {authors.map(author => (
               <Tile key={author.id}>
                 <AuthorAvatar size="medium" avatar={author.avatar} />
