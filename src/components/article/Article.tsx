@@ -10,7 +10,7 @@ import Tags from "../article/Tags"
 import { Content, M } from "../../ui"
 import Intro from "./Intro"
 import Loadable from "react-loadable"
-import { L_UP, SM_DOWN } from "../../utils/viewport"
+import { L_DOWN, L_UP, SM_DOWN } from "../../utils/viewport"
 import { SiteMeta } from "../../utils/SiteMeta"
 
 import { Stack } from "./Stack"
@@ -48,11 +48,28 @@ const Dates = styled.div`
 
 const BottomNavigation = styled.div`
   display: flex;
-  align-items: center;
   justify-content: right;
 
   & > *:not(:first-child) {
-    margin-left: 20px;
+    margin: 0 0 0 20px;
+  }
+
+  .article-source-button {
+    @media ${L_DOWN} {
+      display: none;
+    }
+  }
+
+  @media ${SM_DOWN} {
+    flex-flow: column;
+
+    & > *:not(:first-child) {
+      margin: 20px 0 0 0;
+    }
+
+    button {
+      width: 100%;
+    }
   }
 `
 const Article = styled.main`
@@ -193,11 +210,12 @@ export default function ({
             </Dates>
             <BottomNavigation>
               <Button
-                style={{ marginRight: "auto" }}
+                className="article-source-button"
                 onClick={handleSourceOpen}
               >
                 {t.showSource}
               </Button>
+
               {previous && (
                 <Link to={previous.path}>
                   <Button>Previous</Button>
@@ -213,6 +231,7 @@ export default function ({
           </Article>
         </Content>
         <ProgressDisplayer labels={t.progressDisplay} />
+
         {articleSourceModal.isOpen && (
           <ArticleSource source={rawBody} onClose={articleSourceModal.close} />
         )}
