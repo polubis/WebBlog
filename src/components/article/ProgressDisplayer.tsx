@@ -6,7 +6,7 @@ import { usePageProgress } from "../../utils/usePageProgress"
 
 interface ProgressDisplayerProps {
   labels: string[]
-  delays: number[]
+  delays?: number[]
 }
 
 const slideIn = keyframes`
@@ -55,7 +55,9 @@ const ReadStatsManager = ({
   useEffect(() => {
     if (readedIn > 0) {
       const appearTimeout = setTimeout(() => {
-        const foundDelayIdx = delays.findIndex(delay => readedIn <= delay)!
+        const foundDelayIdx = (delays ?? []).findIndex(
+          delay => readedIn <= delay
+        )!
         setMessage(labels[foundDelayIdx])
       }, 2000)
       const hideTimeout = setTimeout(() => {
