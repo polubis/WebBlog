@@ -103,12 +103,15 @@ export default function ({ children, articles, t, routes }: LayoutProps) {
           action={
             <>
               <Link
-                to="https://discord.gg/3N2KYx4f"
+                to="https://discord.gg/uJa3KUfFpj"
                 id="home-navigation-link-discord"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <img src="discord.png" alt="Discord" />
+                <img
+                  src="/discord.png"
+                  alt="GreenOn Software Discord channel"
+                />
               </Link>
 
               <Link
@@ -117,7 +120,10 @@ export default function ({ children, articles, t, routes }: LayoutProps) {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <img src="linkedin.png" alt="LinkedIn" />
+                <img
+                  src="/linkedin.png"
+                  alt="GreenOn Software LinkedIn profile"
+                />
               </Link>
 
               <Button id="home-navigation-join-button" onClick={ctx.open}>
