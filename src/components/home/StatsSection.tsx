@@ -84,6 +84,7 @@ const AvatarWrapper = styled.div`
 interface StatsSectionProps {
   articlesCount: number
   authorsCount: number
+  contributorsCount: number
   coursesCount: number
   lessonsCount: number
   topAuthor: Author
@@ -92,6 +93,7 @@ interface StatsSectionProps {
 const StatsSection = ({
   articlesCount,
   authorsCount,
+  contributorsCount,
   coursesCount,
   lessonsCount,
   topAuthor,
@@ -107,6 +109,13 @@ const StatsSection = ({
       <CodeEditorTile>
         <XXL>
           {authorsCount} {authorsCount === 1 ? "author" : "authors"}
+        </XXL>
+      </CodeEditorTile>
+
+      <CodeEditorTile>
+        <XXL>
+          {contributorsCount}{" "}
+          {contributorsCount === 1 ? "contributor" : "contributors"}
         </XXL>
       </CodeEditorTile>
 

@@ -28,6 +28,20 @@ const HomePage = ({ pageContext }: HomePageProps) => {
   } = pageContext
   const t = translationObject["en"]
 
+  const contributorsCount = authors.reduce((acc, curr) => {
+    if (curr.isContributor) {
+      return acc + 1
+    }
+    return acc
+  }, 0)
+
+  const authorsCount = authors.reduce((acc, curr) => {
+    if (curr.isAuthor) {
+      return acc + 1
+    }
+    return acc
+  }, 0)
+
   return (
     <SiteMeta
       siteName={site.siteName}
@@ -45,7 +59,8 @@ const HomePage = ({ pageContext }: HomePageProps) => {
         <WelcomeSection />
         <StatsSection
           articlesCount={articles.length}
-          authorsCount={authors.length}
+          authorsCount={authorsCount}
+          contributorsCount={contributorsCount}
           coursesCount={courses.length}
           lessonsCount={totalLessons}
           topAuthor={authors[0]}
