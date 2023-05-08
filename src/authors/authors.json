@@ -14,7 +14,12 @@
         "name": "Creating a CRM for companies selling heat pumps",
         "description": "FrontEnd: Creating a Customer panel along with CRUD operations. Backend: Creating a controller, model and endPionts, export to JSON",
         "from": "2023.01.01",
-        "stack": ["React", "Bootstrap", "MongoDB", "Next.js"],
+        "stack": [
+          "React",
+          "Bootstrap",
+          "MongoDB",
+          "Next.js"
+        ],
         "appUrl": "www.link.com",
         "codeUrl": "https://github.com/kmilek73/java_start",
         "images": []
@@ -82,6 +87,28 @@
     "bio": "Coding is my hobby and I made friends with TypeScript and React. I’m curently working in cruise ship industry and love designing useful things. Besides that I'm interested in a little bit of everything and nothing in particular, however boxing seem to tickle my mind more. I love cats and 'The Office'.",
     "githubURL": "https://tomaszmarczak.github.io/",
     "linkedinURL": "https://www.linkedin.com/in/tomasz-marczak-4a12a811a/",
+    "projects": []
+  },
+  {
+    "id": "stymcio",
+    "name": "stymcio",
+    "firstName": "Szymon",
+    "lastName": "Tymcio",
+    "role": "Frontend Developer",
+    "bio": "Driven by a passion for creating engaging websites, I am a dedicated web technology enthusiast who is eager to explore the latest trends and push the boundaries.",
+    "githubURL": "https://github.com/pypcio",
+    "linkedinURL": "https://www.linkedin.com/in/szymon-tymcio-411882261/",
+    "projects": []
+  },
+  {
+    "id": "goteii",
+    "name": "goteii",
+    "firstName": "Dawid",
+    "lastName": "Dowgiałło",
+    "role": "Frontend Developer",
+    "bio": "Frontend developer with a knowledge of Angular, Vue, React, JS and Typescript. In my free time I expand my knowledge, play games and listen to music.",
+    "githubURL": "https://github.com/Goteii",
+    "linkedinURL": "https://www.linkedin.com/in/dawid-dowgia%C5%82%C5%82o-49a4741a9/",
     "projects": []
   }
 ]

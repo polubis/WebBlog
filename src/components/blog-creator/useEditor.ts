@@ -24,7 +24,7 @@ const useEditor = () => {
   useEffect(() => {
     const sub = mdxChanged$
       .pipe(
-        debounceTime(150),
+        debounceTime(1000),
         tap(value => {
           setCurrentMdx(value)
         })
