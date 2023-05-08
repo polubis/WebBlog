@@ -1,7 +1,143 @@
 ---
 name: Snapshot testing in React
-duration: 2
+duration: 4
 description: We'll practice topics connected with snapshot testing.
 ---
 
-<Prelude></Prelude>
+<Prelude>
+  <M>
+    We were able to write some unit tests for <B>Button</B> component in
+    previous lesson. What if I tell you that we're able to cover all parts with
+    almost 2 lines of testing code? Let's check how snapshot tests works and
+    what you can achieve and what you can lose with them.
+  </M>
+</Prelude>
+
+<Section>
+  <XL>Creating snapshot test</XL>
+  <M>
+    Sometimes if you're writting presentational component you'll produce big{" "}
+    <B>DOM</B> tree. How to test such components? You can try to compare
+    generated properties with expected ones.
+  </M>
+  <Snippet>
+    {`
+const { container } = render(<Button />);
+const button = container.queryByClassName()
+// We already know that it's fragile test.
+// If order of generated classes change - test will cause false negative.
+expect(button?.className).toBe(
+  'button button-size-2 button-rounded button-outlined button-secondary my-button'
+);
+    `}
+  </Snippet>
+  <M>
+    What if you need to verify other properties like <B>style</B> object. It may
+    be really complex object, you can check how complex in following{" "}
+    <A
+      href="https://greenonsoftware.com/articles/practice/react-timeline-component/"
+      outside
+    >
+      article
+    </A>
+    . To achieve it fast someone smart invented snapshot testing.
+  </M>
+  <M>
+    Imagine you are playing a computer game and you saved your progress. Bravo!
+    It's a snapshot test. Now every time you lose you can start from a safe
+    moment.
+  </M>
+  <M>
+    So how it works in <B>jest</B> and <B>React</B>? You need to replace
+    previous test with following one:
+  </M>
+  <Snippet>
+    {`
+ const { asFragment } = render(<Button />);
+// Button is already rendered.
+ 
+// asFragment() creates big string with generated HTML nodes.
+// toMatchSnapshot() saves generated string and now it's base for comparision.
+expect(asFragment()).toMatchSnapshot();
+    `}
+  </Snippet>
+  <M>
+    When you run <B>test</B> command the <B>__snapshots__</B> directory will be
+    generated near your test file. Inside you can find following snapshot
+    file:{" "}
+  </M>
+  <Img
+    src="https://raw.githubusercontent.com/polubis/Snippets/main/folders.jpg"
+    description="Generated folder and file"
+  />
+  <Img
+    src="https://raw.githubusercontent.com/polubis/Snippets/main/document.jpg"
+    description="That's your snapshot"
+  />
+  <M>
+    Check the following gif to understand how you can use snapshots in daily
+    basis:{" "}
+  </M>
+  <Img src="https://raw.githubusercontent.com/polubis/Snippets/main/demo-snapshot.gif" />
+</Section>
+
+<Section>
+  <XL>Truth about snapshot testing</XL>
+  <M>
+    You may be thinking now - great I will use this new approach everywhere.
+    This will be a big mistake 🚀. These tests must be used carefully. They're
+    easy to write but hard to maintain. They will fail always when something
+    change so you need to manually check these changes. They're are useful to
+    prevent "any" regression but when overused they cause headaches.{" "}
+  </M>
+  <M>
+    Also, they're much more fragile than previous test with <B>className</B>{" "}
+    check. If you change button to span - they will fail. If you add additional
+    property to component - they will fail. You need to go through changes and
+    check they are valid or not.{" "}
+  </M>
+  <M>To avoid problems with maintenance create snapshot tests only if: </M>
+  <List items="You're sure that something is working correctly,You don't have time for better tests,You're testing complex HTML properties generation,Component is pure presentational" />
+  <M>
+    A very important point is namely that if our snapshot is saved when the
+    component is not working properly, such tests begin to be a problem. You
+    need to be careful and focused when using them.
+  </M>
+  <M>
+    To understand what damage they can cause - it is enough to change the
+    snapshot of the component at the moment when it works incorrectly, and then
+    push these changes to the repository. Good luck with fixing and reviewing
+    hundreds and thousands of such tests.
+  </M>
+  <Hint hasBg>
+    I personally use them very rarely. I prefer to have more complex test code,
+    and even implementation-dependent, than to rely on something that checks any
+    change.
+  </Hint>
+</Section>
+
+<Section>
+  <XL>How to work with snapshot tests?</XL>
+  <M>Check out the list below: </M>
+  <List items="Create a component and make sure manually that it works correctly,Create snapshot test to prevent regression,If you will have some time - jump to tests and write concrete ones,You can remove or leave snapshot test as it is (maybe it still covers uncovered paths) - u2y" />
+  <M>Look at following test file to understand how I'm using snapshots:</M>
+  <Snippet
+    linesCount={49}
+    src="https://raw.githubusercontent.com/polubis/Snippets/main/snapshot-end.test.tsx"
+  />
+</Section>
+
+<Summary>
+  <M>
+    We learned today snapshot tests and how useful/harmful they can be at one
+    time. Tests should be reliable, stable and should answer the question -
+    whether something works or not, so snapshots should be used with caution.
+  </M>
+  <M>
+    If you enjoyed it, be sure to visit us on{" "}
+    <A href="https://www.linkedin.com/company/greenon-software/" outside>
+      Linkedin
+    </A>{" "}
+    where we regularly upload content from programming.
+  </M>
+</Summary>
