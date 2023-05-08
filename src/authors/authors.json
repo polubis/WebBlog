@@ -99,5 +99,16 @@
     "githubURL": "https://github.com/pypcio",
     "linkedinURL": "https://www.linkedin.com/in/szymon-tymcio-411882261/",
     "projects": []
+  },
+  {
+    "id": "goteii",
+    "name": "goteii",
+    "firstName": "Dawid",
+    "lastName": "Dowgiałło",
+    "role": "Frontend Developer",
+    "bio": "Frontend developer with a knowledge of Angular, Vue, React, JS and Typescript. In my free time I expand my knowledge, play games and listen to music.",
+    "githubURL": "https://github.com/Goteii",
+    "linkedinURL": "https://www.linkedin.com/in/dawid-dowgia%C5%82%C5%82o-49a4741a9/",
+    "projects": []
   }
 ]
