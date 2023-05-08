@@ -26,23 +26,20 @@ export const common = css`
   }
 `
 
-const Button = styled.button`
+const Button = styled.button<Props>`
   ${common}
   border: 1px solid ${theme.primary};
   color: ${theme.primary};
 
-  &:hover:not(:disabled) {
+  &:hover:not(:disabled),
+  ${props => props.active && `&:not(:disabled)`} {
     background: ${theme.primary};
     color: ${theme.bg};
   }
 `
 
-interface Props
-  extends React.DetailedHTMLProps<
-    React.ButtonHTMLAttributes<HTMLButtonElement>,
-    HTMLButtonElement
-  > {
-  active?
+interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  active?: boolean
 }
 
 export default function (props: Props): React.ReactElement {
