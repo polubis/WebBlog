@@ -39,6 +39,10 @@ export const IconButton = styled.button<IconButtonProps>`
     const byDefault = css`
       color: ${theme.black};
       background: ${theme.primary};
+
+      &:hover {
+        opacity: 0.9;
+      }
     `
 
     if (props.variant === "primary") {
