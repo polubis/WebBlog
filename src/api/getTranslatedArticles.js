@@ -91,11 +91,12 @@ exports.getTranslatedArticles = data => {
         id: article.frontmatter.authorId,
         avatar: authorAvatar.childImageSharp.fluid,
       }
-      const { path, slug, body, lang } = article
+      const { path, slug, body, rawBody, lang } = article
 
       return {
         slug,
         body,
+        rawBody,
         description: article.frontmatter.description,
         title: article.frontmatter.title,
         readTime: article.frontmatter.readTime,
