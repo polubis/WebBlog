@@ -4,7 +4,6 @@ import { usePortal } from "../../utils/usePortal"
 import theme from "../../utils/theme"
 import Button from "../button/Button"
 import { BlogCreatorHeading } from "./BlogCreatorHeading"
-import TemplateSelector from "./TemplateSelector"
 
 const Container = styled.div`
   display: grid;
@@ -44,15 +43,10 @@ const SecondWrapper = styled.div`
 
 interface FullScreenCreatorProps {
   children: [ReactNode, ReactNode]
-  Templates: ReactNode
   onClose: () => void
 }
 
-const FullScreenCreator = ({
-  children,
-  Templates,
-  onClose,
-}: FullScreenCreatorProps) => {
+const FullScreenCreator = ({ children, onClose }: FullScreenCreatorProps) => {
   const { render } = usePortal()
 
   const [First, Second] = children
@@ -62,12 +56,9 @@ const FullScreenCreator = ({
       <Header>
         <BlogCreatorHeading
           buttons={
-            <>
-              <Button className="full-mode-btn" onClick={onClose}>
-                BACK
-              </Button>
-              {Templates}
-            </>
+            <Button className="full-mode-btn" onClick={onClose}>
+              BACK
+            </Button>
           }
         />
       </Header>

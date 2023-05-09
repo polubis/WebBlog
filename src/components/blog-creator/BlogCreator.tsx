@@ -10,7 +10,11 @@ import { BlogCreatorHeading } from "./BlogCreatorHeading"
 import Button from "../button/Button"
 import { useCustomGAEvent } from "../../utils/useCustomGAEvent"
 import { useEditor } from "./useEditor"
-import TemplateSelector from "./TemplateSelector"
+
+const TemplateSelector = Loadable({
+  loader: () => import("./TemplateSelector").then(m => m.TemplateSelector),
+  loading: () => null,
+})
 
 const FullScreenCreator = Loadable({
   loader: () => import("./FullScreenCreator").then(m => m.FullScreenCreator),
@@ -91,7 +95,7 @@ const Heading = styled.header`
 
 export default function () {
   const { track } = useCustomGAEvent()
-  const { isOpen, open, close } = useModal()
+  const { isOpen, open, close } = useModal(true)
   const [{ currentMdx, mdx, hasErrors }, { change, markAsBroken }] = useEditor()
   const [loading, setLoading] = useState(false)
 
@@ -113,7 +117,6 @@ export default function () {
   const Preview = <BlogPreview mdx={currentMdx} onError={markAsBroken} />
   const Editor = <EditableSnippet value={mdx} onChange={change} />
   const Errors = hasErrors ? <ErrorsSection /> : null
-  const Templates = <TemplateSelector change={change} />
 
   return (
     <>
@@ -133,12 +136,9 @@ export default function () {
           <Heading>
             <BlogCreatorHeading
               buttons={
-                <>
-                  {Templates}
-                  <Button className="full-mode-btn" onClick={handleOpen}>
-                    FULL SCREEN
-                  </Button>
-                </>
+                <Button className="full-mode-btn" onClick={handleOpen}>
+                  FULL SCREEN
+                </Button>
               }
             />
           </Heading>
@@ -153,8 +153,11 @@ export default function () {
       )}
 
       {isOpen && (
-        <FullScreenCreator onClose={close} Templates={Templates}>
-          {Editor}
+        <FullScreenCreator onClose={close}>
+          <>
+            {Editor}
+            <TemplateSelector onChange={change} />
+          </>
           <>
             {Errors}
             {Preview}

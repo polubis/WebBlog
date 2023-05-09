@@ -306,7 +306,7 @@ const INIT_MDX = `<Prelude>
 </Summary>
 `
 
-const smallMDX = `<Prelude>
+const SMALL_MDX = `<Prelude>
   <M>
     Have you ever found yourself feeling overwhelmed or stressed out? Maybe you have a lot on your plate, or you're dealing with a difficult situation at work or in your personal life. Whatever the cause, it's important to find ways to manage your stress and take care of yourself.
   </M>
@@ -326,7 +326,7 @@ const smallMDX = `<Prelude>
   </M>
 </Summary>
 `
-const mediumMDX = `<Prelude>
+const MEDIUM_MDX = `<Prelude>
   <M>
     The rise of technology has dramatically transformed how we live our lives. With new advancements and innovations constantly emerging, it's important to stay up-to-date with the latest trends and developments. In this article, we will explore some of the latest trends in technology and how they are shaping our world.
   </M>
@@ -384,7 +384,7 @@ const mediumMDX = `<Prelude>
   </M>
 </Summary>
 `
-const hugeMDX = `<Prelude>
+const HUGE_MDX = `<Prelude>
   <M>
     Code written by programmer is like a unique signature. We can recognize the
     author by a few lines. Let's create our unique signature by creating a
@@ -586,4 +586,4 @@ const hugeMDX = `<Prelude>
 </Summary>
 `
 
-export { INIT_MDX, smallMDX, mediumMDX, hugeMDX }
+export { INIT_MDX, SMALL_MDX, MEDIUM_MDX, HUGE_MDX }
