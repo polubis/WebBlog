@@ -11,6 +11,11 @@ import Button from "../button/Button"
 import { useCustomGAEvent } from "../../utils/useCustomGAEvent"
 import { useEditor } from "./useEditor"
 
+const TemplateSelector = Loadable({
+  loader: () => import("./TemplateSelector").then(m => m.TemplateSelector),
+  loading: () => null,
+})
+
 const FullScreenCreator = Loadable({
   loader: () => import("./FullScreenCreator").then(m => m.FullScreenCreator),
   loading: () => null,
@@ -90,7 +95,7 @@ const Heading = styled.header`
 
 export default function () {
   const { track } = useCustomGAEvent()
-  const { isOpen, open, close } = useModal()
+  const { isOpen, open, close } = useModal(true)
   const [{ currentMdx, mdx, hasErrors }, { change, markAsBroken }] = useEditor()
   const [loading, setLoading] = useState(false)
 
@@ -132,14 +137,13 @@ export default function () {
             <BlogCreatorHeading
               buttons={
                 <Button className="full-mode-btn" onClick={handleOpen}>
-                  FULL MODE
+                  FULL SCREEN
                 </Button>
               }
             />
           </Heading>
           <Container>
             <CodeContainer>{Editor}</CodeContainer>
-
             <PreviewScroll>
               {Errors}
               {Preview}
@@ -150,7 +154,10 @@ export default function () {
 
       {isOpen && (
         <FullScreenCreator onClose={close}>
-          {Editor}
+          <>
+            {Editor}
+            <TemplateSelector onChange={change} />
+          </>
           <>
             {Errors}
             {Preview}
