@@ -1,4 +1,4 @@
-export const INIT_MDX = `<Prelude>
+const INIT_MDX = `<Prelude>
   <M>
     I don't know about you, but I like creating components - especially the more
     advanced ones.
@@ -305,3 +305,285 @@ export const INIT_MDX = `<Prelude>
   </M>
 </Summary>
 `
+
+const SMALL_MDX = `<Prelude>
+  <M>
+    Have you ever found yourself feeling overwhelmed or stressed out? Maybe you have a lot on your plate, or you're dealing with a difficult situation at work or in your personal life. Whatever the cause, it's important to find ways to manage your stress and take care of yourself.
+  </M>
+</Prelude>
+<Section>
+  <XL>Meditation</XL>
+  <M>
+    One way to do this is through meditation. Meditation is a simple yet powerful technique that can help you relax, reduce stress, and improve your overall well-being. There are many different types of meditation, but they all involve focusing your attention on a particular object, such as your breath or a mantra. By doing this, you can quiet your mind and achieve a state of deep relaxation.
+  </M>
+  <M>
+    Another way to manage stress is through exercise. Exercise has been shown to be an effective way to reduce stress and improve mood. When you exercise, your body releases endorphins, which are natural chemicals that can help you feel good and reduce feelings of stress and anxiety. Exercise also helps to improve your physical health, which can in turn improve your mental health and well-being.
+  </M>
+</Section>
+<Summary>
+  <M>
+    This article discusses two effective ways to manage stress and improve overall well-being: meditation and exercise. Meditation involves focusing attention on an object, such as the breath or a mantra, to achieve a state of deep relaxation. Exercise, on the other hand, releases endorphins that improve mood and reduce stress and anxiety. Both practices have been shown to be effective in improving mental and physical health.
+  </M>
+</Summary>
+`
+const MEDIUM_MDX = `<Prelude>
+  <M>
+    The rise of technology has dramatically transformed how we live our lives. With new advancements and innovations constantly emerging, it's important to stay up-to-date with the latest trends and developments. In this article, we will explore some of the latest trends in technology and how they are shaping our world.
+  </M>
+</Prelude>
+<Section>
+  <XL>The Internet of Things (IoT)</XL>
+  <M>
+    One of the most significant trends in technology is the <B>Internet of Things (IoT)</B>. IoT refers to the interconnectivity of everyday devices, allowing them to collect and share data. This technology is rapidly changing the way we live our lives, from smart homes that can automatically adjust temperature and lighting to self-driving cars that can communicate with traffic lights and other vehicles. With the rise of IoT, we can expect to see even more devices become interconnected and integrated into our daily lives.
+  </M>
+  <M>
+      Here's an example of how IoT is used in the healthcare industry: hospitals can use sensors to monitor patients' vitals and alert doctors if there are any changes. This can help improve patient outcomes and reduce the risk of complications.
+  </M>
+  <Snippet>
+  </Snippet>
+</Section>
+<Section>
+  <XL>Artificial Intelligence (AI)</XL>
+  <M>
+    Another major trend in technology is <B>artificial intelligence (AI)</B>. AI refers to the ability of machines to learn and perform tasks that would typically require human intelligence. This technology is already being used in a wide range of applications, from self-driving cars to virtual assistants like Siri and Alexa. As AI continues to develop, we can expect to see even more advanced applications, such as personalized healthcare and predictive analytics.
+  </M>
+  <M>
+    For example, AI can be used to analyze medical data to identify patterns and predict disease outbreaks. This can help healthcare professionals better understand the spread of diseases and develop more effective treatments.
+  </M>
+  <M>
+    AI development involves a series of steps such as:
+  </M>
+    <List items="data gathering, pre-processing, model design, training, validation, deployment." />
+  <M>
+    During these stages, AI developers may make changes to the implementation and create pull requests (PRs) to merge their changes into the main codebase. To ensure the quality of the AI system, its components are tested using various tools and techniques such as model evaluation, performance metrics, and validation techniques. For instance, Chromatic is a popular tool used for testing the user interface of AI-based systems. After the review of the changes is completed and accepted, the AI system can be merged into the main codebase for deployment.
+  </M>
+    <A href="https://www.ibm.com/watson/health">Learn more about IBM Watson Health</A>
+</Section>
+<Section>
+  <XL>Blockchain</XL>
+  <M>
+    <B>Blockchain</B> is another trend in technology that has gained significant attention in recent years. Blockchain is a decentralized digital ledger that records transactions and is virtually impossible to tamper with. This technology has the potential to transform a wide range of industries, from banking and finance to supply chain management and healthcare. With blockchain, we can expect to see greater transparency and security in various industries.
+  </M>
+  <Img src="https://loremflickr.com/640/360" alt="This random cat photo" />
+  <Hint hasBg>Don't worry, it's just a random photo</Hint>
+</Section>
+<Section>
+  <XL>Quantum Computing</XL>
+  <M>
+    Finally, <B>quantum computing</B> is a rapidly developing field that has the potential to revolutionize computing as we know it. Unlike traditional computing, which relies on binary digits (bits), quantum computing uses quantum bits (qubits) to perform calculations. This allows for significantly faster processing and greater computational power. While still in its early stages, quantum computing has the potential to impact a wide range of industries, from finance and logistics to pharmaceuticals and cybersecurity.
+  </M>
+  <Snippet
+    description="Random code snippet"
+    linesCount={23}
+    src="https://raw.githubusercontent.com/polubis/Chromatic-and-storybook/main/src/ui/input-field/InputField.stories.tsx"
+  />
+</Section>
+<Summary>
+  <M>
+    This <B>article</B> explores some of the latest trends in technology, including the Internet of Things (IoT), artificial intelligence (AI), blockchain, and quantum computing. IoT is rapidly changing how we live our lives, with interconnected devices becoming more integrated into our daily routines. AI is being used in a variety of applications, from self-driving cars to personalized healthcare. Blockchain has the potential to transform industries by providing greater transparency and security. Finally, quantum computing has the potential to revolutionize computing as we know it, with significantly faster processing and greater computational power.
+  </M>
+</Summary>
+`
+const HUGE_MDX = `<Prelude>
+  <M>
+    Code written by programmer is like a unique signature. We can recognize the
+    author by a few lines. Let's create our unique signature by creating a
+    flexible component for code snippets.
+  </M>
+</Prelude>
+
+<Section>
+  <XL>1. Library choice</XL>
+  <M>
+    The most complicated part of the component will be code syntax highlighting.
+    It is better to use a battle-tested library like <B>prism</B>. In our case,
+    we will use the popular wrapper - <B>prism-react-renderer</B>.
+  </M>
+  <M>
+    The reason is simple - we can easily customize how the component works with{" "}
+    <B>props</B>. Below is an example of how you can display a piece of
+    <B>jsx</B> code.
+  </M>
+  <Snippet
+    linesCount={15}
+    src="https://raw.githubusercontent.com/polubis/React-code-snippet-component/main/snippets/1.tsx"
+  />
+  <M>
+    The component injects the appropriate styles. We can customize the behavior
+    and appearance to suit our needs.
+  </M>
+</Section>
+<Section>
+  <XL>2. Overwriting the theme</XL>
+  <M>
+    To override the theme we need an array in which we define styles for each
+    element.
+  </M>
+  <Snippet
+    linesCount={55}
+    src="https://raw.githubusercontent.com/polubis/React-code-snippet-component/main/src/code/setup.ts"
+  />
+</Section>
+
+<Section>
+  <XL>3. Creating Code component</XL>
+  <M>
+    We need a wrapper for our library. First, let's determine what the{" "}
+    <B>props</B> object will look like. We will define the interfaces in a
+    separate file for better clarity.
+  </M>
+  <Snippet
+    linesCount={8}
+    src="https://raw.githubusercontent.com/polubis/React-code-snippet-component/main/src/code/models.ts"
+  />
+  <M>Then the component itself.</M>
+  <Snippet
+    linesCount={45}
+    src="https://raw.githubusercontent.com/polubis/React-code-snippet-component/main/src/code/Code.tsx"
+  />
+  <M>
+    We used <B>memo</B> to limit rerenders. Component will update only when code
+    snippet changes. All that's left is to overwrite the styles we don't like.
+  </M>
+  <Snippet
+    linesCount={85}
+    src="https://raw.githubusercontent.com/polubis/React-code-snippet-component/main/src/code/style.ts"
+  />
+</Section>
+
+<Section>
+  <XL>4. Creating Snippet component</XL>
+  <M>
+    This component will be responsible for retrieving the content and deciding
+    how to pass the parameters. It will use the previously created <B>Code</B>{" "}
+    component. As before, let's start with the models.
+  </M>
+  <Snippet
+    linesCount={69}
+    src="https://raw.githubusercontent.com/polubis/React-code-snippet-component/main/src/snippet/models.ts"
+  />
+  <M>
+    The created models will be used to implement several components. Each of
+    them will have a different role. Let's start with the <B>Snippet</B>{" "}
+    component.
+  </M>
+  <Snippet
+    linesCount={17}
+    src="https://raw.githubusercontent.com/polubis/React-code-snippet-component/main/src/snippet/Snippet.tsx"
+  />
+  <M>
+    Pay attention to the exception that we <B>throw</B>. We did that because in
+    the absence of <B>children</B> and <B>src</B>, our component will not work
+    properly.
+  </M>
+  <M>
+    Also, the import of the <B>SnippetProps</B> interface from another file is
+    noteworthy. Separation of interfaces from implementations can be helpful
+    when we want to reuse models in other components. It also changes the way
+    how developer thinks. It is a bit like <B>test driven development</B>{" "}
+    approach. After all, <B>TypeScript</B> is similar to one big test which
+    checks our codebase in real time during compilation.
+  </M>
+  <Hint hasBg>
+    In this{" "}
+    <A
+      href="/articles/quick-wins/improving-code-that-was-not-written-by-us/"
+      outside
+    >
+      article
+    </A>{" "}
+    you can read more about <B>TDD</B>.
+  </Hint>
+</Section>
+
+<Section>
+  <XL>5. Implementing StaticSnippet component</XL>
+  <M>
+    This one will just render code snippet passed as <B>children</B>.
+  </M>
+  <Snippet
+    linesCount={9}
+    src="https://raw.githubusercontent.com/polubis/React-code-snippet-component/main/src/snippet/StaticSnippet.tsx"
+  />
+  <M>
+    As before, we added implementation to the prepared model. In this case we
+    just wrapped our <B>SnippetContent</B> component. We did this for the sake
+    of transparency.
+  </M>
+</Section>
+
+<Section>
+  <XL>6. Creating SnippetContent component</XL>
+  <M>
+    This component adds the layout, header and description if they are passed.
+  </M>
+  <Snippet
+    linesCount={28}
+    src="https://raw.githubusercontent.com/polubis/React-code-snippet-component/main/src/snippet/SnippetContent.tsx"
+  />
+  <M>
+    Next are styles. Nothing fancy here. Just some css for <B>header</B> and{" "}
+    <B>description</B>.
+  </M>
+  <Snippet
+    linesCount={32}
+    src="https://raw.githubusercontent.com/polubis/React-code-snippet-component/main/src/snippet/style.ts"
+  />
+</Section>
+
+<Section>
+  <XL>7. Creating DynamicSnippet component</XL>
+  <M>
+    We'll use presentation from <B>SnippetContent</B> and models that we created
+    before.
+  </M>
+  <Snippet
+    linesCount={76}
+    src="https://raw.githubusercontent.com/polubis/React-code-snippet-component/main/src/snippet/DynamicSnippet.tsx"
+  />
+  <M>What is going on here?</M>
+  <List items="ASCII art is generated, We're fetching snippet via src, Code is parsed to text, We're changing state during the retrieval of the snippet, When state is pending we return ASCII art instead of code" />
+</Section>
+
+<Section>
+  <XL>8. Generating ASCII art</XL>
+  <M>
+    We need to add some dummy characters when there are more lines in code
+    snippet than in ASCII art to prevent content size change.
+  </M>
+  <M>
+    Also, when our snippet is smaller than height of ASCII art, we need to
+    remove some lines from graphic. Reason is the same - <B>user experience</B>.
+  </M>
+  <Snippet
+    linesCount={126}
+    src="https://raw.githubusercontent.com/polubis/React-code-snippet-component/main/src/snippet/ASCII.ts"
+  />
+</Section>
+
+<Section>
+  <XL>9. Usage</XL>
+  <M>Just pass correct props and you can customize what you need.</M>
+  <Snippet
+    linesCount={50}
+    src="https://raw.githubusercontent.com/polubis/React-code-snippet-component/main/src/App.tsx"
+  />
+</Section>
+<Summary>
+  <M>
+    Right now you're able to render the code in a cool and fancy way. We've
+    checked how separation of models can be useful to share type definitions
+    between different files.
+  </M>
+  <M>
+    Maybe there is a place for improvements. Feel free to try and remember to
+    share results on our{" "}
+    <A href="https://www.linkedin.com/company/greenon-software/" outside>
+      Linkedin
+    </A>
+    .
+  </M>
+</Summary>
+`
+
+export { INIT_MDX, SMALL_MDX, MEDIUM_MDX, HUGE_MDX }
