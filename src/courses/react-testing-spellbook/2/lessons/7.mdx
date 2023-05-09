@@ -1,0 +1,195 @@
+---
+name: Creating testing fixtures
+duration: 4
+description: Did you again have duplicated the test code? If so, you need fixtures!
+---
+
+<Prelude>
+  <M>
+    We already know the <B>stubs</B> and the <B>mocks</B> are. There are several
+    other concepts worth exploring.
+  </M>
+  <M>
+    Let's see what we can use something that has a strange name - <B>fixture</B>.
+  </M>
+</Prelude>
+
+<Section>
+  <XL>The role of fixture in testing</XL>
+  <M>
+    Automated testing is also writing code. Sometimes it happens that this code
+    is duplicated. Then what?
+  </M>
+  <M>
+    You can duplicate the code or prepare something that will save you time and
+    nerves when trying to manage such code - <B>don't repeat yourself rule</B>.{" "}
+  </M>
+  <M>
+    So the role of fixture is to remove duplicate code and encapsulate it inside
+    something we can use elsewhere (tests).
+  </M>
+  <M>
+    This is precisely the first and, in my opinion, the most important role of{" "}
+    <B>fixture</B>. What are the other roles then?
+  </M>
+  <List items="Creating and initializing objects or variables,Setting up test data,Preparing the test environment,Cleaning up after the test" />
+  <M>
+    We already know what and how so now it's time to play with the real code.
+  </M>
+</Section>
+
+<Section>
+  <XL>Removing the duplicated test code</XL>
+  <M>
+    Let's assume that we have the <B>EmojiSelect</B> component, in which we want
+    to test several behaviors.{" "}
+  </M>
+  <M>
+    The component is nothing more than a modal and a list of emoticons to use,
+    from which we can choose any of them.
+  </M>
+  <Img src="https://raw.githubusercontent.com/polubis/Snippets/main/emoji-picker.png" />
+  <M>The tests for this component are as follows:</M>
+  <Snippet>{`
+ 
+describe('Emoji picker can be used when', () => {
+  const TITLE: EmojiPickerProps['title'] = 'Pick your emoji';
+  const DATA: EmojiPickerData = [{ emoji: '💀', name: 'skull' }];
+ 
+  it('renders default emojis', () => {
+    // ⚠️ Duplicated in each test.
+    render(<EmojiPicker title={TITLE} onSelect={() => {}} />);
+ 
+    screen.getByText(TITLE);
+    screen.getByText(EMOJI_DATA[0].emoji);
+  });
+ 
+  it('allows to use own emoji data', () => {
+    // ⚠️ Duplicated in each test.
+    render(<EmojiPicker title={TITLE} data={DATA} onSelect={() => {}} />);
+ 
+    screen.getByText(DATA[0].emoji);
+  });
+ 
+  it('renders emoji list items with data attribute', () => {
+    // ⚠️ Duplicated in each test.
+    render(<EmojiPicker data={DATA} title={TITLE} onSelect={() => {}} />);
+ 
+    const element = screen.getByText(DATA[0].emoji);
+ 
+    expect(element.dataset.emoji).toBe(DATA[0].emoji);
+  });
+  // ...other tests
+});
+`}</Snippet>
+  <M>
+    We have duplicated our <B>stub</B> object, which hides under the passed{" "}
+    <B>props</B> to the components. So let's create our first fixture.
+  </M>
+  <Snippet>{`
+    // It's added to reduce duplication of code in each test.
+  const emojiPickerFixture = (props: Partial<EmojiPickerProps> = {}) => {
+      // We pass on the default props and give the ability to overwrite them from other tests.
+    const result = render(<EmojiPicker title={TITLE} onSelect={() => {}} {...props} />);
+ 
+    // We return the result, because we may want to compare something in the tests.
+    return result;
+  }`}</Snippet>
+  <M>Now it is time for a change in the tests.</M>
+  <Snippet>{`
+         it('renders default emojis', () => {
+  // Much cleaner here...
+  emojiPickerFixture();
+  
+  screen.getByText(TITLE);
+  screen.getByText(EMOJI_DATA[0].emoji);
+});
+   `}</Snippet>
+  <M>Well, what about other tests?</M>
+  <Snippet>{`
+ 
+describe('Emoji picker can be used when', () => {
+  const TITLE: EmojiPickerProps['title'] = 'Pick your emoji';
+  const DATA: EmojiPickerData = [{ emoji: '💀', name: 'skull' }];
+ 
+  it('renders default emojis', () => {
+    // ✅ Now it's clean!
+    emojiPickerFixture();
+ 
+    screen.getByText(TITLE);
+    screen.getByText(EMOJI_DATA[0].emoji);
+  });
+ 
+  it('allows to use own emoji data', () => {
+    // ✅ Now it's clean!
+    emojiPickerFixture({ data: DATA });
+    
+    screen.getByText(DATA[0].emoji);
+  });
+ 
+  it('renders emoji list items with data attribute', () => {
+    // ✅ Now it's clean!
+    emojiPickerFixture({ data: DATA });
+ 
+    const element = screen.getByText(DATA[0].emoji);
+ 
+    expect(element.dataset.emoji).toBe(DATA[0].emoji);
+  });
+  // ...other tests
+});
+`}</Snippet>
+  <M>
+    We removed duplicated code and changed the implementation of several tests.
+    Now it's time for conclusions.{" "}
+  </M>
+</Section>
+
+<Section>
+  <XL>Conclusions and thoughts</XL>
+  <M>So what can we see after our changes at first glance?</M>
+  <List items="Tests are easier to implement - we focus on checking the result,Test code is not duplicated and is more readable,Later changes will be simpler - implementation of EmojiPicker initialization is in one place" />
+  <M>
+    Now a very important question arises. Should I do things this way
+    everywhere? <B>Of course not!</B>
+  </M>
+  <M>
+    Use this approach if you see a real profit. Does the test code duplicate? If
+    so do <B>fixture</B>, if not skip it.{" "}
+  </M>
+  <M>
+    In addition, let's pay attention to the fact that fixture is our{" "}
+    <B>extra</B> code, and in any code mistakes can happen, so there can be a
+    situation where the tests will work incorrectly not because of a bug in the
+    application, but because of an incorrectly written fixture.
+  </M>
+</Section>
+
+<Example>
+  <M>
+    Link to the full{" "}
+    <A
+      outside
+      href="https://github.com/polubis/Dream-stack-for-React-dev/tree/main/system/libs/figa-ui/src/lib/emoji-picker"
+    >
+      example
+    </A>
+    .
+  </M>
+</Example>
+
+<Summary>
+  <M>
+    We have learned another piece of the puzzle called testing. Fixtures can be
+    really useful and make your life easier.
+  </M>
+  <M>
+    However, remember to use them with caution and for their intended purpose.
+  </M>
+  <M>
+    If you enjoyed it, be sure to visit us on{" "}
+    <A href="https://www.linkedin.com/company/greenon-software/" outside>
+      Linkedin
+    </A>{" "}
+    where we regularly upload content from programming.
+  </M>
+</Summary>
