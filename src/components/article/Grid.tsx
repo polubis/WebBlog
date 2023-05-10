@@ -5,6 +5,7 @@ import theme from "../../utils/theme"
 import { L_UP, T_UP, M_UP } from "../../utils/viewport"
 import Tile from "./Tile"
 import { Article } from "../../models/Article"
+import Button from "../button/Button"
 
 const Grid = styled.div`
   display: grid;
@@ -72,6 +73,13 @@ const Grid = styled.div`
   }
 `
 
+const Title = styled.div`
+  font-size: 56px;
+  font-weight: bold;
+  color: #ffff;
+  margin-left: auto;
+`
+
 interface Props {
   articles: Article[]
 }
@@ -79,9 +87,10 @@ interface Props {
 export default function ({ articles }: Props): React.ReactElement {
   return (
     <>
-      <h1 style={{ visibility: "hidden", height: 0, margin: "0" }}>
-        List of articles
-      </h1>
+      <Title>Articles list</Title>
+
+      <Button style={{ margin: "20px 0 50px auto" }}>My saved articles</Button>
+
       <Grid>
         {articles.map(article => (
           <Tile key={article.slug} article={article} />
