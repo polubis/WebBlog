@@ -137,7 +137,7 @@ const Footer = ({ articles, t, renderLinks }: FooterProps) => {
             <M>{t.footer.aboutUsText}</M>
             <M>
               {t.footer.aboutUsTextCommunity}{" "}
-              <LinkButton onClick={ctx.open}>
+              <LinkButton onClick={ctx.open} className="form-button">
                 {t.footer.thisFormLink}
               </LinkButton>
               .
@@ -147,7 +147,7 @@ const Footer = ({ articles, t, renderLinks }: FooterProps) => {
             <X>{t.footer.recommendedArticles}</X>
             <Articles>
               {articles.map(article => (
-                <Link key={article.title} to={article.path}>
+                <Link className="recommendedArticlesLink" key={article.title} to={article.path}>
                   <Figure>
                     <Img
                       fluid={article.thumbnail}
