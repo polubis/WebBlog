@@ -2,7 +2,7 @@
 
 ### I want to contribute, how I can achieve it?
 
-1. Join our [Discord](https://discord.com/invite/uJa3KUfFpj).
+1. Join our [Discord](https://discord.gg/PxXQayT3x3).
 2. Add your **Github** profile link to dedicated channel.
 3. Wait for approval (we'll add you to board with tickets and contributors).
 4. Now you can pick any task from [board](https://github.com/users/polubis/projects/1).
@@ -94,4 +94,4 @@ npm i --legacy-peer-deps
 npm start
 ```
 
-> Please go to our [Discord](https://discord.com/invite/uJa3KUfFpj) if you still have problems and ask for help in dedicated channel :).
+> Please go to our [Discord](https://discord.gg/PxXQayT3x3) if you still have problems and ask for help in dedicated channel :).
