@@ -1,0 +1,185 @@
+---
+name: Understanding mocks in testing
+duration: 5
+description: We will check what mocks are used for and what they really are.
+---
+
+<Prelude>
+  <M>
+    During the earlier{" "}
+    <A href="/courses/react-testing-spellbook/mastering-unit-testing/understanding-stubs-in-testing/">
+      lesson
+    </A>
+    , we learned the <B>stubs</B> and realized what they are used for. Now is the
+    time for <B>mocks</B>, which are used very often during unit testing.
+  </M>
+</Prelude>
+
+<Section>
+  <XL>Mocks definition</XL>
+  <M>
+    Mocks are used to replace the implementation of a specific module. Their
+    main objective is to provide:
+  </M>
+  <List items="Isolation - you can define the expected behavior of the mock and specify the responses,Control - they can simulate different scenarios and edge cases that may be challenging to reproduce with real dependencies, Simplicity - they eliminate the need for complex setups or configurations that may be required for using real dependencies, Performance - mocks can be faster and more efficient than using real dependencies, Testing unavailable or unreliable modules - by mocking module which is broken you can test the behavior of your code" />
+  <M>Why are mocks so important?</M>
+  <M>
+    Think of a situation where you make a query to a mailing service in the code
+    that you are testing. If you don't mock the API of that service then you're
+    making real queries.
+  </M>
+  <Hint hasBg>It would cost you a bit 💰.</Hint>
+</Section>
+
+<Section>
+  <XL>Why do we need to use mocks?</XL>
+  <M>
+    Let's say we have the following function that is designed to build a path
+    for specific article:{" "}
+  </M>
+  <Snippet>{`
+  import type { Lang } from 'apps/blog/models';
+  
+import path from 'path';
+  
+export const createArticlePath = (lang: Lang, ...rest: string[]): string =>
+  path.join(
+    process.cwd(),
+    'apps',
+    'blog',
+    'content',
+    lang,
+    'articles',
+    ...rest
+  );
+  `}</Snippet>
+  <M>
+    What catches the eye immediately is the use of the <B>path</B> module and
+    the globally available <B>process</B> variable.
+  </M>
+  <M>
+    The path module is not a part of our application, but an external library -
+    we assume that it works properly, we don't want to test it.
+  </M>
+  <M>
+    The process variable is an object created by the <B>NodeJS</B> runtime
+    environment. It has properties and methods. Also, we have to assume that it
+    works correctly and we don't want to test it.
+  </M>
+  <M>
+    How should we test it? We need to mock both and simulate the behavior of the{" "}
+    <B>cmd()</B> and <B>join()</B> methods. We know how they work so it won't be
+    a problem.
+  </M>
+</Section>
+
+<Section>
+  <XL>Let's mock</XL>
+  <M>This is how the <B>join()</B> and <B>cwd()</B> methods work: </M>
+  <Snippet>{`
+path.join('/path/to', 'file.txt');
+// Output (on Unix-like systems): /path/to/file.txt
+// Output (on Windows): \\path\\to\\file.txt
+ 
+process.cwd()
+// Returns current working director - "/home/user/project"
+`}</Snippet>
+<M>Now all we need to do is create a test in which we substitute their implementation and check whether our own function works as expected.</M>
+
+<Snippet description="We created two mocks">{`
+// This import is essential.
+import path from 'path';
+ 
+// This we will test.
+import { createArticlePath } from '.';
+ 
+const basePath = 'C:\\Users\\pracapraca\\Dream-stack-for-React-dev\\system';
+ 
+// We replace the implementation of the path module.
+jest.mock('path', () => ({
+  join: jest.fn(), // Allows methods from "jest" be used.
+}));
+ 
+describe('Path for dedicated article is created when', () => {
+  // Temp variable.
+  const originalCwd = process.cwd;
+ 
+  beforeAll(() => {
+    // We replace the cwd method implementation.
+    Object.defineProperty(process, 'cwd', {
+      value: () => basePath,
+      writable: true,
+    });
+  });
+ 
+  afterAll(() => {
+    // We restore the original implementation.
+    process.cwd = originalCwd;
+  });
+   
+  it('absolute path is composed', () => {
+    // We replace the implementation.
+    (path.join as jest.Mock).mockImplementationOnce((...args: string[]) =>
+      args.join('\\')
+    );
+   
+    const result = createArticlePath('en', 'my-file.mdx');
+   
+    // We check that the path is correct.
+    expect(result).toBe(
+      basePath + '\\apps\\blog\\content\\en\\articles\\my-file.mdx'
+    );
+  });
+});
+`}</Snippet>
+<M>In the first mock we replace the implementation of the path module and the join method. Thanks to the <B>jest.fn()</B> we will be able to change the implementation in any other test as needed.</M>
+<Snippet description="A way to mock imported modules">{`
+// Here we mock module.
+jest.mock('path', () => ({
+  join: jest.fn(), // This allows us to change the implementation later.
+}));
+ 
+// Here we substitute implementations for a specific test.
+(path.join as jest.Mock).mockImplementationOnce((...args: string[]) =>
+  args.join('\')
+);
+    `}</Snippet>
+    <M>In the second one, we used <B>defineProperty </B> to override a globally available process object property.</M>
+    <Snippet description="A way to mock global objects">{`
+// Temp variable.
+const originalCwd = process.cwd;
+ 
+// The code in the callback will execute before first test execution.
+beforeAll(() => {
+  // We replace the cwd method implementation.
+  Object.defineProperty(process, 'cwd', {
+    value: () => basePath,
+    writable: true // Allows to change process.cwd later.
+  });
+});
+ 
+// The code in the callback will execute after all tests are completed.
+afterAll(() => { // It's executed after all tests 
+  // We restore the original implementation.
+  process.cwd = originalCwd; // This is allowed thanks to writeable: true
+});
+    `}</Snippet>
+    <M>It is very important to assign a starting value to global objects after testing. If we don't do this, we expose ourselves to side effects and the fact that tests in this file can affect other tests - <B>which is very bad!</B></M>
+        <M>Note the use of the <B>object descriptor (writeable: true)</B>, which allowed us to restore to the initial value later. Without this change, it is not possible to overwrite the <B>cwd</B> property implementation.</M>
+</Section>
+
+<Summary>
+  <M>
+    Bravo! Now you know how important mocks are and how to create them for
+    modules, methods and global objects. You have to admit that their use is
+    much wider than in the case of stubs.
+  </M>
+  <M>
+    If you enjoyed it, be sure to visit us on{" "}
+    <A href="https://www.linkedin.com/company/greenon-software/" outside>
+      Linkedin
+    </A>{" "}
+    where we regularly upload content from programming.
+  </M>
+  <Hint></Hint>
+</Summary>
