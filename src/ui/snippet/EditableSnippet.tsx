@@ -10,21 +10,21 @@ const styles = {
 }
 
 const EditorWrapper = styled.div`
-.ui-editable-snippet {
+  .ui-editable-snippet {
     overflow: unset !important;
     pre {
-      padding-left: 60px !important;
+      padding-left: 65px !important;
     }
     textarea {
       outline: none;
-      padding-left: 60px !important;
-    }   
+      padding-left: 65px !important;
+    }
     .editor-line-number {
       position: absolute;
       left: 0px;
       color: #444444;
       text-align: right;
-      width: 40px;
+      width: 50px;
       font-weight: 100;
       font-style: italic;
       font-size: 16px;
@@ -32,7 +32,7 @@ const EditorWrapper = styled.div`
       -moz-osx-font-smoothing: grayscale;
     }
   }
-  `;
+`
 
 const highlight = (code: string): ReactNode => (
   <Highlight
@@ -44,13 +44,15 @@ const highlight = (code: string): ReactNode => (
     {({ tokens, getLineProps, getTokenProps }) => (
       <>
         {tokens.map((line, i) => (
-          <div {...getLineProps({ line, key: i })}>
-            {line.map((token, key) => (
-              <>
-                <span className="editor-line-number">{i + 1}</span>
-                <span {...getTokenProps({ token, key })}/>
-              </>
-            ))}
+          <div className="editor-line-wrapper">
+            <span className="editor-line-number">{i + 1}</span>
+            <div {...getLineProps({ line, key: i })}>
+              {line.map((token, key) => (
+                <>
+                  <span {...getTokenProps({ token, key })} />
+                </>
+              ))}
+            </div>
           </div>
         ))}
       </>
