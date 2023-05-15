@@ -7,7 +7,7 @@ import styled from "styled-components"
 import theme from "../../utils/theme"
 import { EmptyAuthorTile } from "../../components/empty-author-tile/EmptyAuthorTile"
 import { AllDataResponse } from "../../api"
-import  {ExternalLink, ExternalLinkBtn} from "../../components/link/Link"
+import { ExternalLink, ExternalLinkBtn } from "../../components/link/Link"
 
 const Grid = styled.div`
   display: grid;
@@ -69,7 +69,7 @@ interface ConnectedEmptyAuthorTileProps {
 }
 
 
-const ConnectedEmptyAuthorTile = ({discordUrl}: ConnectedEmptyAuthorTileProps) => {
+const ConnectedEmptyAuthorTile = ({ discordUrl }: ConnectedEmptyAuthorTileProps) => {
   return (
     <EmptyAuthorTile joinUs={<JoinUsLink href={discordUrl} id="author-join-us">JOIN US !</JoinUsLink>} />
   )
@@ -102,7 +102,7 @@ const AuthorsPage = ({
             Platform authors and content creators
           </h1>
           <Grid>
-            <ConnectedEmptyAuthorTile discordUrl={site.discordUrl}/>
+            <ConnectedEmptyAuthorTile discordUrl={site.discordUrl} />
             {authors.map(author => (
               <Tile key={author.id}>
                 <AuthorAvatar size="medium" avatar={author.avatar} />

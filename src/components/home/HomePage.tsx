@@ -40,7 +40,7 @@ const HomePage = ({ pageContext }: HomePageProps) => {
       type="website"
       image="/icon-192x192.png"
     >
-      <Layout articles={footerArticles} t={t} routes={site.routes}>
+      <Layout discordUrl={site.discordUrl} articles={footerArticles} t={t} routes={site.routes}>
         <BlackHoleSection holeImg={holeImg} />
         <WelcomeSection />
         <StatsSection

@@ -148,7 +148,7 @@ export default function ({
       description={description}
       image={thumbnail.src}
     >
-      <Layout articles={footerArticles} t={t} routes={site.routes}>
+      <Layout discordUrl={site.discordUrl} articles={footerArticles} t={t} routes={site.routes}>
         <Content paddingY>
           <Article>
             <ReadInOtherLanguageBanner

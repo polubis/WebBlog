@@ -110,7 +110,7 @@ const LessonContent = ({
         lessonId={lesson.id}
         chapterId={chapter.id}
       />
-      <Layout articles={articles} t={t} routes={site.routes}>
+      <Layout discordUrl={site.discordUrl} articles={articles} t={t} routes={site.routes}>
         <Content paddingY>
           <Container>
             <Wrapper>

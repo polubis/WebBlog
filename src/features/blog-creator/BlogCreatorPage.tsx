@@ -10,7 +10,7 @@ interface BlogCreatorPageProps {
 }
 
 const BlogCreatorPage = ({
-  pageContext: { articles, site, translationObject, footerArticles },
+  pageContext: { site, translationObject, footerArticles },
 }: BlogCreatorPageProps) => {
   const t = translationObject["en"]
 
@@ -28,7 +28,7 @@ const BlogCreatorPage = ({
     >
       <Layout articles={footerArticles} t={t} routes={site.routes} discordUrl={site.discordUrl}>
         <Content paddingY>
-          <BlogCreator discordUrl={site.discordUrl}/>
+          <BlogCreator discordUrl={site.discordUrl} />
         </Content>
       </Layout>
     </SiteMeta>

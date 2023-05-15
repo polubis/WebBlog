@@ -1,7 +1,8 @@
 const siteUrl = `https://greenonsoftware.com`
 const siteName = "GreenOn Software"
 const siteDescription = `A place for people who love programming and personal development.`
-const discordUrl = "https://discord.com/invite/uJa3KUfFpj/"
+const discordUrl = "https://discord.gg/PxXQayT3x3"
+
 const langs = {
   en: {
     html: "en-US",

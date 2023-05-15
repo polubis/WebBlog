@@ -6,7 +6,7 @@ import theme from "../../utils/theme"
 import styled from "styled-components"
 import { Link as GatsbyLink } from "gatsby"
 import { GreenOnLogo } from "../GreenOnLogo"
-import  {ExternalLink, ExternalLinkBtn} from "../link/Link"
+import { ExternalLink, ExternalLinkBtn } from "../link/Link"
 
 interface LayoutProps {
   children: ReactNode
@@ -36,7 +36,6 @@ const JoinUsLink = styled(ExternalLink)`
 
 
 export default function ({ children, articles, t, routes, discordUrl }: LayoutProps) {
-  
 
   const { links, homeLink, leftLinks, rightLinks } = useMemo(() => {
     const links = sort(
