@@ -10,6 +10,7 @@ import Button from "../button/Button"
 import { ScrollUpButton } from "../scroll-up-button/ScrollUpButton"
 import { useJoinUsModal } from "../article/WithJoinUsModal"
 import { useScrollToHtmlElement } from "../../utils/useScrollToHtmlElement"
+import { SocialBar } from "../social-bar/Socialbar"
 
 interface LayoutProps {
   children: ReactNode
@@ -128,7 +129,7 @@ export default function ({ children, articles, t, routes }: LayoutProps) {
       }
     >
       {children}
-      <ScrollUpButton onClick={scrollTop} />
+      <SocialBar scrollToTopNode={<ScrollUpButton onClick={scrollTop} />} />
     </Layout>
   )
 }
