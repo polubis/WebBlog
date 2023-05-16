@@ -1,10 +1,10 @@
-import React, { FC } from "react"
+import React from "react"
 
-import Button from "../button/Button"
 import { L_DOWN } from "../../utils/viewport"
-import styled, { keyframes } from "styled-components"
-import theme from "../../utils/theme"
+import styled from "styled-components"
 import { useScroll } from "../../utils/useScroll"
+import { ArrowLeftIcon, IconButton } from "../../ui"
+import theme from "../../utils/theme"
 
 interface ScrollUpButtonProps {
   onClick: () => void
@@ -12,49 +12,51 @@ interface ScrollUpButtonProps {
 
 const VISIBILITY_LIMIT = 500
 
-const show = keyframes`
-  from {
-    transform: scale(0);
-  }
-
-  to {
-    transform: scale(1);
-  }
-`
-
 const Container = styled.div`
   position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background-color: ${theme.black};
+  bottom: 40px;
+  z-index: 103;
+  transition: 0.3s all ease-in-out;
 
   @media ${L_DOWN} {
     left: 20px;
-    right: auto;
   }
 
-  .scrollUp-show {
-    animation: ${show} 0.4s ease-in-out 0s forwards;
+  &.visible {
+    transform: scale(1);
+    opacity: 1;
   }
 
-  .scrollUp-hide {
-    display: none;
+  &.hidden {
+    transform: scale(0);
+    opacity: 0;
+  }
+
+  button {
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.14);
+  }
+
+  svg {
+    transform: rotate(90deg);
+
+    path {
+      fill: ${theme.black};
+    }
   }
 `
 
-export const ScrollUpButton: FC<ScrollUpButtonProps> = ({ onClick }) => {
-  const { offsetY } = useScroll()
+export const ScrollUpButton = ({ onClick }: ScrollUpButtonProps) => {
+  const { offsetY, direction } = useScroll()
 
   return (
-    <Container>
-      <Button
-        className={`${
-          offsetY > VISIBILITY_LIMIT ? "scrollUp-show" : "scrollUp-hide"
-        }`}
-        onClick={onClick}
-      >
-        Go up
-      </Button>
+    <Container
+      className={
+        direction === "up" && offsetY > VISIBILITY_LIMIT ? "visible" : "hidden"
+      }
+    >
+      <IconButton onClick={onClick}>
+        <ArrowLeftIcon />
+      </IconButton>
     </Container>
   )
 }
