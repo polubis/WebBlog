@@ -9,6 +9,39 @@ describe("Main page test", () => {
     cy.location("pathname").should("eq", "/articles/")
   })
 
+  it("Info about articles' count in stats section moves to articles' page", () => {
+    cy.get(".statsSectionContainer a")
+      .first("a")
+      .should("have.attr", "href", "/articles/")
+      .then(firstElement => {
+        cy.wrap(firstElement).click()
+      })
+    cy.wait(4000)
+    cy.location("pathname").should("eq", "/articles/")
+  })
+
+  it("Info about authors' count in stats section moves to articles' page", () => {
+    cy.get(".statsSectionContainer a")
+      .eq(1)
+      .should("have.attr", "href", "/authors/")
+      .then(secondElement => {
+        cy.wrap(secondElement).click()
+      })
+    cy.wait(4000)
+    cy.location("pathname").should("eq", "/authors/")
+  })
+
+  it("Info about courses' count in stats section moves to articles' page", () => {
+    cy.get(".statsSectionContainer a")
+      .eq(2)
+      .should("have.attr", "href", "/courses/")
+      .then(thirdElement => {
+        cy.wrap(thirdElement).click()
+      })
+    cy.wait(4000)
+    cy.location("pathname").should("eq", "/courses/")
+  })
+
   it('"Write your first article" button moves to creator page', () => {
     cy.get(".write-article-button").click()
     cy.location("pathname").should("eq", "/blog-creator/")
@@ -64,5 +97,18 @@ describe("Main page test", () => {
         cy.wait(4000)
         cy.go("back")
       })
+  })
+
+  it("LinkedIn logo moves to LinkedIn profile", () => {
+    cy.get(
+      '.contentFooter a[href*="https://www.linkedin.com/company/greenon-software/"'
+    )
+      .then($a => {
+        expect($a).to.have.attr("target", "_blank")
+        $a.attr("target", "_self")
+      })
+      .click()
+    cy.wait(4000)
+    cy.url().should("include", "linkedin")
   })
 })

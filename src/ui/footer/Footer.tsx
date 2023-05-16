@@ -167,7 +167,7 @@ const Footer = ({ articles, t, renderLinks }: FooterProps) => {
             <Links>{renderLinks(Link)}</Links>
           </Section>
         </TopSection>
-        <ContentFooter>
+        <ContentFooter className="contentFooter">
           <a
             href="https://www.linkedin.com/company/greenon-software/"
             title="Linkedin GreenOn Software profile"

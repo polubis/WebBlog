@@ -101,7 +101,7 @@ const StatsSection = ({
   topAuthor,
 }: StatsSectionProps) => {
   return (
-    <Container>
+    <Container className="statsSectionContainer">
       <Link to="/articles/">
         <CodeEditorTile>
           <XXL>
