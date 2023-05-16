@@ -6,7 +6,7 @@ import theme from "../../utils/theme"
 
 interface Props {
   src: string
-  description?: string
+  description?: React.ReactNode
   border?: boolean
 }
 

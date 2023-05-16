@@ -4,18 +4,21 @@ duration: 2
 description: The nomenclature must be consistent and clear throughout the solution, so we must take care of this from the beginning.
 ---
 
-<Section>
-  <XL>Converting the syntax</XL>
+<Prelude>
   <M>
-    It will be very simple. Let's use one and the same form, let's avoid
-    superfluous words. The description must reflect what we are testing, and
-    let's not repeat phrases. Look at the following examples to understand the
-    point.
+    Imagine a huge project where each developer writes tests descriptions in
+    their own way. It will be complete mess. That's why it's a good idea to
+    adopt some rules and stick to them from the beginning of the project
   </M>
+</Prelude>
+
+<Section>
+  <XL>Some consistent rules</XL>
+  <M>Take a look at the following example:</M>
   <Snippet>
     {`
-describe("Pizza meets standards when: ", () => { 👍
-  it("size is between 30-40 cm", () => {}); 👍
+describe("Pizza meets standards when", () => { 👍
+  it("size is between 30-40cm", () => {}); 👍
  
   it("cake is brown", () => {}); 👍
  
@@ -24,13 +27,37 @@ describe("Pizza meets standards when: ", () => { 👍
   it("cake is warm", () => {}); 👍
    
   it("plate is clean", () => {}); 👍
+  
+  describe("plate size is equal to", () => {
+    it('30cm', () => {}); 👍
+    
+    it('40cm', () => {}); 👍
+  })
 });
     `}
   </Snippet>
-  <M>In the above example, we keep an eye on the following rules: </M>
-  <List items="We should use only the Past Simple,Sentences in describe blocks should begin with a capital letter,Sentences in describe blocks should be short and begin with lowercase letters,The sentences in the it blocks should be very short, The sentence at the end of describe ends with : and space" />
   <M>
-    You will see later how nicely it looks when you display the result of the
-    tests.
+    We can read the following descriptions as one sentence:{" "}
+    <B>Pizza meets standards when size is between 30-40cm</B> or{" "}
+    <B>Pizza meets standards when plate size is equal to 30cm</B> (look at
+    nested describe block). Thanks to that we are able to read tests as
+    documentation and immediately understand the testing case.
   </M>
+  <M>We used the following rules to build the above cases:</M>
+  <List items="Unattributable words like 'should' or 'correct' are not allowed,Descriptions must be short,Descriptions must use only relevant words that explain the situation,First 'describe' block begins with a capital letter,Every 'it' block begins with a lowercase letter, Nested 'describe' block begins with lowercase letter,There shouldn't be any duplication in test descriptions (use nested 'describe' block as in the example)" />
 </Section>
+
+<Summary>
+  <M>
+    Consistency is very important! If you take care of such things from the
+    beginning you will make your project much easier to understand and more
+    enjoyable to work with.
+  </M>
+  <M>
+    If you enjoyed it, be sure to visit us on{" "}
+    <A href="https://www.linkedin.com/company/greenon-software/" outside>
+      Linkedin
+    </A>{" "}
+    where we regularly upload content from programming.
+  </M>
+</Summary>

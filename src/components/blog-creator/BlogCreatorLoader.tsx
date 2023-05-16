@@ -90,7 +90,7 @@ const BlogCreatorLoader = ({ onClose }: BlogCreatorLoaderProps) => {
           <M>
             Looking for a cool <B>community</B>? Join our{" "}
             <A
-              href="https://www.linkedin.com/company/greenon-software/"
+              href="https://discord.gg/PxXQayT3x3"
               outside
             >
               Discord

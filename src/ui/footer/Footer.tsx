@@ -177,7 +177,7 @@ const Footer = ({ articles, t, renderLinks }: FooterProps) => {
           </a>
           <a
             className="icon-link"
-            href="https://discord.gg/uJa3KUfFpj/"
+            href="https://discord.gg/PxXQayT3x3"
             title="GreenOn Software Discord channel"
             target="_blank"
           >

@@ -46,10 +46,6 @@ const CodeContainer = styled.div`
   flex-flow: column;
   width: 48%;
 
-  .ui-editable-snippet {
-    overflow: unset !important;
-  }
-
   @media ${T_DOWN} {
     width: 100%;
   }

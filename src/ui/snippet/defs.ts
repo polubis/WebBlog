@@ -7,7 +7,7 @@ interface SnippetProps {
   deleted?: Range
   changed?: Range
   src?: string
-  description?: string
+  description?: React.ReactNode
   linesCount?: number
 }
 
