@@ -2,7 +2,7 @@ import React, { ReactNode } from "react"
 import styled from "styled-components"
 import Divider from "../../components/divider/Divider"
 import theme from "../../utils/theme"
-import { L_UP, M_DOWN, T_DOWN } from "../../utils/viewport"
+import { L_UP, T_DOWN } from "../../utils/viewport"
 import Loadable from "react-loadable"
 import { Content } from "./Content"
 
@@ -48,18 +48,6 @@ const Container = styled.header`
         }
       }
     }
-
-    .ui-layout-action {
-      display: flex;
-      align-items: center;
-      gap: 24px;
-
-      a {
-        @media ${M_DOWN} {
-          display: none;
-        }
-      }
-    }
   }
 `
 
@@ -90,7 +78,7 @@ const Navigation = ({
             <nav className="ui-layout-links">{rightLinks}</nav>
           </div>
 
-          <div className="ui-layout-action">{action}</div>
+          {action}
         </Content>
       </Container>
       <MobileNavigation links={mobileLinks} />

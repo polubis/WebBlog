@@ -90,7 +90,7 @@ const BlogCreatorLoader = ({ onClose }: BlogCreatorLoaderProps) => {
           <M>
             Looking for a cool <B>community</B>? Join our{" "}
             <A
-              href="https://discord.gg/PxXQayT3x3/"
+              href="https://discord.gg/PxXQayT3x3"
               outside
             >
               Discord

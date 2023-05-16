@@ -1,5 +1,5 @@
 import { useRef, useEffect, MutableRefObject, useState } from "react"
-import { debounceTime, fromEvent } from "rxjs"
+import { debounceTime, fromEvent, throttleTime } from "rxjs"
 
 interface ScrollMetadata {
   direction: "up" | "down" | "idle"
@@ -8,6 +8,7 @@ interface ScrollMetadata {
 
 interface Config {
   delay?: number
+  strategy?: "throttle" | "debounce"
 }
 
 const createMetadata = (
@@ -31,6 +32,7 @@ export const useScroll = (config?: Config) => {
   useEffect(() => {
     let prevPageYOffset = window.pageYOffset
     const delay = config?.delay ?? 50
+    const strategy = config?.strategy ?? "debounce"
 
     const handleScroll = () => {
       const currentPageYOffset = window.pageYOffset
@@ -53,7 +55,7 @@ export const useScroll = (config?: Config) => {
     }
 
     const sub = fromEvent(window, "scroll")
-      .pipe(debounceTime(delay))
+      .pipe(strategy === "debounce" ? debounceTime(delay) : throttleTime(delay))
       .subscribe(handleScroll)
 
     return () => {

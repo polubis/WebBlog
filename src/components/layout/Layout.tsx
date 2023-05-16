@@ -10,6 +10,7 @@ import Button from "../button/Button"
 import { ScrollUpButton } from "../scroll-up-button/ScrollUpButton"
 import { useJoinUsModal } from "../article/WithJoinUsModal"
 import { useScrollToHtmlElement } from "../../utils/useScrollToHtmlElement"
+import { SocialBar } from "../social-bar/Socialbar"
 
 interface LayoutProps {
   children: ReactNode
@@ -105,35 +106,9 @@ export default function ({ children, articles, t, routes }: LayoutProps) {
             </>
           }
           action={
-            <>
-              <Link
-                to="https://discord.gg/uJa3KUfFpj"
-                id="home-navigation-link-discord"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <img
-                  src="/discord.png"
-                  alt="GreenOn Software Discord channel"
-                />
-              </Link>
-
-              <Link
-                to="https://www.linkedin.com/company/greenon-software/"
-                id="home-navigation-link-linkedin"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <img
-                  src="/linkedin.png"
-                  alt="GreenOn Software LinkedIn profile"
-                />
-              </Link>
-
-              <Button id="home-navigation-join-button" onClick={ctx.open}>
-                {t.join}
-              </Button>
-            </>
+            <Button id="home-navigation-join-button" onClick={ctx.open}>
+              {t.join}
+            </Button>
           }
         />
       }
@@ -154,7 +129,7 @@ export default function ({ children, articles, t, routes }: LayoutProps) {
       }
     >
       {children}
-      <ScrollUpButton onClick={scrollTop} />
+      <SocialBar scrollToTopNode={<ScrollUpButton onClick={scrollTop} />} />
     </Layout>
   )
 }
