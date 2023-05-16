@@ -11,6 +11,11 @@ import Button from "../button/Button"
 import { useCustomGAEvent } from "../../utils/useCustomGAEvent"
 import { useEditor } from "./useEditor"
 
+const TemplateSelector = Loadable({
+  loader: () => import("./TemplateSelector").then(m => m.TemplateSelector),
+  loading: () => null,
+})
+
 const FullScreenCreator = Loadable({
   loader: () => import("./FullScreenCreator").then(m => m.FullScreenCreator),
   loading: () => null,
@@ -40,10 +45,6 @@ const CodeContainer = styled.div`
   display: flex;
   flex-flow: column;
   width: 48%;
-
-  .ui-editable-snippet {
-    overflow: unset !important;
-  }
 
   @media ${T_DOWN} {
     width: 100%;
@@ -132,14 +133,13 @@ export default function () {
             <BlogCreatorHeading
               buttons={
                 <Button className="full-mode-btn" onClick={handleOpen}>
-                  FULL MODE
+                  FULL SCREEN
                 </Button>
               }
             />
           </Heading>
           <Container>
             <CodeContainer>{Editor}</CodeContainer>
-
             <PreviewScroll>
               {Errors}
               {Preview}
@@ -150,7 +150,10 @@ export default function () {
 
       {isOpen && (
         <FullScreenCreator onClose={close}>
-          {Editor}
+          <>
+            {Editor}
+            <TemplateSelector onChange={change} />
+          </>
           <>
             {Errors}
             {Preview}

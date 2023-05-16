@@ -1,51 +1,73 @@
 ---
 name: Grouping the tests
-duration: 4
+duration: 1
 description: We will group the tests so that they become more readable and we will give them some context.
 ---
 
+<Prelude>
+  <M>
+    You know very well how grouping and categorization allows us to better find
+    ourselves in the reality around us. It is the same with tests, which we
+    group into functionalities.
+  </M>
+</Prelude>
+
 <Section>
-  <XL>Features</XL>
+  <XL>Let's group the tests</XL>
   <M>
     It's time to look at the tests from a broader perspective. In everyday life,
     we don't deal solely with teaching a colleague how to make a pizza. We can
-    also teach him other things - cutting with a knife, cooking pasta, driving a
+    teach him other things like: cutting with a knife, cooking pasta, driving a
     car. Each of these topics will have different questions and answers{" "}
-    <B>(our tests)</B>. So let's group our functionalities and write the
-    appropriate questions for them.
+    <B>(our tests)</B>.
+  </M>
+  <M>
+    So let's group our functionalities and write the appropriate questions for
+    them.
   </M>
   <Snippet>
     {`
 Feature: Our friend knows how to make a pizza.
-1. Is the pizza size between 30 cm and 34 cm? ✔️
-2. Is the cake brown? ✔️
-3. Is the cheese melted? ✔️
-4. Is the pizza warm? ✔️
-5. Isn't the pizza plate dirty? ✔️
-6. Did the pizza taste good for 90% customers? ✔️
+1. Is the pizza size between 30 cm and 34 cm?
+2. Is the cake brown?
+3. Is the cheese melted?
+4. Is the pizza warm?
+5. Isn't the pizza plate dirty?
+6. Did the pizza taste good for 90% customers?
    `}
   </Snippet>
   <Snippet>
     {`
 Feature: Our friend knows how to use knife.
-1. Is the knife sharp? ✔️
+1. Is the knife sharp?
    `}
   </Snippet>
   <Snippet>
     {`
 Feature: Our friend knows how to cook pasta.
-1. Is the water between 90 and 100 degrees? ✔️
-2. Has the pasta been cooked for 5 minutes? ✔️
+1. Is the water between 90 and 100 degrees?
+2. Has the pasta been cooked for 5 minutes?
    `}
   </Snippet>
   <Snippet>
     {`
 Feature: Our friend knows how to drive a car.
-1. Does our friend have a driver's license? ✔️
+1. Does our friend have a driver's license?
    `}
   </Snippet>
-  <M>
-    You already know what the tests are and how to group it. Now it's time for
-    some conventions and best practices before we start messing around in code.
-  </M>
+  <M>You already know what the tests are and how to group them.</M>
 </Section>
+
+<Summary>
+  <M>
+    You need to group your tests. Without that they will be hard to maintain and
+    their context will be blurry.
+  </M>
+  <M>
+    If you enjoyed it, be sure to visit us on{" "}
+    <A href="https://www.linkedin.com/company/greenon-software/" outside>
+      Linkedin
+    </A>{" "}
+    where we regularly upload content from programming.
+  </M>
+</Summary>

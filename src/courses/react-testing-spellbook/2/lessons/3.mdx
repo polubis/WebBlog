@@ -4,80 +4,87 @@ duration: 5
 description: We'll write first unit test for newly created React component.
 ---
 
-<Section>
-  <XL>Understanding tests for React component</XL>
+<Prelude>
   <M>
-    Let's create <B>Button</B> component which will be fully customizable. We'll
-    use approach called <B>types first</B> - first interfaces, implementation
-    later:{" "}
+    Let's try to test the behavior of the button component based on the passed
+    parameters.
+  </M>
+</Prelude>
+
+<Section>
+  <XL>Understanding tests for React components</XL>
+  <M>
+    Firstly, we need to create <B>Button</B> component which will be fully
+    customizable. We'll use approach called <B>types first</B> - first
+    interfaces, implementation later:{' '}
   </M>
   <Snippet
-    src="https://raw.githubusercontent.com/polubis/Snippets/main/defs.ts"
+    src='https://raw.githubusercontent.com/polubis/Snippets/main/defs.ts'
     linesCount={31}
-    description="We mixed native button properties with ours"
+    description='We mixed native button properties with ours'
   />
   <M>
     Inside <B>consts.ts</B> file we'll store constants. We want to limit options
     for better <B>type-safety</B>.
   </M>
   <Snippet
-    src="https://raw.githubusercontent.com/polubis/Snippets/main/consts.ts"
+    src='https://raw.githubusercontent.com/polubis/Snippets/main/consts.ts'
     linesCount={6}
-    description="You can choose value from 1 to 5, other are unsupported"
+    description='You can choose value from 1 to 5, other are unsupported'
   />
   <M>
     Take a look at implementation for <B>Button</B> component:
   </M>
   <Snippet
-    src="https://raw.githubusercontent.com/polubis/Snippets/main/button.tsx"
+    src='https://raw.githubusercontent.com/polubis/Snippets/main/button.tsx'
     linesCount={21}
-    description="A lot of default properties"
+    description='A lot of default properties'
   />
   <M>
     You can choose <B>shape</B>, <B>size</B> and other aspects. This is how it
     looks like in <B>storybook</B>:
   </M>
-  <Img src="https://raw.githubusercontent.com/polubis/Snippets/main/buttons.jpg" />
+  <Img src='https://raw.githubusercontent.com/polubis/Snippets/main/buttons.jpg' />
   <M>
     We need to think before creating the tests. What should be tested? Component
     takes several props and creates <B>className</B> for styling purposes. In
     addition, there are other <B>native</B> button properties injected which
-    comes from <B>ButtonProps</B> interface. So it's good to test:{" "}
+    comes from <B>ButtonProps</B> interface. So it's good to test:{' '}
   </M>
-  <List items="Class names creation,Option to pass other properties,Option to pass any children" />
+  <List items='Class names creation,Option to pass other properties,Option to pass any children' />
   <M>So let's write first test - the easiest one: </M>
   <Snippet
-    src="https://raw.githubusercontent.com/polubis/Snippets/main/button.test.tsx"
+    src='https://raw.githubusercontent.com/polubis/Snippets/main/button.test.tsx'
     linesCount={12}
-    description="Render function used to simulate rendering and HTML nodes creation"
+    description='Render function used to simulate rendering and HTML nodes creation'
   />
   <M>
-    The method <B>getByText</B> allows you to check whether the text node is
-    inside rendered content. This method is using <B>expect</B> inside. If the
-    element is not rendered - the test will not pass (a slight shortening).
+    The method <B>getByText</B> allows you to get the HTML node by text. This
+    method is using <B>expect</B> inside. If the element is not found - the test
+    will not pass (a slight shortening).
   </M>
   <M>
     In React we use <B>jest</B> and <B>react-testing-library</B> on daily basis.
     First one is responsible for faking <B>DOM</B> behavior and test execution.
   </M>
   <M>
-    The second one is simple lib that allows you to write tests from{" "}
-    <B>user perspective</B>. Instead of searching by <B>id</B> or{" "}
+    The second one is simple lib that allows you to write tests from{' '}
+    <B>user perspective</B>. Instead of searching by <B>id</B> or{' '}
     <B>className</B> we should select by text, role or something what is visible
     for user (placeholder, input value).
   </M>
   <Hint hasBg>
-    If you are interested check{" "}
-    <A href="https://jestjs.io/docs/getting-started/" outside>
+    If you are interested check{' '}
+    <A href='https://jestjs.io/docs/getting-started/' outside>
       jest
-    </A>{" "}
-    and{" "}
+    </A>{' '}
+    and{' '}
     <A
-      href="https://testing-library.com/docs/react-testing-library/intro/"
+      href='https://testing-library.com/docs/react-testing-library/intro/'
       outside
     >
       RTL
-    </A>{" "}
+    </A>{' '}
     documentation for more info.
   </Hint>
 </Section>
@@ -85,15 +92,15 @@ description: We'll write first unit test for newly created React component.
 <Section>
   <XL>Adding missing tests</XL>
   <M>Let's add tests for: </M>
-  <List items="Class names creation,Option to pass other properties" />
+  <List items='Class names creation,Option to pass other properties' />
   <Snippet
-    src="https://raw.githubusercontent.com/polubis/Snippets/main/button-more.test.tsx"
+    src='https://raw.githubusercontent.com/polubis/Snippets/main/button-more.test.tsx'
     linesCount={25}
   />
   <M>
     First test checks <B>implementation details</B>. If we change order of
     classes or we'll add new class - this test will fail. Failure in this case
-    doesn't mean bug. It means the order of classes changed. This is called{" "}
+    doesn't mean bug. It means the order of classes changed. This is called{' '}
     <B>false negative</B> and should be avoided if possible.
   </M>
   <M>
@@ -133,10 +140,10 @@ description: We'll write first unit test for newly created React component.
 
 <Example>
   <M>
-    You can find full implementation on this{" "}
+    You can find full implementation on this{' '}
     <A
       outside
-      href="https://github.com/polubis/Dream-stack-for-React-dev/tree/main/system/libs/figa-ui/src/lib/button/"
+      href='https://github.com/polubis/Dream-stack-for-React-dev/tree/main/system/libs/figa-ui/src/lib/button/'
     >
       branch
     </A>
@@ -151,10 +158,10 @@ description: We'll write first unit test for newly created React component.
     tests or practices which we'll cover in next lessons.
   </M>
   <M>
-    If you enjoyed it, be sure to visit us on{" "}
-    <A href="https://www.linkedin.com/company/greenon-software/" outside>
+    If you enjoyed it, be sure to visit us on{' '}
+    <A href='https://www.linkedin.com/company/greenon-software/' outside>
       Linkedin
-    </A>{" "}
+    </A>{' '}
     where we regularly upload content from programming.
   </M>
 </Summary>

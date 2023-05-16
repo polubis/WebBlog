@@ -7,7 +7,9 @@ import styled from "styled-components"
 import { Link as GatsbyLink } from "gatsby"
 import { GreenOnLogo } from "../GreenOnLogo"
 import Button from "../button/Button"
+import { ScrollUpButton } from "../scroll-up-button/ScrollUpButton"
 import { useJoinUsModal } from "../article/WithJoinUsModal"
+import { useScrollToHtmlElement } from "../../utils/useScrollToHtmlElement"
 
 interface LayoutProps {
   children: ReactNode
@@ -32,6 +34,7 @@ const UnstyledLink = styled(GatsbyLink)`
 
 export default function ({ children, articles, t, routes }: LayoutProps) {
   const ctx = useJoinUsModal()
+  const { ref, scrollTop } = useScrollToHtmlElement<HTMLDivElement>()
 
   const { links, homeLink, leftLinks, rightLinks } = useMemo(() => {
     const links = sort(
@@ -51,6 +54,7 @@ export default function ({ children, articles, t, routes }: LayoutProps) {
 
   return (
     <Layout
+      ref={ref}
       navigation={
         <Navigation
           logo={
@@ -150,6 +154,7 @@ export default function ({ children, articles, t, routes }: LayoutProps) {
       }
     >
       {children}
+      <ScrollUpButton onClick={scrollTop} />
     </Layout>
   )
 }

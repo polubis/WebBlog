@@ -1,7 +1,77 @@
 ---
-name: Unit tests exercises
-duration: 7
-description: We'll practice topics connected with unit testing.
+name: Understanding stubs in testing
+duration: 3
+description: We will check what stubs are used for and what they really are.
 ---
 
-<Prelude></Prelude>
+<Prelude>
+  <M>
+    A <B>stub</B> is a simple, static object that is used to provide predictable
+    responses to method calls. It is typically used to replace a{" "}
+    <B>dependency</B> that is not directly related to the functionality being
+    tested, but is required for the test to run.
+  </M>
+  <M>Wait, what? Yea, we need an example to understand this.</M>
+</Prelude>
+
+<Section>
+  <XL>Examples of stubs</XL>
+  <M>
+    Imagine the situation when you have already <B>Select</B> component
+    implemented. It takes several properties and some of them are required. You
+    want to test <B>placeholder</B> displaying feature and be able to detect
+    bugs without any in-depth checks.
+  </M>
+  <Snippet description="This is stub!">
+    {` 
+   it('allows to pass custom placeholder', () => {
+  const propsStub: SelectProps = {
+    options: [], 
+    onChange: () => {}
+  };
+  
+  // You'll test only placeholder but you need 
+  // to pass options and onChange to make TypeScript calm.
+  render(
+    <Select {...propsStub} placeholder="placeholder" />
+  );
+  
+  screen.getByText(/placeholder/);
+});
+   
+`}
+  </Snippet>
+  <M>Congrats! You've created your first stub, but why you needed that?</M>
+  <M>
+    The <B>TypeScript</B> will scream that there are missing properties:{" "}
+    <B>options array</B> and <B>onChange function</B>. You can cast it to{" "}
+    <B>as any</B>, but it's wrong solution. Why you need TypeScript if you want
+    to disable type-checking?
+  </M>
+  <M>
+    Next problem is on <B>JavaScript</B> side. What will happen when select
+    component will try to access initially of the required properites but they
+    will be <B>undefined</B>? That's right... Big bum 🔥.
+  </M>
+  <M>That's exactly why you need stubs!</M>
+</Section>
+
+<Summary>
+  <M>
+    Now you know what stubs are for. It's not a concept only related with React
+    components or React testing. This approach is universal and completely
+    independent from the technology you are working in - just like <B>SOLID</B>{" "}
+    principles.
+  </M>
+  <M>
+    You can stub <B>classes</B>, <B>objects</B> and others just to be able to
+    test one dedicated part of something bigger.
+  </M>
+  <M>
+    If you enjoyed it, be sure to visit us on{" "}
+    <A href="https://www.linkedin.com/company/greenon-software/" outside>
+      Linkedin
+    </A>{" "}
+    where we regularly upload content from programming.
+  </M>
+</Summary>

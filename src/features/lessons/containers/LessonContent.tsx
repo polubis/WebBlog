@@ -30,10 +30,12 @@ const CourseChaptersWrapper = styled.div`
   position: relative;
 
   & > * {
+    max-height: 90vh;
+    overflow-y: auto;
     position: sticky;
     top: 0;
     right: 0;
-    padding-top: 20px;
+    padding: 20px 20px 0 0;
   }
 `
 
