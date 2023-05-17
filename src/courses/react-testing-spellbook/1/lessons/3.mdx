@@ -1,17 +1,23 @@
 ---
 name: The usage of describe and it
-duration: 4
+duration: 2
 description: We will convert the test syntax to one that is close to the syntax used by the testing tools.
 ---
+
+<Prelude>
+  <M>
+    It will be difficult for a computer to understand plain text, so we need to
+    convert our grouped tests into something that a computer can understand.
+  </M>
+</Prelude>
 
 <Section>
   <XL>Converting the syntax</XL>
   <M>
-    There is very little left to write our first real tests. Let's convert one
-    of the features created earlier into something the computer can understand.
-    Typically, most testing tools use blocks <B>describe</B> and <B>it</B> to
-    describe tests. <B>Describe</B> means functionality, and <B>it</B> means a
-    specific test. We will make the following transformation:
+    Let's convert one of the features created earlier. Typically, most testing
+    tools use blocks <B>describe</B> and <B>it</B> to describe tests.{" "}
+    <B>Describe</B> means functionality, and <B>it</B> means a specific test. We
+    will make the following transformation:
   </M>
   <Snippet description="For humans">
     {`
@@ -44,7 +50,22 @@ describe("Our friend knows how to make a pizza", () => {
   <M>
     Note that we have moved from questions to assertions. The reason is simple -
     less text is produced and it is more intuitive to read. Also, if it is
-    possible to simplify an assertion to a shorter form, it is worth doing so{" "}
+    possible to simplify an assertion to a shorter form, it is worth doing{" "}
     <B>(see Pizza plate is clean)</B>.
   </M>
 </Section>
+
+<Summary>
+  <M>
+    We know how to communicate with the computer and show him how to mark our
+    tests. However, we still have some things to understand before we write
+    implementations for our tests.
+  </M>
+  <M>
+    If you enjoyed it, be sure to visit us on{" "}
+    <A href="https://www.linkedin.com/company/greenon-software/" outside>
+      Linkedin
+    </A>{" "}
+    where we regularly upload content from programming.
+  </M>
+</Summary>
