@@ -101,7 +101,7 @@ describe("Main page test", () => {
 
   it("LinkedIn logo moves to LinkedIn profile", () => {
     cy.get(
-      '.contentFooter a[href*="https://www.linkedin.com/company/greenon-software/"'
+      '.contentFooter a[href*="https://www.linkedin.com/company/greenon-software/"]'
     )
       .then($a => {
         expect($a).to.have.attr("target", "_blank")
@@ -109,6 +109,28 @@ describe("Main page test", () => {
       })
       .click()
     cy.wait(4000)
-    cy.url().should("include", "linkedin")
+    cy.url().should("contain", "linkedin")
+  })
+
+  it("Discord logo moves to Discord channel", () => {
+    cy.get('.contentFooter a[title*="GreenOn Software Discord channel"]')
+      .then($a => {
+        expect($a).to.have.attr("target", "_blank")
+        $a.attr("target", "_self")
+      })
+      .click()
+    cy.wait(4000)
+    cy.url().should("contain", "discord")
+  })
+
+  it("Facebook logo moves to Facebook group", () => {
+    cy.get('.contentFooter a[title*="GreenOn Software Facebook profile"]')
+      .then($a => {
+        expect($a).to.have.attr("target", "_blank")
+        $a.attr("target", "_self")
+      })
+      .click()
+    cy.wait(4000)
+    cy.url().should("contain", "facebook")
   })
 })
