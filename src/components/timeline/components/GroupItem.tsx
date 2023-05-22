@@ -18,6 +18,7 @@ export const GroupItem = ({
 
   return (
     <div
+      className="timeline-group-item"
       style={{
         display: "flex",
         alignItems: "center",

@@ -101,7 +101,7 @@ const StatsSection = ({
   topAuthor,
 }: StatsSectionProps) => {
   return (
-    <Container>
+    <Container className="statsSectionContainer">
       <Link to="/articles/">
         <CodeEditorTile>
           <XXL>
@@ -140,7 +140,7 @@ const StatsSection = ({
             necessary technical assistance.
           </M>
           <Link to="/blog-creator/">
-            <Button>WRITE YOUR FIRST ARTICLE</Button>
+            <Button className="write-article-button">WRITE YOUR FIRST ARTICLE</Button>
           </Link>
         </BloggerTileContent>
         <AvatarWrapper>
