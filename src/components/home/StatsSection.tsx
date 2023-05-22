@@ -101,7 +101,7 @@ const StatsSection = ({
   topAuthor,
 }: StatsSectionProps) => {
   return (
-    <Container className="statsSectionContainer">
+    <Container className="stats-section-container">
       <Link to="/articles/">
         <CodeEditorTile>
           <XXL>
@@ -126,11 +126,11 @@ const StatsSection = ({
         </CodeEditorTile>{" "}
       </Link>
 
-        <CodeEditorTile>
-          <XXL>
-            {lessonsCount} {lessonsCount === 1 ? "lesson" : "lessons"}
-          </XXL>
-        </CodeEditorTile>{" "}
+      <CodeEditorTile>
+        <XXL>
+          {lessonsCount} {lessonsCount === 1 ? "lesson" : "lessons"}
+        </XXL>
+      </CodeEditorTile>{" "}
 
       <CodeEditorTile>
         <BloggerTileContent>
