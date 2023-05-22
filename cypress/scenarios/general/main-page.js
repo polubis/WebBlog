@@ -101,7 +101,7 @@ describe("Main page test", () => {
 
   // it("LinkedIn logo moves to LinkedIn profile", () => {
   //   cy.get(
-  //     '.contentFooter a[href*="https://www.linkedin.com/company/greenon-software/"]'
+  //     '.contentFooter a[href*="https://www.linkedin.com/in/adrian-po%C5%82ubi%C5%84ski-281ab2172/"]'
   //   )
   //     .then($a => {
   //       expect($a).to.have.attr("target", "_blank")

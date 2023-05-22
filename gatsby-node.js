@@ -128,6 +128,23 @@ exports.createPages = async ({ actions, graphql }) => {
           }
         }
       }
+      materials: allMdx(
+        filter: { fileAbsolutePath: { regex: "/material.mdx/" } }
+      ) {
+        nodes {
+          frontmatter {
+            cdate
+            mdate
+            authorId
+            description
+            stack
+            title
+          }
+          body
+          slug
+          fileAbsolutePath
+        }
+      }
       lessons: allMdx(filter: { slug: { regex: "/lessons/" } }) {
         nodes {
           slug
@@ -246,7 +263,7 @@ exports.createPages = async ({ actions, graphql }) => {
     translationObject,
   })
 
-  const { articles, courses, translatedArticles, site } = data
+  const { articles, courses, translatedArticles, site, materials } = data
   const { routes } = site
 
   createPage({
@@ -289,6 +306,17 @@ exports.createPages = async ({ actions, graphql }) => {
       context: {
         ...data,
         translatedArticle,
+      },
+    })
+  })
+
+  materials.forEach(material => {
+    createPage({
+      path: material.path,
+      component: resolve(`src/features/materials/MaterialPage.tsx`),
+      context: {
+        ...data,
+        material,
       },
     })
   })
