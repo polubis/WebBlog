@@ -169,7 +169,7 @@ const Footer = ({ articles, t, renderLinks }: FooterProps) => {
         </TopSection>
         <ContentFooter className="contentFooter">
           <a
-            href="https://www.linkedin.com/company/greenon-software/"
+            href="https://www.linkedin.com/in/adrian-po%C5%82ubi%C5%84ski-281ab2172/"
             title="Linkedin GreenOn Software profile"
             target="_blank"
           >

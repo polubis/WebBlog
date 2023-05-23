@@ -5,6 +5,7 @@ import {
   Course,
   SiteMetadata,
   TranslatedArticle,
+  Material,
   TranslationObject,
 } from "../models"
 import { TimelineData } from "../components/timeline"
@@ -12,6 +13,7 @@ import { TimelineData } from "../components/timeline"
 interface AllDataResponse {
   articles: Article[]
   authors: Author[]
+  materials: Material[]
   courses: Course[]
   totalLessons: number
   timeline: TimelineData

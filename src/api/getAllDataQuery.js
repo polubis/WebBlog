@@ -3,6 +3,7 @@ const { serializeToAuthors } = require("./serializeToAuthors")
 const { getCoursesQuery } = require("./getCoursesQuery")
 const { getTranslatedArticles } = require("./getTranslatedArticles")
 const { addDays, differenceInDays, format } = require("date-fns")
+const { getMaterialsQuery } = require("./getMaterialsQuery")
 
 const getTimeline = ({ articles, courses }) => {
   const data = [
@@ -125,6 +126,7 @@ exports.getAllDataQuery = data => {
   const articles = getArticlesQuery(data)
   const authors = serializeToAuthors(data)
   const courses = getCoursesQuery(data)
+  const materials = getMaterialsQuery(data)
   const totalLessons = courses.reduce(
     (sum, course) => sum + course.lessonsCount,
     0
@@ -150,5 +152,6 @@ exports.getAllDataQuery = data => {
     site,
     translationObject,
     footerArticles,
+    materials,
   }
 }
