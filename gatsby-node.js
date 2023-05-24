@@ -299,6 +299,12 @@ exports.createPages = async ({ actions, graphql }) => {
     context: data,
   })
 
+  createPage({
+    path: "/snippets/",
+    component: resolve(`src/features/snippets/SnippetsPage.tsx`),
+    context: data,
+  })
+
   translatedArticles.forEach(translatedArticle => {
     createPage({
       path: translatedArticle.path,
