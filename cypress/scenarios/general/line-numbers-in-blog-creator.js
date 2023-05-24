@@ -1,4 +1,4 @@
-describe("Community links in the navigation tests", () => {
+describe("There are line numbers in the blog creator", () => {
   beforeEach(() => {
     cy.visit("http://localhost:8000/")
     cy.viewport(1650, 795)
