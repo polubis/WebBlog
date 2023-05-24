@@ -1,0 +1,135 @@
+---
+name: Using spies in React and Typescript
+duration: 3
+description: We will check how functions passed as callbacks can be tested in the TypeScript and React.
+---
+
+<Prelude>
+  <M>
+    I'm 100% sure that you've had a situation where you needed to pass your
+    function as a parameter to another function or React component.
+  </M>
+  <M>
+    How to test such a code? How to verify that after clicking on some UI
+    element your function was called with specific parameters and a
+    specific/finite number of times? These questions can be answered by{" "}
+    <B>spies</B>.
+  </M>
+</Prelude>
+<Section>
+  <XL>Testing TypeScript code with spies</XL>
+  <M>
+    Let's look at the <B>map</B> function written in an earlier{" "}
+    <A
+      outside
+      href="https://greenonsoftware.com/courses/react-testing-spellbook/mastering-unit-testing/unit-tests-review/"
+    >
+      lesson
+    </A>
+    :
+  </M>
+  <Snippet
+    src="https://raw.githubusercontent.com/polubis/Snippets/main/map.ts"
+    linesCount={18}
+  />
+  <M>We need to write a test that will verify:</M>
+  <List items="With what arguments the function was invoked,The number of function calls" />
+  <Snippet
+    src="https://raw.githubusercontent.com/polubis/Snippets/main/map-test-with-spy.test.ts"
+    linesCount={22}
+  />
+  <M>
+    The statement <B>jest.fn()</B> creates a <B>spy</B> object. Then, with the
+    help of the <B>mockImplementation</B> method - we define the implementation
+    of the callback passed to the maps.
+  </M>
+  <M>Then, we check one by one:</M>
+  <List items="That the number of callback calls is equal to the number of passed elements,The fact that on each call there were passed sequentially (element | index | array)" />
+</Section>
+
+<Section>
+  <XL>Testing React components with spies</XL>
+  <M>
+    The situation with testing <B>callbacks</B> passed to{" "}
+    <B>React components</B> is almost the same.
+  </M>
+  <M>
+    However, sometimes we need to take into account asynchronicity. Take a look
+    at the gif below - we will test such a component.
+  </M>
+  <Img
+    src="https://raw.githubusercontent.com/polubis/Snippets/main/circle-gif.gif"
+    description="That's our ProgressCircle component"
+  />
+  <M>We'll be able to call this component in following way: </M>
+  <Snippet>{`<ProgressCircle onEnd={() => { console.log('Counting finished!') }} ms={10000} />`}</Snippet>
+  <M>
+    After a minimum of <B>10 seconds</B> (because it depends on the load of the
+    browser) the callback called <B>onEnd</B> will be called.
+  </M>
+  <Snippet>{`
+  // We'll use async because we want to await promise.
+it('parent component can react when timer ends', async () => {
+  const onEndSpy = jest.fn();
+  // This code will render component with custom props.
+  // The callback will be called after 0.5s (500ms)
+  render(<ProgressCircle onEnd={onEndSpy} ms={500} />);
+ 
+  // This will postpone expect execution (will slightly delay).
+  await waitFor(() => {
+    expect(onEndSpy).toHaveBeenCalledTimes(1);
+  });
+});`}</Snippet>
+  <M>
+    Everything is the same as before except for one change. Namely, we used the
+    strange notation <B>await waitFor</B>.{" "}
+  </M>
+  <M>
+    Due to the fact that inside the <B>ProgressCircle</B> component, an interval
+    is running every certain period of time, there may be a situation when we
+    call <B>expect</B> before the callback <B>onEnd</B> was called. It's because
+    intervals in JavaScript are async code.
+  </M>
+  <M>
+    Therefore, using the <B>waitFor</B> call, we will wait a while (about a
+    second by default). This time is enough for <B>onEnd</B> to be called and
+    will make our test green.
+  </M>
+  <Hint hasBg>
+    You can find all tests for <B>ProgressCircle</B> under this{" "}
+    <A
+      outside
+      href="https://github.com/polubis/Dream-stack-for-React-dev/commit/41706e054c9daeb5ced94c3c6bfae7389fffa537"
+    >
+      commit
+    </A>
+  </Hint>
+  <Hint hasBg>
+    See the{" "}
+    <A
+      href="https://testing-library.com/docs/dom-testing-library/api-async/"
+      outside
+    >
+      documentation
+    </A>{" "}
+    for more informations about <B>waitFor</B>.
+  </Hint>
+</Section>
+
+<Summary>
+  <M>
+    I hope you understood how to test callbacks in different situations.It is
+    worth adding that so far it is only half-used. You will see how else you can
+    use spies in the next lessons.
+  </M>
+  <M>
+    If you enjoyed it, be sure to visit us on{" "}
+    <A
+      href="https://www.linkedin.com/in/adrian-po%C5%82ubi%C5%84ski-281ab2172/"
+      outside
+    >
+      Linkedin
+    </A>{" "}
+    where we regularly upload content from programming.
+  </M>
+</Summary>
