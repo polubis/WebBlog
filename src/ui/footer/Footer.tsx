@@ -137,7 +137,7 @@ const Footer = ({ articles, t, renderLinks }: FooterProps) => {
             <M>{t.footer.aboutUsText}</M>
             <M>
               {t.footer.aboutUsTextCommunity}{" "}
-              <LinkButton onClick={ctx.open}>
+              <LinkButton onClick={ctx.open} className="form-button">
                 {t.footer.thisFormLink}
               </LinkButton>
               .
@@ -147,7 +147,7 @@ const Footer = ({ articles, t, renderLinks }: FooterProps) => {
             <X>{t.footer.recommendedArticles}</X>
             <Articles>
               {articles.map(article => (
-                <Link key={article.title} to={article.path}>
+                <Link className="recommendedArticlesLink" key={article.title} to={article.path}>
                   <Figure>
                     <Img
                       fluid={article.thumbnail}
@@ -167,9 +167,9 @@ const Footer = ({ articles, t, renderLinks }: FooterProps) => {
             <Links>{renderLinks(Link)}</Links>
           </Section>
         </TopSection>
-        <ContentFooter>
+        <ContentFooter className="contentFooter">
           <a
-            href="https://www.linkedin.com/company/greenon-software/"
+            href="https://www.linkedin.com/in/adrian-po%C5%82ubi%C5%84ski-281ab2172/"
             title="Linkedin GreenOn Software profile"
             target="_blank"
           >
@@ -177,7 +177,7 @@ const Footer = ({ articles, t, renderLinks }: FooterProps) => {
           </a>
           <a
             className="icon-link"
-            href="https://discord.gg/PxXQayT3x3/"
+            href="https://discord.gg/PxXQayT3x3"
             title="GreenOn Software Discord channel"
             target="_blank"
           >

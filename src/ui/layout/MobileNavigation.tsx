@@ -10,8 +10,8 @@ const Expander = styled.aside<{ open: boolean }>`
   flex-flow: column;
   justify-content: flex-end;
   position: fixed;
-  right: 24px;
-  bottom: 24px;
+  right: 20px;
+  bottom: 20px;
   z-index: 107;
   transition: 0.2s transform;
   cursor: pointer;

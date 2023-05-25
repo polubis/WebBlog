@@ -578,7 +578,7 @@ const HUGE_MDX = `<Prelude>
   <M>
     Maybe there is a place for improvements. Feel free to try and remember to
     share results on our{" "}
-    <A href="https://www.linkedin.com/company/greenon-software/" outside>
+    <A href="https://www.linkedin.com/in/adrian-po%C5%82ubi%C5%84ski-281ab2172/" outside>
       Linkedin
     </A>
     .

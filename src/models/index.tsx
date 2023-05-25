@@ -7,6 +7,7 @@ export * from "./Chapter"
 export * from "./Technology"
 export * from "./Route"
 export * from "./Site"
+export * from './Material'
 export * from "./Avatar"
 export * from "./Translation"
 export * from "./Project"
