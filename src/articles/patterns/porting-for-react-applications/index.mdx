@@ -49,7 +49,7 @@ title: Porting for React applications
   <Hint hasBg>
     It is very important to not trust every influencer. Many of them create
     panic and decrease or multiply certain problems and all just for the sake of
-    hits.
+    views.
   </Hint>
 </Section>
 
@@ -64,8 +64,8 @@ title: Porting for React applications
 // --- OurPage.tsx file ---
 const query = graphql\`
     images: allFile(filter: { name: { regex: "/image/" } }) {
-      src
-      name
+        src
+        name
     }
 \`
  
@@ -112,7 +112,8 @@ const OurPage = ({ pageContext: { images } }: OurPageProps) => {
     {`
 // --- OurPageView.tsx ---
  
-// Now our all domain interfaces are inside models.ts file. We're using alias "@models" to import them.
+// Now all domain interfaces are inside models.ts file. 
+// We're using alias "@models" to import them.
 import type { Image } from "@models"
  
 interface OurPageViewProps {
@@ -141,8 +142,8 @@ import { OurPageView } from '@views'
  
 const query = graphql\`
   images: allFile(filter: { name: { regex: "/image/" } }) {
-    src
-    name
+      src
+      name
   }
 \`
  
@@ -216,7 +217,7 @@ const OurPage = (props: OurPageProps) => {
   <M>
     Secondly, we'll use it in <B>Gatsby</B>:
   </M>
-  <Snippet description="Small refactor added">
+  <Snippet>
     {`
 import type { Image } from '@models'
 import { OurPageView } from '@views'
@@ -252,7 +253,7 @@ const OurPage = ({ pageContext: { images } }: OurPageProps) => {
   <M>
     It is also worth mentioning that the implementation of this pattern is an
     extra minute of work. With a snippet in the code a few seconds, and then it
-    saves tons of money.
+    saves tons of money and time.
   </M>
 </Section>
 <Summary>
@@ -262,8 +263,7 @@ const OurPage = ({ pageContext: { images } }: OurPageProps) => {
   </M>
   <M>
     The choice is yours, and the truth is that the porting technique makes a
-    difference. Of course, everything in moderation and calculation of profits
-    and losses.
+    difference. Of course, everything is calculation of profits and losses.
   </M>
   <M>
     If you enjoyed it, be sure to visit us on{" "}
