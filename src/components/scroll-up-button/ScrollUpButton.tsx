@@ -16,7 +16,7 @@ const Container = styled.div`
 export const ScrollUpButton = ({ onClick }: ScrollUpButtonProps) => {
   return (
     <Container>
-      <IconButton onClick={onClick}>
+      <IconButton className="scroll-up-button" onClick={onClick}>
         <ArrowLeftIcon />
       </IconButton>
     </Container>
