@@ -1,0 +1,10 @@
+# Test scenario
+
+As a user I want to scroll to top by clicking dedicated button
+so that I can return to the top of the page in a fast way
+
+Scenario: Return to the top of the page by clicking dedicated button
+Given I am on the main page (or any subpage)
+When I am lower than the top of the page
+And I click on the dedicated button to scroll up
+Then it returns to the top of the page
