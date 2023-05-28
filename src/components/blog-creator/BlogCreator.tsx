@@ -10,6 +10,7 @@ import { BlogCreatorHeading } from "./BlogCreatorHeading"
 import Button from "../button/Button"
 import { useCustomGAEvent } from "../../utils/useCustomGAEvent"
 import { useEditor } from "./useEditor"
+import { useLocation, globalHistory, useNavigate } from "@reach/router";
 
 const TemplateSelector = Loadable({
   loader: () => import("./TemplateSelector").then(m => m.TemplateSelector),
@@ -96,9 +97,11 @@ const Heading = styled.header`
 export default function () {
   const { track } = useCustomGAEvent()
   const { isOpen, open, close } = useModal()
-  const [{ currentMdx, mdx, hasErrors }, { change, markAsBroken }] = useEditor()
+  const [{ currentMdx, mdx, hasErrors, isChanged }, { change, markAsBroken }] = useEditor()
   const [loading, setLoading] = useState(false)
-
+  
+  const curLocation = useLocation();
+  const navigate = useNavigate();
   const ref = useRef<NodeJS.Timeout | null>(null)
 
   const handleOpen = () => {
@@ -108,11 +111,22 @@ export default function () {
     ref.current = setTimeout(open, 1500)
   }
 
+
   useEffect(() => {
-    return () => {
+    return globalHistory.listen(({ action, location }) => {
       if (ref.current) clearTimeout(ref.current)
-    }
-  }, [])
+      if (
+       isChanged && 
+        (action === "POP" || action === 'PUSH' && !location.pathname.includes('blog-creator'))
+      ) {
+        if (!window.confirm("You have some unsaved changes, are you sure you want to leave?")) {
+          navigate(`${curLocation.pathname}`);
+        return;
+        }
+      }
+    });
+  }, [isChanged])
+
 
   const Preview = <BlogPreview mdx={currentMdx} onError={markAsBroken} />
   const Editor = <EditableSnippet value={mdx} onChange={change} />
