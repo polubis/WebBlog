@@ -3,6 +3,14 @@ import { DEFAULT_ADD_SNIPPET, DEFAULT_FRAMES, DEFAULT_STATE } from "./consts"
 import type { SnippetCreatorState, SnippetFrame } from "./defs"
 import { isAddSnippet, isEditSnippet, isPrepared } from "./guards"
 import { useInterval } from "./useInterval"
+import { useKeyPress } from "../../utils/useKeyPress"
+
+const getNextIdx = (idx: number, length: number): number => {
+  const nextIdx = idx + 1
+  const safeNextIdx = nextIdx === length ? 0 : nextIdx
+
+  return safeNextIdx
+}
 
 const useSnippetCreator = () => {
   const [_, setCounter] = useState(0)
@@ -48,13 +56,11 @@ const useSnippetCreator = () => {
       const currentIdx = frames.findIndex(
         frame => frame.id === selectedFrame.id
       )
-      const nextIdx = currentIdx + 1
-      const safeNextIdx = nextIdx === frames.length ? 0 : nextIdx
 
       update({
         key: "interacted",
         frames,
-        selectedFrame: frames[safeNextIdx],
+        selectedFrame: frames[getNextIdx(currentIdx, frames.length)],
         autoPlay,
       })
 
@@ -94,6 +100,45 @@ const useSnippetCreator = () => {
     }
   }
 
+  useKeyPress({
+    onKeyPress: e => {
+      const s = state.current
+
+      if (!isPrepared(s)) {
+        return
+      }
+
+      if (e.key === "a") {
+        move("prev")
+        return
+      }
+
+      if (e.key === "d") {
+        move("next")
+        return
+      }
+
+      if (e.key === "n") {
+        startAdd()
+        return
+      }
+
+      if (e.key === "p") {
+        autoPlay()
+        return
+      }
+
+      if (e.key === "e") {
+        startEdit(s.selectedFrame)
+        return
+      }
+
+      if (e.key === "r") {
+        remove(s.selectedFrame)
+      }
+    },
+  })
+
   const interval = useInterval({
     onTick: () => move("next"),
   })
@@ -111,6 +156,8 @@ const useSnippetCreator = () => {
   }
 
   const startAdd = (): void => {
+    interval.cancel()
+
     if (!isPrepared(state.current)) {
       return
     }
@@ -131,7 +178,7 @@ const useSnippetCreator = () => {
       ...state.current.frames,
       {
         code: code.trim(),
-        id: state.current.frames.length,
+        id: state.current.frames.length + 1,
         animation: {
           displayTime: 5000,
           type: "slide-right",
@@ -171,6 +218,8 @@ const useSnippetCreator = () => {
   }
 
   const startEdit = (frameToEdit: SnippetFrame): void => {
+    interval.cancel()
+
     if (!isPrepared(state.current)) {
       return
     }
@@ -184,14 +233,14 @@ const useSnippetCreator = () => {
   }
 
   const confirmEdit = (code: string): void => {
-    if (!isEditSnippet(state.current)) {
+    const s = state.current
+
+    if (!isEditSnippet(s)) {
       return
     }
 
-    const currentState = state.current
-
-    const frames: SnippetFrame[] = state.current.frames.map(frame =>
-      frame.id === currentState.frameToEdit.id
+    const frames: SnippetFrame[] = s.frames.map(frame =>
+      frame.id === s.frameToEdit.id
         ? {
             ...frame,
             code: code.trim(),
@@ -199,29 +248,32 @@ const useSnippetCreator = () => {
         : frame
     )
 
-    const idx = frames.findIndex(
-      frame => frame.id === currentState.frameToEdit.id
-    )
+    const idx = frames.findIndex(frame => frame.id === s.frameToEdit.id)
     const selectedFrame = frames[idx]
 
     update({
       key: "interacted",
       selectedFrame,
-      frames: state.current.frames,
+      frames,
       autoPlay: false,
     })
   }
 
-  const startDelete = (frameToDelete: SnippetFrame): void => {
+  const remove = (frameToDelete: SnippetFrame): void => {
+    interval.cancel()
+
     const s = state.current
 
-    if (!isPrepared(s)) return
+    if (!isPrepared(s) || s.frames.length <= 1) return
+
+    const frames = s.frames.filter(frame => frame.id !== frameToDelete.id)
+    const selectedFrame = frames[0]
 
     update({
-      key: "delete",
-      frameToDelete,
-      frames: s.frames.filter(frame => frame.id !== frameToDelete.id),
-      selectedFrame: s.selectedFrame,
+      key: "interacted",
+      frames,
+      selectedFrame,
+      autoPlay: false,
     })
   }
 
@@ -234,7 +286,7 @@ const useSnippetCreator = () => {
     startEdit,
     confirmEdit,
     autoPlay,
-    startDelete,
+    remove,
   }
 
   return [state.current, action] as const

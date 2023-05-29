@@ -30,14 +30,14 @@ const SnippetForm = ({
   onSubmit,
   onClose,
 }: SnippetFormProps) => {
-  const [{ mdx, currentMdx }, { change }] = useEditor(initialMdx)
+  const [{ mdx }, { change }] = useEditor(initialMdx)
 
   return (
     <Modal onClose={onClose}>
       <Container>
         <XL>{header}</XL>
         <EditableSnippet language="jsx" value={mdx} onChange={change} />
-        <Button onClick={() => onSubmit(currentMdx)}>Confirm</Button>
+        <Button onClick={() => onSubmit(mdx)}>Confirm</Button>
       </Container>
     </Modal>
   )

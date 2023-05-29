@@ -1,8 +1,7 @@
-import React, { ReactNode, useLayoutEffect } from "react"
+import React, { ReactNode } from "react"
 import styled from "styled-components"
 import { XL } from "../../ui"
 import theme from "../../utils/theme"
-import { useScrollToHtmlElement } from "../../utils/useScrollToHtmlElement"
 
 const Header = styled.header`
   display: flex;
@@ -51,9 +50,12 @@ const Header = styled.header`
         backdrop-filter: blur(5px);
         bottom: 0;
         display: none;
-        flex-flow: column;
-        justify-content: space-between;
+        justify-content: flex-end;
         padding: 16px;
+
+        & > *:not(:last-child) {
+          margin-right: 12px;
+        }
       }
 
       &:hover .panel {
@@ -63,17 +65,7 @@ const Header = styled.header`
   }
 `
 
-const SnippetCreatorHeader = ({
-  children,
-  scrollToActiveWhen,
-}: {
-  children: ReactNode
-  scrollToActiveWhen: string | number
-}) => {
-  const { scrollBottom } = useScrollToHtmlElement()
-
-  useLayoutEffect(scrollBottom, [scrollToActiveWhen])
-
+const SnippetCreatorHeader = ({ children }: { children: ReactNode }) => {
   return (
     <Header className="snippets">
       <XL className="heading">Compose your animated snippet</XL>

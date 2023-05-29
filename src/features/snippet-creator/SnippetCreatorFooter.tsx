@@ -1,22 +1,18 @@
-import React, { ReactNode } from "react"
+import React from "react"
 import styled from "styled-components"
 
-const Footer = styled.footer`
+const Container = styled.div`
   display: flex;
   align-items: center;
-  padding: 16px 0 0 0;
+  padding: 20px 0;
 
-  & > * {
-    margin-bottom: 8px;
-
-    :not(:last-child) {
-      margin-right: 12px;
-    }
+  & > *:not(:last-child) {
+    margin-right: 12px;
   }
 `
 
-const SnippetCreatorFooter = ({ children }: { children: ReactNode }) => {
-  return <Footer className="snippet-creator-footer">{children}</Footer>
+const SnippetCreatorFooter = ({ children }) => {
+  return <Container className={"visible"}>{children}</Container>
 }
 
 export { SnippetCreatorFooter }

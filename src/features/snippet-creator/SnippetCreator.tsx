@@ -1,27 +1,79 @@
-import React, { useEffect } from "react"
-import { Code, IconButton } from "../../ui"
+import React, { useEffect, useLayoutEffect } from "react"
+import {
+  ArrowLeftIcon,
+  AutoPlayIcon,
+  Code,
+  DeleteIcon,
+  EditIcon,
+  IconButton,
+  PlusIcon,
+  RightArrowIcon,
+  StopAutoPlayIcon,
+} from "../../ui"
 import { useSnippetCreator } from "./useSnippetCreator"
-import Button from "../../components/button/Button"
-import styled from "styled-components"
+import styled, { keyframes } from "styled-components"
 import { SnippetCreatorHeader } from "./SnippetCreatorHeader"
 import { SnippetCreatorFooter } from "./SnippetCreatorFooter"
 import { SnippetForm } from "./SnippetForm"
+import theme from "../../utils/theme"
+import { useScrollTo } from "./useScrollTo"
+
+const rotate = keyframes`
+    from {
+      transform: rotate(0);
+    }
+
+    to {
+      transform: rotate(360deg);
+    }
+`
 
 const Container = styled.div`
   display: flex;
   flex-flow: column;
-  position: relative;
   min-height: 100vh;
 
   pre {
     min-height: 500px;
   }
+
+  .keyboard-letter {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    font-size: 10px;
+  }
+
+  .snippet-creator-btn {
+    position: relative;
+
+    svg path {
+      fill: ${theme.black};
+    }
+  }
+
+  .auto-play-btn svg {
+    animation: ${rotate} 3.5s ease-in-out infinite;
+  }
+
+  .add-btn {
+    margin-left: auto;
+  }
 `
 
 const SnippetCreator = () => {
+  const { scroll } = useScrollTo({
+    container: ".snippets .frames",
+    node: ".frame.active",
+  })
   const [state, action] = useSnippetCreator()
 
   useEffect(action.start, [])
+  useLayoutEffect(() => {
+    if (state.key === "interacted") {
+      scroll()
+    }
+  }, [state])
 
   if (state.key === "idle") {
     return <div>Witaj na naszym kreatorze</div>
@@ -44,8 +96,54 @@ const SnippetCreator = () => {
     return (
       <Container>
         <Code
+          footer={
+            <SnippetCreatorFooter>
+              {state.frames.length > 1 && (
+                <>
+                  <IconButton
+                    className="snippet-creator-btn"
+                    title="Go to previous"
+                    onClick={() => action.move("prev")}
+                  >
+                    <ArrowLeftIcon />
+                    <span className="keyboard-letter">A</span>
+                  </IconButton>
+                  <IconButton
+                    className="snippet-creator-btn"
+                    title="Go to next"
+                    onClick={() => action.move("next")}
+                  >
+                    <RightArrowIcon />
+                    <span className="keyboard-letter">D</span>
+                  </IconButton>
+
+                  {(state.key === "interacted" || state.key === "loaded") && (
+                    <IconButton
+                      className={`snippet-creator-btn ${
+                        state.autoPlay ? "auto-play-btn" : ""
+                      }`}
+                      title="Start or stop auto play"
+                      onClick={action.autoPlay}
+                    >
+                      {state.autoPlay ? <StopAutoPlayIcon /> : <AutoPlayIcon />}
+                      <span className="keyboard-letter">P</span>
+                    </IconButton>
+                  )}
+                </>
+              )}
+
+              <IconButton
+                className="snippet-creator-btn add-btn"
+                onClick={action.startAdd}
+                title="Add snippet frame"
+              >
+                <PlusIcon />
+                <span className="keyboard-letter">N</span>
+              </IconButton>
+            </SnippetCreatorFooter>
+          }
           header={
-            <SnippetCreatorHeader scrollToActiveWhen={state.frames.length}>
+            <SnippetCreatorHeader>
               <div className="frames">
                 {state.frames.map(frame => (
                   <div
@@ -58,41 +156,32 @@ const SnippetCreator = () => {
                     <Code>{frame.code}</Code>
                     <div className="panel">
                       <IconButton
+                        title="Edit snippet frame"
                         onClick={e => {
                           e.stopPropagation()
                           action.startEdit(frame)
                         }}
                       >
-                        E
+                        <EditIcon />
+                        <span className="keyboard-letter">E</span>
                       </IconButton>
-                      <IconButton
-                        onClick={e => {
-                          e.stopPropagation()
-                          action.startDelete(frame)
-                        }}
-                      >
-                        D
-                      </IconButton>
+                      {state.frames.length > 1 && (
+                        <IconButton
+                          title="Delete snippet frame"
+                          onClick={e => {
+                            e.stopPropagation()
+                            action.remove(frame)
+                          }}
+                        >
+                          <DeleteIcon />
+                          <span className="keyboard-letter">R</span>
+                        </IconButton>
+                      )}
                     </div>
                   </div>
                 ))}
               </div>
             </SnippetCreatorHeader>
-          }
-          footer={
-            <SnippetCreatorFooter>
-              <Button onClick={() => action.move("prev")}>
-                Previous frame
-              </Button>
-              <Button onClick={() => action.move("next")}>Next frame</Button>
-              <Button onClick={action.startAdd}>Add new frame</Button>
-
-              {(state.key === "interacted" || state.key === "loaded") && (
-                <Button onClick={action.autoPlay}>
-                  {state.autoPlay ? "Disable autoplay" : "Activate autoplay"}
-                </Button>
-              )}
-            </SnippetCreatorFooter>
           }
           animated={state.key === "interacted"}
         >
