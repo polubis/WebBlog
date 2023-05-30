@@ -19,7 +19,7 @@ const SnippetCreatorPage = ({
     <SiteMeta
       siteName={site.siteName}
       siteLang={site.langs.en.html}
-      gaPage="snippet-creator/"
+      gaPage="snippet-creator"
       url="/snippet-creator/"
       robots="index,follow"
       title={`${site.siteName} animated snippet creator: Use our tool to create a beautifully animated code snippet!`}

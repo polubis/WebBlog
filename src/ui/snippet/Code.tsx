@@ -2,7 +2,7 @@ import React from "react"
 import PrismSnippet, { defaultProps } from "prism-react-renderer"
 import styled, { keyframes } from "styled-components"
 import { SNIPPET_THEME } from "./snippetTheme"
-import { CodeProps } from "./defs"
+import { CodeProps, HighlightStatus, Highlightable, Range } from "./defs"
 
 const Container = styled.div`
   max-width: 100vw;
@@ -104,11 +104,24 @@ const Pre = styled.pre`
   }
 `
 
-const Line = styled.div`
+const Line = styled.div<Highlightable>`
   display: table-row;
+
+  background: ${props => {
+    switch (props.status) {
+      case "added":
+        return "rgba(0, 255, 0, 0.1)"
+      case "deleted":
+        return "rgba(250, 36, 36, 0.2)"
+      case "changed":
+        return "rgba(255, 255, 0, 0.1)"
+      default:
+        return "transparent"
+    }
+  }};
 `
 
-const LineNo = styled.span`
+const LineNo = styled.span<Highlightable>`
   display: table-cell;
   text-align: right;
   padding-right: 1em;
@@ -118,12 +131,53 @@ const LineNo = styled.span`
   &::after {
     position: absolute;
     margin-left: 0.2em;
+
+    content: "${props => {
+      switch (props.status) {
+        case "added":
+          return "+"
+        case "deleted":
+          return "-"
+        case "changed":
+          return "•"
+        default:
+          return ""
+      }
+    }}";
   }
 `
 
 const LineContent = styled.span`
   display: table-cell;
 `
+
+const flatRange = (range: Range): number[] => {
+  const flattenedRange = range.reduce<number[]>((acc, item) => {
+    const tuple = Array.isArray(item) ? item : [item]
+
+    if (tuple.some(value => value <= 0)) {
+      throw Error("Less than 1 are not allowed")
+    }
+
+    const isRange = tuple.length === 2
+    
+    if (isRange) {
+      const [first, second] = tuple
+
+      if (first > second) {
+        throw Error("First value cannot be greater than second one")
+      }
+      
+      for (let i = first; i <= second; i++) {
+        acc.push(i)
+      }
+    }
+
+    return acc
+  }, [])
+
+  return flattenedRange
+}
 
 const Code = ({
   className = "",
@@ -132,8 +186,29 @@ const Code = ({
   footer,
   animated,
   language = "jsx",
+  added = [],
+  deleted = [],
+  changed = [],
 }: CodeProps) => {
   const animateClassName = animated ? " animated" : ""
+
+  const getHighlightStatus = (idx: number): HighlightStatus => {
+    const line = idx + 1
+
+    if (flatRange(added).includes(line)) {
+      return "added"
+    }
+
+    if (flatRange(deleted).includes(line)) {
+      return "deleted"
+    }
+
+    if (flatRange(changed).includes(line)) {
+      return "changed"
+    }
+
+    return ""
+  }
 
   return (
     <Container className={`ui-snippet${className ? " " + className : ""}`}>
@@ -148,10 +223,11 @@ const Code = ({
           <Pre className={`${className}${animateClassName}`} style={style}>
             {tokens.map((line, i) => {
               const lineProps = getLineProps({ line, key: i })
+              const status = getHighlightStatus(i)
 
               return (
-                <Line key={i} {...lineProps}>
-                  <LineNo>{i + 1}</LineNo>
+                <Line status={status} key={i} {...lineProps}>
+                  <LineNo status={status}>{i + 1}</LineNo>
                   <LineContent>
                     {line.map((token, key) => (
                       <span key={key} {...getTokenProps({ token, key })} />

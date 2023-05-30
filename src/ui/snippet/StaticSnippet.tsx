@@ -30,7 +30,14 @@ const Description = styled.div`
   padding-top: 4px;
 `
 
-const StaticSnippet = ({ children, description, src }: SnippetProps) => {
+const StaticSnippet = ({
+  children,
+  description,
+  src,
+  added,
+  deleted,
+  changed,
+}: SnippetProps) => {
   const { copy } = useClipboard()
 
   const handleCopy = (): void => {
@@ -44,6 +51,9 @@ const StaticSnippet = ({ children, description, src }: SnippetProps) => {
   return (
     <Code
       className="static-snippet"
+      added={added}
+      deleted={deleted}
+      changed={changed}
       header={
         <Header className="static-snippet-header">
           {src && (

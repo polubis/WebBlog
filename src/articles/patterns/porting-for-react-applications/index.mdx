@@ -1,0 +1,282 @@
+---
+cdate: 2023-05-26
+mdate: 2023-05-26
+authorId: polubis
+treviewerId: kwozniak
+lreviewerId: kreszko
+stack: typescript,react,gatsby,next
+tags: patterns,migrations
+description: Let's see how you can save time by using the porting technique when migrating from one technology to another.
+readTime: 5
+title: Porting for React applications
+---
+
+<Prelude>
+  <M>
+    The world of the frontend is saturated with buzzwords. To avoid problems
+    with migration into other technologies, it's worth using the <B>porting</B>{" "}
+    technique in your code. Let's check it together in this article.
+  </M>
+</Prelude>
+
+<Section>
+  <XL>Understanding problem</XL>
+  <M>
+    Let's assume that you wrote the platform and it took two years. You used{" "}
+    <B>Gatsby</B> and <B>Netlify </B> in particular. One day you see a{" "}
+    <B>YouTube</B> video that says your technology stack is dead. A thumbnail of
+    this video looks more or less like this one:{" "}
+  </M>
+  <Img
+    src="https://i.ytimg.com/vi/c2XqFcOrXs0/maxresdefault.jpg"
+    description="GIGA_CRINGE"
+  />
+  <M>
+    The video is controversial, does not give real examples and ignores many
+    aspects.{" "}
+  </M>
+  <M>
+    One day you have a flooded wall on <B>LinkedIn</B> and it turns out that
+    over time the technology will no longer be supported (or there is such a
+    risk).
+  </M>
+  <M>
+    It's not your fault, but you have to migrate to <B>Next</B> and{" "}
+    <B>Vercel</B>. The first problem arises. Your code is so strongly tied to
+    the <B>Gatsby</B> ecosystem that moving it will not be trivial and will take
+    a lot of time. How we can deal with such risks?
+  </M>
+  <Hint hasBg>
+    It is very important to not trust every influencer. Many of them create
+    panic and decrease or multiply certain problems and all just for the sake of
+    views.
+  </Hint>
+</Section>
+
+<Section>
+  <XL>Code coupled with the framework</XL>
+  <M>
+    In <B>Gatsby</B> for the files based on which the framework generates{" "}
+    <B>static pages</B>, we usually have some kind of <B>GraphQL</B> query and{" "}
+    <B>JSX</B> code.
+  </M>
+  <Snippet>{`
+// --- OurPage.tsx file ---
+const query = graphql\`
+    images: allFile(filter: { name: { regex: "/image/" } }) {
+        src
+        name
+    }
+\`
+ 
+interface Image {
+    src: string;
+    name: string;
+}
+ 
+interface OurPageProps {
+    pageContext: {
+    images: Image[]
+};
+  
+// We're using previous GraphQL query 🔝.
+// Gatsby automatically injects response as props to OurPage component.
+const OurPage = ({ pageContext: { images } }: OurPageProps) => {
+    return <div>{images.length}</div>
+}
+`}</Snippet>
+  <M>
+    It is a request like any other. What if the technology we migrate to does
+    not have <B>GraphQL</B> but <B>something else</B>? The data will have the
+    same shape, but the form of the query will be completely different... It may
+    be a <B>HTTP</B> request for example.
+  </M>
+  <M>
+    This shows how our code for generating the page has been tied to a
+    particular technology. If you would like to display the page in <B>Next</B>,
+    copying this file is not enough - major changes are needed.
+  </M>
+</Section>
+<Section>
+  <XL>Detaching from Gatsby</XL>
+  <M>
+    We have to use a pattern called a <B>facade</B>. The pattern involves wrapping
+    an implementation of another module (most often a library), in order to
+    avoid using it directly in code.
+  </M>
+  <M>
+    Thanks to this, the replacement of the library will get around without any
+    problem. Take a look at the following example:
+  </M>
+  <Snippet description="New file has been created">
+    {`
+// --- OurPageView.tsx ---
+ 
+// Now all domain interfaces are inside models.ts file. 
+// We're using alias "@models" to import them.
+import type { Image } from "@models"
+ 
+interface OurPageViewProps {
+    images: Image[]
+}
+ 
+const OurPageView = ({ images }: OurPageViewProps) => {
+    return <div>{images.length}</div>
+}
+ 
+export { OurPageView, type OurPageViewProps }
+`}
+  </Snippet>
+  <M>
+    Note the absence of any reference to <B>Gatsby</B>. There are no queries.
+    This component can be used also in <B>Next</B>, pure <B>SPA React</B> and
+    others.
+  </M>
+  <M>Now we need to apply changes to our page file.</M>
+  <Snippet description="Small refactor added">
+    {`
+// --- OurPage.tsx file ---
+ 
+import type { Image } from '@models'
+import { OurPageView } from '@views'
+ 
+const query = graphql\`
+  images: allFile(filter: { name: { regex: "/image/" } }) {
+      src
+      name
+  }
+\`
+ 
+interface OurPageProps {
+    pageContext: {
+        images: Image[]
+    };
+}
+ 
+// Now all the functionality requires
+// only the data and it will already work.
+const OurPage = ({ pageContext: { images } }: OurPageProps) => {
+    return <OurPageView images={images} />
+}
+`}
+  </Snippet>
+  <M>
+    By implementing such an approach we reduce the coupling of the business
+    sphere of the application with a particular technology.
+  </M>
+  <M>
+    It's like writing <B>SQL</B> queries manually in the controller, and later
+    when migrating to <B>MongoDB</B> - you lament that you have 300 files to
+    change, instead of just one.
+  </M>
+  <Hint hasBg>
+    You can read more about this pattern in this{" "}
+    <A
+      outside
+      href="https://greenonsoftware.com/articles/quick-wins/improving-code-that-was-not-written-by-us/"
+    >
+      article
+    </A>
+    .
+  </Hint>
+</Section>
+<Section>
+  <XL>Usage in Next and Gatsby</XL>
+  <M>
+    As I promised so I will show. See that now we have the opportunity to use
+    the same code in two differently working frameworks.
+  </M>
+  <M>
+    {" "}
+    Firstly, we'll use it in <B>Next.js</B>:
+  </M>
+  <Snippet>
+    {`
+interface OurPageProps {
+    images: Image[]
+}
+// In Next.js we're using different images load strategy. We are loading images from API.
+export const getStaticProps: GetStaticProps<OurPageProps > = async ({
+    params,
+}: ArticlePageParams) => {
+    const images = await getImages();
+ 
+    return {
+        props: {
+            images
+        }
+    };
+};
+ 
+const OurPage = (props: OurPageProps) => {
+    return (
+        <OurPageView images={images} />
+    ); 
+}; `}
+  </Snippet>
+  <M>
+    Secondly, we'll use it in <B>Gatsby</B>:
+  </M>
+  <Snippet>
+    {`
+import type { Image } from '@models'
+import { OurPageView } from '@views'
+ 
+const query = graphql\`
+    images: allFile(filter: { name: { regex: "/image/" } }) {
+        src
+        name
+    }
+\`
+ 
+interface OurPageProps {
+    pageContext: {
+        images: Image[]
+    };
+}
+ 
+const OurPage = ({ pageContext: { images } }: OurPageProps) => {
+    return <OurPageView images={images} />
+}
+`}
+  </Snippet>
+</Section>
+<Section>
+  <XL>Keep a healthy mind</XL>
+  <M>
+    You may feel the need to write facades for any library - if you've
+    encountered this for the first time, I'll tell you right away that it's
+    natural and you don't need to go to a psychologist🍷.
+  </M>
+  <M>It is worth applying this pattern in the following cases:</M>
+  <List items="When the future of technology is uncertain,When the library API is inconvenient and you want to rework it slightly,When the library you use is 100% temporary (MVP for example)" />
+  <M>
+    It is also worth mentioning that the implementation of this pattern is an
+    extra minute of work. With a snippet in the code a few seconds, and then it
+    saves tons of money and time.
+  </M>
+</Section>
+<Summary>
+  <M>
+    Would you rather migrate from <B>Gatsby </B> to <B>Next</B> in an hour? Or
+    would you prefer a few days?
+  </M>
+  <M>
+    The choice is yours, and the truth is that the porting technique makes a
+    difference. Of course, everything is a calculation of profits and losses.
+  </M>
+  <M>
+    If you enjoyed it, be sure to visit us on{" "}
+    <A
+      href="https://www.linkedin.com/in/adrian-po%C5%82ubi%C5%84ski-281ab2172/"
+      outside
+    >
+      Linkedin
+    </A>{" "}
+    where we regularly upload content from programming.
+  </M>
+  <Hint hasBg>
+    Someone wise once said - "design patterns are there to know when not to use
+    them".
+  </Hint>
+</Summary>

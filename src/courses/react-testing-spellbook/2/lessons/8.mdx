@@ -67,19 +67,10 @@ description: We will check how functions passed as callbacks can be tested in th
     After a minimum of <B>10 seconds</B> (because it depends on the load of the
     browser) the callback called <B>onEnd</B> will be called.
   </M>
-  <Snippet>{`
-  // We'll use async because we want to await promise.
-it('parent component can react when timer ends', async () => {
-  const onEndSpy = jest.fn();
-  // This code will render component with custom props.
-  // The callback will be called after 0.5s (500ms)
-  render(<ProgressCircle onEnd={onEndSpy} ms={500} />);
- 
-  // This will postpone expect execution (will slightly delay).
-  await waitFor(() => {
-    expect(onEndSpy).toHaveBeenCalledTimes(1);
-  });
-});`}</Snippet>
+  <Snippet
+    linesCount={12}
+    src="https://raw.githubusercontent.com/polubis/Snippets/main/progress-circle-spy.test.tsx"
+  />
   <M>
     Everything is the same as before except for one change. Namely, we used the
     strange notation <B>await waitFor</B>.{" "}
@@ -112,13 +103,12 @@ it('parent component can react when timer ends', async () => {
     >
       documentation
     </A>{" "}
-    for more informations about <B>waitFor</B>.
+    for more information about <B>waitFor</B>.
   </Hint>
 </Section>
-
 <Summary>
   <M>
-    I hope you understood how to test callbacks in different situations.It is
+    I hope you understood how to test callbacks in different situations. It is
     worth adding that so far it is only half-used. You will see how else you can
     use spies in the next lessons.
   </M>

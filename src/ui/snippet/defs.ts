@@ -22,6 +22,9 @@ interface CodeProps {
   footer?: ReactNode
   animated?: boolean
   language?: Language
+  added?: Range
+  deleted?: Range
+  changed?: Range
 }
 
 interface DynamicSnippetProps extends Omit<SnippetProps, "linesCount" | "src"> {
