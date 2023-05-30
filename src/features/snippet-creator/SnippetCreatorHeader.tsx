@@ -28,6 +28,7 @@ const Header = styled.header`
       align-items: center;
       justify-content: center;
       height: 160px;
+      max-width: 300px;
       overflow: hidden;
       flex-shrink: 0;
       border: 2px solid transparent;
@@ -38,6 +39,16 @@ const Header = styled.header`
 
       &:hover:not(.active) {
         border-color: transparent;
+      }
+
+      pre {
+        transform: scale(0.4);
+      }
+
+      .frame-badge {
+        position: absolute;
+        top: 20px;
+        right: 20px;
       }
 
       .panel {

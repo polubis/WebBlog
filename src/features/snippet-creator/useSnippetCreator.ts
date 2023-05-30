@@ -1,6 +1,10 @@
 import { useRef, useState } from "react"
 import { DEFAULT_ADD_SNIPPET, DEFAULT_FRAMES, DEFAULT_STATE } from "./consts"
-import type { SnippetCreatorState, SnippetFrame } from "./defs"
+import type {
+  SnippetCreatorAction,
+  SnippetCreatorState,
+  SnippetFrame,
+} from "./defs"
 import { isAddSnippet, isEditSnippet, isPrepared } from "./guards"
 import { useInterval } from "./useInterval"
 import { useKeyPress } from "../../utils/useKeyPress"
@@ -277,7 +281,7 @@ const useSnippetCreator = () => {
     })
   }
 
-  const action = {
+  const action: SnippetCreatorAction = {
     start,
     move,
     startAdd,

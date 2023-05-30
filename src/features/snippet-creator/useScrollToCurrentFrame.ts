@@ -28,12 +28,12 @@ const useScrollToCurrentFrame = <T extends HTMLElement = HTMLElement>(
       if (frameIdx === -1) return
 
       reference.scrollTo({
-        left: frameIdx * 350,
+        left: frameIdx * 300,
         behavior: "smooth",
       })
     }
 
-    const sub = action$.pipe(debounceTime(500)).subscribe(handleScroll)
+    const sub = action$.pipe(debounceTime(1000)).subscribe(handleScroll)
 
     return () => {
       sub.unsubscribe()

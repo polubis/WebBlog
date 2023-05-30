@@ -71,6 +71,18 @@ type SnippetCreatorState =
   | EditState
   | FailState
 
+interface SnippetCreatorAction {
+  start: () => void
+  move: (type: "next" | "prev" | "direct", id?: number) => void
+  startAdd: () => void
+  confirmAdd: (code: string) => void
+  closeForm: () => void
+  startEdit: (frameToEdit: SnippetFrame) => void
+  confirmEdit: (code: string) => void
+  autoPlay: () => void
+  remove: (frameToDelete: SnippetFrame) => void
+}
+
 export type {
   SnippetCreatorState,
   SnippetFrame,
@@ -82,4 +94,5 @@ export type {
   InteractedState,
   DeleteState,
   FailState,
+  SnippetCreatorAction,
 }
