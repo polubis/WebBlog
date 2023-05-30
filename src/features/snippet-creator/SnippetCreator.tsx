@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect } from "react"
+import React, { useEffect } from "react"
 import {
   ArrowLeftIcon,
   AutoPlayIcon,
@@ -16,7 +16,7 @@ import { SnippetCreatorHeader } from "./SnippetCreatorHeader"
 import { SnippetCreatorFooter } from "./SnippetCreatorFooter"
 import { SnippetForm } from "./SnippetForm"
 import theme from "../../utils/theme"
-import { useScrollTo } from "./useScrollTo"
+import { useScrollToCurrentFrame } from "./useScrollToCurrentFrame"
 
 const rotate = keyframes`
     from {
@@ -62,18 +62,11 @@ const Container = styled.div`
 `
 
 const SnippetCreator = () => {
-  const { scroll } = useScrollTo({
-    container: ".snippets .frames",
-    node: ".frame.active",
-  })
   const [state, action] = useSnippetCreator()
 
+  const { ref } = useScrollToCurrentFrame<HTMLDivElement>(state)
+
   useEffect(action.start, [])
-  useLayoutEffect(() => {
-    if (state.key === "interacted") {
-      scroll()
-    }
-  }, [state])
 
   if (state.key === "idle") {
     return <div>Witaj na naszym kreatorze</div>
@@ -144,7 +137,7 @@ const SnippetCreator = () => {
           }
           header={
             <SnippetCreatorHeader>
-              <div className="frames">
+              <div className="frames" ref={ref}>
                 {state.frames.map(frame => (
                   <div
                     key={frame.id}
