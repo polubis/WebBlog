@@ -38,7 +38,7 @@ const INIT_MDX = `<Prelude>
     separately.
   </M>
   <Img
-    src="https://raw.githubusercontent.com/polubis/WebBlog/Chromatic-and-storybook/src/articles/testing/chromatic-and-storybook/storybook.gif"
+    src="/assets/chromatic-and-storybook/storybook.gif"
     description="Storybook presented"
   />
   <Hint hasBg>
@@ -143,7 +143,7 @@ const INIT_MDX = `<Prelude>
     for you in UI. The code change is displayed as well.
   </M>
   <Img
-    src="https://raw.githubusercontent.com/polubis/WebBlog/Chromatic-and-storybook/src/articles/testing/chromatic-and-storybook/chromatic.gif"
+    src="/assets/chromatic-and-storybook/chromatic.gif"
     description="Life is great now"
   />
   <M>
@@ -197,7 +197,7 @@ const INIT_MDX = `<Prelude>
     it will always compare with the previously accepted version of the build :).
   </M>
   <Img
-    src="https://raw.githubusercontent.com/polubis/WebBlog/Chromatic-and-storybook/src/articles/testing/chromatic-and-storybook/changes-found.jpg"
+    src="/assets/chromatic-and-storybook/changes-found.jpg"
     description="Changes found"
   />
   <Hint hasBg>
@@ -224,7 +224,7 @@ const INIT_MDX = `<Prelude>
     achieve that by <B>secrets</B>. I prefer this approach.
   </M>
   <Img
-    src="https://raw.githubusercontent.com/polubis/WebBlog/Chromatic-and-storybook/src/articles/testing/chromatic-and-storybook/secrets.jpg"
+    src="/assets/chromatic-and-storybook/secrets.jpg"
     description="Changes found"
   />
   <M>
@@ -270,7 +270,7 @@ const INIT_MDX = `<Prelude>
   </M>
   <List items="Create a new branch from main, Change component implementation which indicates UI, Raises PR to main, Check is build created" />
   <Img
-    src="https://raw.githubusercontent.com/polubis/WebBlog/Chromatic-and-storybook/src/articles/testing/chromatic-and-storybook/final.gif"
+    src="/assets/chromatic-and-storybook/final.gif"
     description="Automation"
   />
   <Hint hasBg>

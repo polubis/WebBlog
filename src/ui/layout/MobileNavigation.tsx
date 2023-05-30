@@ -4,6 +4,7 @@ import { GreenOnLogo } from "../../components/GreenOnLogo"
 import theme from "../../utils/theme"
 import { usePortal } from "../../utils/usePortal"
 import { L_UP } from "../../utils/viewport"
+import { useScroll } from "../../utils/useScroll"
 
 const Expander = styled.aside<{ open: boolean }>`
   display: flex;
@@ -61,16 +62,21 @@ interface MobileNavigation {
 const MobileNavigation = ({ links }: MobileNavigation) => {
   const [isOpen, setIsOpen] = useState(false)
   const { render } = usePortal()
+  const { direction } = useScroll({ strategy: "throttle" })
 
   const toggleOpen = useCallback(() => {
     setIsOpen(prevOpen => !prevOpen)
   }, [])
 
+  const isVisible = direction === "up" || direction === "idle"
+
   return render(
     <>
-      <Expander open={isOpen}>
-        <GreenOnLogo onClick={toggleOpen} />
-      </Expander>
+      {isVisible && (
+        <Expander open={isOpen}>
+          <GreenOnLogo onClick={toggleOpen} />
+        </Expander>
+      )}
       {isOpen && <Navigation>{links}</Navigation>}
     </>
   )

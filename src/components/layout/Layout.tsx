@@ -17,6 +17,7 @@ interface LayoutProps {
   articles: Article[]
   t: Translated
   routes: Routes
+  disableSocialBar?: boolean
 }
 
 const activeStyle = { color: theme.primary }
@@ -33,7 +34,13 @@ const UnstyledLink = styled(GatsbyLink)`
   text-decoration: none;
 `
 
-export default function ({ children, articles, t, routes }: LayoutProps) {
+export default function ({
+  children,
+  articles,
+  t,
+  routes,
+  disableSocialBar,
+}: LayoutProps) {
   const ctx = useJoinUsModal()
   const { ref, scrollTop } = useScrollToHtmlElement<HTMLDivElement>()
 
@@ -129,7 +136,9 @@ export default function ({ children, articles, t, routes }: LayoutProps) {
       }
     >
       {children}
-      <SocialBar scrollToTopNode={<ScrollUpButton onClick={scrollTop} />} />
+      {disableSocialBar || (
+        <SocialBar scrollToTopNode={<ScrollUpButton onClick={scrollTop} />} />
+      )}
     </Layout>
   )
 }

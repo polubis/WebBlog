@@ -1,3 +1,7 @@
+import { ReactNode } from "react"
+
+import { type Language } from "prism-react-renderer"
+
 type Pair = [number, number]
 type Range = (number | Pair)[]
 
@@ -9,6 +13,18 @@ interface SnippetProps {
   src?: string
   description?: React.ReactNode
   linesCount?: number
+}
+
+interface CodeProps {
+  className?: string
+  header?: ReactNode
+  children: string
+  footer?: ReactNode
+  animated?: boolean
+  language?: Language
+  added?: Range
+  deleted?: Range
+  changed?: Range
 }
 
 interface DynamicSnippetProps extends Omit<SnippetProps, "linesCount" | "src"> {
@@ -28,4 +44,5 @@ export type {
   HighlightStatus,
   Highlightable,
   DynamicSnippetProps,
+  CodeProps,
 }
