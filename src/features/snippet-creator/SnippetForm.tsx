@@ -3,17 +3,28 @@ import styled from "styled-components"
 import { EditableSnippet, Modal, XL } from "../../ui"
 import Button from "../../components/button/Button"
 import { useEditor } from "../../components/blog-creator/useEditor"
+import { SM_DOWN } from "../../utils/viewport"
 
 const Container = styled.div`
   display: flex;
   flex-flow: column;
+  width: 400px;
+  height: 86vh;
+
+  @media ${SM_DOWN} {
+    width: 100%;
+  }
 
   ${XL} {
     margin-bottom: 40px;
   }
 
+  pre {
+    margin-bottom: 40px !important;
+  }
+
   button {
-    margin-top: 40px;
+    margin-top: auto;
   }
 `
 

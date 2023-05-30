@@ -1,8 +1,8 @@
 import React, { useEffect } from "react"
 
 import { useSnippetCreator } from "./useSnippetCreator"
-import { SnippetForm } from "./SnippetForm"
 import Loadable from "react-loadable"
+import { IdleView } from "./IdleView"
 
 const SnippetCreatorMainView = Loadable({
   loader: () =>
@@ -13,17 +13,10 @@ const SnippetCreatorMainView = Loadable({
 const SnippetCreator = () => {
   const [state, action] = useSnippetCreator()
 
-  useEffect(() => {
-    SnippetCreatorMainView.preload()
-    action.start()
-  }, [])
+  useEffect(SnippetCreatorMainView.preload, [])
 
-  if (state.key === "idle") {
-    return <div>Witaj na naszym kreatorze</div>
-  }
-
-  if (state.key === "loading") {
-    return <div>Preparing...</div>
+  if (state.key === "idle" || state.key === "loading") {
+    return <IdleView state={state} action={action} />
   }
 
   if (state.key === "failed") {
@@ -36,32 +29,10 @@ const SnippetCreator = () => {
     state.key === "add-snippet" ||
     state.key === "edit"
   ) {
-    return (
-      <>
-        <SnippetCreatorMainView state={state} action={action} />
-
-        {state.key === "add-snippet" && (
-          <SnippetForm
-            header="Add new frame"
-            onClose={action.closeForm}
-            onSubmit={action.confirmAdd}
-            initialMdx={state.code}
-          />
-        )}
-
-        {state.key === "edit" && (
-          <SnippetForm
-            header="You are editing frame"
-            onClose={action.closeForm}
-            onSubmit={action.confirmEdit}
-            initialMdx={state.code}
-          />
-        )}
-      </>
-    )
+    return <SnippetCreatorMainView state={state} action={action} />
   }
 
-  return <div>Error...</div>
+  return <div>Something other happened... Please inform us on Linkedin</div>
 }
 
 export { SnippetCreator }

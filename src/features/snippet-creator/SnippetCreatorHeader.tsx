@@ -79,7 +79,7 @@ const Header = styled.header`
 const SnippetCreatorHeader = ({ children }: { children: ReactNode }) => {
   return (
     <Header className="snippets">
-      <XL className="heading">Compose your animated snippet</XL>
+      <XL className="heading">Add or remove snippet frames</XL>
       {children}
     </Header>
   )

@@ -4,7 +4,8 @@ const first = `
 // Let's implement map function :)
 
 // The function will be able to do stuff like this: 
-const result = map([1, 2, 3], (item, idx) => \`I'm string now -> \${item}, idx: \${idx}\`);
+const result = map([1, 2, 3], 
+  (item, idx) => \`I'm string now -> \${item}, idx: \${idx}\`);
 `
 
 const second = `
