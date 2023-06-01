@@ -18,6 +18,7 @@ interface LayoutProps {
   t: Translated
   routes: Routes
   disableSocialBar?: boolean
+  disableFooter?: boolean;
 }
 
 const activeStyle = { color: theme.primary }
@@ -40,6 +41,7 @@ export default function ({
   t,
   routes,
   disableSocialBar,
+  disableFooter
 }: LayoutProps) {
   const ctx = useJoinUsModal()
   const { ref, scrollTop } = useScrollToHtmlElement<HTMLDivElement>()
@@ -120,6 +122,7 @@ export default function ({
         />
       }
       footer={
+        disableFooter ||
         <Footer
           articles={articles}
           t={t}
