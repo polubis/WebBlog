@@ -101,6 +101,11 @@ const XXL = styled.h1<Props>`
   font-size: 32px;
   font-weight: ${(props: Props) => getWeight(props, Weight.BOLD)};
   ${style}
+
+  display: flex;
+  span:first-of-type {
+    margin-right: 10px;
+  }  
 `
 
 export const XL = styled.h2<Props>`
