@@ -91,6 +91,8 @@ interface StatsSectionProps {
   coursesCount: number
   lessonsCount: number
   topAuthor: Author
+  discordMembers: number,
+  githubContributors: number
 }
 
 const StatsSection = ({
@@ -99,13 +101,16 @@ const StatsSection = ({
   coursesCount,
   lessonsCount,
   topAuthor,
+  discordMembers,
+  githubContributors
 }: StatsSectionProps) => {
   return (
     <Container className="statsSectionContainer">
       <Link to="/articles/">
         <CodeEditorTile>
           <XXL>
-            {articlesCount} {articlesCount === 1 ? "article" : "articles"}
+            <span>{articlesCount}</span>
+            <span>{articlesCount === 1 ? "article" : "articles"}</span>
           </XXL>
         </CodeEditorTile>
       </Link>
@@ -113,7 +118,8 @@ const StatsSection = ({
       <Link to="/authors/">
         <CodeEditorTile>
           <XXL>
-            {authorsCount} {authorsCount === 1 ? "author" : "authors"}
+            <span>{authorsCount} </span>
+            <span>{authorsCount === 1 ? "author" : "authors"}</span>
           </XXL>
         </CodeEditorTile>{" "}
       </Link>
@@ -121,16 +127,36 @@ const StatsSection = ({
       <Link to="/courses/">
         <CodeEditorTile>
           <XXL>
-            {coursesCount} {coursesCount === 1 ? "course" : "courses"}
+            <span>{coursesCount} </span>
+            <span>{coursesCount === 1 ? "course" : "courses"}</span>
           </XXL>
         </CodeEditorTile>{" "}
       </Link>
 
         <CodeEditorTile>
           <XXL>
-            {lessonsCount} {lessonsCount === 1 ? "lesson" : "lessons"}
+            <span>{lessonsCount} </span>
+            <span>{lessonsCount === 1 ? "lesson" : "lessons"}</span>
           </XXL>
         </CodeEditorTile>{" "}
+
+      <a href="https://discord.gg/PxXQayT3x3" title="GreenOn Software Discord channel" target="_blank" rel="noopener noreferrer">
+        <CodeEditorTile>
+          <XXL>
+            <span>{discordMembers} </span>
+            <span>discord members</span>
+          </XXL>
+        </CodeEditorTile>{" "}
+      </a>     
+
+      <a href="https://github.com/polubis/WebBlog" title="GreenOn Software GitHub Repository" target="_blank" rel="noopener noreferrer">
+        <CodeEditorTile>
+          <XXL>
+            <span>{githubContributors}</span>
+            <span>github contributors</span>
+          </XXL>
+        </CodeEditorTile>{" "}
+      </a>           
 
       <CodeEditorTile>
         <BloggerTileContent>
