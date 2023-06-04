@@ -34,7 +34,7 @@ const ReadTimeStats = styled.div`
   z-index: 103;
 `
 
-const ReadProgress = styled.div`
+export const ReadProgress = styled.div`
   position: fixed;
   top: 0;
   left: 0;

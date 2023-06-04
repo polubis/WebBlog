@@ -1,7 +1,7 @@
-import React, { ReactNode } from "react"
+import React from "react"
 
 import Editor from "react-simple-code-editor"
-import Highlight, { defaultProps } from "prism-react-renderer"
+import Highlight, { Language, defaultProps } from "prism-react-renderer"
 import { SNIPPET_THEME } from "./snippetTheme"
 import styled from "styled-components"
 
@@ -21,7 +21,7 @@ const EditorWrapper = styled.div`
       outline: none;
       padding-left: 44px !important;
     }
-    
+
     .editor-line-number {
       position: absolute;
       left: 0px;
@@ -34,43 +34,46 @@ const EditorWrapper = styled.div`
   }
 `
 
-const highlight = (code: string): ReactNode => (
-  <Highlight
-    {...defaultProps}
-    theme={SNIPPET_THEME}
-    code={code}
-    language="markup"
-  >
-    {({ tokens, getLineProps, getTokenProps }) => (
-      <>
-        {tokens.map((line, i) => (
-          <div key={i} className="editor-line-wrapper">
-            <span className="editor-line-number">{i + 1}</span>
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          </div>
-        ))}
-      </>
-    )}
-  </Highlight>
-)
-
 interface EditableSnippetProps {
   value: string
+  language?: Language
   onChange: (value: string) => void
 }
 
-const EditableSnippet = ({ value, onChange }: EditableSnippetProps) => {
+const EditableSnippet = ({
+  language = "markup",
+  value,
+  onChange,
+}: EditableSnippetProps) => {
   return (
     <EditorWrapper>
       <Editor
         className="ui-editable-snippet"
         value={value}
         onValueChange={onChange}
-        highlight={highlight}
+        highlight={code => (
+          <Highlight
+            {...defaultProps}
+            theme={SNIPPET_THEME}
+            code={code}
+            language={language}
+          >
+            {({ tokens, getLineProps, getTokenProps }) => (
+              <>
+                {tokens.map((line, i) => (
+                  <div key={i} className="editor-line-wrapper">
+                    <span className="editor-line-number">{i + 1}</span>
+                    <div {...getLineProps({ line, key: i })}>
+                      {line.map((token, key) => (
+                        <span {...getTokenProps({ token, key })} />
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </>
+            )}
+          </Highlight>
+        )}
         padding={10}
         style={styles.root}
       />

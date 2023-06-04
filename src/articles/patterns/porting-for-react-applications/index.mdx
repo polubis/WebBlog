@@ -14,7 +14,7 @@ title: Porting for React applications
 <Prelude>
   <M>
     The world of the frontend is saturated with buzzwords. To avoid problems
-    with migration into other technologies, it's worth to use <B>porting</B>{" "}
+    with migration into other technologies, it's worth using the <B>porting</B>{" "}
     technique in your code. Let's check it together in this article.
   </M>
 </Prelude>
@@ -24,7 +24,7 @@ title: Porting for React applications
   <M>
     Let's assume that you wrote the platform and it took two years. You used{" "}
     <B>Gatsby</B> and <B>Netlify </B> in particular. One day you see a{" "}
-    <B>YouTube</B> video that says your technology stack is dead. Thumbnail of
+    <B>YouTube</B> video that says your technology stack is dead. A thumbnail of
     this video looks more or less like this one:{" "}
   </M>
   <Img
@@ -86,7 +86,7 @@ const OurPage = ({ pageContext: { images } }: OurPageProps) => {
 }
 `}</Snippet>
   <M>
-    It is an request like any other. What if the technology we migrate to does
+    It is a request like any other. What if the technology we migrate to does
     not have <B>GraphQL</B> but <B>something else</B>? The data will have the
     same shape, but the form of the query will be completely different... It may
     be a <B>HTTP</B> request for example.
@@ -100,7 +100,7 @@ const OurPage = ({ pageContext: { images } }: OurPageProps) => {
 <Section>
   <XL>Detaching from Gatsby</XL>
   <M>
-    We have to use a pattern called <B>facade</B>. The pattern involves wrapping
+    We have to use a pattern called a <B>facade</B>. The pattern involves wrapping
     an implementation of another module (most often a library), in order to
     avoid using it directly in code.
   </M>
@@ -132,7 +132,7 @@ export { OurPageView, type OurPageViewProps }
     This component can be used also in <B>Next</B>, pure <B>SPA React</B> and
     others.
   </M>
-  <M>Now we need to apply changes in our page file.</M>
+  <M>Now we need to apply changes to our page file.</M>
   <Snippet description="Small refactor added">
     {`
 // --- OurPage.tsx file ---
@@ -263,7 +263,7 @@ const OurPage = ({ pageContext: { images } }: OurPageProps) => {
   </M>
   <M>
     The choice is yours, and the truth is that the porting technique makes a
-    difference. Of course, everything is calculation of profits and losses.
+    difference. Of course, everything is a calculation of profits and losses.
   </M>
   <M>
     If you enjoyed it, be sure to visit us on{" "}

@@ -2,6 +2,7 @@ import React, { ReactNode, useState, useEffect } from "react"
 import styled, { keyframes } from "styled-components"
 import theme from "../../utils/theme"
 import { usePortal } from "../../utils/usePortal"
+import { useKeyPress } from "../../utils/useKeyPress"
 
 export interface ModalProps {
   children: ReactNode
@@ -58,6 +59,15 @@ const Content = styled.div<{ isOpen: boolean }>`
 `
 
 export const Modal = ({ children, onClose }: ModalProps) => {
+  useKeyPress({
+    onKeyPress: (e) => {
+      const actions = {
+        Escape: onClose,
+      }
+
+      actions[e.key]?.()
+    }
+  })
   const { render } = usePortal()
   const [isOpen, setIsOpen] = useState(false)
 
