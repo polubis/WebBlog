@@ -158,14 +158,12 @@ const flatRange = (range: Range): number[] => {
     }
 
     const isRange = tuple.length === 2
-
     if (isRange) {
       const [first, second] = tuple
 
       if (first > second) {
         throw Error("First value cannot be greater than second one")
       }
-
       for (let i = first; i <= second; i++) {
         acc.push(i)
       }
