@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import styled from "styled-components"
 
 import theme from "../../utils/theme"
@@ -6,6 +6,7 @@ import { L_UP, T_UP, M_UP } from "../../utils/viewport"
 import Tile from "./Tile"
 import { Article } from "../../models/Article"
 import Button from "../button/Button"
+import { FavouriteArticles } from "./FavouriteArticles"
 
 const Grid = styled.div`
   display: grid;
@@ -73,24 +74,25 @@ const Grid = styled.div`
   }
 `
 
-const Title = styled.div`
-  font-size: 56px;
-  font-weight: bold;
-  color: #ffff;
-  margin-left: auto;
-`
-
 interface Props {
   articles: Article[]
 }
 
 export default function ({ articles }: Props): React.ReactElement {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true)
+  }
+
   return (
     <>
-      <Title>Articles list</Title>
-
-      <Button style={{ margin: "20px 0 50px auto" }}>My saved articles</Button>
-
+      <Button style={{ margin: "0px 0px 50px 0px" }} onClick={handleOpenModal}>
+        My favourite articles
+      </Button>
+      {isModalOpen && (
+        <FavouriteArticles onClose={() => setIsModalOpen(false)} />
+      )}
       <Grid>
         {articles.map(article => (
           <Tile key={article.slug} article={article} />

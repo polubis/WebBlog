@@ -207,7 +207,6 @@ export default function ({
               items={[
                 { label: "Home", path: "/" },
                 { label: "Articles", path: "/articles/" },
-                { label: "My saved articles", path: "/articles/myarticles" },
                 { label: article.title, path: article.path },
               ]}
             />

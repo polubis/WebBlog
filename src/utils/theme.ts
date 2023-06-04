@@ -8,7 +8,7 @@ export default {
   green: "#34e634",
   yellow: "#fdff78",
   error: "#dd4d4d",
-  backdrop: "rgba(0,0,0,.24)",
+  backdrop: "rgba(0,0,0,.54)",
   bg2: "#2D2D2D",
   placeholderText: "#9d9d9d",
   grayA: "#c7c7c7",

@@ -20,6 +20,7 @@ const Tile = styled.div`
   display: flex;
   flex-flow: column;
   box-sizing: border-box;
+  margin-bottom: 100px;
 
   & > a {
     margin: 0 auto 0 0;
