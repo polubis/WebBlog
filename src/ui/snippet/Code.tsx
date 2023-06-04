@@ -76,11 +76,9 @@ const Container = styled.div`
 const animateFragments = keyframes`
   from {
     opacity: 0;
-    padding-left: 8px;
   }
   to {
     opacity: 1;
-    padding-left: 0;
   }
 `
 
@@ -92,7 +90,7 @@ const Pre = styled.pre`
   &.animated {
     & .token-line {
       * {
-        animation: ${animateFragments} 0.4s ease-in-out 0s forwards;
+        animation: ${animateFragments} 1s ease-in-out 0s forwards;
         opacity: 0;
       }
     }
@@ -133,17 +131,17 @@ const LineNo = styled.span<Highlightable>`
     margin-left: 0.2em;
 
     content: "${props => {
-      switch (props.status) {
-        case "added":
-          return "+"
-        case "deleted":
-          return "-"
-        case "changed":
-          return "•"
-        default:
-          return ""
-      }
-    }}";
+    switch (props.status) {
+      case "added":
+        return "+"
+      case "deleted":
+        return "-"
+      case "changed":
+        return "•"
+      default:
+        return ""
+    }
+  }}";
   }
 `
 
@@ -160,14 +158,12 @@ const flatRange = (range: Range): number[] => {
     }
 
     const isRange = tuple.length === 2
-    
     if (isRange) {
       const [first, second] = tuple
 
       if (first > second) {
         throw Error("First value cannot be greater than second one")
       }
-      
       for (let i = first; i <= second; i++) {
         acc.push(i)
       }

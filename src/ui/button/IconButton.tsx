@@ -17,6 +17,7 @@ export interface IconButtonProps {
 const base = css`
   display: flex;
   align-items: center;
+  position: relative;
   justify-content: center;
   cursor: pointer;
   background: transparent;

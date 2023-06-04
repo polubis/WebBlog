@@ -1,13 +1,12 @@
 import { useRef, useState } from "react"
 import { DEFAULT_ADD_SNIPPET, DEFAULT_FRAMES, DEFAULT_STATE } from "./consts"
-import type {
-  SnippetCreatorAction,
-  SnippetCreatorState,
-  SnippetFrame,
-} from "./defs"
+import type { SnippetCreatorAction, SnippetCreatorState } from "./defs"
 import { isAddSnippet, isEditSnippet, isPrepared } from "./guards"
 import { useInterval } from "./useInterval"
 import { useKeyPress } from "../../utils/useKeyPress"
+import { SnippetFrame } from "../../models"
+import { useGetSnippet } from "../../shared/useGetSnippet"
+import { useQueryParams } from "../../utils/useQueryParams"
 
 const getNextIdx = (idx: number, length: number): number => {
   const nextIdx = idx + 1
@@ -19,88 +18,188 @@ const getNextIdx = (idx: number, length: number): number => {
 const useSnippetCreator = () => {
   const [_, setCounter] = useState(0)
   const state = useRef(DEFAULT_STATE)
+  const { call } = useGetSnippet()
+  const params = useQueryParams()
 
   const update = (newState: SnippetCreatorState): void => {
     state.current = newState
     setCounter(prev => prev + 1)
   }
 
+  const prefetchSnippet = (id: string) => {
+    call({
+      id,
+      onStart: () => update({ key: "loading" }),
+      onOk: snippet => {
+        setTimeout(() => {
+          const frames = snippet.frames.map<SnippetFrame>((frame, idx) => ({
+            ...frame,
+            id: idx,
+          }))
+
+          update({
+            key: "loaded",
+            frames,
+            selectedFrame: frames[0],
+            autoPlay: false,
+          })
+        }, 1000)
+      },
+      onFail: () => update({ key: "failed" }),
+    })
+  }
+
   const start = (): void => {
-    update({ key: "loading" })
+    const id = params.get("id")
 
-    setTimeout((): void => {
-      const frames = DEFAULT_FRAMES.map<SnippetFrame>((code, idx) => ({
-        code,
-        id: idx,
-        animation: {
-          displayTime: 5000,
-          type: "slide-right",
-        },
-      }))
+    if (id === null) {
+      update({ key: "loading" })
 
-      const [firstFrame] = frames
+      setTimeout((): void => {
+        const frames = DEFAULT_FRAMES.map<SnippetFrame>((code, idx) => ({
+          code,
+          id: idx,
+          animation: {
+            displayTime: 5000,
+            type: "slideRight",
+          },
+        }))
 
-      update({
-        key: "loaded",
-        frames,
-        selectedFrame: firstFrame,
-        autoPlay: false,
-      })
-    }, 1000)
+        const [firstFrame] = frames
+
+        update({
+          key: "loaded",
+          frames,
+          selectedFrame: firstFrame,
+          autoPlay: false,
+        })
+      }, 1000)
+
+      return
+    }
+
+    prefetchSnippet(id)
   }
 
   const move = (type: "next" | "prev" | "direct", id?: number): void => {
+    if (isPrepared(state.current) || state.current.key === "full-screen") {
+      const { selectedFrame, frames, autoPlay } = state.current
+
+      if (type === "next") {
+        const currentIdx = frames.findIndex(
+          frame => frame.id === selectedFrame.id
+        )
+
+        update({
+          key:
+            state.current.key === "full-screen" ? "full-screen" : "interacted",
+          frames,
+          selectedFrame: frames[getNextIdx(currentIdx, frames.length)],
+          autoPlay,
+        })
+
+        return
+      }
+
+      if (type === "prev") {
+        const currentIdx = frames.findIndex(
+          frame => frame.id === selectedFrame.id
+        )
+        const prevIdx = currentIdx - 1
+        const safePrevIdx = prevIdx === -1 ? frames.length - 1 : prevIdx
+
+        update({
+          key: "interacted",
+          frames,
+          selectedFrame: frames[safePrevIdx],
+          autoPlay,
+        })
+
+        return
+      }
+
+      if (type === "direct") {
+        const currentIdx = frames.findIndex(frame => frame.id === id)
+
+        if (currentIdx === -1) return
+
+        update({
+          key: "interacted",
+          frames,
+          selectedFrame: frames[currentIdx],
+          autoPlay,
+        })
+
+        return
+      }
+    }
+  }
+
+  const interval = useInterval({
+    onTick: () => move("next"),
+  })
+
+  const fullScreenOpening = () => {
     if (!isPrepared(state.current)) {
       return
     }
 
-    const { selectedFrame, frames, autoPlay } = state.current
+    const { frames } = state.current
 
-    if (type === "next") {
-      const currentIdx = frames.findIndex(
-        frame => frame.id === selectedFrame.id
-      )
+    update({
+      key: "full-screen-opening",
+      frames,
+      autoPlay: false,
+      selectedFrame: frames[0],
+    })
+  }
 
-      update({
-        key: "interacted",
-        frames,
-        selectedFrame: frames[getNextIdx(currentIdx, frames.length)],
-        autoPlay,
-      })
+  const fullScreen = () => {
+    const s = state.current
 
+    if (s.key !== "full-screen-opening") {
       return
     }
 
-    if (type === "prev") {
-      const currentIdx = frames.findIndex(
-        frame => frame.id === selectedFrame.id
-      )
-      const prevIdx = currentIdx - 1
-      const safePrevIdx = prevIdx === -1 ? frames.length - 1 : prevIdx
+    const { frames } = s
+
+    update({
+      key: "full-screen",
+      frames,
+      autoPlay: true,
+      selectedFrame: frames[0],
+    })
+
+    interval.start()
+  }
+
+  const closeFullScreen = () => {
+    const s = state.current
+
+    if (s.key === "full-screen" || s.key === "submit") {
+      interval.cancel()
 
       update({
         key: "interacted",
-        frames,
-        selectedFrame: frames[safePrevIdx],
-        autoPlay,
+        frames: s.frames,
+        selectedFrame: s.frames[0],
+        autoPlay: false,
       })
-
-      return
     }
+  }
 
-    if (type === "direct") {
-      const currentIdx = frames.findIndex(frame => frame.id === id)
+  const startSubmit = () => {
+    const s = state.current
 
-      if (currentIdx === -1) return
+    if (s.key === "full-screen") {
+      interval.cancel()
 
       update({
-        key: "interacted",
-        frames,
-        selectedFrame: frames[currentIdx],
-        autoPlay,
+        key: "submit",
+        frames: s.frames,
+        selectedFrame: s.frames[0],
+        autoPlay: false,
       })
-
-      return
     }
   }
 
@@ -109,42 +208,27 @@ const useSnippetCreator = () => {
       const s = state.current
 
       if (!isPrepared(s)) {
+        const actions = {
+          Escape: () => closeFullScreen(),
+          s: () => startSubmit(),
+        }
+
+        actions[e.key]?.()
         return
       }
 
-      if (e.key === "a") {
-        move("prev")
-        return
+      const actions = {
+        a: () => move("prev"),
+        d: () => move("next"),
+        n: () => startAdd(),
+        p: () => autoPlay(),
+        e: () => startEdit(s.selectedFrame),
+        r: () => remove(s.selectedFrame),
+        f: () => fullScreenOpening(),
       }
 
-      if (e.key === "d") {
-        move("next")
-        return
-      }
-
-      if (e.key === "n") {
-        startAdd()
-        return
-      }
-
-      if (e.key === "p") {
-        autoPlay()
-        return
-      }
-
-      if (e.key === "e") {
-        startEdit(s.selectedFrame)
-        return
-      }
-
-      if (e.key === "r") {
-        remove(s.selectedFrame)
-      }
+      actions[e.key.toLowerCase()]?.()
     },
-  })
-
-  const interval = useInterval({
-    onTick: () => move("next"),
   })
 
   const closeForm = (): void => {
@@ -185,7 +269,7 @@ const useSnippetCreator = () => {
         id: state.current.frames.length + 1,
         animation: {
           displayTime: 5000,
-          type: "slide-right",
+          type: "slideRight",
         },
       },
     ]
@@ -291,6 +375,10 @@ const useSnippetCreator = () => {
     confirmEdit,
     autoPlay,
     remove,
+    fullScreenOpening,
+    fullScreen,
+    closeFullScreen,
+    startSubmit,
   }
 
   return [state.current, action] as const

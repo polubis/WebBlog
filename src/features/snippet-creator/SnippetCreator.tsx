@@ -3,6 +3,7 @@ import React, { useEffect } from "react"
 import { useSnippetCreator } from "./useSnippetCreator"
 import Loadable from "react-loadable"
 import { IdleView } from "./IdleView"
+import { SnippetCreatorPreviewView } from "./SnippetCreatorPreviewView"
 
 const SnippetCreatorMainView = Loadable({
   loader: () =>
@@ -13,7 +14,9 @@ const SnippetCreatorMainView = Loadable({
 const SnippetCreator = () => {
   const [state, action] = useSnippetCreator()
 
-  useEffect(SnippetCreatorMainView.preload, [])
+  useEffect(() => {
+    SnippetCreatorMainView.preload()
+  }, [])
 
   if (state.key === "idle" || state.key === "loading") {
     return <IdleView state={state} action={action} />
@@ -27,12 +30,17 @@ const SnippetCreator = () => {
     state.key === "loaded" ||
     state.key === "interacted" ||
     state.key === "add-snippet" ||
-    state.key === "edit"
+    state.key === "edit" ||
+    state.key === 'full-screen-opening'
   ) {
     return <SnippetCreatorMainView state={state} action={action} />
   }
 
-  return <div>Something other happened... Please inform us on Linkedin</div>
+  if (state.key === "full-screen" || state.key === 'submit') {
+    return <SnippetCreatorPreviewView state={state} action={action} />
+  }
+
+  throw Error('Something went wrong :/')
 }
 
 export { SnippetCreator }

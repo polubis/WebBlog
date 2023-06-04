@@ -1,16 +1,11 @@
 import React, { ReactNode } from "react"
 import styled from "styled-components"
-import { XL } from "../../ui"
 import theme from "../../utils/theme"
 
 const Header = styled.header`
   display: flex;
   flex-flow: column;
   padding-bottom: 16px;
-
-  .heading {
-    margin-bottom: 16px;
-  }
 
   .frames {
     display: flex;
@@ -79,7 +74,6 @@ const Header = styled.header`
 const SnippetCreatorHeader = ({ children }: { children: ReactNode }) => {
   return (
     <Header className="snippets">
-      <XL className="heading">Add or remove snippet frames</XL>
       {children}
     </Header>
   )
