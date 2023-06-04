@@ -22,7 +22,7 @@ export const Alert = ({ message }: AlertProps) => {
   const { render } = usePortal()
 
   return render(
-    <Container>
+    <Container className="alert">
       <Badge color={theme.bg} background={theme.secondary}>
         {message}
       </Badge>

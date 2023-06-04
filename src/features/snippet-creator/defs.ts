@@ -1,3 +1,5 @@
+import { SnippetFrame } from "../../models"
+
 type Obj = Record<string, unknown> | undefined
 
 type State<K extends string, S extends Obj = undefined> = S extends undefined
@@ -7,15 +9,6 @@ type State<K extends string, S extends Obj = undefined> = S extends undefined
   : {
       key: K
     } & Obj
-
-interface SnippetFrame {
-  id: number
-  code: string
-  animation: {
-    displayTime: number
-    type: "slide-right" | "opacity" | "slide-left"
-  }
-}
 
 type IdleState = State<"idle">
 type LoadingState = State<"loading">
@@ -49,16 +42,29 @@ interface EditState {
   frames: SnippetFrame[]
 }
 
-interface DeleteState {
-  key: "delete"
-  frameToDelete: SnippetFrame
-  selectedFrame: SnippetFrame
+interface FullScreenState {
+  key: "full-screen"
   frames: SnippetFrame[]
+  autoPlay: boolean
+  selectedFrame: SnippetFrame
+}
+
+interface FullScreenOpeningState {
+  key: "full-screen-opening"
+  frames: SnippetFrame[]
+  autoPlay: boolean
+  selectedFrame: SnippetFrame
+}
+
+interface SubmitState {
+  key: "submit"
+  frames: SnippetFrame[]
+  autoPlay: boolean
+  selectedFrame: SnippetFrame
 }
 
 interface FailState {
   key: "failed"
-  reason: "unknown"
 }
 
 type SnippetCreatorState =
@@ -67,8 +73,10 @@ type SnippetCreatorState =
   | LoadedState
   | InteractedState
   | AddState
-  | DeleteState
   | EditState
+  | SubmitState
+  | FullScreenState
+  | FullScreenOpeningState
   | FailState
 
 interface SnippetCreatorAction {
@@ -81,18 +89,23 @@ interface SnippetCreatorAction {
   confirmEdit: (code: string) => void
   autoPlay: () => void
   remove: (frameToDelete: SnippetFrame) => void
+  fullScreen: () => void
+  fullScreenOpening: () => void
+  closeFullScreen: () => void
+  startSubmit: () => void
 }
 
 export type {
   SnippetCreatorState,
-  SnippetFrame,
   IdleState,
   LoadingState,
   LoadedState,
   AddState,
   EditState,
+  SubmitState,
+  FullScreenOpeningState,
   InteractedState,
-  DeleteState,
   FailState,
+  FullScreenState,
   SnippetCreatorAction,
 }

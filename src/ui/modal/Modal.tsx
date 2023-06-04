@@ -2,6 +2,7 @@ import React, { ReactNode, useState } from "react"
 import styled from "styled-components"
 import theme from "../../utils/theme"
 import { usePortal } from "../../utils/usePortal"
+import { useKeyPress } from "../../utils/useKeyPress"
 
 export interface ModalProps {
   children: ReactNode
@@ -35,6 +36,15 @@ const Content = styled.div`
 `
 
 export const Modal = ({ children, onClose }: ModalProps) => {
+  useKeyPress({
+    onKeyPress: (e) => {
+      const actions = {
+        Escape: onClose,
+      }
+
+      actions[e.key]?.()
+    }
+  })
   const { render } = usePortal()
 
   return render(

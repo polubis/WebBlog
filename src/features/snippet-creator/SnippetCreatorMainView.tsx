@@ -1,15 +1,5 @@
 import React from "react"
-import {
-  ArrowLeftIcon,
-  AutoPlayIcon,
-  Code,
-  DeleteIcon,
-  EditIcon,
-  IconButton,
-  PlusIcon,
-  RightArrowIcon,
-  StopAutoPlayIcon,
-} from "../../ui"
+import { Code, Percentage, StopAutoPlayIcon } from "../../ui"
 import styled, { keyframes } from "styled-components"
 import { SnippetCreatorHeader } from "./SnippetCreatorHeader"
 import { SnippetCreatorFooter } from "./SnippetCreatorFooter"
@@ -19,6 +9,7 @@ import { useScrollToCurrentFrame } from "./useScrollToCurrentFrame"
 import {
   AddState,
   EditState,
+  FullScreenOpeningState,
   InteractedState,
   LoadedState,
   SnippetCreatorAction,
@@ -46,13 +37,6 @@ const Container = styled.div`
     }
   }
 
-  .keyboard-letter {
-    position: absolute;
-    bottom: 2px;
-    right: 2px;
-    font-size: 10px;
-  }
-
   .snippet-creator-btn {
     position: relative;
 
@@ -71,137 +55,155 @@ const Container = styled.div`
 `
 
 interface SnippetCreatorMainViewProps {
-  state: LoadedState | InteractedState | AddState | EditState
+  state:
+    | LoadedState
+    | InteractedState
+    | AddState
+    | EditState
+    | FullScreenOpeningState
   action: SnippetCreatorAction
 }
+
+import { useEffect } from "react"
+import { FramesProgress } from "./FramesProgress"
+import { FullScreenAnimation } from "../../components/full-screen-animation"
+import { useScrollToTop } from "../../utils/useScrollToTop"
+import {
+  AddFrameButton,
+  AutoPlayButton,
+  DeleteFrameButton,
+  EditButton,
+  NextButton,
+  OpenFullScreenButton,
+  PreviousButton,
+} from "../../components/snippet-creator/Buttons"
 
 const SnippetCreatorMainView = ({
   state,
   action,
 }: SnippetCreatorMainViewProps) => {
+  useScrollToTop()
+
   const { ref } = useScrollToCurrentFrame<HTMLDivElement>(state)
 
+  useEffect(() => {
+    if (state.key === "full-screen-opening") {
+      const timeout = setTimeout(action.fullScreen, 1500)
+
+      return () => {
+        clearTimeout(timeout)
+      }
+    }
+  }, [state])
+
   return (
-    <Container>
-      <Code
-        className="snippet-creator-main-view-code"
-        footer={
-          <SnippetCreatorFooter>
-            {state.frames.length > 1 && (
-              <>
-                <IconButton
-                  className="snippet-creator-btn"
-                  title="Go to previous"
-                  onClick={() => action.move("prev")}
-                >
-                  <ArrowLeftIcon />
-                  <span className="keyboard-letter">A</span>
-                </IconButton>
-                <IconButton
-                  className="snippet-creator-btn"
-                  title="Go to next"
-                  onClick={() => action.move("next")}
-                >
-                  <RightArrowIcon />
-                  <span className="keyboard-letter">D</span>
-                </IconButton>
+    <>
+      {(state.key === "interacted" || state.key === "loaded") &&
+        state.autoPlay && (
+          <FramesProgress
+            frameId={state.selectedFrame.id}
+            frames={state.frames}
+          />
+        )}
 
-                {(state.key === "interacted" || state.key === "loaded") && (
-                  <IconButton
-                    className={`snippet-creator-btn ${
-                      state.autoPlay ? "auto-play-btn" : ""
+      {state.key === "full-screen-opening" && (
+        <FullScreenAnimation>
+          <Container>
+            <Percentage />
+          </Container>
+        </FullScreenAnimation>
+      )}
+
+      <Container>
+        <Code
+          className="snippet-creator-main-view-code"
+          footer={
+            <SnippetCreatorFooter>
+              {state.frames.length > 1 && (
+                <>
+                  <PreviousButton onClick={() => action.move("prev")} />
+                  <NextButton onClick={() => action.move("next")} />
+                  {(state.key === "interacted" || state.key === "loaded") && (
+                    <AutoPlayButton
+                      className={state.autoPlay ? "auto-play-btn" : ""}
+                      Icon={state.autoPlay ? StopAutoPlayIcon : undefined}
+                      onClick={action.autoPlay}
+                    />
+                  )}
+                </>
+              )}
+
+              <AddFrameButton onClick={action.startAdd} />
+
+              {state.frames.length > 1 && (
+                <OpenFullScreenButton onClick={action.fullScreenOpening} />
+              )}
+            </SnippetCreatorFooter>
+          }
+          header={
+            <SnippetCreatorHeader>
+              <div className="frames" ref={ref}>
+                {state.frames.map((frame, idx) => (
+                  <div
+                    key={frame.id}
+                    className={`frame ${
+                      frame.id === state.selectedFrame.id ? "active" : ""
                     }`}
-                    title="Start or stop auto play"
-                    onClick={action.autoPlay}
+                    onClick={() => action.move("direct", frame.id)}
                   >
-                    {state.autoPlay ? <StopAutoPlayIcon /> : <AutoPlayIcon />}
-                    <span className="keyboard-letter">P</span>
-                  </IconButton>
-                )}
-              </>
-            )}
-
-            <IconButton
-              className="snippet-creator-btn add-btn"
-              onClick={action.startAdd}
-              title="Add snippet frame"
-            >
-              <PlusIcon />
-              <span className="keyboard-letter">N</span>
-            </IconButton>
-          </SnippetCreatorFooter>
-        }
-        header={
-          <SnippetCreatorHeader>
-            <div className="frames" ref={ref}>
-              {state.frames.map((frame, idx) => (
-                <div
-                  key={frame.id}
-                  className={`frame ${
-                    frame.id === state.selectedFrame.id ? "active" : ""
-                  }`}
-                  onClick={() => action.move("direct", frame.id)}
-                >
-                  <Code>{frame.code}</Code>
-                  <Badge
-                    className="frame-badge"
-                    background={theme.primary}
-                    color={theme.bg}
-                  >
-                    {idx + 1}
-                  </Badge>
-                  <div className="panel">
-                    <IconButton
-                      title="Edit snippet frame"
-                      onClick={e => {
-                        e.stopPropagation()
-                        action.startEdit(frame)
-                      }}
+                    <Code>{frame.code}</Code>
+                    <Badge
+                      className="frame-badge"
+                      background={theme.primary}
+                      color={theme.bg}
                     >
-                      <EditIcon />
-                      <span className="keyboard-letter">E</span>
-                    </IconButton>
-                    {state.frames.length > 1 && (
-                      <IconButton
-                        title="Delete snippet frame"
+                      {idx + 1}
+                    </Badge>
+                    <div className="panel">
+                      <EditButton
                         onClick={e => {
                           e.stopPropagation()
-                          action.remove(frame)
+                          action.startEdit(frame)
                         }}
-                      >
-                        <DeleteIcon />
-                        <span className="keyboard-letter">R</span>
-                      </IconButton>
-                    )}
+                      />
+                      {state.frames.length > 1 && (
+                        <DeleteFrameButton
+                          onClick={e => {
+                            e.stopPropagation()
+                            action.remove(frame)
+                          }}
+                        />
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          </SnippetCreatorHeader>
-        }
-        animated={state.key === "interacted"}
-      >
-        {state.selectedFrame.code}
-      </Code>
+                ))}
+              </div>
+            </SnippetCreatorHeader>
+          }
+          animated={state.key === "interacted"}
+        >
+          {state.selectedFrame.code}
+        </Code>
 
-      {state.key === "add-snippet" && (
-        <SnippetForm
-          header="Add new frame"
-          onClose={action.closeForm}
-          onSubmit={action.confirmAdd}
-          initialMdx={state.code}
-        />
-      )}
+        {state.key === "add-snippet" && (
+          <SnippetForm
+            header="Add new frame"
+            onClose={action.closeForm}
+            onSubmit={action.confirmAdd}
+            initialMdx={state.code}
+          />
+        )}
 
-      {state.key === "edit" && (
-        <SnippetForm
-          header="You are editing frame"
-          onClose={action.closeForm}
-          onSubmit={action.confirmEdit}
-          initialMdx={state.code}
-        />
-      )}
-    </Container>
+        {state.key === "edit" && (
+          <SnippetForm
+            header="You are editing frame"
+            onClose={action.closeForm}
+            onSubmit={action.confirmEdit}
+            initialMdx={state.code}
+          />
+        )}
+      </Container>
+    </>
   )
 }
 
