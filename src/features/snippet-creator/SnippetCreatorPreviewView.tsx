@@ -5,7 +5,11 @@ import { FullScreenState, SnippetCreatorAction, SubmitState } from "./defs"
 import styled from "styled-components"
 import { FramesProgress } from "./FramesProgress"
 import { CreateSnippetForm } from "./CreateSnippetForm"
-import { CloseFullScreenButton, SubmitFramesButton } from "../../components/snippet-creator/Buttons"
+import {
+  CloseFullScreenButton,
+  SubmitFramesButton,
+} from "../../components/snippet-creator/Buttons"
+import { preserveCode } from "./utils"
 
 interface SnippetCreatorPreviewViewProps {
   state: FullScreenState | SubmitState
@@ -18,6 +22,10 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-items: center;
+
+  .ui-snippet {
+    min-width: 800px;
+  }
 `
 
 const Toolbox = styled.div`
@@ -57,12 +65,17 @@ const SnippetCreatorPreviewView = ({
               <SubmitFramesButton onClick={action.startSubmit} />
             </Toolbox>
 
-            <Code animated>{state.selectedFrame.code}</Code>
+            <Code animated>
+              {preserveCode(state.selectedFrame.code, state.frames)}
+            </Code>
           </>
         )}
-        {state.key === "submit" &&
-          <CreateSnippetForm frames={state.frames} onBack={action.closeFullScreen} />
-        }
+        {state.key === "submit" && (
+          <CreateSnippetForm
+            frames={state.frames}
+            onBack={action.closeFullScreen}
+          />
+        )}
       </Container>
     </FullScreenAnimation>
   )

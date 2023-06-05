@@ -29,13 +29,7 @@ const rotate = keyframes`
 const Container = styled.div`
   display: flex;
   flex-flow: column;
-  min-height: 100vh;
-
-  .snippet-creator-main-view-code {
-    & > pre {
-      min-height: 500px;
-    }
-  }
+  padding: 20px;
 
   .snippet-creator-btn {
     position: relative;
@@ -77,6 +71,7 @@ import {
   OpenFullScreenButton,
   PreviousButton,
 } from "../../components/snippet-creator/Buttons"
+import { preserveCode } from "./utils"
 
 const SnippetCreatorMainView = ({
   state,
@@ -116,7 +111,6 @@ const SnippetCreatorMainView = ({
 
       <Container>
         <Code
-          className="snippet-creator-main-view-code"
           footer={
             <SnippetCreatorFooter>
               {state.frames.length > 1 && (
@@ -151,7 +145,7 @@ const SnippetCreatorMainView = ({
                     }`}
                     onClick={() => action.move("direct", frame.id)}
                   >
-                    <Code>{frame.code}</Code>
+                    <Code>{preserveCode(frame.code, state.frames)}</Code>
                     <Badge
                       className="frame-badge"
                       background={theme.primary}
@@ -182,7 +176,7 @@ const SnippetCreatorMainView = ({
           }
           animated={state.key === "interacted"}
         >
-          {state.selectedFrame.code}
+          {preserveCode(state.selectedFrame.code, state.frames)}
         </Code>
 
         {state.key === "add-snippet" && (

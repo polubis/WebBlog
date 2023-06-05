@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, ReactElement } from "react"
 
 import { useSnippetCreator } from "./useSnippetCreator"
 import Loadable from "react-loadable"
@@ -11,7 +11,11 @@ const SnippetCreatorMainView = Loadable({
   loading: () => null,
 })
 
-const SnippetCreator = () => {
+interface SnippetCreatorProps {
+  layout: (children: ReactElement) => ReactElement
+}
+
+const SnippetCreator = ({ layout }: SnippetCreatorProps) => {
   const [state, action] = useSnippetCreator()
 
   useEffect(() => {
@@ -19,7 +23,7 @@ const SnippetCreator = () => {
   }, [])
 
   if (state.key === "idle" || state.key === "loading") {
-    return <IdleView state={state} action={action} />
+    return layout(<IdleView state={state} action={action} />)
   }
 
   if (state.key === "failed") {
@@ -31,16 +35,16 @@ const SnippetCreator = () => {
     state.key === "interacted" ||
     state.key === "add-snippet" ||
     state.key === "edit" ||
-    state.key === 'full-screen-opening'
+    state.key === "full-screen-opening"
   ) {
     return <SnippetCreatorMainView state={state} action={action} />
   }
 
-  if (state.key === "full-screen" || state.key === 'submit') {
+  if (state.key === "full-screen" || state.key === "submit") {
     return <SnippetCreatorPreviewView state={state} action={action} />
   }
 
-  throw Error('Something went wrong :/')
+  throw Error("Something went wrong :/")
 }
 
 export { SnippetCreator }
