@@ -110,5 +110,16 @@
     "githubURL": "https://github.com/Goteii",
     "linkedinURL": "https://www.linkedin.com/in/dawid-dowgia%C5%82%C5%82o-49a4741a9/",
     "projects": []
+  },
+  {
+    "id": "bstepien",
+    "name": "bstepien",
+    "firstName": "Bartłomiej",
+    "lastName": "Stępień",
+    "role": "Frontend Developer",
+    "bio": "My favorite technologies that I am constantly learning and improving in are React and TypeScript. I love creating modern user interfaces and developing features that bring value to users. In addition to coding, I actively spend my free time on the field or at the gym, taking care of my health and fitness. I value activity and challenges both in the world of programming and in everyday life.",
+    "githubURL": "https://github.com/Bartlomiejste",
+    "linkedinURL": "https://www.linkedin.com/in/stepien-bartlomiej/",
+    "projects": []
   }
 ]
