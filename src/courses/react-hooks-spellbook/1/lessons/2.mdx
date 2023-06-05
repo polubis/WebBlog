@@ -1,0 +1,146 @@
+---
+name: We'll change the screens with useStepper hook
+duration: 3
+description: How to write multi-step forms, change screens or handle simple routing - check out the hook useStepper.
+---
+
+<Prelude>
+  <M>Let's say you have a <B>simple screen with steps</B>. It can look more or less like the one in the gif below:
+</M>
+
+<Img
+  description="An example of usage in an application"
+  src="https://raw.githubusercontent.com/polubis/Build-useForm-hook-in-React/8524e26360f0ee5764cd024df0dfdf3f3fc0015e/src/snippets/Example.gif"
+/>
+
+<M>
+  We'll write a <B>useStepper hook</B> that will have the basic functionality to
+  change the step and will protect us from potential bugs.
+</M>
+
+<M>
+  In this hook we'll encapsulate common logic for changing steps, so later we
+  don't have to repeat ourselves and we'll make it <B>type-safety</B>.
+</M>
+
+<M>
+  <B>We want to avoid:</B>
+</M>
+
+<List items="Using wrong key, Passing invalid props to component, Moving beyond the range of steps, Displaying the wrong step, Making a mistake in navigation logic" />
+<Hint hasBg>If you interested about how it was created you can check <A outside href="/articles/react/build-use-stepper-hook-in-react/">this article</A>.</Hint>
+</Prelude>
+
+<Section>
+  <XL>The usage of useStepper</XL>
+  <M>
+    For a start, look at how we will use our hook. Pay attention to the hints
+    that appear thanks to the TypeScript.
+  </M>
+  <Img
+    description="See how it looks in the IDE"
+    src="Type safety and protection from passing not allowed props"
+    src="https://raw.githubusercontent.com/polubis/Snippets/main/useStepperDemo.gif"
+  />
+  <Snippet description="These functions blocks the possibility of passing bad parameters - they're type-guards!">{`import { useStepper } from './use-stepper';
+ 
+interface EmailStepProps {
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
+}
+ 
+const EmailStep = ({ onChange }: EmailStepProps) => (
+  <div>
+    Type your email: <input onChange={onChange} />
+  </div>
+);
+ 
+// Every step must have different key.
+const steps = [
+  { key: 'email', Component: EmailStep },
+  {
+    key: 'confirm',
+    Component: ({ onClick }: { onClick: () => void }) => (
+      <div>
+        <button onClick={onClick}>Confirm</button>
+      </div>
+    ),
+  },
+  {
+    key: 'error',
+    Component: ({ onClick }: { onClick: () => void }) => (
+      <button onClick={onClick}>Retry</button>
+    ),
+  },
+  { key: 'exception', Component: () => null },
+] as const;
+ 
+// This will give us type-safety.
+type Steps = typeof steps;
+type Union = Steps[number];
+ 
+const RegisterForm = () => {
+  const [Step, { is, next, previous, set }] = useStepper<Union, Steps>(
+    'email',
+    steps
+  );
+ 
+  // Checks the equality of keys and renders the component.
+  if (is(Step, 'email')) return <Step.Component onChange={previous} />;
+ 
+  if (is(Step, 'error'))
+    return <Step.Component onClick={() => set('confirm')} />;
+ 
+  if (is(Step, 'confirm')) return <Step.Component onClick={next} />;
+ 
+  if (is(Step, 'exception')) return <Step.Component />;
+ 
+  // If this code will execute it means - we did something wrong - it
+  // shouldn't happen!
+  throw Error(
+    'You did something wrong - there may be additional unsupported step!'
+  );
+};`}</Snippet>
+</Section>
+
+<Section>
+  <XL>The implementation of useStepper</XL>
+  <Snippet description="Types for useStepper" src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/main/system/libs/figa-hooks/src/lib/use-stepper/defs.ts" linesCount={47} />
+  <Snippet description="Implementation of useStepper" src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/main/system/libs/figa-hooks/src/lib/use-stepper/use-stepper.tsx" linesCount={75} />
+  <Snippet description="Tests for useStepper" src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/main/system/libs/figa-hooks/src/lib/use-stepper/use-stepper.test.tsx" linesCount={106} />
+  <Snippet description="Re-exports" src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/main/system/libs/figa-hooks/src/lib/use-stepper/index.ts" linesCount={2} />
+</Section>
+
+<Example>
+  <M>
+    At{" "}
+    <A
+      href="https://github.com/polubis/Dream-stack-for-React-dev/tree/main/system/libs/figa-hooks/src/lib/use-stepper"
+      outside
+    >
+      this link
+    </A>{" "}
+    you have the end result. Types, tests, implementation and re-exports.
+  </M>
+</Example>
+
+<Summary>
+  <M>
+    Now you know how to handle the steps on the user interface in an interesting
+    way. The created solution protects against many basic mistakes that can be
+    made when implementing such functionality.
+  </M>
+  <M>
+    <M>
+      It is worth noting that the logic itself is simple - the complexity is
+      introduced by TypeScript (as always). So it is up to you whether you want
+      to use this solution with or without TS.
+    </M>
+    If you enjoyed it, be sure to visit us on <A
+      href="https://www.linkedin.com/in/adrian-po%C5%82ubi%C5%84ski-281ab2172/"
+      outside
+    >
+      Linkedin
+    </A> where we regularly upload content from programming.
+  </M>
+  <Hint hasBg>If you want to understand the process of creating useStepper hook - you can check <A outside href="/articles/react/build-use-stepper-hook-in-react/">this article</A>.</Hint>
+</Summary>
