@@ -16,12 +16,14 @@ type LoadingState = State<"loading">
 interface LoadedState {
   key: "loaded"
   autoPlay: boolean
+  isNavigationPanelOpen: boolean
   selectedFrame: SnippetFrame
   frames: SnippetFrame[]
 }
 
 interface InteractedState {
   key: "interacted"
+  isNavigationPanelOpen: boolean
   autoPlay: boolean
   selectedFrame: SnippetFrame
   frames: SnippetFrame[]
@@ -93,6 +95,7 @@ interface SnippetCreatorAction {
   fullScreenOpening: () => void
   closeFullScreen: () => void
   startSubmit: () => void
+  toggleNavigationPanel: () => void
 }
 
 export type {

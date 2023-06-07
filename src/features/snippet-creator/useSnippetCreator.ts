@@ -7,6 +7,7 @@ import { useKeyPress } from "../../utils/useKeyPress"
 import { SnippetFrame } from "../../models"
 import { useGetSnippet } from "../../shared/useGetSnippet"
 import { useQueryParams } from "../../utils/useQueryParams"
+import { tUp } from "../../utils/viewport"
 
 const getNextIdx = (idx: number, length: number): number => {
   const nextIdx = idx + 1
@@ -40,6 +41,7 @@ const useSnippetCreator = () => {
           update({
             key: "loaded",
             frames,
+            isNavigationPanelOpen: tUp(window.innerWidth),
             selectedFrame: frames[0],
             autoPlay: false,
           })
@@ -70,6 +72,7 @@ const useSnippetCreator = () => {
         update({
           key: "loaded",
           frames,
+          isNavigationPanelOpen: tUp(window.innerWidth),
           selectedFrame: firstFrame,
           autoPlay: false,
         })
@@ -94,6 +97,7 @@ const useSnippetCreator = () => {
           key:
             state.current.key === "full-screen" ? "full-screen" : "interacted",
           frames,
+          isNavigationPanelOpen: tUp(window.innerWidth),
           selectedFrame: frames[getNextIdx(currentIdx, frames.length)],
           autoPlay,
         })
@@ -109,9 +113,11 @@ const useSnippetCreator = () => {
         const safePrevIdx = prevIdx === -1 ? frames.length - 1 : prevIdx
 
         update({
-          key: "interacted",
+          key:
+            state.current.key === "full-screen" ? "full-screen" : "interacted",
           frames,
           selectedFrame: frames[safePrevIdx],
+          isNavigationPanelOpen: tUp(window.innerWidth),
           autoPlay,
         })
 
@@ -127,6 +133,7 @@ const useSnippetCreator = () => {
           key: "interacted",
           frames,
           selectedFrame: frames[currentIdx],
+          isNavigationPanelOpen: tUp(window.innerWidth),
           autoPlay,
         })
 
@@ -140,16 +147,18 @@ const useSnippetCreator = () => {
   })
 
   const fullScreenOpening = () => {
-    if (!isPrepared(state.current)) {
+    const s = state.current
+
+    if (!isPrepared(s)) {
       return
     }
 
-    const { frames } = state.current
+    const { frames } = s
 
     update({
       key: "full-screen-opening",
       frames,
-      autoPlay: false,
+      autoPlay: s.autoPlay,
       selectedFrame: frames[0],
     })
   }
@@ -166,7 +175,7 @@ const useSnippetCreator = () => {
     update({
       key: "full-screen",
       frames,
-      autoPlay: true,
+      autoPlay: s.autoPlay,
       selectedFrame: frames[0],
     })
 
@@ -183,7 +192,8 @@ const useSnippetCreator = () => {
         key: "interacted",
         frames: s.frames,
         selectedFrame: s.frames[0],
-        autoPlay: false,
+        isNavigationPanelOpen: tUp(window.innerWidth),
+        autoPlay: s.autoPlay,
       })
     }
   }
@@ -203,31 +213,45 @@ const useSnippetCreator = () => {
     }
   }
 
+  const toggleNavigationPanel = (): void => {
+    const s = state.current
+
+    if (s.key === "loaded" || s.key === "interacted") {
+      update({
+        ...s,
+        isNavigationPanelOpen: !s.isNavigationPanelOpen,
+      })
+    }
+  }
+
   useKeyPress({
     onKeyPress: e => {
       const s = state.current
 
-      if (!isPrepared(s)) {
-        const actions = {
-          Escape: () => closeFullScreen(),
-          s: () => startSubmit(),
+      let actions = {}
+
+      if (isPrepared(s) || s.key === "full-screen") {
+        actions = {
+          a: () => move("prev"),
+          d: () => move("next"),
+          n: () => startAdd(),
+          p: () => autoPlay(),
+          e: () => startEdit(s.selectedFrame),
+          r: () => remove(s.selectedFrame),
+          c: () => toggleNavigationPanel(),
+          f: fullScreenOpening,
         }
 
-        actions[e.key]?.()
-        return
-      }
+        if (s.key === "full-screen") {
+          actions["s"] = startSubmit
+        }
 
-      const actions = {
-        a: () => move("prev"),
-        d: () => move("next"),
-        n: () => startAdd(),
-        p: () => autoPlay(),
-        e: () => startEdit(s.selectedFrame),
-        r: () => remove(s.selectedFrame),
-        f: () => fullScreenOpening(),
-      }
+        if (s.key === "full-screen") {
+          actions["escape"] = closeFullScreen
+        }
 
-      actions[e.key.toLowerCase()]?.()
+        actions[e.key.toLowerCase()]?.()
+      }
     },
   })
 
@@ -239,6 +263,7 @@ const useSnippetCreator = () => {
     update({
       ...state.current,
       key: "loaded",
+      isNavigationPanelOpen: tUp(window.innerWidth),
       autoPlay: false,
     })
   }
@@ -280,12 +305,13 @@ const useSnippetCreator = () => {
       frames,
       selectedFrame,
       key: "interacted",
+      isNavigationPanelOpen: tUp(window.innerWidth),
       autoPlay: false,
     })
   }
 
   const autoPlay = (): void => {
-    if (!isPrepared(state.current)) {
+    if (!isPrepared(state.current) && state.current.key !== "full-screen") {
       return
     }
 
@@ -343,6 +369,7 @@ const useSnippetCreator = () => {
       key: "interacted",
       selectedFrame,
       frames,
+      isNavigationPanelOpen: tUp(window.innerWidth),
       autoPlay: false,
     })
   }
@@ -361,6 +388,7 @@ const useSnippetCreator = () => {
       key: "interacted",
       frames,
       selectedFrame,
+      isNavigationPanelOpen: tUp(window.innerWidth),
       autoPlay: false,
     })
   }
@@ -379,6 +407,7 @@ const useSnippetCreator = () => {
     fullScreen,
     closeFullScreen,
     startSubmit,
+    toggleNavigationPanel,
   }
 
   return [state.current, action] as const

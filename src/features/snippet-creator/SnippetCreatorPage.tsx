@@ -27,11 +27,18 @@ const SnippetCreatorPage = ({
       type="website"
       image="/icon-192x192.png"
     >
-      <Layout disableSocialBar articles={footerArticles} t={t} routes={site.routes}>
-        <Content paddingY>
-          <SnippetCreator />
-        </Content>
-      </Layout>
+      <SnippetCreator
+        layout={children => (
+          <Layout
+            disableSocialBar
+            articles={footerArticles}
+            t={t}
+            routes={site.routes}
+          >
+            <Content paddingY>{children}</Content>
+          </Layout>
+        )}
+      />
     </SiteMeta>
   )
 }

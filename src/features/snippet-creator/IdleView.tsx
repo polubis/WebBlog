@@ -21,10 +21,6 @@ const Container = styled.div`
   max-width: 800px;
   margin: 0 auto;
 
-  .code-snippet-showcase pre {
-    min-height: 400px;
-  }
-
   ${Footer} {
     margin-top: 40px;
   }
@@ -50,7 +46,7 @@ const IdleView = ({ state, action }: IdleViewProps) => {
           <M>Where and how you can use it?</M>
           <List items="In presentations, In Linkedin | Twitter | other social platforms posts, In your articles as gif, As video, As recorded gif, As sharable link" />
         </Section>
-        <CodeFrames className="code-snippet-showcase" delay={2500} frames={DEFAULT_FRAMES} />
+        <CodeFrames delay={2500} frames={DEFAULT_FRAMES} />
         <Footer>
           {state.key === "idle" && (
             <Button disabled={state.key !== "idle"} onClick={action.start}>START</Button>
