@@ -5,7 +5,6 @@ import { Field, Input, Textarea, XL, M, A, B } from "../../ui"
 import { Alert } from "../../ui/alert"
 import theme from "../../utils/theme"
 import { useCustomGAEvent } from "../../utils/useCustomGAEvent"
-import { SM_DOWN } from "../../utils/viewport"
 import Button, { SecondaryTextButton } from "../../components/button/Button"
 import Divider from "../../components/divider/Divider"
 import { Validator, useForm } from "../../utils/useForm"
@@ -18,8 +17,9 @@ import { Link } from "gatsby"
 const FinalScreen = styled.div`
   display: flex;
   flex-flow: column;
-  padding: 24px 12px;
+  justify-content: center;
   max-width: 500px;
+  min-height: 500px;
 
   button {
     margin-top: 28px;
@@ -27,15 +27,8 @@ const FinalScreen = styled.div`
 `
 
 const Container = styled.form`
-  display: flex;
-  flex-flow: column;
-  padding: 24px 12px;
-  max-width: 340px;
-
-  @media ${SM_DOWN} {
-    padding: 0;
-    width: 100%;
-  }
+  padding: 20px;
+  max-width: 400px;
 
   ${XL} {
     text-align: center;
@@ -181,7 +174,7 @@ export const CreateSnippetForm = ({
 
   if (creationState.type === "done") {
     return (
-      <FinalScreen>
+      <FinalScreen className="create-snippet-form-final-screen">
         <Section>
           <XL>Thanks for using our application!</XL>
           <M>
@@ -203,21 +196,20 @@ export const CreateSnippetForm = ({
             on <B>Linkedin</B>.
           </M>
           <Footer>
-            <Link to={"/snippets/?id=" + creationState.data + '/'}>
+            <Link to={"/snippets/?id=" + creationState.data + "/"}>
               <Button>GO TO SNIPPET</Button>
             </Link>
             <Button onClick={onBack}>GENERATE ONE MORE</Button>
           </Footer>
         </Section>
       </FinalScreen>
-
     )
   }
 
   return (
     <>
       {pending && <Alert message="Just a moment :)" />}
-      <Container onSubmit={handleSubmit}>
+      <Container className="create-snippet-form" onSubmit={handleSubmit}>
         <XL>Describe your snippet and save it</XL>
         <Field description="Your snippet name (max 250)">
           <Input

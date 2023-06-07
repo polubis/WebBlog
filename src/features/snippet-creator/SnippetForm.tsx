@@ -1,22 +1,17 @@
 import React, { ReactNode } from "react"
 import styled from "styled-components"
-import { EditableSnippet, Modal, XL } from "../../ui"
+import { EditableSnippet, XL } from "../../ui"
 import Button from "../../components/button/Button"
 import { useEditor } from "../../components/blog-creator/useEditor"
 import { SM_DOWN } from "../../utils/viewport"
 
 const Container = styled.div`
-  display: flex;
-  flex-flow: column;
-  width: 400px;
-  height: 86vh;
-
   @media ${SM_DOWN} {
     width: 100%;
   }
 
   ${XL} {
-    margin-bottom: 40px;
+    margin-bottom: 24px;
   }
 
   pre {
@@ -25,6 +20,11 @@ const Container = styled.div`
 
   button {
     margin-top: auto;
+  }
+  
+  footer {
+    display: flex;
+    justify-content: space-between;
   }
 `
 
@@ -44,13 +44,14 @@ const SnippetForm = ({
   const [{ mdx }, { change }] = useEditor(initialMdx)
 
   return (
-    <Modal onClose={onClose}>
-      <Container>
-        <XL>{header}</XL>
-        <EditableSnippet language="jsx" value={mdx} onChange={change} />
+    <Container>
+      <XL>{header}</XL>
+      <EditableSnippet language="jsx" value={mdx} onChange={change} />
+      <footer>
+        <Button onClick={onClose}>Back</Button>
         <Button onClick={() => onSubmit(mdx)}>Confirm</Button>
-      </Container>
-    </Modal>
+      </footer>
+    </Container>
   )
 }
 
