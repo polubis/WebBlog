@@ -4,6 +4,8 @@ import { useSnippetCreator } from "./useSnippetCreator"
 import Loadable from "react-loadable"
 import { IdleView } from "./IdleView"
 import { SnippetCreatorPreviewView } from "./SnippetCreatorPreviewView"
+import { SnippetsErrorScreen } from "../../components/snippets-error-screen/SnippetsErrorScreen"
+import Button from "../../components/button/Button"
 
 const SnippetCreatorMainView = Loadable({
   loader: () =>
@@ -27,7 +29,15 @@ const SnippetCreator = ({ layout }: SnippetCreatorProps) => {
   }
 
   if (state.key === "failed") {
-    return <div>Server error</div>
+    return (
+      <SnippetsErrorScreen
+        action={
+          <Button onClick={() => window.location.replace("/snippet-creator/")}>
+            GENERATE YOUR SNIPPET
+          </Button>
+        }
+      />
+    )
   }
 
   if (
@@ -44,7 +54,7 @@ const SnippetCreator = ({ layout }: SnippetCreatorProps) => {
     return <SnippetCreatorPreviewView state={state} action={action} />
   }
 
-  throw Error("Something went wrong :/")
+  throw Error("Something went wrong...")
 }
 
 export { SnippetCreator }
