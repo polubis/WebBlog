@@ -6,6 +6,7 @@ import { Link as GatsbyLink } from "gatsby"
 import { CourseTimeBadge } from "../course-time-badge"
 import { CourseStatusBadge } from "../course-status-badge/CourseStatusBadge"
 import Button from "../../../../components/button/Button"
+import theme from "../../../../utils/theme"
 
 const Container = styled.div`
   border-radius: 4px;
@@ -25,6 +26,11 @@ const Content = styled.div`
 
   a {
     margin-top: auto;
+    text-decoration: none;
+  }
+  & a:hover {
+    text-decoration: underline;
+    color: ${theme.primary};
   }
 `
 
@@ -55,7 +61,9 @@ export const CourseTile = ({ data }: CourseTileProps) => {
             <CourseTimeBadge value={data.duration} />
             <CourseStatusBadge value={data.status} />
           </Badges>
-          <XL>{data.name}</XL>
+          <GatsbyLink to={data.path}>
+            <XL>{data.name}</XL>
+          </GatsbyLink>
           <M>{data.description}</M>
           <GatsbyLink to={data.path}>
             <Button>CHECK COURSE</Button>
