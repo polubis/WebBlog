@@ -81,6 +81,7 @@ exports.createPages = async ({ actions, graphql }) => {
             readTime
             graphicauthor
             stack
+            seniorityLevel
             title
           }
           rawBody
@@ -104,6 +105,7 @@ exports.createPages = async ({ actions, graphql }) => {
             graphicauthor
             stack
             title
+            seniorityLevel
           }
           rawBody
           body
@@ -256,6 +258,7 @@ exports.createPages = async ({ actions, graphql }) => {
       }
     }
   `)
+  console.log('result', result);
 
   const data = getAllDataQuery({
     ...result.data,
