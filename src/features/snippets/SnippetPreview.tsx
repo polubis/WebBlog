@@ -3,8 +3,6 @@ import styled from "styled-components"
 import Section from "../../components/article/Section"
 import { Snippet } from "../../models"
 import { A, B, CodeFrames, M, Percentage, XL } from "../../ui"
-import theme from "../../utils/theme"
-import { List } from "../../components/article/List"
 import Button from "../../components/button/Button"
 import { Link } from "gatsby"
 import { FullScreenAnimation } from "../../components/full-screen-animation"
@@ -15,6 +13,7 @@ import {
   OpenFullScreenButton,
 } from "../../components/snippet-creator/Buttons"
 import { useKeyPress } from "../../utils/useKeyPress"
+import { SnippetsErrorScreen } from "../../components/snippets-error-screen/SnippetsErrorScreen"
 
 const Footer = styled.div`
   display: flex;
@@ -70,16 +69,6 @@ const Playground = ({
   )
 }
 
-const Errors = styled.div`
-  display: flex;
-  flex-flow: column;
-
-  ${XL} {
-    color: ${theme.error};
-    margin-bottom: 12px;
-  }
-`
-
 const LoadingScreen = () => {
   return (
     <Section>
@@ -113,15 +102,15 @@ const SnippetPreview = () => {
   const { state, asBetween, asLoaded } = useSnippetPreviewState()
 
   useKeyPress({
-    onKeyPress: (e) => {
+    onKeyPress: e => {
       const actions = {
         e: () => linkRef.current?.click(),
         escape: asBetween,
-        f: asLoaded
+        f: asLoaded,
       }
 
       actions[e.key.toLowerCase()]?.()
-    }
+    },
   })
 
   const { key } = state
@@ -147,7 +136,7 @@ const SnippetPreview = () => {
           <CodeFrames frames={state.snippet.frames.map(frame => frame.code)} />
           <Footer>
             <Link to={`/snippet-creator/?id=${state.snippet.id}`} ref={linkRef}>
-              <EditButton title='Play with this snippet in creator' />
+              <EditButton title="Play with this snippet in creator" />
             </Link>
             <OpenFullScreenButton onClick={asLoaded} />
           </Footer>
@@ -157,21 +146,15 @@ const SnippetPreview = () => {
         <Playground snippet={state.snippet} onClose={asBetween} />
       )}
       {key === "load-fail" && (
-        <Errors>
-          <Section>
-            <XL>Errors detected 🔥</XL>
-            <M>
-              We cannot load snippet with given id :|. This could have happened
-              for the following reasons:
-            </M>
-            <List items="Some crafty person may have removed the snippet,You provided the wrong ID,There was another random problem - maybe on the backend someone is playing with refactor" />
+        <SnippetsErrorScreen
+          action={
             <Link to="/snippet-creator/">
               <Button className="check-blog-button">
                 GENERATE YOUR SNIPPET
               </Button>
             </Link>
-          </Section>
-        </Errors>
+          }
+        />
       )}
     </>
   )
