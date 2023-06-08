@@ -25,7 +25,7 @@ const getTimeline = ({ articles, courses }) => {
       if (a.createdAt === b.createdAt) return 0
       return -1
     })
-    .slice(0, 12)
+    .slice(0, 16)
 
   const timelineData = []
   const GAP = 5
