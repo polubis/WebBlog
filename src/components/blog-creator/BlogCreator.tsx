@@ -10,7 +10,7 @@ import { BlogCreatorHeading } from "./BlogCreatorHeading"
 import Button from "../button/Button"
 import { useCustomGAEvent } from "../../utils/useCustomGAEvent"
 import { useEditor } from "./useEditor"
-import { useLocation, globalHistory, useNavigate } from "@reach/router";
+import { useAlert } from "./useAlert"
 
 const TemplateSelector = Loadable({
   loader: () => import("./TemplateSelector").then(m => m.TemplateSelector),
@@ -99,32 +99,27 @@ export default function () {
   const { isOpen, open, close } = useModal()
   const [{ currentMdx, mdx, hasErrors, isChanged }, { change, markAsBroken }] = useEditor()
   const [loading, setLoading] = useState(false)
-  
-  const curLocation = useLocation();
-  const navigate = useNavigate();
+  const historyListener = useAlert({
+    pathname: 'blog-creator',
+    text:  "You have some unsaved changes, are you sure you want to leave?",
+    trigger: isChanged
+  });  
   const ref = useRef<NodeJS.Timeout | null>(null)
 
+  
   const handleOpen = () => {
     setLoading(true)
     track({ name: "full_screen_clicked" })
     document.body.style.overflow = "hidden"
     ref.current = setTimeout(open, 1500)
   }
-
-
+  
+  
   useEffect(() => {
-    return globalHistory.listen(({ action, location }) => {
-      if (ref.current) clearTimeout(ref.current)
-      if (
-       isChanged && 
-        (action === "POP" || action === 'PUSH' && !location.pathname.includes('blog-creator'))
-      ) {
-        if (!window.confirm("You have some unsaved changes, are you sure you want to leave?")) {
-          navigate(`${curLocation.pathname}`);
-        return;
-        }
-      }
-    });
+    return () => {
+      historyListener;
+      if (ref.current) clearTimeout(ref.current);
+    }
   }, [isChanged])
 
 
