@@ -1,11 +1,11 @@
 import React from "react"
 import { SeniorityLevel } from "../../models/Article" // Adjust the path to match the location of your enum
 
-type SeniorityBadgeProps = {
-    level?: keyof typeof SeniorityLevel;
-  };
+type SeniorityBadgeProp = {
+    level: SeniorityLevel
+}
   
-  export const SeniorityBadge: React.FC<SeniorityBadgeProps> = ({ level }) => {
+  export const SeniorityBadge = ({ level }: SeniorityBadgeProp) => {
     if (!level || !Object.values(SeniorityLevel).includes(SeniorityLevel[level])) {
       console.error(`Invalid seniority level: ${level}, should be one of ${Object.keys(SeniorityLevel).join(", ")}`);
       return (
