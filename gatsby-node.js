@@ -258,7 +258,6 @@ exports.createPages = async ({ actions, graphql }) => {
       }
     }
   `)
-  console.log('result', result);
 
   const data = getAllDataQuery({
     ...result.data,
