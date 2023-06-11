@@ -14,12 +14,7 @@
         "name": "Creating a CRM for companies selling heat pumps",
         "description": "FrontEnd: Creating a Customer panel along with CRUD operations. Backend: Creating a controller, model and endPionts, export to JSON",
         "from": "2023.01.01",
-        "stack": [
-          "React",
-          "Bootstrap",
-          "MongoDB",
-          "Next.js"
-        ],
+        "stack": ["React", "Bootstrap", "MongoDB", "Next.js"],
         "appUrl": "www.link.com",
         "codeUrl": "https://github.com/kmilek73/java_start",
         "images": []
@@ -109,6 +104,17 @@
     "bio": "Frontend developer with a knowledge of Angular, Vue, React, JS and Typescript. In my free time I expand my knowledge, play games and listen to music.",
     "githubURL": "https://github.com/Goteii",
     "linkedinURL": "https://www.linkedin.com/in/dawid-dowgia%C5%82%C5%82o-49a4741a9/",
+    "projects": []
+  },
+  {
+    "id": "pawelg",
+    "name": "pawelg",
+    "firstName": "Paweł",
+    "lastName": "Gnat",
+    "role": "Frontend Developer",
+    "bio": "I develop your business through programming. I love entrepreneurship and personal development. I learn something new every day and I can't get enough of it. You can find more about me on Instagram @pawel.coder.",
+    "githubURL": "https://github.com/Pawel-Gnat",
+    "linkedinURL": "https://www.linkedin.com/in/pawe%C5%82-gnat/",
     "projects": []
   }
 ]
