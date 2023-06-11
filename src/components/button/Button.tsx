@@ -66,6 +66,7 @@ export const SecondaryTextButton = styled.button`
   &:hover:not(:disabled) {
     background: transparent;
     color: ${theme.white};
+    opacity: 0.9;
   }
 `
 

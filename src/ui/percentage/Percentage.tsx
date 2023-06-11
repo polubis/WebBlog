@@ -7,7 +7,7 @@ const Percentage = memo(
 
     useEffect(() => {
       const interval = setInterval(() => {
-        setTime(prevTime => prevTime + 1)
+        setTime(prevTime => prevTime + 1 === 99 ? 99 : prevTime + 1)
       }, speed)
 
       return () => clearInterval(interval)
