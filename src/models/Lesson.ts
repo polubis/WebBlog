@@ -11,6 +11,7 @@ export interface Lesson {
   path: string
   gaPage: string
   body: string
+  rawBody: string
   description: string
   nextLesson: Lesson | undefined
   prevLesson: Lesson | undefined
