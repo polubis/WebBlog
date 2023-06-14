@@ -150,6 +150,7 @@ exports.createPages = async ({ actions, graphql }) => {
         nodes {
           slug
           body
+          rawBody
           frontmatter {
             name
             duration

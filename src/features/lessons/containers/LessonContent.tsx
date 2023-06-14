@@ -15,8 +15,9 @@ import {
   SiteMetadata,
   Translated,
 } from "../../../models"
-import { Content } from "../../../ui"
+import { Content, useModal } from "../../../ui"
 import { Breadcrumbs } from "../../../components/breadcrumbs/Breadcrumbs"
+import { useCustomGAEvent } from "../../../utils/useCustomGAEvent"
 
 const MobileCourseChapters = Loadable({
   loader: () =>
@@ -60,13 +61,30 @@ const Wrapper = styled.div`
   }
 `
 
-const CourseNavigation = styled.div`
+const BottomNavigation = styled.div`
   display: flex;
-  align-items: center;
   justify-content: right;
 
   & > *:not(:first-child) {
-    margin-left: 20px;
+    margin: 0 0 0 20px;
+  }
+
+  .lesson-source-button {
+    @media ${L_DOWN} {
+      display: none;
+    }
+  }
+
+  @media ${SM_DOWN} {
+    flex-flow: column;
+
+    & > *:not(:first-child) {
+      margin: 20px 0 0 0;
+    }
+
+    button {
+      width: 100%;
+    }
   }
 `
 
@@ -85,6 +103,14 @@ const Container = styled.main`
   }
 `
 
+const ArticleSourceModal = Loadable({
+  loader: () =>
+    import("../../../components/article/ArticleSource").then(
+      m => m.ArticleSource
+    ),
+  loading: () => null,
+})
+
 interface LessonContentProps {
   course: Course
   lesson: Lesson
@@ -102,6 +128,14 @@ const LessonContent = ({
   t,
   site,
 }: LessonContentProps) => {
+  const { track } = useCustomGAEvent()
+  const lessonSourceModal = useModal()
+
+  const handleSourceOpen = () => {
+    lessonSourceModal.open()
+    track({ name: "lesson_source_clicked" })
+  }
+
   return (
     <>
       <h1 style={{ visibility: "hidden", height: 0, margin: "0" }}>
@@ -125,7 +159,13 @@ const LessonContent = ({
                 ]}
               />
               <MDXRenderer>{lesson.body}</MDXRenderer>
-              <CourseNavigation>
+              <BottomNavigation>
+                <Button
+                  className="lesson-source-button"
+                  onClick={handleSourceOpen}
+                >
+                  {t.showSource}
+                </Button>
                 {lesson.prevLesson && (
                   <GatsbyLink to={lesson.prevLesson.path}>
                     <Button>PREVIOUS</Button>
@@ -136,7 +176,7 @@ const LessonContent = ({
                     <Button>NEXT</Button>
                   </GatsbyLink>
                 )}
-              </CourseNavigation>
+              </BottomNavigation>
             </Wrapper>
             <CourseChaptersWrapper>
               <CourseChapters
@@ -148,6 +188,12 @@ const LessonContent = ({
           </Container>
         </Content>
       </Layout>
+      {lessonSourceModal.isOpen &&
+        <ArticleSourceModal
+          source={lesson.rawBody}
+          onClose={lessonSourceModal.close}
+        />
+      }
     </>
   )
 }
