@@ -91,6 +91,8 @@ interface StatsSectionProps {
   coursesCount: number
   lessonsCount: number
   topAuthor: Author
+  discordMembers: number
+  githubContributors: number
 }
 
 const StatsSection = ({
@@ -99,6 +101,8 @@ const StatsSection = ({
   coursesCount,
   lessonsCount,
   topAuthor,
+  discordMembers,
+  githubContributors,
 }: StatsSectionProps) => {
   return (
     <Container className="statsSectionContainer">
@@ -115,7 +119,7 @@ const StatsSection = ({
           <XXL>
             {authorsCount} {authorsCount === 1 ? "author" : "authors"}
           </XXL>
-        </CodeEditorTile>{" "}
+        </CodeEditorTile>
       </Link>
 
       <Link to="/courses/">
@@ -123,14 +127,41 @@ const StatsSection = ({
           <XXL>
             {coursesCount} {coursesCount === 1 ? "course" : "courses"}
           </XXL>
-        </CodeEditorTile>{" "}
+        </CodeEditorTile>
       </Link>
 
+      <a
+        href="https://discord.gg/PxXQayT3x3"
+        title="Discord memvers"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         <CodeEditorTile>
           <XXL>
-            {lessonsCount} {lessonsCount === 1 ? "lesson" : "lessons"}
+            {discordMembers} {discordMembers === 1 ? "student" : "students"}
           </XXL>
-        </CodeEditorTile>{" "}
+        </CodeEditorTile>
+      </a>
+
+      <a
+        href="https://github.com/polubis/WebBlog"
+        title="Contributors"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <CodeEditorTile>
+          <XXL>
+            {githubContributors}{" "}
+            {githubContributors === 1 ? "dev" : "devs"}
+          </XXL>
+        </CodeEditorTile>
+      </a>
+
+      <CodeEditorTile>
+        <XXL>
+          {lessonsCount} {lessonsCount === 1 ? "lesson" : "lessons"}
+        </XXL>
+      </CodeEditorTile>
 
       <CodeEditorTile>
         <BloggerTileContent>
@@ -140,7 +171,9 @@ const StatsSection = ({
             necessary technical assistance.
           </M>
           <Link to="/blog-creator/">
-            <Button className="write-article-button">WRITE YOUR FIRST ARTICLE</Button>
+            <Button className="write-article-button">
+              WRITE YOUR FIRST ARTICLE
+            </Button>
           </Link>
         </BloggerTileContent>
         <AvatarWrapper>
