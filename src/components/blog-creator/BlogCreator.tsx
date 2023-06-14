@@ -10,6 +10,7 @@ import { BlogCreatorHeading } from "./BlogCreatorHeading"
 import Button from "../button/Button"
 import { useCustomGAEvent } from "../../utils/useCustomGAEvent"
 import { useEditor } from "./useEditor"
+import { useLeavePageAlert } from "../../utils/useLeavePageAlert"
 
 const TemplateSelector = Loadable({
   loader: () => import("./TemplateSelector").then(m => m.TemplateSelector),
@@ -92,7 +93,10 @@ const Heading = styled.header`
 export default function () {
   const { track } = useCustomGAEvent()
   const { isOpen, open, close } = useModal()
-  const [{ currentMdx, mdx, hasErrors }, { change, markAsBroken }] = useEditor()
+  const [
+    { currentMdx, mdx, hasErrors, changed },
+    { change, markAsBroken },
+  ] = useEditor()
   const [loading, setLoading] = useState(false)
 
   const ref = useRef<NodeJS.Timeout | null>(null)
@@ -103,6 +107,12 @@ export default function () {
     document.body.style.overflow = "hidden"
     ref.current = setTimeout(open, 1500)
   }
+
+  useLeavePageAlert({
+    text:
+      "After leaving this page your progress will not be saved. Are you sure?",
+    active: changed,
+  })
 
   useEffect(() => {
     return () => {
