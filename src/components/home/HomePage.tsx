@@ -11,6 +11,8 @@ import { Image } from "../../models"
 interface HomePageProps {
   pageContext: {
     holeImg: Image
+    discordMembers: number
+    githubContributors: number
   } & AllDataResponse
 }
 
@@ -25,6 +27,8 @@ const HomePage = ({ pageContext }: HomePageProps) => {
     site,
     translationObject,
     footerArticles,
+    discordMembers,
+    githubContributors
   } = pageContext
   const t = translationObject["en"]
 
@@ -49,6 +53,8 @@ const HomePage = ({ pageContext }: HomePageProps) => {
           coursesCount={courses.length}
           lessonsCount={totalLessons}
           topAuthor={authors[0]}
+          discordMembers={discordMembers}
+          githubContributors={githubContributors}
         />
         <ArticlesTimelineSection data={timeline} />
       </Layout>

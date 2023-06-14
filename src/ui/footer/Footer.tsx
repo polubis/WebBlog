@@ -3,13 +3,12 @@ import styled from "styled-components"
 import { GreenOnLogo } from "../../components/GreenOnLogo"
 import theme from "../../utils/theme"
 import { LinkedinIcon, DiscordIcon } from "../icons"
-import { M, S, X } from "../text"
+import { A, M, S, X } from "../text"
 import Link from "../../components/link/Link"
 import { L_DOWN, M_DOWN, T_DOWN } from "../../utils/viewport"
 import { Article } from "../../models"
 import Img from "gatsby-image"
 import { Content } from "../layout"
-import { useJoinUsModal } from "../../components/article/WithJoinUsModal"
 import { LinkButton } from "../../components/button/Button"
 import { Translated } from "../../models"
 import { FacebookIcon } from "../icons/FacebookIcon"
@@ -126,8 +125,6 @@ interface FooterProps {
 }
 
 const Footer = ({ articles, t, renderLinks }: FooterProps) => {
-  const ctx = useJoinUsModal()
-
   return (
     <Container className="ui-footer">
       <Content>
@@ -137,9 +134,9 @@ const Footer = ({ articles, t, renderLinks }: FooterProps) => {
             <M>{t.footer.aboutUsText}</M>
             <M>
               {t.footer.aboutUsTextCommunity}{" "}
-              <LinkButton onClick={ctx.open} className="form-button">
+              <A outside href='https://discord.gg/PxXQayT3x3' className="form-button">
                 {t.footer.thisFormLink}
-              </LinkButton>
+              </A>
               .
             </M>
           </Section>

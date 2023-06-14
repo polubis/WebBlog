@@ -9,7 +9,6 @@ import { Example } from "./src/components/article/Example"
 import Img from "./src/components/article/Img"
 import { XL, M, Hint, A, B } from "./src/ui/text"
 import { List } from "./src/components/article/List"
-import { WithJoinUsModal } from "./src/components/article/WithJoinUsModal"
 
 const shortcodes = {
   Section,
@@ -27,9 +26,5 @@ const shortcodes = {
 }
 
 export const wrapRootElement = ({ element }) => {
-  return (
-    <WithJoinUsModal>
-      <MDXProvider components={shortcodes}>{element}</MDXProvider>
-    </WithJoinUsModal>
-  )
+  return <MDXProvider components={shortcodes}>{element}</MDXProvider>
 }

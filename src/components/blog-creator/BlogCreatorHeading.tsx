@@ -4,7 +4,6 @@ import { XL } from "../../ui"
 import { L_DOWN, M_DOWN } from "../../utils/viewport"
 import Badge from "../article/Badge"
 import Button from "../button/Button"
-import { useJoinUsModal } from "../article/WithJoinUsModal"
 import theme from "../../utils/theme"
 
 const Container = styled.div`
@@ -44,16 +43,6 @@ const Heading = styled.header`
   }
 `
 
-const ConnectedSubmitButton = () => {
-  const ctx = useJoinUsModal()
-
-  return (
-    <Button className="submit-article-btn" onClick={ctx.open}>
-      SUBMIT ARTICLE
-    </Button>
-  )
-}
-
 interface BlogCreatorHeadingProps {
   buttons: ReactNode
 }
@@ -65,7 +54,17 @@ const BlogCreatorHeading = ({ buttons }: BlogCreatorHeadingProps) => {
       <Badge color={theme.green}>version 1.1</Badge>
       <Container>
         {buttons}
-        <ConnectedSubmitButton />
+        <a
+          className="submit-article-btn"
+          href="https://discord.gg/PxXQayT3x3"
+          title="Discord members"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Button >
+            SUBMIT ARTICLE
+          </Button>
+        </a>
       </Container>
     </Heading>
   )

@@ -31,7 +31,7 @@ const Container = styled.div`
 
   svg {
     path {
-      fill: ${theme.black};
+      fill: ${theme.black} !important;
     }
   }
 `
