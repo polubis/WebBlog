@@ -15,13 +15,22 @@ import {
   SiteMetadata,
   Translated,
 } from "../../../models"
-import { Content } from "../../../ui"
+import { Content, useModal } from "../../../ui"
 import { Breadcrumbs } from "../../../components/breadcrumbs/Breadcrumbs"
+import { useCustomGAEvent } from "../../../utils/useCustomGAEvent"
 
 const MobileCourseChapters = Loadable({
   loader: () =>
     import("../../courses/components/mobile-course-chapters").then(
       m => m.MobileCourseChapters
+    ),
+  loading: () => null,
+})
+
+const SourceModal = Loadable({
+  loader: () =>
+    import("../../../components/source-modal/SourceModal").then(
+      m => m.SourceModal
     ),
   loading: () => null,
 })
@@ -36,6 +45,12 @@ const CourseChaptersWrapper = styled.div`
     top: 0;
     right: 0;
     padding: 20px 20px 0 0;
+  }
+
+  .lesson-source-button {
+    @media ${L_DOWN} {
+      display: none;
+    }
   }
 `
 
@@ -102,6 +117,15 @@ const LessonContent = ({
   t,
   site,
 }: LessonContentProps) => {
+  const { track } = useCustomGAEvent()
+  const lessonSourceModal = useModal()
+
+  const handleSourceOpen = () => {
+    lessonSourceModal.open()
+    track({ name: "article_source_clicked" })
+  }
+
+  console.log(lesson.rawBody)
   return (
     <>
       <h1 style={{ visibility: "hidden", height: 0, margin: "0" }}>
@@ -126,6 +150,12 @@ const LessonContent = ({
               />
               <MDXRenderer>{lesson.body}</MDXRenderer>
               <CourseNavigation>
+                <Button
+                  className="lesson-source-button"
+                  onClick={handleSourceOpen}
+                >
+                  {t.showSource}
+                </Button>
                 {lesson.prevLesson && (
                   <GatsbyLink to={lesson.prevLesson.path}>
                     <Button>PREVIOUS</Button>
@@ -147,6 +177,12 @@ const LessonContent = ({
             </CourseChaptersWrapper>
           </Container>
         </Content>
+        {lessonSourceModal.isOpen && (
+          <SourceModal
+            source={lesson.rawBody}
+            onClose={lessonSourceModal.close}
+          />
+        )}
       </Layout>
     </>
   )

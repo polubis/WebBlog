@@ -22,11 +22,15 @@ import { AllDataResponse } from "../../api"
 import { Breadcrumbs } from "../breadcrumbs"
 import { ReadInOtherLanguageBanner } from "./ReadInOtherLanguageBanner"
 import Button from "../button/Button"
-import { ArticleSource } from "./ArticleSource"
 import { useCustomGAEvent } from "../../utils/useCustomGAEvent"
 
 const ProgressDisplayer = Loadable({
   loader: () => import("./ProgressDisplayer").then(m => m.ProgressDisplayer),
+  loading: () => null,
+})
+
+const SourceModal = Loadable({
+  loader: () => import("../source-modal/SourceModal").then(m => m.SourceModal),
   loading: () => null,
 })
 
@@ -215,7 +219,7 @@ export default function ({
         </Content>
         <ProgressDisplayer labels={t.progressDisplay} />
         {articleSourceModal.isOpen && (
-          <ArticleSource source={rawBody} onClose={articleSourceModal.close} />
+          <SourceModal source={rawBody} onClose={articleSourceModal.close} />
         )}
       </Layout>
     </SiteMeta>

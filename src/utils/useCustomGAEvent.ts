@@ -16,12 +16,20 @@ interface FullScreenClicked {
 interface ArticleSourceClicked {
   name: "article_source_clicked"
 }
+interface LessonSourceClicked {
+  name: "lesson_source_clicked"
+}
 
 interface SnippetCreated {
   name: "snippet_created"
 }
 
-type AnalyticsEvent = AuthorRequest | FullScreenClicked | ArticleSourceClicked | SnippetCreated
+type AnalyticsEvent =
+  | AuthorRequest
+  | FullScreenClicked
+  | ArticleSourceClicked
+  | LessonSourceClicked
+  | SnippetCreated
 
 export const useCustomGAEvent = () => {
   const track = (e: AnalyticsEvent): void => {
