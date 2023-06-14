@@ -125,12 +125,14 @@ const LineNo = styled.span<Highlightable>`
   padding-right: 1em;
   user-select: none;
   opacity: 0.5;
+  position: relative;
 
   &::after {
     position: absolute;
     margin-left: 0.2em;
 
     content: "${props => {
+
     switch (props.status) {
       case "added":
         return "+"
