@@ -31,8 +31,8 @@ const ProgressDisplayer = Loadable({
   loading: () => null,
 })
 
-const SourceModal = Loadable({
-  loader: () => import("../source-modal/SourceModal").then(m => m.SourceModal),
+const ArticleSource = Loadable({
+  loader: () => import("./ArticleSource").then(m => m.ArticleSource),
   loading: () => null,
 })
 
@@ -233,7 +233,7 @@ export default function ({
         <ProgressDisplayer labels={t.progressDisplay} />
 
         {articleSourceModal.isOpen && (
-          <SourceModal source={rawBody} onClose={articleSourceModal.close} />
+          <ArticleSource source={rawBody} onClose={articleSourceModal.close} />
         )}
       </Layout>
     </SiteMeta>

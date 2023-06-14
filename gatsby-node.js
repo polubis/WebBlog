@@ -149,7 +149,6 @@ exports.createPages = async ({ actions, graphql }) => {
         nodes {
           slug
           body
-          rawBody
           frontmatter {
             name
             duration
@@ -295,7 +294,7 @@ exports.createPages = async ({ actions, graphql }) => {
   })
 
   createPage({
-    path: "/snippets/",
+    path: '/snippets/',
     component: resolve(`src/features/snippets/SnippetsPage.tsx`),
     context: data,
   })
