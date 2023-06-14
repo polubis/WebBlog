@@ -51,11 +51,7 @@ const Media = styled.div`
   padding: 32px 0 16px 0;
 `
 
-export interface EmptyAuthorTileProps {
-  onClick: () => void
-}
-
-export const EmptyAuthorTile = ({ onClick }: EmptyAuthorTileProps) => {
+export const EmptyAuthorTile = () => {
   return (
     <Container>
       <Avatar>
@@ -70,7 +66,16 @@ export const EmptyAuthorTile = ({ onClick }: EmptyAuthorTileProps) => {
         us.
       </M>
       <Media>
-        <Button onClick={onClick}>JOIN US !</Button>
+        <a
+          href="https://discord.gg/PxXQayT3x3"
+          title="Discord members"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Button >
+            JOIN US !
+          </Button>
+        </a>
       </Media>
     </Container>
   )

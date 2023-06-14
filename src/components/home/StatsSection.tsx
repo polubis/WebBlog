@@ -132,7 +132,7 @@ const StatsSection = ({
 
       <a
         href="https://discord.gg/PxXQayT3x3"
-        title="Discord memvers"
+        title="Discord members"
         target="_blank"
         rel="noopener noreferrer"
       >

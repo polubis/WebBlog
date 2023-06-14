@@ -8,7 +8,6 @@ import { Link as GatsbyLink } from "gatsby"
 import { GreenOnLogo } from "../GreenOnLogo"
 import Button from "../button/Button"
 import { ScrollUpButton } from "../scroll-up-button/ScrollUpButton"
-import { useJoinUsModal } from "../article/WithJoinUsModal"
 import { useScrollToHtmlElement } from "../../utils/useScrollToHtmlElement"
 import { SocialBar } from "../social-bar/Socialbar"
 
@@ -43,7 +42,6 @@ export default function ({
   disableSocialBar,
   disableFooter
 }: LayoutProps) {
-  const ctx = useJoinUsModal()
   const { ref, scrollTop } = useScrollToHtmlElement<HTMLDivElement>()
 
   const { links, homeLink, leftLinks, rightLinks } = useMemo(() => {
@@ -115,9 +113,18 @@ export default function ({
             </>
           }
           action={
-            <Button id="home-navigation-join-button" onClick={ctx.open}>
-              {t.join}
-            </Button>
+            <a
+              id="home-navigation-join-button"
+              href="https://discord.gg/PxXQayT3x3"
+              title="Discord members"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button >
+                {t.join}
+              </Button>
+            </a>
+
           }
         />
       }
