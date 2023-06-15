@@ -9,6 +9,7 @@ import { Example } from "./src/components/article/Example"
 import Img from "./src/components/article/Img"
 import { XL, M, Hint, A, B } from "./src/ui/text"
 import { List } from "./src/components/article/List"
+import { FavouriteArticlesProvider } from "./src/components/article/FavouriteArticlesProvider"
 
 const shortcodes = {
   Section,
@@ -26,5 +27,9 @@ const shortcodes = {
 }
 
 export const wrapRootElement = ({ element }) => {
-  return <MDXProvider components={shortcodes}>{element}</MDXProvider>
+  return (
+    <FavouriteArticlesProvider>
+      <MDXProvider components={shortcodes}>{element}</MDXProvider>
+    </FavouriteArticlesProvider>
+  )
 }

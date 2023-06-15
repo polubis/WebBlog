@@ -51,17 +51,24 @@ const Tile = styled.div`
   }
 `
 
+export const SmallTile = ({ article }: { article: Article }) => {
+  return (
+    <>
+      <Tags tags={article.tags} />
+      <Link to={article.path}>
+        <XL><SeniorityBadge level={article.seniorityLevel} /> {article.title}</XL>
+      </Link>
+      <M normal>{article.description}</M>
+    </>
+  )
+}
+
 export default function ({ article }: Props): React.ReactElement {
-  const { author, tags, title, description, readTime, isNew, path, seniorityLevel } = article
+  const { author, readTime, isNew, path } = article
 
   return (
     <Tile>
-      <Tags tags={tags} />
-      <Link to={path}>
-        <XL><SeniorityBadge level={seniorityLevel} /> {title}</XL>
-      </Link>
-      <M normal>{description}</M>
-
+      <SmallTile article={article} />
       <Details>
         <AuthorBadge mini author={author} />
         <ReadTimeBadge minutes={readTime} />
