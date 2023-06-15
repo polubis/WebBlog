@@ -5,10 +5,10 @@ import type { Technology } from "./Technology"
 import type { Translated, Translation } from "./Translation"
 
 export enum SeniorityLevel {
-  beginner = '🔰',
-  intermediate ='⭐',
-  advanced = '🌟',
-  expert = '🥇'
+  beginner = "🔰",
+  intermediate = "⭐",
+  advanced = "🌟",
+  expert = "🥇",
 }
 
 export interface ArticleFrontmatter {
@@ -25,7 +25,7 @@ export interface ArticleFrontmatter {
   title: string
   langs: string[] | null
   graphicauthor?: string
-  seniorityLevel : SeniorityLevel
+  seniorityLevel: SeniorityLevel
 }
 
 export interface Article {

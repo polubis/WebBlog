@@ -3,9 +3,10 @@ import styled from "styled-components"
 import Img from "gatsby-image"
 
 import { A, ReadTimeIcon, XXL } from "../../ui"
-import { Image } from "../../models"
+import { Image, SeniorityLevel } from "../../models"
 import Badge from "./Badge"
 import theme from "../../utils/theme"
+import { SeniorityBadge } from "../badges"
 
 const GraphicAuthor = styled.div`
   display: flex;
@@ -80,6 +81,7 @@ interface Props {
   newLabel?: string
   graphicAuthorLabel?: string
   thumbnailAlt?: string
+  seniorityLevel: SeniorityLevel
 }
 
 export default function ({
@@ -91,6 +93,7 @@ export default function ({
   newLabel = "new",
   graphicAuthorLabel = "Graphic author",
   thumbnailAlt = "Article thumbnail",
+  seniorityLevel
 }: Props) {
   return (
     <Figure>
@@ -105,7 +108,7 @@ export default function ({
           height: "100%",
         }}
       />
-      <XXL>{title}</XXL>
+      <XXL><SeniorityBadge level={seniorityLevel} /> {title}</XXL>
       <Badges>
         <Badge className="read-time-badge" color={theme.secondary}>
           <ReadTimeIcon />

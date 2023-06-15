@@ -57,9 +57,8 @@ export default function ({ article }: Props): React.ReactElement {
   return (
     <Tile>
       <Tags tags={tags} />
-      <SeniorityBadge level={seniorityLevel}/>
       <Link to={path}>
-        <XL>{title}</XL>
+        <XL><SeniorityBadge level={seniorityLevel} /> {title}</XL>
       </Link>
       <M normal>{description}</M>
 
