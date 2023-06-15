@@ -10,7 +10,7 @@ import Tags from "../article/Tags"
 import { Content, M } from "../../ui"
 import Intro from "./Intro"
 import Loadable from "react-loadable"
-import { L_DOWN, L_UP, SM_DOWN } from "../../utils/viewport"
+import { L_DOWN, L_UP, M_DOWN, SM_DOWN } from "../../utils/viewport"
 import { SiteMeta } from "../../utils/SiteMeta"
 
 import { Stack } from "./Stack"
@@ -25,6 +25,7 @@ import { Breadcrumbs } from "../breadcrumbs"
 import { ReadInOtherLanguageBanner } from "./ReadInOtherLanguageBanner"
 import { useModal } from "../../ui/modal/Modal"
 import { useCustomGAEvent } from "../../utils/useCustomGAEvent"
+import { ArticleFavoritesSection } from "./ArticleFavouritesSection"
 
 const ProgressDisplayer = Loadable({
   loader: () => import("./ProgressDisplayer").then(m => m.ProgressDisplayer),
@@ -60,7 +61,7 @@ const BottomNavigation = styled.div`
     }
   }
 
-  @media ${SM_DOWN} {
+  @media ${M_DOWN} {
     flex-flow: column;
 
     & > *:not(:first-child) {
@@ -134,7 +135,7 @@ export default function ({
     translations,
     lang,
     rawBody,
-    seniorityLevel
+    seniorityLevel,
   } = article
 
   const t = translationObject[lang]
@@ -177,7 +178,6 @@ export default function ({
                 { label: article.title, path: article.path },
               ]}
             />
-
             <Thumbnail
               graphicAuthorLink={graphicAuthorLink}
               readTime={readTime}
@@ -217,6 +217,8 @@ export default function ({
               >
                 {t.showSource}
               </Button>
+
+              <ArticleFavoritesSection article={article} />
 
               {previous && (
                 <Link to={previous.path}>

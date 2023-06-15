@@ -4,10 +4,11 @@ import styled from "styled-components"
 import { DiscordIcon, IconButton, LinkedinIcon } from "../../ui"
 import { useScroll } from "../../utils/useScroll"
 import theme from "../../utils/theme"
+import { FavouritesModal } from "../article/FavouritesModal"
 
 const Container = styled.div`
   position: fixed;
-  bottom: 44px;
+  bottom: 20px;
   left: 20px;
   z-index: 103;
   transition: 0.3s transform ease-in-out;
@@ -33,6 +34,10 @@ const Container = styled.div`
     path {
       fill: ${theme.black} !important;
     }
+  }
+
+  .open-favourites-btn svg path {
+    fill: unset !important;
   }
 `
 
@@ -67,6 +72,7 @@ const SocialBar = ({ scrollToTopNode }: SocialBarProps) => {
         </IconButton>
       </a>
       {scrollToTopNode}
+      <FavouritesModal />
     </Container>
   )
 }
