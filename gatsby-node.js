@@ -2,6 +2,7 @@ const { resolve } = require("path")
 const { getAllDataQuery } = require("./src/api/getAllDataQuery")
 const authors = require("./src/authors/authors.json")
 const translationObject = require("./translations.json")
+const fetch = require('node-fetch');
 
 exports.onCreateWebpackConfig = ({ actions }) => {
   actions.setWebpackConfig({
@@ -151,6 +152,7 @@ exports.createPages = async ({ actions, graphql }) => {
         nodes {
           slug
           body
+          rawBody
           frontmatter {
             name
             duration
@@ -259,6 +261,14 @@ exports.createPages = async ({ actions, graphql }) => {
     }
   `)
 
+  const discordMembersResult = await fetch(`https://discord.com/api/v9/invites/PxXQayT3x3?with_counts=true`)
+  const discordMembersData = await discordMembersResult.json()
+  const discordMembers = discordMembersData.approximate_member_count;
+
+  const githubContributorsResult = await fetch(`https://api.github.com/repos/polubis/WebBlog/contributors`)
+  const githubContributorsData = await githubContributorsResult.json()
+  const githubContributors = githubContributorsData.length;
+
   const data = getAllDataQuery({
     ...result.data,
     authors,
@@ -274,6 +284,8 @@ exports.createPages = async ({ actions, graphql }) => {
     context: {
       ...data,
       holeImg: result.data.blackHoleImg.nodes[0].childImageSharp.fluid,
+      discordMembers,
+      githubContributors
     },
   })
 

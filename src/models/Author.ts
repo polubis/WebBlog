@@ -1,6 +1,8 @@
 import type { Image } from "./Image"
 import type { Project } from "./Project"
 
+type AuthorPlatformRole = "content-creator" | "contributor"
+
 interface AuthorJSON {
   id: string
   name: string
@@ -10,6 +12,7 @@ interface AuthorJSON {
   bio: string
   githubURL?: string
   linkedinURL?: string
+  platformRoles: [AuthorPlatformRole] | [AuthorPlatformRole, AuthorPlatformRole]
   projects: Project[]
 }
 

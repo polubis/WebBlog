@@ -155,15 +155,17 @@ const AComponent = styled.a`
 
 export const A = ({
   href,
+  className,
   outside,
   children,
 }: {
   href: string
   outside?: boolean
   children: ReactNode
+  className?: string
 }) => {
   return (
-    <AComponent href={href} target={outside ? "_blank" : ""}>
+    <AComponent className={className} href={href} target={outside ? "_blank" : ""}>
       {children}
     </AComponent>
   )
