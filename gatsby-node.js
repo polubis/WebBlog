@@ -82,6 +82,7 @@ exports.createPages = async ({ actions, graphql }) => {
             readTime
             graphicauthor
             stack
+            seniorityLevel
             title
           }
           rawBody
@@ -105,6 +106,7 @@ exports.createPages = async ({ actions, graphql }) => {
             graphicauthor
             stack
             title
+            seniorityLevel
           }
           rawBody
           body

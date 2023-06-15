@@ -134,6 +134,7 @@ export default function ({
     translations,
     lang,
     rawBody,
+    seniorityLevel
   } = article
 
   const t = translationObject[lang]
@@ -183,6 +184,7 @@ export default function ({
               thumbnail={thumbnail}
               title={title}
               isNew={isNew}
+              seniorityLevel={seniorityLevel}
             />
             <Tags tags={tags} />
             <Intro>
