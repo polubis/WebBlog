@@ -126,5 +126,16 @@
     "githubURL": "https://github.com/Pawel-Gnat",
     "linkedinURL": "https://www.linkedin.com/in/pawe%C5%82-gnat/",
     "projects": []
+  },
+  {
+    "id": "bstepien",
+    "name": "bstepien",
+    "firstName": "Bartłomiej",
+    "lastName": "Stępień",
+    "role": "Frontend Developer",
+    "bio": "My favorite technologies that I am constantly learning and improving in are React and TypeScript. I love creating modern user interfaces and developing features that bring value to users. In addition to coding, I actively spend my free time on the field or at the gym, taking care of my health and fitness.",
+    "githubURL": "https://github.com/Bartlomiejste",
+    "linkedinURL": "https://www.linkedin.com/in/stepien-bartlomiej/",
+    "projects": []
   }
 ]
