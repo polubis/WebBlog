@@ -30,6 +30,7 @@ import {
 import { preserveCode } from "./utils"
 import { T_DOWN } from "../../utils/viewport"
 import { SnippetToolbox } from "../../components/snippet-toolbox/SnippetToolbox"
+import { Navigation } from "./Navigation"
 
 const Container = styled.div`
   display: grid;
@@ -80,8 +81,8 @@ const Container = styled.div`
 
     .menu-button {
       position: fixed;
-      bottom: 20px;
-      right: 20px;
+      bottom: 12px;
+      right: 28px;
     }
 
     .frames {
@@ -269,7 +270,7 @@ const SnippetCreatorMainView = ({
                   {preserveCode(state.selectedFrame.code, state.frames)}
                 </Code>
 
-                <SnippetToolbox>
+                <Navigation>
                   {state.frames.length > 1 && (
                     <>
                       <MenuButton
@@ -291,7 +292,7 @@ const SnippetCreatorMainView = ({
                       />
                     </>
                   )}
-                </SnippetToolbox>
+                </Navigation>
               </div>
             </div>
           </Container>
