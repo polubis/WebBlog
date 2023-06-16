@@ -1,5 +1,3 @@
-import type { SnippetCreatorState } from "./defs"
-
 const first = `
 // Let's implement map function :)
 
@@ -89,7 +87,6 @@ const SnippetCreator = () => {
   throw Error('Unsupported state');
 }
 `
-const DEFAULT_FRAMES: string[] = [first, second, third, fourth, fifth]
-const DEFAULT_STATE = { key: "idle" } as SnippetCreatorState
+const SHOWCASE_FRAMES: string[] = [first, second, third, fourth, fifth]
 
-export { DEFAULT_FRAMES, DEFAULT_STATE, DEFAULT_ADD_SNIPPET }
+export { SHOWCASE_FRAMES, DEFAULT_ADD_SNIPPET }

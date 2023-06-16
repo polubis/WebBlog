@@ -7,6 +7,7 @@ import { WelcomeSection } from "./WelcomeSection"
 import { StatsSection } from "./StatsSection"
 import { ArticlesTimelineSection } from "./ArticlesTimelineSection"
 import { Image } from "../../models"
+import { SnippetCreatorSection } from "./SnippetCreatorSection"
 
 interface HomePageProps {
   pageContext: {
@@ -56,6 +57,7 @@ const HomePage = ({ pageContext }: HomePageProps) => {
           discordMembers={discordMembers}
           githubContributors={githubContributors}
         />
+        <SnippetCreatorSection />
         <ArticlesTimelineSection data={timeline} />
       </Layout>
     </SiteMeta>

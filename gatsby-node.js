@@ -308,12 +308,6 @@ exports.createPages = async ({ actions, graphql }) => {
   })
 
   createPage({
-    path: '/snippets/',
-    component: resolve(`src/features/snippets/SnippetsPage.tsx`),
-    context: data,
-  })
-
-  createPage({
     path: routes.creator.to,
     component: resolve(`src/features/blog-creator/BlogCreatorPage.tsx`),
     context: data,

@@ -4,6 +4,8 @@ import { EditableSnippet, XL } from "../../ui"
 import Button from "../../components/button/Button"
 import { useEditor } from "../../components/blog-creator/useEditor"
 import { SM_DOWN } from "../../utils/viewport"
+import { Center } from "./Center"
+import { useKeyPress } from "../../utils/useKeyPress"
 
 const Container = styled.div`
   @media ${SM_DOWN} {
@@ -16,12 +18,14 @@ const Container = styled.div`
 
   pre {
     margin-bottom: 40px !important;
+    min-width: 280px;
+    max-width: 500px;
   }
 
   button {
     margin-top: auto;
   }
-  
+
   footer {
     display: flex;
     justify-content: space-between;
@@ -43,15 +47,31 @@ const SnippetForm = ({
 }: SnippetFormProps) => {
   const [{ mdx }, { change }] = useEditor(initialMdx)
 
+  const handleSubmit = () => {
+    onSubmit(mdx)
+  }
+
+  useKeyPress({
+    onKeyPress: e => {
+      const actions = {
+        escape: onClose,
+      }
+
+      actions[e.key.toLowerCase()]?.()
+    },
+  })
+
   return (
-    <Container>
-      <XL>{header}</XL>
-      <EditableSnippet language="jsx" value={mdx} onChange={change} />
-      <footer>
-        <Button onClick={onClose}>Back</Button>
-        <Button onClick={() => onSubmit(mdx)}>Confirm</Button>
-      </footer>
-    </Container>
+    <Center>
+      <Container>
+        <XL>{header}</XL>
+        <EditableSnippet language="jsx" value={mdx} onChange={change} />
+        <footer>
+          <Button onClick={onClose}>Back</Button>
+          <Button onClick={handleSubmit}>Confirm</Button>
+        </footer>
+      </Container>
+    </Center>
   )
 }
 

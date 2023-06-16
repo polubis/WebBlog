@@ -2,8 +2,10 @@ import React, { ReactNode } from "react"
 import styled from "styled-components"
 import { FullscreenCenter, M, XL } from "../../ui"
 import theme from "../../utils/theme"
-import { List } from "../article/List"
-import Section from "../article/Section"
+import { List } from "../../components/article/List"
+import Section from "../../components/article/Section"
+import { Link } from "gatsby"
+import Button from "../../components/button/Button"
 
 const Errors = styled.div`
   display: flex;
@@ -14,13 +16,14 @@ const Errors = styled.div`
     color: ${theme.error};
     margin-bottom: 12px;
   }
+
+  .generate-snippet-link {
+    display: block;
+    margin-top: 40px;
+  }
 `
 
-interface SnippetsErrorScreenProps {
-  action: ReactNode
-}
-
-const SnippetsErrorScreen = ({ action }: SnippetsErrorScreenProps) => {
+const SnippetsErrorScreen = ({ onClick }: { onClick?: () => void }) => {
   return (
     <FullscreenCenter>
       <Errors>
@@ -31,7 +34,11 @@ const SnippetsErrorScreen = ({ action }: SnippetsErrorScreenProps) => {
             for the following reasons:
           </M>
           <List items="Some crafty person may have removed the snippet,You provided the wrong ID,There was another random problem - maybe on the backend someone is playing with refactor" />
-          {action}
+          <Link className="generate-snippet-link" to="/snippet-creator/">
+            <Button onClick={onClick} className="generate-snippet-link">
+              GENERATE YOUR SNIPPET
+            </Button>
+          </Link>
         </Section>
       </Errors>
     </FullscreenCenter>
