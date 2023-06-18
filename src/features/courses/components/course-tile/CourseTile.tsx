@@ -2,7 +2,7 @@ import React from "react"
 import styled from "styled-components"
 import { Course } from "../../../../models"
 import { CodeEditorTile, M, XL } from "../../../../ui"
-import { Link as GatsbyLink } from "gatsby"
+import { Link as GatsbyLink, Link } from "gatsby"
 import { CourseTimeBadge } from "../course-time-badge"
 import { CourseStatusBadge } from "../course-status-badge/CourseStatusBadge"
 import Button from "../../../../components/button/Button"
@@ -25,6 +25,7 @@ const Content = styled.div`
 
   a {
     margin-top: auto;
+    text-decoration: none;
   }
 `
 
@@ -55,7 +56,9 @@ export const CourseTile = ({ data }: CourseTileProps) => {
             <CourseTimeBadge value={data.duration} />
             <CourseStatusBadge value={data.status} />
           </Badges>
-          <XL>{data.name}</XL>
+          <Link to={data.path}>
+            <XL>{data.name}</XL>
+          </Link>
           <M>{data.description}</M>
           <GatsbyLink to={data.path}>
             <Button>CHECK COURSE</Button>
