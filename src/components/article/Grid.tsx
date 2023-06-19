@@ -5,8 +5,6 @@ import theme from "../../utils/theme"
 import { L_UP, T_UP, M_UP } from "../../utils/viewport"
 import Tile from "./Tile"
 import { Article } from "../../models/Article"
-import Button from "../button/Button"
-import { FavouriteArticles } from "./FavouriteArticles"
 
 const Grid = styled.div`
   display: grid;
@@ -79,20 +77,8 @@ interface Props {
 }
 
 export default function ({ articles }: Props): React.ReactElement {
-  const [isModalOpen, setIsModalOpen] = useState(false)
-
-  const handleOpenModal = () => {
-    setIsModalOpen(true)
-  }
-
   return (
     <>
-      <Button style={{ margin: "0px 0px 50px 0px" }} onClick={handleOpenModal}>
-        My favourite articles
-      </Button>
-      {isModalOpen && (
-        <FavouriteArticles onClose={() => setIsModalOpen(false)} />
-      )}
       <Grid>
         {articles.map(article => (
           <Tile key={article.slug} article={article} />

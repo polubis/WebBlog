@@ -144,41 +144,6 @@ export default function ({
     track({ name: "article_source_clicked" })
   }
 
-  const [isFavorite, setIsFavorite] = useState<boolean>(false)
-  const [favourites, setFavourites] = useState<ArticleModel[]>([])
-
-  useEffect(() => {
-    const prevItems = localStorage.getItem("favouritesArticle")
-    const favProducts = prevItems ? JSON.parse(prevItems) : []
-    const productIdFromFav: string[] = favProducts.map(el => el.title)
-    if (productIdFromFav.includes(title)) {
-      setIsFavorite(true)
-    }
-  }, [])
-
-  const addToFavourite = (favouritesArticle: ArticleModel) => {
-    const prevItems = localStorage.getItem("favouritesArticle")
-    const favProducts = prevItems ? JSON.parse(prevItems) : []
-    const isAlreadyFavorite = favProducts.some(
-      el => el.createdAt === favouritesArticle.createdAt
-    )
-    const updatedFavProducts = isAlreadyFavorite
-      ? favProducts.filter(el => el.createdAt !== favouritesArticle.createdAt)
-      : [...favProducts, favouritesArticle]
-    localStorage.setItem(
-      "favouritesArticle",
-      JSON.stringify(updatedFavProducts)
-    )
-    setIsFavorite(!isAlreadyFavorite)
-    setFavourites(updatedFavProducts)
-  }
-
-  const isArticleFavorite = (favouritesArticle: ArticleModel) => {
-    const prevItems = localStorage.getItem("favouritesArticle")
-    const favProducts = prevItems ? JSON.parse(prevItems) : []
-    return favProducts.some(el => el.createdAt === favouritesArticle.createdAt)
-  }
-
   return (
     <SiteMeta
       siteName={site.siteName}
@@ -249,12 +214,6 @@ export default function ({
                 onClick={handleSourceOpen}
               >
                 {t.showSource}
-              </Button>
-
-              <Button onClick={() => addToFavourite(article)}>
-                {isArticleFavorite(article)
-                  ? "Remove article from favorites"
-                  : "Add article to favorites"}
               </Button>
 
               {previous && (
