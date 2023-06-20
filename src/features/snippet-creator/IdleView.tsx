@@ -49,7 +49,7 @@ const IdleView = ({ state, action }: IdleViewProps) => {
         <CodeFrames delay={2500} frames={DEFAULT_FRAMES} />
         <Footer>
           {state.key === "idle" && (
-            <Button disabled={state.key !== "idle"} onClick={action.start}>START</Button>
+            <Button disabled={state.key !== "idle"} onClick={action.start} className="start-snippet-creator">START</Button>
           )}
           {state.key === "loading" && <Percentage />}
         </Footer>
