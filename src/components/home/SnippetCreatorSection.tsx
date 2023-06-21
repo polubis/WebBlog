@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import styled from "styled-components"
-import { T_UP } from "../../utils/viewport"
+import { T_DOWN } from "../../utils/viewport"
 import theme from "../../utils/theme"
 import Loadable from "react-loadable"
 import { useIsVisible } from "../../utils/useIsVisible"
@@ -15,13 +15,14 @@ const SnippetCreatorSectionContent = Loadable({
 })
 
 const Container = styled.div`
-  min-height: 100vh;
-  padding: 40px 20px;
+  padding: 162px 20px;
   border-top: 1px solid ${theme.grayC};
   border-bottom: 1px solid ${theme.grayC};
+  height: 920px;
 
-  @media ${T_UP} {
-    padding: 40px 20px;
+  @media ${T_DOWN} {
+    height: 770px;
+    padding: 32px 20px;
   }
 `
 

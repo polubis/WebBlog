@@ -12,7 +12,6 @@ import { Validator, useForm } from "../../utils/useForm"
 import { Signal, useFetch } from "../../utils/useFetch"
 import Section from "../../components/article/Section"
 import { SnippetFrame } from "../../models"
-import { Link } from "gatsby"
 import { useKeyPress } from "../../utils/useKeyPress"
 import { Center } from "./Center"
 import { useLeavePageAlert } from "../../utils/useLeavePageAlert"
@@ -205,7 +204,10 @@ export const CreateSnippetForm = ({
             <XL>Thanks for using our application!</XL>
             <M>
               Now you can share this snippet via{" "}
-              <A href={"/snippets/?id=" + creationState.data + "/"} outside>
+              <A
+                href={"/snippet-creator/?id=" + creationState.data + "/"}
+                outside
+              >
                 this link
               </A>
               .
@@ -222,9 +224,12 @@ export const CreateSnippetForm = ({
               on <B>Linkedin</B>.
             </M>
             <Footer>
-              <Link to={"/snippets/?id=" + creationState.data + "/"}>
+              <A
+                href={"/snippet-creator/?id=" + creationState.data + "/"}
+                outside
+              >
                 <Button>GO TO SNIPPET</Button>
-              </Link>
+              </A>
               <Button onClick={handleBack}>GENERATE ONE MORE</Button>
             </Footer>
           </Section>
