@@ -132,9 +132,9 @@ class UsersList {
     <B>Cannot read properties of undefined (reading 'elementIdxToRemove')</B>.
   </M>
   <M>
-    Well, but how! This was supposed to point to an instance of the <B>class</B>
-    ! Well, and it does point. Unfortunately not to the class. In this case, it
-    points to <B>undefined</B>.
+    Well, but how! This was supposed to point to an instance of the <B>class</B>!
+    Well, and it does point. Unfortunately not to the class. In this case, it points
+    to <B>undefined</B>.
   </M>
   <M>
     <B>What?</B>
@@ -146,7 +146,7 @@ class UsersList {
     some default behaviour.
   </M>
   <Hint hasBg>
-    Rule 1: function declarations passed as <B>callbacks</B> have <B>this</B>{" "}
+    Rule 1: Function declarations passed as <B>callbacks</B> have <B>this</B>{" "}
     set as <B>undefined</B>.
   </Hint>
 </Section>
@@ -177,7 +177,7 @@ class UsersList {
 };
 `}</Snippet>
   <Hint hasBg>
-    Rule 2: arrow functions assign a value of <B>this</B>, to the <B>this</B> of
+    Rule 2: Arrow functions assign a value of <B>this</B>, to the <B>this</B> of
     whatever is in the nearest lexical context - even if it's passed as a{" "}
     <B>callback</B>.
   </Hint>
@@ -232,7 +232,7 @@ test.innerThis();
   </M>
   <M>And this is where another rule comes into play: </M>
   <Hint hasBg>
-    Rule 3: for <B>use strict</B> mode, the value of <B>this</B> when pointing
+    Rule 3: For <B>use strict</B> mode, the value of <B>this</B> when pointing
     to a <B>global</B> object adopts the <B>undefined</B> value.
   </Hint>
   <M>
@@ -274,7 +274,7 @@ obj2.bike() // "Gixxer"
     declaration to any object then that object becomes <B>this</B>.
   </M>
   <Hint hasBg>
-    Rule 4: if you assign a <B>function declaration</B> that uses <B>this</B> to
+    Rule 4: If you assign a <B>function declaration</B> that uses <B>this</B> to
     an object, that object becomes <B>this</B> for that function.
   </Hint>
   <M>
@@ -397,12 +397,12 @@ obj2.ride(); // Gixxer, Moto, Moto
     the child class. Thank goodness at least here is a relief...
   </M>
   <Hint hasBg>
-    Rule 5: when using <B>new</B>, the value of <B>this</B> will refer to the
+    Rule 5: When using <B>new</B>, the value of <B>this</B> will refer to the
     created object - the syntax (whether a class or a function as a constructor)
     does not matter here.
   </Hint>
   <Hint hasBg>
-    Rule 6: with <B>inheritance</B>, the value of <B>this</B> is the same for
+    Rule 6: With <B>inheritance</B>, the value of <B>this</B> is the same for
     the <B>parent</B> and <B>child</B>.
   </Hint>
 </Section>
@@ -442,7 +442,7 @@ console.log(Bike.name); // Bike
     After all, it's a static method.
   </M>
   <Hint hasBg>
-    Rule 7: for static fields, <B>this</B> refers to the <B>class</B>.
+    Rule 7: For static fields, <B>this</B> refers to the <B>class</B>.
   </Hint>
 </Section>
 
@@ -479,7 +479,7 @@ Most functions allow you to pass something described as <B>thisArg</B>. In the a
 [1, 2, 3].forEach(logThis, { name: "hi" }); // 3x hi
 `}</Snippet>
 
-   <Hint hasBg>Rule 8: we can set the value of <B>this</B> explicitly using the <B>call</B> or <B>apply</B> method or by passing the additional argument <B>thisArg</B> to methods such as <B>forEach</B>.</Hint>
+   <Hint hasBg>Rule 8: We can set the value of <B>this</B> explicitly using the <B>call</B> or <B>apply</B> method or by passing the additional argument <B>thisArg</B> to methods such as <B>forEach</B>.</Hint>
 </Section>
 
 <Section>
@@ -536,7 +536,7 @@ usersList.handleRemove(9);
 console.log(usersList.list.items); // Returns 9 elements.
 `}</Snippet>
   <Hint hasBg>
-    Rule 9: we can set <B>this</B> using the <B>bind</B> method, which creates a
+    Rule 9: We can set <B>this</B> using the <B>bind</B> method, which creates a
     copy of the function and allows you to pass your own <B>this</B>.
   </Hint>
 </Section>
