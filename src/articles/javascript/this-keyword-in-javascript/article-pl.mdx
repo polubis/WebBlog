@@ -18,12 +18,12 @@ title: Wyjaśniamy this w JavaScript
     <B>this</B>. Nie jest to temat prosty i oczywisty.
   </M>
   <M>
-    Aby zrozumieć jak działa ten element języka musimy najpierw zlokalizować
+    Aby zrozumieć jak działa ten element języka, musimy najpierw zlokalizować
     problem, później go rozwiązać, a na samym końcu dojść do pewnych wniosków.{" "}
   </M>
   <M>
-    W takim razie nie pozostaje mi nic innego jak zaprosić Cię to lekturki, w
-    której wyjaśnimy wszystko co konieczne oraz dojdziemy do tego jak można
+    W takim razie nie pozostaje mi nic innego, jak zaprosić Cię to lekturki, w
+    której wyjaśnimy wszystko, co konieczne oraz dojdziemy do tego, jak można
     uniknąć stosowania tego szarlatana.
   </M>
 </Prelude>
@@ -32,7 +32,7 @@ title: Wyjaśniamy this w JavaScript
   <XL>Pierwszy raz z "this"</XL>
   <M>
     Spójrz na poniższy kod, który ma za zadanie stworzyć konkretną listę{" "}
-    <B>n elementów</B> przy wykorzystaniu generycznej klasy <B>List</B>:
+    <B>n-elementów</B> przy wykorzystaniu generycznej klasy <B>List</B>:
   </M>
   <Snippet>{`
 "use strict"
@@ -70,8 +70,8 @@ console.log(usersList.list.items);
 `}</Snippet>
   <M>
     Kod w tym przypadku zachowa się w sposób zgodny z naszymi oczekiwaniami.{" "}
-    <B>This</B> będzie wskazywać na instancje klasy czyli w tym przypadku obiekt
-    utworzony za pomocą <B>new</B>.
+    <B>This</B> będzie wskazywać na instancje klasy, czyli w tym przypadku
+    obiekt zostanie utworzony za pomocą <B>new</B>.
   </M>
   <M>
     Czy możemy więc założyć, że <B>this</B> to pewnego rodzaju zmienna, która
@@ -85,11 +85,12 @@ console.log(usersList.list.items);
   <M>
     Wobraź sobie, że przychodzi menago z projektu i mówi, że usuwanie ma być
     generyczne - typowa sytuacja w projekcie (zmiana wymagań). Nie znasz JS'a
-    szczególnie dobrze. Pierwsze co przyjdzie Ci do głowy to przekazanie{" "}
-    <B>callbacka</B> do funkcji <B>remove</B>. 
+    szczególnie dobrze. Pierwsze, co przyjdzie Ci do głowy, to przekazanie{" "}
+    <B>callbacka</B> do funkcji <B>remove</B>.
   </M>
-  <M>Zmieńmy zatem implementacje klasy{" "}
-    <B>List</B>:</M>
+  <M>
+    Zmieńmy zatem implementacje klasy <B>List</B>:
+  </M>
   <Snippet
     changed={[
       [5, 7],
@@ -126,7 +127,7 @@ class UsersList {
 }
 `}</Snippet>
   <M>
-    Po próbie odpalenia kodu dostaniesz na konsole coś takiego:{" "}
+    Po próbie odpalenia kodu dostaniesz na konsoli coś takiego:{" "}
     <B>Cannot read properties of undefined (reading 'elementIdxToRemove')</B>.
   </M>
   <M>
@@ -135,20 +136,21 @@ class UsersList {
     zadziałać.
   </M>
   <M>
-    No ale jak to! <B>This</B> miało wskazywać na instancje klasy! No i
-    wskazuje. Niestety nie na klase. W tym przypadku wskazuje na{" "}
+    No, ale jak to! <B>This</B> miało wskazywać na instancje klasy! No i
+    wskazuje. Niestety nie na klasę. W tym przypadku wskazuje na{" "}
     <B>undefined</B>.{" "}
   </M>
   <M>
     <B>Że co?</B>
   </M>
   <M>
-    Znaczenie ma to jak nasza funkcja <B>removeUser</B> jest wywoływana. Dla <B>deklaracji</B> funkcji przekazanych jako
-    argument, <B>this</B> ma wartość <B>undefined</B>. Tak jest to po prostu
-    zaimplementowane. Każda technologia ma jakieś domyślne zachowania.
+    Znaczenie ma to jak nasza funkcja <B>removeUser</B> jest wywoływana. Dla{" "}
+    <B>deklaracji</B> funkcji przekazanych jako argument, <B>this</B> ma wartość{" "}
+    <B>undefined</B>. Tak jest to po prostu zaimplementowane. Każda technologia
+    ma jakieś domyślne zachowania.
   </M>
   <Hint hasBg>
-    Zasada 1: dekleracje funkcji przekazane jako <B>callback</B> mają ustawione{" "}
+    Zasada 1: Dekleracje funkcji przekazane jako <B>callback</B> mają ustawione{" "}
     <B>this</B> jako <B>undefined</B>.
   </Hint>
 </Section>
@@ -156,20 +158,21 @@ class UsersList {
 <Section>
   <XL>Jak to naprawić?</XL>
   <M>
-    Musimy przypisać wartość <B>this</B> do tego czym powinno być w kontekście
-    naszego kodu czyli instancją klasy <B>UsersList</B>. Po tym zabiegu
-    zacznie on prawidłowo działać.
+    Musimy przypisać wartość <B>this</B> do tego, czym powinno być w kontekście
+    naszego kodu, czyli instancją klasy <B>UsersList</B>. Po tym zabiegu zacznie
+    on prawidłowo działać.
   </M>
   <M>
     <B>Jak to zrobić?</B>
   </M>
   <M>
     Najprostrzym sposobem będzie wykorzystanie <B>funkcji strzałkowej</B>, która
-    przypisze wartość <B>this</B> na bazie najbliższego <B>zasięgu leksykalnego</B> -
-    w naszym przypadku obiektu stworzonego przez klase <B>UsersList</B>, a dokładniej <B>this</B> tego obiektu.
+    przypisze wartość <B>this</B> na bazie najbliższego{" "}
+    <B>zasięgu leksykalnego</B> - w naszym przypadku obiektu stworzonego przez
+    klasę <B>UsersList</B>, a dokładniej <B>this</B> tego obiektu.
   </M>
   <Snippet
-    description="Znowu działa i można iść po kawusie"
+    description="Znowu działa i można iść po kawusię"
     changed={[[1, 1]]}
   >{`removeUser = (_, idx) => {
   // "This" będzie teraz obiektem stworzonym poprzez "UsersList".
@@ -178,8 +181,8 @@ class UsersList {
 };
 `}</Snippet>
   <Hint hasBg>
-    Zasada 2: funkcje strzałkowe przypisują wartość <B>this</B>, do <B>this</B>{" "}
-    tego co znajduje się w najbliższym zasięgu leksykalnym - nawet jeżeli są
+    Zasada 2: Funkcje strzałkowe przypisują wartość <B>this</B>, do <B>this</B>{" "}
+    tego, co znajduje się w najbliższym zasięgu leksykalnym - nawet jeżeli są
     przekazane jako <B>callback</B>.
   </Hint>
 </Section>
@@ -188,11 +191,13 @@ class UsersList {
   <XL>Czym jest zasięg leksykalny?</XL>
   <M>
     W zasięgu leksykalnym zakres jest determinowany przez <B>miejsce</B>, w
-    którym zmienna została zadeklarowana w kodzie. 
+    którym zmienna została zadeklarowana w kodzie.
   </M>
-  <M>Oznacza to, że zmienna jest
-    dostępna tylko wewnątrz bloku, funkcji lub modułu, w którym została
-    zadeklarowana oraz we wszystkich zagnieżdżonych blokach i funkcjach.</M>
+  <M>
+    Oznacza to, że zmienna jest dostępna tylko wewnątrz bloku, funkcji lub
+    modułu, w którym została zadeklarowana oraz we wszystkich zagnieżdżonych
+    blokach i funkcjach.
+  </M>
   <M>
     Niezależnie od sposobu wywoływania funkcji, zasięg leksykalny jest określany
     na podstawie <B>struktury</B> kodu w momencie jego <B>przetwarzania</B>{" "}
@@ -233,24 +238,23 @@ test.innerThis();
   </M>
   <M>I tu wchodzi w życie kolejna zasada: </M>
   <Hint hasBg>
-    Zasada 3: dla trybu <B>use strict</B> wartość <B>this</B> w przypadku gdy
+    Zasada 3: Dla trybu <B>use strict</B> wartość <B>this</B> w przypadku, gdy
     wskazuje na obiekt globalny przyjmuje wartość <B>undefined</B>.
   </Hint>
   <M>
-    <B>This</B> może być czymś innym w zależności od środowiska w jakim
+    <B>This</B> może być czymś innym w zależności od środowiska, w jakim
     uruchamiany jest nasz kod. W przypadku przeglądarki jest to <B>window</B>, a
     w przypadku <B>Node.js</B> może to być <B>moduł</B>.
   </M>
   <M>
     Zostało to zaimplementowane w ten sposób, aby uniknąć przykrych
     niespodzianek przy odnoszeniu się do właściwości obiektu. Może się okazać,
-    że <B>this.nazwaMetody()</B> okarze się tą należącą do obiektu <B>window</B>
-    .
+    że <B>this.nazwaMetody()</B> okaże się tą należącą do obiektu <B>window</B>.
   </M>
   <M>
     Dzięki temu developer ma możliwość wyłapania potencjalnego problemu w
     momencie uruchomienia kodu - natychmiastowo widzi wyjątek przy próbie
-    odniesienia sie do <B>this</B>, które może wskazywać na obiekt globalny.
+    odniesienia się do <B>this</B>, które może wskazywać na obiekt globalny.
   </M>
 </Section>
 
@@ -271,16 +275,17 @@ obj2.bike() // "Gixxer"
 `}</Snippet>
   <M>
     W powyższym przykładzie wewnątrz funkcji <B>bike</B> korzystamy z{" "}
-    <B>this</B> i logujemy wartość <B>name</B>. W momencie gdy przypiszemy
-    deklaracje funkcji <B>bike</B> do dowolnego obiektu to ten obiekt staje się <B>this</B>.
+    <B>this</B> i logujemy wartość <B>name</B>. W momencie, gdy przypiszemy
+    deklaracje funkcji <B>bike</B> do dowolnego obiektu, ten obiekt staje się{" "}
+    <B>this</B>.
   </M>
   <Hint hasBg>
-    Zasada 4: jeżeli przypiszesz <B>deklaracje funkcji</B>, która korzysta z{" "}
-    <B>this</B> do obiektu, to ten obiekt staje się <B>this</B> dla tej funkcji.
+    Zasada 4: Jeżeli przypiszesz <B>deklarację funkcji</B>, która korzysta z{" "}
+    <B>this</B> do obiektu, ten obiekt staje się <B>this</B> dla tej funkcji.
   </Hint>
   <M>
-    A jak zachowa się kod gdy zamienimy deklaracje funkcji <B>bike</B> na
-    funkcje strzałkową?
+    A jak zachowa się kod, gdy zamienimy deklarację funkcji <B>bike</B> na
+    funkcję strzałkową?
   </M>
   <Snippet>{`
 const bike = () => {
@@ -294,7 +299,7 @@ obj1.bike() // Tu dostaniemy wyjątek ❌.
 obj2.bike() // Tu też❌.
 `}</Snippet>
   <M>
-    Dla obydwu przypadków wyjątek:{" "}
+    Dla obydwu przypadków będzie wyjątek:{" "}
     <B>Cannot read properties of undefined (reading 'name)'</B>. Ten sam powód
     co w pierwszym przykładzie. Zmienna <B>this</B> wskazuje na obiekt{" "}
     <B>window</B>, który przez <B>use strict</B> ma wartość <B>undefined</B>.
@@ -302,7 +307,7 @@ obj2.bike() // Tu też❌.
 </Section>
 
 <Section>
-  <XL>Klasy a "this"</XL>
+  <XL>Klasy, a "this"</XL>
   <M>
     Jeżeli stworzymy obiekt z wykorzystaniem <B>new</B>, to <B>this</B> będzie
     miało wartość stworzonego obiektu. Dlatego w poniższym kodzie nie mamy
@@ -351,8 +356,8 @@ const obj2 = new Bike('Gixxer');
 obj1.ride(); // Pulsar
 obj2.ride(); // Gixxer`}</Snippet>
   <M>
-    A co z dziedziczeniem?. Jaką mamy gwarancje, że czegoś nie popsujemy
-    odnosząc się do <B>this</B> w klasie <B>Bike</B>?
+    A co z dziedziczeniem?.Jaką mamy gwarancję, że czegoś nie popsujemy odnosząc
+    się do <B>this</B> w klasie <B>Bike</B>?
   </M>
   <Snippet
     added={[
@@ -394,23 +399,24 @@ obj1.ride(); // Pulsar, KDM, KMD
 obj2.ride(); // Gixxer, Moto, Moto
 `}</Snippet>
   <M>
-    Przy dziedziczeniu <B>this</B> klasy nadrzędnej oraz klasy która dziedziczy
-    to jedno i to samo <B>this</B>. Dzięki Bogu chociaż tutaj mamy ułatwienie...
+    Przy dziedziczeniu <B>this</B> klasy nadrzędnej oraz klasy, która dziedziczy
+    to jedno i to samo <B>this</B>. Dzięki Bogu, chociaż tutaj mamy
+    ułatwienie...
   </M>
   <Hint hasBg>
-    Zasada 5: przy korzystaniu z <B>new</B> wartość <B>this</B> będzie odnosiła
+    Zasada 5: Przy korzystaniu z <B>new</B> wartość <B>this</B> będzie odnosiła
     się do stworzonego obiektu - nie ma znaczenia tutaj składnia (czy klasa, czy
     funkcja jako konstruktor).
   </Hint>
   <Hint hasBg>
-    Zasada 6: przy dziedziczeniu wartość <B>this</B> jest taka sama dla klasy
+    Zasada 6: Przy dziedziczeniu wartość <B>this</B> jest taka sama dla klasy
     rodzica i dziecka.
   </Hint>
 </Section>
 
 <Section>
   <XL>Słowo kluczowe "static"</XL>
-  <M>Tu jest troche ciekawiej. Spójrz na poniższy kod: </M>
+  <M>Tu jest trochę ciekawiej. Spójrz na poniższy kod: </M>
   <Snippet
     changed={[
       [10, 15],
@@ -443,7 +449,7 @@ console.log(Bike.name); // Bike
     metoda statyczna.
   </M>
   <Hint hasBg>
-    Zasada 7: w przypadku pól statycznych <B>this</B> odnosi się do klasy.
+    Zasada 7: W przypadku pól statycznych <B>this</B> odnosi się do klasy.
   </Hint>
 </Section>
 
@@ -451,7 +457,7 @@ console.log(Bike.name); // Bike
   <XL>Bindowanie jawne - "explicit binding of this"</XL>
   <M>
     Do tej pory polegaliśmy na "magicznych" mechanizmach JavaScript, które za
-    nas ustawiają wartość <B>this</B> w zależności od tego co robimy w kodzie.
+    nas ustawiają wartość <B>this</B> w zależności od tego, co robimy w kodzie.
   </M>
   <M>
     <B> Czy jest możliwość ustawienia tego samemu?</B>
@@ -469,13 +475,13 @@ const obj = { name: "Pulsar" }
 Bike.call(obj); // "Pulsar"
 Bike.apply(obj, ['argument1', 'argument2']); // Pulsar`}</Snippet>
   <M>
-    Większość funkcji pozwala na przekazanie czegoś co opisane jest jako{" "}
-    <B>thisArg</B>. W powyższym przykładzie wywołaliśmy funkcje <B>Bike</B> za
+    Większość funkcji pozwala na przekazanie czegoś, co opisane jest jako{" "}
+    <B>thisArg</B>. W powyższym przykładzie wywołaliśmy funkcję <B>Bike</B> za
     pomocą <B>call</B> i jako <B>this</B> przekazaliśmy obiekt <B>obj</B>.
   </M>
   <M>
     Później zrobiliśmy to samo za pomocą <B>apply</B>, która pozwala wywołać
-    funkcje z wieloma argumentami - sterowaliśmy jawnie <B>this</B>.
+    funkcję z wieloma argumentami - sterowaliśmy jawnie <B>this</B>.
   </M>
   <M>Można zrobić to nawet dla funkcji takich jak: <B>forEach</B>: </M> 
   <Snippet>{`function logThis() {
@@ -484,16 +490,16 @@ Bike.apply(obj, ['argument1', 'argument2']); // Pulsar`}</Snippet>
 [1, 2, 3].forEach(logThis, { name: "hi" }); // 3x hi
 `}</Snippet>
 
-   <Hint hasBg>Zasada 8: możemy ustawić wartość <B>this</B> jawnie wykorzystując metode <B>call</B> lub <B>apply</B> bądź przekazując dodatkowy argument <B>thisArg</B> do metod takich jak <B>forEach</B>.</Hint>
+   <Hint hasBg>Zasada 8: Możemy ustawić wartość <B>this</B> jawnie wykorzystując metodę <B>call</B> lub <B>apply</B>, bądź przekazując dodatkowy argument <B>thisArg</B> do metod takich jak <B>forEach</B>.</Hint>
 </Section>
 
 <Section>
   <XL>Bindowanie na chama - "hard/fixed binding of this"</XL>
   <M>
     Można zrobić to jeszcze w inny sposób. Jest specjalna metoda <B>bind</B>,
-    która pozwala ustawić wartość <B>this</B> nie w momencie wywołania funkcji
+    która pozwala ustawić wartość <B>this</B> nie w momencie wywołania funkcji,
     lecz w <B>dowolnym</B> momencie. Zamiast pilnować wartości <B>this</B> dla
-    każdego wywołania możemy to zrobić tylko raz - w konstruktorze.
+    każdego wywołania, możemy to zrobić tylko raz - w konstruktorze.
   </M>
   <Snippet added={[[23, 28]]}>{`
   "use strict"
@@ -540,7 +546,7 @@ usersList.handleRemove(9);
 console.log(usersList.list.items); // Zwróci 9 elementów.
 `}</Snippet>
   <Hint hasBg>
-    Zasada 9: możemy ustawić <B>this</B> wykorzystując metode <B>bind</B>, która
+    Zasada 9: Możemy ustawić <B>this</B> wykorzystując metodę <B>bind</B>, która
     tworzy kopię funkcji i pozwala przekazać własne <B>this</B>.
   </Hint>
 </Section>
@@ -548,10 +554,9 @@ console.log(usersList.list.items); // Zwróci 9 elementów.
 <Section>
   <XL>Pozbywanie się "this"</XL>
   <M>
-    Możemy uniknąć odnoszenia się do <B>this</B> po prostu pisząc kod funkcyjnie.
-    Spójrz na poniższy przykład, w którym kod napisany obiektowo
-    przekształciliśmy do podejścia funkcyjnego i usuneliśmy przy tym <B>this</B>
-    .
+    Możemy uniknąć odnoszenia się do <B>this</B> po prostu pisząc kod
+    funkcyjnie. Spójrz na poniższy przykład, w którym kod napisany obiektowo
+    przekształciliśmy do podejścia funkcyjnego i usunęliśmy przy tym <B>this</B>.
   </M>
   <Snippet>{`"use strict";
  
@@ -600,7 +605,7 @@ console.log(usersList.list.items);
 `}</Snippet>
   <M>
     Zamist odnosić się do <B>this</B> polegamy teraz na mechanizmie{" "}
-    <B>domknięcia (closure)</B>. Jeżeli interesuje Cię jak to dokładnie działa
+    <B>domknięcia (closure)</B>. Jeżeli interesuje Cię, jak to dokładnie działa,
     to zapraszam do{" "}
     <A
       outside
@@ -611,7 +616,7 @@ console.log(usersList.list.items);
     .
   </M>
   <M>
-    Jeżeli chcesz zgłębić tajniki programowania obiektowego to czeka na Ciebie
+    Jeżeli chcesz zgłębić tajniki programowania obiektowego, to czeka na Ciebie
     jeszcze jeden{" "}
     <A
       href="https://greenonsoftware.com/articles/quick-wins/improving-code-that-was-not-written-by-us/"
@@ -622,17 +627,17 @@ console.log(usersList.list.items);
     .
   </M>
   <Hint hasBg>
-    Zasada 10 (dzięki Bogu chyba ostatnia): <B>this</B> możemy usunąć z naszego
+    Zasada 10 (dzięki Bogu chyba ostatnia): <B>This</B> możemy usunąć z naszego
     kodu wykorzystując programowanie funkcyjne oraz mechanizm <B>domknięcia</B>.
   </Hint>
 </Section>
 
 <Summary label="Podsumowanie">
   <M>
-    Jeżeli pozostawimy ustawianie wartości <B>this</B> silnikowi JavaScript to
-    musimy znać wszystkie zasady. Jest to trochę skomplikowane. Dla
-    świętego spokoju polecam używać zawsze <B>funkcji strzałkowych</B> lub po
-    prostu metod takich jak <B>call, apply, bind</B>, które pozwalają
+    Jeżeli pozostawimy ustawianie wartości <B>this</B> silnikowi JavaScript, to
+    musimy znać wszystkie zasady. Jest to trochę skomplikowane. Dla świętego
+    spokoju polecam używać zawsze <B>funkcji strzałkowych</B> lub po prostu
+    metod, takich jak <B>call, apply, bind</B>, które pozwalają
     przekazać/ustawić <B>this</B>.
   </M>
   <M>
@@ -644,13 +649,13 @@ console.log(usersList.list.items);
     się na liczne problemy.
   </M>
   <M>
-    Mam nadzieję, że się podobało. Jeżeli tak to odwiedź nas na
+    Mam nadzieję, że się podobało. Jeżeli tak, to odwiedź nas na
     <A
       href="https://www.linkedin.com/in/adrian-po%C5%82ubi%C5%84ski-281ab2172/"
       outside
     >
       Linkedin
-    </A> gdzie regularnie dzielimy się wiedzą i przekaż swoją opinie.
+    </A>, gdzie regularnie dzielimy się wiedzą i przekaż swoją opinię.
   </M>
   <Hint hasBg>
     Sprawdź wytłumaczenie tego konceptu w{" "}
@@ -659,7 +664,7 @@ console.log(usersList.list.items);
       outside
     >
       dokumentacji
-    </A>{" "}
-    na podstawie której powstał ten wpis.
+    </A>
+    , na podstawie której powstał ten wpis.
   </Hint>
 </Summary>
