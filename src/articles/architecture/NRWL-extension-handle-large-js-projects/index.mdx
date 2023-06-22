@@ -1,0 +1,197 @@
+---
+cdate: 2023-06-22
+mdate: 2023-06-22
+authorId:
+treviewerId: apolubinski
+lreviewerId: kreszko
+stack: nrwl, javascript
+tags: architecture,design
+description:
+readTime:
+seniorityLevel:
+title:
+---
+
+//Oryginalny artykul dostepny pod: https://docs.google.com/document/d/1sGuzdKxNSZ1Y9_1eqnZF34zcB_KbkgpUXTlcnPSqJiI/edit#heading=h.81vjrlf79p1k
+
+<Prelude>
+  <Img
+    src="https://nx.dev/socials/nx-media.png"
+    description="NX - Next generation build system with first class monorepo support and powerful integrations."
+  />
+  <M>
+    {" "}
+    Wraz z rozwojem języka JavaScript, zauważa się również wzrost złożoności
+    projektów tworzonych w tym języku. Aby nadążyć za tą ewolucją, wielu
+    programistów poszukuje narzędzi, które pomogą w zarządzaniu dużymi
+    projektami i usprawnią proces ich rozwoju.{" "}
+  </M>
+  <M>
+    Jednym z takich narzędzi jest <B>NRWL Extension</B>, w skrócie NX. W tym
+    artykule przedstawię, czym dokładnie jest NX, jakie są jego zastosowania
+    oraz najważniejsze funkcje.
+  </M>
+</Prelude>
+
+<Section>
+  <XL>Wprowadzenie</XL>
+  <M>
+  Narzędzie NX (Nrwl Extension) to rozwiązanie do tworzenia monorepo opracowane przez NRWL. NX zapewnia szereg funkcjonalności, które pozwalają na lepszą organizację, testowanie i dystrybucję kodu w dużych projektach opartych o różne technologie JS (Angular, React, NestJS, Next.js itd.). Narzędzie to zapewnia m.in:
+    <List items="automatyzację procesów deweloperskich, wsparcie dla tworzenia monolitycznych i mikrousługowych architektur, wsparcie dla narzędzi do testowania jednostkowego i e2e (np. Jest i Cypress), obsługę narzędzi do automatyzacji procesów budowania i dystrybucji (np. Bazel i Nx Cloud), wsparcie dla narzędzi do analizy i uporządkowania kodu (np. ESLint i Prettier), wsparcie dla narzędzi do zarządzania zależnościami (np. npm i yarn" />
+  </M>
+  <M>
+  NX pozwala również na łatwą integrację z innymi narzędziami i bibliotekami, takimi jak <B>NgRx</B> i <B>Storybook</B> itd.. Dzięki temu, deweloperzy mogą korzystać z już istniejących rozwiązań i narzędzi w swoich projektach.
+</M>
+<M>
+NX jest przydatne dla zespołów deweloperskich, które pracują nad dużymi, złożonymi projektami i chcą zwiększyć swoją produktywność poprzez automatyzację procesów i lepszą organizację kodu.</M>
+</Section>
+<Section>
+  <XL>Przypadki użycia NX od NRWL</XL>
+<M>
+    NX ma wiele przypadków użycia, nie są to tylko duże projekty z wieloma zależnymi, współdzielonymi bibliotekami, ale też sprawdza się przy małych projektach. Kiedy można użyć tego narzędzia:
+  </M>
+  <M><B>Nowe monorepo NX</B>
+  <Hint>Co nam daje?</Hint>
+  W tym przypadku korzystamy z całego zakresu funkcjonalnego
+    <Hint>Jak skorzystać?</Hint>
+    Do utworzenia nowego workspace wystarczy tak naprawdę tylko zainstalowany menedżer pakietów npm i polecenie:
+ <Hint hasBg>npx create-nx-workspace@latest </Hint>
+utworzy dla nas strukturę.
+<A src="https://nx.dev/packages/nx/documents/create-nx-workspace">Link do polecenia
+</A>
+  </M>
+   <M>
+   <B>Monorepo w Lerna</B>
+  <Hint>Co nam daje?</Hint>
+  Możemy skorzystać do zapewnienie współbieżnego wykonywania zadań, cachowania operacji, dystrybucji zadań, oraz ograniczenia budowania kodu, tylko do miejsc w których było coś zmieniane.
+    <Hint>Jak skorzystać?</Hint>
+    Wystarczy zaktualizować Lerna do najnowszej wersji i w pliku konfiguracyjnym lerna.json ustawić flagę useNx na true.
+<A src="https://www.youtube.com/watch?v=Edv7ZeI8Bwc">Wideo pokazujące migrację
+</A>
+  </M>
+  <M>
+   <B>Migracja z pojedynczej aplikacji Angular do workspace NX</B>
+  <Hint>Co nam daje?</Hint>
+  W tym przypadku też korzystamy z całego zakresu funkcjonalnego.
+    <Hint>Jak skorzystać?</Hint>
+    Wystarczy zainstalować cli poleceniem:
+    <Hint hasBg>npm i @nrwl/cli -D</Hint>
+    I wykonać w drugim kroku migrację polecneiem:
+        <Hint hasBg>npx nx init</Hint>
+  </M>
+    <M>
+   <B>Migracja z pojedynczej aplikacji Angular do workspace NX</B>
+  <Hint>Co nam daje?</Hint>
+  W tym przypadku NX daje na start projektu gotową konfigurację testów Jest, ESLint i Prettier, zapewnia mechanizm cachowania operacji, oraz ograniczenia budowania kodu, tylko do miejsc w których było coś zmieniane.
+    <Hint>Jak skorzystać?</Hint>
+    Do utworzenia nowej aplikacji Angular lub w innej technologii tworzymy też tak naprawdę workspace, ale już z gotowym szablonem pod daną technologię dodając tylko dodatkowy parametr:
+    <Hint hasBg>npx create-nx-workspace@latest –preset=angular</Hint>
+    Jakie technologie można na start skonfigurować?
+    <List items="ts, web-components, angular,react,react-native,next,nest,express"/>
+</M>
+ <M>
+   <B>Dowolny projekt JS z package.json</B>
+  <Hint>Co nam daje?</Hint>
+  W tym przypadku możemy skorzystać z mechanizmu cachowania skryptów.
+    <Hint>Jak skorzystać?</Hint>
+    Wystarczy zainstalować cli poleceniem:
+    <Hint hasBg>npm i @nrwl/cli -D
+</Hint>
+Od tego momentu każdy skrypt skonfigurowany w pliku package.json może być cachowany przez NX wywołując wywołując go w taki prosty sposób:
+npx nx [nazwa]
+</M>
+  </Section>
+  <Section>
+  <XL>Core Features NX</XL>
+  <M>
+  NX to potężne narzędzie z wieloma funkcjonalnościami wspierającymi pracę z monorepo opartymi o NX. Twórcy wyszczególniają takie funkcjonalności jak:
+  </M>
+  <B>Task Executors</B>
+  <M>
+  Wsparcie i konfiguracja zadań w obrębie poszczególnych projektów jak i całego monorepo. Służą one do automatyzacji różnych procesów, takich jak budowanie aplikacji, testowanie, aktualizowanie zależności i wiele innych.
+</M>
+  <Hint>Przykład użycia</Hint>
+  <M><B>nx affected:build</B>
+buduje tylko te moduły, które zostały zmodyfikowane od ostatniego buildu</M>
+<M>
+ <B>nx affected:e2e</B>  
+uruchamia tylko testy e2e dla modułów, które zostały zmodyfikowane od ostatniego buildu
+ </M>
+ <M>
+ <B>nx affected:lint</B>  
+uruchamia lintowanie tylko dla plików, które zostały zmodyfikowane od ostatniego buildu
+ </M>
+ <M>
+ Dodatkowo NX udostępnia paczkę
+ <B>npm @nrwl/nx-plugin</B>
+  , która daje nam możliwość stworzenia własnego Task Executora. Dzięki temu, możemy rozszerzyć funkcjonalność narzędzia NX i dostosować do własnych potrzeb.
+ </M>
+  <B>Cache Tasks Results</B>
+  <M>
+ NX używa pamięci podręcznej, aby nie budować wielokrotnie kodu, który już był budowany. W kontekście tego narzędzia, współdzielenie cache oznacza, że różne biblioteki lub skrypty, które są używane w projekcie mogą wykorzystać ten sam cache, przechowując informacje o kompilacji, skanowaniu plików itp. Dzięki temu, procesy te nie muszą być powtarzane dla każdej biblioteki czy skryptu, co przyspiesza proces budowy i zwiększa wydajność.
+</M>
+<M>
+Jak cache działa w praktyce? Przed uruchomieniem danego zadania NX oblicza hash danej biblioteki. Jeżeli hash jest taki sam jak w poprzednim wywołaniu to ponownie nie wykonuje zadania, tylko bierze rezultat poprzedniego wywołania.
+</M>
+<Img src="https://nx.dev/documentation/shared/images/caching/nx-hashing.svg" description="Jak działa cache'owanie? Źródło: https://nx.dev/concepts/how-caching-works " />
+<M>
+<Hint>Jak można zoptymalizować obsługę cache?</Hint>
+<B>Source Code Hash Inputs </B>- można określić szczegółowo jakie pliki będą brane pod uwagę podczas budowania hash.
+</M>
+<Snippet
+linesCount={14} src="https://pastebin.com/raw/07RNS7Vz" />
+<M>
+<B>Runtime Hash Inputs </B>- można określić dodatkowe parametry, które będą podstawiane podczas uruchamiania zadania na podstawie których będzie budowany hash.
+</M>
+<Snippet
+linesCount={14} src="https://pastebin.com/raw/aRuU01uy" />
+<M></M>
+  <B>Współdzielenie Cache </B>
+    <M>
+ Pamięć podręczna może być współdzielona pomiędzy wielu programistów jak i narzędzia CI w ramach usługi self-hosted jak i w chmurze NX Cloud.
+
+Wystarczy tylko połączyć się z chmurą NX Cloud poleceniem:
+
+<Hint hasBg>npx nx connect-to-nx-cloud</Hint>
+i z wyników naszych zadań może skorzystać każdy członek zespołu deweloperskiego.
+</M>
+<Img src="https://nx.dev/documentation/shared/images/dte/distributed-caching.svg" description="Proces dzielenia cache'. Źródło: https://nx.dev/core-features/share-your-cache" />
+<M></M>
+  <B>Graf NX</B>
+    <M>
+Graf ten pozwala na wizualną eksplorację zależności w projektach, bibliotekach i zadaniach, które są w ramach monorepo.
+
+Wystarczy tylko wywołać polecenie:
+
+<Hint hasBg>npx nx graph</Hint>
+
+Spowoduje to otwarcie przeglądarki i wizualizację zależności w projekcie. Przeglądanie całego wykresu może być trudne przy dużych rozwiązaniach. Dlatego NX udostępnia dodatkowe filtry, które pozwalają na zawężenie widoczności zależności. Można przetestować działanie takiego grafu pod adresem:
+
+<A src="https://nrwl-nx-examples-dep-graph.netlify.app/"> https://nrwl-nx-examples-dep-graph.netlify.app/ </A>
+</M><M></M>
+  <B>Distribute Task Execution </B>
+    <M>
+Jest to wsparcie do delegowania zadań na wiele agentów i zrównoleglenie wykonywania ich do jeszcze efektywniejszej pracy. Funkcjonalność ta minimalizuje czas wykonywania procesów CI, wraz z zachowaniem odpowiedniej kolejności wykonywania.
+
+Spowoduje to otwarcie przeglądarki i wizualizację zależności w projekcie. Przeglądanie całego wykresu może być trudne przy dużych rozwiązaniach. Dlatego NX udostępnia dodatkowe filtry, które pozwalają na zawężenie widoczności zależności. Można przetestować działanie takiego grafu pod adresem:
+
+</M>
+<Img src="https://nx.dev/documentation/shared/images/dte/distributed-caching-and-task-execution.svg" description="Źródło: https://nx.dev/core-features/distribute-task-execution" />
+<M>
+Rozproszone wykonywanie zadań może działać na dowolnym dostawcy CI. Deweloper jest tylko odpowiedzialny za konfigurowanie zadań w swoim CI. Następnie NX Cloud koordynuje sposób, w jaki te zadania współpracują z sobą.
+</M>
+<M><B>Integracja z IDE </B>- NX Console jest to UI dla NX, które jest udostępniane w formie pluginów dla takich IDE jak VS Code, WebStorm, czy Neovim.
+</M>
+<B>VS Code </B><M> Wystarczy zainstalować plugin z Marketplace:
+<A src="https://marketplace.visualstudio.com/items?itemName=nrwl.angular-console"> https://marketplace.visualstudio.com/items?itemName=nrwl.angular-console</A>
+</M>
+<Img src="https://i.ibb.co/n0gZHMW/Obraz.png"/>
+<M></M>
+<B>WebStorm</B>
+<M>Są dwa pluginy do tego IDE:
+<A src="https://plugins.jetbrains.com/plugin/15000-nx-webstorm/"> https://plugins.jetbrains.com/plugin/15000-nx-webstorm/ </A>
+<A src="https://plugins.jetbrains.com/plugin/15101-nx-console-idea/">https://plugins.jetbrains.com/plugin/15101-nx-console-idea/ </A>
+</M>
+<Img src="https://i.ibb.co/FbcVQgd/Obraz-2.png" />
+
+ </Section>
