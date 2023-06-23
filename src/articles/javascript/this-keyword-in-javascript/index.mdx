@@ -18,13 +18,13 @@ title: This keyword in JavaScript
     <B>this</B>. It is not a simple and obvious topic.
   </M>
   <M>
-    To understand how <B>this</B> works, we must first locate the the problem,
-    then solve it, and at the very end come to some conclusions.
+    To understand how <B>this</B> works, we must first locate the problem, then
+    solve it, and at the very end come to some conclusions.
   </M>
   <M>
     In that case, I have no other choice than to invite you to a lecture in
-    which we will explain everything necessary and get to the conclusion on how
-    to avoid the use of <B>this</B> keyword.
+    which we will explain everything necessary and get to a conclusion on how to
+    avoid the use of <B>this</B> keyword.
   </M>
 </Prelude>
 
@@ -81,7 +81,7 @@ console.log(usersList.list.items);
 </Section>
 
 <Section>
-  <XL>First problem with "this"</XL>
+  <XL>The first problem with "this"</XL>
   <M>
     Imagine that a project manager comes in and says that deletion is supposed
     to be generic - a typical project situation (change in requirements). You
@@ -132,9 +132,9 @@ class UsersList {
     <B>Cannot read properties of undefined (reading 'elementIdxToRemove')</B>.
   </M>
   <M>
-    Well, but how! This was supposed to point to instance of the <B>class</B>!
-    Well, and it does point. Unfortunately not to the class. In this case, it
-    points to <B>undefined</B>.
+    Well, but how! This was supposed to point to an instance of the <B>class</B>!
+    Well, and it does point. Unfortunately not to the class. In this case, it points
+    to <B>undefined</B>.
   </M>
   <M>
     <B>What?</B>
@@ -143,10 +143,10 @@ class UsersList {
     What matters is how our <B>removeUser </B> function is called. For function{" "}
     <B>declarations </B> passed as an argument, <B>this</B> has the value{" "}
     <B>undefined</B>. This is simply how it is implemented. Every technology has
-    some default behavior.
+    some default behaviour.
   </M>
   <Hint hasBg>
-    Rule 1: function declarations passed as <B>callbacks</B> have <B>this</B>{" "}
+    Rule 1: Function declarations passed as <B>callbacks</B> have <B>this</B>{" "}
     set as <B>undefined</B>.
   </Hint>
 </Section>
@@ -177,17 +177,17 @@ class UsersList {
 };
 `}</Snippet>
   <Hint hasBg>
-    Rule 2: arrow functions assign a value of <B>this</B>, to the <B>this</B> of
+    Rule 2: Arrow functions assign a value of <B>this</B>, to the <B>this</B> of
     whatever is in the nearest lexical context - even if it's passed as a{" "}
     <B>callback</B>.
   </Hint>
 </Section>
 
 <Section>
-  <XL>What is lexical context?</XL>
+  <XL>What is the lexical context?</XL>
   <M>
-    In lexical context, the <B>scope</B> is determined by where the variable is
-    declared in the code.
+    In the lexical context, the <B>scope</B> is determined by where the variable
+    is declared in the code.
   </M>
   <M>
     This means that the variable is available only inside the block, function or
@@ -232,13 +232,13 @@ test.innerThis();
   </M>
   <M>And this is where another rule comes into play: </M>
   <Hint hasBg>
-    Rule 3: for <B>use strict</B> mode, the value of <B>this</B> when pointing
+    Rule 3: For <B>use strict</B> mode, the value of <B>this</B> when pointing
     to a <B>global</B> object adopts the <B>undefined</B> value.
   </Hint>
   <M>
     <B>This</B> can be something different depending on the <B>environment</B>{" "}
-    in which our code is running. In the case of a browser it is a <B>window</B>,
-    and in the case of <B>Node.js</B> it may be a <B>module</B>.
+    in which our code is running. In the case of a browser, it is a{" "}
+    <B>window</B>, and in the case of <B>Node.js</B> it may be a <B>module</B>.
   </M>
   <M>
     It has been implemented this way to avoid unpleasant surprises when
@@ -269,12 +269,12 @@ obj1.bike() // "Pulsar"
 obj2.bike() // "Gixxer"
 `}</Snippet>
   <M>
-    In the above example inside the <B>bike</B> function we use <B>this</B> to
+    In the above example inside the <B>bike</B> function, we use <B>this</B> to
     log the <B>name</B> value. When we assign the <B>bike</B> function
     declaration to any object then that object becomes <B>this</B>.
   </M>
   <Hint hasBg>
-    Rule 4: if you assign a <B>function declaration</B> that uses <B>this</B> to
+    Rule 4: If you assign a <B>function declaration</B> that uses <B>this</B> to
     an object, that object becomes <B>this</B> for that function.
   </Hint>
   <M>
@@ -303,8 +303,8 @@ obj2.bike() // Here too❌.
 <Section>
   <XL>"This" in classes</XL>
   <M>
-    If we create an object using <B>new</B>, the <B>this</B> will have the value
-    of the created object. Therefore, in the following code, we have no
+    If we create an object using <B>new</B>, then <B>this</B> will have the
+    value of the created object. Therefore, in the following code, we have no
     problems.
   </M>
   <Snippet>{`
@@ -350,7 +350,7 @@ const obj2 = new Bike('Gixxer');
 obj1.ride(); // Pulsar
 obj2.ride(); // Gixxer`}</Snippet>
   <M>
-    What about <B>inheritance</B>. What guarantee do we have that we won't mess
+    What about <B>inheritance</B>? What guarantee do we have that we won't mess
     something up by referring to <B>this</B> in the <B>Bike</B> class?
   </M>
   <Snippet
@@ -393,16 +393,16 @@ obj1.ride(); // Pulsar, KDM, KMD
 obj2.ride(); // Gixxer, Moto, Moto
 `}</Snippet>
   <M>
-    During inheritance the <B>this</B> value of parent class is the same as
-    child class. Thank goodness at least here a relief...
+    During inheritance, the <B>this</B> value of the parent class is the same as
+    the child class. Thank goodness at least here is a relief...
   </M>
   <Hint hasBg>
-    Rule 5: when using <B>new</B>, the value of <B>this</B> will refer to the
+    Rule 5: When using <B>new</B>, the value of <B>this</B> will refer to the
     created object - the syntax (whether a class or a function as a constructor)
     does not matter here.
   </Hint>
   <Hint hasBg>
-    Rule 6: with <B>inheritance</B>, the value of <B>this</B> is the same for
+    Rule 6: With <B>inheritance</B>, the value of <B>this</B> is the same for
     the <B>parent</B> and <B>child</B>.
   </Hint>
 </Section>
@@ -438,11 +438,11 @@ console.log(Bike.name); // Bike
 `}</Snippet>
   <M>
     In the case of fields and static methods, <B>this</B> takes the value of a
-    class, not an instance of an object - its not there yet and will not be.
+    class, not an instance of an object - it's not there yet and will not be.
     After all, it's a static method.
   </M>
   <Hint hasBg>
-    Rule 7: for static fields, <B>this</B> refers to the <B>class</B>.
+    Rule 7: For static fields, <B>this</B> refers to the <B>class</B>.
   </Hint>
 </Section>
 
@@ -454,7 +454,7 @@ Until now, we have relied on "magic" JavaScript mechanisms that set the value of
   <M>
     <B>Is it possible to set this up ourselves?</B>
   </M>
-  <M>Of course it is!</M>
+  <M>Of course, it is!</M>
   <Snippet>{`
   "use strict"
   
@@ -467,10 +467,10 @@ const obj = { name: "Pulsar" }
 Bike.call(obj); // "Pulsar"
 Bike.apply(obj, ['argument1', 'argument2']); // Pulsar`}</Snippet>
   <M>
-Most functions allow you to pass something described as <B>thisArg</B>. In the above example, we called the <B>Bike</B> function using <B>call</B>. Next we passed an <B>obj</B> object as <B>this</B>.
+Most functions allow you to pass something described as <B>thisArg</B>. In the above example, we called the <B>Bike</B> function using <B>call</B>. Next, we passed an <B>obj</B> object as <B>this</B>.
   </M>
   <M>
- Later we did the same with <B>apply</B>, which allows to call functions with multiple arguments. In other words, we controlled binding of <B>this</B>.
+ Later we did the same with <B>apply</B>, which allows us to call functions with multiple arguments. In other words, we controlled the binding of <B>this</B>.
   </M>
   <M>This can even be done for functions such as <B>forEach</B>:</M> 
   <Snippet>{`function logThis() {
@@ -479,7 +479,7 @@ Most functions allow you to pass something described as <B>thisArg</B>. In the a
 [1, 2, 3].forEach(logThis, { name: "hi" }); // 3x hi
 `}</Snippet>
 
-   <Hint hasBg>Rule 8: we can set the value of <B>this</B> explicitly using the <B>call</B> or <B>apply</B> method or by passing the additional argument <B>thisArg</B> to methods such as <B>forEach</B>.</Hint>
+   <Hint hasBg>Rule 8: We can set the value of <B>this</B> explicitly using the <B>call</B> or <B>apply</B> method or by passing the additional argument <B>thisArg</B> to methods such as <B>forEach</B>.</Hint>
 </Section>
 
 <Section>
@@ -536,7 +536,7 @@ usersList.handleRemove(9);
 console.log(usersList.list.items); // Returns 9 elements.
 `}</Snippet>
   <Hint hasBg>
-    Rule 9: we can set <B>this</B> using the <B>bind</B> method, which creates a
+    Rule 9: We can set <B>this</B> using the <B>bind</B> method, which creates a
     copy of the function and allows you to pass your own <B>this</B>.
   </Hint>
 </Section>
@@ -546,7 +546,7 @@ console.log(usersList.list.items); // Returns 9 elements.
   <M>
     We can avoid referring to <B>this</B> simply by writing the code in
     functional way. Take a look at the example below, in which we converted
-    object oriented <B>code</B> to a functional approach and we removed{" "}
+    object-oriented <B>code</B> to a functional approach and we removed{" "}
     <B>this</B> entirely.
   </M>
   <Snippet>{`"use strict";
@@ -624,7 +624,7 @@ console.log(usersList.list.items);
   <M>
     If we leave the setting of <B>this</B> value to the JavaScript engine then
     we need to know all the rules. It is a bit complicated. For sanity's sake, I
-    recommend always using <B>arrow functions</B> or simply methods such as{" "}
+    recommend always using <B>arrow functions</B> or simple methods such as{" "}
     <B>call</B>, <B>apply</B> and <B>bind</B> that allow you to pass/set{" "}
     <B>this</B>.
   </M>
@@ -634,8 +634,8 @@ console.log(usersList.list.items);
   </M>
   <M>
     The whole concept of <B>this</B> is another element of the language that
-    sooner or later you need to understand thoroughly in order to write code
-    consciously and not expose yourself to numerous problems.
+    sooner or later you need to understand thoroughly to write code consciously
+    and not expose yourself to numerous problems.
   </M>
   <M>
     If you enjoyed it, be sure to visit us on{" "}
@@ -653,7 +653,7 @@ console.log(usersList.list.items);
       href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this"
       outside
     >
-      documentation
+      the documentation
     </A>{" "}
     on which this entry is based.
   </Hint>
