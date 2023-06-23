@@ -124,6 +124,7 @@ export default function ({
     readTime,
     originalArticlePath,
     lang,
+    seniorityLevel
   } = translatedArticle
 
   const t = translationObject[lang]
@@ -177,6 +178,7 @@ export default function ({
               newLabel="nowy"
               graphicAuthorLabel="Autor zdjęcia"
               thumbnailAlt="Zdjęcie artykułu"
+              seniorityLevel={seniorityLevel}
             />
             <Tags tags={tags} />
             <Intro>
