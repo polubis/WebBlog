@@ -7,6 +7,7 @@ const useEditor = (initMdx = INIT_MDX) => {
   const [mdx, setMdx] = useState(initMdx)
   const [currentMdx, setCurrentMdx] = useState(mdx)
   const [hasErrors, setHasErrors] = useState(false)
+  const [changed, setChanged] = useState(false);
 
   const mdxChanged = useMemo(() => new Subject<string>(), [])
   const mdxChanged$ = useMemo(() => mdxChanged.asObservable(), [])
@@ -14,6 +15,7 @@ const useEditor = (initMdx = INIT_MDX) => {
   const handleChange = (value: string): void => {
     setMdx(value)
     setHasErrors(false)
+    setChanged(true)
     mdxChanged.next(value)
   }
 
@@ -37,7 +39,7 @@ const useEditor = (initMdx = INIT_MDX) => {
   }, [])
 
   return [
-    { currentMdx, mdx, hasErrors },
+    { currentMdx, changed, mdx, hasErrors },
     { change: handleChange, markAsBroken },
   ] as const
 }

@@ -4,6 +4,13 @@ import type { LangKey } from "./Site"
 import type { Technology } from "./Technology"
 import type { Translated, Translation } from "./Translation"
 
+export enum SeniorityLevel {
+  beginner = "🔰",
+  intermediate = "⭐",
+  advanced = "🌟",
+  expert = "🥇",
+}
+
 export interface ArticleFrontmatter {
   cdate: string
   mdate: string
@@ -18,6 +25,7 @@ export interface ArticleFrontmatter {
   title: string
   langs: string[] | null
   graphicauthor?: string
+  seniorityLevel: SeniorityLevel
 }
 
 export interface Article {
@@ -25,6 +33,7 @@ export interface Article {
   description: ArticleFrontmatter["description"]
   readTime: ArticleFrontmatter["readTime"]
   tags: ArticleFrontmatter["tags"]
+  seniorityLevel: ArticleFrontmatter["seniorityLevel"]
   author: Author
   stack: Technology[]
   path: string

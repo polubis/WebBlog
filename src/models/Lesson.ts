@@ -8,6 +8,7 @@ export interface Lesson {
   name: string
   duration: number
   slug: string
+  rawBody: string
   path: string
   gaPage: string
   body: string

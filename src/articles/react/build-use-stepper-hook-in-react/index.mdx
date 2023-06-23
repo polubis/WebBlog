@@ -2,12 +2,13 @@
 cdate: 2023-06-05
 mdate: 2023-06-05
 authorId: polubis
-treviewerId: kwozniak
-lreviewerId: kreszko
+treviewerId: kzalewska
+lreviewerId: kzalewska
 stack: typescript,react,jest
 tags: hooks,steps,routing
 description: Let's design and build a hook for handling steps logic in an easy and scalable way.
 readTime: 7
+seniorityLevel: intermediate
 title: Build useStepper hook in React
 ---
 
@@ -21,8 +22,8 @@ title: Build useStepper hook in React
 />
 
 <M>
-  We'll write a <B>useStepper hook</B> that will have the basic functionality to
-  change the step and will protect us from potential bugs.
+  We'll write a <B>useStepper hook</B> with the basic functionality to change
+  the step and protect us from potential bugs.
 </M>
 
 <M>
@@ -31,15 +32,15 @@ title: Build useStepper hook in React
 </M>
 
 <M>
-  <B>We want to avoid:</B>
+  <B>We want to avoid the following:</B>
 </M>
 
-<List items="Using wrong key, Passing invalid props to component, Moving beyond the range of steps, Displaying the wrong step, Making a mistake in navigation logic" />
+<List items="Using the wrong key, Passing invalid props to the component, Moving beyond the range of steps, Displaying the wrong step, Making a mistake in the navigation logic" />
 </Prelude>
 
 <Section>
   <XL>1. The usage of useStepper</XL>
-    <M>For a start, look at how we will use our hook. Pay attention to the hints that appear thanks to the TypeScript.</M>
+    <M>For a start, look at how we will use our hook. Pay attention to the hints that appear thanks to TypeScript.</M>
   <Img description="See how it looks in the IDE" src="Type safety and protection from passing not allowed props" src="https://raw.githubusercontent.com/polubis/Snippets/main/useStepperDemo.gif" />
  <Snippet description="These functions blocks the possibility of passing bad parameters - they're type-guards!">{`import { useStepper } from './use-stepper';
  
@@ -101,11 +102,11 @@ const RegisterForm = () => {
 };`}</Snippet>
   <M>What is happening in the posted image and code?</M>
   <M>We declared four steps. Each of them is different - look at props and return statements.</M>
-  <M>Then we used <B>as const</B> assertion, which makes <B>readonly tuple</B>.</M>
+  <M>Then we used <B>const</B> assertion, which makes <B> a read-only</B> tuple.</M>
   <M>After that, we created two auxiliary types that will be needed for our hook - the first is a simple <B>type alias</B>, and the second is a <B>union</B>.</M>
-  <M>At the very end we used our <B>useStepper</B> API. </M>
-  <M>The <B>is()</B> function checks if the current step matches the passed key. If it does, there is a <B>type-guard</B> underneath, which marks <B>Component</B> as the one that match the key.</M>
-  <M>Therefore, later when we want to pass on not allowed properties to component, we'll be blocked from doing that.</M>
+  <M>At the very end, we used our <B>useStepper</B> API. </M>
+  <M>The <B>is()</B> function checks if the current step matches the passed key. If it does, there is a <B>type-guard</B> underneath, which marks <B>the component</B> as the one that matches the key.</M>
+  <M>Therefore, later when we want to pass on not allowed properties to the component, we'll be blocked from doing that.</M>
  </Section>
  
 <Section>
@@ -125,7 +126,7 @@ interface Step {
 </Snippet>
   <M>We used the notation <B>...any[]</B> because our <B>Component</B> function will take any number of arguments, not just a single props object (we do not want to limit developers).</M>
   
-    <M>Now let's define what our future <B>useStepper</B> must receive as parameters. The first will be <B>the key</B> of the step we want to start with, and the second will be <B>a list of steps</B>.</M>
+    <M>Now let's define what our future <B>useStepper</B> must receive as parameters. The first will be <B>the key</B> to the step we want to start with, and the second will be <B>a list of steps</B>.</M>
     
     <Snippet description='This is a tuple!'>
   {`/** Definition of the arguments that the hook will take. */
@@ -137,7 +138,7 @@ type UseStepperPayload<S extends Step, R extends readonly Step[]> = [
 </Snippet>
     <M>We used 2 generic types <B>(S, R)</B> - our step must have a <B>key</B> and a <B>Component</B>, but it can have something more. That's why we want to use generic types so that this "something more" can be remembered later. 
 </M>
-   <M>In addition, we will use these two generics later on to accurately describe what the hook will return and what each function will take. 
+   <M>In addition, we will use these two generics, later on, to accurately describe what the hook will return and what each function will take. 
 </M>
    <M><B>What will the hook return?</B>
 </M>
@@ -145,7 +146,7 @@ type UseStepperPayload<S extends Step, R extends readonly Step[]> = [
   {`/** This must be returned by the hook. */
 type UseStepperReturn<S extends Step> = [S, UseStepperActions<S>];`}
 </Snippet>
-<M>The step type we pass to the hook will be returned as the first element, and as the second element we will return a list of functions to interact with our hook.</M>
+<M>The step type we pass to the hook will be returned as the first element, and as the second element, we will return a list of functions to interact with our hook.</M>
 <M><B>So what does UseStepperActions look like?</B></M>
     <Snippet description='The set of functions we will use'>
   {`interface UseStepperActions<S extends Step> {
@@ -217,7 +218,7 @@ describe('Step can be changed when', () => {
   type UnionOfSteps = Steps[number]; // Union of objects from steps tuple.
 })`}
 </Snippet>
-<M>Now let's write two simple tests. The first will check if the assigned initial step has been taken into account, and the second will verify the execution of <B>set()</B> function.</M>
+<M>Now let's write two simple tests. The first will check if the assigned initial step has been taken into account, and the second will verify the execution of the <B>set()</B> function.</M>
        <Snippet added={[[4,21]]}>
   {`
 describe('Step can be changed when', () => {
@@ -293,13 +294,13 @@ const useStepper = <S extends Step, R extends readonly Step[]>(
   return [step, { set }];
 })`}
 </Snippet>
-<M>Thanks to previously created types and tests - implementation was child's play. All we had to do was push the keyboard buttons, and <B>TypeScript</B> with power of <B>TDD</B>, guided us by the hand. Tests are green ✅.</M>
-  <Hint hasBg>You have whole implementation of hook in file under <A href="https://github.com/polubis/Dream-stack-for-React-dev/blob/main/system/libs/figa-hooks/src/lib/use-stepper/use-stepper.tsx" outside>this link</A>.</Hint>
+<M>Thanks to previously created types and tests - implementation was child's play. All we had to do was push the keyboard buttons, and <B>TypeScript</B> with the power of <B>TDD</B>, guided us by the hand. Tests are green ✅.</M>
+  <Hint hasBg>You have the whole implementation of the hook in a file under <A href="https://github.com/polubis/Dream-stack-for-React-dev/blob/main/system/libs/figa-hooks/src/lib/use-stepper/use-stepper.tsx" outside>this link</A>.</Hint>
 </Section>
   
 <Section>
 <XL>5. We discuss the is() function</XL>
-<M>There is one more thing left to discuss - the <B>is()</B> function. We'll skip others because <B>first, last, previous, next</B> are not worth to discuss - they are not fancy.</M>
+<M>There is one more thing left to discuss - the <B>is()</B> function. We'll skip others because <B>first, last, previous, and next</B> are not worth to discussing - they are not fancy.</M>
     <Snippet description='What the heck is this syntax.'>
   {`
 const is = <S extends Step, K extends S['key']>(
@@ -322,16 +323,16 @@ const is = <S extends Step, K extends S['key']>(
  if(is(step, '1')) return ...
   `}
 </Snippet>
-<M>This function is not "indispensable" - rather fancy syntatic sugar.</M>
-  <Hint hasBg>You have whole implementation of hook in file under <A href="https://github.com/polubis/Dream-stack-for-React-dev/blob/main/system/libs/figa-hooks/src/lib/use-stepper/use-stepper.tsx" outside>this link</A>.</Hint>
+<M>This function is not "indispensable" - rather fancy syntactic sugar.</M>
+  <Hint hasBg>You have the whole implementation of the hook in a file under <A href="https://github.com/polubis/Dream-stack-for-React-dev/blob/main/system/libs/figa-hooks/src/lib/use-stepper/use-stepper.tsx" outside>this link</A>.</Hint>
 </Section>
   
   <Example>
-  <M>At <A href="https://github.com/polubis/Dream-stack-for-React-dev/tree/main/system/libs/figa-hooks/src/lib/use-stepper" outside>this link</A> you have the end result. Types, tests, implementation and re-exports.</M>
+  <M>At <A href="https://github.com/polubis/Dream-stack-for-React-dev/tree/main/system/libs/figa-hooks/src/lib/use-stepper" outside>this link</A>, you have the end result. Types, tests, implementation and re-exports.</M>
   </Example>
   
   <Summary>
-  <M>Now you know how to handle the steps on the user interface in an interesting way. The created solution protects against many basic mistakes that can be made when implementing such functionality.</M>
+  <M>Now you know how to handle the steps on the user interface interestingly. The created solution protects against many basic mistakes that can be made when implementing such functionality.</M>
     <M>
     <M>It is worth noting that the logic itself is simple - the complexity is introduced by TypeScript (as always). So it is up to you whether you want to use this solution with or without TS.</M>
     If you enjoyed it, be sure to visit us on{" "}

@@ -116,6 +116,7 @@ exports.getArticlesQuery = data => {
       modifiedAt: article.frontmatter.mdate,
       toBeContinuedDate: article.frontmatter.tbcdate,
       lang,
+      seniorityLevel: article.frontmatter.seniorityLevel
     }
   })
 

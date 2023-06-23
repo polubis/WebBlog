@@ -7,7 +7,7 @@ import Tags from "./Tags"
 import { Article } from "../../models/Article"
 import { XL, M } from "../../ui"
 import Details from "./Details"
-import { AuthorBadge, ReadTimeBadge } from "../badges"
+import { AuthorBadge, ReadTimeBadge, SeniorityBadge } from "../badges"
 import Badge from "./Badge"
 import theme from "../../utils/theme"
 
@@ -52,13 +52,13 @@ const Tile = styled.div`
 `
 
 export default function ({ article }: Props): React.ReactElement {
-  const { author, tags, title, description, readTime, isNew, path } = article
+  const { author, tags, title, description, readTime, isNew, path, seniorityLevel } = article
 
   return (
     <Tile>
       <Tags tags={tags} />
       <Link to={path}>
-        <XL>{title}</XL>
+        <XL><SeniorityBadge level={seniorityLevel} /> {title}</XL>
       </Link>
       <M normal>{description}</M>
 
