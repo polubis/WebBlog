@@ -32,6 +32,11 @@ const routes = {
     gaPage: "blog-creator",
     key: "creator",
   },
+  snippetCreator: {
+    to: "/snippet-creator/",
+    gaPage: "snippet-creator",
+    key: "snippetCreator",
+  },
   home: {
     to: "/",
     gaPage: "",

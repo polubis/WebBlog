@@ -5,13 +5,15 @@ import Grid from "../../components/article/Grid"
 import { SiteMeta } from "../../utils/SiteMeta"
 import { Content } from "../../ui"
 import { AllDataResponse } from "../../api"
+import { ArticlesJumbo } from "./ArticlesJumbo"
+import { Image } from "../../models"
 
 interface ArticlesPageProps {
-  pageContext: AllDataResponse
+  pageContext: AllDataResponse & { bubblesImg: Image }
 }
 
 const ArticlesPage = ({
-  pageContext: { articles, site, translationObject, footerArticles },
+  pageContext: { articles, site, translationObject, footerArticles, bubblesImg },
 }: ArticlesPageProps) => {
   const t = translationObject["en"]
 
@@ -28,6 +30,7 @@ const ArticlesPage = ({
       image="/icon-192x192.png"
     >
       <Layout articles={footerArticles} t={t} routes={site.routes}>
+        <ArticlesJumbo bubblesImg={bubblesImg} />
         <Content paddingY>
           <Grid articles={articles} />
         </Content>

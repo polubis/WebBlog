@@ -2,7 +2,7 @@ const { resolve } = require("path")
 const { getAllDataQuery } = require("./src/api/getAllDataQuery")
 const authors = require("./src/authors/authors.json")
 const translationObject = require("./translations.json")
-const fetch = require('node-fetch');
+const fetch = require("node-fetch")
 
 exports.onCreateWebpackConfig = ({ actions }) => {
   actions.setWebpackConfig({
@@ -198,6 +198,22 @@ exports.createPages = async ({ actions, graphql }) => {
           }
         }
       }
+      bubblesImg: allFile(
+        filter: { relativePath: { regex: "/bubbles.png/" } }
+      ) {
+        nodes {
+          relativePath
+          childImageSharp {
+            fluid {
+              base64
+              aspectRatio
+              src
+              srcSet
+              sizes
+            }
+          }
+        }
+      }
       animalsAvatars: allFile(
         filter: { relativePath: { regex: "/animals/" } }
       ) {
@@ -245,6 +261,11 @@ exports.createPages = async ({ actions, graphql }) => {
               to
               gaPage
             }
+            snippetCreator {
+              key
+              to
+              gaPage
+            }
             creator {
               key
               to
@@ -261,13 +282,17 @@ exports.createPages = async ({ actions, graphql }) => {
     }
   `)
 
-  const discordMembersResult = await fetch(`https://discord.com/api/v9/invites/PxXQayT3x3?with_counts=true`)
+  const discordMembersResult = await fetch(
+    `https://discord.com/api/v9/invites/PxXQayT3x3?with_counts=true`
+  )
   const discordMembersData = await discordMembersResult.json()
-  const discordMembers = discordMembersData.approximate_member_count;
+  const discordMembers = discordMembersData.approximate_member_count
 
-  const githubContributorsResult = await fetch(`https://api.github.com/repos/polubis/WebBlog/contributors`)
+  const githubContributorsResult = await fetch(
+    `https://api.github.com/repos/polubis/WebBlog/contributors`
+  )
   const githubContributorsData = await githubContributorsResult.json()
-  const githubContributors = githubContributorsData.length;
+  const githubContributors = githubContributorsData.length
 
   const data = getAllDataQuery({
     ...result.data,
@@ -285,14 +310,17 @@ exports.createPages = async ({ actions, graphql }) => {
       ...data,
       holeImg: result.data.blackHoleImg.nodes[0].childImageSharp.fluid,
       discordMembers,
-      githubContributors
+      githubContributors,
     },
   })
 
   createPage({
     path: routes.articles.to,
     component: resolve(`src/features/articles/ArticlesPage.tsx`),
-    context: data,
+    context: {
+      ...data,
+      bubblesImg: result.data.bubblesImg.nodes[0].childImageSharp.fluid,
+    },
   })
 
   createPage({

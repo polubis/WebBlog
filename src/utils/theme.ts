@@ -18,4 +18,5 @@ export default {
   grayB: "#484545",
   grayC: "#3C3C3C",
   grayD: "#ABA7A7",
+  grayE: "#161616",
 }
