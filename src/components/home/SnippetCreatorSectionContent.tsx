@@ -27,7 +27,7 @@ const Container = styled.div`
 
   a,
   button {
-    min-width: 280px;
+    min-width: 240px;
   }
 
   a {

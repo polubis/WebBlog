@@ -15,6 +15,12 @@ import { SnippetFrame } from "../../models"
 import { useKeyPress } from "../../utils/useKeyPress"
 import { Center } from "./Center"
 import { useLeavePageAlert } from "../../utils/useLeavePageAlert"
+import {
+  SNIPPET_DESCRIPTION_MAX_LENGTH,
+  SNIPPET_DESCRIPTION_MIN_LENGTH,
+  SNIPPET_NAME_MAX_LENGTH,
+  SNIPPET_NAME_MIN_LENGTH,
+} from "./consts"
 
 const FinalScreen = styled.div`
   display: flex;
@@ -51,7 +57,7 @@ const Container = styled.form`
   }
 
   .submit-divider {
-    background: "#888";
+    background: #888;
     margin: 40px auto;
   }
 `
@@ -124,6 +130,8 @@ const Footer = styled.div`
 
 const required: Validator<string> = value =>
   value === "" ? "This field is required" : ""
+const minLength = (limit: number): Validator<string> => value =>
+  value.length <= limit ? `Length must be >= ${limit}` : ""
 const maxLength = (limit: number): Validator<string> => value =>
   value.length >= limit ? `Length must be <= ${limit}` : ""
 
@@ -140,9 +148,17 @@ export const CreateSnippetForm = ({
       generateGif: false,
     },
     validators: {
-      name: [required, maxLength(200)],
-      description: [required, maxLength(500)],
-      gifUrl: [maxLength(300)],
+      name: [
+        required,
+        minLength(SNIPPET_NAME_MIN_LENGTH),
+        maxLength(SNIPPET_NAME_MAX_LENGTH),
+      ],
+      description: [
+        required,
+        minLength(SNIPPET_DESCRIPTION_MIN_LENGTH),
+        maxLength(SNIPPET_DESCRIPTION_MAX_LENGTH),
+      ],
+      gifUrl: [],
     },
   })
   const [creationState, startSnippetCreation] = useFetch()
@@ -244,20 +260,28 @@ export const CreateSnippetForm = ({
       <Center>
         <Container className="create-snippet-form" onSubmit={handleSubmit}>
           <XL>Describe your snippet and save it</XL>
-          <Field description="Your snippet name (max 250)">
+          <Field
+            description={`Name your snippet (${
+              SNIPPET_NAME_MIN_LENGTH + "-" + SNIPPET_NAME_MAX_LENGTH
+            }) characters`}
+          >
             <Input
               autoFocus
               required
               placeholder="Name*"
-              maxLength={200}
               value={values.name}
               onChange={e => set({ key: "name", value: e.target.value })}
             />
           </Field>
-          <Field description="What's going on (max 500)">
+          <Field
+            description={`What's going on (${
+              SNIPPET_DESCRIPTION_MIN_LENGTH +
+              "-" +
+              SNIPPET_DESCRIPTION_MAX_LENGTH
+            } characters)`}
+          >
             <Textarea
               required
-              maxLength={500}
               value={values.description}
               placeholder="Description*"
               onChange={e => set({ key: "description", value: e.target.value })}

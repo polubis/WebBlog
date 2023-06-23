@@ -1,5 +1,5 @@
 import React from "react"
-import { Code } from "../../ui"
+import { Banner, Code, useModal } from "../../ui"
 import styled from "styled-components"
 import theme from "../../utils/theme"
 import { useScrollToCurrentFrame } from "./useScrollToCurrentFrame"
@@ -20,6 +20,15 @@ import { T_DOWN } from "../../utils/viewport"
 import { Navigation } from "./Navigation"
 import { useKeyPress } from "../../utils/useKeyPress"
 import { useClickOutside } from "../../utils/useClickOutside"
+import { MAX_FRAMES_COUNT, MIN_FRAMES_COUNT } from "./consts"
+import { Confirmation } from "./Confirmation"
+
+const Dot = styled.div`
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+  background: ${theme.grayC};
+`
 
 const Container = styled.div`
   display: grid;
@@ -67,7 +76,7 @@ const Container = styled.div`
     &.closed {
       transform: translateX(-260px);
     }
-   
+
     .frames {
       padding: 20px;
       height: 100vh;
@@ -113,15 +122,10 @@ const Container = styled.div`
           right: 0;
           cursor: pointer;
           background: transparent;
-          backdrop-filter: blur(5px);
+          backdrop-filter: blur(1px);
           bottom: 0;
           display: none;
           justify-content: flex-end;
-          padding: 16px;
-
-          & > *:not(:last-child) {
-            margin-right: 12px;
-          }
         }
 
         &:hover .panel {
@@ -134,6 +138,10 @@ const Container = styled.div`
   .main-view-code {
     padding: 20px 20px 80px 20px;
     max-width: 100vw;
+
+    .main-view-banner {
+      margin-bottom: 20px;
+    }
   }
 `
 
@@ -146,6 +154,7 @@ const Sandbox = ({ state, action }: SandboxProps) => {
   const { ref } = useScrollToCurrentFrame<HTMLDivElement>(state)
   const isOpen = state.isNavigationPanelOpen
   const openClass = isOpen ? "open" : "closed"
+  const confirmation = useModal()
 
   const { selectedFrame, frames, autoPlay } = state
 
@@ -157,10 +166,12 @@ const Sandbox = ({ state, action }: SandboxProps) => {
         n: action.startAdd,
         p: action.toggleAutoPlay,
         e: () => action.startEdit(selectedFrame!),
-        r: () => action.removeFrame(selectedFrame!.id),
+        r: () => confirmation.open(),
         c: action.toggleNavigationPanel,
         s: action.startSubmit,
-        escape: action.goToIdle,
+        escape: () => {
+          confirmation.isOpen ? confirmation.close() : action.goToIdle()
+        },
       }
 
       actions[e.key.toLowerCase()]?.()
@@ -171,10 +182,22 @@ const Sandbox = ({ state, action }: SandboxProps) => {
     onOutside: action.closeNavigationPanel,
   })
 
+  const maxFramesExceeded = state.frames.length >= MAX_FRAMES_COUNT
+
   return (
     <>
       {autoPlay && (
         <FramesProgress frameId={selectedFrame!.id} frames={frames} />
+      )}
+
+      {confirmation.isOpen && (
+        <Confirmation
+          onClose={confirmation.close}
+          onConfirm={() => {
+            confirmation.close()
+            action.removeFrame(selectedFrame!.id)
+          }}
+        />
       )}
 
       <Container className={openClass}>
@@ -196,22 +219,7 @@ const Sandbox = ({ state, action }: SandboxProps) => {
                 >
                   {idx + 1}
                 </Badge>
-                <div className="panel">
-                  <EditButton
-                    onClick={e => {
-                      e.stopPropagation()
-                      action.startEdit(frame)
-                    }}
-                  />
-                  {state.frames.length > 1 && (
-                    <DeleteFrameButton
-                      onClick={e => {
-                        e.stopPropagation()
-                        action.removeFrame(frame.id)
-                      }}
-                    />
-                  )}
-                </div>
+                <div className="panel" />
               </div>
             ))}
           </div>
@@ -219,6 +227,13 @@ const Sandbox = ({ state, action }: SandboxProps) => {
 
         <div className="main-view-code">
           <div className="main-view-code-wrapper">
+            {maxFramesExceeded && (
+              <Banner className="main-view-banner">
+                You can't add more frames. The maximum amount is{" "}
+                {MAX_FRAMES_COUNT}. Delete a frame to add a new one.
+              </Banner>
+            )}
+
             {selectedFrame && <Code animated>{selectedFrame.code}</Code>}
 
             <Navigation>
@@ -226,11 +241,8 @@ const Sandbox = ({ state, action }: SandboxProps) => {
                 open={isOpen}
                 onClick={action.toggleNavigationPanel}
               />
-              {state.frames.length === 1 && (
-                <AddFrameButton onClick={action.startAdd} />
-              )}
 
-              {state.frames.length > 1 && (
+              {state.frames.length > MIN_FRAMES_COUNT && (
                 <>
                   <PreviousButton onClick={action.goToPreviousFrame} />
                   <NextButton onClick={action.goToNextFrame} />
@@ -238,10 +250,34 @@ const Sandbox = ({ state, action }: SandboxProps) => {
                     playing={autoPlay}
                     onClick={action.toggleAutoPlay}
                   />
-                  <AddFrameButton onClick={action.startAdd} />
-                  <SubmitFramesButton onClick={action.startSubmit} />
                 </>
               )}
+
+              <Dot />
+
+              {state.frames.length > MIN_FRAMES_COUNT && (
+                <DeleteFrameButton
+                  onClick={e => {
+                    e.stopPropagation()
+                    confirmation.open()
+                  }}
+                />
+              )}
+
+              <EditButton
+                onClick={e => {
+                  e.stopPropagation()
+                  action.startEdit(selectedFrame!)
+                }}
+              />
+
+              <Dot />
+
+              {maxFramesExceeded || (
+                <AddFrameButton onClick={action.startAdd} />
+              )}
+
+              <SubmitFramesButton onClick={action.startSubmit} />
             </Navigation>
           </div>
         </div>

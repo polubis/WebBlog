@@ -2,7 +2,10 @@ import { useReducer } from "react"
 import { Snippet, SnippetFrame } from "../../models"
 import { tUp } from "../../utils/viewport"
 import { DEFAULT_SNIPPET_CREATOR_STATE, SnippetCreatorState } from "./defs"
-import { DEFAULT_ADD_SNIPPET, SHOWCASE_FRAMES } from "../../shared/show-case-frames"
+import {
+  DEFAULT_ADD_SNIPPET,
+  SHOWCASE_FRAMES,
+} from "../../shared/show-case-frames"
 
 type Action =
   | { type: "goToIdle" }
@@ -24,6 +27,7 @@ type Action =
       code: string
     }
   | { type: "confirmEdit"; code: string }
+  | { type: "closeForm" }
 
 const reducer = (
   state: SnippetCreatorState,
@@ -154,6 +158,13 @@ const reducer = (
         frames,
         selectedFrame,
         autoPlay: false,
+      }
+    }
+    case "closeForm": {
+      return {
+        ...state,
+        view: "sandbox",
+        isNavigationPanelOpen: tUp(window.innerWidth),
       }
     }
     case "goToSandbox": {

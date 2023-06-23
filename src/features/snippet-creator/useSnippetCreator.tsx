@@ -20,7 +20,7 @@ const useSnippetCreator = () => {
     startAdd: () => dispatch({ type: "startAdd" }),
     startSubmit: () => dispatch({ type: "startSubmit" }),
     submit: () => dispatch({ type: "submit" }),
-    closeForm: () => dispatch({ type: "goToSandbox" }),
+    closeForm: () => dispatch({ type: "closeForm" }),
     confirmAdd: (code: string) => dispatch({ type: "confirmAdd", code }),
     confirmEdit: (code: string) => dispatch({ type: "confirmEdit", code }),
     startEditFetchedSnippet: (snippet: Snippet) =>

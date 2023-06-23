@@ -18,10 +18,10 @@ const Container = styled.div`
   padding: 162px 20px;
   border-top: 1px solid ${theme.grayC};
   border-bottom: 1px solid ${theme.grayC};
-  height: 920px;
+  min-height: 920px;
 
   @media ${T_DOWN} {
-    height: 770px;
+    min-height: 770px;
     padding: 32px 20px;
   }
 `

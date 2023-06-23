@@ -29,11 +29,15 @@ const Container = styled.div<{ variant?: Variant }>`
 export interface BannerProps {
   children: ReactNode
   variant?: Variant
+  className?: string
 }
 
-export const Banner = ({ children, variant }: BannerProps) => {
+export const Banner = ({ className = "", children, variant }: BannerProps) => {
   return (
-    <Container className="ui-banner" variant={variant}>
+    <Container
+      className={`ui-banner${className ? " " + className : ""}`}
+      variant={variant}
+    >
       <S>{children}</S>
     </Container>
   )

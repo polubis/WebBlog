@@ -4,11 +4,8 @@ import theme from "../../utils/theme"
 import React, { ReactNode } from "react"
 
 const Container = styled.nav`
-  display: flex;
   position: fixed;
   bottom: 0;
-  overflow-x: auto;
-  padding: 12px 20px 12px 20px;
   transform: translateX(-20px);
   width: 100%;
   border-top: 1px solid ${theme.grayC};
@@ -20,6 +17,13 @@ const Container = styled.nav`
     transform: unset;
     justify-content: center;
   }
+`
+
+const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  overflow-x: auto;
 
   & > * {
     flex-shrink: 0;
@@ -35,5 +39,9 @@ interface NavigationProps {
 }
 
 export const Navigation = ({ children }: NavigationProps) => {
-  return <Container>{children}</Container>
+  return (
+    <Container>
+      <Wrapper>{children}</Wrapper>
+    </Container>
+  )
 }
