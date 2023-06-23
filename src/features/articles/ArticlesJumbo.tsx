@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react"
+import React from "react"
 import styled from "styled-components"
 import theme from "../../utils/theme"
 import { B, Input, M, XXL } from "../../ui"
