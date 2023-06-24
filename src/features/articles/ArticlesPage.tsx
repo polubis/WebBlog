@@ -13,7 +13,7 @@ interface ArticlesPageProps {
 }
 
 const ArticlesPage = ({
-  pageContext: { articles, site, translationObject, footerArticles, bubblesImg },
+  pageContext: { articles, site, authors, translationObject, footerArticles, bubblesImg },
 }: ArticlesPageProps) => {
   const t = translationObject["en"]
 
@@ -30,7 +30,7 @@ const ArticlesPage = ({
       image="/icon-192x192.png"
     >
       <Layout articles={footerArticles} t={t} routes={site.routes}>
-        <ArticlesJumbo bubblesImg={bubblesImg} />
+        <ArticlesJumbo bubblesImg={bubblesImg} authors={authors} />
         <Content paddingY>
           <Grid articles={articles} />
         </Content>

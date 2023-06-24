@@ -8,6 +8,7 @@ type AvatarSize = "small" | "medium" | "big"
 
 interface Props {
   size?: AvatarSize
+  className?: string
   title?: string
   alt?: string
   avatar: Image
@@ -52,12 +53,15 @@ const AuthorAvatar = styled.figure`
 
 export default function ({
   avatar,
+  className = "",
   title = "User avatar",
   alt = "User avatar",
   size = "small",
 }: Props): React.ReactElement {
   return (
-    <AuthorAvatar className="author-avatar">
+    <AuthorAvatar
+      className={`author-avatar${className ? " " + className : ""}`}
+    >
       <Img
         alt={alt}
         title={title}
