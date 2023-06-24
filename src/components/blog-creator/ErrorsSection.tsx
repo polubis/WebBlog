@@ -1,6 +1,6 @@
 import React from "react"
 import Section from "../article/Section"
-import { A, Hint, M, XL } from "../../ui"
+import { A, B, Hint, M, XL } from "../../ui"
 import { List } from "../article/List"
 import theme from "../../utils/theme"
 import styled from "styled-components"
@@ -21,11 +21,12 @@ const ErrorsSection = () => {
       <Section>
         <XL>Errors detected 🔥</XL>
         <M>
-          It may be caused by not supported tag usage, not closed tag or after{" "}
-          {"<iframe></iframe>"} use, not closed tag or usage of not supported
-          tag. Please use only tags provided in example.
+          This may have been caused by using an <B>unsupported tag</B>, using an{" "}
+          <B>iframe</B>, or failing to <B>close</B> the tag.
         </M>
-        <M>There is the list of supported tags:</M>
+        <M>
+          Here is the list of <B>supported tags</B>:
+        </M>
         <List
           items="Section - block with content, Snippet - example with code, Summary - block with summary, Prelude - Block with an introduction, Example - Block with a link to the entire example, List - Allows you to display an list, Img - Allows you to show a picture, XL - Headline text, M - Paragraph, Hint - Italic text with hint,
             A - link, B - bolding"
