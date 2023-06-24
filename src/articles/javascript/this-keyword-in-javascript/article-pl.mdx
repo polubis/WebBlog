@@ -1,6 +1,6 @@
 ---
 cdate: 2023-06-23
-mdate: 2023-06-23
+mdate: 2023-06-24
 authorId: polubis
 treviewerId: goteii
 lreviewerId: kzalewska
@@ -355,62 +355,54 @@ const obj2 = new Bike('Gixxer');
    
 obj1.ride(); // Pulsar
 obj2.ride(); // Gixxer`}</Snippet>
-  <M>
-    A co z dziedziczeniem? Jaką mamy gwarancję, że czegoś nie popsujemy odnosząc
-    się do <B>this</B> w klasie <B>Bike</B>?
-  </M>
-  <Snippet
-    added={[
-      [3, 7],
-      [13, 13],
-      [18, 20],
-    ]}
-    changed={[
-      [9, 9],
-      [23, 24],
-    ]}
-  >{`
-"use strict"
- 
-class Vehicle {
-  describe() {
-    console.log(this.company);
-  }
-}
- 
-class Bike extends Vehicle {
-  constructor(name, company) {
-    super(name);
-    this.name = name;
-    this.company = company;
-  }
- 
-  ride() {
-    console.log(this.name);
-    this.describe();
-    super.describe();
-  }
-}
- 
-const obj1 = new Bike("Pulsar", "KMD");
-const obj2 = new Bike("Gixxer", "Moto");
- 
-obj1.ride(); // Pulsar, KDM, KMD
-obj2.ride(); // Gixxer, Moto, Moto
-`}</Snippet>
-  <M>
-    Przy dziedziczeniu <B>this</B> klasy nadrzędnej oraz klasy, która dziedziczy
-    to jedno i to samo <B>this</B>. Dzięki Bogu, chociaż tutaj mamy
-    ułatwienie...
-  </M>
+
   <Hint hasBg>
     Zasada 5: Przy korzystaniu z <B>new</B> wartość <B>this</B> będzie odnosiła
     się do stworzonego obiektu - nie ma znaczenia tutaj składnia (czy klasa, czy
     funkcja jako konstruktor).
   </Hint>
-  <Hint hasBg>
-    Zasada 6: Przy dziedziczeniu wartość <B>this</B> jest taka sama dla klasy
-    rodzica i dziecka.
+</Section>
+
+<Section>
+   <XL>Dziedziczenie w JavaScript, a "this"</XL>
+     <M>
+    A co z dziedziczeniem? Jaką mamy gwarancję, że czegoś nie popsujemy odnosząc
+    się do <B>this</B> w klasie <B>Vehicle</B>? Aby to udowodnić przekażemy <B>this</B> jako argument do metody <B>repair</B>, a później sprawdzimy jak zachowa się wynik w oparciu o różne miejsca wywołania oraz w oparciu o różne argumenty.
+  </M>
+  <Snippet
+  >{`
+"use strict"
+  
+class Vehicle {
+  repair(thisArg) {
+     console.log(this === thisArg);
+  }
+}
+  
+class Bike extends Vehicle {
+  printInnerThis() {
+     this.repair(this);
+     super.repair(this);
+  }
+}
+  
+const bike = new Bike();
+ 
+// Tutaj "this" to instancja klasy "Bike".
+bike.printInnerThis(); // true, true
+// Tutaj "this" to "undefined" - nie przekazaliśmy go, więc "false".
+bike.repair(); // false
+// Tutaj "this" to instancja klasy "Bike", ale przekazana jawnie.
+bike.repair(bike); // true
+`}</Snippet>
+  <M>
+    W pierwszym <B>console.log</B> mamy 2x wartość <B>true</B>. Pokazuje to, że odnosząc się do <B>this</B> wewnątrz klas <B>Bike</B> oraz <B>Vehicle</B> mamy pewność, że <B>this</B> dla klasy rodzica i dziecka jest takie same.
+  </M>
+  <M>W drugim przypadku mamy <B>false</B>. Metoda <B>repair</B> oczekuje argumentu <B>thisArg</B>, a my go pomijamy.</M>
+    <M>W trzecim przypadku mamy <B>true</B>. Przekazaliśmy obiekt <B>bike</B>, a wiemy już, że po wykorzystaniu <B>new</B>, wartość <B>this</B> wskazuje na instancje obiektu. Również wiemy, że <B>this</B> klasy rodzica i dziecka wskazuje na to samo. W takim razie <B>this</B> w kontekście dwóch wspomnianych klas jest tym samym, co stworzony obiekt <B>bike</B>, który przekazaliśmy jako argument do jego własnej metody <B>repair</B>.</M>
+    <Hint hasBg>
+    Zasada 6: Przy dziedziczeniu <B>this</B> odnosi się do tego samego w klasach
+    rodzica i dziecka (tej samej instancji obiektu).
   </Hint>
 </Section>
 
@@ -418,10 +410,6 @@ obj2.ride(); // Gixxer, Moto, Moto
   <XL>Słowo kluczowe "static"</XL>
   <M>Tu jest trochę ciekawiej. Spójrz na poniższy kod: </M>
   <Snippet
-    changed={[
-      [10, 15],
-      [18, 20],
-    ]}
   >{`
   "use strict"
    
@@ -649,7 +637,7 @@ console.log(usersList.list.items);
     się na liczne problemy.
   </M>
   <M>
-    Mam nadzieję, że się podobało. Jeżeli tak, to odwiedź nas na{" "}
+    Mam nadzieję, że się podobało. Jeżeli tak, to odwiedź nas na
     <A
       href="https://www.linkedin.com/in/adrian-po%C5%82ubi%C5%84ski-281ab2172/"
       outside
@@ -667,4 +655,5 @@ console.log(usersList.list.items);
     </A>
     , na podstawie której powstał ten wpis.
   </Hint>
+  <Hint hasBg>Specjalne podziękowania dla czytelnika <B>Jacka Piętala</B> za pomoc.</Hint>
 </Summary>
