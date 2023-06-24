@@ -1,6 +1,6 @@
 ---
 cdate: 2023-06-23
-mdate: 2023-06-23
+mdate: 2023-06-24
 authorId: polubis
 treviewerId: goteii
 lreviewerId: kzalewska
@@ -255,7 +255,7 @@ test.innerThis();
 </Section>
 
 <Section>
-  <XL>Implicit binding of this</XL>
+  <XL>Implicit binding of "this"</XL>
   <Snippet>{`
   "use strict"
    
@@ -350,61 +350,50 @@ const obj2 = new Bike('Gixxer');
    
 obj1.ride(); // Pulsar
 obj2.ride(); // Gixxer`}</Snippet>
-  <M>
-    What about <B>inheritance</B>? What guarantee do we have that we won't mess
-    something up by referring to <B>this</B> in the <B>Bike</B> class?
-  </M>
-  <Snippet
-    added={[
-      [3, 7],
-      [13, 13],
-      [18, 20],
-    ]}
-    changed={[
-      [9, 9],
-      [23, 24],
-    ]}
-  >{`
-"use strict"
- 
-class Vehicle {
-  describe() {
-    console.log(this.company);
-  }
-}
- 
-class Bike extends Vehicle {
-  constructor(name, company) {
-    super(name);
-    this.name = name;
-    this.company = company;
-  }
- 
-  ride() {
-    console.log(this.name);
-    this.describe();
-    super.describe();
-  }
-}
- 
-const obj1 = new Bike("Pulsar", "KMD");
-const obj2 = new Bike("Gixxer", "Moto");
- 
-obj1.ride(); // Pulsar, KDM, KMD
-obj2.ride(); // Gixxer, Moto, Moto
-`}</Snippet>
-  <M>
-    During inheritance, the <B>this</B> value of the parent class is the same as
-    the child class. Thank goodness at least here is a relief...
-  </M>
   <Hint hasBg>
     Rule 5: When using <B>new</B>, the value of <B>this</B> will refer to the
     created object - the syntax (whether a class or a function as a constructor)
     does not matter here.
   </Hint>
-  <Hint hasBg>
-    Rule 6: With <B>inheritance</B>, the value of <B>this</B> is the same for
-    the <B>parent</B> and <B>child</B>.
+</Section>
+
+<Section>
+   <XL>Inheritance in JavaScript, and "this"</XL>
+     <M>
+   What about <B>inheritance</B>? What guarantee do we have that we won't mess something up by referring to <B>this</B> in the <B>Vehicle</B> class? To prove it, we'll pass <B>this</B> as an argument to the <B>repair</B> method, and then check how the result behaves based on different call locations and based on different arguments.
+  </M>
+  <Snippet
+  >{`
+"use strict"
+  
+class Vehicle {
+  repair(thisArg) {
+     console.log(this === thisArg);
+  }
+}
+  
+class Bike extends Vehicle {
+  printInnerThis() {
+     this.repair(this);
+     super.repair(this);
+  }
+}
+  
+const bike = new Bike();
+ 
+// Here "this" is an instance of the class "Bike".
+bike.printInnerThis(); // true, true
+// Here "this" is "undefined" - we did not pass it, so "false".
+bike.repair(); // false
+// Here "this" is an instance of the class "Bike", but passed explicitly.
+bike.repair(bike); // true
+`}</Snippet>
+  <M>
+    In the first <B>console.log</B> we have 2x the value <B>true</B>. It shows that by referring to <B>this</B> inside the <B>Bike</B> and <B>Vehicle</B> classes, we are sure that <B>this</B> for the parent and child classes is the same.
+  </M>
+  <M>In the third case, we have <B>true</B>. We passed a <B>bike</B> object, and we already know that after using <B>new</B>, the value of <B>this</B> points to an <B>instance</B> of an object. Also, we know that <B>this</B> of the <B>parent</B> and <B>child</B> classes points to the same thing. In that case, <B>this</B> in the context of two mentioned classes is the same as the created <B>bike</B> object that we passed as an <B>argument</B> to its own <B>repair</B> method.</M>
+    <Hint hasBg>
+  Rule 6: With inheritance, <B>this</B> refers to the same thing in the <B>parent</B> and <B>child</B> classes (to the same object instance).
   </Hint>
 </Section>
 
@@ -412,10 +401,6 @@ obj2.ride(); // Gixxer, Moto, Moto
   <XL>"Static" keyword and "this"</XL>
   <M>Here is a little more interesting. Take a look at the code below: </M>
   <Snippet
-    changed={[
-      [10, 15],
-      [18, 20],
-    ]}
   >{`
   "use strict"
    
@@ -448,7 +433,7 @@ console.log(Bike.name); // Bike
 </Section>
 
 <Section>
-  <XL>Explicit binding of this</XL>
+  <XL>Explicit binding of "this"</XL>
   <M>
 Until now, we have relied on "magic" JavaScript mechanisms that set the value of <B>this</B> for us depending on what we do in the code.
   </M>
@@ -484,7 +469,7 @@ Most functions allow you to pass something described as <B>thisArg</B>. In the a
 </Section>
 
 <Section>
-  <XL>Hard/fixed binding of this</XL>
+  <XL>Hard/fixed binding of "this"</XL>
   <M>
     It can be done in yet another way. There is a special <B>bind</B> method
     that allows us to set the value of <B>this</B> not at the time when the
@@ -658,4 +643,5 @@ console.log(usersList.list.items);
     </A>{" "}
     on which this entry is based.
   </Hint>
+  <Hint hasBg>Special thanks to reader <B>Jacek Piętal</B> for his help.</Hint>
 </Summary>
