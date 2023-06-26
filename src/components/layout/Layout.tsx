@@ -93,16 +93,6 @@ export default function ({
       {t.createArticle}
     </Link>
   )
-  const createSnippetLink = (
-    <Link
-      to={routes.snippetCreator.to}
-      key="create-snippet"
-      activeStyle={activeStyle}
-      id={`home-navigation-link-${routes.snippetCreator.key}`}
-    >
-      {t.createSnippet}
-    </Link>
-  )
 
   return (
     <Layout
@@ -132,7 +122,6 @@ export default function ({
               {authorsLink}
               {coursesLink}
               {createArticleLink}
-              {createSnippetLink}
               {snippetsLink}
             </>
           }
@@ -160,7 +149,6 @@ export default function ({
                 {authorsLink}
                 {coursesLink}
                 {createArticleLink}
-                {createSnippetLink}
                 {snippetsLink}
               </>
             }

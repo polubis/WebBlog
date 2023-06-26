@@ -1,25 +1,15 @@
 import React from "react"
 import styled from "styled-components"
 import theme from "../../utils/theme"
-import {
-  B,
-  FilterIcon,
-  IconButton,
-  Input,
-  M,
-  Modal,
-  XL,
-  XXL,
-  useModal,
-} from "../../ui"
+import { B, FilterIcon, IconButton, Input, M, XXL } from "../../ui"
 import Button, { SecondaryButton } from "../../components/button/Button"
 import Divider from "../../components/divider/Divider"
 import Img from "gatsby-image"
-import { Author, Image, SeniorityLevel } from "../../models"
+import { Author, Image } from "../../models"
 import { Link } from "gatsby"
 import Badge from "../../components/article/Badge"
-import AuthorAvatar from "../../components/article/AuthorAvatar"
 import { useArticlesProvider } from "./ArticlesProvider"
+import { FiltersForm } from "./FiltersForm"
 
 const Container = styled.figure`
   display: flex;
@@ -35,6 +25,10 @@ const Container = styled.figure`
 const Footer = styled.div`
   display: flex;
   justify-content: center;
+
+  & > *:not(:last-child) {
+    margin-right: 12px;
+  }
 `
 
 const Wrapper = styled.div`
@@ -49,8 +43,26 @@ const Wrapper = styled.div`
     margin-bottom: 20px;
   }
 
-  .articles-jumbo-divider {
+  .divider {
     margin: 0 auto 32px auto;
+  }
+
+  .articles-jumbo-badges-section {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+
+    & > *:not(:last-child) {
+      margin-right: 12px;
+    }
+  }
+
+  .filter-button.active {
+    background: ${theme.greenA};
   }
 `
 
@@ -63,97 +75,10 @@ const InputWrapper = styled.div`
     width: 100%;
     margin-right: 12px;
   }
-`
 
-const FiltersModalFooter = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-
-  & > *:not(:last-child) {
-    margin-right: 12px;
-  }
-`
-
-const FiltersModal = styled.div`
-  display: flex;
-  flex-flow: column;
-  max-width: 400px;
-
-  .diff-level-heading {
-    margin: 20px 0 12px 0;
-  }
-
-  .articles-jumbo-divider {
-    margin: 20px 0;
-  }
-
-  .diff-badge,
-  .authors-badge {
-    cursor: pointer;
-
-    &:hover {
-      opacity: 0.8;
-    }
-  }
-
-  .authors-badge {
-    display: flex;
-    align-items: center;
-
-    span {
-      display: block;
-      margin-right: 4px;
-    }
-
-    .author-avatar {
-      margin-right: 4px;
-    }
-  }
-
-  .authors-heading {
-    margin: 20px 0 12px 0;
-  }
-
-  ${FiltersModalFooter} {
-    margin-top: 32px;
-  }
-
-  .diff-badge {
-    &.active {
-      border-color: 1px solid ${theme.primary};
-    }
-  }
-`
-
-const BadgesSection = styled.div`
-  display: flex;
-  flex-flow: wrap;
-
-  & > * {
-    margin: 0 8px 8px 0;
-  }
-`
-
-const AuthorsSection = styled.div`
-  display: flex;
-  flex-flow: wrap;
-
-  & > * {
-    margin: 0 8px 8px 0;
-    cursor: pointer;
-
-    &:hover {
-      opacity: 0.8;
-    }
-  }
-
-  .authors-section-avatar {
-    border: 2px solid transparent;
-
-    &.active {
-      border: 2px solid ${theme.primary};
-    }
+  button {
+    width: 44px;
+    height: 44px;
   }
 `
 
@@ -162,143 +87,77 @@ interface ArticlesJumboProps {
   authors: Author[]
 }
 
-const AUTHORS_DISPLAY_LIMIT = 4
-
 const ArticlesJumbo = ({ bubblesImg, authors }: ArticlesJumboProps) => {
-  const filtersModal = useModal()
-  const seniorityLevels = Object.entries(SeniorityLevel)
   const {
     filters,
-    allAuthorsSelected,
-    allSeniorityLevelsSelected,
     changed,
-    setAllAuthors,
-    changeSeniority,
-    changeAuthor,
-    setAllSeniorityLevels,
+    reset,
+    filteredArticles,
+    changeQuery,
   } = useArticlesProvider()
 
   return (
-    <>
-      {filtersModal.isOpen && (
-        <Modal onClose={filtersModal.close}>
-          <FiltersModal>
-            <XL>Filters</XL>
+    <Container>
+      <Img
+        fluid={bubblesImg}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+        }}
+      />
+      <Wrapper>
+        <XXL>Find something interesting to read</XXL>
+        <M>
+          When writing our articles, we place great emphasis on the{" "}
+          <B>quality</B> of their content and teaching materials. Thanks to this
+          you will be able to find <B>meaningful materials</B> and understand{" "}
+          <B>complex issues</B>.
+        </M>
+        <InputWrapper>
+          <Input
+            placeholder="🔍 Type to find an article..."
+            value={filters.query}
+            onChange={e => changeQuery(e.target.value)}
+          />
+          <FiltersForm
+            authors={authors}
+            trigger={modal => (
+              <IconButton
+                className={`filter-button${changed ? " active" : ""}`}
+                onClick={modal.open}
+              >
+                <FilterIcon />
+              </IconButton>
+            )}
+          />
+        </InputWrapper>
 
-            <M className="diff-level-heading">Difficulty levels</M>
+        <Divider className="divider" horizontal />
+        <Footer>
+          {changed && (
+            <SecondaryButton onClick={reset}>Clean filters</SecondaryButton>
+          )}
+          <Link to="/blog-creator/">
+            <Button>Create article</Button>
+          </Link>
+        </Footer>
 
-            <Badge
-              className="diff-badge"
-              key="all"
-              color={
-                allSeniorityLevelsSelected ? theme.primary : theme.secondary
-              }
-              onClick={() => setAllSeniorityLevels()}
-            >
-              All {Object.values(SeniorityLevel).join(" ")}
+        <div className="articles-jumbo-badges-section">
+          <Badge color={theme.black} background={theme.secondary}>
+            {filteredArticles.length} article
+            {filteredArticles.length === 1 ? "" : "s"}
+          </Badge>
+          {changed && (
+            <Badge color={theme.black} background={theme.greenA}>
+              Filters active
             </Badge>
-
-            <Divider className="articles-jumbo-divider" horizontal />
-
-            <BadgesSection>
-              {seniorityLevels.map(([key, emoji]) => (
-                <Badge
-                  className="diff-badge"
-                  key={key}
-                  color={
-                    filters.seniorityLevels[key]
-                      ? theme.primary
-                      : theme.secondary
-                  }
-                  onClick={() => changeSeniority(key)}
-                >
-                  {key} {emoji}
-                </Badge>
-              ))}
-            </BadgesSection>
-
-            <M className="authors-heading">Authors</M>
-
-            <Badge
-              className="authors-badge"
-              key="all"
-              color={allAuthorsSelected ? theme.primary : theme.secondary}
-              onClick={() => setAllAuthors()}
-            >
-              <span>All ({authors.length})</span>
-              {authors.slice(0, AUTHORS_DISPLAY_LIMIT).map(author => (
-                <AuthorAvatar
-                  key={author.id}
-                  alt={author.firstName + "" + author.lastName}
-                  title={author.firstName + "" + author.lastName}
-                  size="tiny"
-                  avatar={author.avatar}
-                />
-              ))}
-              <span>... +{authors.length - AUTHORS_DISPLAY_LIMIT}</span>
-            </Badge>
-
-            <Divider className="articles-jumbo-divider" horizontal />
-
-            <AuthorsSection>
-              {authors.map(author => (
-                <AuthorAvatar
-                  className={`authors-section-avatar${
-                    filters.authors[author.id] ? " active" : ""
-                  }`}
-                  key={author.id}
-                  alt={author.firstName + "" + author.lastName}
-                  title={author.firstName + "" + author.lastName}
-                  size="small"
-                  avatar={author.avatar}
-                  onClick={() => changeAuthor(author.id)}
-                />
-              ))}
-            </AuthorsSection>
-
-            <FiltersModalFooter>
-              <SecondaryButton onClick={filtersModal.close}>
-                Close
-              </SecondaryButton>
-            </FiltersModalFooter>
-          </FiltersModal>
-        </Modal>
-      )}
-      <Container>
-        <Img
-          fluid={bubblesImg}
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-          }}
-        />
-        <Wrapper>
-          <XXL>Find something interesting to read</XXL>
-          <M>
-            When writing our articles, we place great emphasis on the{" "}
-            <B>quality</B> of their content and teaching materials. Thanks to
-            this you will be able to find <B>meaningful materials</B> and
-            understand <B>complex issues</B>.
-          </M>
-          <InputWrapper>
-            <Input placeholder="Type to find an article..." />
-            <IconButton className="filter-button" onClick={filtersModal.open}>
-              <FilterIcon />
-            </IconButton>
-          </InputWrapper>
-
-          <Divider className="articles-jumbo-divider" horizontal />
-          <Footer>
-            <Link to="/blog-creator/">
-              <Button>Create yours</Button>
-            </Link>
-          </Footer>
-        </Wrapper>
-      </Container>
-    </>
+          )}
+        </div>
+      </Wrapper>
+    </Container>
   )
 }
 

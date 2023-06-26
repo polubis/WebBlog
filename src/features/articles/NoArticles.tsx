@@ -4,15 +4,13 @@ import styled from "styled-components"
 import Section from "../../components/article/Section"
 import { A, B, Hint, M, XL } from "../../ui"
 
-const Footer = styled.div``
-
 const Container = styled.div`
   & > * {
     margin: 0 auto;
-    max-width: 500px;
+    max-width: 620px;
   }
 
-  ${Footer} {
+  .no-articles-footer {
     margin: 20px 0 40px 0;
   }
 `
@@ -27,10 +25,10 @@ const NoArticles = ({ children }: NoArticlesProps) => {
       <Section>
         <XL>No articles 🐼</XL>
         <M>
-          Cannot provide articles for the filters specified. You can reset them
+          Cannot provide articles for the specified filters. You can reset them
           with the <B>button below</B> or just <B>change them</B>.
         </M>
-        <Footer>{children}</Footer>
+        <footer className="no-articles-footer">{children}</footer>
         <Hint hasBg>
           Maybe you want to write the article yourself? Join our{" "}
           <A

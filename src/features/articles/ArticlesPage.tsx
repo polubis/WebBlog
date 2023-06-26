@@ -10,6 +10,7 @@ import { Image } from "../../models"
 import { ArticlesProvider, useArticlesProvider } from "./ArticlesProvider"
 import { NoArticles } from "./NoArticles"
 import Button from "../../components/button/Button"
+import { useScrollToTop } from "../../utils/useScrollToTop"
 
 interface ArticlesPageProps {
   pageContext: AllDataResponse & { bubblesImg: Image }
@@ -19,9 +20,11 @@ const ConnectedGrid = () => {
   const { filteredArticles, reset } = useArticlesProvider()
 
   if (filteredArticles.length === 0) {
-    return <NoArticles>
-      <Button onClick={reset}>Reset filters</Button>
-    </NoArticles>
+    return (
+      <NoArticles>
+        <Button onClick={reset}>Reset filters</Button>
+      </NoArticles>
+    )
   }
 
   return <Grid articles={filteredArticles} />
@@ -38,6 +41,8 @@ const ArticlesPage = ({
   },
 }: ArticlesPageProps) => {
   const t = translationObject["en"]
+  
+  useScrollToTop()
 
   return (
     <SiteMeta
