@@ -1,0 +1,249 @@
+---
+name: Mocking environment variables
+duration: 3
+description: We'll check how we can mock environment variables so that our tests will be always stable.
+---
+
+<Prelude>
+  <M>
+    Sometimes we want to test code that internally uses{" "}
+    <B>environment variables</B>. If we do not mock them, our tests may behave
+    in an unpredictable way, which we do not want.
+  </M>
+  <M>
+    Imagine that you run code that relies on an environment variable and you
+    forget to have it set in the <B>.env</B> file. What will happen?
+  </M>
+  <M>
+    <B>BOOM 💥</B>
+  </M>
+  <M>
+    Just kidding. Simply said, the tests will not pass. What can be done to make
+    the tests we run always independent from the environment in which they are
+    executed?
+  </M>
+  <M>
+    That's right. We need to <B>mock</B> the global object that our code refers
+    to.
+  </M>
+</Prelude>
+
+<Section>
+  <XL>Let's start with an example</XL>
+  <M>
+    Take a look at the following code snippet, in which we try to get a{" "}
+    <B>url</B> to our <B>API</B> with <B>getUrl</B> function.
+  </M>
+  <Snippet>
+    {`
+  // We declare the shape of the global 
+// object "process.env".
+declare const process: {
+  env: {
+    NEXT_PUBLIC_API_URL?: string;
+  };
+};
+ 
+const getUrl = () => {
+  const url = process.env.NEXT_PUBLIC_API_URL;
+ 
+  // We throw an exception - our code has no right 
+  // to work if the variable is missing.
+  if (url === undefined) {
+    throw Error('Lack of process.env.NEXT_PUBLIC_API_URL');
+  }
+ 
+  return url;
+};
+ 
+export { getUrl };`}
+  </Snippet>
+  <M>
+    At the very beginning, we declared the shape of the global object{" "}
+    <B>process.env</B> only for the file with our code - outside of it, this
+    object will have a default typing. Thanks to this, we limited other
+    possibilities of using our variable. The function we created is supposed to
+    be the only possible way of accessing the <B>URL</B>.
+  </M>
+  <M>
+    This is how we will get this <B>URL</B> in various files.
+  </M>
+  <Snippet>
+    {`
+// This is how we will do.
+const url = getUrl(); ✔️
+// That's not how we're going to do it.
+const url = process.env.NEXT_PUBLIC_API_URL ❌
+    `}
+  </Snippet>
+  <M>
+    As a curiosity, it is worth adding that the used approach, in which we throw
+    an exception in the absence of a variable is called <B>fail fast</B>. Code
+    without an environment variable won't work anyway, so we throw an{" "}
+    <B>exception</B> that immediately points to a potential cause of the
+    problem.
+  </M>
+</Section>
+
+<Section>
+  <XL>Let's mock the environment variable!</XL>
+  <M>Okay, let's write a test to check:</M>
+  <List items="exception throw if there is no variable,variable return if exists" />
+  <Snippet>
+    {`
+    import { getUrl } from './get-url';
+    
+// This will be the value for our environment variable.
+const API_URL = 'https://localhost:3000';
+ 
+describe('Reads API url when: ', () => {
+  it('throws exception if lack of env variable', () => {
+    // We're reading the current global variable.
+    // Then we assign it to a variable.
+    const variable = process.env['NEXT_PUBLIC_API_URL'];
+ 
+    // We're removing the current global variable.
+    delete process.env['NEXT_PUBLIC_API_URL'];
+ 
+    // Now our code will throw 
+    // an exception - after all, we deleted the variable.
+    expect(() => getUrl()).toThrow();
+ 
+    // We're restoring the environment variable. 
+    // If we don't do this we can affect other tests!
+    process.env['NEXT_PUBLIC_API_URL'] = variable;
+  });
+ 
+  it('returns readed url', () => {
+    const variable = process.env['NEXT_PUBLIC_API_URL'];
+ 
+    // Instead of deleting the variable - we overwrite 
+    // it with our own
+    process.env['NEXT_PUBLIC_API_URL'] = API_URL;
+ 
+    expect(getUrl()).toBe(API_URL);
+    
+    // We also need to restore the starting value.
+    process.env['NEXT_PUBLIC_API_URL'] = variable;
+  });
+});
+    `}
+  </Snippet>
+  <M>
+    We need to make sure that after modifying the global <B>process</B> object,
+    we set the value again to the initial one. Otherwise, we may influence other
+    tests. This is standard practice when operating on global objects in tests.
+    This also applies to value removal.
+  </M>
+  <M>
+    <B>So what, so that's the end of it?</B>
+  </M>
+  <M>
+    Exactly right. That's all that was needed to mock the object value of the
+    environment variable. Let's add a few more minor improvements before we
+    finish this lesson.
+  </M>
+</Section>
+
+<Section>
+  <XL>Small testing improvements</XL>
+  <M>
+    Since we know that we need to <B>set</B> and <B>reset</B> the value of our{" "}
+    <B>global variable</B> - we can use something we've already seen in this
+    course. Indeed! <B>Fixtures</B>!
+  </M>
+  <Hint hasBg>
+    You can check how <B>fixtures</B> works under{" "}
+    <A
+      outside
+      href="/courses/react-testing-spellbook/mastering-unit-testing/creating-testing-fixtures/"
+    >
+      this lesson
+    </A>
+    .
+  </Hint>
+  <M>
+    So let's create a simple <B>environmentFixture</B> function, that will make
+    our tests much <B>prettier</B>.
+  </M>
+  <Snippet
+    description="Oh gosh how nice and clean it is..."
+    added={[
+      [1, 15],
+      [19, 19],
+      [21, 24],
+    ]}
+    changed={[
+      [18, 18],
+      [27, 27],
+      [32, 32],
+    ]}
+  >{`
+  const environmentFixture = (key: string) => {
+  const initial = process.env[key];
+ 
+  return {
+    mock: (value: string) => {
+      process.env[key] = value;
+    },
+    restore: () => {
+      process.env[key] = initial;
+    },
+    delete: () => {
+      delete process.env[key];
+    },
+  };
+};
+ 
+describe('Reads API url when: ', () => {
+  const API_URL = 'https://localhost:3000';
+  const fixture = environmentFixture('NEXT_PUBLIC_API_URL');
+ 
+  afterEach(() => {
+    // Cleaning after each test automatically.
+    fixture.restore();
+  });
+ 
+  it('throws exception if lack of env variable', () => {
+    fixture.delete();
+    expect(() => getUrl()).toThrow();
+  });
+ 
+  it('returns readed url', () => {
+    fixture.mock(API_URL);
+    expect(getUrl()).toBe(API_URL);
+  });
+});
+`}</Snippet>
+  <M>
+    We encapsulated the repeatable logic in the <B>fixture</B> function.
+    Besides, we can use this logic in other tests - simply by creating a
+    separate <B>file</B>, and importing it where it's needed.
+  </M>
+  <Hint hasBg>
+    If you are interested in the created util, I also recommend the entry:{" "}
+    <A outside href="/articles/testing/mocking-up-with-factories/">
+      Mocking up with factories
+    </A>
+    .
+  </Hint>
+</Section>
+
+<Summary>
+  <M>
+    We've practiced mocking environment variables and reuse of logic in tests
+    using fixtures. It is worth mentioning that environment variables are not
+    the only global objects that we fix in this way. We will discuss this in the
+    next lessons.
+  </M>
+  <M>
+    If you enjoyed it, be sure to visit us on{" "}
+    <A
+      href="https://www.linkedin.com/in/adrian-po%C5%82ubi%C5%84ski-281ab2172/"
+      outside
+    >
+      Linkedin
+    </A>{" "}
+    where we regularly upload content from programming.
+  </M>
+</Summary>
