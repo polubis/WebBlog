@@ -164,7 +164,7 @@ export default function ({
           <Article>
             {translations.length > 0 && (
               <ReadInOtherLanguageBanner
-                text="This article is also published in Polish language."
+                text="This article is also published in polish language."
                 url={translations[0].path}
                 linkLabel="Change language"
               />
