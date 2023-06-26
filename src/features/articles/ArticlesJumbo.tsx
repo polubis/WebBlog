@@ -12,13 +12,14 @@ import {
   XXL,
   useModal,
 } from "../../ui"
-import Button from "../../components/button/Button"
+import Button, { SecondaryButton } from "../../components/button/Button"
 import Divider from "../../components/divider/Divider"
 import Img from "gatsby-image"
 import { Author, Image, SeniorityLevel } from "../../models"
 import { Link } from "gatsby"
 import Badge from "../../components/article/Badge"
 import AuthorAvatar from "../../components/article/AuthorAvatar"
+import { useArticlesProvider } from "./ArticlesProvider"
 
 const Container = styled.figure`
   display: flex;
@@ -64,6 +65,16 @@ const InputWrapper = styled.div`
   }
 `
 
+const FiltersModalFooter = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  & > *:not(:last-child) {
+    margin-right: 12px;
+  }
+`
+
 const FiltersModal = styled.div`
   display: flex;
   flex-flow: column;
@@ -77,7 +88,8 @@ const FiltersModal = styled.div`
     margin: 20px 0;
   }
 
-  .diff-badge {
+  .diff-badge,
+  .authors-badge {
     cursor: pointer;
 
     &:hover {
@@ -85,8 +97,32 @@ const FiltersModal = styled.div`
     }
   }
 
+  .authors-badge {
+    display: flex;
+    align-items: center;
+
+    span {
+      display: block;
+      margin-right: 4px;
+    }
+
+    .author-avatar {
+      margin-right: 4px;
+    }
+  }
+
   .authors-heading {
-    margin: 12px 0 0 0;
+    margin: 20px 0 12px 0;
+  }
+
+  ${FiltersModalFooter} {
+    margin-top: 32px;
+  }
+
+  .diff-badge {
+    &.active {
+      border-color: 1px solid ${theme.primary};
+    }
   }
 `
 
@@ -108,7 +144,15 @@ const AuthorsSection = styled.div`
     cursor: pointer;
 
     &:hover {
-      transform: scale(1.1);
+      opacity: 0.8;
+    }
+  }
+
+  .authors-section-avatar {
+    border: 2px solid transparent;
+
+    &.active {
+      border: 2px solid ${theme.primary};
     }
   }
 `
@@ -118,9 +162,21 @@ interface ArticlesJumboProps {
   authors: Author[]
 }
 
+const AUTHORS_DISPLAY_LIMIT = 4
+
 const ArticlesJumbo = ({ bubblesImg, authors }: ArticlesJumboProps) => {
   const filtersModal = useModal()
   const seniorityLevels = Object.entries(SeniorityLevel)
+  const {
+    filters,
+    allAuthorsSelected,
+    allSeniorityLevelsSelected,
+    changed,
+    setAllAuthors,
+    changeSeniority,
+    changeAuthor,
+    setAllSeniorityLevels,
+  } = useArticlesProvider()
 
   return (
     <>
@@ -131,7 +187,14 @@ const ArticlesJumbo = ({ bubblesImg, authors }: ArticlesJumboProps) => {
 
             <M className="diff-level-heading">Difficulty levels</M>
 
-            <Badge className="diff-badge" key="all" color={theme.secondary}>
+            <Badge
+              className="diff-badge"
+              key="all"
+              color={
+                allSeniorityLevelsSelected ? theme.primary : theme.secondary
+              }
+              onClick={() => setAllSeniorityLevels()}
+            >
               All {Object.values(SeniorityLevel).join(" ")}
             </Badge>
 
@@ -139,7 +202,16 @@ const ArticlesJumbo = ({ bubblesImg, authors }: ArticlesJumboProps) => {
 
             <BadgesSection>
               {seniorityLevels.map(([key, emoji]) => (
-                <Badge className="diff-badge" key={key} color={theme.secondary}>
+                <Badge
+                  className="diff-badge"
+                  key={key}
+                  color={
+                    filters.seniorityLevels[key]
+                      ? theme.primary
+                      : theme.secondary
+                  }
+                  onClick={() => changeSeniority(key)}
+                >
                   {key} {emoji}
                 </Badge>
               ))}
@@ -147,19 +219,48 @@ const ArticlesJumbo = ({ bubblesImg, authors }: ArticlesJumboProps) => {
 
             <M className="authors-heading">Authors</M>
 
+            <Badge
+              className="authors-badge"
+              key="all"
+              color={allAuthorsSelected ? theme.primary : theme.secondary}
+              onClick={() => setAllAuthors()}
+            >
+              <span>All ({authors.length})</span>
+              {authors.slice(0, AUTHORS_DISPLAY_LIMIT).map(author => (
+                <AuthorAvatar
+                  key={author.id}
+                  alt={author.firstName + "" + author.lastName}
+                  title={author.firstName + "" + author.lastName}
+                  size="tiny"
+                  avatar={author.avatar}
+                />
+              ))}
+              <span>... +{authors.length - AUTHORS_DISPLAY_LIMIT}</span>
+            </Badge>
+
             <Divider className="articles-jumbo-divider" horizontal />
 
             <AuthorsSection>
               {authors.map(author => (
                 <AuthorAvatar
+                  className={`authors-section-avatar${
+                    filters.authors[author.id] ? " active" : ""
+                  }`}
                   key={author.id}
                   alt={author.firstName + "" + author.lastName}
                   title={author.firstName + "" + author.lastName}
                   size="small"
                   avatar={author.avatar}
+                  onClick={() => changeAuthor(author.id)}
                 />
               ))}
             </AuthorsSection>
+
+            <FiltersModalFooter>
+              <SecondaryButton onClick={filtersModal.close}>
+                Close
+              </SecondaryButton>
+            </FiltersModalFooter>
           </FiltersModal>
         </Modal>
       )}
