@@ -1,14 +1,24 @@
-import React, { useEffect, useMemo, useState } from "react"
+import React, { useEffect, useMemo, ReactNode, useState } from "react"
 import { useInterval } from "../../features/snippet-creator/useInterval"
 import { isInSSR } from "../../utils/isInSSR"
 import { Code } from "./Code"
+import { useCounter } from "../../utils/useCounter"
 
 type Frames = string[]
 
-interface CodeFramesProps {
+export type FooterPayload = {
+  counter: ReturnType<typeof useCounter>
+  autoPlay: boolean
+  setAutoPlay: (autoPlay: boolean) => void
+}
+
+export interface CodeFramesProps {
   delay?: number
   frames: Frames
   className?: string
+  footer?: (payload: FooterPayload) => ReactNode
+  autoPlayOnInit?: boolean
+  preserveSpace?: boolean
 }
 
 export const preserveSpaceForFrames = (frames: Frames): Frames => {
@@ -33,28 +43,54 @@ export const preserveSpaceForFrames = (frames: Frames): Frames => {
   return enhanced
 }
 
-const CodeFrames = ({ className, delay, frames }: CodeFramesProps) => {
-  const [idx, setIdx] = useState(0)
+const CodeFrames = ({
+  className,
+  delay,
+  frames,
+  preserveSpace = true,
+  footer,
+  autoPlayOnInit = true,
+}: CodeFramesProps) => {
+  const [autoPlay, setAutoPlay] = useState(autoPlayOnInit)
+  const counter = useCounter(0, frames.length - 1)
 
   const interval = useInterval({
     delay,
-    onTick: () => {
-      setIdx(prev => {
-        const nextIdx = prev + 1
-        return nextIdx === frames.length ? 0 : nextIdx
-      })
-    },
+    onTick: counter.next,
   })
 
-  const enhancedFrames = useMemo(() => preserveSpaceForFrames(frames), [frames])
+  const enhancedFrames = useMemo(
+    () => (preserveSpace ? preserveSpaceForFrames(frames) : frames),
+    [frames, preserveSpace]
+  )
 
   useEffect(() => {
-    if (!isInSSR()) interval.start()
-  }, [])
+    if (isInSSR()) {
+      return
+    }
+
+    if (autoPlay) {
+      interval.start()
+    } else {
+      interval.cancel()
+    }
+  }, [autoPlay])
 
   return (
-    <Code className={className} animated>
-      {enhancedFrames[idx]}
+    <Code
+      className={className}
+      animated
+      footer={
+        footer
+          ? footer({
+              counter,
+              autoPlay,
+              setAutoPlay,
+            })
+          : undefined
+      }
+    >
+      {enhancedFrames[counter.counter]}
     </Code>
   )
 }

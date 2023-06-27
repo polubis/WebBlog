@@ -5,15 +5,44 @@ import Grid from "../../components/article/Grid"
 import { SiteMeta } from "../../utils/SiteMeta"
 import { Content } from "../../ui"
 import { AllDataResponse } from "../../api"
+import { ArticlesJumbo } from "./ArticlesJumbo"
+import { Image } from "../../models"
+import { ArticlesProvider, useArticlesProvider } from "./ArticlesProvider"
+import { NoArticles } from "./NoArticles"
+import Button from "../../components/button/Button"
+import { useScrollToTop } from "../../utils/useScrollToTop"
 
 interface ArticlesPageProps {
-  pageContext: AllDataResponse
+  pageContext: AllDataResponse & { bubblesImg: Image }
+}
+
+const ConnectedGrid = () => {
+  const { filteredArticles, reset } = useArticlesProvider()
+
+  if (filteredArticles.length === 0) {
+    return (
+      <NoArticles>
+        <Button onClick={reset}>Reset filters</Button>
+      </NoArticles>
+    )
+  }
+
+  return <Grid articles={filteredArticles} />
 }
 
 const ArticlesPage = ({
-  pageContext: { articles, site, translationObject, footerArticles },
+  pageContext: {
+    articles,
+    site,
+    authors,
+    translationObject,
+    footerArticles,
+    bubblesImg,
+  },
 }: ArticlesPageProps) => {
   const t = translationObject["en"]
+  
+  useScrollToTop()
 
   return (
     <SiteMeta
@@ -27,11 +56,14 @@ const ArticlesPage = ({
       type="website"
       image="/icon-192x192.png"
     >
-      <Layout articles={footerArticles} t={t} routes={site.routes}>
-        <Content paddingY>
-          <Grid articles={articles} />
-        </Content>
-      </Layout>
+      <ArticlesProvider articles={articles} authors={authors}>
+        <Layout articles={footerArticles} t={t} routes={site.routes}>
+          <ArticlesJumbo bubblesImg={bubblesImg} authors={authors} />
+          <Content paddingY>
+            <ConnectedGrid />
+          </Content>
+        </Layout>
+      </ArticlesProvider>
     </SiteMeta>
   )
 }

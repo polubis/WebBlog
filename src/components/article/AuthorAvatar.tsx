@@ -4,16 +4,25 @@ import Img from "gatsby-image"
 
 import { Image } from "../../models"
 
-type AvatarSize = "small" | "medium" | "big"
+type AvatarSize = "tiny" | "small" | "medium" | "big"
 
 interface Props {
   size?: AvatarSize
+  className?: string
   title?: string
   alt?: string
   avatar: Image
+  onClick?: React.MouseEventHandler<HTMLElement>
 }
 
 const getSize = (size: AvatarSize) => {
+  if (size === "tiny") {
+    return {
+      height: "24px",
+      width: "24px",
+    }
+  }
+
   if (size === "small") {
     return {
       height: "50px",
@@ -52,12 +61,17 @@ const AuthorAvatar = styled.figure`
 
 export default function ({
   avatar,
+  className = "",
   title = "User avatar",
   alt = "User avatar",
   size = "small",
+  onClick,
 }: Props): React.ReactElement {
   return (
-    <AuthorAvatar className="author-avatar">
+    <AuthorAvatar
+      onClick={onClick}
+      className={`author-avatar${className ? " " + className : ""}`}
+    >
       <Img
         alt={alt}
         title={title}

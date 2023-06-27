@@ -76,7 +76,7 @@ interface Props {
   articles: Article[]
 }
 
-export default function ({ articles }: Props): React.ReactElement {
+export default function ({ articles }: Props) {
   return (
     <>
       <h1 style={{ visibility: "hidden", height: 0, margin: "0" }}>

@@ -19,6 +19,9 @@ export interface Fail {
 }
 
 export type State<T> = Idle | Pending | Done<T> | Fail
+
+export type StateKey = State<unknown>["type"]
+
 export type Signal = AbortController["signal"]
 export type PromiseFn<R> = (signal: Signal) => Promise<R>
 

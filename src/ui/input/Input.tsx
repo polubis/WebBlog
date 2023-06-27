@@ -41,7 +41,7 @@ export interface InputProps
 
 export const Input = (props: InputProps) => {
   return (
-    <Container>
+    <Container className="ui-input">
       <input {...props} />
     </Container>
   )
@@ -55,7 +55,7 @@ export interface TextareaProps
 
 export const Textarea = (props: TextareaProps) => {
   return (
-    <Container>
+    <Container className="ui-input">
       <textarea {...props} />
     </Container>
   )
