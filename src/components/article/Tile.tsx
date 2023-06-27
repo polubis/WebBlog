@@ -51,7 +51,7 @@ const Tile = styled.div`
   }
 `
 
-export default function ({ article }: Props): React.ReactElement {
+export default function ({ article }: Props) {
   const { author, tags, title, description, readTime, isNew, path, seniorityLevel } = article
 
   return (

@@ -17,12 +17,12 @@ const useScrollToCurrentFrame = <T extends HTMLElement = HTMLElement>(
     const handleScroll = (state: SnippetCreatorState): void => {
       const reference = ref.current
 
-      if (!reference || state.key !== "interacted") {
+      if (!reference || state.view !== "sandbox") {
         return
       }
 
       const frameIdx = state.frames.findIndex(
-        frame => frame.id === state.selectedFrame.id
+        frame => frame.id === state.selectedFrame?.id
       )
 
       if (frameIdx === -1) return
@@ -40,11 +40,7 @@ const useScrollToCurrentFrame = <T extends HTMLElement = HTMLElement>(
     }
   }, [])
 
-  useLayoutEffect(() => {
-    if (state.key === "interacted") {
-      scroll()
-    }
-  }, [state])
+  useLayoutEffect(scroll, [state.selectedFrame, state.frames, state.view])
 
   return { ref }
 }

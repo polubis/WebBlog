@@ -1,17 +1,19 @@
-import React, { useEffect, ReactElement } from "react"
+import React, { ReactElement, useEffect } from "react"
 
-import { useSnippetCreator } from "./useSnippetCreator"
-import Loadable from "react-loadable"
 import { IdleView } from "./IdleView"
-import { SnippetCreatorPreviewView } from "./SnippetCreatorPreviewView"
-import { SnippetsErrorScreen } from "../../components/snippets-error-screen/SnippetsErrorScreen"
 import Button from "../../components/button/Button"
-
-const SnippetCreatorMainView = Loadable({
-  loader: () =>
-    import("./SnippetCreatorMainView").then(m => m.SnippetCreatorMainView),
-  loading: () => null,
-})
+import { useSnippetCreator } from "./useSnippetCreator"
+import { SnippetForm } from "./SnippetForm"
+import { Sandbox } from "./Sandbox"
+import { CreateSnippetForm } from "./CreateSnippetForm"
+import { useSnippetGet } from "./useSnippetGet"
+import { FullScreenAnimation } from "../../components/full-screen-animation"
+import { Center } from "./Center"
+import { Percentage } from "../../ui"
+import { SnippetsErrorScreen } from "./SnippetsErrorScreen"
+import { LoadedSnippetView } from "./LoadedSnippetView"
+import { EditButton } from "./Buttons"
+import { useKeyPress } from "../../utils/useKeyPress"
 
 interface SnippetCreatorProps {
   layout: (children: ReactElement) => ReactElement
@@ -20,41 +22,98 @@ interface SnippetCreatorProps {
 const SnippetCreator = ({ layout }: SnippetCreatorProps) => {
   const [state, action] = useSnippetCreator()
 
-  useEffect(() => {
-    SnippetCreatorMainView.preload()
-  }, [])
+  const [id, loadState, startLoad] = useSnippetGet()
 
-  if (state.key === "idle" || state.key === "loading") {
-    return layout(<IdleView state={state} action={action} />)
+  useEffect(startLoad, [])
+
+  useKeyPress({
+    onKeyPress: e => {
+      const actions = {
+        e: () => {
+          if (loadState.type === "done") {
+            action.startEditFetchedSnippet(loadState.data)
+          }
+        },
+      }
+
+      actions[e.key.toLowerCase()]?.()
+    },
+  })
+
+  const idleView = layout(
+    <IdleView footer={<Button onClick={action.goToSandbox}>START</Button>} />
+  )
+
+  if (state.view === "idle") {
+    if (id !== null) {
+      return (
+        <>
+          {(loadState.type === "idle" || loadState.type === "pending") && (
+            <FullScreenAnimation>
+              <Center>
+                <Percentage />
+              </Center>
+            </FullScreenAnimation>
+          )}
+
+          {loadState.type === "fail" && (
+            <SnippetsErrorScreen onClick={action.goToSandbox} />
+          )}
+
+          {loadState.type === "done" &&
+            layout(
+              <LoadedSnippetView
+                snippet={loadState.data}
+                footer={
+                  <>
+                    <EditButton
+                      title="Play with this snippet in creator"
+                      onClick={() =>
+                        action.startEditFetchedSnippet(loadState.data)
+                      }
+                    />
+                  </>
+                }
+              />
+            )}
+        </>
+      )
+    } else {
+      return idleView
+    }
   }
 
-  if (state.key === "failed") {
+  if (state.view === "sandbox") {
+    return <Sandbox state={state} action={action} />
+  }
+
+  if (state.view === "add") {
     return (
-      <SnippetsErrorScreen
-        action={
-          <Button onClick={() => window.location.replace("/snippet-creator/")}>
-            GENERATE YOUR SNIPPET
-          </Button>
-        }
+      <SnippetForm
+        header="Add new frame"
+        onClose={action.closeForm}
+        onSubmit={action.confirmAdd}
+        initialMdx={state.code}
       />
     )
   }
 
-  if (
-    state.key === "loaded" ||
-    state.key === "interacted" ||
-    state.key === "add-snippet" ||
-    state.key === "edit" ||
-    state.key === "full-screen-opening"
-  ) {
-    return <SnippetCreatorMainView state={state} action={action} />
+  if (state.view === "edit") {
+    return (
+      <SnippetForm
+        header="You are editing frame"
+        onClose={action.closeForm}
+        onSubmit={action.confirmEdit}
+        initialMdx={state.code}
+      />
+    )
   }
 
-  if (state.key === "full-screen" || state.key === "submit") {
-    return <SnippetCreatorPreviewView state={state} action={action} />
+  if (state.view === "submit") {
+    return <CreateSnippetForm frames={state.frames} onBack={action.closeForm} />
   }
 
-  throw Error("Something went wrong...")
+  throw Error("Something went wrong with routing")
 }
 
 export { SnippetCreator }
