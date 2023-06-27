@@ -24,6 +24,7 @@ import { ReadInOtherLanguageBanner } from "./ReadInOtherLanguageBanner"
 import Button from "../button/Button"
 import { ArticleSource } from "./ArticleSource"
 import { useCustomGAEvent } from "../../utils/useCustomGAEvent"
+import { useScrollToTop } from "../../utils/useScrollToTop"
 
 const ProgressDisplayer = Loadable({
   loader: () => import("./ProgressDisplayer").then(m => m.ProgressDisplayer),
@@ -135,6 +136,8 @@ export default function ({
     articleSourceModal.open()
     track({ name: "article_source_clicked" })
   }
+
+  useScrollToTop()
 
   return (
     <SiteMeta

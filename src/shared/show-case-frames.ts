@@ -63,6 +63,25 @@ const map = <T, R>(
 };
 `
 
+const sixth = `
+// Our map function is ready to use ✔️!
+
+const map = <T, R>(
+  array: T[],
+  mapper: (item: T, idx: number, arr: T[]) => R
+): R[] => {
+  const result: R[] = [];
+  const { length } = array;
+
+  for (let i = 0; i < length; i++) {
+    const item = array[i];
+    result.push(mapper(item, i, array));
+  }
+
+  return result;
+};
+`
+
 const DEFAULT_ADD_SNIPPET = `
 // This is just sample code.
 // Add your own :).
@@ -87,6 +106,6 @@ const SnippetCreator = () => {
   throw Error('Unsupported state');
 }
 `
-const SHOWCASE_FRAMES: string[] = [first, second, third, fourth, fifth]
+const SHOWCASE_FRAMES: string[] = [first, second, third, fourth, fifth, sixth]
 
 export { SHOWCASE_FRAMES, DEFAULT_ADD_SNIPPET }

@@ -23,6 +23,9 @@ const base = css`
   background: transparent;
   border: 1px solid transparent;
   font-family: inherit;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
 
   &:disabled {
     cursor: not-allowed;

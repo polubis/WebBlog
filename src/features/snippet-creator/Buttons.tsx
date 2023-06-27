@@ -5,6 +5,7 @@ import {
   CloseIcon,
   CloseMenuIcon,
   DeleteIcon,
+  DraftEditIcon,
   EditIcon,
   FullscreenIcon,
   IconButton,
@@ -200,6 +201,13 @@ export const EditButton = CreateButton({
   Icon: EditIcon,
 })
 
+export const DraftEditButton = CreateButton({
+  className: "snippet-creator-btn draft-edit-btn",
+  title: "Create a snippet based on this one",
+  letter: "E",
+  Icon: DraftEditIcon,
+})
+
 export const DeleteFrameButton = CreateButton({
   className: "snippet-creator-btn delete-frame-btn",
   title: "Delete snippet frame",
@@ -225,7 +233,7 @@ export const MenuButton = ({
       onClick={onClick}
     >
       {open ? <CloseMenuIcon /> : <OpenMenuIcon />}
-      <KeyboardLetter className="letter">C</KeyboardLetter>
+      <KeyboardLetter className="letter">B</KeyboardLetter>
     </IconButton>
   )
 }

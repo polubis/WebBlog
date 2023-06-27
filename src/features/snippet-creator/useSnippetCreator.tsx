@@ -2,14 +2,20 @@ import { useEffect } from "react"
 import { Snippet, SnippetFrame } from "../../models"
 import { useInterval } from "./useInterval"
 import { useSnippetCreatorState } from "./useSnippetCreatorState"
+import { useCustomGAEvent } from "../../utils/useCustomGAEvent"
 
 const useSnippetCreator = () => {
   const [state, dispatch] = useSnippetCreatorState()
 
+  const { track } = useCustomGAEvent()
+
   const action = {
     closeNavigationPanel: () => dispatch({ type: "closeNavigationPanel" }),
     goToIdle: () => dispatch({ type: "goToIdle" }),
-    goToSandbox: () => dispatch({ type: "goToSandbox" }),
+    goToSandbox: () => {
+      track({ name: "snippet_creator_opened" })
+      dispatch({ type: "goToSandbox" })
+    },
     toggleAutoPlay: () => dispatch({ type: "toggleAutoPlay" }),
     goToPreviousFrame: () => dispatch({ type: "goToPreviousFrame" }),
     goToNextFrame: () => dispatch({ type: "goToNextFrame" }),

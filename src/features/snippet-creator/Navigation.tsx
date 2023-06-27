@@ -5,6 +5,7 @@ import React, { ReactNode } from "react"
 
 const Container = styled.nav`
   position: fixed;
+  z-index: 1;
   bottom: 0;
   transform: translateX(-20px);
   width: 100%;

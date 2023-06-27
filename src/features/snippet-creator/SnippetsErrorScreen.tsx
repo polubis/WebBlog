@@ -20,6 +20,7 @@ const Errors = styled.div`
   .generate-snippet-link {
     display: block;
     margin-top: 40px;
+    text-decoration: none;
   }
 `
 

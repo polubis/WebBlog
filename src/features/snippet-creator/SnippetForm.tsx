@@ -6,7 +6,11 @@ import { useEditor } from "../../components/blog-creator/useEditor"
 import { SM_DOWN } from "../../utils/viewport"
 import { Center } from "./Center"
 import { useKeyPress } from "../../utils/useKeyPress"
-import { MAX_FRAME_CHARACTERS, MAX_FRAME_LINES } from "./consts"
+import {
+  MAX_FRAME_CHARACTERS,
+  MAX_FRAME_LINES,
+  MIN_FRAME_CODE_CHARACTERS,
+} from "./consts"
 
 const Container = styled.div`
   @media ${SM_DOWN} {
@@ -72,6 +76,11 @@ const SnippetForm = ({
     },
   })
 
+  const notEnoughCharacters = useMemo(
+    () => mdx.trim().length < MIN_FRAME_CODE_CHARACTERS,
+    [mdx]
+  )
+
   const maxCharactersExceeded = useMemo(
     () => mdx.length > MAX_FRAME_CHARACTERS,
     [mdx]
@@ -89,17 +98,24 @@ const SnippetForm = ({
       <Container>
         <XL>{header}</XL>
         <EditableSnippet language="jsx" value={mdx} onChange={change} />
+
+        {notEnoughCharacters && (
+          <Banner className="snippet-form-banner">
+            Code snippet cannot be empty.
+          </Banner>
+        )}
+
         {maxCharactersExceeded && (
           <Banner className="snippet-form-banner">
-            The character limit has been exceeded, which is{" "}
+            The character limit has been exceeded. Maximum characters count is:{" "}
             {MAX_FRAME_CHARACTERS}.
           </Banner>
         )}
 
         {maxLinesExceeded && (
           <Banner className="snippet-form-banner">
-            The allowed number of lines of code has been exceeded, which is{" "}
-            {MAX_FRAME_LINES}.
+            The allowed number of lines of code has been exceeded. Maximum
+            number of lines: {MAX_FRAME_LINES}.
           </Banner>
         )}
 

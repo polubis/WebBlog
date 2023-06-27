@@ -1,5 +1,5 @@
 import React from "react"
-import { Banner, Code, useModal } from "../../ui"
+import { Banner, Code, XL, useModal } from "../../ui"
 import styled from "styled-components"
 import theme from "../../utils/theme"
 import { useScrollToCurrentFrame } from "./useScrollToCurrentFrame"
@@ -9,6 +9,7 @@ import { FramesProgress } from "./FramesProgress"
 import {
   AddFrameButton,
   AutoPlayButton,
+  CloseButton,
   DeleteFrameButton,
   EditButton,
   MenuButton,
@@ -16,12 +17,15 @@ import {
   PreviousButton,
   SubmitFramesButton,
 } from "./Buttons"
-import { T_DOWN } from "../../utils/viewport"
+import { T_DOWN, T_UP } from "../../utils/viewport"
 import { Navigation } from "./Navigation"
 import { useKeyPress } from "../../utils/useKeyPress"
 import { useClickOutside } from "../../utils/useClickOutside"
 import { MAX_FRAMES_COUNT, MIN_FRAMES_COUNT } from "./consts"
 import { Confirmation } from "./Confirmation"
+import { InteractiveButton } from "../../ui/snippet/InteractiveButton"
+import { useClipboard } from "../../utils/useClipboard"
+import { Snippet } from "../../models"
 
 const Dot = styled.div`
   border-radius: 50%;
@@ -39,7 +43,13 @@ const Container = styled.div`
     grid-template-columns: 260px 1fr;
 
     @media ${T_DOWN} {
-      grid-template-columns: 1fr;
+      grid-template-columns: 100%;
+    }
+
+    .snippets-creator-code-header {
+      @media ${T_UP} {
+        width: calc(100% - 260px);
+      }
     }
   }
 
@@ -47,12 +57,37 @@ const Container = styled.div`
     grid-template-columns: 0px 1fr;
 
     @media ${T_DOWN} {
-      grid-template-columns: 1fr;
+      grid-template-columns: 100%;
     }
   }
 
   .snippet-creator-btn svg path {
     fill: ${theme.black};
+  }
+
+  .snippets-creator-code-header {
+    position: fixed;
+    background: black;
+    z-index: 10;
+    padding: 20px;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transform: translateX(-20px);
+    width: 100%;
+    border-bottom: 1px solid ${theme.grayC};
+
+    ${XL} {
+      margin-right: 16px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      span {
+        color: ${theme.primary};
+      }
+    }
   }
 
   .snippets-creator-header {
@@ -66,7 +101,7 @@ const Container = styled.div`
       left: 0;
       top: 0;
       bottom: 0;
-      z-index: 1;
+      z-index: 11;
     }
 
     &.open {
@@ -136,11 +171,21 @@ const Container = styled.div`
   }
 
   .main-view-code {
-    padding: 20px 20px 80px 20px;
+    padding: 76px 20px 100px 20px;
     max-width: 100vw;
 
     .main-view-banner {
       margin-bottom: 20px;
+    }
+
+    .sandbox-code-footer {
+      margin-top: 20px;
+    }
+
+    .editing-copy-of-snippet-banner {
+      margin: 20px 0 12px 0;
+      max-width: max-content;
+      width: 100%;
     }
   }
 `
@@ -148,15 +193,21 @@ const Container = styled.div`
 interface SandboxProps {
   state: SnippetCreatorState
   action: SnippetCreatorAction
+  loadedSnippet?: Snippet
 }
 
-const Sandbox = ({ state, action }: SandboxProps) => {
+const Sandbox = ({ state, action, loadedSnippet }: SandboxProps) => {
   const { ref } = useScrollToCurrentFrame<HTMLDivElement>(state)
   const isOpen = state.isNavigationPanelOpen
   const openClass = isOpen ? "open" : "closed"
   const confirmation = useModal()
+  const { copy } = useClipboard()
 
   const { selectedFrame, frames, autoPlay } = state
+
+  const handleClose = () => {
+    confirmation.isOpen ? confirmation.close() : action.goToIdle()
+  }
 
   useKeyPress({
     onKeyPress: e => {
@@ -167,11 +218,9 @@ const Sandbox = ({ state, action }: SandboxProps) => {
         p: action.toggleAutoPlay,
         e: () => action.startEdit(selectedFrame!),
         r: () => confirmation.open(),
-        c: action.toggleNavigationPanel,
+        b: action.toggleNavigationPanel,
         s: action.startSubmit,
-        escape: () => {
-          confirmation.isOpen ? confirmation.close() : action.goToIdle()
-        },
+        escape: handleClose,
       }
 
       actions[e.key.toLowerCase()]?.()
@@ -179,7 +228,11 @@ const Sandbox = ({ state, action }: SandboxProps) => {
   })
 
   const { ref: headerRef } = useClickOutside<HTMLDivElement>({
-    onOutside: action.closeNavigationPanel,
+    onOutside: () => {
+      if (!confirmation.isOpen) {
+        action.closeNavigationPanel()
+      }
+    },
   })
 
   const maxFramesExceeded = state.frames.length >= MAX_FRAMES_COUNT
@@ -234,7 +287,45 @@ const Sandbox = ({ state, action }: SandboxProps) => {
               </Banner>
             )}
 
-            {selectedFrame && <Code animated>{selectedFrame.code}</Code>}
+            {selectedFrame && (
+              <Code
+                animated
+                header={
+                  loadedSnippet ? (
+                    <Banner className="editing-copy-of-snippet-banner">
+                      You are editing a copy of a snippet named{" "}
+                      {loadedSnippet.name}
+                    </Banner>
+                  ) : undefined
+                }
+                footer={
+                  <footer className="sandbox-code-footer">
+                    <InteractiveButton
+                      onClick={() => copy(selectedFrame!.code)}
+                    >
+                      {status =>
+                        status === "pending" ? <>✂️ Copied</> : <>✂️ Copy</>
+                      }
+                    </InteractiveButton>
+                  </footer>
+                }
+              >
+                {selectedFrame.code}
+              </Code>
+            )}
+
+            <header className="snippets-creator-code-header">
+              <XL>
+                {loadedSnippet ? (
+                  <>
+                    Editing <span>{loadedSnippet.name}</span>
+                  </>
+                ) : (
+                  "Create snippet"
+                )}
+              </XL>
+              <CloseButton onClick={handleClose} />
+            </header>
 
             <Navigation>
               <MenuButton

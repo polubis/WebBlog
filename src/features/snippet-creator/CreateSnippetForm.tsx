@@ -14,13 +14,23 @@ import Section from "../../components/article/Section"
 import { SnippetFrame } from "../../models"
 import { useKeyPress } from "../../utils/useKeyPress"
 import { Center } from "./Center"
-import { useLeavePageAlert } from "../../utils/useLeavePageAlert"
 import {
   SNIPPET_DESCRIPTION_MAX_LENGTH,
   SNIPPET_DESCRIPTION_MIN_LENGTH,
   SNIPPET_NAME_MAX_LENGTH,
   SNIPPET_NAME_MIN_LENGTH,
 } from "./consts"
+import { InteractiveButton } from "../../ui/snippet/InteractiveButton"
+import { useClipboard } from "../../utils/useClipboard"
+
+const Footer = styled.div`
+  display: flex;
+  align-items: center;
+
+  & > *:not(:last-child) {
+    margin-right: 12px;
+  }
+`
 
 const FinalScreen = styled.div`
   display: flex;
@@ -29,7 +39,11 @@ const FinalScreen = styled.div`
   max-width: 500px;
   min-height: 500px;
 
-  button {
+  .copy-snippet-link-btn {
+    margin: 16px 0;
+  }
+
+  ${Footer} {
     margin-top: 28px;
   }
 `
@@ -59,6 +73,10 @@ const Container = styled.form`
   .submit-divider {
     background: #888;
     margin: 40px auto;
+  }
+
+  .copy-snippet-link-btn {
+    margin-bottom: 20px;
   }
 `
 
@@ -119,15 +137,6 @@ const createSnippet = async (signal: Signal, body: string): Promise<string> => {
   return result.data
 }
 
-const Footer = styled.div`
-  display: flex;
-  align-items: center;
-
-  & > *:not(:last-child) {
-    margin-right: 8px;
-  }
-`
-
 const required: Validator<string> = value =>
   value === "" ? "This field is required" : ""
 const minLength = (limit: number): Validator<string> => value =>
@@ -140,6 +149,7 @@ export const CreateSnippetForm = ({
   onBack,
 }: CreateSnippetFormProps) => {
   const { track } = useCustomGAEvent()
+  const { copy } = useClipboard()
   const [{ values, valid }, { set }] = useForm<FormData>({
     values: {
       name: "",
@@ -162,12 +172,6 @@ export const CreateSnippetForm = ({
     },
   })
   const [creationState, startSnippetCreation] = useFetch()
-
-  useLeavePageAlert({
-    text:
-      "After leaving this page your progress will not be saved. Are you sure?",
-    active: creationState.type === "pending",
-  })
 
   const handleBack = (): void => {
     if (creationState.type !== "pending") {
@@ -213,6 +217,8 @@ export const CreateSnippetForm = ({
   }
 
   if (creationState.type === "done") {
+    const link = "/snippet-creator/?id=" + creationState.data + "/"
+
     return (
       <Center className="create-snippet-form-final-screen">
         <FinalScreen>
@@ -220,14 +226,25 @@ export const CreateSnippetForm = ({
             <XL>Thanks for using our application!</XL>
             <M>
               Now you can share this snippet via{" "}
-              <A
-                href={"/snippet-creator/?id=" + creationState.data + "/"}
-                outside
-              >
+              <A href={link} outside>
                 this link
               </A>
               .
             </M>
+            <M>
+              <B>
+                Very important! Save the link with the created snippet
+                somewhere.
+              </B>
+            </M>
+            <InteractiveButton
+              className="copy-snippet-link-btn"
+              onClick={() => copy(window.location.origin + link)}
+            >
+              {status =>
+                status === "pending" ? <>✂️ Copied</> : <>✂️ Copy link</>
+              }
+            </InteractiveButton>
             <M>
               If you enjoyed this mini application or you have suggestion feel
               free to write to{" "}
@@ -240,13 +257,12 @@ export const CreateSnippetForm = ({
               on <B>Linkedin</B>.
             </M>
             <Footer>
-              <A
-                href={"/snippet-creator/?id=" + creationState.data + "/"}
-                outside
-              >
+              <A href={link} outside>
                 <Button>GO TO SNIPPET</Button>
               </A>
-              <Button onClick={handleBack}>GENERATE ONE MORE</Button>
+              <A href="/snippet-creator/">
+                <Button>GENERATE NEW</Button>
+              </A>
             </Footer>
           </Section>
         </FinalScreen>

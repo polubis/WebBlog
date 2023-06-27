@@ -15,7 +15,7 @@ const useCounter = (min: number, max: number, initial = 0) => {
   const previous = () => {
     setCounter(prev => {
       const decremented = prev - 1
-      const prevValue = decremented <= min ? max : decremented
+      const prevValue = decremented <= min ? max - 1 : decremented
 
       return prevValue
     })
@@ -28,7 +28,7 @@ const useCounter = (min: number, max: number, initial = 0) => {
     }
 
     if (value <= min) {
-      setCounter(max)
+      setCounter(max - 1)
       return
     }
 
