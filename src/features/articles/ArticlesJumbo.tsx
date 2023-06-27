@@ -51,7 +51,7 @@ const Wrapper = styled.div`
     display: flex;
     justify-content: center;
     position: absolute;
-    bottom: -10px;
+    bottom: -13.5px;
     left: 0;
     right: 0;
     margin: 0 auto;

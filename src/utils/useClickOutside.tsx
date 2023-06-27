@@ -8,14 +8,12 @@ interface UseClickOutsideReturn<T extends HTMLElement> {
   ref: MutableRefObject<T | null>
 }
 
-const useClickOutside = <T extends HTMLElement>({
-  onOutside,
-}: UseClickOutsideConfig): UseClickOutsideReturn<T> => {
+const useClickOutside = <T extends HTMLElement>(config: UseClickOutsideConfig): UseClickOutsideReturn<T> => {
   const ref = useRef<T>(null)
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      ref.current?.contains(e.target as Node) || onOutside()
+      ref.current?.contains(e.target as Node) || config.onOutside()
     }
 
     document.addEventListener("mousedown", handleClickOutside)
@@ -24,7 +22,7 @@ const useClickOutside = <T extends HTMLElement>({
       document.removeEventListener("mousedown", handleClickOutside)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [config])
 
   return { ref }
 }

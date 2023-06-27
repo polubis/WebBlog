@@ -23,8 +23,6 @@ const Content = styled.div`
   position: fixed;
   top: 50%;
   left: 50%;
-  min-width: 280px;
-  min-height: 280px;
   padding: 24px;
   transform: translate(-50%, -50%);
   background: ${theme.black};
@@ -32,18 +30,20 @@ const Content = styled.div`
   z-index: 201;
   border: 1px solid ${theme.bg2};
   overflow-y: auto;
-  max-height: 96vh;
+  max-height: calc(100% - 40px);
+  width: calc(100% - 40px);
+  max-width: max-content;
 `
 
 export const Modal = ({ children, onClose }: ModalProps) => {
   useKeyPress({
-    onKeyPress: (e) => {
+    onKeyPress: e => {
       const actions = {
         Escape: onClose,
       }
 
       actions[e.key]?.()
-    }
+    },
   })
   const { render } = usePortal()
 

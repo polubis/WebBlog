@@ -12,7 +12,7 @@ import { Center } from "./Center"
 import { Percentage } from "../../ui"
 import { SnippetsErrorScreen } from "./SnippetsErrorScreen"
 import { LoadedSnippetView } from "./LoadedSnippetView"
-import { EditButton } from "./Buttons"
+import { DraftEditButton, EditButton } from "./Buttons"
 import { useKeyPress } from "../../utils/useKeyPress"
 
 interface SnippetCreatorProps {
@@ -30,7 +30,11 @@ const SnippetCreator = ({ layout }: SnippetCreatorProps) => {
     onKeyPress: e => {
       const actions = {
         e: () => {
-          if (loadState.type === "done") {
+          if (
+            state.view === "idle" &&
+            id !== null &&
+            loadState.type === "done"
+          ) {
             action.startEditFetchedSnippet(loadState.data)
           }
         },
@@ -65,14 +69,11 @@ const SnippetCreator = ({ layout }: SnippetCreatorProps) => {
               <LoadedSnippetView
                 snippet={loadState.data}
                 footer={
-                  <>
-                    <EditButton
-                      title="Play with this snippet in creator"
-                      onClick={() =>
-                        action.startEditFetchedSnippet(loadState.data)
-                      }
-                    />
-                  </>
+                  <DraftEditButton
+                    onClick={() =>
+                      action.startEditFetchedSnippet(loadState.data)
+                    }
+                  />
                 }
               />
             )}
@@ -84,7 +85,13 @@ const SnippetCreator = ({ layout }: SnippetCreatorProps) => {
   }
 
   if (state.view === "sandbox") {
-    return <Sandbox state={state} action={action} />
+    return (
+      <Sandbox
+        state={state}
+        action={action}
+        loadedSnippet={loadState.type === "done" ? loadState.data : undefined}
+      />
+    )
   }
 
   if (state.view === "add") {

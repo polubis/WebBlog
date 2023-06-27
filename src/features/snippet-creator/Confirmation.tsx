@@ -1,4 +1,4 @@
-import React from "react"
+import React, { ReactNode } from "react"
 import { B, M, Modal, XL } from "../../ui"
 import Button from "../../components/button/Button"
 import styled from "styled-components"
@@ -6,6 +6,7 @@ import styled from "styled-components"
 interface ConfirmationProps {
   onClose: () => void
   onConfirm: () => void
+  children?: ReactNode
 }
 
 const Footer = styled.div`
@@ -35,15 +36,12 @@ const Container = styled.div`
   }
 `
 
-const Confirmation = ({ onClose, onConfirm }: ConfirmationProps) => {
+const Confirmation = ({ onClose, onConfirm , children}: ConfirmationProps) => {
   return (
     <Modal onClose={onClose}>
       <Container>
         <XL>You want to delete snippet frame</XL>
-        <M>
-          Deleting a frame <B>does not modify</B> the one stored in the database. Don't
-          be afraid :). We had to display this message.
-        </M>
+        {children}
         <M>Are you sure that's what you want?</M>
         <Footer>
           <Button onClick={onClose}>No</Button>

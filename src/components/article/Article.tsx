@@ -25,6 +25,7 @@ import { Breadcrumbs } from "../breadcrumbs"
 import { ReadInOtherLanguageBanner } from "./ReadInOtherLanguageBanner"
 import { useModal } from "../../ui/modal/Modal"
 import { useCustomGAEvent } from "../../utils/useCustomGAEvent"
+import { useScrollToTop } from "../../utils/useScrollToTop"
 
 const ProgressDisplayer = Loadable({
   loader: () => import("./ProgressDisplayer").then(m => m.ProgressDisplayer),
@@ -134,12 +135,14 @@ export default function ({
     translations,
     lang,
     rawBody,
-    seniorityLevel
+    seniorityLevel,
   } = article
 
   const t = translationObject[lang]
   const { track } = useCustomGAEvent()
   const articleSourceModal = useModal()
+  
+  useScrollToTop()
 
   const handleSourceOpen = () => {
     articleSourceModal.open()

@@ -17,11 +17,16 @@ interface LessonSourceClicked {
   name: "lesson_source_clicked"
 }
 
+interface SnippetCreatorOpened {
+  name: "snippet_creator_opened"
+}
+
 type AnalyticsEvent =
   | FullScreenClicked
   | ArticleSourceClicked
   | SnippetCreated
   | LessonSourceClicked
+  | SnippetCreatorOpened
 
 export const useCustomGAEvent = () => {
   const track = (e: AnalyticsEvent): void => {
