@@ -100,7 +100,7 @@ export const PreviousButton = ({ className, onClick }: PreviousButtonProps) => {
 }
 
 export const NextButton = CreateButton({
-  className: "snippet-creator-btn",
+  className: "snippet-creator-btn next",
   title: "Go to next",
   letter: "D",
   Icon: RightArrowIcon,
