@@ -179,11 +179,13 @@ export const CourseContent = ({
               ]}
             />
             <Header>
-              <GatsbyLink to="/courses/">
-                <IconButton variant="secondary-outlined">
-                  <ArrowLeftIcon />
-                </IconButton>
-              </GatsbyLink>
+              <div>
+                <GatsbyLink to="/courses/">
+                  <IconButton variant="secondary-outlined">
+                    <ArrowLeftIcon />
+                  </IconButton>
+                </GatsbyLink>
+              </div>
               <GatsbyLink to={course.chapters[0].lessons[0].path}>
                 <Button>Start</Button>
               </GatsbyLink>

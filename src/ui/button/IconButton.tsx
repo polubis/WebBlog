@@ -80,7 +80,6 @@ export const IconButton = styled.button<IconButtonProps>`
         height: 40px;
         width: 40px;
         font-size: 20px;
-        font-size: bold;
       `
     }
 
@@ -89,7 +88,6 @@ export const IconButton = styled.button<IconButtonProps>`
         height: 48px;
         width: 48px;
         font-size: 20px;
-        font-size: bold;
       `
     }
   }}

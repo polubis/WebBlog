@@ -43,6 +43,16 @@ export default function ({
 }: LayoutProps) {
   const { ref, scrollTop } = useScrollToHtmlElement<HTMLDivElement>()
 
+  const homeLink = (
+    <Link
+      to={routes.home.to}
+      key={routes.home.key}
+      activeStyle={activeStyle}
+      id={`home-navigation-link-${routes.home.key}`}
+    >
+      {t.home}
+    </Link>
+  )
   const articlesLink = (
     <Link
       to={routes.articles.to}
@@ -123,6 +133,7 @@ export default function ({
               {coursesLink}
               {createArticleLink}
               {snippetsLink}
+              {homeLink}
             </>
           }
           action={
@@ -150,6 +161,7 @@ export default function ({
                 {coursesLink}
                 {createArticleLink}
                 {snippetsLink}
+                {homeLink}
               </>
             }
           />

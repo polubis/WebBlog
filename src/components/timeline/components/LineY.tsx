@@ -17,7 +17,7 @@ export const LineY = ({ groupIdx, group, setup }: LineYProps) => {
       className="line-y"
       style={{
         width: setup.lineY.width,
-        transform: `translate(${left}px, ${top}px`,
+        transform: `translate(${left}px, ${top}px)`,
         height,
         position: "absolute",
         background: "#fff",
