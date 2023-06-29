@@ -14,6 +14,10 @@
     "courses": "Courses",
     "authors": "Authors",
     "home": "Home",
+    "observeMeHeader": "I create content regularly!",
+    "observeMeDescriptionFirstPart": "I hope you found my post interesting. If so, maybe you'll take a peek at my",
+    "observeMeDescriptionSecondPart": "where I publish posts daily.",
+    "followMe": "Follow me",
     "createArticle": "Create article",
     "createSnippet": "Create snippet",
     "footer": {
@@ -47,6 +51,10 @@
     "authors": "Autorzy",
     "createArticle": "Stwórz artykuł",
     "createSnippet": "Stwórz snippet",
+    "observeMeHeader": "Jestem z tych, którzy publikują codziennie!",
+    "observeMeDescriptionFirstPart": "Mam nadzieję, że mój wpis Ci się spodobał. Jeżeli tak jest, to zapraszam Cię na mój",
+    "observeMeDescriptionSecondPart": "gdzie publikuję posty każdego dnia.",
+    "followMe": "Mój profil",
     "dates": {
       "day": "dzień",
       "days": "dni",

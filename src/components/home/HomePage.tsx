@@ -24,6 +24,8 @@ const HomePage = ({ pageContext }: HomePageProps) => {
     authors,
     courses,
     totalLessons,
+    totalChapters,
+    totalStack,
     timeline,
     holeImg,
     site,
@@ -55,6 +57,8 @@ const HomePage = ({ pageContext }: HomePageProps) => {
           articlesCount={articles.length}
           authorsCount={authors.length}
           coursesCount={courses.length}
+          stackCount={totalStack}
+          chaptersCount={totalChapters}
           lessonsCount={totalLessons}
           topAuthor={authors[0]}
           discordMembers={discordMembers}

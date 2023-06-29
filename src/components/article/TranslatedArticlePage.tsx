@@ -5,7 +5,7 @@ import Layout from "../layout/Layout"
 import { TranslatedArticle } from "../../models/Article"
 import Thumbnail from "../article/Thumbnail"
 import Tags from "../article/Tags"
-import { Content, M, useModal } from "../../ui"
+import { A, Content, M, useModal } from "../../ui"
 import Intro from "./Intro"
 import Loadable from "react-loadable"
 import { L_DOWN, L_UP, SM_DOWN } from "../../utils/viewport"
@@ -25,6 +25,7 @@ import Button from "../button/Button"
 import { ArticleSource } from "./ArticleSource"
 import { useCustomGAEvent } from "../../utils/useCustomGAEvent"
 import { useScrollToTop } from "../../utils/useScrollToTop"
+import { ObserveMe } from "../observe-me/ObserveMe"
 
 const ProgressDisplayer = Loadable({
   loader: () => import("./ProgressDisplayer").then(m => m.ProgressDisplayer),
@@ -52,6 +53,10 @@ const Article = styled.main`
 
   .ui-banner {
     margin-bottom: 28px;
+  }
+
+  .observe-me {
+    margin: 32px 0 0 0;
   }
 
   .components-article-tags {
@@ -125,7 +130,7 @@ export default function ({
     readTime,
     originalArticlePath,
     lang,
-    seniorityLevel
+    seniorityLevel,
   } = translatedArticle
 
   const t = translationObject[lang]
@@ -200,6 +205,22 @@ export default function ({
             <Author>
               <AuthorBadge author={author} />
             </Author>
+            {author.linkedinURL !== undefined && (
+              <ObserveMe
+                author={author}
+                header={t.observeMeHeader}
+                description={
+                  <>
+                    {t.observeMeDescriptionFirstPart}{" "}
+                    <A href={author.linkedinURL!} outside>
+                      LinkedIn
+                    </A>
+                    , {t.observeMeDescriptionSecondPart}
+                  </>
+                }
+                btnTitle={t.followMe}
+              />
+            )}
             <Dates>
               <Badge color={theme.secondary}>
                 {getDistanceLabel(createdAt, t.dates.created)}
