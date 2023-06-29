@@ -9,7 +9,6 @@ import { L_DOWN, M_DOWN, T_DOWN } from "../../utils/viewport"
 import { Article } from "../../models"
 import Img from "gatsby-image"
 import { Content } from "../layout"
-import { LinkButton } from "../../components/button/Button"
 import { Translated } from "../../models"
 import { FacebookIcon } from "../icons/FacebookIcon"
 
@@ -109,6 +108,15 @@ const Articles = styled.div`
   display: flex;
   flex-flow: wrap;
 
+  .article-footer-img {
+    border-radius: 4px;
+  }
+
+  & > *:hover {
+    outline: 2px solid ${theme.primary};
+    border-radius: 4px;
+  }
+
   & > *:not(:last-child) {
     margin: 0 8px 8px 0;
   }
@@ -121,10 +129,10 @@ const Figure = styled.figure`
 interface FooterProps {
   articles: Article[]
   t: Translated
-  renderLinks: (LinkComponent: typeof Link) => ReactNode
+  links: ReactNode
 }
 
-const Footer = ({ articles, t, renderLinks }: FooterProps) => {
+const Footer = ({ articles, t, links }: FooterProps) => {
   return (
     <Container className="ui-footer">
       <Content>
@@ -134,7 +142,11 @@ const Footer = ({ articles, t, renderLinks }: FooterProps) => {
             <M>{t.footer.aboutUsText}</M>
             <M>
               {t.footer.aboutUsTextCommunity}{" "}
-              <A outside href='https://discord.gg/PxXQayT3x3' className="form-button">
+              <A
+                outside
+                href="https://discord.gg/PxXQayT3x3"
+                className="form-button"
+              >
                 {t.footer.thisFormLink}
               </A>
               .
@@ -144,11 +156,16 @@ const Footer = ({ articles, t, renderLinks }: FooterProps) => {
             <X>{t.footer.recommendedArticles}</X>
             <Articles>
               {articles.map(article => (
-                <Link className="recommendedArticlesLink" key={article.title} to={article.path}>
+                <Link
+                  className="recommendedArticlesLink"
+                  key={article.title}
+                  to={article.path}
+                >
                   <Figure>
                     <Img
                       fluid={article.thumbnail}
                       alt="Article thumbnail"
+                      className='article-footer-img'
                       style={{
                         width: "60px",
                         height: "60px",
@@ -161,7 +178,7 @@ const Footer = ({ articles, t, renderLinks }: FooterProps) => {
           </Section>
           <Section>
             <X>{t.navigationLabel}</X>
-            <Links>{renderLinks(Link)}</Links>
+            <Links>{links}</Links>
           </Section>
         </TopSection>
         <ContentFooter className="contentFooter">

@@ -22,7 +22,6 @@ const base = css`
   cursor: pointer;
   background: transparent;
   border: 1px solid transparent;
-  font-family: inherit;
 
   &:disabled {
     cursor: not-allowed;
@@ -76,8 +75,6 @@ export const IconButton = styled.button<IconButtonProps>`
       return css`
         height: 40px;
         width: 40px;
-        font-size: 20px;
-        font-size: bold;
       `
     }
 
@@ -85,8 +82,6 @@ export const IconButton = styled.button<IconButtonProps>`
       return css`
         height: 48px;
         width: 48px;
-        font-size: 20px;
-        font-size: bold;
       `
     }
   }}

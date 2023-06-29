@@ -65,7 +65,7 @@ interface AuthorsPageProps {
 }
 
 const AuthorsPage = ({
-  pageContext: { authors, articles, site, translationObject, footerArticles },
+  pageContext: { authors, site, translationObject, footerArticles },
 }: AuthorsPageProps) => {
   const t = translationObject["en"]
 

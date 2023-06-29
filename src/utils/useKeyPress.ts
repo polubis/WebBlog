@@ -21,7 +21,7 @@ const useKeyPress = (config: Config) => {
     const sub = fromEvent(source, "keydown")
       .pipe(isDebounce ? debounceTime(delay) : throttleTime(delay))
       .subscribe(e => config.onKeyPress(e as KeyboardEvent))
-    1
+
     return () => {
       sub.unsubscribe()
     }

@@ -121,7 +121,7 @@ class UsersList {
   } 
   
   handleRemove(idx) {
-    // Przekazujemy funkcje sprawdzającą.
+    // Przekazujemy funkcję sprawdzającą.
     this.list.remove(this.removeUser);
   }
 }
@@ -513,7 +513,7 @@ class UsersList {
   elementIdxToRemove = -1;
  
   constructor() {
-    // Nadpisaliśmy funkcje jej nową, sklonowaną wersją
+    // Nadpisaliśmy funkcję jej nową, sklonowaną wersją
     // z całkowicie nowym "this". Które w tym przypadku
     // odnosi się do instancji "UsersList".
     this.removeUser = this.removeUser.bind(this);
@@ -592,7 +592,7 @@ usersList.handleRemove(9);
 console.log(usersList.list.items);
 `}</Snippet>
   <M>
-    Zamist odnosić się do <B>this</B> polegamy teraz na mechanizmie{" "}
+    Zamiast odnosić się do <B>this</B> polegamy teraz na mechanizmie{" "}
     <B>domknięcia (closure)</B>. Jeżeli interesuje Cię, jak to dokładnie działa,
     to zapraszam do{" "}
     <A

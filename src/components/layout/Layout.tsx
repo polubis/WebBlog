@@ -1,7 +1,6 @@
-import React, { ReactNode, useMemo } from "react"
+import React, { ReactNode } from "react"
 import { Article, Routes, Translated } from "../../models"
 import { Footer, Layout, Navigation } from "../../ui"
-import { sort } from "../../utils/sort"
 import theme from "../../utils/theme"
 import styled from "styled-components"
 import { Link as GatsbyLink } from "gatsby"
@@ -17,7 +16,7 @@ interface LayoutProps {
   t: Translated
   routes: Routes
   disableSocialBar?: boolean
-  disableFooter?: boolean;
+  disableFooter?: boolean
 }
 
 const activeStyle = { color: theme.primary }
@@ -28,6 +27,10 @@ const Link = styled(GatsbyLink)`
   color: ${theme.secondary};
   text-decoration: none;
   text-transform: uppercase;
+
+  &:hover {
+    color: ${theme.primary};
+  }
 `
 
 const UnstyledLink = styled(GatsbyLink)`
@@ -40,25 +43,70 @@ export default function ({
   t,
   routes,
   disableSocialBar,
-  disableFooter
+  disableFooter,
 }: LayoutProps) {
   const { ref, scrollTop } = useScrollToHtmlElement<HTMLDivElement>()
 
-  const { links, homeLink, leftLinks, rightLinks } = useMemo(() => {
-    const links = sort(
-      Object.values(routes).map(route => ({
-        ...route,
-        label: t.navigation[route.key],
-      })),
-      "label"
-    )
-    const homeLink = links.find(link => link.key === "home")!
-    const homeLessLinks = links.filter(link => link.key !== "home")
-    const leftLinks = [...homeLessLinks].slice(0, 2)
-    const rightLinks = [...homeLessLinks].slice(2, homeLessLinks.length)
-
-    return { links, homeLink, leftLinks, rightLinks }
-  }, [])
+  const homeLink = (
+    <Link
+      to={routes.home.to}
+      key={routes.home.key}
+      activeStyle={activeStyle}
+      id={`home-navigation-link-${routes.home.key}`}
+    >
+      {t.home}
+    </Link>
+  )
+  const articlesLink = (
+    <Link
+      to={routes.articles.to}
+      key={routes.articles.key}
+      activeStyle={activeStyle}
+      id={`home-navigation-link-${routes.articles.key}`}
+    >
+      {t.articles}
+    </Link>
+  )
+  const authorsLink = (
+    <Link
+      to={routes.authors.to}
+      key={routes.authors.key}
+      activeStyle={activeStyle}
+      id={`home-navigation-link-${routes.authors.key}`}
+    >
+      {t.authors}
+    </Link>
+  )
+  const coursesLink = (
+    <Link
+      to={routes.courses.to}
+      key={routes.courses.key}
+      activeStyle={activeStyle}
+      id={`home-navigation-link-${routes.courses.key}`}
+    >
+      {t.courses}
+    </Link>
+  )
+  const snippetsLink = (
+    <Link
+      to={routes.snippetCreator.to}
+      key={routes.snippetCreator.key}
+      activeStyle={activeStyle}
+      id={`home-navigation-link-${routes.snippetCreator.key}`}
+    >
+      {t.snippets}
+    </Link>
+  )
+  const createArticleLink = (
+    <Link
+      to={routes.creator.to}
+      key={routes.creator.key}
+      activeStyle={activeStyle}
+      id={`home-navigation-link-${routes.creator.key}`}
+    >
+      {t.createArticle}
+    </Link>
+  )
 
   return (
     <Layout
@@ -66,50 +114,31 @@ export default function ({
       navigation={
         <Navigation
           logo={
-            <UnstyledLink to={homeLink.to} id="home-navigation-logo">
+            <UnstyledLink to={routes.home.to} id="home-navigation-logo">
               <GreenOnLogo full />
             </UnstyledLink>
           }
           leftLinks={
             <>
-              {leftLinks.map(link => (
-                <Link
-                  to={link.to}
-                  key={link.to}
-                  activeStyle={activeStyle}
-                  id={`home-navigation-link-${link.label}`}
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {articlesLink}
+              {authorsLink}
+              {coursesLink}
             </>
           }
           rightLinks={
             <>
-              {rightLinks.map(link => (
-                <Link
-                  to={link.to}
-                  key={link.to}
-                  activeStyle={activeStyle}
-                  id={`home-navigation-link-${link.label}`}
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {createArticleLink}
+              {snippetsLink}
             </>
           }
           mobileLinks={
             <>
-              {links.map(link => (
-                <Link
-                  to={link.to}
-                  key={link.to}
-                  activeStyle={activeStyle}
-                  id={`home-navigation-mobile-link-${link.label}`}
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {articlesLink}
+              {authorsLink}
+              {coursesLink}
+              {createArticleLink}
+              {homeLink}
+              {snippetsLink}
             </>
           }
           action={
@@ -120,29 +149,28 @@ export default function ({
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Button >
-                {t.join}
-              </Button>
+              <Button>{t.join}</Button>
             </a>
-
           }
         />
       }
       footer={
-        disableFooter ||
-        <Footer
-          articles={articles}
-          t={t}
-          renderLinks={Link => (
-            <>
-              {links.map(link => (
-                <Link key={link.key} to={link.to}>
-                  {link.label}
-                </Link>
-              ))}
-            </>
-          )}
-        />
+        disableFooter || (
+          <Footer
+            articles={articles}
+            t={t}
+            links={
+              <>
+                {articlesLink}
+                {authorsLink}
+                {coursesLink}
+                {createArticleLink}
+                {homeLink}
+                {snippetsLink}
+              </>
+            }
+          />
+        )
       }
     >
       {children}

@@ -61,8 +61,14 @@ const Section = styled.section`
 
 export default ({
   children,
+  className,
   containerType = "section",
 }: {
   children: ReactNode
   containerType?: string
-}) => <Section data-container-type={containerType}>{children}</Section>
+  className?: string
+}) => (
+  <Section className={className} data-container-type={containerType}>
+    {children}
+  </Section>
+)

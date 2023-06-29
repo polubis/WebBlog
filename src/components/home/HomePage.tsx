@@ -7,6 +7,8 @@ import { WelcomeSection } from "./WelcomeSection"
 import { StatsSection } from "./StatsSection"
 import { ArticlesTimelineSection } from "./ArticlesTimelineSection"
 import { Image } from "../../models"
+import { SnippetCreatorSection } from "./SnippetCreatorSection"
+import { useScrollToTop } from "../../utils/useScrollToTop"
 
 interface HomePageProps {
   pageContext: {
@@ -22,15 +24,19 @@ const HomePage = ({ pageContext }: HomePageProps) => {
     authors,
     courses,
     totalLessons,
+    totalChapters,
+    totalStack,
     timeline,
     holeImg,
     site,
     translationObject,
     footerArticles,
     discordMembers,
-    githubContributors
+    githubContributors,
   } = pageContext
   const t = translationObject["en"]
+
+  useScrollToTop()
 
   return (
     <SiteMeta
@@ -51,11 +57,14 @@ const HomePage = ({ pageContext }: HomePageProps) => {
           articlesCount={articles.length}
           authorsCount={authors.length}
           coursesCount={courses.length}
+          stackCount={totalStack}
+          chaptersCount={totalChapters}
           lessonsCount={totalLessons}
           topAuthor={authors[0]}
           discordMembers={discordMembers}
           githubContributors={githubContributors}
         />
+        <SnippetCreatorSection />
         <ArticlesTimelineSection data={timeline} />
       </Layout>
     </SiteMeta>

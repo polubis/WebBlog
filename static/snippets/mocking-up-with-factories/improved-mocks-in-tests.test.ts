@@ -10,7 +10,7 @@ describe("users service", () => {
   it("allows to fetch users", async () => {
     const response = { data: userFactory().valueOf(), status: 200 }
 
-    axios.post.mockResolvedValueOnce(response)
+    axios.get.mockResolvedValueOnce(response)
 
     await getUser(1)
 
