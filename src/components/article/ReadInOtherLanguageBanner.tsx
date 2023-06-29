@@ -23,6 +23,10 @@ const Wrapper = styled.div`
   .read-link {
     margin-left: 8px;
 
+    &:hover {
+      opacity: 0.7;
+    }
+
     button {
       color: ${theme.black};
     }

@@ -212,12 +212,28 @@ const Sandbox = ({ state, action, loadedSnippet }: SandboxProps) => {
   useKeyPress({
     onKeyPress: e => {
       const actions = {
-        a: action.goToPreviousFrame,
-        d: action.goToNextFrame,
+        a: () => {
+          if (frames.length > MIN_FRAMES_COUNT) {
+            action.goToPreviousFrame()
+          }
+        },
+        d: () => {
+          if (frames.length > MIN_FRAMES_COUNT) {
+            action.goToNextFrame()
+          }
+        },
+        p: () => {
+          if (frames.length > MIN_FRAMES_COUNT) {
+            action.toggleAutoPlay()
+          }
+        },
         n: action.startAdd,
-        p: action.toggleAutoPlay,
         e: () => action.startEdit(selectedFrame!),
-        r: () => confirmation.open(),
+        r: () => {
+          if (state.frames.length > MIN_FRAMES_COUNT) {
+            confirmation.open()
+          }
+        },
         b: action.toggleNavigationPanel,
         s: action.startSubmit,
         escape: handleClose,
@@ -293,8 +309,9 @@ const Sandbox = ({ state, action, loadedSnippet }: SandboxProps) => {
                 header={
                   loadedSnippet ? (
                     <Banner className="editing-copy-of-snippet-banner">
-                      You are editing a copy of a snippet named{" "}
-                      {loadedSnippet.name}
+                      You just created a snippet based on a snippet called{" "}
+                      {loadedSnippet.name}. To save it permanently you must name
+                      and describe your snippet.
                     </Banner>
                   ) : undefined
                 }
