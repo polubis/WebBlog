@@ -27,6 +27,10 @@ const Link = styled(GatsbyLink)`
   color: ${theme.secondary};
   text-decoration: none;
   text-transform: uppercase;
+
+  &:hover {
+    color: ${theme.primary};
+  }
 `
 
 const UnstyledLink = styled(GatsbyLink)`
@@ -118,11 +122,12 @@ export default function ({
             <>
               {articlesLink}
               {authorsLink}
+              {coursesLink}
             </>
           }
           rightLinks={
             <>
-              {coursesLink}
+              {createArticleLink}
               {snippetsLink}
             </>
           }
@@ -132,8 +137,8 @@ export default function ({
               {authorsLink}
               {coursesLink}
               {createArticleLink}
-              {snippetsLink}
               {homeLink}
+              {snippetsLink}
             </>
           }
           action={
@@ -160,8 +165,8 @@ export default function ({
                 {authorsLink}
                 {coursesLink}
                 {createArticleLink}
-                {snippetsLink}
                 {homeLink}
+                {snippetsLink}
               </>
             }
           />

@@ -158,14 +158,21 @@ export const A = ({
   className,
   outside,
   children,
+  title,
 }: {
   href: string
   outside?: boolean
   children: ReactNode
   className?: string
+  title?: string
 }) => {
   return (
-    <AComponent className={className} href={href} target={outside ? "_blank" : ""}>
+    <AComponent
+      title={title}
+      className={className}
+      href={href}
+      target={outside ? "_blank" : ""}
+    >
       {children}
     </AComponent>
   )

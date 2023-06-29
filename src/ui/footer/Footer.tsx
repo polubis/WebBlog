@@ -108,6 +108,15 @@ const Articles = styled.div`
   display: flex;
   flex-flow: wrap;
 
+  .article-footer-img {
+    border-radius: 4px;
+  }
+
+  & > *:hover {
+    outline: 2px solid ${theme.primary};
+    border-radius: 4px;
+  }
+
   & > *:not(:last-child) {
     margin: 0 8px 8px 0;
   }
@@ -156,6 +165,7 @@ const Footer = ({ articles, t, links }: FooterProps) => {
                     <Img
                       fluid={article.thumbnail}
                       alt="Article thumbnail"
+                      className='article-footer-img'
                       style={{
                         width: "60px",
                         height: "60px",
