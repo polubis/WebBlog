@@ -138,6 +138,10 @@ export const Hint = styled.p<Props>`
   font-weight: ${(props: Props) => getWeight(props, Weight.LIGHT)};
   ${style}
   font-style: italic;
+
+  b {
+    font-style: italic;
+  }
 `
 
 export const Label = styled.span<Props>`
@@ -149,8 +153,11 @@ export const Label = styled.span<Props>`
 const AComponent = styled.a`
   font-size: 16px;
   font-weight: ${(props: Props) => getWeight(props, Weight.NORMAL)};
-  ${style}
   color: ${theme.primary};
+
+  &:hover {
+    opacity: 0.9;
+  }
 `
 
 export const A = ({

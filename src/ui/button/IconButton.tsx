@@ -1,3 +1,4 @@
+import React, { DetailedHTMLProps, ButtonHTMLAttributes } from "react"
 import styled, { css } from "styled-components"
 import theme from "../../utils/theme"
 
@@ -8,13 +9,17 @@ type Variant =
   | "primary-outlined"
   | "secondary-outlined"
 
-export interface IconButtonProps {
+export interface IconButtonProps
+  extends DetailedHTMLProps<
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  > {
   rounded?: boolean
   size?: Size
   variant?: Variant
 }
 
-const base = css`
+const base = css<IconButtonProps>`
   display: flex;
   align-items: center;
   position: relative;
@@ -30,10 +35,6 @@ const base = css`
   &:focus {
     outline: none;
   }
-`
-
-export const IconButton = styled.button<IconButtonProps>`
-  ${base}
 
   ${props => {
     const byDefault = css`
@@ -95,3 +96,21 @@ export const IconButton = styled.button<IconButtonProps>`
           border-radius: 4px;
         `}
 `
+
+const Wrapper = styled.button<IconButtonProps>`
+  ${base}
+`
+
+export const IconButton = ({
+  size,
+  variant,
+  rounded,
+  children,
+  ...props
+}: IconButtonProps) => {
+  return (
+    <Wrapper {...props} variant={variant} size={size} rounded={rounded}>
+      <span>{children}</span>
+    </Wrapper>
+  )
+}

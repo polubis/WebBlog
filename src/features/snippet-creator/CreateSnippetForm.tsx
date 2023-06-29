@@ -208,8 +208,8 @@ export const CreateSnippetForm = ({
           frames: frames.map(frame => ({
             code: frame.code,
             animation: frame.animation,
-            description: payload.name,
-            name: payload.description,
+            description: "Some description because not finished yet :)",
+            name: "Some name because not finished yet",
           })),
         })
       )
@@ -261,7 +261,7 @@ export const CreateSnippetForm = ({
                 <Button>GO TO SNIPPET</Button>
               </A>
               <A href="/snippet-creator/">
-                <Button>GENERATE NEW</Button>
+                <Button>I WANT NEW SNIPPET</Button>
               </A>
             </Footer>
           </Section>
