@@ -25,6 +25,10 @@ const LessonListItem = styled.li`
 
   &:hover {
     opacity: 0.9;
+
+    * {
+      color: ${theme.primary};
+    }
   }
 
   a {
@@ -32,13 +36,9 @@ const LessonListItem = styled.li`
     align-items: center;
     justify-content: space-between;
 
-    &:hover,
-    &:active {
-      text-decoration: none;
-    }
-
     .minutes {
-      margin-left: 12px;
+      margin-left: 20px;
+      flex-shrink: 0;
     }
   }
 

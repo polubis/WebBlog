@@ -52,7 +52,7 @@ const CodeFrames = ({
   autoPlayOnInit = true,
 }: CodeFramesProps) => {
   const [autoPlay, setAutoPlay] = useState(autoPlayOnInit)
-  const counter = useCounter(0, frames.length)
+  const counter = useCounter(0, frames.length - 1)
 
   const interval = useInterval({
     delay,

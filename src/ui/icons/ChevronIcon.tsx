@@ -12,12 +12,13 @@ const Svg = styled.svg`
 export const ChevronIcon = () => {
   return (
     <Svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      height="48"
-      viewBox="0 96 960 960"
-      width="48"
     >
-      <path d="M480 711 240 471l43-43 197 198 197-197 43 43-240 239Z" />
+      <path d="M7.41 15.41L12 10.83L16.59 15.41L18 14L12 8L6 14L7.41 15.41Z" />
     </Svg>
   )
 }

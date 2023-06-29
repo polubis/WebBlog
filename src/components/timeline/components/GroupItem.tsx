@@ -47,6 +47,7 @@ export const GroupItem = ({
       {group.empty || (
         <Link
           to={item.url}
+          className="group-item-link"
           style={{
             marginLeft: setup.marker.size / 2 + "px",
             color: "#fff",

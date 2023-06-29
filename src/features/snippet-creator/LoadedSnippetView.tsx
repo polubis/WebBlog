@@ -3,13 +3,10 @@ import Section from "../../components/article/Section"
 import { CodeFrames, FooterPayload, M, XL } from "../../ui"
 import { Snippet } from "../../models"
 import { Fluid } from "./Fluid"
-import {
-  AutoPlayButton,
-  NextButton,
-  PreviousButton,
-} from "./Buttons"
+import { AutoPlayButton, NextButton, PreviousButton } from "./Buttons"
 import styled from "styled-components"
 import { useKeyPress } from "../../utils/useKeyPress"
+import { MIN_FRAMES_COUNT } from "./consts"
 
 interface LoadedSnippetViewProps {
   snippet: Snippet
@@ -28,18 +25,32 @@ const CodeFramesFooter = styled.div`
 interface CodeFramesFooterWrapperProps {
   payload: FooterPayload
   children: ReactNode
+  frames: string[]
 }
 
 const CodeFramesFooterWrapper = ({
   payload: { counter, autoPlay, setAutoPlay },
   children,
+  frames,
 }: CodeFramesFooterWrapperProps) => {
   useKeyPress({
     onKeyPress: e => {
       const actions = {
-        a: counter.previous,
-        d: counter.next,
-        p: () => setAutoPlay(!autoPlay),
+        a: () => {
+          if (frames.length > MIN_FRAMES_COUNT) {
+            counter.previous()
+          }
+        },
+        d: () => {
+          if (frames.length > MIN_FRAMES_COUNT) {
+            counter.next()
+          }
+        },
+        p: () => {
+          if (frames.length > MIN_FRAMES_COUNT) {
+            counter.next()
+          }
+        },
       }
 
       actions[e.key.toLowerCase()]?.()
@@ -49,27 +60,38 @@ const CodeFramesFooterWrapper = ({
   return (
     <CodeFramesFooter>
       {children}
-      <PreviousButton onClick={counter.previous} />
-      <NextButton onClick={counter.next} />
-      <AutoPlayButton
-        playing={autoPlay}
-        onClick={() => setAutoPlay(!autoPlay)}
-      />
+      {frames.length > MIN_FRAMES_COUNT && (
+        <>
+          <PreviousButton onClick={counter.previous} />
+          <NextButton onClick={counter.next} />
+          <AutoPlayButton
+            playing={autoPlay}
+            onClick={() => setAutoPlay(!autoPlay)}
+          />
+        </>
+      )}
     </CodeFramesFooter>
   )
 }
 
 const LoadedSnippetView = ({ snippet, footer }: LoadedSnippetViewProps) => {
+  const frames = snippet.frames.map(frame => frame.code)
+
   return (
     <Fluid>
       <Section>
         <XL>{snippet.name}</XL>
         <M>{snippet.description}</M>
         <CodeFrames
+          autoPlayOnInit={false}
           footer={payload => (
-            <CodeFramesFooterWrapper payload={payload} children={footer} />
+            <CodeFramesFooterWrapper
+              frames={frames}
+              payload={payload}
+              children={footer}
+            />
           )}
-          frames={snippet.frames.map(frame => frame.code)}
+          frames={frames}
         />
       </Section>
     </Fluid>
