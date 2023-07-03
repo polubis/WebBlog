@@ -1,0 +1,540 @@
+---
+cdate: 2023-07-10
+mdate: 2023-07-10
+authorId: polubis
+treviewerId: goteii
+lreviewerId: kzalewska
+langs: ["pl"]
+tags: patterns,facade,storage
+stack: javascript,typescript,jest
+description: We will write a wrapper to help us manage local storage and session storage.
+readTime: 6
+seniorityLevel: advanced
+title: Working with local storage vs session storage
+---
+
+<Prelude>
+  <M>
+    <B>Local storage</B> and <B>session storage</B> are the most commonly used
+    mechanisms for storing data in web applications. I skip cookies 🍪 because
+    I'm allergic to gluten.
+  </M>
+  <M>
+    Today we'll create a mechanism that will unify the work of these impostors,
+    ensuring <B>type-safety</B> and making reading and much manipulation
+    simpler!
+  </M>
+  <Hint hasBg>
+    If you are lazy and want final code - you can get it in the following
+    <A
+      href="https://github.com/polubis/Dream-stack-for-React-dev/tree/article/working-with-local-storage-vs-session-storage-v1/system/libs/utils/src/lib/storage"
+      outside
+    >
+      repository
+    </A>.
+  </Hint>
+</Prelude>
+
+<Section>
+  <XL>Why do we need a wrapper for local/session storage?</XL>
+  <M>
+    Analyzing the <B>local/session</B> storage API, you can see that their
+    methods are identical - they have the same signature.
+  </M>
+  <Snippet>
+    {`// "clear" clears all local storage.
+localStorage.clear()
+localStorage.removeItem('my-item')
+// Allowed only "string" as a value.
+localStorage.setItem('my-item', 'value')
+// The returned value is always "string".
+const lsValue = localStorage.getItem('my-item')
+ 
+// "clear" clears all session storage.
+sessionStorage.clear()
+sessionStorage.removeItem('my-item')
+// Allowed only "string" as a value.
+sessionStorage.setItem('my-item', 'true')
+// The returned value is always "string".
+const sValue = sessionStorage.getItem('my-item')
+`}
+  </Snippet>
+  <M>
+    <B>What catches the eye at first glance?</B>
+  </M>
+  <List items="The key is 'string', The received value is of type 'string', The APIs are identical, No encapsulation" />
+  <M>It's easy to make a typo...</M>
+  <Snippet>{`const value = localStorage.getItem('ty,po')`}</Snippet>
+  <M>
+    In addition, we can by mistake run this code on the server side, which has
+    no chance of working -{" "}
+    <B>both APIs are only available in the browser environment</B>.
+  </M>
+  <Snippet>{`
+// server.ts
+// This is code that runs on the server side!
+const value = localStorage.getItem('my-value')
+// Get ready for an exception!
+`}</Snippet>
+  <M>
+    The error message may not necessarily guide you to the cause of the error.
+    This is a problem especially for <B>beginners</B>.
+  </M>
+  <M>
+    The next trick is to use the <B>local/session</B> storage API between
+    different files. Take a look at the example below:
+  </M>
+  <Snippet>{`
+// file1.ts
+const user = localStorage.get('user')
+// file2.ts
+const user = localStorage.get('user')
+// Etc...
+`}</Snippet>
+  <M>
+    <B>What about reading and writing?</B>
+  </M>
+  <M>
+    We have to do repetitive logic every time - parsing when reading and
+    writing.
+  </M>
+  <Snippet>
+    {`
+// @@@ Reading @@@
+ 
+// It is a "string"! It needs to be converted to "object".
+const user = localStorage.get('user')
+console.log(user.id) // undefined! 
+console.log(JSON.parse(user.id)) // 1
+ 
+// @@@ Writting @@@
+ 
+// This is an "object"! It needs to be converted to a "string".
+// Type error - requires "string".
+localStorage.setItem('user', user)
+// Now it's ok!
+localStorage.setItem('user', JSON.stringify(user))
+`}
+  </Snippet>
+  <M>
+    It's time for one last treat! What about mocking when testing? Well, we are
+    facing the same duplication of logic and lack of strong typing.
+  </M>
+  <Snippet>
+    {` describe('Authorization works when: ', () => {
+  afterEach(() => {
+    localStorage.clear()
+  })
+ 
+  it('gets user from storage', () => {
+    const user = { id: 1 }
+    // Again, we are repeating "stringify" and we 
+    // are fragile to typo...
+    localStorage.set('user', JSON.stringify(user))
+ 
+    const result = getUserFromStorage()
+ 
+    expect(result).toEqual(user)
+  })
+})
+ `}
+  </Snippet>
+  <M>
+    As you can see there is a lot of it, and I still left out such things as:
+  </M>
+  <List items="What if we need an additional method?, No encapsulation, Singleton on the entire application - easy to mess up other functionality, We can create a collision - overwrite a value set in another functionality" />
+  <M>We need to get it right!</M>
+</Section>
+
+<Section>
+  <XL>A little inspiration to get started</XL>
+  <M>
+    Do you remember the <B>axios</B> library? You probably do! In it, we create
+    an instance of an object that, based on the passed configuration, returns
+    you a specific, consistent and convenient to use API. We want to achieve the
+    same result.
+  </M>
+  <M>
+    At <B>axios</B>, we do just that:
+  </M>
+  <Snippet>
+    {`const blogAPI = axios.create({
+  baseURL: getUrl(),
+  withCredentials: true,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  validateStatus: isOkStatus,
+})
+ 
+// We have methods that may use the passed configuration.
+blogAPI.post()
+blogAPI.get()`}
+  </Snippet>
+  <M>Our small library will do just that:</M>
+  <Snippet description="This is how the initialization will look like">{`
+import { storage } from 'storage'
+ 
+interface AuthStorage {
+  authorized: boolean
+}
+ 
+// We can pass "local/session" as a value.
+const authStorage = storage<AuthStorage>("session");
+`}</Snippet>
+  <M>Here, methods calls:</M>
+  <Snippet description="This is how our methods will look like">{`
+// I will only clear what was set by the methods
+// from "authStorage" and nothing more!
+authStorage.clear()
+ 
+// I will clear the "authorized" flag only.
+authStorage.remove('authorized')
+ 
+// We will download all the keys.
+const keys = authStorage.getKeys()
+console.log(keys) // ['authorized']
+ 
+// We will get a boolean value, not "true".
+// We no longer need to call "JSON.parse".
+authStorage.get('authorized')
+console.log(authorized) // true/false
+ 
+// We will set the value of "authorized" to true.
+// We don't need to use "JSON.stringify".
+authStorage.set('authorized', true)`}</Snippet>
+  <M>
+    Take a look at the <B>gif</B> below and see what the target idea is:
+  </M>
+  <Img
+    src="https://raw.githubusercontent.com/polubis/Snippets/main/storage-gif.gif"
+    border
+    description="TypeScript will look out for us accordingly"
+  />
+</Section>
+
+<Section>
+  <XL>Let's model local/session storage and write tests</XL>
+  <M>
+    To begin with, let's create a <B>string literal</B> type in which we define
+    the supported storages and let's add a <B>storage</B> function skeleton.
+  </M>
+  <Snippet>
+    {`
+type StorageType = 'session' | 'local'
+ 
+const storage = <T extends Record<string, any>>(
+  type: StorageType = 'local'
+) => {
+ // Our code will be here!
+}
+`}
+  </Snippet>
+  <M>
+    Now tests for an implementation that is not ready yet. The tests will be red
+    until we write code to make them green - we will use <B>TDD</B>.
+  </M>
+  <Hint hasBg>
+    If you want to understand what test-driven development is, want to explore
+    the secrets of testing, then I invite you to
+    <A
+      outside
+      href="/articles/quick-wins/improving-code-that-was-not-written-by-us/"
+    >
+      this article
+    </A> and the following <A outside href="/courses/react-testing-spellbook/">
+      course
+    </A>.
+  </Hint>
+  <Snippet description="In this test, we checked whether we received a corresponding exception when the server-side mechanic was used">{`
+import { storage } from '../storage'
+ 
+describe('Storage can be used when: ', () => {
+  it('throws an error if any storage is undefined', () => {
+    // We save the original implementation to variables.
+    const localStorage = global.localStorage
+    const sessionStorage = global.sessionStorage
+    // We remove local/session storage from the global object.
+    delete (global as never)['localStorage']
+    delete (global as never)['sessionStorage']
+    // Local/session storage does not exist so our code must
+    // throw an exception.
+    expect(() => storage().get('key')).toThrow()
+    expect(() => storage('session').get('key')).toThrow()
+    // We restore the original implementation so that it doesn't
+    // affect other tests.
+    global.localStorage = localStorage
+    global.sessionStorage = sessionStorage
+  })
+  
+  // Other tests here!
+})
+`}</Snippet>
+  <Snippet description="Here we checked that the key reading mechanism is working properly">
+    {`it('picks keys from local storage or session storage', () => {
+  const ls = storage<UserData>()
+  const ss = storage<UserData>('session')
+ 
+  ls.set('id', 1)
+  ss.set('id', 1)
+  ss.set('name', 'piotr')
+ 
+  expect(ls.getKeys()).toEqual(['id']);
+  expect(ss.getKeys()).toEqual(['id', 'name'])
+})`}
+  </Snippet>
+  <Snippet description="The method under test is designed to set several values">{`
+it('allows to set several values', () => {
+  const ls = storage<UserData>()
+ 
+  ls.patch({ id: 1 })
+ 
+  expect(ls.getKeys()).toEqual(['id'])
+  expect(ls.get('id')).toBe(1)
+  expect(ls.get('name')).toBe(null)
+})`}</Snippet>
+  <Snippet description="We checked that only the values that were set are returned">{`
+it('allows to get all values', () => {
+  const ls = storage<UserData>()
+ 
+  ls.patch({ id: 1 })
+ 
+  expect(ls.getAll()).toEqual({ id: 1 })
+ 
+  ls.patch({ id: 1, name: 'piotr' })
+ 
+  expect(ls.getAll()).toEqual({ id: 1, name: 'piotr' })
+})`}</Snippet>
+  <M>
+    Well, and at the very end, a test that verifies the operation of several
+    methods called after each other - as it will be done in real life.
+  </M>
+  <Snippet description="In this test, we check how our mechanism behaves and we simulated a real use scenario">{`
+it('allows to work with storage', () => {
+  const specificStorage = storage<UserData>()
+ 
+  specificStorage.set('id', 0)
+ 
+  expect(specificStorage.get('id')).toBe(0)
+  expect(specificStorage.getKeys()).toEqual(['id'] as (keyof UserData)[])
+ 
+  specificStorage.set('name', 'Pablo')
+  specificStorage.remove('name')
+ 
+  expect(specificStorage.getKeys()).toEqual(['id'] as (keyof UserData)[])
+  expect(specificStorage.get('id')).toBe(0)
+ 
+  specificStorage.clear()
+ 
+  expect(specificStorage.getKeys()).toEqual([])
+  expect(specificStorage.get('id')).toBe(null)
+  expect(specificStorage.get('name')).toBe(null)
+})`}</Snippet>
+</Section>
+
+<Section>
+<XL>Time for implementation - we make our tests green</XL>
+<M>Well, we have the models, the tests and we know how our API will look/work - now it's time for implementation which is what <B>FE devs</B> like us love the most.</M>
+<M>We will start with a function that will throw an exception with an appropriate message if <B>local/session</B> storage is not defined in a global object - for example, we ran our function on the server side.</M>
+<Snippet added={[[1,17]]}>
+{`
+import type { StorageType } from './defs'
+ 
+const getStorage = (type: StorageType): Storage => {
+  const storage = type === 'local' ? localStorage : sessionStorage;
+  
+  if (!storage) {
+    throw Error(\`
+        Cannot find local storage and session storage.
+  
+        It may be caused because: 
+            - both are unsupported,
+            - you're using this util on a server (during SSR or SSG).
+    \`);
+  }
+  
+  return storage
+}
+ 
+const storage = <T extends Record<string, any>>(
+  type: StorageType = 'local'
+) => {
+// There is still nothing here!
+}`}
+</Snippet>
+<M>Next, we will add a method implementation for reading a single value: <B>get</B>. Note the casting that is necessary - the <B>JSON.parse</B> method does not allow you to pass a generic parameter.</M>
+<Snippet added={[[6,19], [22,22]]}>{`
+// "T extends Record<string, any>" guarantees that the 
+// passed generic type must be an object.
+const storage = <T extends Record<string, any>>(
+  type: StorageType = 'local'
+) => {
+  // Here we will store the added keys.
+  let keys: (keyof T)[] = []; 
+  
+  const get = <K extends keyof T>(key: K): T[K] | null => {
+    // We retrieve the value from "storage", an exception will be thrown if the
+    // we call "get" on the server side.
+    const value = getStorage(type).getItem(key.toString())
+ 
+    if (value === null) {
+      return null
+    }
+ 
+    return JSON.parse(value) as T[K]
+  }
+ 
+  return {
+    get,
+  }
+}
+`}</Snippet>
+<M>It's time for <B>getAll</B>, which is designed to return all values set. Note the <B>Record</B> and its "strange" typing. We want the returned object to have the same keys as the passed interface and the corresponding values.</M>
+<Snippet added={[[1,17], [21,21]]}>
+{`  
+// The returned object must have the key of the passed
+// generic type and a value under that key.
+const getAll = (): Record<keyof T, T[keyof T] | null> => {
+  const allStorageItems = keys.reduce<T>((acc, key) => {
+    // We are using the previously implemented "get" function.
+    const value = get(key)
+ 
+    if (value === null) return acc
+    // We are creating an object.
+    return {
+      ...acc,
+      [key]: value,
+    };
+  }, {} as T)
+ 
+  return allStorageItems
+};
+ 
+return {
+  get,
+  getAll
+}
+`}
+</Snippet>
+
+<M>
+  At this point, we have two tests that are green. This means that throwing
+  exceptions and reading a single value and multiple values is working properly.
+</M>
+
+<List items="throws an error if any storage is undefined ✔️, allows to get all values ✔️" />
+
+<M>
+  Now it's time to <B>getKeys</B>. Here there is no surprise. We simply return
+  the <B>keys</B>, which we can access thanks to <B>closure</B>.
+</M>
+
+<Snippet
+  added={[
+    [1, 3],
+    [8, 8],
+  ]}
+>
+  {`  const getKeys = (): (keyof T)[] => {
+  return keys;
+};
+   
+return {
+  get,
+  getAll,
+  getKeys 
+}`}
+</Snippet>
+
+<M>
+  Why is it a function and not simply <B>keys: keys</B>. It must be a function
+  that reads the "latest" values. If it was a variable - the value would always
+  be the same - initially adjusted keys (empty array).
+</M>
+
+<M>After this change, the next test becomes green.</M>
+<List items="picks keys from local storage or session storage ✔️" />
+
+<M>
+  Now it's time for the last four methods: <B>remove</B>, <B>set</B>,{" "}
+  <B>patch</B> and <B>clear</B>.
+</M>
+
+<Snippet
+  added={[
+    [1, 4],
+    [6, 9],
+    [11, 13],
+    [15, 19],
+    [23, 26],
+  ]}
+>
+  {`const remove = <K extends keyof T>(key: K): void => {
+  getStorage(type).removeItem(key.toString())
+  keys = keys.filter((currKey) => currKey !== key)
+};
+ 
+const set = <K extends keyof T>(key: K, value: T[K]): void => {
+  getStorage(type).setItem(key as string, JSON.stringify(value))
+  !keys.includes(key) && keys.push(key)
+}
+ 
+const clear = (): void => {
+  keys.forEach(remove)
+}
+ 
+const patch = (obj: Partial<T>): void => {
+  Object.entries(obj).forEach(([key, value]) => {
+    if (value !== undefined) set(key, value)
+  })
+}
+ 
+return {
+  getKeys,
+  remove,
+  set,
+  patch,
+  clear,
+}
+`}
+</Snippet>
+
+<M>In <B>remove</B>, we remove the value from the selected <B>local/session</B> storage, and then we get rid of the passed key from the array.</M>
+<M>In <B>set</B>, we set the value and add the key. At the same time, we check if the key already exists. If it does, we do not add the same - why do we need duplicates?</M>
+<M>In <B>clear</B>, we clean everything that has ever been set - not all local/session storage - this could negatively affect other functionality.</M>
+<M>In the <B>patch</B>, we add as many values as we passed keys to the object. At the same time, we check if the passed value is by any chance <B>undefined</B> - this will cause an exception in <B>JSON.parse</B> when trying to read it, so we're skipping these values.</M>
+<M>After all these code changes, our tests are as green as <B>Shrek</B>.</M>
+</Section>
+
+<Summary>
+  <M>Once again at ease with what we have achieved 🧂:</M>
+  <List items="We have developer friendly exceptions, Local/session storage management is modular, We have type-safety and typo protection, No need to store keys in variables, We can easily add new methods and extend the solution, The solution can be used to mock up values in tests as well, Consistent API, Less risk of collisions or overwriting values in other features" />
+  <M>
+    Under{" "}
+    <A
+      outside
+      href="https://greenonsoftware.com/snippet-creator/?id=175b6b00-2b87-4c67-8800-6046f141dca9/"
+    >
+      this address
+    </A>{" "}
+    you will find animated code to guide you through the implementation process.
+    You can play with it and suggest changes.
+  </M>
+  <M>
+    It is worth mentioning that introducing an abstraction such as so does not
+    always make sense. In this case, it is useful, but it is worth conducting a
+    comparison after the work is completed what is the profit and the result.
+    Maybe it was not needed?
+  </M>
+  <M>In my opinion, it is not essential, but it makes life easier.</M>
+  <M>
+    If you enjoyed it, be sure to visit us on{" "}
+    <A
+      href="https://www.linkedin.com/in/adrian-po%C5%82ubi%C5%84ski-281ab2172/"
+      outside
+    >
+      Linkedin
+    </A>{" "}
+    where we regularly upload content from programming.
+  </M>
+</Summary>
