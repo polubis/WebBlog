@@ -14,6 +14,11 @@ const Avatar = styled.div`
   border-radius: 50%;
   background: ${theme.secondary};
 
+  svg {
+    height: 42px;
+    width: 42px;
+  }
+
   path {
     fill: ${theme.black};
   }
@@ -72,9 +77,7 @@ export const EmptyAuthorTile = () => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Button >
-            JOIN US !
-          </Button>
+          <Button>JOIN US !</Button>
         </a>
       </Media>
     </Container>
