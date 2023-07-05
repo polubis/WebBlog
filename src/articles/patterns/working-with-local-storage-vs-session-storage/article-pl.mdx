@@ -19,8 +19,8 @@ title: Obsługujemy local storage oraz session storage
     ciasteczka 🍪, bo mam uczulenie na gluten.{" "}
   </M>
   <M>
-    Dziś stworzymy mechanizm, który ujednolici prace nad tymi szarlatanami,
-    zapewni <B>type-safety</B> i sprawi, że odczyt i manipulacja stanie się
+    Dziś stworzymy mechanizm, który ujednolici pracę nad tymi szarlatanami,
+    zapewni <B>type safety</B> i sprawi, że odczyt i manipulacja stanie się
     prostrza!
   </M>
   <Hint hasBg>
@@ -39,7 +39,7 @@ title: Obsługujemy local storage oraz session storage
   <XL>Dlaczego potrzebujemy wrappera na local/session storage?</XL>
   <M>
     Analizując API <B>local/session</B> storage można zauważyć, że ich metody są
-    identyczne - mają taką samą sygnature.{" "}
+    identyczne - mają taką samą sygnaturę.{" "}
   </M>
   <Snippet>
     {`// "clear" czyści cały local storage.
@@ -77,7 +77,7 @@ const value = localStorage.getItem('my-value')
 // Szykuj się na wyjątek!
 `}</Snippet>
   <M>
-    Wiadomość błędu nie koniecznie może naprowadzić na przyczynę błędu. Jest to
+    Wiadomość błędu niekoniecznie może naprowadzić na przyczynę błędu. Jest to
     problem zwłaszcza dla początkujących <B>Frątasiów</B>.
   </M>
   <M>
@@ -117,7 +117,7 @@ localStorage.setItem('user', JSON.stringify(user))
 `}
   </Snippet>
   <M>
-    Czas na ostatni frykas! A co z mockowaniem przy testowaniu? No czeka nas ta
+    Czas na ostatni frykas! A co z mockowaniem przy testowaniu? No, czeka nas ta
     sama duplikacja logiki i brak silnego typowania.
   </M>
   <Snippet>
@@ -147,12 +147,12 @@ localStorage.setItem('user', JSON.stringify(user))
 <Section>
   <XL>Drobna inspiracja na początek</XL>
   <M>
-    Pamiętasz bibliotekę <B>axios</B>? Zapewne tak! Tworzymy w niej instancję
+    Pamiętasz bibliotekę <B>Axios</B>? Zapewne tak! Tworzymy w niej instancję
     obiektu, który w oparciu o przekazaną konfigurację zwraca Ci konkretne,
     spójne i wygodne w użyciu API. Chcemy uzyskać taki sam efekt.
   </M>
   <M>
-    W <B>axios</B> robimy tak:{" "}
+    W <B>Axios</B> robimy tak:{" "}
   </M>
   <Snippet>
     {`const blogAPI = axios.create({
@@ -214,7 +214,7 @@ authStorage.set('authorized', true)`}</Snippet>
   <XL>Modelujemy local/session storage i piszemy testy</XL>
   <M>
     Na początek stwórzmy sobie <B>string literal type</B>, w którym zdefiniujemy
-    wspierane <B>storage</B> oraz dodajmy szkielet funkcji <B>storage</B>.
+    wspierane <B>storage</B> oraz dodamy szkielet funkcji <B>storage</B>.
   </M>
   <Snippet>
     {`
@@ -228,12 +228,12 @@ const storage = <T extends Record<string, any>>(
 `}
   </Snippet>
   <M>
-    Teraz testy do implementacji, której jeszcze nie ma. Testy będą czerwone
+    Teraz testy do implementacji, której jeszcze nie ma. Testy będą czerwone,{" "}
     dopóki nie napiszemy kodu, który sprawi, że zaczną być zielone - skorzystamy
     z <B>TDD</B>.
   </M>
   <Hint hasBg>
-    Jeżeli chcesz zrozumieć czym jest <B>test driven development</B>, chcesz
+    Jeżeli chcesz zrozumieć, czym jest <B>test driven development</B>, chcesz
     zgłębić tajniki testowania, to zapraszam do tego{" "}
     <A
       outside
@@ -247,7 +247,7 @@ const storage = <T extends Record<string, any>>(
     </A>
     .
   </Hint>
-  <Snippet description="W tym teście sprawdzamy czy otrzymaliśmy odpowiedni wyjątek w przypadku wykorzystania mechanizmu po stronie serwera">{`
+  <Snippet description="W tym teście sprawdzamy, czy otrzymaliśmy odpowiedni wyjątek w przypadku wykorzystania mechanizmu po stronie serwera">{`
 import { storage } from '../storage'
  
 describe('Storage can be used when: ', () => {
@@ -271,7 +271,7 @@ describe('Storage can be used when: ', () => {
   // Pozostałe testy tutaj!
 })
 `}</Snippet>
-  <Snippet description="Tu sprawdzamy czy mechanizm odczytu kluczy działa prawidłowo">
+  <Snippet description="Tu sprawdzamy, czy mechanizm odczytu kluczy działa prawidłowo">
     {`it('picks keys from local storage or session storage', () => {
   const ls = storage<UserData>()
   const ss = storage<UserData>('session')
@@ -294,7 +294,7 @@ it('allows to set several values', () => {
   expect(ls.get('id')).toBe(1)
   expect(ls.get('name')).toBe(null)
 })`}</Snippet>
-  <Snippet description="Sprawdzamy czy zwracane są tylko wartości, które zostały ustawione">{`
+  <Snippet description="Sprawdzamy, czy zwracane są tylko wartości, które zostały ustawione">{`
 it('allows to get all values', () => {
   const ls = storage<UserData>()
  
@@ -310,7 +310,7 @@ it('allows to get all values', () => {
     No i na sam koniec test, który weryfikuje działanie kilku metod wywoływanych
     po sobie - tak jak będzie się to odbywać w rzeczywistości.
   </M>
-  <Snippet description="W tym teście sprawdzamy jak zachowuje się nasz mechanizm i symulujemy prawdziwy scenariusz użycia">{`
+  <Snippet description="W tym teście sprawdzamy, jak zachowuje się nasz mechanizm i symulujemy prawdziwy scenariusz użycia">{`
 it('allows to work with storage', () => {
   const specificStorage = storage<UserData>()
  
@@ -335,8 +335,8 @@ it('allows to work with storage', () => {
 
 <Section>
 <XL>Czas na implementację - czyli sprawiamy, że nasze testy będą zielone</XL>
-<M>No dobra mamy modele, testy i wiemy jak nasze API będzie wyglądać/działać - teraz czas na implementację czyli to, co Frątasie tacy jak my kochają najbardziej. </M>
-<M>Zaczniemy od funkcji, która rzuci wyjątek z odpowiednim komunikatem jeżeli <B>local/session</B> storage nie będzie zdefiniowane w obiekcie globalnym - przykładowo uruchomiliśmy naszą funkcję po stronie serwera.</M>
+<M>No dobra, mamy modele, testy i wiemy, jak nasze API będzie wyglądać/działać - teraz czas na implementację, czyli to, co Frątasie, tacy jak my, kochają najbardziej. </M>
+<M>Zaczniemy od funkcji, która rzuci wyjątek z odpowiednim komunikatem, jeżeli <B>local/session</B> storage nie będzie zdefiniowane w obiekcie globalnym - przykładowo uruchomiliśmy naszą funkcję po stronie serwera.</M>
 <Snippet added={[[1,17]]}>
 {`
 import type { StorageType } from './defs'
@@ -363,7 +363,7 @@ const storage = <T extends Record<string, any>>(
 // Tu ciągle nic nie ma!
 }`}
 </Snippet>
-<M>Następnie dodamy implementację metody do odczytu pojedyńczej wartości: <B>get</B>. Zwróć uwagę na rzutowanie, które jest niezbędne - metoda <B>JSON.parse</B> nie pozwala na przekazanie generycznego parametru.</M>
+<M>Następnie dodamy implementację metody do odczytu pojedynczej wartości: <B>get</B>. Zwróć uwagę na rzutowanie, które jest niezbędne - metoda <B>JSON.parse</B> nie pozwala na przekazanie generycznego parametru.</M>
 <Snippet added={[[6,19], [22,22]]}>{`
 // "T extends Record<string, any>" gwarantuje to, że przekazany typ
 // generyczny musi być obiektem.
@@ -420,7 +420,7 @@ return {
 
 <M>
   W tym momencie mamy dwa testy, które są zielone. Oznacza to, że rzucanie
-  wyjątków i odczyt pojedyńczej wartości oraz wielu wartości działa prawidłowo.
+  wyjątków i odczyt pojedynczej wartości oraz wielu wartości działa prawidłowo.
 </M>
 
 <List items="throws an error if any storage is undefined ✔️, allows to get all values ✔️" />
@@ -449,7 +449,7 @@ return {
 
 <M>
   Dlaczego jest to funkcja, a nie po prostu <B>keys: keys</B>. Musi to być
-  funkcja, która odczyta "najnowsze" wartości. Jeżeli była by to zmienna - to
+  funkcja, która odczyta "najnowsze" wartości. Jeżeli byłaby to zmienna - to
   wartość była by zawsze taka sama - początkowo ustawionych kluczy (pusta
   tablica).
 </M>
@@ -502,9 +502,9 @@ return {
 </Snippet>
 
 <M>W <B>remove</B> usuwamy wartość z wybranego <B>local/session</B> storage, a następnie pozbywamy się przekazanego klucza z tablicy.</M>
-<M>W <B>set</B> ustawiamy wartość oraz dodajemy klucz. Jednocześnie sprawdzamy czy klucz już istnieje. Jeżeli tak jest, to nie dodajemy tego samego - po co nam duplikaty?</M>
-<M>W <B>clear</B> czyścimy wszystko co zostało kiedykolwiek ustawione - nie całe <B>local/session</B> storage - to mogłoby wpłynąć na negatywnie na inne funkcjonalności.</M>
-<M>W <B>patch</B> dodajemy tyle wartości ile przekazaliśmy kluczy w obiekcie. Jednocześnie sprawdzamy czy przekazana wartość nie jest przypadkiem <B>undefined</B> - to spowoduje wyjątek w <B>JSON.parse</B> przy próbie odczytu. Dlatego pomijamy takie wartości.</M>
+<M>W <B>set</B> ustawiamy wartość oraz dodajemy klucz. Jednocześnie sprawdzamy, czy klucz już istnieje. Jeżeli tak jest, to nie dodajemy tego samego - po co nam duplikaty?</M>
+<M>W <B>clear</B> czyścimy wszystko, co zostało kiedykolwiek ustawione - nie całe <B>local/session</B> storage - to mogłoby wpłynąć na negatywnie na inne funkcjonalności.</M>
+<M>W <B>patch</B> dodajemy tyle wartości, ile przekazaliśmy kluczy w obiekcie. Jednocześnie sprawdzamy, czy przekazana wartość nie jest przypadkiem <B>undefined</B> - to spowoduje wyjątek w <B>JSON.parse</B> przy próbie odczytu. Dlatego pomijamy takie wartości.</M>
 <M>Po tych wszystkich zmianach w kodzie nasze testy są zielone jak <B>Shrek</B>.</M>
 </Section>
 
@@ -537,19 +537,19 @@ return {
     Możesz się nim pobawić, zaproponować zmiany.
   </M>
   <M>
-    Warto wspomnieć, że wprowadzanie abstrakcji takiej jak tak nie zawsze ma
+    Warto wspomnieć, że wprowadzanie abstrakcji takiej jak ta, nie zawsze ma
     sens. W tym przypadku jest to użyteczne, ale warto przeprowadzić porównanie
-    po zakończonej pracy jaki jest zysk i rezultat. Może nie było to potrzebne?
+    po zakończonej pracy, jaki jest zysk i rezultat. Może nie było to potrzebne?
   </M>
   <M>Według mnie nie jest to niezbędne, ale ułatwia życie.</M>
   <M>
-    Jeżeli się podobało to pamiętaj odwiedzić nas na{" "}
+    Jeżeli się podobało, to pamiętaj odwiedzić nas na{" "}
     <A
       href="https://www.linkedin.com/in/adrian-po%C5%82ubi%C5%84ski-281ab2172/"
       outside
     >
       Linkedin
-    </A>{" "}
-    gdzie regularnie wrzucamy content z programowania.
+    </A>
+    , gdzie regularnie wrzucamy content z programowania.
   </M>
 </Summary>
