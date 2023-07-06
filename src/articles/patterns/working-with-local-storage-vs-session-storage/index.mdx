@@ -21,11 +21,11 @@ title: Working with local storage vs session storage
   </M>
   <M>
     Today we'll create a mechanism that will unify the work of these impostors,
-    ensuring <B>type-safety</B> and making reading and much manipulation
+    ensuring <B>type safety</B> and making reading and much manipulation
     simpler!
   </M>
   <Hint hasBg>
-    If you are lazy and want final code - you can get it in the following
+    If you are lazy and want the final code - you can get it in the following
     <A
       href="https://github.com/polubis/Dream-stack-for-React-dev/tree/article/working-with-local-storage-vs-session-storage-v1/system/libs/utils/src/lib/storage"
       outside
@@ -78,7 +78,7 @@ const value = localStorage.getItem('my-value')
 `}</Snippet>
   <M>
     The error message may not necessarily guide you to the cause of the error.
-    This is a problem especially for <B>beginners</B>.
+    This is a problem, especially for <B>beginners</B>.
   </M>
   <M>
     The next trick is to use the <B>local/session</B> storage API between
@@ -95,8 +95,7 @@ const user = localStorage.get('user')
     <B>What about reading and writing?</B>
   </M>
   <M>
-    We have to do repetitive logic every time - parsing when reading and
-    writing.
+    We must do repetitive logic every time - parsing when reading and writing.
   </M>
   <Snippet>
     {`
@@ -149,13 +148,13 @@ localStorage.setItem('user', JSON.stringify(user))
 <Section>
   <XL>A little inspiration to get started</XL>
   <M>
-    Do you remember the <B>axios</B> library? You probably do! In it, we create
+    Do you remember the <B>Axios</B> library? You probably do! In it, we create
     an instance of an object that, based on the passed configuration, returns
-    you a specific, consistent and convenient to use API. We want to achieve the
+    you a specific, consistent and convenient-to-use API. We want to achieve the
     same result.
   </M>
   <M>
-    At <B>axios</B>, we do just that:
+    At <B>Axios</B>, we do just that:
   </M>
   <Snippet>
     {`const blogAPI = axios.create({
@@ -182,7 +181,7 @@ interface AuthStorage {
 // We can pass "local/session" as a value.
 const authStorage = storage<AuthStorage>("session");
 `}</Snippet>
-  <M>Here, methods calls:</M>
+  <M>Here are the methods call:</M>
   <Snippet description="This is how our methods will look like">{`
 // I will only clear what was set by the methods
 // from "authStorage" and nothing more!
@@ -217,7 +216,7 @@ authStorage.set('authorized', true)`}</Snippet>
   <XL>Let's model local/session storage and write tests</XL>
   <M>
     To begin with, let's create a <B>string literal</B> type in which we define
-    the supported storages and let's add a <B>storage</B> function skeleton.
+    the supported storage and let's add a <B>storage</B> function skeleton.
   </M>
   <Snippet>
     {`
@@ -235,8 +234,8 @@ const storage = <T extends Record<string, any>>(
     until we write code to make them green - we will use <B>TDD</B>.
   </M>
   <Hint hasBg>
-    If you want to understand what test-driven development is, want to explore
-    the secrets of testing, then I invite you to
+    If you want to understand what test-driven development is and want to
+    explore the secrets of testing, then I invite you to
     <A
       outside
       href="/articles/quick-wins/improving-code-that-was-not-written-by-us/"
@@ -309,7 +308,7 @@ it('allows to get all values', () => {
     Well, and at the very end, a test that verifies the operation of several
     methods called after each other - as it will be done in real life.
   </M>
-  <Snippet description="In this test, we check how our mechanism behaves and we simulated a real use scenario">{`
+  <Snippet description="In this test, we check how our mechanism behaves and we simulated a real-use scenario">{`
 it('allows to work with storage', () => {
   const specificStorage = storage<UserData>()
  
@@ -448,8 +447,8 @@ return {
 
 <M>
   Why is it a function and not simply <B>keys: keys</B>. It must be a function
-  that reads the "latest" values. If it was a variable - the value would always
-  be the same - initially adjusted keys (empty array).
+  that reads the "latest" values. If it was variable - the value would always be
+  the same - initially adjusted keys (empty array).
 </M>
 
 <M>After this change, the next test becomes green.</M>
@@ -508,7 +507,7 @@ return {
 
 <Summary>
   <M>Once again at ease with what we have achieved 🧂:</M>
-  <List items="We have developer friendly exceptions, Local/session storage management is modular, We have type-safety and typo protection, No need to store keys in variables, We can easily add new methods and extend the solution, The solution can be used to mock up values in tests as well, Consistent API, Less risk of collisions or overwriting values in other features" />
+  <List items="We have developer-friendly exceptions, Local/session storage management is modular, We have type-safety and typo protection, No need to store keys in variables, We can easily add new methods and extend the solution, The solution can be used to mock up values in tests as well, Consistent API, Less risk of collisions or overwriting values in other features" />
   <M>
     Under{" "}
     <A
@@ -516,9 +515,9 @@ return {
       href="https://greenonsoftware.com/snippet-creator/?id=175b6b00-2b87-4c67-8800-6046f141dca9/"
     >
       this address
-    </A>{" "}
-    you will find animated code to guide you through the implementation process.
-    You can play with it and suggest changes.
+    </A>
+    , you will find animated code to guide you through the implementation
+    process. You can play with it and suggest changes.
   </M>
   <M>
     It is worth mentioning that introducing an abstraction such as so does not
