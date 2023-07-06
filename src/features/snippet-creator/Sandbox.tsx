@@ -309,9 +309,9 @@ const Sandbox = ({ state, action, loadedSnippet }: SandboxProps) => {
                 header={
                   loadedSnippet ? (
                     <Banner className="editing-copy-of-snippet-banner">
-                      You just created a snippet based on a snippet called{" "}
-                      {loadedSnippet.name}. To save it permanently you must name
-                      and describe your snippet.
+                      We created a snippet based on "{loadedSnippet.name}". If
+                      you want to make changes, go ahead! Remember to save the
+                      snippet at the end and give it a name and description.
                     </Banner>
                   ) : undefined
                 }
