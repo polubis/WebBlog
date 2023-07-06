@@ -6,6 +6,7 @@ export default {
   black: "#000",
   white: "#fff",
   green: "#34e634",
+  greenA: '#56d956',
   yellow: "#fdff78",
   error: "#dd4d4d",
   backdrop: "rgba(0,0,0,.24)",
@@ -18,4 +19,5 @@ export default {
   grayB: "#484545",
   grayC: "#3C3C3C",
   grayD: "#ABA7A7",
+  grayE: "#161616",
 }

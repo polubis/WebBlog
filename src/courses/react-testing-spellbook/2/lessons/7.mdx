@@ -87,14 +87,14 @@ describe('Emoji picker can be used when', () => {
     <B>props</B> to the components. So let's create our first fixture.
   </M>
   <Snippet>{`
-    // It's added to reduce duplication of code in each test.
-  const emojiPickerFixture = (props: Partial<EmojiPickerProps> = {}) => {
-      // We pass on the default props and give the ability to overwrite them from other tests.
-    const result = render(<EmojiPicker title={TITLE} onSelect={() => {}} {...props} />);
+// It's added to reduce duplication of code in each test.
+const emojiPickerFixture = (props: Partial<EmojiPickerProps> = {}) => {
+  // We pass on the default props and give the ability to overwrite them from other tests.
+  const result = render(<EmojiPicker title={TITLE} onSelect={() => {}} {...props} />);
  
-    // We return the result, because we may want to compare something in the tests.
-    return result;
-  }`}</Snippet>
+  // We return the result, because we may want to compare something in the tests.
+  return result;
+}`}</Snippet>
   <M>Now it is time for a change in the tests.</M>
   <Snippet>{`
          it('renders default emojis', () => {

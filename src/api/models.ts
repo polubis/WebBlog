@@ -16,6 +16,8 @@ interface AllDataResponse {
   materials: Material[]
   courses: Course[]
   totalLessons: number
+  totalChapters: number
+  totalStack: number
   timeline: TimelineData
   site: SiteMetadata
   translatedArticles: TranslatedArticle[]

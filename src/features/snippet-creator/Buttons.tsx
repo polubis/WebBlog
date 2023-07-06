@@ -5,6 +5,7 @@ import {
   CloseIcon,
   CloseMenuIcon,
   DeleteIcon,
+  DraftEditIcon,
   EditIcon,
   FullscreenIcon,
   IconButton,
@@ -16,12 +17,17 @@ import {
 } from "../../ui"
 
 import styled, { keyframes } from "styled-components"
+import { T_DOWN } from "../../utils/viewport"
 
 const KeyboardLetter = styled.span`
   position: absolute;
   bottom: 2px;
   right: 2px;
   font-size: 10px;
+
+  @media ${T_DOWN} {
+    display: none;
+  }
 `
 
 interface ButtonStaticProps {
@@ -59,13 +65,6 @@ const CreateButton = <
   )
 }
 
-export const CloseFullScreenButton = CreateButton({
-  title: "Close full screen",
-  Icon: CloseIcon,
-  className: "close-preview-view-btn",
-  letter: "ESC",
-})
-
 export const SubmitFramesButton = CreateButton({
   title: "Submit your animated snippet",
   Icon: SubmitIcon,
@@ -73,15 +72,36 @@ export const SubmitFramesButton = CreateButton({
   letter: "S",
 })
 
-export const PreviousButton = CreateButton({
-  className: "snippet-creator-btn previous-btn",
-  title: "Go to previous",
-  letter: "A",
-  Icon: ArrowLeftIcon,
-})
+const PreviousButtonWrapper = styled.div`
+  button {
+    path {
+      fill: black;
+    }
+  }
+`
+
+interface PreviousButtonProps {
+  className?: string
+  onClick: () => void
+}
+
+export const PreviousButton = ({ className, onClick }: PreviousButtonProps) => {
+  return (
+    <PreviousButtonWrapper>
+      <IconButton
+        title="Go to previous"
+        className={`previous-btn${className ? " " + className : ""}`}
+        onClick={onClick}
+      >
+        <ArrowLeftIcon />
+        <KeyboardLetter className="letter">A</KeyboardLetter>
+      </IconButton>
+    </PreviousButtonWrapper>
+  )
+}
 
 export const NextButton = CreateButton({
-  className: "snippet-creator-btn",
+  className: "snippet-creator-btn next",
   title: "Go to next",
   letter: "D",
   Icon: RightArrowIcon,
@@ -128,6 +148,38 @@ export const AutoPlayButton = ({
   )
 }
 
+const CloseButtonWrapper = styled.div`
+  button {
+    path {
+      fill: black;
+    }
+  }
+
+  .letter {
+    transform: translate(2.5px, 2.5px) scale(0.75);
+  }
+`
+
+interface CloseButtonProps {
+  className?: string
+  onClick: () => void
+}
+
+export const CloseButton = ({ className, onClick }: CloseButtonProps) => {
+  return (
+    <CloseButtonWrapper>
+      <IconButton
+        title="Close"
+        className={className ? " " + className : ""}
+        onClick={onClick}
+      >
+        <CloseIcon />
+        <KeyboardLetter className="letter">ESC</KeyboardLetter>
+      </IconButton>
+    </CloseButtonWrapper>
+  )
+}
+
 export const AddFrameButton = CreateButton({
   className: "snippet-creator-btn add-btn",
   title: "Add snippet frame",
@@ -149,6 +201,13 @@ export const EditButton = CreateButton({
   Icon: EditIcon,
 })
 
+export const DraftEditButton = CreateButton({
+  className: "snippet-creator-btn draft-edit-btn",
+  title: "Create a snippet based on this one",
+  letter: "E",
+  Icon: DraftEditIcon,
+})
+
 export const DeleteFrameButton = CreateButton({
   className: "snippet-creator-btn delete-frame-btn",
   title: "Delete snippet frame",
@@ -165,7 +224,8 @@ export const MenuButton = ({
   open: boolean
   onClick: () => void
 }) => {
-  const title = open ? "Close menu" : "Open menuF"
+  const title = open ? "Close menu" : "Open menu"
+
   return (
     <IconButton
       title={title}
@@ -173,7 +233,7 @@ export const MenuButton = ({
       onClick={onClick}
     >
       {open ? <CloseMenuIcon /> : <OpenMenuIcon />}
-      <KeyboardLetter className="letter">C</KeyboardLetter>
+      <KeyboardLetter className="letter">B</KeyboardLetter>
     </IconButton>
   )
 }

@@ -29,10 +29,8 @@ const Container = styled.div`
     transform: scale(0);
   }
 
-  svg {
-    path {
-      fill: ${theme.black} !important;
-    }
+  svg path {
+    fill: ${theme.black};
   }
 `
 

@@ -6,6 +6,7 @@ import Button from "../button/Button"
 import { Link } from "gatsby"
 import { T_DOWN, M_DOWN, M_UP } from "../../utils/viewport"
 import { Author } from "../../models"
+import theme from "../../utils/theme"
 
 const Container = styled.section`
   display: grid;
@@ -18,6 +19,13 @@ const Container = styled.section`
 
   & > a {
     text-decoration: none;
+    outline: 2px solid transparent;
+    border-radius: 4px;
+
+    &:hover {
+      outline-color: ${theme.primary};
+      outline-offset: 4px;
+    }
   }
 
   @media ${M_DOWN} {
@@ -91,6 +99,8 @@ interface StatsSectionProps {
   coursesCount: number
   lessonsCount: number
   topAuthor: Author
+  chaptersCount: number
+  stackCount: number
   discordMembers: number
   githubContributors: number
 }
@@ -101,6 +111,8 @@ const StatsSection = ({
   coursesCount,
   lessonsCount,
   topAuthor,
+  chaptersCount,
+  stackCount,
   discordMembers,
   githubContributors,
 }: StatsSectionProps) => {
@@ -151,17 +163,34 @@ const StatsSection = ({
       >
         <CodeEditorTile>
           <XXL>
-            {githubContributors}{" "}
-            {githubContributors === 1 ? "dev" : "devs"}
+            {githubContributors} {githubContributors === 1 ? "dev" : "devs"}
           </XXL>
         </CodeEditorTile>
       </a>
 
-      <CodeEditorTile>
-        <XXL>
-          {lessonsCount} {lessonsCount === 1 ? "lesson" : "lessons"}
-        </XXL>
-      </CodeEditorTile>
+      <Link to="/courses/">
+        <CodeEditorTile>
+          <XXL>
+            {lessonsCount} {lessonsCount === 1 ? "lesson" : "lessons"}
+          </XXL>
+        </CodeEditorTile>
+      </Link>
+
+      <Link to="/courses/">
+        <CodeEditorTile>
+          <XXL>
+            {chaptersCount} {chaptersCount === 1 ? "chapter" : "chapters"}
+          </XXL>
+        </CodeEditorTile>
+      </Link>
+
+      <Link to="/articles/">
+        <CodeEditorTile>
+          <XXL>
+            {stackCount} {stackCount === 1 ? "topic" : "topics"}
+          </XXL>
+        </CodeEditorTile>
+      </Link>
 
       <CodeEditorTile>
         <BloggerTileContent>

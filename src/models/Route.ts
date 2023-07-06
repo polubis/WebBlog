@@ -1,4 +1,10 @@
-type RouteKeys = "articles" | "authors" | "courses" | "creator" | "home"
+type RouteKeys =
+  | "articles"
+  | "authors"
+  | "courses"
+  | "creator"
+  | "home"
+  | "snippetCreator"
 
 interface Route {
   to: string

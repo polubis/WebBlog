@@ -43,7 +43,7 @@ interface Props
     HTMLButtonElement
   > {}
 
-export default function (props: Props): React.ReactElement {
+export default function (props: Props) {
   return <Button {...(props as any)} />
 }
 

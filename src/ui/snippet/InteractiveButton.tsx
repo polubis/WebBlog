@@ -27,12 +27,14 @@ const FeedbackButton = styled.button`
 type InteractiveButtonStatus = "idle" | "pending"
 
 interface InteractiveButtonProps {
+  className?: string
   children: (status: InteractiveButtonStatus) => ReactNode
   delay?: number
   onClick: MouseEventHandler<HTMLButtonElement>
 }
 
 const InteractiveButton = ({
+  className = "",
   children,
   onClick,
   delay = 1000,
@@ -60,7 +62,9 @@ const InteractiveButton = ({
   }, [])
 
   return (
-    <FeedbackButton onClick={handleClick}>{children(status)}</FeedbackButton>
+    <FeedbackButton className={className} onClick={handleClick}>
+      {children(status)}
+    </FeedbackButton>
   )
 }
 

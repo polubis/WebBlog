@@ -118,6 +118,7 @@ exports.getTranslatedArticles = data => {
         toBeContinuedDate: article.frontmatter.tbcdate,
         originalArticlePath: path.replace(`/${lang}`, ""),
         lang,
+        seniorityLevel: article.frontmatter.seniorityLevel,
       }
     })
 

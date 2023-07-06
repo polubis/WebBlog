@@ -3,6 +3,7 @@ import { SiteMeta } from "../../utils/SiteMeta"
 import { LessonContent } from "./containers"
 import { Chapter, Course, Lesson } from "../../models"
 import { AllDataResponse } from "../../api"
+import { useScrollToTop } from "../../utils/useScrollToTop"
 
 interface Props {
   pageContext: AllDataResponse & {
@@ -16,6 +17,8 @@ export default function ({
   pageContext: { lesson, course, chapter, articles, site, translationObject },
 }: Props) {
   const t = translationObject["en"]
+
+  useScrollToTop()
 
   return (
     <SiteMeta

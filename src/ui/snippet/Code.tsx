@@ -112,7 +112,7 @@ const Line = styled.div<Highlightable>`
       case "deleted":
         return "rgba(250, 36, 36, 0.2)"
       case "changed":
-        return "rgba(255, 255, 0, 0.1)"
+        return "#072007"
       default:
         return "transparent"
     }
@@ -132,18 +132,17 @@ const LineNo = styled.span<Highlightable>`
     margin-left: 0.2em;
 
     content: "${props => {
-
-    switch (props.status) {
-      case "added":
-        return "+"
-      case "deleted":
-        return "-"
-      case "changed":
-        return "•"
-      default:
-        return ""
-    }
-  }}";
+      switch (props.status) {
+        case "added":
+          return "+"
+        case "deleted":
+          return "-"
+        case "changed":
+          return "•"
+        default:
+          return ""
+      }
+    }}";
   }
 `
 
