@@ -44,6 +44,18 @@
     "projects": []
   },
   {
+    "id": "ejuchnikowski",
+    "name": "ejuchnikowski",
+    "firstName": "Emil",
+    "platformRoles": ["content-creator", "contributor"],
+    "lastName": "Juchnikowski",
+    "role": "Solution architect",
+    "bio": "I work as a Software Architect, and started my career 10 years ago as a .NET developer. Currently, I mainly write in JavaScript and deal with the frontend ecosystem. Current stack includes Angular, Ionic, NodeJS, NestJS and MongoDB. Outside of work, I enjoy running and boxing training. My motto is: 'The only limitation is the imagination, and not those who still say time and money.'",
+    "projects": [],
+    "githubURL": "https://github.com/emiljuchnikowski",
+    "linkedinURL": "https://www.linkedin.com/in/emil-juchnikowski-25b251bb/"
+  },
+  {
     "id": "kwozniak",
     "name": "kwozniak",
     "firstName": "Kacper",
