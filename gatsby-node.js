@@ -315,10 +315,11 @@ exports.createPages = async ({ actions, graphql }) => {
   })
 
   createPage({
-    path: routes.articles.to,
-    component: resolve(`src/features/articles/ArticlesPage.tsx`),
+    path: '/articles/',
+    component: resolve(`src/v2-pages/ArticlesPage.tsx`),
     context: {
-      ...data,
+      authors: data.authors,
+      articles: data.articles,
       bubblesImg: result.data.bubblesImg.nodes[0].childImageSharp.fluid,
     },
   })

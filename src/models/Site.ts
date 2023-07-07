@@ -19,4 +19,17 @@ interface Site {
   siteMetadata: SiteMetadata
 }
 
-export type { SiteMetadata, Site, LangKey, Lang }
+type SupportedLang = "en" | "pl"
+type SupportedLangHTML = "en-US" | "pl-PL"
+
+type SiteName = "GreenOn Software"
+
+export type {
+  SiteMetadata,
+  Site,
+  LangKey,
+  Lang,
+  SupportedLangHTML,
+  SiteName,
+  SupportedLang,
+}

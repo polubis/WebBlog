@@ -1,15 +1,14 @@
-import React from "react"
+import React, { ReactNode } from "react"
 import styled from "styled-components"
 import theme from "../../utils/theme"
-import { B, FilterIcon, IconButton, Input, M, XXL } from "../../ui"
+import { B, Input, M, XXL } from "../../ui"
 import Button, { SecondaryButton } from "../../components/button/Button"
 import Divider from "../../components/divider/Divider"
 import Img from "gatsby-image"
-import { Author, Image } from "../../models"
+import { Image } from "../../models"
 import { Link } from "gatsby"
 import Badge from "../../components/article/Badge"
-import { useArticlesProvider } from "./ArticlesProvider"
-import { FiltersForm } from "./FiltersForm"
+import { UseArticlesReturn } from "./useArticlesFilters"
 
 const Container = styled.figure`
   display: flex;
@@ -67,8 +66,6 @@ const Wrapper = styled.div`
 `
 
 const InputWrapper = styled.div`
-  display: flex;
-  align-items: center;
   margin: 24px 0 40px 0;
 
   .ui-input {
@@ -82,20 +79,20 @@ const InputWrapper = styled.div`
   }
 `
 
-interface ArticlesJumboProps {
+interface ArticlesJumboProps extends UseArticlesReturn {
   bubblesImg: Image
-  authors: Author[]
+  filtersForm: ReactNode
 }
 
-const ArticlesJumbo = ({ bubblesImg, authors }: ArticlesJumboProps) => {
-  const {
-    filters,
-    changed,
-    reset,
-    filteredArticles,
-    changeQuery,
-  } = useArticlesProvider()
-
+const ArticlesJumbo = ({
+  bubblesImg,
+  filters,
+  reset,
+  filtersForm,
+  changed,
+  filteredArticles,
+  changeQuery,
+}: ArticlesJumboProps) => {
   return (
     <Container>
       <Img
@@ -116,23 +113,13 @@ const ArticlesJumbo = ({ bubblesImg, authors }: ArticlesJumboProps) => {
           you will be able to find <B>meaningful materials</B> and understand{" "}
           <B>complex issues</B>.
         </M>
-        <InputWrapper>
+        <InputWrapper className="row">
           <Input
             placeholder="🔍 Type to find an article..."
             value={filters.query}
             onChange={e => changeQuery(e.target.value)}
           />
-          <FiltersForm
-            authors={authors}
-            trigger={modal => (
-              <IconButton
-                className={`filter-button${changed ? " active" : ""}`}
-                onClick={modal.open}
-              >
-                <FilterIcon />
-              </IconButton>
-            )}
-          />
+          {filtersForm}
         </InputWrapper>
 
         <Divider className="divider" horizontal />

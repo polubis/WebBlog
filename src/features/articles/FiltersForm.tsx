@@ -4,14 +4,12 @@ import AuthorAvatar from "../../components/article/AuthorAvatar"
 import Divider from "../../components/divider/Divider"
 import Badge from "../../components/article/Badge"
 import { SecondaryButton } from "../../components/button/Button"
-import { useArticlesProvider } from "./ArticlesProvider"
 import styled from "styled-components"
 import theme from "../../utils/theme"
 import { Author, SeniorityLevel } from "../../models"
+import { UseArticlesReturn } from "./useArticlesFilters"
 
 const FiltersModal = styled.div`
-  display: flex;
-  flex-flow: column;
   max-width: 400px;
 
   .diff-level-heading {
@@ -98,27 +96,27 @@ const BadgesSection = styled.div`
   }
 `
 
-interface FiltersFormProps {
+interface FiltersFormProps extends UseArticlesReturn {
   authors: Author[]
   trigger: (modal: ReturnType<typeof useModal>) => ReactNode
 }
 
 const AUTHORS_DISPLAY_LIMIT = 4
 
-const FiltersForm = ({ authors, trigger }: FiltersFormProps) => {
+const FiltersForm = ({
+  authors,
+  trigger,
+  allSeniorityLevelsSelected,
+  allAuthorsSelected,
+  setAllSeniorityLevels,
+  setAllAuthors,
+  filters,
+  changeAuthor,
+  changed,
+  reset,
+  changeSeniority,
+}: FiltersFormProps) => {
   const modal = useModal()
-  const {
-    filters,
-    allAuthorsSelected,
-    allSeniorityLevelsSelected,
-    changed,
-    setAllAuthors,
-    reset,
-    changeSeniority,
-    changeAuthor,
-    setAllSeniorityLevels,
-  } = useArticlesProvider()
-
   const seniorityLevels = Object.entries(SeniorityLevel)
 
   return (
@@ -127,7 +125,7 @@ const FiltersForm = ({ authors, trigger }: FiltersFormProps) => {
 
       {modal.isOpen && (
         <Modal onClose={modal.close}>
-          <FiltersModal>
+          <FiltersModal className="col">
             <XL>Filters</XL>
 
             <M className="diff-level-heading">Difficulty levels</M>

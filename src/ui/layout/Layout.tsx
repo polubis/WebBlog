@@ -3,8 +3,6 @@ import styled from "styled-components"
 
 const Container = styled.div`
   position: relative;
-  display: flex;
-  flex-flow: column;
   margin: 0 auto;
 `
 
@@ -18,7 +16,7 @@ interface LayoutProps {
 const Layout = React.forwardRef<HTMLDivElement, LayoutProps>(
   ({ footer, children, navigation }, ref) => {
     return (
-      <Container ref={ref} className="ui-layout">
+      <Container ref={ref} className="ui-layout col">
         {navigation}
         {children}
         {footer}

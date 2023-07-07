@@ -112,7 +112,7 @@ const Line = styled.div<Highlightable>`
       case "deleted":
         return "rgba(250, 36, 36, 0.2)"
       case "changed":
-        return "#072007"
+        return "rgba(255, 255, 0, 0.1)"
       default:
         return "transparent"
     }

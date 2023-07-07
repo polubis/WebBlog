@@ -131,4 +131,6 @@ const useArticlesFilters = (authors: Author[], articles: Article[]) => {
   }
 }
 
+export type UseArticlesReturn = ReturnType<typeof useArticlesFilters>
+
 export { useArticlesFilters }

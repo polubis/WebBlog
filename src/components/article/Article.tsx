@@ -7,7 +7,7 @@ import Layout from "../layout/Layout"
 import { Article as ArticleModel } from "../../models/Article"
 import Thumbnail from "../article/Thumbnail"
 import Tags from "../article/Tags"
-import { A, B, Content, M } from "../../ui"
+import { A, Content, M } from "../../ui"
 import Intro from "./Intro"
 import Loadable from "react-loadable"
 import { L_DOWN, L_UP, SM_DOWN } from "../../utils/viewport"
@@ -38,16 +38,6 @@ const ArticleSource = Loadable({
   loading: () => null,
 })
 
-const Author = styled.div`
-  display: flex;
-  align-items: center;
-`
-
-const Dates = styled.div`
-  display: flex;
-  flex-flow: wrap;
-`
-
 const BottomNavigation = styled.div`
   display: flex;
   justify-content: right;
@@ -75,8 +65,6 @@ const BottomNavigation = styled.div`
   }
 `
 const Article = styled.main`
-  display: flex;
-  flex-flow: column;
   margin: 0 auto;
 
   @media ${L_UP} {
@@ -95,7 +83,7 @@ const Article = styled.main`
     margin: 32px 0 0 0;
   }
 
-  ${Dates} {
+  .article-dates {
     margin: 32px 0 40px 0;
 
     & > * {
@@ -169,7 +157,7 @@ export default function ({
     >
       <Layout articles={footerArticles} t={t} routes={site.routes}>
         <Content paddingY>
-          <Article>
+          <Article className="col">
             {translations.length > 0 && (
               <ReadInOtherLanguageBanner
                 text="This article is also published in polish language."
@@ -205,9 +193,9 @@ export default function ({
             />
             <Stack items={stack} />
             <MDXRenderer>{body}</MDXRenderer>
-            <Author>
+            <div className="row">
               <AuthorBadge author={author} />
-            </Author>
+            </div>
             {author.linkedinURL !== undefined && (
               <ObserveMe
                 author={author}
@@ -224,7 +212,7 @@ export default function ({
                 btnTitle={t.followMe}
               />
             )}
-            <Dates>
+            <div className="article-dates wrap">
               <Badge color={theme.secondary}>
                 created: {formatDistanceStrict(new Date(createdAt), new Date())}{" "}
                 ago
@@ -233,7 +221,7 @@ export default function ({
                 updated:{" "}
                 {formatDistanceStrict(new Date(modifiedAt), new Date())} ago
               </Badge>
-            </Dates>
+            </div>
             <BottomNavigation>
               <Button
                 className="article-source-button"

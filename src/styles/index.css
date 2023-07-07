@@ -11,7 +11,7 @@ html {
   box-sizing: border-box;
 }
 
-/* width */
+/* Width */
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -29,4 +29,123 @@ html {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.wrap {
+  display: flex;
+  flex-flow: wrap;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+}
+
+.col {
+  display: flex;
+  flex-flow: column;
+}
+
+.between {
+  justify-content: space-between;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.link {
+  font-size: 16px;
+  font-weight: bolder;
+  color: #fff;
+  text-transform: uppercase;
+  text-decoration-line: none;
+  text-underline-offset: 8px;
+}
+
+.link:hover,
+.link.active {
+  text-decoration-line: underline;
+  color: #ff7878;
+}
+
+.button {
+  background: none;
+  font-size: 14px;
+  font-weight: bolder;
+  padding: 10px 18px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  font-family: inherit;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.button.primary {
+  border: 1px solid #ff7878;
+  color: #ff7878;
+}
+
+.button.primary:hover:not(:disabled) {
+  background: #ff7878;
+  color: #000;
+}
+
+.h1 {
+}
+
+.h2 {
+}
+
+.h3 {
+}
+
+.h4 {
+}
+
+.h5 {
+  font-size: 18px;
+  color: #fff;
+  font-weight: bold;
+  margin: 0;
+}
+
+.h6 {
+}
+
+.p1 {
+  font-size: 16px;
+  line-height: 28px;
+  color: #fff;
+  margin: 0;
+}
+
+.p2 {
+  font-size: 14px;
+  line-height: 24px;
+  color: #fff;
+  margin: 0;
+}
+
+.c-gray-1 {
+  color: #aba7a7;
+}
+
+.c-primary-1 {
+  color: #ff7878;
+}
+
+.radius-1 {
+  border-radius: 4px;
 }
