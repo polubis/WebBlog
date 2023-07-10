@@ -1,0 +1,287 @@
+---
+cdate: 2023-07-10
+mdate: 2023-07-10
+authorId: ejuchnikowski
+treviewerId: polubis
+lreviewerId: kzalewska
+tags: narzędzia,monorepo
+stack: nx
+description: Sprawdzimy jakie funkcjonalności ma popularne ostatnio narzędzie NX od zespołu NRWL.
+readTime: 7
+seniorityLevel: expert
+title: Przegląd głównych funkcjonalności narzędzia NX
+---
+
+<Prelude label="Wstęp">
+  <M>
+    Wraz z rozwojem  <B>JavaScript</B> zauważa się również wzrost
+    złożoności projektów tworzonych w tym języku. Aby nadążyć za tą ewolucją
+    wielu programistów poszukuje narzędzi, które pomogą w zarządzaniu dużymi
+    projektami i usprawnią proces ich rozwoju.
+  </M>
+  <M>
+    {" "}
+    Jednym z takich narzędzi jest <B>NRWL Extension</B>, w skrócie <B>NX</B>. W tym
+    artykule przedstawię, czym dokładnie jest <B>NX</B>, jakie są jego zastosowania
+    oraz najważniejsze funkcje.
+  </M>
+</Prelude>
+
+<Section>
+  <XL>Podstawy podstaw</XL>
+  <M>
+    Narzędzie <B>NX (NRWL Extension)</B> to rozwiązanie do tworzenia monorepo
+    opracowane przez <B>NRWL</B>. <B>NX </B> zapewnia szereg funkcjonalności,
+    które pozwalają na lepszą organizację, testowanie i dystrybucję kodu w
+    dużych projektach opartych o różne technologie JS - <B>Angular</B>,{" "}
+    <B>React</B>, <B>Next.js</B>, <B>Nest.js</B> i wiele innych. Narzędzie to
+    zapewnia między innymi:
+  </M>
+  <List items="Automatyzację procesów deweloperskich (tworzenie komponentów oraz boilerplate), Wsparcie dla tworzenia monolitycznych i mikrousługowych architektur,Wsparcie dla narzędzi do testowania jednostkowego i e2e (Jest oraz Cypress),Obsługę narzędzi do automatyzacji procesów budowania i dystrybucji (Bazel oraz Nx Cloud),Wsparcie dla narzędzi do analizy i uporządkowania kodu (ESLint oraz Prettier),  Wsparcie dla narzędzi do zarządzania zależnościami (npm oraz yarn)" />
+  <M>
+    <B>NX</B> pozwala również na łatwą integrację z innymi narzędziami i
+    bibliotekami, takimi jak <B>NgRx</B>, <B>Storybook </B>, itd. Dzięki
+    temu programiści mogą korzystać z już istniejących rozwiązań i narzędzi w
+    swoich projektach.
+  </M>
+  <M>
+    <B>NX</B> jest przydatne dla zespołów deweloperskich, które pracują nad
+    dużymi, złożonymi projektami i chcą zwiększyć swoją produktywność poprzez
+    automatyzację procesów i lepszą organizację kodu.
+  </M>
+</Section>
+
+<Section>
+  <XL>Przypadki użycia NX od NRWL</XL>
+  <M>
+    <B>NX</B> ma wiele przypadków użycia. Nie są to tylko duże projekty z
+    wieloma zależnymi, współdzielonymi bibliotekami, ale też sprawdza się przy
+    małych projektach.{" "}
+  </M>
+  <M>
+    <B>Do czego można użyć tego narzędzia?</B>
+  </M>
+  <List items="Stworzenia monorepo NX ,Integracji monorepo Lerna z NX ,Migracji z pojedynczej aplikacji Angular do NX workspace, Stworzenia pojedynczej aplikacji Angular lub w innej technologii, Stworzenia dowolnego projektu JS z package.json " />
+  <M>
+    <B>Nowe monorepo z NX </B>
+  </M>
+  <M>
+    Do utworzenia nowego <B>workspace</B> wystarczy tak naprawdę tylko
+    zainstalowany menedżer pakietów <B>npm</B> i polecenie:
+    <B> npx create-nx-workspace@latest</B>, które utworzy dla nas strukturę. Pod
+    tym <A
+      outside
+      href="https://nx.dev/packages/nx/documents/create-nx-workspace"
+    >
+      linkiem
+    </A> znajdziesz wszystko, czego potrzebujesz. Po tej komendzie otrzymasz dostęp
+    do wszystkich funkcjonalności z <B>NX</B>.
+  </M>
+  <M>
+    <B>Integracja monorepo Lerna z NX </B>
+  </M>
+  <M>
+    Integracja <B>Lerna</B> z <B>NX</B> pozwoli nam na:
+  </M>
+  <List items="Współbieżne wykonywanie zadań, Cachowanie operacji,Dystrybucję zadań, Ograniczenie budowania kodu" />
+  <M>
+    Wystarczy zaktualizować <B>Lerna</B> do najnowszej wersji i w pliku
+    konfiguracyjnym <B>lerna.json</B> ustawić flagę <B>useNx</B> na <B>true</B>{" "}
+    -{" "}
+    <A href="https://www.youtube.com/watch?v=Edv7ZeI8Bwc" outside>
+      wideo pokazujące migrację
+    </A>
+    .
+  </M>
+  <M>
+    <B>Migracja z pojedynczej aplikacji Angular do NX workspace</B>
+  </M>
+  <M>
+    Wystarczy zainstalować <B>CLI</B> poleceniem <B>npm i @nrwl/cli -D</B>, i
+    wykonać w drugim kroku migrację poleceniem <B>npx nx init</B>.
+  </M>
+  <M>
+    <B>Tworzenie pojedynczej aplikacji Angular lub w innej technologii</B>
+  </M>
+  <M>
+    W tym przypadku <B>NX</B> daje na start projektu gotową konfigurację testów{" "}
+    <B>Jest</B>, <B>ESLint</B> i <B>Prettier</B>, zapewnia mechanizm cachowania
+    operacji oraz ograniczenia budowania kodu tylko do miejsc, w których było
+    coś zmieniane.
+  </M>
+  <M>
+    Aby stworzyć dowolną aplikację wystarczy uruchomić polecenie{" "}
+    <B> npx create-nx-workspace@latest –preset=angular</B>. Jeżeli chcesz
+    wygenerować aplkację w React lub innej wspieranej przez <B>NX</B>{" "}
+    technologii, to musisz podmienić wartość <B>preset</B> w następujący sposób:{" "}
+    <B>preset=react</B>.
+  </M>
+  <M>Tu jest lista aktualnie wspieranych technologii: </M>
+  <List items="TypeScript,Web-components,Angular,React,React-native,Next, Nest,Express" />
+  <M>
+    <B>Tworzenie dowolnego projektu JS z package.json</B>
+  </M>
+  <M>
+    W tym przypadku możemy skorzystać tylko z mechanizmu cachowania skryptów.
+    Wystarczy zainstalować <B>CLI</B> poleceniem <B>npm i @nrwl/cli -D</B>.{" "}
+  </M>
+  <M>
+    Od tego momentu każdy skrypt skonfigurowany w pliku <B>package.json</B> może
+    być cachowany przez <B>NX</B>, wywołując go w taki prosty sposób:{" "}
+    <B>npx nx [nazwa]</B>.
+  </M>
+</Section>
+
+<Section>
+<XL>Core NX features</XL>
+<M>Twórcy wyszczególniają takie funkcjonalności jak:</M>
+<List items="Możliwość korzystania z dodatkowych skryptów (task executors), Przechowywanie rezultatów budowania w cache (caching tasks results), Współdzielenie cache (cache sharing), Graf NX, Współdzielenie zasobów podczas zadań (distribute task execution), Automatyczna aktualizacja zależności, Wymuszenie granic zależności " />
+<M><B>Możliwość korzystania z dodatkowych skryptów (task executors)</B></M>
+<M>Otrzymujemy wsparcie oraz konfigurację zadań w obrębie poszczególnych projektów, jak i całego monorepo. <B>Task executors</B> służą do automatyzacji różnych procesów, takich jak budowanie aplikacji, testowanie, aktualizowanie zależności i wiele innych.</M>
+<M>Przykładowo możemy wywołać polecenie: <B>nx affected:build</B>, budujące tylko te moduły, które zostały zmodyfikowane od ostatniego buildu.</M>
+<M>Jeżeli chcemy wywołać testy <B>e2e</B> w oparciu o zmienione pliki, możemy wywołać polecenie: <B>nx affected:e2e</B>.</M>
+<M>Również polecenie: <B>nx affected:lint</B> uruchomi lintowanie tylko dla plików, które zostały zmodyfikowane od ostatniego buildu.</M>
+<M>Te przykłady pokazują, jak <B>task executors</B> mogą przyspieszyć procesy developerskie poprzez skupienie się tylko na konkretnych elementach projektu, które zmieniły się od ostatniego buildu lub testowania.</M>
+<M>Dodatkowo <B>NX</B> udostępnia paczkę <B>npm @nrwl/nx-plugin</B>, która daje nam możliwość stworzenia własnego <B>task executora</B>. Dzięki temu, możemy rozszerzyć funkcjonalność narzędzia <B>NX</B> i dostosować do własnych potrzeb.</M>
+<M><B>Przechowywanie rezultatów budowania w cache (caching tasks results)</B></M>
+<M><B>NX</B> używa pamięci podręcznej, aby nie budować wielokrotnie kodu, który już był budowany. W kontekście tego narzędzia, współdzielenie <B>cache</B> oznacza, że różne biblioteki lub skrypty, które są używane w projekcie, mogą wykorzystać ten sam <B>cache</B>, przechowując informacje o kompilacji, skanowaniu plików, itp. Dzięki temu procesy te nie muszą być powtarzane dla każdej biblioteki czy skryptu, co przyspiesza proces budowy i zwiększa wydajność.</M>
+<M>Jak cache działa w praktyce? Przed uruchomieniem danego zadania <B>NX</B> oblicza <B>hash</B> danej biblioteki. Jeżeli <B>hash</B> jest taki sam, jak w poprzednim wywołaniu, to ponownie nie wykonuje zadania, tylko bierze rezultat poprzedniego wywołania.</M>
+<Img border src="https://nx.dev/documentation/shared/images/caching/nx-hashing.svg" />
+<M>Jak można zoptymalizować obsługę <B>cache</B>?</M>
+<M><B>Source code hash inputs</B> - można określić szczegółowo, jakie pliki będą brane pod uwagę podczas budowania hash.</M>
+<Snippet>
+{`{
+  "namedInputs": {
+    "default": ["{projectRoot}/**/*"],
+    "production": ["!{projectRoot}/**/*.spec.tsx"]
+  },
+  "targetDefaults": {
+    "build": {
+      "inputs": ["production", "^production"]
+    },
+    "test": {
+      "inputs": ["default", "^production", "{workspaceRoot}/jest.config.ts"]
+    }
+  }
+}
+`}</Snippet>
+<M><B>Runtime hash inputs</B> - można określić dodatkowe parametry, które będą podstawiane podczas uruchamiania zadania, na podstawie których będzie budowany <B>hash</B>.</M>
+<Snippet>
+{`{
+  "targetDefaults": {
+    "build": {
+      "inputs": [{ "env": "MY_ENV_NAME" }, { "runtime": "node -v" }]
+    }
+  }
+}
+`}</Snippet>
+<M><B>Współdzielenie cache (cache sharing)</B></M>
+<M>Pamięć podręczna może być współdzielona pomiędzy wielu programistów, jak i narzędzia <B>CI</B>, w ramach usługi <B>self-hosted</B> oraz w chmurze <B>NX Cloud</B>.</M>
+<M>Wystarczy tylko połączyć się z chmurą <B>NX Cloud</B> poleceniem:
+<B>npx nx connect-to-nx-cloud</B>
+i z wyników naszych zadań może skorzystać każdy członek zespołu.
+</M>
+<Img border src="https://nx.dev/documentation/shared/images/dte/distributed-caching.svg" />
+
+<M><B>Graf NX</B></M>
+<M>Graf ten pozwala na wizualną eksplorację zależności w projektach, bibliotekach i zadaniach, które są w ramach monorepo.
+
+Wystarczy tylko wywołać polecenie: <B>npx nx graph</B>.
+
+</M>
+
+<M>
+  Spowoduje to otwarcie przeglądarki i wizualizację zależności w projekcie.
+  Przeglądanie całego wykresu może być trudne przy dużych rozwiązaniach. Dlatego{" "}
+  <B>NX</B> udostępnia dodatkowe filtry, które pozwalają na zawężenie
+  widoczności zależności. Można przetestować działanie takiego grafu pod
+  adresem:{" "}
+  <A href="https://nrwl-nx-examples-dep-graph.netlify.app/" outside>
+    https://nrwl-nx-examples-dep-graph.netlify.app/
+  </A>
+</M>
+
+<M><B>Współdzielenie zasobów podczas zadań (distribute task execution)</B></M>
+<M>Jest to wsparcie do delegowania zadań na wiele agentów i zrównoleglenie wykonywania ich do jeszcze efektywniejszej pracy. Funkcjonalność ta minimalizuje czas wykonywania procesów <B>CI</B>, wraz z zachowaniem odpowiedniej kolejności wykonywania.</M>
+<Img src="https://nx.dev/documentation/shared/images/dte/binning.svg" border />
+<M>Rozproszone wykonywanie zadań może działać na dowolnym dostawcy <B>CI</B>. Programista jest tylko odpowiedzialny za konfigurowanie zadań w swoim <B>CI</B>. Następnie<B> NX Cloud</B> koordynuje sposób, w jaki te zadania współpracują z sobą.
+</M>
+<M>Integracja z <B>IDE - NX Console</B> jest to <B>UI</B> dla <B>NX</B>, które jest udostępniane w formie pluginów dla takich <B>IDE</B>, jak <B>VS Code</B>, <B>WebStorm</B>, czy <B>Neovim</B>.
+</M>
+<M>Tu linki do wspomnianych pluginów: </M>
+<Hint hasBg><A outside href="https://marketplace.visualstudio.com/items?itemName=nrwl.angular-console">https://marketplace.visualstudio.com/items?itemName=nrwl.angular-console</A></Hint>
+<Hint hasBg><A outside href="https://plugins.jetbrains.com/plugin/15000-nx-webstorm">https://plugins.jetbrains.com/plugin/15000-nx-webstorm</A></Hint>
+<Hint hasBg><A outside href="https://plugins.jetbrains.com/plugin/15101-nx-console-idea">https://plugins.jetbrains.com/plugin/15101-nx-console-idea</A></Hint>
+<M>Te pluginy nie są rozwijane przez NX Team, tylko przez kontrybutorów!</M>
+<M><B>Automatyczna aktualizacja zależności</B></M>
+<M><B>NX CLI</B> ma polecenie <B>migrate</B>, które pozwala na szybką aktualizację <B>NX</B> i zależności takich jak <B>Angular</B>, <B>React </B>, itd.</M>
+<M>Polecenie te przygotowuje skrypt migracyjny do wszystkich technologii, które są do aktualizacji. Następne polecenie wykonuje migracje. Na koniec wystarczy tylko usunąć plik migracyjny i zaktualizować zależności główne.</M>
+<M>Cała migracja to tylko 4 kroki:</M>
+<List items="Polecenie: nx migrate latest, Polecenie: nx migrate –run-migrations, Usunięcie pliku migrations.json, Polecenie: npm install" />
+<M><B>Wymuszenie granic zależności</B></M>
+<M>Odpowiednia konfiguracja pozwala na utworzenie reguł pozwalających, lub blokujących korzystanie z danych bibliotek lub grup bibliotek przez inne. 
+</M>
+<M>Cała koncepcja polega na odpowiednim otagowaniu bibliotek i aplikacji:
+</M>
+<Snippet>{`{
+  "nx": {
+    "tags": ["scope:client"]
+  }
+}
+{
+  "nx": {
+    "tags": ["scope:admin"]
+  }
+}
+{
+  "nx": {
+    "tags": ["scope:shared"]
+  }
+}
+`}</Snippet>
+<M>Następnie trzeba rozpisać reguły w pliku konfiguracyjnym <B>ESLint</B>:
+</M>
+<Snippet>{`{
+  "@nrwl/nx/enforce-module-boundaries": [
+    "error",
+    {
+      "allow": [],
+      "depConstraints": [
+        {
+          "sourceTag": "scope:shared",
+          "onlyDependOnLibsWithTags": ["scope:shared"]
+        },
+        {
+          "sourceTag": "scope:admin",
+          "onlyDependOnLibsWithTags": ["scope:shared", "scope:admin"]
+        },
+        {
+          "sourceTag": "scope:client",
+          "onlyDependOnLibsWithTags": ["scope:shared", "scope:client"]
+        }
+      ]
+    }
+  ]
+}
+`}</Snippet>
+<M>Po skonfigurowaniu reguł wystarczy wykonać polecenie <B>nx lint</B>, albo skonfigurować je w ramach <B>CI</B> i możemy być bezpieczni o odpowiednie wstrzykiwanie zależności w naszym projekcie.</M>
+<Hint hasBg>Takimi grupami mogą być warstwy, albo moduły danego rozwiązania.</Hint>
+</Section>
+
+<Summary label="Podsumowanie">
+  <M>
+    <B>NX</B> jest potężnym narzędziem do zarządzania dużymi projektami{" "}
+    <B>JavaScript</B>, ale też sprawdza się przy małych projektach. Zapewnia
+    zestaw funkcji do szybkiego i łatwego tworzenia, budowania, testowania i
+    wdrażania aplikacji. Jest to rozwiązanie monorepo. Dzięki temu narzędziu
+    programiści mogą szybko i łatwo opanować duże złożoności <B>JavaScript</B>,
+    dzięki sprawdzonym metodom zaproponowanych przez zespół <B>NRWL</B>.
+  </M>
+  <M>
+    Jeżeli się podobało, pamiętaj odwiedzić nas na{" "}
+    <A href="https://www.linkedin.com/in/emil-juchnikowski-25b251bb/" outside>
+      Linkedin
+    </A>,{" "}
+    gdzie regularnie wrzucamy content z programowania.
+  </M>
+</Summary>
