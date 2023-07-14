@@ -61,7 +61,7 @@ One such tool is the <B>NRWL Extension</B>, or <B>NX</B> for short. In this arti
   </M>
   <M>
     To create a new <B>workspace</B>, all you really need is 
-    the installed 
+    the installed{" "} 
     <B>npm</B> package manager and the command:  <B> npx create-nx-workspace@latest</B>, which will create a structure for us. At 
     this <A
       outside
@@ -134,7 +134,7 @@ One such tool is the <B>NRWL Extension</B>, or <B>NX</B> for short. In this arti
 <M>Also the command: <B>nx affected:lint</B> will only run lint for files that have been modified since the last build.</M>
 <M>These examples show how <B>task executors</B> can speed up development processes by focusing only on specific elements of the project that have changed since the last build or testing.</M>
 <M>In addition, <B>NX</B> provides the npm package <B>@nrwl/nx-plugin</B>, which allows us to create our <B>task executor</B>. Thanks to this, we can extend the functionality of the <B>NX</B> tool and adapt it to our own needs.</M>
-<M><B>Ccaching tasks results</B></M>
+<M><B>Caching tasks results</B></M>
 <M><B>NX</B> uses a cache not repeatedly to build code that has already been made. In the context of this tool, <B>cache</B> sharing means that different libraries or scripts used in the project can use the same <B>cache</B>, storing information about compilation, file scanning, etc. This way these processes do not have to be repeated for each library or script which speeds up the construction process and increases efficiency.</M>
 <M>How does the cache work in practice? Before running a given task, <B>NX</B> calculates the <B>hash</B> of the given library. If the <B>hash</B> is the same as in the previous call, it doesn't do the job again, just takes the result of the previous call.</M>
 <Img border src="https://nx.dev/documentation/shared/images/caching/nx-hashing.svg" />
