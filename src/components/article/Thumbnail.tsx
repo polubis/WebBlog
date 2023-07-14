@@ -21,6 +21,29 @@ const Figure = styled.figure`
   min-height: 320px;
   margin: 0;
 
+  .thumbnail-badge {
+    align-items: center;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 10;
+
+    ${Badge} {
+      margin: 0 0 10px 10px;
+    }
+
+    .read-time-badge {
+      display: flex;
+      align-items: center;
+
+      & > *:first-child {
+        margin-right: 2px;
+        width: 14px;
+        height: 14px;
+      }
+    }
+  }
+
   ${GraphicAuthor} {
     position: absolute;
     bottom: 12px;
@@ -47,31 +70,6 @@ const Figure = styled.figure`
   }
 `
 
-const Badges = styled.div`
-  display: flex;
-  flex-flow: wrap;
-  align-items: center;
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  z-index: 10;
-
-  ${Badge} {
-    margin: 0 0 10px 10px;
-  }
-
-  .read-time-badge {
-    display: flex;
-    align-items: center;
-
-    & > *:first-child {
-      margin-right: 2px;
-      width: 14px;
-      height: 14px;
-    }
-  }
-`
-
 interface Props {
   title: string
   thumbnail: Image
@@ -93,7 +91,7 @@ export default function ({
   newLabel = "new",
   graphicAuthorLabel = "Graphic author",
   thumbnailAlt = "Article thumbnail",
-  seniorityLevel
+  seniorityLevel,
 }: Props) {
   return (
     <Figure>
@@ -108,14 +106,16 @@ export default function ({
           height: "100%",
         }}
       />
-      <XXL><SeniorityBadge level={seniorityLevel} /> {title}</XXL>
-      <Badges>
+      <XXL>
+        <SeniorityBadge level={seniorityLevel} /> {title}
+      </XXL>
+      <div className="thumbnail-badge wrap">
         <Badge className="read-time-badge" color={theme.secondary}>
           <ReadTimeIcon />
           {readTime}m
         </Badge>
         {isNew && <Badge color={theme.green}>{newLabel}</Badge>}
-      </Badges>
+      </div>
       {graphicAuthorLink && (
         <GraphicAuthor>
           <A href={graphicAuthorLink} outside>

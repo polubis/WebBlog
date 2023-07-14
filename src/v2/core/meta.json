@@ -1,0 +1,48 @@
+{
+    "site_name": "GreenOn Software",
+    "discord_url": "https://discord.gg/PxXQayT3x3",
+    "fb_url": "https://www.linkedin.com/in/adrian-po%C5%82ubi%C5%84ski-281ab2172/",
+    "linkedin_url": "https://www.linkedin.com/in/adrian-po%C5%82ubi%C5%84ski-281ab2172/",
+    "langs": {
+        "en": {
+            "html": "en-US",
+            "key": "en"
+        },
+        "pl": {
+            "html": "pl-PL",
+            "key": "pl"
+        }
+    },
+    "routes": {
+        "articles": {
+            "to": "/articles/",
+            "gaPage": "articles",
+            "key": "articles"
+        },
+        "authors": {
+            "to": "/authors/",
+            "gaPage": "authors",
+            "key": "authors"
+        },
+        "courses": {
+            "to": "/courses/",
+            "gaPage": "courses",
+            "key": "courses"
+        },
+        "creator": {
+            "to": "/blog-creator/",
+            "gaPage": "blog-creator",
+            "key": "creator"
+        },
+        "snippet_creator": {
+            "to": "/snippet-creator/",
+            "gaPage": "snippet-creator",
+            "key": "snippet_creator"
+        },
+        "home": {
+            "to": "/",
+            "gaPage": "",
+            "key": "home"
+        }
+    }
+}

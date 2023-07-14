@@ -4,7 +4,7 @@ import AuthorAvatar from "../../components/article/AuthorAvatar"
 import Divider from "../../components/divider/Divider"
 import Badge from "../../components/article/Badge"
 import { SecondaryButton } from "../../components/button/Button"
-import { useArticlesProvider } from "./ArticlesProvider"
+import { useArticleProvider } from "./ArticlesProvider"
 import styled from "styled-components"
 import theme from "../../utils/theme"
 import { Author, SeniorityLevel } from "../../models"
@@ -117,7 +117,7 @@ const FiltersForm = ({ authors, trigger }: FiltersFormProps) => {
     changeSeniority,
     changeAuthor,
     setAllSeniorityLevels,
-  } = useArticlesProvider()
+  } = useArticleProvider()
 
   const seniorityLevels = Object.entries(SeniorityLevel)
 

@@ -7,7 +7,7 @@ import { Content } from "../../ui"
 import { AllDataResponse } from "../../api"
 import { ArticlesJumbo } from "./ArticlesJumbo"
 import { Image } from "../../models"
-import { ArticlesProvider, useArticlesProvider } from "./ArticlesProvider"
+import { ArticlesProvider, useArticleProvider } from "./ArticlesProvider"
 import { NoArticles } from "./NoArticles"
 import Button from "../../components/button/Button"
 import { useScrollToTop } from "../../utils/useScrollToTop"
@@ -17,7 +17,7 @@ interface ArticlesPageProps {
 }
 
 const ConnectedGrid = () => {
-  const { filteredArticles, reset } = useArticlesProvider()
+  const { filteredArticles, reset } = useArticleProvider()
 
   if (filteredArticles.length === 0) {
     return (

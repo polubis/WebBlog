@@ -32,7 +32,7 @@ const Content = styled.div`
   overflow-y: auto;
   max-height: calc(100% - 40px);
   width: calc(100% - 40px);
-  max-width: max-content;
+  max-width: 700px;
 `
 
 export const Modal = ({ children, onClose }: ModalProps) => {

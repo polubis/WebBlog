@@ -35,3 +35,13 @@ html {
   display: flex;
   align-items: center;
 }
+
+.col {
+  display: flex;
+  flex-flow: column;
+}
+
+.wrap {
+  display: flex;
+  flex-flow: wrap;
+}

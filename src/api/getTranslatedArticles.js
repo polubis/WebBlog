@@ -93,6 +93,10 @@ exports.getTranslatedArticles = data => {
       }
       const { path, slug, body, rawBody, lang } = article
 
+      const langs = Array.isArray(article.frontmatter.langs)
+        ? article.frontmatter.langs
+        : []
+
       return {
         slug,
         body,
@@ -119,6 +123,10 @@ exports.getTranslatedArticles = data => {
         originalArticlePath: path.replace(`/${lang}`, ""),
         lang,
         seniorityLevel: article.frontmatter.seniorityLevel,
+        translations: langs.map(lang => ({
+          lang,
+          path: `/${lang}${path}`,
+        })),
       }
     })
 
