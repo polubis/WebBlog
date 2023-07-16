@@ -30,30 +30,36 @@ const Section = styled.section`
     margin-top: 20px;
   }
 
-  .ui-snippet {
-    & + ${M} {
-      margin-top: 24px;
-    }
+  .l {
+    padding-left: 16px;
 
+    & + .l,
+    & + .ui-image,
     & + .ui-snippet {
       margin-top: 24px;
     }
 
+    & + ${Hint} {
+      margin-top: 32px;
+    }
+
+    & + ${M} {
+      margin-top: 12px;
+    }
+  }
+
+  .ui-snippet {
+    & + ${M}, & + .l,
+    & + .ui-snippet,
     & + .ui-image {
       margin-top: 24px;
     }
   }
 
   .ui-image {
-    & + ${M} {
-      margin-top: 24px;
-    }
-
-    & + .ui-snippet {
-      margin-top: 24px;
-    }
-
-    & + .ui-image {
+    & + ${M}, & + .ui-snippet,
+    & + .ui-image,
+    & + .l {
       margin-top: 24px;
     }
   }
