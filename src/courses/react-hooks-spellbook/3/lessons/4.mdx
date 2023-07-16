@@ -1,10 +1,10 @@
 ---
 name: Deep dive into useIntersectionObserver hook
 duration: 4
-description: We take a look at how to use the native IntersectionObserver API in a custom hook.
+description: We take a look at how to use the native IntersectionObserver API and we'll implement useIntersectionObserver hook.
 ---
 
-<Prelude>
+<Prelude label="The use cases for intersection observer">
   <M>
     Let's say you have a great homepage with fancy looking animation - you're
     animating the{" "}
@@ -16,7 +16,7 @@ description: We take a look at how to use the native IntersectionObserver API in
     animation and based on that, turn it on or off.
   </M>
   <Img
-    src="/black-hole.gif"
+    src="/black-hole-1.gif"
     description="Note how the animation stops when scrolling"
   />
   <M>
@@ -27,7 +27,10 @@ description: We take a look at how to use the native IntersectionObserver API in
   </M>
   <Hint hasBg>
     On this{" "}
-    <A href="https://github.com/polubis/Dream-stack-for-React-dev/tree/main/system/libs/figa-hooks/src/lib/use-intersection-observer">
+    <A
+      outside
+      href="https://github.com/polubis/Dream-stack-for-React-dev/tree/article/Deep-dive-into-useIntersectionObserver-hook/system/libs/figa-hooks/src/lib/use-intersection-observer"
+    >
       repository
     </A>{" "}
     you have the final result.
@@ -35,17 +38,27 @@ description: We take a look at how to use the native IntersectionObserver API in
 </Prelude>
 
 <Section>
-  <XL>Usage</XL>
+  <XL>Other use cases for useIntersectionObserver</XL>
+  <L>
+    <Li>Enabling/disabling animations</Li>
+    <Li>Showing/hiding an element on the UI</Li>
+    <Li>Loading code dynamically</Li>
+  </L>
+</Section>
+
+<Section>
+  <XL>How to use useIntersectionObserver hook?</XL>
   <M>
-    This is how we will use our <B>useIntersectionObserver</B> hook.{" "}
+    This is how we'll use our <B>useIntersectionObserver</B> hook.{" "}
   </M>
-  <Snippet description="An example of use">{`
- // The visible flag will change if the div will have 40% visibility.
-const { visible, ref } = useIntersectionObserver<HTMLDivElement>({ treshhold: 0.4 });
+  <Snippet>{`
+ // Flag "visible" changes if div has 40% visibility.
+const { visible, ref } = 
+   useIntersectionObserver<HTMLDivElement>({ treshhold: 0.4 });
   
 return (
   <>
-   {/*We pass ref to element we want to observe.*/}
+   {/* Reference to element to observe. */}
     <div ref={ref} style={{ minHeight: '100vh' }}>
       Your main homepage section.
     </div>
@@ -58,30 +71,107 @@ return (
 </Section>
 
 <Section>
-  <XL>Use cases</XL>
-  <List items="Enabling/disabling animations, Showing/hiding an element on the UI,Loading code dynamically" />
-</Section>
-
-<Section>
-  <XL>Implementation</XL>
+  <XL>Let's implement useIntersectionObserver</XL>
   <M>
     First, let's create interfaces. They will define what our hook will accept
     and what will return.
   </M>
-  <Snippet
-    description="The shape of interfaces"
-    linesCount={24}
-    src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/main/system/libs/figa-hooks/src/lib/use-intersection-observer/defs.ts"
-  />
+  <Snippet description="Type definitions for our useIntersectionObserver hook - defs.ts">{`
+  import type { MutableRefObject } from 'react';
+ 
+/**
+ * We'll pass this config object to hook.
+ */
+type IntersectionObserverConfig = IntersectionObserverInit;
+ 
+/**
+ * We'll return this object from hook.
+ */
+interface IntersectionObserverReturn<T extends HTMLElement> {
+  /**
+   * Reference to any HTML element.
+   * The @T parameter is the type of the element we'll
+   * pass. It must extend from @HTMLElement type.
+   */
+  ref: MutableRefObject<T | null>;
+  /**
+   * Indicates whether the item is visible.
+   */
+  visible: boolean;
+}
+ 
+export type { IntersectionObserverConfig, IntersectionObserverReturn };`}</Snippet>
   <M>
     Now it's time to implement the <B>useIntersectionObserver</B> hook itself.
     We have interfaces so we know how it should more or less work.
   </M>
-  <Snippet
-    description="Implementation"
-    linesCount={66}
-    src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/main/system/libs/figa-hooks/src/lib/use-intersection-observer/use-intersection-observer.ts"
-  />
+  <Snippet description="Implementation located inside use-intersection-observer.ts">{`
+  import type {
+  IntersectionObserverConfig,
+  IntersectionObserverReturn,
+} from './defs';
+ 
+import { useEffect, useRef, useState } from 'react';
+ 
+/**
+ * Hook responsible for detecting the moment
+ * when the user is near a particular HTML element.
+ *
+ * @param {IntersectionObserverConfig} - Configuration object.
+ * @returns {IntersectionObserverReturn} - API that any component will use.
+ */
+export const useIntersectionObserver = <T extends HTMLElement>(
+  config: IntersectionObserverConfig = {}
+): IntersectionObserverReturn<T> => {
+  const { threshold, root, rootMargin } = config;
+ 
+  // Stores a reference to the HTML element that will be observed.
+  const ref = useRef<T>(null);
+  const [visible, setVisible] = useState(false);
+  
+  useEffect(() => {
+    // Here we're checking support and blocking execution
+    // on server-side.
+    const isClient = typeof window !== 'undefined';
+ 
+    if (!isClient) return;
+  
+    const isSupported = 'IntersectionObserver' in window;
+  
+    if (!isSupported) {
+      console.error(
+        'IntersectionObserver is not supported. Try to use polyfill.'
+      );
+      return;
+    }
+ 
+    // When the treshold value changes we'll start a new subscription.
+    const listen: IntersectionObserverCallback = ([entry]) => {
+      setVisible(entry.isIntersecting);
+    };
+ 
+    // Variable to avoid multiple use of ref.current.
+    const currentRef = ref.current;
+    // Natively available API that supports detection.
+    // It will call the listen function if it's near the element.
+    const observer = new IntersectionObserver(listen, {
+      threshold,
+      root,
+      rootMargin,
+    });
+ 
+    // We're starting observations.
+    currentRef && observer.observe(currentRef);
+  
+    return () => {
+      // We detach our listener.
+      currentRef && observer.unobserve(currentRef);
+    };
+    // If any of the values change we'll start a new subscription.
+  }, [threshold, root, rootMargin]);
+ 
+  return { ref, visible };
+};`}</Snippet>
   <M>
     Hook cannot be used on the server side - so we blocked this option at the
     very beginning.
@@ -97,37 +187,65 @@ return (
 </Section>
 
 <Section>
-  <XL>Tests</XL>
+  <XL>Testing useIntersectionObserver hook mechanisms</XL>
   <M>We need to add tests that allow us to do refactors later.</M>
-  <Snippet
-    description="Anty regression tests"
-    linesCount={45}
-    src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/main/system/libs/figa-hooks/src/lib/use-intersection-observer/use-intersection-observer.test.tsx"
-  />
+  <Snippet description="Tests which will prevent regression - use-intersection-observer.test.tsx">{`
+  import { renderHook } from '@testing-library/react-hooks';
+ 
+import { useIntersectionObserver } from './use-intersection-observer';
+ 
+describe('Intersection check works when: ', () => {
+  interface Window {
+    IntersectionObserver: unknown;
+  }
+ 
+  const prepareForTesting = (isIntersecting: boolean): void => {
+    const mockedIntersectionObserver = jest.fn((callback) => {
+      callback([{ isIntersecting }]);
+ 
+      return {
+        observe: jest.fn(),
+        unobserve: jest.fn(),
+      };
+    });
+ 
+    (window as Window).IntersectionObserver = mockedIntersectionObserver;
+  };
+  
+  it('when reference is not connected it does not detect element', () => {
+    prepareForTesting(false);
+ 
+    const { result } = renderHook(() => useIntersectionObserver());
+ 
+    expect(result.current.ref.current).toBe(null);
+    expect(result.current.visible).toBe(false);
+  });
+ 
+  it('detects element after scroll', () => {
+    prepareForTesting(true);
+ 
+    const element = document.createElement('div');
+ 
+    const { result } = renderHook(() => useIntersectionObserver());
+ 
+    result.current.ref.current = element;
+ 
+    renderHook(() => useIntersectionObserver());
+ 
+    expect(result.current.visible).toBe(true);
+  });
+});`}</Snippet>
 </Section>
 
-<Example>
+<Section>
+  <XL>Full example to play with</XL>
   <M>
     <A
-      href="https://github.com/polubis/Dream-stack-for-React-dev/tree/main/system/libs/figa-hooks/src/lib/use-intersection-observer"
+      href="https://github.com/polubis/Dream-stack-for-React-dev/tree/article/Deep-dive-into-useIntersectionObserver-hook/system/libs/figa-hooks/src/lib/use-intersection-observer"
       outside
     >
       Repository
     </A>{" "}
-    with the <B>useIntersectionObserver</B> hook.
+    with the <B>useIntersectionObserver</B> hook implementation.
   </M>
-</Example>
-
-<Summary>
-  <M>
-    Now you know how to track any element on the interface and respect the
-    resources of the browser.
-  </M>
-  <M>
-    If you enjoyed it, be sure to visit us on{" "}
-    <A href="https://www.linkedin.com/in/adrian-po%C5%82ubi%C5%84ski-281ab2172/" outside>
-      Linkedin
-    </A>{" "}
-    where we regularly upload content from programming.
-  </M>
-</Summary>
+</Section>

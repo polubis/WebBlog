@@ -9,6 +9,7 @@ import { Example } from "./src/components/article/Example"
 import Img from "./src/components/article/Img"
 import { XL, M, Hint, A, B } from "./src/ui/text"
 import { List } from "./src/components/article/List"
+import { L, Li } from "./src/components/article/L"
 
 const shortcodes = {
   Section,
@@ -23,6 +24,8 @@ const shortcodes = {
   Hint,
   A,
   B,
+  L,
+  Li,
 }
 
 export const wrapRootElement = ({ element }) => {

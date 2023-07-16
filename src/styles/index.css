@@ -30,3 +30,8 @@ html {
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+.row {
+  display: flex;
+  align-items: center;
+}
