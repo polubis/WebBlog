@@ -110,7 +110,6 @@ exports.getTranslatedArticles = data => {
         author,
         techReviewer,
         gaPage: removeEdgeSlashes(path),
-        graphicAuthorLink: article.frontmatter.graphicauthor,
         path,
         thumbnail: thumbnailsMap[slug],
         stack: article.frontmatter.stack.split(",").map(id => ({
@@ -119,13 +118,12 @@ exports.getTranslatedArticles = data => {
         })),
         createdAt: article.frontmatter.cdate,
         modifiedAt: article.frontmatter.mdate,
-        toBeContinuedDate: article.frontmatter.tbcdate,
         originalArticlePath: path.replace(`/${lang}`, ""),
         lang,
         seniorityLevel: article.frontmatter.seniorityLevel,
         translations: langs.map(lang => ({
           lang,
-          path: `/${lang}${path}`,
+          path: `/articles/${slug}`.replace(`/${lang}`, ""),
         })),
       }
     })

@@ -79,16 +79,15 @@ exports.createPages = async ({ actions, graphql }) => {
           frontmatter {
             cdate
             mdate
-            tbcdate
             authorId
             treviewerId
             lreviewerId
             tags
             description
             readTime
-            graphicauthor
             stack
             seniorityLevel
+            langs
             title
           }
           rawBody
@@ -101,7 +100,6 @@ exports.createPages = async ({ actions, graphql }) => {
           frontmatter {
             cdate
             mdate
-            tbcdate
             authorId
             treviewerId
             lreviewerId
@@ -109,7 +107,6 @@ exports.createPages = async ({ actions, graphql }) => {
             langs
             description
             readTime
-            graphicauthor
             stack
             title
             seniorityLevel

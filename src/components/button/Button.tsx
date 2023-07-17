@@ -41,7 +41,7 @@ interface Props
   extends React.DetailedHTMLProps<
     React.ButtonHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
-  > {}
+  > { }
 
 export default function (props: Props) {
   return <Button {...(props as any)} />
@@ -55,32 +55,5 @@ export const SecondaryButton = styled.button`
   &:hover:not(:disabled) {
     background: transparent;
     color: ${theme.white};
-  }
-`
-
-export const SecondaryTextButton = styled.button`
-  ${common}
-  border: 1px solid transparent;
-  color: ${theme.white};
-
-  &:hover:not(:disabled) {
-    background: transparent;
-    color: ${theme.white};
-    opacity: 0.9;
-  }
-`
-
-export const LinkButton = styled.button`
-  color: ${theme.primary};
-  border: none;
-  text-decoration: underline;
-  background: none;
-  font-size: 16px;
-  line-height: 28px;
-  cursor: pointer;
-  padding: 0;
-
-  &:hover {
-    color: ${theme.primaryA};
   }
 `

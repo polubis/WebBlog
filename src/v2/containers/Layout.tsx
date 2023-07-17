@@ -3,7 +3,6 @@ import { Layout, Navigation } from "../../ui"
 import theme from "../../utils/theme"
 import styled from "styled-components"
 import { Link as GatsbyLink } from "gatsby"
-import { useScrollToHtmlElement } from "../../utils/useScrollToHtmlElement"
 import { GreenOnLogo } from "../../components/GreenOnLogo"
 import Button from "../../components/button/Button"
 import { SocialBar } from "../../components/social-bar/Socialbar"
@@ -35,18 +34,12 @@ const UnstyledLink = styled(GatsbyLink)`
 
 export default function ({ children }: LayoutProps) {
   const {
-    meta: { routes },
+    meta: { routes, discord_url },
     t,
   } = useLayoutProvider()
-  const { ref, scrollTop } = useScrollToHtmlElement<HTMLDivElement>()
 
   const homeLink = (
-    <Link
-      to={routes.home.to}
-      key={routes.home.key}
-      activeStyle={activeStyle}
-      id={`home-navigation-link-${routes.home.key}`}
-    >
+    <Link to={routes.home.to} key={routes.home.key} activeStyle={activeStyle}>
       {t.home}
     </Link>
   )
@@ -55,7 +48,6 @@ export default function ({ children }: LayoutProps) {
       to={routes.articles.to}
       key={routes.articles.key}
       activeStyle={activeStyle}
-      id={`home-navigation-link-${routes.articles.key}`}
     >
       {t.articles}
     </Link>
@@ -65,7 +57,6 @@ export default function ({ children }: LayoutProps) {
       to={routes.authors.to}
       key={routes.authors.key}
       activeStyle={activeStyle}
-      id={`home-navigation-link-${routes.authors.key}`}
     >
       {t.authors}
     </Link>
@@ -75,7 +66,6 @@ export default function ({ children }: LayoutProps) {
       to={routes.courses.to}
       key={routes.courses.key}
       activeStyle={activeStyle}
-      id={`home-navigation-link-${routes.courses.key}`}
     >
       {t.courses}
     </Link>
@@ -85,7 +75,6 @@ export default function ({ children }: LayoutProps) {
       to={routes.snippet_creator.to}
       key={routes.snippet_creator.key}
       activeStyle={activeStyle}
-      id={`home-navigation-link-${routes.snippet_creator.key}`}
     >
       {t.snippets}
     </Link>
@@ -95,7 +84,6 @@ export default function ({ children }: LayoutProps) {
       to={routes.creator.to}
       key={routes.creator.key}
       activeStyle={activeStyle}
-      id={`home-navigation-link-${routes.creator.key}`}
     >
       {t.create_article}
     </Link>
@@ -103,11 +91,10 @@ export default function ({ children }: LayoutProps) {
 
   return (
     <Layout
-      ref={ref}
       navigation={
         <Navigation
           logo={
-            <UnstyledLink to={routes.home.to} id="home-navigation-logo">
+            <UnstyledLink to={routes.home.to}>
               <GreenOnLogo full />
             </UnstyledLink>
           }
@@ -136,9 +123,8 @@ export default function ({ children }: LayoutProps) {
           }
           action={
             <a
-              id="home-navigation-join-button"
-              href="https://discord.gg/PxXQayT3x3"
-              title="Discord members"
+              href={discord_url}
+              title={t.discord_channel}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -163,7 +149,13 @@ export default function ({ children }: LayoutProps) {
       }
     >
       {children}
-      <SocialBar scrollToTopNode={<ScrollUpButton onClick={scrollTop} />} />
+      <SocialBar
+        scrollToTopNode={
+          <ScrollUpButton
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          />
+        }
+      />
     </Layout>
   )
 }

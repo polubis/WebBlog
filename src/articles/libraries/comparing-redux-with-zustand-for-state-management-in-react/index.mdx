@@ -1,0 +1,1292 @@
+---
+cdate: 2023-07-16
+mdate: 2023-07-16
+authorId: polubis
+treviewerId: goteii
+lreviewerId: kzalewska
+tags: state,libraries,comparision
+langs: ["pl"]
+stack: react,redux,typescript,zustand,jest
+description: We will analyze the main features of Redux Toolkit and Zustand and present their advantages and disadvantages. We will zoom in on the differences in approach and syntax of these tools to help you decide which library is the best fit for your particular project.
+seniorityLevel: expert
+title: Comparing Redux with Zustand for state management in React
+readTime: 10
+---
+
+<Prelude label="Choosing a library for state management in React">
+  <M>
+    This is a very problematic and complicated topic. For a long time, I
+    maneuvered between the <B>Redux toolkit</B> and <B>ContextAPI</B>. After a
+    while, I always came to the same question - is there an alternative? There
+    are many of them and if I had to list them, it would take me two days.
+  </M>
+  <M>
+    I was looking for something straightforward - producing a small{" "}
+    <B>boilerplate</B> and supporting a modular approach - because it keeps the
+    application size small and easy to maintain. And I found it!
+  </M>
+  <M>
+    Today we will compare the capabilities of <B>Zustand</B> and{" "}
+    <B>Redux toolkit</B>.
+  </M>
+</Prelude>
+
+<Section>
+  <XL>Redux core concepts</XL>
+  <List items="One store, Changes in the store done via dispatch function, Action should be passed to the dispatch function (an object with a unique key and additional data), Implements the CQRS pattern, It is based on the FLUX architecture (modifies it - instead of many stores we have one), Implements reducers (they check the type of the given action and change it to a state based on the passed data), Has middleware, All reducers are finally merged into one, The subscribe function works for the entire store, Has selectors, Monolith structure - like an extensive database, No modularity, Requires a wrapper (StoreProvider) - something that will integrate Redux with React" />
+  <M>
+    <B>Elements:</B>
+  </M>
+  <List items="Store (one), Reducer, Middleware, Actions, Action creators - functions that create action objects, Selectors, Hooks for reading and modifying the state, Dispatcher, Slice (in the case of Redux toolkit), Acts (in the case of Redux toolkit)" />
+</Section>
+
+<Section>
+  <XL>Zustand core concepts</XL>
+  <List items="More than one store, We make changes in the store using actions - a regular function, Implements the FLUX architecture, No reducers, There is no dispatch function, No CQRS, It has middleware for each store separately, Modularity, Has a subscription function per store, Has selectors, 0 wrappers required" />
+  <M>
+    <B>Elements: </B>
+  </M>
+  <List items="More than one store, Actions, Selectors, Middleware - per store, Hook for invoking actions and reading state (one)" />
+</Section>
+
+<Section>
+  <XL>Setup for the Redux toolkit</XL>
+  <M>
+    To start with <B>Redux toolkit</B> and <B>React</B> we need to import created <B>store</B>{" "}
+    and pass if through <B>Provider</B>.
+  </M>
+  <Snippet>{`
+import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './App'
+import { store } from './app/store'
+import { Provider } from 'react-redux'
+ 
+ReactDOM.render(
+  // One "store", is forged to rule all components.
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root')
+)`}</Snippet>
+  <M>
+    Now it's time for a <B>slice</B> that will generate <B>reducers</B> and{" "}
+    <B>actions</B> for us.
+  </M>
+  <Snippet>{`
+import type { Post } from './models'
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
+ 
+interface PostsState {
+  loading: boolean;
+  posts: Post[];
+  error: string;
+}
+    
+const postsSlice = createSlice({
+  name: 'posts',
+  initialState: <PostsState>{
+    loading: false,
+    posts: [],
+    error: ""
+  },
+  reducers: {
+    addPost(state, action: PayloadAction<Post>) {
+      state.posts.push(action.payload)
+    }
+  },
+})
+ 
+export default postsSlice 
+`}</Snippet>
+  <M>
+    {" "}
+    Finally, all <B>reducers</B> must be merged into one - <B>reducers.ts</B> file.
+  </M>
+  <Snippet>{`
+  import { combineReducers } from "redux"
+ 
+import postsSlice from "./posts/postsSlice"
+// In the future, the list of imports will grow significantly.
+ 
+export default combineReducers({
+  posts: postsSlice.reducer,
+  // It will also grow...
+})
+`}</Snippet>
+  <M>
+    And we still need the <B>store.ts</B> file in which we will connect
+    everything.
+  </M>
+  <Snippet>{`import { configureStore } from '@reduxjs/toolkit'
+import { useDispatch, useSelector, type TypedUseSelectorHook } from 'react-redux'
+import reducer from './reducers'
+import thunk from 'redux-thunk'
+ 
+export const store = configureStore({
+  reducer,
+  middleware: [thunk]
+})
+ 
+// Types for our store.
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch
+ 
+// Hooks for reading data and triggering changes.
+export const useAppDispatch: () => AppDispatch = useDispatch
+export const useAppSelector: TypedUseSelectorHook<AppState> = useSelector
+`}</Snippet>
+  <M>Now the code in the component.</M>
+  <Snippet>{`import { useAppSelector, useAppDispatch } from "store"
+import { addPost } from "actions/posts"
+ 
+const AnyComponent = () => {
+  const { posts, loading, error } = useAppSelector(({ posts }) => posts)
+  const dispatch = useAppDispatch()
+}
+`}</Snippet>
+  <M>
+    I don't know about <B>you</B>, but I see a lot of code that will get even
+    more complicated with each new feature.
+  </M>
+</Section>
+
+<Section>
+  <XL>Setup for Zustand</XL>
+  <M>
+    We need a <B>store</B>. That's all! It will have both a <B>state</B> and an{" "}
+    <B>actions</B>. Note that <B>usePostsStore</B> is a hook!
+  </M>
+  <Snippet>{`import { create } from 'zustand'
+import type { Post } from 'models/posts'
+ 
+interface PostsStore {
+  loading: boolean
+  posts: Post[]
+  error: string
+  addPost: (post: Post) => void
+}
+ 
+const usePostsStore = create<PostsStore>((set) => ({
+  loading: false,
+  posts: [],
+  error: '',
+  addPost: (post) => {
+    set((state) => ({ posts: [state.posts, post] }))
+  },
+}))
+ 
+export { usePostsStore }
+`}</Snippet>
+  <M>
+    Now just import the <B>hook</B> created by <B>Zustand</B> to any component
+    and use the state or action.
+  </M>
+  <Snippet>{`import { usePostsStore } from 'store/posts'
+ 
+const AnyComponent = () => {
+  const { loading, posts, error, addPost } = usePostsStore()
+}
+`}</Snippet>
+  <M>
+    Note how relatively short it took to get exactly the same effect as in{" "}
+    <B>Redux</B>. It was just one file!
+  </M>
+</Section>
+
+<Section>
+  <XL>Libraries size difference</XL>
+  <M>
+    On the{" "}
+    <A outside href="https://bundlephobia.com/">
+      Bundlephobia
+    </A>{" "}
+    website, the result for <B>Redux</B>, <B>React redux</B>,{" "}
+    <B>Redux toolkit</B> and <B>Redux thunk</B> is <B>1.8kB</B> + <B>4.9kB</B> +{" "}
+    <B>3.6kB</B> + <B>236B</B> = <B>~10,537kB</B>.
+  </M>
+  <M>
+    For <B>Zustand</B> it is <B>1.1kB</B>. For <B>slow 3G</B> it will be:{" "}
+  </M>
+  <M>
+    <B>Redux</B> = <B>~223ms</B>
+  </M>
+  <M>
+    <B>Zustand</B> = <B>23ms</B>
+  </M>
+  <Hint hasBg>
+    <B>Zustand</B> is a library that does not have any additional dependencies
+    and will not require them to get the same functionality that the{" "}
+    <B>Redux</B> ecosystem offers (four listed libraries - see above).
+  </Hint>
+</Section>
+
+<Section>
+  <XL>Boilerplate and application size</XL>
+  <M>
+    The size of the libraries is one thing, but the impact on the application
+    size of the code we have to write in them is also important. For the
+    implementation of the functionality with posts (see above), the application
+    sizes (for the production configuration) are:
+  </M>
+  <M>
+    <B>Redux</B> = <B>126kB</B> (pure project + feature posts).
+  </M>
+  <M>
+    <B>Zustand</B> = <B>117KB</B> (pure project + feature posts).
+  </M>
+  <M>Now 30 functionalities with identical implementation.</M>
+  <M>
+    <B>Redux</B> = <B>30</B> (number of features) * <B>0.97kB </B> (boilerplate
+    size per feature) = <B>29,1kB</B>.
+  </M>
+  <M>
+    <B>Zustand</B> = <B>30</B> (number of features) * <B>0.44kB</B>{" "}
+    (boilerplate size per feature) = <B>13.2kB</B>.
+  </M>
+  <M>So finally:</M>
+  <M>
+    <B>Redux</B> = <B>126kB</B> (initial size) + <B>29,1kB</B> (functional size
+    30) = <B>155,1kB</B>.
+  </M>
+  <M>
+    <B>Zustand</B> = <B>117KB </B> (initial size) + <B>13.2kB</B> (functional
+    size 30) = <B>130,2kB</B>.
+  </M>
+  <M>
+    Temporarily for <B>slow 3G</B>:{" "}
+  </M>
+  <M>
+    <B>Redux</B> = <B>~3 456ms</B>
+  </M>
+  <M>
+    <B>Zustand</B> = <B>~2 795ms</B>
+  </M>
+</Section>
+
+<Section>
+  <XL>Asynchronous operations in the Redux toolkit</XL>
+  <M>
+    {" "}
+    If we use <B>redux-thunk</B>, we handle asynchronous operations in the <B>
+      act
+    </B>.{" "}
+  </M>
+  <Snippet>{`
+// This is in a separate file - "actSignIn.ts".
+import { createAsyncThunk } from "@reduxjs/toolkit"
+import { type SignInPayload, signIn } from 'api/auth'
+ 
+export const actSignIn = createAsyncThunk(
+  "auth/signIn",
+  async (
+    { payload }: { payload: SignInPayload },
+    { rejectWithValue }
+  ) => {
+    try {
+      // The "signIn" function performs a request to the API.
+      const user = await signIn(payload)
+      // We return the logged-in user.
+      return user
+    } catch (error: unknown) {
+      return rejectWithValue(error)
+    }
+  }
+)
+`}</Snippet>
+  <M>
+    Now in our <B>slice</B>, we can handle state changes. The{" "}
+    <B>Redux toolkit</B> will automatically generate the appropriate actions -{" "}
+    <B>pending</B>, <B>fulfilled</B> and <B>rejected</B>, in which we must
+    define how to change the state.
+  </M>
+  <Snippet>{`import { createSlice } from "@reduxjs/toolkit"
+import { type SignedInUser } from "api/auth"
+import { actSignIn } from "acts/actSignIn"
+ 
+interface SignInState{
+   loading: boolean
+   error: string
+   user: null | SignedInUser
+}
+ 
+const authSlice = createSlice({
+  name: "auth",
+  {
+    loading: false,
+    error: '',
+    user: null,
+  } as SignInState,
+  extraReducers: (builder) => {
+     // Here we handle state changes when "actSignIn" is called.
+    builder
+      .addCase(actSignIn.pending, (state) => {
+        // This code will be called after dispatch(actSignIn()).
+        state.loading = true
+        state.error = ''
+        state.user = null
+      })
+      .addCase(actSignIn.fulfilled, (state, { payload }) => {
+        // This code will be called when actSignIn() returns something.
+        state.loading = false
+        state.user = payload
+      })
+      .addCase(actSignIn.rejected, (state, { payload }) => {
+        // This code will be called when actSignIn() returns an error - see "catch".
+        state.loading = false
+        state.error = payload
+      });
+  },
+});
+`}</Snippet>
+  <M>
+    It is worth noting that the state change is separated from the API call
+    logic. In <B>act</B> we define what to call and what to return, and in{" "}
+    <B>slice</B>, we handle how to change the state based on the result.
+  </M>
+</Section>
+
+<Section>
+  <XL>Asynchronous operations in Zustand</XL>
+  <M>
+    {" "}
+    In <B>Zustand</B>, we handle asynchronous operations with a regular function
+    with an <B>async</B> annotation.
+  </M>
+  <Snippet>{`import { type SignedInUser, type SignInPayload, signIn } from 'api/auth'
+ 
+interface SignInStore {
+  loading: boolean
+  error: string
+  user: null | SignedInUser
+  signIn: (payload: SignInPayload) => Promise<void>
+}
+ 
+const useSignInStore = create<SignInStore>((set) => ({
+  loading: false,
+  error: '',
+  user: null,
+  signIn: async (payload) => {
+    set({ loading: true, error: '', user: null })
+ 
+    try {
+      const user = await signIn(payload)
+ 
+      set({ loading: false, user })
+    } catch (error: unknown) {
+      set({ loading: false, error })
+    }
+  },
+}))
+`}</Snippet>
+  <M>
+    <B>Zustand</B> uses an approach in which the modification of values and
+    their reading is in one place - which means that there will be less code.
+  </M>
+</Section>
+
+<Section>
+  <XL>Type safety in the Redux toolkit</XL>
+  <M>
+    {" "}
+    In the <B>Redux toolkit</B>, types are inferred for <B>act</B> based on the return
+    values and the explicit typing of the parameters passed.
+  </M>
+  <Snippet>{`
+// @@@ Inside "actSignIn.ts". @@@
+export const actSignIn = createAsyncThunk(
+  "auth/signIn",
+  async (
+    // Here overt typing "payload".
+    { payload }: { payload: SignInPayload }, 
+    { rejectWithValue }
+  ) => {
+    try {
+      const user = await signIn(payload)
+      // The type for the "user" object will remain "remembered" for
+      // "actSignIn.fulfilled".
+      return user
+    } catch(error: unknown) {
+      // The type for the "error" object will remain "remembered" for
+      // "actSignIn.rejected".
+      return rejectWithValue(error as string)
+    }
+  }
+);
+ 
+// @@@ Inner "authSlice.ts". @@@
+ 
+.addCase(actSignIn.fulfilled, (state, { payload }) => {
+  // Here the "payload" type is "SignedInUser".
+  // "Payload" is the value returned by "act".
+  state.loading = false
+  state.user = payload
+})
+.addCase(actSignIn.rejected, (state, { payload }) => {
+  // Here the type of "payload" is "string".
+  // In this case "payload" is the return value
+  // by "rejectWithValue()".
+  state.loading = false
+  state.error = payload
+});
+`}</Snippet>
+  <M>And this is how we should type a regular <B>actions</B>. </M>
+  <Snippet>{`
+import type { PayloadAction } from "@reduxjs/toolkit";
+ 
+reducers: {
+  setUser(state, { payload }: PayloadAction<SignedInUser>) => {
+    state.user = payload
+  }
+}
+`}</Snippet>
+  <M>
+    And finally, typing the state in the <B>slice</B>.{" "}
+  </M>
+  <Snippet>{`
+interface SignInState {
+   loading: boolean
+   error: string
+   user: null | SignedInUser
+} 
+ 
+const authSlice = createSlice({
+  name: "auth",
+  {
+    loading: false,
+    error: '',
+    user: null,
+  } as SignInState
+})`}</Snippet>
+  <M>
+    In the <B>Redux toolkit</B>, types are partially deduced, so when we change
+    implementation, we also change type definitions for actions called by{" "}
+    <B>act</B>. At the same time, however, we need to create an interface for
+    the <B>state</B> definition and use <B>PayloadAction</B> to define the{" "}
+    <B>payload</B> for a specific action, which is a bit confusing.
+  </M>
+</Section>
+
+<Section>
+  <XL>Type safety in Zustand</XL>
+  <M>
+    In <B>Zustand</B> we type everything with single interface.
+  </M>
+  <Snippet>{`
+interface SignInStore {
+  loading: boolean
+  error: string
+  user: null | SignedInUser
+  signIn: (payload: SignInPayload) => Promise<void>
+}
+ 
+const useSignInStore = create<SignInStore>((set) => ({
+  loading: false,
+  error: '',
+  user: null,
+  signIn: async (payload) => {
+    // Type for "payload" is "SignInPayload".
+  },
+}))
+`}</Snippet>
+  <M>
+    In <B>Zustand</B> thanks to the overt definition of the interface, we are
+    guaranteed that the definition of types has a single source of truth. If we
+    change the interface, we know that the implementation needs to be
+    adapted.{" "}
+  </M>
+</Section>
+
+<Section>
+  <XL>Redux toolkit effort analysis</XL>
+  <M>For each new functionality we need to:</M>
+  <List items="Implement slice, Create type, Implement acts, Implement actions, Create a file with re-export actions from a slice, Create a file with re-export reducers from a slice, Modify the store, Work on integration with components, Create tests for each layer or an integration test, Switch between multiple files multiple times" />
+  <M>
+    In case of any change in the business logic or the name of something that
+    the components refer to, we have to go through many files and verify the changes.
+  </M>
+</Section>
+
+<Section>
+  <XL>Work effort analysis at Zustand</XL>
+  <M>For each new functionality we need to: </M>
+  <List items="Create types, Implement store (state + actions), Integrate with components, Write unit tests or integration test, Switch between two or three files (max)" />
+  <M>
+    In <B>Zustand</B> we operate mainly on the <B>store</B> file and everything
+    we need is there.
+  </M>
+</Section>
+
+<Section>
+  <XL>Redux-devtools-extension implementation in Redux toolkit</XL>
+  <Snippet>{`
+  import { createStore, applyMiddleware } from 'redux'
+import { composeWithDevTools } from 'redux-devtools-extension'
+ 
+const store = createStore(
+  rootReducer,
+  composeWithDevTools(applyMiddleware(/* Any middleware */))
+)`}</Snippet>
+</Section>
+
+<Section>
+  <XL>Redux-devtools-extension implementation in Zustand</XL>
+  <M>
+    {" "}
+    <B>Redux devtools</B> in <B>Zustand</B>? After all, it's not <B>Redux</B>...
+    It doesn't change the fact that we have such a possibility. Action titles in <B>devtools</B> will
+    be generated based on their names. It is also worth noting that for each store
+    we have to connect <B>devtools</B> separately - <B>Zustand</B> is modular.
+  </M>
+  <Snippet>{`
+import { create } from 'zustand'
+import { devtools } from 'zustand/middleware'
+   
+const usePlainStore = create(devtools(store))`}</Snippet>
+</Section>
+
+<Section>
+  <XL>Implementation of own middleware in Redux toolkit</XL>
+  <M>
+    This code will catch the exception in the code and send the logs to the
+    database.{" "}
+  </M>
+  <Snippet>{`
+ // Inside reportException.ts
+import type { Middleware } from 'redux'
+import { trackError } from 'api/track'
+import type { AppState } from 'store'
+ 
+const reportException: Middleware<{}, AppState> =
+  (store) => (next) => (action) => {
+    try {
+      return next(action)
+    } catch (err: unknown) {
+      console.error('Error :(', err)
+ 
+      trackError(err, window.location.href)
+ 
+      throw err
+    }
+  };
+ 
+// Inside store.ts
+import { reportException } from 'middleware/reportException.ts'
+ 
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(reportException),
+})
+`}</Snippet>
+</Section>
+
+<Section>
+  <XL>Implementation of own middleware in Zustand</XL>
+  <Snippet>{`
+import { create, type StateCreator } from 'zustand'
+import { trackError } from 'api/track'
+import { SomeStoreType } from './models'
+ 
+const reportException =
+  <T>(stateCreator: StateCreator<T>): StateCreator<T> =>
+  (set, get, api) =>
+    stateCreator(
+      (args) => {
+        try {
+          set(args);
+        } catch (err: unknown) {
+          console.error('Error :(', err)
+ 
+          trackError(err, window.location.href)
+ 
+          throw err
+        }
+      },
+      get,
+      api
+    );
+ 
+const useAnyStore = create<SomeStoreType>()(
+  reportException<SomeStoreType>((set) => ({
+    // Initial state and actions.
+  }))
+)
+`}</Snippet>
+  <M>
+    In the case of <B>Zustand</B>, we must explicitly use the <B>middleware</B>{" "}
+    for each <B>store</B> - see line <B>25</B>. To avoid code duplication, we
+    can create a factory that will take care of creating a <B>store</B> that
+    will immediately have the <B>middleware</B> attached.
+  </M>
+  <Snippet>{`
+const createReportableStore = <T>(storeCreator: StateCreator<T>) =>
+  create<T>()(reportException<T>(storeCreator));
+ 
+const useMyReportableStore = createReportableStore<SomeStoreType>((set) => ({
+  // Any state and actions.
+}));
+`}</Snippet>
+  <M>
+    We can use the same approach with the <B>devtools</B> we saw earlier.{" "}
+  </M>
+  <Hint hasBg>
+    Read{" "}
+    <A outside href="/articles/testing/mocking-up-with-factories/">
+      the article on mocking factories
+    </A>{" "}
+    to learn more about this concept.{" "}
+  </Hint>
+</Section>
+
+<Section>
+  <XL>Data persistence in the Redux toolkit</XL>
+  <M>
+    To save the content of the <B>store</B> to <B>local/session</B> storage we
+    need to add a library. Install the package:{" "}
+    <B>npm i --legacy-peer-deps --save redux-persist</B>. Another <B>+3kB</B>.
+  </M>
+  <Snippet>{`
+import { configureStore } from "@reduxjs/toolkit";
+import storage from 'redux-persist/lib/storage';
+import { persistReducer, persistStore } from 'redux-persist';
+import * as reducers from "./reducers";
+ 
+const persistConfig = {
+  key: 'root',
+  storage,
+};
+ 
+const persistedReducer = persistReducer(persistConfig, reducers);
+ 
+export const store = configureStore({
+  reducer: persistedReducer,
+});
+ 
+export const persistor = persistStore(store);`}</Snippet>
+  <M>
+    Now in the main application file <B>app.tsx</B> we need to add a wrapper -{" "}
+    <B>PersistGate</B>.
+  </M>
+  <Snippet>{`
+import { persistor, store } from './store';
+import { PersistGate } from 'redux-persist/integration/react';
+ 
+root.render(
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <App />
+      </PersistGate>
+    </Provider>
+);`}</Snippet>
+</Section>
+
+<Section>
+  <XL>Data persistence in Zustand</XL>
+  <Snippet>{`
+  import { create } from 'zustand';
+import { persist, createJSONStorage } from 'zustand/middleware';
+ 
+export const useAnyStore = create(
+  persist(
+    (set, get) => ({
+      bears: 0,
+    }),
+    {
+      // The "name" attribute must be unique.
+      name: 'food-storage',
+      // Optional - "local storage" is used by default.
+      storage: createJSONStorage(() => sessionStorage)
+    }
+  );
+)`}</Snippet>
+  <Hint hasBg>
+    {" "}
+    If you want to learn more about working with <B>local/session</B> storage in
+    an easy way, I invite you to the article: <A
+      outside
+      href="/articles/patterns/working-with-local-storage-vs-session-storage/"
+    >
+      Working with local storage vs session storage
+    </A>.
+  </Hint>
+</Section>
+
+<Section>
+  <XL>Memoization and selectors in the Redux toolkit</XL>
+  <M>
+    <B>Selectors</B> are functions that are designed to check whether a value or
+    reference for a given fragment of the <B>store</B> has really changed. Then
+    we can return this value or perform additional operations - mapping to
+    another data format. The result of selectors can be <B>remembered</B> for
+    specific arguments. If they have not changed, the old value will be returned
+    - thanks to this, <B>React</B> will not re-render.
+  </M>
+  <Snippet>{`
+  import { createSelector } from 'reselect';
+  
+const getUsers = state => state.users;
+ 
+export const getMemoizedUsers = createSelector(
+  [getUsers],
+  users => users.filter(user => user.active)
+);`}</Snippet>
+  <M>And now the component code: </M>
+  <Snippet>{`import { useSelector } from 'react-redux';
+import { getMemoizedUsers } from './selectors';
+ 
+const UserList = () => {
+  const memoizedUsers = useSelector(getMemoizedUsers);
+};
+`}</Snippet>
+  <M>
+    I don't know if you noticed, but we installed another library -{" "}
+    <B>reselect</B>, which increases the size of our application by another{" "}
+    <B>1.3kB</B>.
+  </M>
+</Section>
+
+<Section>
+  <XL>Memoization and selectors in Zustand</XL>
+  <M>
+    Just use the created <B>store</B> like this:{" "}
+  </M>
+  <Snippet>{`
+const useMemoizedUsers = 
+  useUsersStore((state) => state.users.filter(user => user.active));
+`}</Snippet>
+  <M>And in the component, we do this:</M>
+  <Snippet>{`
+import { useMemoizedUsers } from "usersStore";
+  
+const UserList = () => {
+  const memoizedUsers = useMemoizedUsers();
+};
+`}</Snippet>
+  <M>
+    In addition, we can further improve it by creating a mechanism for creating{" "}
+    <B>selectors</B> automatically. This is not the topic of this article, so I
+    only mention it. You can find more about this delicacy under{" "}
+    <A
+      href="https://codesandbox.io/s/zustand-auto-generate-selectors-forked-rl8v5e?file=/src/App.tsx:91-126"
+      outside
+    >
+      this codesandbox
+    </A>
+    . We can create a similar mechanism for <B>Redux</B>.
+  </M>
+  <Snippet>{`
+// This is how we call the automatically generated selectors
+// in components.
+const bears = useStore.use.bears();
+const increment = useStore.use.increment();
+ `}</Snippet>
+</Section>
+
+<Section>
+  <XL>Testing with the Redux toolkit</XL>
+  <M>First, we need to start with something that will allow us to mock the <B>store</B>. The <B>createStore</B> function below will allow us to create it and give us the ability to overwrite its value per test. On the other hand, the <B>renderWithStore</B> function will connect any component to <B>Redux</B> ecosystem.</M>
+<Snippet>{`import React, { PropsWithChildren } from "react";
+import type { PreloadedState } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
+import { render } from "@testing-library/react";
+import { Provider } from "react-redux";
+ 
+import type { AppState } from "store";
+import reducer from "store/reducers";
+ 
+export const createStore = (preloadedState: PreloadedState<AppState>) => {
+  return configureStore({
+    reducer,
+    preloadedState,
+  });
+};
+ 
+export const renderWithStore = (
+  component: React.ReactElement,
+  state: Partial<AppState>,
+  store = createTestStore(state)
+) => {
+  const Wrapper = ({ children }: PropsWithChildren<{}>) => {
+    return <Provider store={store}>{children}</Provider>;
+  };
+ 
+  return { store, ...render(component, { wrapper: Wrapper }) };
+};
+`}</Snippet>
+<M>Now let's assume that we want to test how our <B>PostsList</B> component works, which uses <B>useAppSelector</B> and <B>useAppDispatch</B> inside to display the list of posts and to add a post.</M>
+<Snippet>{`
+import { screen } from "@testing-library/react";
+ 
+import { renderWithStore } from "store/fixtures";
+import { PostsList } from "./PostsList";
+ 
+describe("Posts works when: ", () => {
+  it("renders posts and adds post", () => {
+    const { store } = renderWithStore(<PostsList />, {
+      posts: {
+        posts: [{ title: 'My post' }],
+        loading: false,
+        error: '',
+      },
+    });
+      
+    const dispatchSpy = jest.spyOn(store, "dispatch");
+ 
+    fireEvent.click(screen.getByText("Add post"));
+ 
+    expect(dispatchSpy).toHaveBeenCalledTimes(1);
+  });
+});
+ 
+`}</Snippet>
+<Hint hasBg> If you are interested in topics related to testing, I invite you to read the <A href="/courses/react-testing-spellbook/" outside>React testing spellbook</A> course.</Hint>
+
+</Section>
+
+<Section>
+  <XL>Testing in Zustand</XL>
+  <M>
+    After each test, we must have a mechanism to restore the initial state.
+    Otherwise, when it is not there, in the next tests we will have the
+    previously set state - which is dangerous for the stability of the tests.
+  </M>
+  <Snippet>{`import { renderHook, act } from '@testing-library/react';
+import type { StoreApi, UseBoundStore } from 'zustand';
+ 
+const storeFixture = <T>(
+  useStore: UseBoundStore<StoreApi<T>>,
+  defaultState?: T
+) => {
+  const initialState = useStore.getState();
+ 
+  if (defaultState) {
+    // We used "act" from "react-testing-library".
+    // The "create" function from "zustand" returns a hook, so
+    // any state change during testing
+    // we must do with "act" - otherwise there will be errors.
+    act(() => {
+      useStore.setState(defaultState);
+    });
+  }
+ 
+  const restore = (): void => {
+    act(() => {
+      useStore.setState(initialState);
+    });
+  };
+ 
+  const { result } = renderHook(() => useStore());
+ 
+  return {
+    restore,
+    result,
+  };
+};
+ 
+export { storeFixture };
+`}</Snippet>
+  <M>And now an example of use when testing a component: </M>
+  <Snippet>{`
+import { screen, render, fireEvent } from '@testing-library/react';
+import { PostsList } from './PostsList';
+import { storeFixture } from '@Fixtures';
+import { usePostsStore } from '@Store/usePostsStore';
+ 
+describe('Posts works when: ', () => {
+  it('renders posts and adds post', () => {
+    // This is how we set the initial value for "store".
+    // We can omit this, then it will take the value set
+    // in the implementation.
+    const { restore, result } = storeFixture(usePostsStore, {
+      posts: [{ title: 'My post' }],
+      loading: false,
+      error: '',
+    });
+ 
+    const spy = jest.spyOn(result, 'addPost');
+ 
+    render(<PostsList />);
+ 
+    fireEvent.click(screen.getByText('Add post'));
+ 
+    expect(spy).toHaveBeenCalledTimes(1);
+    // It is very important! We must remember to use
+    // "restore", which will reset the state to its initial state.
+    restore();
+  });
+});
+`}</Snippet>
+</Section>
+
+<Section>
+  <XL>State management in the Redux toolkit</XL>
+  <M>
+    {" "}
+    The <B>Redux toolkit</B> uses <B>Immer.js</B> so that we can change the state
+    in an easy and fun way.
+  </M>
+  <Snippet>{`
+// It was without "Redux toolkit" and "Immer.js".
+state = {
+  ...state.user,
+  ...payload
+};
+// It was with "Redux toolkit".
+state.user = payload;
+  `}</Snippet>
+  <M>
+    {" "}
+    However, sometimes we want to reset the state or partially replace it. Unfortunately,
+    the <B>Redux toolkit</B> does not allow this. <B>Immer.js</B> behaviour cannot
+    be disabled. If we want to achieve this effect, we need some additional mechanism
+    that we have to write ourselves.
+  </M>
+  <Snippet>{`
+const initialState = {
+  user: null,
+  loading: false,
+  error: ""
+};
+ 
+state.user = initialState.user;
+state.loading = initialState.loading;
+state.error = initialState.error;
+// etc...
+ 
+// You can also do that.
+Object.keys(state).forEach((key) => {
+  state[key] = initialState[key];
+});
+ 
+// Something like this also happens.
+// The entire state is hidden under the "value".
+// This allows us to replace the entire state later.
+state.value = {
+  user: null,
+  loading: false,
+  error: ""
+};
+// Later in some action.
+state.value = initialState;
+  `}</Snippet>
+</Section>
+
+<Section>
+  <XL>State management in Zustand</XL>
+  <M>
+    In <B>Zustand</B> we have a choice. We can replace the state completely or
+    merge the new state with the current one.
+  </M>
+  <Snippet>{`
+// This will merge the current state with the given object.
+set({ loading: true  });
+// This will replace the current state completely.
+set(initialState, true);
+  `}</Snippet>
+  <M>
+    {" "}
+    And how to add <B>Immer</B>? If needed, just use the following <B>
+      middleware
+    </B>.
+  </M>
+  <Snippet>{`
+  import { create } from 'zustand'
+import { immer } from 'zustand/middleware/immer'
+ 
+type State = {
+  count: number
+}
+ 
+type Actions = {
+  increment: (value: number) => void
+}
+ 
+const useCountStore = create(
+  immer<State & Actions>((set) => ({
+    count: 0,
+    increment: (value) =>
+      set((state) => {
+        state.count += value
+      })
+  }))
+)`}</Snippet>
+</Section>
+
+<Section>
+  <XL>Working with actions in the Redux toolkit</XL>
+  <M>
+    {" "}
+    Sometimes we want to trigger an action outside of the <B>React</B> ecosystem.
+    In the <B>Redux toolkit</B>, we need to import the entire <B>store</B> and action
+    and call <B>dispatch</B>.
+  </M>
+  <Snippet>
+    {`
+import { store } from '/path/to/createdStore';
+import { testAction } from '/path/to/action';
+ 
+store.dispatch(testAction('content'));`}
+  </Snippet>
+</Section>
+
+<Section>
+  <XL>Working with actions in Zustand</XL>
+  <M>
+    {" "}
+    Here, it is enough to declare an <B>action</B>, import it and <B>call</B> it.
+  </M>
+  <Snippet>{`
+const testAction = (): void => {
+  useSomeStore.setState({ someData: null });
+};
+ 
+import { testAction } from 'path/to/action';
+ 
+testAction();
+`}</Snippet>
+</Section>
+
+<Section>
+  <XL>State reading in Redux toolkit and Zustand</XL>
+  <M>
+    {" "}
+    To listen for state changes in both the <B>Redux toolkit</B> and <B>
+      Zustand
+    </B>, we can use the following API:
+  </M>
+  <Snippet>{`
+// For Redux.
+store.subscribe(() => {
+  // We can do something.
+});
+// For Zustand.
+useSomeStore.subscribe(() => {
+  // We can do something.
+});
+  `}</Snippet>
+  <M>Reading the current state looks similar:</M>
+  <Snippet>{`
+    // For Redux.
+store.getState();
+// For Zustand.
+useSomeStore.getState();`}</Snippet>
+  <M>
+    You can't see the difference in the API, but there is a dramatic difference
+    in the way it works. <B>Redux</B> will call a callback <B>subscribe</B> when
+    any state change is triggered, while <B>Zustand</B> will call only when this
+    one particular <B>store</B> changes.
+  </M>
+  <M>
+    Similarly for <B>getState</B>. <B>Redux</B> will return everything (all
+    application states), and <B>Zustand</B> will only return the <B>store</B> we
+    are referring to.
+  </M>
+</Section>
+
+<Section>
+  <XL>Code splitting and lazy loading in the Redux toolkit</XL>
+  <M>
+    <B>Code splitting</B> and <B>lazy loading</B> are two popular techniques to
+    reduce the time spent on the "first" loading of any application. What's the
+    point of loading code for admin functionality if the user is not an admin?
+  </M>
+  <M>
+    In the <B>Redux toolkit</B>, at the very beginning, we must have a mechanism
+    to replace the main <B>reducer</B> - we already have it in the library.
+  </M>
+  <Snippet>{`
+// New reducer.
+const newRootReducer = combineReducers({
+  existingSlice: existingSliceReducer,
+  newSlice: newSliceReducer,
+});
+// We replace it with the current one.
+store.replaceReducer(newRootReducer);
+`}</Snippet>
+  <M>
+    Now we need to be able to add a new <B>slice</B>.
+  </M>
+  <Snippet>{`
+import { createStore } from 'redux';
+ 
+// These are the reducers that must be 
+// at the application initial load.
+// They are required for it to work.
+const staticReducers = {
+  users: usersReducer,
+  posts: postsReducer,
+};
+ 
+export default function configureStore(initialState) {
+  const store = createStore(createReducer(), initialState);
+ 
+  // Dictionary to hold dynamically added reducers.
+  store.asyncReducers = {};
+ 
+  // We add a new reducer and merge it with the existing ones.
+  store.injectReducer = (key, asyncReducer) => {
+    store.asyncReducers[key] = asyncReducer;
+    store.replaceReducer(createReducer(store.asyncReducers));
+  };
+ 
+  return store;
+}
+ 
+function createReducer(asyncReducers) {
+  return combineReducers({
+    ...staticReducers,
+    ...asyncReducers,
+  });
+}
+`}</Snippet>
+  <M>Now we can call it anywhere:</M>
+  <Snippet>{`
+import { store } from 'store';
+import { createSlice } from 'redux-toolkit';
+ 
+store.injectReducer('reducerek', createSlice(
+  // Slice config.
+).reducer);
+`}</Snippet>
+  <Hint hasBg>
+    You can find more about this in the{" "}
+    <A href="https://redux.js.org/usage/code-splitting" outside>
+      documentation
+    </A>
+    .
+  </Hint>
+</Section>
+
+<Section>
+  <XL>Code splitting and lazy loading in Zustand</XL>
+  <M>
+    {" "}
+    Due to the modular nature, <B>code splitting</B> and <B>lazy loading</B>, we
+    have practically <B>out of the box</B>. Thanks to this,
+    both the <B>React</B> and <B>Zustand</B> code will be in one file, and we can
+    completely separate it from the main <B>index.js</B> file, necessary for the
+    application to work, which will be loaded at the beginning. Additionally, it
+    is predictable in behaviour.
+  </M>
+  <Snippet>
+    {`// A file RegisterForm.tsx
+ 
+import { useRegisterStore } from '@store/register';
+ 
+const RegisterForm = () => {
+  const { key, form, setField, submit, error } = useRegisterStore();
+ 
+  // Huge amount of code here - let's say 300 lines
+};
+ 
+export default RegisterForm;
+ 
+// A file RegisterView.tsx
+ 
+import dynamic from 'next/dynamic';
+ 
+// This code will load lazily and have a separate file!
+const RegisterForm = dynamic(() => import('./RegisterForm'));
+ 
+const RegisterView = () => <RegisterForm />;
+`}
+  </Snippet>
+</Section>
+
+<Section>
+  <XL>Analyze runtime performance</XL>
+  <M>
+    {" "}
+    In the <B>Redux toolkit</B>, we use the <B>ACTION_TYPE: FUNCTION</B> object, which
+    looks elegant, but we still call each <B>reducer</B> on each action.
+  </M>
+  <Snippet>{`
+const firstSlice = createSlice({
+  name: "firstSlice",
+  {},
+  reducers: {
+    log1: () => {
+      console.log('firstSliceLog')
+    }
+  },
+});
+ 
+const secondSlice = createSlice({
+  name: "secondSlice",
+  {},
+  reducers: {
+    log1: () => {
+      console.log('secondSliceLog')
+    }
+  },
+});
+ 
+store.dispatch(firstSlice.actions.log());
+// The number of comparisons is 2 = because we have 2x slice.reducer.
+store.dispatch(secondSlice.actions.log());
+// The number of comparisons is currently 4.
+// Previously 2, now 2 more.
+  `}</Snippet>
+  <M>
+    In <B>Zustand</B>, each <B>store</B> is independent of each other. So there
+    will be no additional comparisons.
+  </M>
+  <Snippet>{`
+  const useFirstStore = create();
+ 
+const firstStoreLog1 = () => {
+  console.log('firstStoreLog');
+};
+ 
+const useSecondStore = create();
+ 
+const secondStoreLog2 = () => {
+  console.log('secondStoreLog');
+};
+ 
+firstStoreLog1();
+secondStoreLog2();
+// No extra comparisons here.
+  `}</Snippet>
+  <M>
+    Now, when we have 30 reducers for the application, with <B>Redux</B> we will
+    call 29 additional checks for each <B>reducer</B> when <B>any action</B> is <B>dispatched</B>. Is this a problem?
+    Honestly, it's not... I'm just mentioning it. The operation of finding <B>action</B>{" "}
+    itself is very fast, so there is nothing to worry about...
+  </M>
+</Section>
+
+<Summary label="What's better? Redux or Zustand?">
+  <M>
+    Every day I realize that simpler is better. I say this because people at
+    different levels work on projects. <B>Redux</B> can be complicated and it's
+    very easy to just <B>break</B> on it. The concept itself is great, but in my
+    opinion, <B>Zustand</B> implements it through a simpler API and introduces
+    new possibilities - more than one <B>store</B>.
+  </M>
+  <M>
+    {" "}
+    <B>Zustand</B> also abandons the concept of <B>CQRS</B> (command query responsibility
+    segregation), in which data reading is separated from the way of invoking changes
+    on them - which significantly reduces <B>coupling</B> and potential refactors
+    will be simpler, as well as code maintenance - at least in theory.
+  </M>
+  <M>
+    In practice though, the complexity of <B>Redux</B> results in total noodles,
+    and I've seen this happen in many projects. As a result, the advantages and
+    concepts it introduces cease to be a "game changer", and are just a problem
+    - because they are hard to understand.
+  </M>
+  <M>
+    I'm not discouraging you from <B>Redux</B>, but I do want to emphasize the
+    question. Do you really need <B>CQRS</B> on the <B>frontend</B>, and does
+    the extra complexity that <B>Redux</B> introduces give you anything?
+  </M>
+  <M>
+    As you have probably seen, there are many differences between the discussed
+    technologies. I leave the decision to You, Dear Readers. Here are some
+    reasons why I use <B>Zustand</B> instead of <B>Redux</B>:
+  </M>
+  <List items="Smaller package size and smaller code base, Modularity, Same capabilities as Redux (without CQRS and with multiple stores), Less code needed to write, Code is more readable and easier to understand for beginners, Code splitting is really easy, Devtools like in Redux, No wrapper (StoreProvider)" />
+</Summary>

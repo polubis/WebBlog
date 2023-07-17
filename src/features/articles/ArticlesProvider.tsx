@@ -21,10 +21,10 @@ const ArticlesProvider = ({
   return <Context.Provider value={articlesFilters}>{children}</Context.Provider>
 }
 
-const useArticleProvider = (): ArticlesCtx => {
+const useArticlesProvider = (): ArticlesCtx => {
   const ctx = useContext(Context)
 
   return ctx!
 }
 
-export { ArticlesProvider, useArticleProvider }
+export { ArticlesProvider, useArticlesProvider }

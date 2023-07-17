@@ -45,3 +45,34 @@ html {
   display: flex;
   flex-flow: wrap;
 }
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.l2 {
+  color: #000;
+  font-size: 15px;
+  text-underline-offset: 4px;
+  line-height: 22px;
+  cursor: pointer;
+}
+
+.l2:hover {
+  opacity: 0.8;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+}
+
+.footer > * {
+  width: 100%;
+}
+
+.footer > *:not(:last-child) {
+  margin-right: 12px;
+}

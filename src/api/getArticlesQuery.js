@@ -105,7 +105,6 @@ exports.getArticlesQuery = data => {
         path: `/${lang}${path}`,
       })),
       gaPage: removeEdgeSlashes(path),
-      graphicAuthorLink: article.frontmatter.graphicauthor,
       path,
       thumbnail: thumbnailsMap[article.slug],
       stack: article.frontmatter.stack.split(",").map(id => ({
@@ -114,7 +113,6 @@ exports.getArticlesQuery = data => {
       })),
       createdAt: article.frontmatter.cdate,
       modifiedAt: article.frontmatter.mdate,
-      toBeContinuedDate: article.frontmatter.tbcdate,
       lang,
       seniorityLevel: article.frontmatter.seniorityLevel
     }

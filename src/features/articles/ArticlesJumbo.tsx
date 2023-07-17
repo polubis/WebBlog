@@ -8,7 +8,7 @@ import Img from "gatsby-image"
 import { Author, Image } from "../../models"
 import { Link } from "gatsby"
 import Badge from "../../components/article/Badge"
-import { useArticleProvider } from "./ArticlesProvider"
+import { useArticlesProvider } from "./ArticlesProvider"
 import { FiltersForm } from "./FiltersForm"
 
 const Container = styled.figure`
@@ -94,7 +94,7 @@ const ArticlesJumbo = ({ bubblesImg, authors }: ArticlesJumboProps) => {
     reset,
     filteredArticles,
     changeQuery,
-  } = useArticleProvider()
+  } = useArticlesProvider()
 
   return (
     <Container>

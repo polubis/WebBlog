@@ -5,10 +5,9 @@ import { Field, Input, Textarea, XL, M, A, B } from "../../ui"
 import { Alert } from "../../ui/alert"
 import theme from "../../utils/theme"
 import { useCustomGAEvent } from "../../utils/useCustomGAEvent"
-import Button, { SecondaryTextButton } from "../../components/button/Button"
+import Button from "../../components/button/Button"
 import Divider from "../../components/divider/Divider"
 import { Validator, useForm } from "../../utils/useForm"
-// import { Checkbox } from "../../components/checkbox"
 import { Signal, useFetch } from "../../utils/useFetch"
 import Section from "../../components/article/Section"
 import { SnippetFrame } from "../../models"
@@ -23,15 +22,6 @@ import {
 import { InteractiveButton } from "../../ui/snippet/InteractiveButton"
 import { useClipboard } from "../../utils/useClipboard"
 
-const Footer = styled.div`
-  display: flex;
-  align-items: center;
-
-  & > *:not(:last-child) {
-    margin-right: 12px;
-  }
-`
-
 const FinalScreen = styled.div`
   display: flex;
   flex-flow: column;
@@ -43,7 +33,7 @@ const FinalScreen = styled.div`
     margin: 16px 0;
   }
 
-  ${Footer} {
+  .footer {
     margin-top: 28px;
   }
 `
@@ -92,15 +82,6 @@ const FieldContainer = styled.div`
     width: 47%;
   }
 `
-
-// const GifQuestion = styled.div`
-//   display: flex;
-//   flex-flow: column;
-
-//   ${M} {
-//     margin: 24px 0 12px 0;
-//   }
-// `
 
 export interface CreateSnippetFormProps {
   frames: SnippetFrame[]
@@ -256,14 +237,14 @@ export const CreateSnippetForm = ({
               </A>{" "}
               on <B>Linkedin</B>.
             </M>
-            <Footer>
+            <footer className="footer">
               <A href={link} outside>
                 <Button>GO TO SNIPPET</Button>
               </A>
               <A href="/snippet-creator/">
                 <Button>I WANT NEW SNIPPET</Button>
               </A>
-            </Footer>
+            </footer>
           </Section>
         </FinalScreen>
       </Center>
@@ -277,9 +258,8 @@ export const CreateSnippetForm = ({
         <Container className="create-snippet-form" onSubmit={handleSubmit}>
           <XL>Describe your snippet and save it</XL>
           <Field
-            description={`Name your snippet (${
-              SNIPPET_NAME_MIN_LENGTH + "-" + SNIPPET_NAME_MAX_LENGTH
-            }) characters`}
+            description={`Name your snippet (${SNIPPET_NAME_MIN_LENGTH + "-" + SNIPPET_NAME_MAX_LENGTH
+              }) characters`}
           >
             <Input
               autoFocus
@@ -290,11 +270,10 @@ export const CreateSnippetForm = ({
             />
           </Field>
           <Field
-            description={`What's going on (${
-              SNIPPET_DESCRIPTION_MIN_LENGTH +
+            description={`What's going on (${SNIPPET_DESCRIPTION_MIN_LENGTH +
               "-" +
               SNIPPET_DESCRIPTION_MAX_LENGTH
-            } characters)`}
+              } characters)`}
           >
             <Textarea
               required
@@ -304,34 +283,16 @@ export const CreateSnippetForm = ({
             />
           </Field>
 
-          {/* <GifQuestion>
-          <M>Do you want to have a gif?</M>
-          <FieldContainer>
-            <Checkbox
-              active={!!values.generateGif}
-              onClick={() => set({ key: "generateGif", value: true })}
-            >
-              Yes
-            </Checkbox>
-            <Checkbox
-              active={!values.generateGif}
-              onClick={() => set({ key: "generateGif", value: false })}
-            >
-              No thanks
-            </Checkbox>
-          </FieldContainer>
-        </GifQuestion> */}
-
           <Divider className="submit-divider" horizontal />
 
           <FieldContainer className="submit-field">
-            <SecondaryTextButton
+            <Button
               type="button"
               disabled={pending}
               onClick={handleBack}
             >
               BACK
-            </SecondaryTextButton>
+            </Button>
             <Button
               className="submit-form-btn"
               type="submit"
