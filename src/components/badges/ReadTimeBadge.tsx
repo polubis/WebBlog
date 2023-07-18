@@ -4,9 +4,6 @@ import styled from "styled-components"
 import { S, ReadTimeIcon } from "../../ui"
 
 const Badge = styled.div`
-  display: flex;
-  align-items: center;
-
   ${S} {
     margin-left: 7px;
     flex-shrink: 0;
@@ -31,7 +28,7 @@ export const ReadTimeBadge = ({ minutes }: Props) => {
   const time = getTime(minutes)
 
   return (
-    <Badge>
+    <Badge className="row">
       <ReadTimeIcon />
       <S bold>{time}</S>
     </Badge>

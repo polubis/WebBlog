@@ -2,30 +2,36 @@ import React from "react"
 import styled from "styled-components"
 import Img from "gatsby-image"
 
-import { A, ReadTimeIcon, XXL } from "../../ui"
+import { ReadTimeIcon, XXL } from "../../ui"
 import { Image, SeniorityLevel } from "../../models"
 import Badge from "./Badge"
 import theme from "../../utils/theme"
-import { SeniorityBadge } from "../badges"
+import { SeniorityBadge } from "../badges/SeniorityBadge"
 
-const GraphicAuthor = styled.div`
-  display: flex;
-`
-
-const Figure = styled.figure`
+const Container = styled.figure`
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 100%;
   min-height: 320px;
   margin: 0;
 
-  ${GraphicAuthor} {
+  .thumbnail-badge {
+    align-items: center;
     position: absolute;
-    bottom: 12px;
+    top: 12px;
     right: 12px;
-    z-index: 1;
+    z-index: 10;
+
+    ${Badge} {
+      margin: 0 0 10px 10px;
+    }
+
+    .read-time-badge {
+      & > *:first-child {
+        margin-right: 2px;
+        width: 14px;
+        height: 14px;
+      }
+    }
   }
 
   ${XXL} {
@@ -47,40 +53,13 @@ const Figure = styled.figure`
   }
 `
 
-const Badges = styled.div`
-  display: flex;
-  flex-flow: wrap;
-  align-items: center;
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  z-index: 10;
-
-  ${Badge} {
-    margin: 0 0 10px 10px;
-  }
-
-  .read-time-badge {
-    display: flex;
-    align-items: center;
-
-    & > *:first-child {
-      margin-right: 2px;
-      width: 14px;
-      height: 14px;
-    }
-  }
-`
-
 interface Props {
   title: string
   thumbnail: Image
-  graphicAuthorLink?: string
   readTime: number
   isNew: boolean
-  newLabel?: string
-  graphicAuthorLabel?: string
-  thumbnailAlt?: string
+  newLabel: string
+  thumbnailAlt: string
   seniorityLevel: SeniorityLevel
 }
 
@@ -88,15 +67,13 @@ export default function ({
   title,
   thumbnail,
   readTime,
-  graphicAuthorLink,
   isNew,
-  newLabel = "new",
-  graphicAuthorLabel = "Graphic author",
-  thumbnailAlt = "Article thumbnail",
-  seniorityLevel
+  newLabel,
+  thumbnailAlt,
+  seniorityLevel,
 }: Props) {
   return (
-    <Figure>
+    <Container className="center">
       <Img
         fluid={thumbnail}
         alt={thumbnailAlt}
@@ -108,21 +85,16 @@ export default function ({
           height: "100%",
         }}
       />
-      <XXL><SeniorityBadge level={seniorityLevel} /> {title}</XXL>
-      <Badges>
-        <Badge className="read-time-badge" color={theme.secondary}>
+      <XXL>
+        <SeniorityBadge level={seniorityLevel} /> {title}
+      </XXL>
+      <div className="thumbnail-badge wrap">
+        <Badge className="read-time-badge row" color={theme.secondary}>
           <ReadTimeIcon />
           {readTime}m
         </Badge>
         {isNew && <Badge color={theme.green}>{newLabel}</Badge>}
-      </Badges>
-      {graphicAuthorLink && (
-        <GraphicAuthor>
-          <A href={graphicAuthorLink} outside>
-            {graphicAuthorLabel}
-          </A>
-        </GraphicAuthor>
-      )}
-    </Figure>
+      </div>
+    </Container>
   )
 }

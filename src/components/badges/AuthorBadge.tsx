@@ -12,8 +12,6 @@ interface Props {
 }
 
 const Badge = styled.div`
-  display: flex;
-  align-items: center;
   cursor: pointer;
 
   ${M} {
@@ -22,8 +20,6 @@ const Badge = styled.div`
 `
 
 const Personality = styled.div`
-  display: flex;
-  flex-flow: column;
   margin-left: 14px;
 `
 
@@ -33,10 +29,10 @@ export const AuthorBadge = ({
 }: Props) => {
   return (
     <GatsbyLink to="/authors/">
-      <Badge>
+      <Badge className="row">
         <AuthorAvatar avatar={avatar} />
         {mini || (
-          <Personality>
+          <Personality className="col">
             <M bold>
               {firstName} {lastName}
             </M>

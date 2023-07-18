@@ -14,7 +14,6 @@ export enum SeniorityLevel {
 export interface ArticleFrontmatter {
   cdate: string
   mdate: string
-  tbcdate?: string
   authorId: string
   treviewerId: string
   lreviewerId: string
@@ -24,7 +23,6 @@ export interface ArticleFrontmatter {
   stack: string
   title: string
   langs: string[] | null
-  graphicauthor?: string
   seniorityLevel: SeniorityLevel
 }
 
@@ -50,8 +48,6 @@ export interface Article {
   t: Translated
   modifiedAt: string
   gaPage: string
-  toBeContinuedDate?: string
-  graphicAuthorLink?: string
   next?: Article
   previous?: Article
 }

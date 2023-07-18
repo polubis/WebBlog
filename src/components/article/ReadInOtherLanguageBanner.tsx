@@ -1,9 +1,7 @@
 import React from "react"
 import { Banner } from "../../ui"
-import { LinkButton } from "../button/Button"
 import styled from "styled-components"
-import { Link as GatsbyLink } from "gatsby"
-import theme from "../../utils/theme"
+import { Link } from "gatsby"
 
 interface ReadInOtherLanguageBannerProps {
   text: string
@@ -20,16 +18,9 @@ const Wrapper = styled.div`
     }
   }
 
-  .read-link {
+  a {
     margin-left: 8px;
-
-    &:hover {
-      opacity: 0.7;
-    }
-
-    button {
-      color: ${theme.black};
-    }
+    text-align: right;
   }
 `
 
@@ -42,9 +33,9 @@ const ReadInOtherLanguageBanner = ({
     <Wrapper>
       <Banner>
         {text}
-        <GatsbyLink className="read-link" to={url}>
-          <LinkButton>{linkLabel}</LinkButton>
-        </GatsbyLink>
+        <Link className="l2" to={url}>
+          {linkLabel}
+        </Link>
       </Banner>
     </Wrapper>
   )

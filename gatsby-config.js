@@ -200,7 +200,9 @@ module.exports = {
                 path
                 context {
                   article {
-                    modifiedAt
+                    article {
+                      modifiedAt
+                    }
                   }
                   lesson {
                     path

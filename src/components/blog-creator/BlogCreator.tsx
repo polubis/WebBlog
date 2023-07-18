@@ -4,13 +4,19 @@ import styled from "styled-components"
 import BlogCreatorLayout from "./BlogCreatorLayout"
 import { BlogPreview } from "./BlogPreview"
 import { T_DOWN } from "../../utils/viewport"
-import { EditableSnippet, useModal } from "../../ui"
+import { useModal } from "../../ui"
 import Loadable from "react-loadable"
 import { BlogCreatorHeading } from "./BlogCreatorHeading"
 import Button from "../button/Button"
 import { useCustomGAEvent } from "../../utils/useCustomGAEvent"
 import { useEditor } from "./useEditor"
 import { useLeavePageAlert } from "../../utils/useLeavePageAlert"
+
+const EditableSnippet = Loadable({
+  loader: () =>
+    import("../../ui/snippet/EditableSnippet").then(m => m.EditableSnippet),
+  loading: () => null,
+})
 
 const TemplateSelector = Loadable({
   loader: () => import("./TemplateSelector").then(m => m.TemplateSelector),

@@ -216,7 +216,9 @@ export const CourseContent = ({
             />
             <Section>
               <Label className="label">Technologies</Label>
-              <Stack items={course.stack} />
+              <div className="components-stack">
+                <Stack items={course.stack} />
+              </div>
             </Section>
             <ChaptersSection>
               <Label className="label">Chapters & lessons</Label>

@@ -3,6 +3,12 @@ const { getAllDataQuery } = require("./src/api/getAllDataQuery")
 const authors = require("./src/authors/authors.json")
 const translationObject = require("./translations.json")
 const fetch = require("node-fetch")
+const { formatDistanceStrict } = require("date-fns")
+const article_en = require("./src/v2/translation/article/en.json")
+const layout_en = require("./src/v2/translation/layout/en.json")
+const article_pl = require("./src/v2/translation/article/pl.json")
+const layout_pl = require("./src/v2/translation/layout/pl.json")
+const meta = require("./src/v2/core/meta.json")
 
 exports.onCreateWebpackConfig = ({ actions }) => {
   actions.setWebpackConfig({
@@ -73,16 +79,15 @@ exports.createPages = async ({ actions, graphql }) => {
           frontmatter {
             cdate
             mdate
-            tbcdate
             authorId
             treviewerId
             lreviewerId
             tags
             description
             readTime
-            graphicauthor
             stack
             seniorityLevel
+            langs
             title
           }
           rawBody
@@ -95,7 +100,6 @@ exports.createPages = async ({ actions, graphql }) => {
           frontmatter {
             cdate
             mdate
-            tbcdate
             authorId
             treviewerId
             lreviewerId
@@ -103,7 +107,6 @@ exports.createPages = async ({ actions, graphql }) => {
             langs
             description
             readTime
-            graphicauthor
             stack
             title
             seniorityLevel
@@ -347,13 +350,32 @@ exports.createPages = async ({ actions, graphql }) => {
     context: data,
   })
 
-  translatedArticles.forEach(translatedArticle => {
+  translatedArticles.forEach(article => {
     createPage({
-      path: translatedArticle.path,
-      component: resolve(`src/components/article/TranslatedArticlePage.tsx`),
+      path: article.path,
+      component: resolve(`src/v2/features/article/ArticlePage.tsx`),
       context: {
-        ...data,
-        translatedArticle,
+        layout: {
+          articles: data.articles,
+          meta,
+          t: layout_pl,
+          lang: meta.langs.pl,
+        },
+        article: {
+          article,
+          author: article.author.firstName + " " + article.author.lastName,
+          dates: {
+            updated: `updated: ${formatDistanceStrict(
+              new Date(article.modifiedAt),
+              new Date()
+            )} ago`,
+            created: `created: ${formatDistanceStrict(
+              new Date(article.createdAt),
+              new Date()
+            )} ago`,
+          },
+          t: article_pl,
+        },
       },
     })
   })
@@ -372,10 +394,29 @@ exports.createPages = async ({ actions, graphql }) => {
   articles.forEach(article => {
     createPage({
       path: article.path,
-      component: resolve(`src/components/article/Article.tsx`),
+      component: resolve(`src/v2/features/article/ArticlePage.tsx`),
       context: {
-        ...data,
-        article,
+        layout: {
+          articles: data.articles,
+          meta,
+          t: layout_en,
+          lang: meta.langs.en,
+        },
+        article: {
+          article,
+          author: article.author.firstName + " " + article.author.lastName,
+          dates: {
+            updated: `updated: ${formatDistanceStrict(
+              new Date(article.modifiedAt),
+              new Date()
+            )} ago`,
+            created: `created: ${formatDistanceStrict(
+              new Date(article.createdAt),
+              new Date()
+            )} ago`,
+          },
+          t: article_en,
+        },
       },
     })
   })

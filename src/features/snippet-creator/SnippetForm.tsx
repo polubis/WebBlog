@@ -1,6 +1,6 @@
 import React, { ReactNode, useMemo } from "react"
 import styled from "styled-components"
-import { Banner, EditableSnippet, XL } from "../../ui"
+import { Banner, XL } from "../../ui"
 import Button from "../../components/button/Button"
 import { useEditor } from "../../components/blog-creator/useEditor"
 import { SM_DOWN } from "../../utils/viewport"
@@ -11,6 +11,13 @@ import {
   MAX_FRAME_LINES,
   MIN_FRAME_CODE_CHARACTERS,
 } from "./consts"
+import Loadable from "react-loadable"
+
+const EditableSnippet = Loadable({
+  loader: () =>
+    import("../../ui/snippet/EditableSnippet").then(m => m.EditableSnippet),
+  loading: () => null,
+})
 
 const Container = styled.div`
   @media ${SM_DOWN} {
@@ -24,16 +31,11 @@ const Container = styled.div`
   pre {
     margin-bottom: 40px !important;
     min-width: 280px;
-    max-width: 500px;
+    max-width: 420px;
   }
 
   button {
     margin-top: auto;
-  }
-
-  footer {
-    display: flex;
-    justify-content: space-between;
   }
 
   .snippet-form-banner {
@@ -119,7 +121,7 @@ const SnippetForm = ({
           </Banner>
         )}
 
-        <footer>
+        <footer className="footer">
           <Button onClick={onClose}>Back</Button>
           <Button disabled={disabled} onClick={handleSubmit}>
             Confirm

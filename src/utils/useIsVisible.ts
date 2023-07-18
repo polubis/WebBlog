@@ -2,16 +2,23 @@ import { useEffect, useRef, useState } from "react"
 
 interface Config {
   threshold?: number
+  useOnce?: boolean
 }
 
-export const useIsVisible = ({ threshold }: Config = { threshold: 1 }) => {
+export const useIsVisible = (
+  { threshold, useOnce }: Config = { threshold: 1 }
+) => {
   const ref = useRef<HTMLElement | null>(null)
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsVisible(entry.isIntersecting)
+      ([{ isIntersecting }]) => {
+        if (useOnce && isIntersecting && ref.current) {
+          observer.unobserve(ref.current)
+        }
+
+        setIsVisible(isIntersecting)
       },
       { threshold }
     )
@@ -25,7 +32,7 @@ export const useIsVisible = ({ threshold }: Config = { threshold: 1 }) => {
         observer.unobserve(ref.current)
       }
     }
-  }, [threshold])
+  }, [])
 
   return { ref, isVisible }
 }
