@@ -1,18 +1,6 @@
+const { findAvatar } = require("./findAvatar")
 const { removeEdgeSlashes } = require("./removeEdgeSlashes")
-
-const sort = materials => {
-  return materials.sort((a, b) => {
-    if (a.frontmatter.cdate > b.frontmatter.cdate) {
-      return -1
-    }
-
-    if (a.frontmatter.cdate === b.frontmatter.cdate) {
-      return 0
-    }
-
-    return 1
-  })
-}
+const { sortByDates } = require("./sortByDates")
 
 exports.getMaterialsQuery = data => {
   const { materials, authors, authorsAvatars, technologiesAvatars } = data
@@ -20,7 +8,7 @@ exports.getMaterialsQuery = data => {
   const techAvatarsMap = technologiesAvatars.nodes.reduce((acc, avatar) => {
     return {
       ...acc,
-      [avatar.name]: avatar.childImageSharp.fluid,
+      [avatar.name]: avatar.childImageSharp.fixed,
     }
   }, {})
 
@@ -32,15 +20,11 @@ exports.getMaterialsQuery = data => {
     {}
   )
 
-  const sortedMaterials = sort(materials.nodes).map(material => {
-    const materialAuthor = authorsAvatars.nodes.find(
-      thumbnail => thumbnail.name === material.frontmatter.authorId
-    )
-
+  const sortedMaterials = sortByDates(materials.nodes).map(material => {
     const author = {
       ...authorsMap[material.frontmatter.authorId],
       id: material.frontmatter.authorId,
-      avatar: materialAuthor.childImageSharp.fluid,
+      avatar: findAvatar(authorsAvatars, material.frontmatter.authorId),
     }
 
     const path = `/materials/${material.slug.split("/").reverse().pop()}/`

@@ -90,7 +90,7 @@ const AuthorsPage = ({
             <EmptyAuthorTile />
             {authors.map(author => (
               <Tile key={author.id}>
-                <AuthorAvatar size="medium" avatar={author.avatar} />
+                <AuthorAvatar avatar={author.avatar.medium.fixed} />
                 <XL>
                   {author.firstName} {author.lastName}
                 </XL>

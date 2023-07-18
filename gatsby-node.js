@@ -30,12 +30,15 @@ exports.createPages = async ({ actions, graphql }) => {
           name
           relativePath
           childImageSharp {
-            fluid {
+            fixed(width: 40, height: 40, quality: 1) {
               base64
+              tracedSVG
               aspectRatio
-              src
-              srcSet
-              sizes
+              srcWebp
+              srcSetWebp
+              originalName
+              height
+              width
             }
           }
         }
@@ -61,13 +64,52 @@ exports.createPages = async ({ actions, graphql }) => {
         nodes {
           name
           relativePath
-          childImageSharp {
-            fluid {
+          tiny: childImageSharp {
+            fixed(width: 24, height: 24, quality: 1) {
               base64
+              tracedSVG
               aspectRatio
-              src
-              srcSet
-              sizes
+              srcWebp
+              srcSetWebp
+              originalName
+              height
+              width
+            }
+          }
+          small: childImageSharp {
+            fixed(width: 50, height: 50, quality: 1) {
+              base64
+              tracedSVG
+              aspectRatio
+              srcWebp
+              srcSetWebp
+              originalName
+              height
+              width
+            }
+          }
+          medium: childImageSharp {
+            fixed(width: 92, height: 92, quality: 1) {
+              base64
+              tracedSVG
+              aspectRatio
+              srcWebp
+              srcSetWebp
+              originalName
+              height
+              width
+            }
+          }
+          big: childImageSharp {
+            fixed(width: 200, height: 200, quality: 1) {
+              base64
+              tracedSVG
+              aspectRatio
+              srcWebp
+              srcSetWebp
+              originalName
+              height
+              width
             }
           }
         }
@@ -203,22 +245,6 @@ exports.createPages = async ({ actions, graphql }) => {
       }
       bubblesImg: allFile(
         filter: { relativePath: { regex: "/bubbles.png/" } }
-      ) {
-        nodes {
-          relativePath
-          childImageSharp {
-            fluid {
-              base64
-              aspectRatio
-              src
-              srcSet
-              sizes
-            }
-          }
-        }
-      }
-      animalsAvatars: allFile(
-        filter: { relativePath: { regex: "/animals/" } }
       ) {
         nodes {
           relativePath

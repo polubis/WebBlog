@@ -136,10 +136,6 @@ exports.getAllDataQuery = data => {
     0
   )
   const timeline = getTimeline({ articles, courses })
-  const animalsAvatars = data.animalsAvatars.nodes.map(node => ({
-    name: node.relativePath.split("/").pop().split(".")[0],
-    fluid: node.childImageSharp.fluid,
-  }))
   const totalStack = articles.reduce((acc, article) => {
     article.stack
       .map(({ id }) => id)
@@ -164,7 +160,6 @@ exports.getAllDataQuery = data => {
     totalLessons,
     totalChapters,
     totalStack,
-    animalsAvatars,
     timeline,
     site,
     translationObject,

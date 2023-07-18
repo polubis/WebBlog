@@ -11,8 +11,6 @@ interface TemplateSelectorProps {
 }
 
 const Column = styled.div`
-  display: flex;
-  flex-flow: column;
   padding: 0 0 16px 0;
 
   ${XL} {
@@ -22,7 +20,6 @@ const Column = styled.div`
 `
 
 const Templates = styled.div`
-  width: 420px;
   display: grid;
   justify-content: center;
   grid-template-rows: auto auto;
@@ -89,8 +86,8 @@ export const TemplateSelector = ({ onChange }: TemplateSelectorProps) => {
       </Toolbox>
 
       {isOpen && (
-        <Modal onClose={toggle}>
-          <Column>
+        <Modal maxWidth="400px" onClose={toggle}>
+          <Column className="col">
             <XL>Choose template</XL>
             <Templates>
               {MARKDOWNS.map((mdx, idx) => (

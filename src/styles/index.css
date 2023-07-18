@@ -76,3 +76,11 @@ html {
 .footer > *:not(:last-child) {
   margin-right: 12px;
 }
+
+.shadow1 {
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.14);
+}
+
+.circle {
+  border-radius: 50%;
+}

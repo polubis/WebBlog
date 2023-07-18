@@ -10,10 +10,6 @@ import theme from "../../utils/theme"
 import { Author, SeniorityLevel } from "../../models"
 
 const FiltersModal = styled.div`
-  display: flex;
-  flex-flow: column;
-  max-width: 400px;
-
   .diff-level-heading {
     margin: 20px 0 12px 0;
   }
@@ -32,9 +28,6 @@ const FiltersModal = styled.div`
   }
 
   .filters-form-authors-section {
-    display: flex;
-    flex-flow: wrap;
-
     & > * {
       margin: 0 8px 8px 0;
       cursor: pointer;
@@ -54,9 +47,6 @@ const FiltersModal = styled.div`
   }
 
   .authors-badge {
-    display: flex;
-    align-items: center;
-
     span {
       display: block;
       margin-right: 4px;
@@ -73,8 +63,6 @@ const FiltersModal = styled.div`
 
   .filters-form-footer {
     margin-top: 32px;
-    display: flex;
-    align-items: center;
     justify-content: flex-end;
 
     & > *:not(:last-child) {
@@ -90,9 +78,6 @@ const FiltersModal = styled.div`
 `
 
 const BadgesSection = styled.div`
-  display: flex;
-  flex-flow: wrap;
-
   & > * {
     margin: 0 8px 8px 0;
   }
@@ -126,13 +111,13 @@ const FiltersForm = ({ authors, trigger }: FiltersFormProps) => {
       {trigger(modal)}
 
       {modal.isOpen && (
-        <Modal onClose={modal.close}>
-          <FiltersModal>
+        <Modal maxWidth="500px" onClose={modal.close}>
+          <FiltersModal className="col">
             <XL>Filters</XL>
 
             <M className="diff-level-heading">Difficulty levels</M>
 
-            <BadgesSection>
+            <BadgesSection className="wrap">
               <Badge
                 className="clickable"
                 key="all"
@@ -162,7 +147,7 @@ const FiltersForm = ({ authors, trigger }: FiltersFormProps) => {
             <M className="authors-heading">Authors</M>
 
             <Badge
-              className="authors-badge clickable"
+              className="authors-badge row clickable"
               key="all"
               color={allAuthorsSelected ? theme.primary : theme.secondary}
               onClick={() => setAllAuthors()}
@@ -171,10 +156,7 @@ const FiltersForm = ({ authors, trigger }: FiltersFormProps) => {
               {authors.slice(0, AUTHORS_DISPLAY_LIMIT).map(author => (
                 <AuthorAvatar
                   key={author.id}
-                  alt={author.firstName + "" + author.lastName}
-                  title={author.firstName + "" + author.lastName}
-                  size="tiny"
-                  avatar={author.avatar}
+                  avatar={author.avatar.tiny.fixed}
                 />
               ))}
               <span>... +{authors.length - AUTHORS_DISPLAY_LIMIT}</span>
@@ -182,23 +164,23 @@ const FiltersForm = ({ authors, trigger }: FiltersFormProps) => {
 
             <Divider className="divider" horizontal />
 
-            <section className="filters-form-authors-section">
+            <section className="filters-form-authors-section wrap">
               {authors.map(author => (
-                <AuthorAvatar
-                  className={`authors-section-avatar${
-                    filters.authors[author.id] ? " active" : ""
-                  }`}
+                <div
                   key={author.id}
-                  alt={author.firstName + "" + author.lastName}
-                  title={author.firstName + "" + author.lastName}
-                  size="small"
-                  avatar={author.avatar}
                   onClick={() => changeAuthor(author.id)}
-                />
+                >
+                  <AuthorAvatar
+                    className={`authors-section-avatar${filters.authors[author.id] ? " active" : ""
+                      }`}
+                    avatar={author.avatar.small.fixed}
+                  />
+                </div>
+
               ))}
             </section>
 
-            <footer className="filters-form-footer">
+            <footer className="filters-form-footer row">
               <SecondaryButton disabled={!changed} onClick={reset}>
                 Reset
               </SecondaryButton>

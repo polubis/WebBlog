@@ -63,6 +63,14 @@ interface Props {
   seniorityLevel: SeniorityLevel
 }
 
+const imgStyle = {
+  position: "absolute",
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100%",
+}
+
 export default function ({
   title,
   thumbnail,
@@ -77,13 +85,8 @@ export default function ({
       <Img
         fluid={thumbnail}
         alt={thumbnailAlt}
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-        }}
+        loading="eager"
+        style={imgStyle}
       />
       <XXL>
         <SeniorityBadge level={seniorityLevel} /> {title}

@@ -6,12 +6,8 @@ import theme from "../../utils/theme"
 import Button from "../button/Button"
 
 const Avatar = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
   height: 92px;
   width: 92px;
-  border-radius: 50%;
   background: ${theme.secondary};
 
   svg {
@@ -26,8 +22,6 @@ const Avatar = styled.div`
 
 const Container = styled.div`
   position: relative;
-  display: flex;
-  flex-flow: column;
   align-items: center;
   padding: 26px 22px;
   border-radius: 4px;
@@ -49,17 +43,14 @@ const Container = styled.div`
 `
 
 const Media = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
   margin-top: auto;
   padding: 32px 0 16px 0;
 `
 
 export const EmptyAuthorTile = () => {
   return (
-    <Container>
-      <Avatar>
+    <Container className="col">
+      <Avatar className="center circle">
         <PersonAddIcon />
       </Avatar>
       <XL>You can be here</XL>
@@ -70,7 +61,7 @@ export const EmptyAuthorTile = () => {
         with us and teach others. Interested? Click the button below and contact
         us.
       </M>
-      <Media>
+      <Media className="center">
         <a
           href="https://discord.gg/PxXQayT3x3"
           title="Discord members"

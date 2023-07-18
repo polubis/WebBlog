@@ -30,7 +30,7 @@ export const AuthorBadge = ({
   return (
     <GatsbyLink to="/authors/">
       <Badge className="row">
-        <AuthorAvatar avatar={avatar} />
+        <AuthorAvatar avatar={avatar.small.fixed} />
         {mini || (
           <Personality className="col">
             <M bold>
