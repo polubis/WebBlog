@@ -169,14 +169,12 @@ const FiltersForm = ({ authors, trigger }: FiltersFormProps) => {
                 <div
                   key={author.id}
                   onClick={() => changeAuthor(author.id)}
+                  className={`circle authors-section-avatar${
+                    filters.authors[author.id] ? " active" : ""
+                  }`}
                 >
-                  <AuthorAvatar
-                    className={`authors-section-avatar${filters.authors[author.id] ? " active" : ""
-                      }`}
-                    avatar={author.avatar.small.fixed}
-                  />
+                  <AuthorAvatar avatar={author.avatar.small.fixed} />
                 </div>
-
               ))}
             </section>
 

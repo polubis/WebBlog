@@ -84,3 +84,20 @@ html {
 .circle {
   border-radius: 50%;
 }
+
+@keyframes animate-in {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.in {
+  opacity: 0;
+  animation: animate-in 0.4s ease-in-out 0.4s forwards;
+}

@@ -115,7 +115,6 @@ interface FooterProps {
 
 const Footer = ({ links }: FooterProps) => {
   const { t, articles, meta } = useLayoutProvider()
-
   return (
     <Container className="ui-footer">
       <Content>

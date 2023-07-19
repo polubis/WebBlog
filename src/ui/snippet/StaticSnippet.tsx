@@ -8,10 +8,7 @@ import { SnippetProps } from "./defs"
 import { Code } from "./Code"
 
 const Header = styled.header`
-  display: flex;
-  align-items: center;
   justify-content: flex-end;
-  flex-flow: wrap;
   background: ${SNIPPET_THEME.plain.backgroundColor};
   padding: 12px 12px 0 12px;
   border-top-left-radius: 4px;
@@ -55,7 +52,7 @@ const StaticSnippet = ({
       deleted={deleted}
       changed={changed}
       header={
-        <Header className="static-snippet-header">
+        <Header className="center wrap static-snippet-header">
           {src && (
             <InteractiveButton onClick={handleOpenSource}>
               {status =>

@@ -7,10 +7,6 @@ import { S } from "../../ui"
 import { Link } from "gatsby"
 
 const Container = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
   & > *:not(:last-child) {
     margin-right: 16px;
   }
@@ -32,22 +28,20 @@ const Container = styled.div`
       border-right: 4px solid ${theme.primary};
     }
   }
-`
 
-const AvatarContainer = styled.div`
-  display: flex;
-  flex-flow: column;
-  align-items: center;
+  .reviewers-avatar-container {
+    align-items: center;
 
-  .author-avatar {
-    border-radius: 50%;
-    flex-shrink: 0;
-    margin-bottom: 8px;
-    cursor: pointer;
-  }
+    .author-avatar {
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-bottom: 8px;
+      cursor: pointer;
+    }
 
-  ${S} {
-    text-align: center;
+    ${S} {
+      text-align: center;
+    }
   }
 `
 
@@ -69,32 +63,26 @@ export const Reviewers = ({
   technicalCheckLabel = "Technical check",
 }: ReviewersProps) => {
   return (
-    <Container className="components-reviewers">
+    <Container className="center components-reviewers">
       <Link to="/authors/">
-        <AvatarContainer>
-          <AuthorAvatar
-            avatar={techReviewer.avatar.small.fixed}
-          />
+        <div className="reviewers-avatar-container col">
+          <AuthorAvatar avatar={techReviewer.avatar.small.fixed} />
           <S>{technicalCheckLabel}</S>
-        </AvatarContainer>
+        </div>
       </Link>
 
       <Link to="/authors/">
-        <AvatarContainer>
-          <AuthorAvatar
-            avatar={author.avatar.medium.fixed}
-          />
+        <div className="reviewers-avatar-container col">
+          <AuthorAvatar avatar={author.avatar.medium.fixed} />
           <S>{authorLabel}</S>
-        </AvatarContainer>
+        </div>
       </Link>
 
       <Link to="/authors/">
-        <AvatarContainer>
-          <AuthorAvatar
-            avatar={lingReviewer.avatar.small.fixed}
-          />
+        <div className="reviewers-avatar-container col">
+          <AuthorAvatar avatar={lingReviewer.avatar.small.fixed} />
           <S>{linguisticCheckLabel}</S>
-        </AvatarContainer>
+        </div>
       </Link>
     </Container>
   )

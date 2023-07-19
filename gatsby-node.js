@@ -3,12 +3,7 @@ const { getAllDataQuery } = require("./src/api/getAllDataQuery")
 const authors = require("./src/authors/authors.json")
 const translationObject = require("./translations.json")
 const fetch = require("node-fetch")
-const { formatDistanceStrict } = require("date-fns")
-const article_en = require("./src/v2/translation/article/en.json")
-const layout_en = require("./src/v2/translation/layout/en.json")
-const article_pl = require("./src/v2/translation/article/pl.json")
-const layout_pl = require("./src/v2/translation/layout/pl.json")
-const meta = require("./src/v2/core/meta.json")
+const { createArticlePageCtx } = require("./src/api/createArticlePageCtx")
 
 exports.onCreateWebpackConfig = ({ actions }) => {
   actions.setWebpackConfig({
@@ -32,13 +27,11 @@ exports.createPages = async ({ actions, graphql }) => {
           childImageSharp {
             fixed(width: 40, height: 40, quality: 1) {
               base64
-              tracedSVG
-              aspectRatio
-              srcWebp
-              srcSetWebp
-              originalName
-              height
               width
+              height
+              src
+              srcSet
+              originalName
             }
           }
         }
@@ -65,51 +58,43 @@ exports.createPages = async ({ actions, graphql }) => {
           name
           relativePath
           tiny: childImageSharp {
-            fixed(width: 24, height: 24, quality: 1) {
+            fixed(width: 24, height: 24, quality: 44) {
               base64
-              tracedSVG
-              aspectRatio
-              srcWebp
-              srcSetWebp
-              originalName
-              height
               width
+              height
+              src
+              srcSet
+              originalName
             }
           }
           small: childImageSharp {
-            fixed(width: 50, height: 50, quality: 1) {
+            fixed(width: 50, height: 50, quality: 44) {
               base64
-              tracedSVG
-              aspectRatio
-              srcWebp
-              srcSetWebp
-              originalName
-              height
               width
+              height
+              src
+              srcSet
+              originalName
             }
           }
           medium: childImageSharp {
-            fixed(width: 92, height: 92, quality: 1) {
+            fixed(width: 92, height: 92, quality: 36) {
               base64
-              tracedSVG
-              aspectRatio
-              srcWebp
-              srcSetWebp
-              originalName
-              height
               width
+              height
+              src
+              srcSet
+              originalName
             }
           }
           big: childImageSharp {
-            fixed(width: 200, height: 200, quality: 1) {
+            fixed(width: 200, height: 200, quality: 42) {
               base64
-              tracedSVG
-              aspectRatio
-              srcWebp
-              srcSetWebp
-              originalName
-              height
               width
+              height
+              src
+              srcSet
+              originalName
             }
           }
         }
@@ -376,36 +361,6 @@ exports.createPages = async ({ actions, graphql }) => {
     context: data,
   })
 
-  translatedArticles.forEach(article => {
-    createPage({
-      path: article.path,
-      component: resolve(`src/v2/features/article/ArticlePage.tsx`),
-      context: {
-        layout: {
-          articles: data.articles,
-          meta,
-          t: layout_pl,
-          lang: meta.langs.pl,
-        },
-        article: {
-          article,
-          author: article.author.firstName + " " + article.author.lastName,
-          dates: {
-            updated: `updated: ${formatDistanceStrict(
-              new Date(article.modifiedAt),
-              new Date()
-            )} ago`,
-            created: `created: ${formatDistanceStrict(
-              new Date(article.createdAt),
-              new Date()
-            )} ago`,
-          },
-          t: article_pl,
-        },
-      },
-    })
-  })
-
   materials.forEach(material => {
     createPage({
       path: material.path,
@@ -421,29 +376,23 @@ exports.createPages = async ({ actions, graphql }) => {
     createPage({
       path: article.path,
       component: resolve(`src/v2/features/article/ArticlePage.tsx`),
-      context: {
-        layout: {
-          articles: data.articles,
-          meta,
-          t: layout_en,
-          lang: meta.langs.en,
-        },
-        article: {
-          article,
-          author: article.author.firstName + " " + article.author.lastName,
-          dates: {
-            updated: `updated: ${formatDistanceStrict(
-              new Date(article.modifiedAt),
-              new Date()
-            )} ago`,
-            created: `created: ${formatDistanceStrict(
-              new Date(article.createdAt),
-              new Date()
-            )} ago`,
-          },
-          t: article_en,
-        },
-      },
+      context: createArticlePageCtx({
+        article,
+        articles: data.articles,
+        lang: "en",
+      }),
+    })
+  })
+
+  translatedArticles.forEach(article => {
+    createPage({
+      path: article.path,
+      component: resolve(`src/v2/features/article/ArticlePage.tsx`),
+      context: createArticlePageCtx({
+        article,
+        articles: data.articles,
+        lang: "pl",
+      }),
     })
   })
 

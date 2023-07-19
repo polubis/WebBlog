@@ -1,29 +1,12 @@
 import React from "react"
-import styled, { keyframes } from "styled-components"
+import styled from "styled-components"
 import { B, CodeFrames, M, XL } from "../../ui"
 import { SHOWCASE_FRAMES } from "../../shared/show-case-frames"
 import Button from "../button/Button"
 import { Link } from "gatsby"
 
-const appearIn = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(-15px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`
-
 const Container = styled.div`
-  display: flex;
   flex-flow: column;
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
-  animation: ${appearIn} 0.3s ease-in-out forwards;
 
   a,
   button {
@@ -43,7 +26,7 @@ const Container = styled.div`
 
 export const SnippetCreatorSectionContent = () => {
   return (
-    <Container>
+    <Container className='center in'>
       <XL>Build fancy animated snippets</XL>
       <M>
         Use our tool and play with the <B>code refactoring</B>. You can present

@@ -1,29 +1,22 @@
-import React, { MouseEventHandler, ReactElement } from "react"
+import React from "react"
 import Image from "gatsby-image"
-import { AuthorAvatarFixedObject } from "../../models"
+import type { AuthorAvatarFixedObject } from "../../models"
 
 interface AuthorAvatarProps {
-  className?: string
   avatar: AuthorAvatarFixedObject
-  onClick?: MouseEventHandler<HTMLElement>
 }
 
-export default function ({
-  avatar,
-  className = "",
-  onClick,
-}: AuthorAvatarProps): ReactElement {
+export default function ({ avatar }: AuthorAvatarProps) {
   return (
     <Image
-      className={`center circle shadow1 author-avatar${className ? " " + className : ""}`}
-      onClick={onClick}
+      className="center circle shadow1 author-avatar"
       alt={avatar.originalName}
       title={avatar.originalName}
       fixed={avatar}
       style={{
         borderRadius: "50%",
         height: avatar.height,
-        width: avatar.width
+        width: avatar.width,
       }}
     />
   )

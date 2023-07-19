@@ -1,5 +1,5 @@
 import React from "react"
-import { L_UP } from "../../../utils/viewport"
+import { L_UP, SM_DOWN, T_DOWN, T_UP } from "../../../utils/viewport"
 import styled from "styled-components"
 import { Content, M } from "../../../ui"
 import { Reviewers } from "../../../components/article/Reviewers"
@@ -28,12 +28,11 @@ const ProgressDisplayer = Loadable({
     import("../../../components/article/ProgressDisplayer").then(
       m => m.ProgressDisplayer
     ),
-  delay: 3000,
   loading: () => null,
 })
 
 const ArticleContent = styled.main`
-  margin: 0 auto;
+  margin: 24px auto 0 auto;
 
   @media ${L_UP} {
     width: 920px;
@@ -48,7 +47,15 @@ const ArticleContent = styled.main`
   }
 
   .article-footer-wrapper {
-    min-height: 453px;
+    height: 500px;
+
+    @media ${T_DOWN} {
+      height: 720px;
+    }
+
+    @media ${SM_DOWN} {
+      height: 760px;
+    }
   }
 
   .article-stack {
@@ -70,14 +77,14 @@ const ArticleView = () => {
   })
 
   const { ref: stackRef, isVisible: isStackVisible } = useIsVisible({
-    threshold: 0.5,
+    threshold: 0.1,
     useOnce: true,
   })
 
   return (
     <>
       <Layout>
-        <Content paddingY>
+        <Content>
           <ArticleContent>
             {article.translations.length > 0 && (
               <ReadInOtherLanguageBanner
@@ -115,9 +122,7 @@ const ArticleView = () => {
               technicalCheckLabel={layout.t.technical_check}
             />
             <div className="article-stack center" ref={stackRef}>
-              {isStackVisible &&
-                <Stack items={article.stack} />
-              }
+              {isStackVisible && <Stack items={article.stack} />}
             </div>
             <MDXRenderer>{article.body}</MDXRenderer>
             <div className="article-footer-wrapper" ref={bottomNavRef}>

@@ -27,7 +27,7 @@ const Container = styled.div`
 `
 
 export const SnippetCreatorSection = () => {
-  const { ref, isVisible } = useIsVisible({ threshold: 0.1 })
+  const { ref, isVisible } = useIsVisible({ threshold: 0.1, useOnce: true })
 
   useEffect(() => {
     if (!isInSSR()) SnippetCreatorSectionContent.preload()

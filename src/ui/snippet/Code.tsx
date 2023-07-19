@@ -97,8 +97,7 @@ const Pre = styled.pre`
   }
 
   & .token-line {
-    line-height: 1.3em;
-    height: 1.3em;
+    height: 21px;
   }
 `
 
