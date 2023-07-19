@@ -206,7 +206,7 @@ const StatsSection = ({
           </Link>
         </BloggerTileContent>
         <AvatarWrapper>
-          <AuthorAvatar size="big" avatar={topAuthor.avatar} />
+          <AuthorAvatar avatar={topAuthor.avatar.big.fixed} />
         </AvatarWrapper>
       </CodeEditorTile>
     </Container>

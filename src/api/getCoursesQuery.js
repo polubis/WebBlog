@@ -1,3 +1,4 @@
+const { getTechAvatarsMap } = require("./getTechAvatarsMap")
 const { removeEdgeSlashes } = require("./removeEdgeSlashes")
 
 const createUser = (json, avatarsObject) => ({
@@ -102,16 +103,11 @@ exports.getCoursesQuery = data => {
   const avatarsObj = data.authorsAvatars.nodes.reduce(
     (acc, avatar) => ({
       ...acc,
-      [avatar.name]: avatar.childImageSharp.fluid,
+      [avatar.name]: avatar,
     }),
     {}
   )
-  const techAvatarsObj = data.technologiesAvatars.nodes.reduce((acc, node) => {
-    return {
-      ...acc,
-      [node.name]: node.childImageSharp.fluid,
-    }
-  }, {})
+  const techAvatarsObj = getTechAvatarsMap(data.technologiesAvatars)
 
   return data.courses.nodes.map(({ slug, frontmatter }) => {
     const [folderName] = slug.split("/")

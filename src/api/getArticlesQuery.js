@@ -1,23 +1,12 @@
+const { findAvatar } = require("./findAvatar")
+const { getTechAvatarsMap } = require("./getTechAvatarsMap")
 const { removeEdgeSlashes } = require("./removeEdgeSlashes")
+const { sortByDates } = require("./sortByDates")
 
 const getSlug = relativePath => {
   const parts = relativePath.split("/")
   const filtered = parts.filter((_, i) => i !== 0 && i < parts.length - 1)
   return `${filtered.join("/")}/`
-}
-
-const sort = articles => {
-  return articles.sort((a, b) => {
-    if (a.frontmatter.cdate > b.frontmatter.cdate) {
-      return -1
-    }
-
-    if (a.frontmatter.cdate === b.frontmatter.cdate) {
-      return 0
-    }
-
-    return 1
-  })
 }
 
 exports.getArticlesQuery = data => {
@@ -29,12 +18,7 @@ exports.getArticlesQuery = data => {
     authorsAvatars,
   } = data
 
-  const techAvatarsMap = technologiesAvatars.nodes.reduce((acc, avatar) => {
-    return {
-      ...acc,
-      [avatar.name]: avatar.childImageSharp.fluid,
-    }
-  }, {})
+  const techAvatarsMap = getTechAvatarsMap(technologiesAvatars)
 
   const thumbnailsMap = articleThumbnails.nodes.reduce((acc, node) => {
     return {
@@ -51,30 +35,34 @@ exports.getArticlesQuery = data => {
     {}
   )
 
-  const sortedArticles = sort(articles.nodes).map((article, idx) => {
-    const authorAvatar = authorsAvatars.nodes.find(
-      thumbnail => thumbnail.name === article.frontmatter.authorId
+  const sortedArticles = sortByDates(articles.nodes).map((article, idx) => {
+    const authorAvatar = findAvatar(
+      authorsAvatars,
+      article.frontmatter.authorId
     )
-    const lingReviewerAvatar = authorsAvatars.nodes.find(
-      thumbnail => thumbnail.name === article.frontmatter.lreviewerId
+    const lingReviewerAvatar = findAvatar(
+      authorsAvatars,
+      article.frontmatter.lreviewerId
     )
-    const techReviewerAvatar = authorsAvatars.nodes.find(
-      thumbnail => thumbnail.name === article.frontmatter.treviewerId
+    const techReviewerAvatar = findAvatar(
+      authorsAvatars,
+      article.frontmatter.treviewerId
     )
+
     const lingReviewer = {
       ...authorsMap[article.frontmatter.lreviewerId],
       id: article.frontmatter.lreviewerId,
-      avatar: lingReviewerAvatar.childImageSharp.fluid,
+      avatar: lingReviewerAvatar,
     }
     const techReviewer = {
       ...authorsMap[article.frontmatter.treviewerId],
       id: article.frontmatter.treviewerId,
-      avatar: techReviewerAvatar.childImageSharp.fluid,
+      avatar: techReviewerAvatar,
     }
     const author = {
       ...authorsMap[article.frontmatter.authorId],
       id: article.frontmatter.authorId,
-      avatar: authorAvatar.childImageSharp.fluid,
+      avatar: authorAvatar,
     }
 
     const path = `/articles/${article.slug.substring(
@@ -114,7 +102,7 @@ exports.getArticlesQuery = data => {
       createdAt: article.frontmatter.cdate,
       modifiedAt: article.frontmatter.mdate,
       lang,
-      seniorityLevel: article.frontmatter.seniorityLevel
+      seniorityLevel: article.frontmatter.seniorityLevel,
     }
   })
 

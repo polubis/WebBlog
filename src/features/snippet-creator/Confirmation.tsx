@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react"
-import { B, M, Modal, XL } from "../../ui"
+import { M, Modal, XL } from "../../ui"
 import Button from "../../components/button/Button"
 import styled from "styled-components"
 
@@ -19,8 +19,6 @@ const Footer = styled.div`
 `
 
 const Container = styled.div`
-  max-width: 380px;
-
   ${XL} {
     margin-bottom: 20px;
   }
@@ -36,9 +34,9 @@ const Container = styled.div`
   }
 `
 
-const Confirmation = ({ onClose, onConfirm , children}: ConfirmationProps) => {
+const Confirmation = ({ onClose, onConfirm, children }: ConfirmationProps) => {
   return (
-    <Modal onClose={onClose}>
+    <Modal maxWidth="400px" onClose={onClose}>
       <Container>
         <XL>You want to delete snippet frame</XL>
         {children}

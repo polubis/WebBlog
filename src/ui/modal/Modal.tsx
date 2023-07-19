@@ -7,6 +7,7 @@ import { useKeyPress } from "../../utils/useKeyPress"
 export interface ModalProps {
   children: ReactNode
   onClose?: () => void
+  maxWidth?: string
 }
 
 const Backdrop = styled.div`
@@ -35,7 +36,7 @@ const Content = styled.div`
   max-width: 700px;
 `
 
-export const Modal = ({ children, onClose }: ModalProps) => {
+export const Modal = ({ children, onClose, maxWidth }: ModalProps) => {
   useKeyPress({
     onKeyPress: e => {
       const actions = {
@@ -50,7 +51,9 @@ export const Modal = ({ children, onClose }: ModalProps) => {
   return render(
     <>
       <Backdrop onClick={onClose} />
-      <Content>{children}</Content>
+      <Content style={{
+        maxWidth
+      }}>{children}</Content>
     </>
   )
 }

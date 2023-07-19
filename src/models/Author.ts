@@ -1,5 +1,5 @@
-import type { Image } from "./Image"
 import type { Project } from "./Project"
+import type { FixedObject } from "gatsby-image"
 
 type AuthorPlatformRole = "content-creator" | "contributor"
 
@@ -16,8 +16,27 @@ interface AuthorJSON {
   projects: Project[]
 }
 
-interface Author extends AuthorJSON {
-  avatar: Image
+interface AuthorAvatarFixedObject extends FixedObject {
+  originalName: string
 }
 
-export type { AuthorJSON, Author }
+interface AuthorAvatar {
+  tiny: {
+    fixed: AuthorAvatarFixedObject
+  }
+  small: {
+    fixed: AuthorAvatarFixedObject
+  }
+  medium: {
+    fixed: AuthorAvatarFixedObject
+  }
+  big: {
+    fixed: AuthorAvatarFixedObject
+  }
+}
+
+interface Author extends AuthorJSON {
+  avatar: AuthorAvatar
+}
+
+export type { AuthorJSON, Author, AuthorAvatar, AuthorAvatarFixedObject }

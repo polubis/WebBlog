@@ -4,7 +4,7 @@ import { Author } from "../../models"
 import theme from "../../utils/theme"
 import AuthorAvatar from "./AuthorAvatar"
 import { S } from "../../ui"
-import { Link as GatsbyLink } from "gatsby"
+import { Link } from "gatsby"
 
 const Container = styled.div`
   display: flex;
@@ -70,39 +70,32 @@ export const Reviewers = ({
 }: ReviewersProps) => {
   return (
     <Container className="components-reviewers">
-      <GatsbyLink to="/authors/">
+      <Link to="/authors/">
         <AvatarContainer>
           <AuthorAvatar
-            avatar={techReviewer.avatar}
-            title={techReviewer.firstName + " " + techReviewer.lastName}
-            alt={techReviewer.firstName + " " + techReviewer.lastName}
+            avatar={techReviewer.avatar.small.fixed}
           />
           <S>{technicalCheckLabel}</S>
         </AvatarContainer>
-      </GatsbyLink>
+      </Link>
 
-      <GatsbyLink to="/authors/">
+      <Link to="/authors/">
         <AvatarContainer>
           <AuthorAvatar
-            avatar={author.avatar}
-            size="medium"
-            title={author.firstName + " " + author.lastName}
-            alt={author.firstName + " " + author.lastName}
+            avatar={author.avatar.medium.fixed}
           />
           <S>{authorLabel}</S>
         </AvatarContainer>
-      </GatsbyLink>
+      </Link>
 
-      <GatsbyLink to="/authors/">
+      <Link to="/authors/">
         <AvatarContainer>
           <AuthorAvatar
-            avatar={lingReviewer.avatar}
-            title={lingReviewer.firstName + " " + lingReviewer.lastName}
-            alt={lingReviewer.firstName + " " + lingReviewer.lastName}
+            avatar={lingReviewer.avatar.small.fixed}
           />
           <S>{linguisticCheckLabel}</S>
         </AvatarContainer>
-      </GatsbyLink>
+      </Link>
     </Container>
   )
 }
