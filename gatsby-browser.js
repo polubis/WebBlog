@@ -4,8 +4,6 @@ import "@fontsource/lexend/400.css"
 import "@fontsource/lexend/500.css"
 import "@fontsource/lexend/700.css"
 
-import { wrapRootElement as wrap } from "./root-wrapper"
-export const wrapRootElement = wrap
 /**
  * Implement Gatsby's Browser APIs in this file.
  *

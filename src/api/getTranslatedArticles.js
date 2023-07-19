@@ -78,7 +78,7 @@ exports.getTranslatedArticles = data => {
         id: article.frontmatter.authorId,
         avatar: authorAvatar,
       }
-      const { path, slug, body, rawBody, lang } = article
+      const { path, slug, body, lang } = article
 
       const langs = Array.isArray(article.frontmatter.langs)
         ? article.frontmatter.langs
@@ -87,7 +87,6 @@ exports.getTranslatedArticles = data => {
       return {
         slug,
         body,
-        rawBody,
         description: article.frontmatter.description,
         title: article.frontmatter.title,
         readTime: article.frontmatter.readTime,

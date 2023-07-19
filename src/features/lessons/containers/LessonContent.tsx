@@ -15,9 +15,10 @@ import {
   SiteMetadata,
   Translated,
 } from "../../../models"
-import { Content, useModal } from "../../../ui"
+import { Content, Snippet, useModal } from "../../../ui"
 import { Breadcrumbs } from "../../../components/breadcrumbs/Breadcrumbs"
 import { useCustomGAEvent } from "../../../utils/useCustomGAEvent"
+import { MdxProvider } from "../../../v2/providers/MdxProvider"
 
 const MobileCourseChapters = Loadable({
   loader: () =>
@@ -120,6 +121,10 @@ interface LessonContentProps {
   site: SiteMetadata
 }
 
+const components = {
+  Snippet
+}
+
 const LessonContent = ({
   course,
   lesson,
@@ -158,7 +163,9 @@ const LessonContent = ({
                   { label: lesson.name, path: lesson.path },
                 ]}
               />
-              <MDXRenderer>{lesson.body}</MDXRenderer>
+              <MdxProvider components={components}>
+                {lesson.body}
+              </MdxProvider>
               <BottomNavigation>
                 <Button
                   className="lesson-source-button"

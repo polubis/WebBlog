@@ -1,5 +1,5 @@
 import React from "react"
-import { A, Modal, Snippet, useModal } from "../../ui"
+import { A } from "../../ui"
 import { useLayoutProvider } from "../providers/LayoutProvider"
 import Button from "../../components/button/Button"
 import { useArticleProvider } from "../features/article/ArticleProvider"
@@ -54,19 +54,10 @@ const Container = styled.div`
 `
 
 const ArticleFooter = () => {
-  const modal = useModal()
   const layout = useLayoutProvider()
   const article = useArticleProvider()
-  const articleContent = article.article.rawBody.replace(
-    /^(---\s*\n[\s\S]*?\n?)?---\s*\n/,
-    ""
-  )
-  const { track } = useCustomGAEvent()
 
-  const handleOpen = () => {
-    modal.open()
-    track({ name: "article_source_clicked" })
-  }
+  const { track } = useCustomGAEvent()
 
   return (
     <Container className="in">
@@ -94,13 +85,14 @@ const ArticleFooter = () => {
         <Badge color={theme.secondary}>{article.dates.updated}</Badge>
       </div>
       <div className="article-bottom-nav">
-        <Button onClick={handleOpen}>{layout.t.show_source}</Button>
-
-        {modal.isOpen && (
-          <Modal onClose={modal.close}>
-            <Snippet>{articleContent}</Snippet>
-          </Modal>
-        )}
+        <A
+          href={layout.meta.article_source_url + "/" + article.article.slug}
+          outside
+        >
+          <Button onClick={() => track({ name: "article_source_clicked" })}>
+            {layout.t.show_source}
+          </Button>
+        </A>
 
         {article.article.previous && (
           <Link to={article.article.previous.path}>

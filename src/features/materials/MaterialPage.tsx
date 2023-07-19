@@ -2,12 +2,16 @@ import React from "react"
 import { AllDataResponse } from "../../api"
 import { SiteMeta } from "../../utils/SiteMeta"
 import Layout from "../../components/layout/Layout"
-import { Content } from "../../ui"
+import { Content, Snippet } from "../../ui"
 import { Material } from "../../models"
-import { MDXRenderer } from "gatsby-plugin-mdx"
+import { MdxProvider } from "../../v2/providers/MdxProvider"
 
 interface MaterialPageProps {
   pageContext: { material: Material } & AllDataResponse
+}
+
+const components = {
+  Snippet
 }
 
 const MaterialPage = ({
@@ -29,7 +33,9 @@ const MaterialPage = ({
     >
       <Layout t={t} articles={footerArticles} routes={site.routes}>
         <Content paddingY>
-          <MDXRenderer>{material.body}</MDXRenderer>
+          <MdxProvider components={components}>
+            {material.body}
+          </MdxProvider>
         </Content>
       </Layout>
     </SiteMeta>

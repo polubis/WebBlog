@@ -117,7 +117,6 @@ exports.createPages = async ({ actions, graphql }) => {
             langs
             title
           }
-          rawBody
           slug
           body
         }
@@ -138,7 +137,6 @@ exports.createPages = async ({ actions, graphql }) => {
             title
             seniorityLevel
           }
-          rawBody
           body
           slug
         }

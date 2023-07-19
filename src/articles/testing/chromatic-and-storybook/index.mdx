@@ -1,6 +1,6 @@
 ---
 cdate: 2022-08-29
-mdate: 2022-08-29
+mdate: 2023-07-20
 authorId: pjurczyk
 treviewerId: polubis
 lreviewerId: kreszko
@@ -124,9 +124,31 @@ title: Chromatic and storybook
   </M>
   <Snippet
     description="Story added"
-    linesCount={23}
-    src="https://raw.githubusercontent.com/polubis/Chromatic-and-storybook/main/src/ui/input-field/InputField.stories.tsx"
-  />
+  >
+  {`import { Story, Meta } from "@storybook/react";
+import { InputField, InputFieldProps } from "./InputField";
+ 
+export default {
+  component: InputField,
+  title: "InputField",
+} as Meta;
+ 
+const Template: Story<InputFieldProps> = (args) => {
+  return (
+    <div style={{ padding: "16px", background: "#101b48" }}>
+      <InputField {...args} />
+    </div>
+  );
+};
+ 
+export const Playground = Template.bind({});
+Playground.args = {};
+ 
+export const WithPlaceholder = Template.bind({});
+WithPlaceholder.args = {
+  placeholder: "Type something...",
+};`}
+  </Snippet>
   <Hint hasBg>
     Changes from this step can be found in this{" "}
     <A
@@ -275,9 +297,29 @@ title: Chromatic and storybook
   </M>
   <Snippet
     description="Configuration"
-    linesCount={23}
-    src="https://raw.githubusercontent.com/polubis/Chromatic-and-storybook/a67b143fb64a5a1555ad660300b308017e4e2e84/.github/workflows/chromatic.yaml"
-  />
+  >{`name: Chromatic
+ 
+on:
+  pull_request:
+    branches: ["main"]
+ 
+jobs:
+  chromatic-deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Install dependencies
+        run: 
+          npm install --legacy-peer-deps
+      - name: Publish to Chromatic
+        uses: chromaui/action@v1
+        with:
+          projectToken: \${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          buildScriptName: build-storybook
+          workingDir: /.storybook`}</Snippet>
   <M>
     It should be added under <B>.github/workflows</B>. Now to test that follow
     the steps below:
