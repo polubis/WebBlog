@@ -69,7 +69,7 @@ const ArticleFooter = () => {
   }
 
   return (
-    <Container>
+    <Container className="in">
       <div className="row">
         <AuthorBadge author={article.article.author} />
       </div>

@@ -18,7 +18,7 @@ const Container = styled.div`
 
 export const Stack = ({ items }: StackProps) => {
   return (
-    <Container className="row">
+    <Container className="row in">
       {items.map(item => (
         <Image
           key={item.id}
