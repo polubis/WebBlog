@@ -27,17 +27,14 @@ const Container = styled.footer`
   }
 
   .footer-articles {
-    .article-footer-img {
-      border-radius: 4px;
-    }
-
-    & > *:hover {
-      outline: 2px solid ${theme.primary};
-      border-radius: 4px;
+    a {
+      &:hover {
+        outline: 2px solid ${theme.primary};
+      }
     }
 
     & > *:not(:last-child) {
-      margin: 0 8px 8px 0;
+      margin: 0 12px 12px 0;
     }
   }
 
@@ -135,18 +132,21 @@ const Footer = ({ links }: FooterProps) => {
             <X>{t.recommended_articles}</X>
             <div className="footer-articles wrap">
               {articles.map(article => (
-                <Link key={article.title} to={article.path}>
-                  <div className="footer-img-wrapper">
-                    <Img
-                      fluid={article.thumbnail}
-                      alt={article.title}
-                      className="article-footer-img"
-                      style={{
-                        width: "60px",
-                        height: "60px",
-                      }}
-                    />
-                  </div>
+                <Link
+                  style={{
+                    width: article.thumbnail.width,
+                    height: article.thumbnail.height,
+                  }}
+                  className="r1"
+                  key={article.title}
+                  to={article.path}
+                >
+                  <Img
+                    fixed={article.thumbnail}
+                    alt={article.title}
+                    title={article.title}
+                    className="r1 shadow1"
+                  />
                 </Link>
               ))}
             </div>

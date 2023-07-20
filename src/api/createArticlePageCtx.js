@@ -8,7 +8,7 @@ const meta = require("../v2/core/meta.json")
 const getMinimumArticle = ({ title, thumbnail, path }) => {
   return {
     title,
-    thumbnail,
+    thumbnail: thumbnail.medium.fixed,
     path,
   }
 }
@@ -45,8 +45,11 @@ exports.createArticlePageCtx = ({ article, articles }) => {
       ...metadata[article.lang].article,
       article: {
         ...article,
+        thumbnail: article.thumbnail.full.fluid,
         next: article.next ? getMinimumArticle(article.next) : undefined,
-        previous: article.previous ? getMinimumArticle(article.previous) : undefined,
+        previous: article.previous
+          ? getMinimumArticle(article.previous)
+          : undefined,
       },
       author: article.author.firstName + " " + article.author.lastName,
       dates: {

@@ -23,7 +23,7 @@ exports.getArticlesQuery = data => {
   const thumbnailsMap = articleThumbnails.nodes.reduce((acc, node) => {
     return {
       ...acc,
-      [getSlug(node.relativePath)]: node.childImageSharp.fluid,
+      [getSlug(node.relativePath)]: node,
     }
   }, {})
 

@@ -118,7 +118,7 @@ const Articles = styled.div`
   }
 
   & > *:not(:last-child) {
-    margin: 0 8px 8px 0;
+    margin: 0 12px 12px 0;
   }
 `
 
@@ -163,7 +163,7 @@ const Footer = ({ articles, t, links }: FooterProps) => {
                 >
                   <Figure>
                     <Img
-                      fluid={article.thumbnail}
+                      fluid={article.thumbnail.medium.fixed}
                       alt="Article thumbnail"
                       className='article-footer-img'
                       style={{

@@ -1,9 +1,9 @@
 import React from "react"
 import styled from "styled-components"
-import Img from "gatsby-image"
+import Img, { FluidObject } from "gatsby-image"
 
 import { ReadTimeIcon, XXL } from "../../ui"
-import { Image, SeniorityLevel } from "../../models"
+import { SeniorityLevel } from "../../models"
 import Badge from "./Badge"
 import theme from "../../utils/theme"
 import { SeniorityBadge } from "../badges/SeniorityBadge"
@@ -55,7 +55,7 @@ const Container = styled.figure`
 
 interface Props {
   title: string
-  thumbnail: Image
+  thumbnail: FluidObject
   readTime: number
   isNew: boolean
   newLabel: string
