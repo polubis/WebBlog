@@ -1,5 +1,6 @@
+import type { FluidObject } from "gatsby-image"
+import type { MinimumArticle } from "../v2/core/models"
 import type { Author } from "./Author"
-import type { Image } from "./Image"
 import type { LangKey } from "./Site"
 import type { Technology } from "./Technology"
 import type { Translated, Translation } from "./Translation"
@@ -36,7 +37,7 @@ export interface Article {
   stack: Technology[]
   path: string
   slug: string
-  thumbnail: Image
+  thumbnail: FluidObject
   body: string
   isNew: boolean
   lingReviewer: Author
@@ -47,8 +48,8 @@ export interface Article {
   t: Translated
   modifiedAt: string
   gaPage: string
-  next?: Article
-  previous?: Article
+  next?: MinimumArticle
+  previous?: MinimumArticle
 }
 
 export interface TranslatedArticleFrontmatter

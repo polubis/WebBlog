@@ -10,7 +10,7 @@ const getTimeline = ({ articles, courses }) => {
     ...articles.map(article => ({
       createdAt: article.createdAt,
       title: article.title,
-      avatar: article.thumbnail,
+      avatar: article.thumbnail.full.fluid,
       url: article.path,
     })),
     ...courses.map(course => ({
