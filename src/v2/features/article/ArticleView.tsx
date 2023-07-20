@@ -1,14 +1,11 @@
 import React from "react"
 import { L_UP } from "../../../utils/viewport"
 import styled from "styled-components"
-import { Content, M } from "../../../ui"
+import { Content } from "../../../ui"
 import { Reviewers } from "../../../components/article/Reviewers"
 import { MDXRenderer } from "gatsby-plugin-mdx"
-import Tags from "../../../components/article/Tags"
-import Intro from "../../../components/article/Intro"
 import { useScrollToTop } from "../../../utils/useScrollToTop"
 import { useArticleProvider } from "./ArticleProvider"
-import Thumbnail from "../../../components/article/Thumbnail"
 import Layout from "../../containers/Layout"
 import { useLayoutProvider } from "../../providers/LayoutProvider"
 import { Breadcrumbs } from "../../../components/breadcrumbs/Breadcrumbs"
@@ -16,6 +13,7 @@ import { ReadInOtherLanguageBanner } from "../../../components/article/ReadInOth
 import { Stack } from "../../../components/article/Stack"
 import { ArticleFooter } from "../../containers/ArticleFooter"
 import { ProgressDisplayer } from "../../../components/article/ProgressDisplayer"
+import { Thumbnail } from "../../containers/Thumbnail"
 
 const ArticleContent = styled.main`
   margin: 24px auto;
@@ -25,15 +23,15 @@ const ArticleContent = styled.main`
   }
 
   .ui-banner {
-    margin-bottom: 28px;
-  }
-
-  .components-article-tags {
-    margin: 62px 0px 28px;
+    margin-bottom: 16px;
   }
 
   .stack {
     margin: 24px 0 42px 0;
+  }
+
+  .components-breadcrumbs {
+    margin-bottom: 12px;
   }
 `
 
@@ -63,19 +61,7 @@ const ArticleView = () => {
                 { label: article.title, path: article.path },
               ]}
             />
-            <Thumbnail
-              readTime={article.readTime}
-              thumbnail={article.thumbnail}
-              title={article.title}
-              thumbnailAlt={layout.t.article_thumbnail}
-              isNew={article.isNew}
-              newLabel={layout.t.new}
-              seniorityLevel={article.seniorityLevel}
-            />
-            <Tags tags={article.tags} />
-            <Intro>
-              <M>{article.description}</M>
-            </Intro>
+            <Thumbnail />
             <Reviewers
               author={article.author}
               techReviewer={article.techReviewer}

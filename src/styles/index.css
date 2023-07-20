@@ -105,3 +105,45 @@ html {
   opacity: 0;
   animation: animate-in 0.4s ease-in-out 0.4s forwards;
 }
+
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+.p1 {
+  margin: 0;
+  color: #fff;
+}
+
+.h3 {
+  font-size: 32px;
+  font-weight: bold;
+  line-height: 42px;
+}
+
+.p1 {
+  font-size: 16px;
+  line-height: 28px;
+}
+
+.tshadow {
+  text-shadow: -6px 11px 15px #000;
+}
+
+.upper {
+  text-transform: uppercase;
+}
+
+.streched {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.rel {
+  position: relative;
+}
