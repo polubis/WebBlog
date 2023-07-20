@@ -1,3 +1,4 @@
+import type { MinimumArticle } from "../v2/core/models"
 import type { Author } from "./Author"
 import type { Image } from "./Image"
 import type { LangKey } from "./Site"
@@ -47,8 +48,8 @@ export interface Article {
   t: Translated
   modifiedAt: string
   gaPage: string
-  next?: Article
-  previous?: Article
+  next?: MinimumArticle
+  previous?: MinimumArticle
 }
 
 export interface TranslatedArticleFrontmatter

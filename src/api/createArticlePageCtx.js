@@ -5,6 +5,14 @@ const article_pl = require("../v2/translation/article/pl.json")
 const layout_pl = require("../v2/translation/layout/pl.json")
 const meta = require("../v2/core/meta.json")
 
+const getMinimumArticle = ({ title, thumbnail, path }) => {
+  return {
+    title,
+    thumbnail,
+    path,
+  }
+}
+
 exports.createArticlePageCtx = ({ article, articles }) => {
   const metadata = {
     en: {
@@ -30,18 +38,16 @@ exports.createArticlePageCtx = ({ article, articles }) => {
   return {
     layout: {
       ...metadata[article.lang].layout,
-      articles: articles
-        .map(({ title, thumbnail, path }) => ({
-          title,
-          thumbnail,
-          path,
-        }))
-        .slice(0, 16),
+      articles: articles.map(getMinimumArticle).slice(0, 16),
       meta,
     },
     article: {
       ...metadata[article.lang].article,
-      article,
+      article: {
+        ...article,
+        next: article.next ? getMinimumArticle(article.next) : undefined,
+        previous: article.previous ? getMinimumArticle(article.previous) : undefined,
+      },
       author: article.author.firstName + " " + article.author.lastName,
       dates: {
         updated: `updated: ${formatDistanceStrict(
