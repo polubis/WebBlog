@@ -117,7 +117,6 @@ exports.createPages = async ({ actions, graphql }) => {
             langs
             title
           }
-          rawBody
           slug
           body
         }
@@ -138,7 +137,6 @@ exports.createPages = async ({ actions, graphql }) => {
             title
             seniorityLevel
           }
-          rawBody
           body
           slug
         }
@@ -182,7 +180,6 @@ exports.createPages = async ({ actions, graphql }) => {
         nodes {
           slug
           body
-          rawBody
           frontmatter {
             name
             duration
@@ -379,7 +376,6 @@ exports.createPages = async ({ actions, graphql }) => {
       context: createArticlePageCtx({
         article,
         articles: data.articles,
-        lang: "en",
       }),
     })
   })
@@ -391,7 +387,6 @@ exports.createPages = async ({ actions, graphql }) => {
       context: createArticlePageCtx({
         article,
         articles: data.articles,
-        lang: "pl",
       }),
     })
   })

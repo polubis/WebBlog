@@ -5,7 +5,7 @@ const article_pl = require("../v2/translation/article/pl.json")
 const layout_pl = require("../v2/translation/layout/pl.json")
 const meta = require("../v2/core/meta.json")
 
-exports.createArticlePageCtx = ({ article, articles, lang }) => {
+exports.createArticlePageCtx = ({ article, articles }) => {
   const metadata = {
     en: {
       layout: {
@@ -29,7 +29,7 @@ exports.createArticlePageCtx = ({ article, articles, lang }) => {
 
   return {
     layout: {
-      ...metadata[lang].layout,
+      ...metadata[article.lang].layout,
       articles: articles
         .map(({ title, thumbnail, path }) => ({
           title,
@@ -40,7 +40,7 @@ exports.createArticlePageCtx = ({ article, articles, lang }) => {
       meta,
     },
     article: {
-      ...metadata[lang].article,
+      ...metadata[article.lang].article,
       article,
       author: article.author.firstName + " " + article.author.lastName,
       dates: {
