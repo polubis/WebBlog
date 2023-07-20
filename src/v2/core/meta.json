@@ -1,48 +1,51 @@
 {
-    "site_name": "GreenOn Software",
-    "discord_url": "https://discord.gg/PxXQayT3x3",
-    "fb_url": "https://www.facebook.com/groups/1472987149805006/",
-    "linkedin_url": "https://www.linkedin.com/in/adrian-po%C5%82ubi%C5%84ski-281ab2172/",
-    "langs": {
-        "en": {
-            "html": "en-US",
-            "key": "en"
-        },
-        "pl": {
-            "html": "pl-PL",
-            "key": "pl"
-        }
+  "site_name": "GreenOn Software",
+  "discord_url": "https://discord.gg/PxXQayT3x3",
+  "fb_url": "https://www.facebook.com/groups/1472987149805006/",
+  "linkedin_url": "https://www.linkedin.com/in/adrian-po%C5%82ubi%C5%84ski-281ab2172/",
+  "article_source_url": "https://github.com/polubis/WebBlog/tree/main/src/articles",
+  "en_article_file_name": "index.mdx",
+  "pl_article_file_name": "article-pl.mdx",
+  "langs": {
+    "en": {
+      "html": "en-US",
+      "key": "en"
     },
-    "routes": {
-        "articles": {
-            "to": "/articles/",
-            "gaPage": "articles",
-            "key": "articles"
-        },
-        "authors": {
-            "to": "/authors/",
-            "gaPage": "authors",
-            "key": "authors"
-        },
-        "courses": {
-            "to": "/courses/",
-            "gaPage": "courses",
-            "key": "courses"
-        },
-        "creator": {
-            "to": "/blog-creator/",
-            "gaPage": "blog-creator",
-            "key": "creator"
-        },
-        "snippet_creator": {
-            "to": "/snippet-creator/",
-            "gaPage": "snippet-creator",
-            "key": "snippet_creator"
-        },
-        "home": {
-            "to": "/",
-            "gaPage": "",
-            "key": "home"
-        }
+    "pl": {
+      "html": "pl-PL",
+      "key": "pl"
     }
+  },
+  "routes": {
+    "articles": {
+      "to": "/articles/",
+      "gaPage": "articles",
+      "key": "articles"
+    },
+    "authors": {
+      "to": "/authors/",
+      "gaPage": "authors",
+      "key": "authors"
+    },
+    "courses": {
+      "to": "/courses/",
+      "gaPage": "courses",
+      "key": "courses"
+    },
+    "creator": {
+      "to": "/blog-creator/",
+      "gaPage": "blog-creator",
+      "key": "creator"
+    },
+    "snippet_creator": {
+      "to": "/snippet-creator/",
+      "gaPage": "snippet-creator",
+      "key": "snippet_creator"
+    },
+    "home": {
+      "to": "/",
+      "gaPage": "",
+      "key": "home"
+    }
+  }
 }

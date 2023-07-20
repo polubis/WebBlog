@@ -37,7 +37,7 @@ const toDashed = str => {
 
 exports.getCoursesQuery = data => {
   const lessonsByChapterId = data.lessons.nodes.reduce(
-    (acc, { slug, body, rawBody, frontmatter }) => {
+    (acc, { slug, body, frontmatter }) => {
       const chapterId = [slug.split("/")[0], slug.split("/")[1]].join("/")
       const lessonId = slug
       const lessonToAdd = {
@@ -46,7 +46,6 @@ exports.getCoursesQuery = data => {
         duration: frontmatter.duration,
         name: frontmatter.name,
         body,
-        rawBody,
         description: frontmatter.description,
       }
 

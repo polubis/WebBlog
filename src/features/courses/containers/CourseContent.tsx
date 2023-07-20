@@ -73,7 +73,9 @@ const Container = styled.div`
   grid-template-columns: 70% 40px 1fr;
   grid-template-rows: 1fr;
 
-  .components-stack {
+
+  .stack {
+    max-width: calc(100vw - 40px);
     margin: 12px 0 72px 0;
   }
 
@@ -216,9 +218,7 @@ export const CourseContent = ({
             />
             <Section>
               <Label className="label">Technologies</Label>
-              <div className="components-stack">
-                <Stack items={course.stack} />
-              </div>
+              <Stack items={course.stack} />
             </Section>
             <ChaptersSection>
               <Label className="label">Chapters & lessons</Label>

@@ -15,7 +15,7 @@ import {
   SiteMetadata,
   Translated,
 } from "../../../models"
-import { Content, useModal } from "../../../ui"
+import { A, Content } from "../../../ui"
 import { Breadcrumbs } from "../../../components/breadcrumbs/Breadcrumbs"
 import { useCustomGAEvent } from "../../../utils/useCustomGAEvent"
 
@@ -69,12 +69,6 @@ const BottomNavigation = styled.div`
     margin: 0 0 0 20px;
   }
 
-  .lesson-source-button {
-    @media ${L_DOWN} {
-      display: none;
-    }
-  }
-
   @media ${SM_DOWN} {
     flex-flow: column;
 
@@ -103,14 +97,6 @@ const Container = styled.main`
   }
 `
 
-const ArticleSourceModal = Loadable({
-  loader: () =>
-    import("../../../components/article/ArticleSource").then(
-      m => m.ArticleSource
-    ),
-  loading: () => null,
-})
-
 interface LessonContentProps {
   course: Course
   lesson: Lesson
@@ -129,12 +115,8 @@ const LessonContent = ({
   site,
 }: LessonContentProps) => {
   const { track } = useCustomGAEvent()
-  const lessonSourceModal = useModal()
 
-  const handleSourceOpen = () => {
-    lessonSourceModal.open()
-    track({ name: "lesson_source_clicked" })
-  }
+
 
   return (
     <>
@@ -160,12 +142,14 @@ const LessonContent = ({
               />
               <MDXRenderer>{lesson.body}</MDXRenderer>
               <BottomNavigation>
-                <Button
-                  className="lesson-source-button"
-                  onClick={handleSourceOpen}
-                >
-                  {t.showSource}
-                </Button>
+                <A
+                  href={`https://github.com/polubis/WebBlog/tree/main/src/courses/${lesson.slug}.mdx`} outside>
+                  <Button
+                    onClick={() => track({ name: "lesson_source_clicked" })}
+                  >
+                    {t.showSource}
+                  </Button>
+                </A>
                 {lesson.prevLesson && (
                   <GatsbyLink to={lesson.prevLesson.path}>
                     <Button>PREVIOUS</Button>
@@ -188,12 +172,6 @@ const LessonContent = ({
           </Container>
         </Content>
       </Layout>
-      {lessonSourceModal.isOpen &&
-        <ArticleSourceModal
-          source={lesson.rawBody}
-          onClose={lessonSourceModal.close}
-        />
-      }
     </>
   )
 }
