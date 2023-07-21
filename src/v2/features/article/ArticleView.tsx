@@ -4,7 +4,6 @@ import styled from "styled-components"
 import { Content, M } from "../../../ui"
 import { Reviewers } from "../../../components/article/Reviewers"
 import { MDXRenderer } from "gatsby-plugin-mdx"
-import Tags from "../../../components/article/Tags"
 import Intro from "../../../components/article/Intro"
 import { useScrollToTop } from "../../../utils/useScrollToTop"
 import { useArticleProvider } from "./ArticleProvider"
@@ -16,6 +15,7 @@ import { ReadInOtherLanguageBanner } from "../../../components/article/ReadInOth
 import { Stack } from "../../../components/article/Stack"
 import { ArticleFooter } from "../../containers/ArticleFooter"
 import { ProgressDisplayer } from "../../../components/article/ProgressDisplayer"
+import { ArticleTags } from "../../containers/ArticleTags"
 
 const ArticleContent = styled.main`
   margin: 24px auto;
@@ -28,7 +28,7 @@ const ArticleContent = styled.main`
     margin-bottom: 28px;
   }
 
-  .components-article-tags {
+  .tags {
     margin: 62px 0px 28px;
   }
 
@@ -72,7 +72,7 @@ const ArticleView = () => {
               newLabel={layout.t.new}
               seniorityLevel={article.seniorityLevel}
             />
-            <Tags tags={article.tags} />
+            <ArticleTags />
             <Intro>
               <M>{article.description}</M>
             </Intro>
