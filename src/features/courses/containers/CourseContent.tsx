@@ -15,13 +15,10 @@ import Badge from "../../../components/article/Badge"
 import { formatDistanceStrict } from "date-fns"
 import { Stack } from "../../../components/article/Stack"
 import { Article, Course, SiteMetadata, Translated } from "../../../models"
-import { Breadcrumbs } from "../../../components/breadcrumbs"
+import { Link } from "gatsby"
+import { Breadcrumbs } from "../../../v2/components/Breadcrumbs"
 
 const Details = styled.div`
-  display: flex;
-  align-items: center;
-  flex-flow: wrap;
-
   & > * {
     margin: 0 8px 8px 0;
   }
@@ -32,30 +29,20 @@ const Details = styled.div`
 `
 
 const Section = styled.div`
-  display: flex;
-  flex-flow: column;
-
   & > ${Label} {
     margin-bottom: 8px;
   }
 `
 
 const Header = styled.header`
-  display: flex;
-  align-items: center;
   justify-content: space-between;
 `
 
 const Area = styled.section`
-  display: flex;
-  flex-flow: column;
   height: 100%;
 `
 
 const Statistics = styled.div`
-  display: flex;
-  flex-flow: wrap;
-
   & > * {
     margin: 0 16px 16px 0;
 
@@ -73,6 +60,9 @@ const Container = styled.div`
   grid-template-columns: 70% 40px 1fr;
   grid-template-rows: 1fr;
 
+  .breadcrumbs {
+    margin-bottom: 28px;
+  }
 
   .stack {
     max-width: calc(100vw - 40px);
@@ -124,26 +114,15 @@ const Container = styled.div`
       align-self: center;
     }
   }
-
-  .stats-area {
-    display: flex;
-    flex-flow: column;
-  }
 `
 
 const ChaptersSection = styled.div`
-  display: flex;
-  flex-flow: column;
-
   & > ${Label} {
     margin-bottom: 20px;
   }
 `
 
 const StatisticsSection = styled.div`
-  display: flex;
-  flex-flow: column;
-
   & > ${Label} {
     margin-bottom: 20px;
   }
@@ -172,15 +151,13 @@ export const CourseContent = ({
       </h1>
       <Content paddingY>
         <Container>
-          <Area className="details-area">
-            <Breadcrumbs
-              items={[
-                { label: "Home", path: "/" },
-                { label: "Courses", path: "/courses/" },
-                { label: course.name, path: course.path },
-              ]}
-            />
-            <Header>
+          <Area className="details-area col">
+            <Breadcrumbs>
+              <Link to="/">Home</Link>
+              <Link to="/courses/">Courses</Link>
+              <span>{course.name}</span>
+            </Breadcrumbs>
+            <Header className="row">
               <GatsbyLink to="/courses/">
                 <IconButton variant="secondary-outlined">
                   <ArrowLeftIcon />
@@ -192,7 +169,7 @@ export const CourseContent = ({
             </Header>
             <Label className="label">Course overview</Label>
             <XXL className="name">{course.name}</XXL>
-            <Details>
+            <Details className="row wrap">
               <CourseTimeBadge value={course.duration} />
               <Badge color={theme.secondary}>
                 created:{" "}
@@ -207,7 +184,7 @@ export const CourseContent = ({
               <CourseStatusBadge value={course.status} />
             </Details>
             <Divider className="divider" horizontal />
-            <Section>
+            <Section className='col'>
               <Label className="label">Description</Label>
               <M>{course.description}</M>
             </Section>
@@ -216,20 +193,20 @@ export const CourseContent = ({
               techReviewer={course.techReviewer}
               lingReviewer={course.lingReviewer}
             />
-            <Section>
+            <Section className='col'>
               <Label className="label">Technologies</Label>
               <Stack items={course.stack} />
             </Section>
-            <ChaptersSection>
+            <ChaptersSection className="col">
               <Label className="label">Chapters & lessons</Label>
               <CourseChapters chapters={course.chapters} />
             </ChaptersSection>
           </Area>
           <Divider className="areas-divider" />
-          <Area className="stats-area">
-            <StatisticsSection>
+          <Area className="col">
+            <StatisticsSection className="col">
               <Label className="label">Statistics</Label>
-              <Statistics>
+              <Statistics className="wrap">
                 <NumberStatistic
                   label={chaptersCount === 1 ? "Chapter" : "Chapters"}
                   value={chaptersCount}

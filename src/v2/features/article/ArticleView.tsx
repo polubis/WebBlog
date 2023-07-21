@@ -10,18 +10,22 @@ import { useArticleProvider } from "./ArticleProvider"
 import Thumbnail from "../../../components/article/Thumbnail"
 import Layout from "../../containers/Layout"
 import { useLayoutProvider } from "../../providers/LayoutProvider"
-import { Breadcrumbs } from "../../../components/breadcrumbs/Breadcrumbs"
 import { ReadInOtherLanguageBanner } from "../../../components/article/ReadInOtherLanguageBanner"
 import { Stack } from "../../../components/article/Stack"
 import { ArticleFooter } from "../../containers/ArticleFooter"
 import { ProgressDisplayer } from "../../../components/article/ProgressDisplayer"
 import { ArticleTags } from "../../containers/ArticleTags"
+import { ArticleBreadcrumbs } from "../../containers/ArticleBreadcrumbs"
 
 const ArticleContent = styled.main`
   margin: 24px auto;
 
   @media ${L_UP} {
     width: 920px;
+  }
+
+  .breadcrumbs {
+    margin-bottom: 12px;
   }
 
   .ui-banner {
@@ -39,7 +43,6 @@ const ArticleContent = styled.main`
 
 const ArticleView = () => {
   const layout = useLayoutProvider()
-  const { meta } = layout
   const { article, t } = useArticleProvider()
 
   useScrollToTop()
@@ -56,13 +59,7 @@ const ArticleView = () => {
                 url={article.translations[0].path}
               />
             )}
-            <Breadcrumbs
-              items={[
-                { label: layout.t.home, path: meta.routes.home.to },
-                { label: layout.t.articles, path: meta.routes.articles.to },
-                { label: article.title, path: article.path },
-              ]}
-            />
+            <ArticleBreadcrumbs />
             <Thumbnail
               readTime={article.readTime}
               thumbnail={article.thumbnail}

@@ -1,8 +1,15 @@
 import type { ReactElement } from "react"
 
-interface TagsProps {
+interface BaseProps {
   className?: string
+}
+
+interface TagsProps extends BaseProps {
   children: ReactElement[]
 }
 
-export type { TagsProps }
+interface BreadcrumbsProps extends BaseProps {
+  children: ReactElement[]
+}
+
+export type { TagsProps, BreadcrumbsProps }
