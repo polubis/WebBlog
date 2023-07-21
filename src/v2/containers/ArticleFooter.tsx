@@ -4,31 +4,20 @@ import { useLayoutProvider } from "../providers/LayoutProvider"
 import Button from "../../components/button/Button"
 import { useArticleProvider } from "../features/article/ArticleProvider"
 import { useCustomGAEvent } from "../../utils/useCustomGAEvent"
-import Link from "../../components/link/Link"
-import { AuthorBadge } from "../../components/badges/AuthorBadge"
-import theme from "../../utils/theme"
-import Badge from "../../components/article/Badge"
-import { ObserveMe } from "../../components/observe-me/ObserveMe"
+import { ObserveMe } from "../components/ObserveMe"
 import { SM_DOWN } from "../../utils/viewport"
+import { Link } from 'gatsby'
 import styled from "styled-components"
+import { UserBadge } from "../components/UserBadge"
+import { Dates } from "./Dates"
 
 const Container = styled.div`
   .observe-me {
     margin: 32px 0 0 0;
   }
 
-  .article-dates {
+  .dates {
     margin: 32px 0 40px 0;
-
-    & > * {
-      margin: 0 10px 10px 0;
-
-      @media ${SM_DOWN} {
-        width: 100%;
-        margin: 0 0 10px 0;
-        text-align: center;
-      }
-    }
   }
 
   .article-bottom-nav {
@@ -61,16 +50,20 @@ const ArticleFooter = () => {
   return (
     <Container>
       <div className="row">
-        <AuthorBadge author={article.article.author} />
+        <UserBadge
+          avatar={article.author.avatar.small}
+          fullName={article.author.full_name}
+          role={article.author.role}
+        />
       </div>
-      {article.article.author.linkedinURL !== undefined && (
+      {article.author.linkedin_url !== undefined && (
         <ObserveMe
-          author={article.article.author}
+          author={article.author}
           header={article.t.observe_me_header}
           description={
             <>
               {article.t.observe_me_description_first_part}{" "}
-              <A href={article.article.author.linkedinURL!} outside>
+              <A href={article.author.linkedin_url!} outside>
                 LinkedIn
               </A>
               , {article.t.observe_me_description_second_part}
@@ -79,36 +72,22 @@ const ArticleFooter = () => {
           btnTitle={article.t.observe_me_follow}
         />
       )}
-      <div className="article-dates wrap">
-        <Badge color={theme.secondary}>{article.dates.created}</Badge>
-        <Badge color={theme.secondary}>{article.dates.updated}</Badge>
-      </div>
+      <Dates />
       <div className="article-bottom-nav">
-        <A
-          href={
-            layout.meta.article_source_url +
-            "/" +
-            article.article.slug +
-            (article.article.lang ===
-              'en'
-              ? layout.meta.en_article_file_name
-              : layout.meta.pl_article_file_name)
-          }
-          outside
-        >
+        <A href={article.source_url} outside>
           <Button onClick={() => track({ name: "article_source_clicked" })}>
             {layout.t.show_source}
           </Button>
         </A>
 
-        {article.article.previous && (
-          <Link to={article.article.previous.path}>
+        {article.prev && (
+          <Link to={article.prev.path}>
             <Button>{layout.t.prev}</Button>
           </Link>
         )}
 
-        {article.article.next && (
-          <Link to={article.article.next.path}>
+        {article.next && (
+          <Link to={article.next.path}>
             <Button>{layout.t.next}</Button>
           </Link>
         )}

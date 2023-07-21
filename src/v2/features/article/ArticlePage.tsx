@@ -1,36 +1,35 @@
 import React from "react"
 
-import { ArticleProvider, ArticleProviderState } from "./ArticleProvider"
+import { ArticleProvider } from "./ArticleProvider"
 import { ArticleView } from "./ArticleView"
 import { SiteMeta } from "../../../utils/SiteMeta"
 import {
   LayoutProvider,
-  LayoutProviderState,
 } from "../../providers/LayoutProvider"
+import { Article, Layout } from "../../core/models"
 
 interface ArticlePageProps {
   pageContext: {
-    article: ArticleProviderState
-    layout: LayoutProviderState
+    article: Article
+    layout: Layout
   }
 }
 
 const ArticlePage = ({ pageContext }: ArticlePageProps) => {
   const { article, layout } = pageContext
-  const { article: articleData } = article
 
   return (
     <SiteMeta
-      siteName={layout.meta.site_name}
+      siteName={layout.site_name}
       siteLang={layout.lang.html}
-      gaPage={article.article.gaPage}
-      url={articleData.gaPage + "/"}
+      gaPage={article.ga_page}
+      url={article.ga_page + "/"}
       robots="index,follow,max-image-preview:large"
-      title={articleData.title}
+      title={article.title}
       type="article"
-      author={article.author}
-      description={articleData.description}
-      image={articleData.thumbnail.src}
+      author={article.author.full_name}
+      description={article.description}
+      image={article.thumbnail.full.src}
     >
       <LayoutProvider initialState={layout}>
         <ArticleProvider initialState={article}>

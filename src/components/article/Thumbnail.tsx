@@ -3,7 +3,6 @@ import styled from "styled-components"
 import Img, { FluidObject } from "gatsby-image"
 
 import { ReadTimeIcon, XXL } from "../../ui"
-import { SeniorityLevel } from "../../models"
 import Badge from "./Badge"
 import theme from "../../utils/theme"
 import { SeniorityBadge } from "../badges/SeniorityBadge"
@@ -60,7 +59,7 @@ interface Props {
   isNew: boolean
   newLabel: string
   thumbnailAlt: string
-  seniorityLevel: SeniorityLevel
+  seniorityLevel: any
 }
 
 const imgStyle = {

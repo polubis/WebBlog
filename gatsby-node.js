@@ -3,7 +3,19 @@ const { getAllDataQuery } = require("./src/api/getAllDataQuery")
 const authors = require("./src/authors/authors.json")
 const translationObject = require("./translations.json")
 const fetch = require("node-fetch")
-const { createArticlePageCtx } = require("./src/api/createArticlePageCtx")
+const { sortByDates } = require("./src/v2/api/sortByDates")
+const meta = require("./src/v2/core/meta.json")
+const { createUser } = require("./src/v2/api/createUser")
+const { createTechnologies } = require("./src/v2/api/createTechnologies")
+const article_en = require("./src/v2/translation/article/en.json")
+const layout_en = require("./src/v2/translation/layout/en.json")
+const article_pl = require("./src/v2/translation/article/pl.json")
+const layout_pl = require("./src/v2/translation/layout/pl.json")
+const {
+  getArticleThumbnail,
+  getPlArticleSlug,
+  getEnArticleSlug,
+} = require("./src/v2/api/getArticleThumbnail")
 
 exports.onCreateWebpackConfig = ({ actions }) => {
   actions.setWebpackConfig({
@@ -117,6 +129,7 @@ exports.createPages = async ({ actions, graphql }) => {
             cdate
             mdate
             authorId
+            lang
             treviewerId
             lreviewerId
             tags
@@ -137,6 +150,7 @@ exports.createPages = async ({ actions, graphql }) => {
             cdate
             mdate
             authorId
+            lang
             treviewerId
             lreviewerId
             tags
@@ -321,7 +335,7 @@ exports.createPages = async ({ actions, graphql }) => {
     translationObject,
   })
 
-  const { articles, courses, translatedArticles, site, materials } = data
+  const { courses, site, materials } = data
   const { routes } = site
 
   createPage({
@@ -379,25 +393,213 @@ exports.createPages = async ({ actions, graphql }) => {
     })
   })
 
-  articles.forEach(article => {
+  const authorsAvatars = result.data.authorsAvatars.nodes
+  const articleThumbnails = result.data.articleThumbnails.nodes
+  const technologiesAvatars = result.data.technologiesAvatars.nodes
+  const translatedArticles = sortByDates(result.data.translatedArticles.nodes)
+  const articles = sortByDates(result.data.articles.nodes)
+  const metadata = {
+    en: {
+      layout: {
+        t: layout_en,
+        lang: meta.langs.en,
+      },
+      article: {
+        t: article_en,
+      },
+    },
+    pl: {
+      layout: {
+        t: layout_pl,
+        lang: meta.langs.pl,
+      },
+      article: {
+        t: article_pl,
+      },
+    },
+  }
+
+  const enArticles = articles.map((article, index) => {
+    const { body } = article
+    const slug = getEnArticleSlug(article)
+    const {
+      langs,
+      cdate,
+      mdate,
+      title,
+      lang,
+      tags,
+      seniorityLevel,
+      description,
+      readTime,
+      stack,
+      authorId,
+      treviewerId,
+      lreviewerId,
+    } = article.frontmatter
+
+    const articlePageObject = {
+      author: createUser(authorId, authors, authorsAvatars),
+      tech_reviewer: createUser(treviewerId, authors, authorsAvatars),
+      ling_reviewer: createUser(lreviewerId, authors, authorsAvatars),
+      thumbnail: getArticleThumbnail(slug, articleThumbnails),
+      t: metadata[lang].article.t,
+      cdate,
+      mdate,
+      title,
+      tags,
+      seniority: seniorityLevel,
+      description,
+      body,
+      read_time: readTime,
+      slug,
+      path: "/articles/" + slug + "/",
+      ga_page: "articles/" + slug,
+      source_url: meta.article_source_url + "/articles/" + slug,
+      is_new: index === 0,
+      technologies: createTechnologies(stack, technologiesAvatars),
+    }
+
+    if (Array.isArray(langs) && langs.length > 0) {
+      articlePageObject.translation_path = "/pl/articles/" + slug + "/"
+    }
+
+    const prev = articles[index - 1]
+    const next = articles[index + 1]
+
+    if (prev) {
+      const slug = getPlArticleSlug(prev)
+
+      articlePageObject.prev = {
+        title: prev.frontmatter.title,
+        thumbnail: getArticleThumbnail(slug, articleThumbnails).medium,
+        path: "/articles/" + slug + "/",
+      }
+    }
+
+    if (next) {
+      const slug = getPlArticleSlug(next)
+
+      articlePageObject.next = {
+        title: next.frontmatter.title,
+        thumbnail: getArticleThumbnail(slug, articleThumbnails).medium,
+        path: "/articles/" + slug + "/",
+      }
+    }
+
+    return articlePageObject
+  })
+
+  enArticles.forEach(article => {
     createPage({
       path: article.path,
       component: resolve(`src/v2/features/article/ArticlePage.tsx`),
-      context: createArticlePageCtx({
+      context: {
         article,
-        articles: data.articles,
-      }),
+        layout: {
+          ...metadata.en.layout,
+          ...meta,
+          articles: enArticles.slice(0, 16).map(({ title, slug, path }) => ({
+            title,
+            thumbnail: getArticleThumbnail(slug, articleThumbnails).medium,
+            path,
+          })),
+        },
+      },
     })
   })
 
-  translatedArticles.forEach(article => {
+  const plArticles = translatedArticles.map((article, index) => {
+    const { body } = article
+    const slug = getPlArticleSlug(article)
+    const {
+      langs,
+      cdate,
+      mdate,
+      title,
+      lang,
+      tags,
+      seniorityLevel,
+      description,
+      readTime,
+      stack,
+      authorId,
+      treviewerId,
+      lreviewerId,
+    } = article.frontmatter
+
+    const articlePageObject = {
+      author: createUser(authorId, authors, authorsAvatars),
+      tech_reviewer: createUser(treviewerId, authors, authorsAvatars),
+      ling_reviewer: createUser(lreviewerId, authors, authorsAvatars),
+      thumbnail: getArticleThumbnail(slug, articleThumbnails),
+      t: metadata[lang].article.t,
+      cdate,
+      mdate,
+      title,
+      tags,
+      seniority: seniorityLevel,
+      description,
+      body,
+      read_time: readTime,
+      slug,
+      path: "/pl/articles/" + slug + "/",
+      ga_page: "pl/articles/" + slug,
+      source_url: meta.article_source_url + "/articles/" + slug,
+      is_new: index === 0,
+      technologies: createTechnologies(stack, technologiesAvatars),
+    }
+
+    if (Array.isArray(langs) && langs.length > 0) {
+      articlePageObject.translation_path = "/articles/" + slug + "/"
+    }
+
+    const prev = translatedArticles[index - 1]
+    const next = translatedArticles[index + 1]
+
+    if (prev) {
+      const slug = getPlArticleSlug(prev)
+
+      articlePageObject.prev = {
+        title: prev.frontmatter.title,
+        thumbnail: getArticleThumbnail(slug, articleThumbnails).medium,
+        path: "/pl/articles/" + slug + "/",
+      }
+    }
+
+    if (next) {
+      const slug = getPlArticleSlug(next)
+
+      articlePageObject.next = {
+        title: next.frontmatter.title,
+        thumbnail: getArticleThumbnail(slug, articleThumbnails).medium,
+        path: "/pl/articles/" + slug + "/",
+      }
+    }
+
+    return articlePageObject
+  })
+
+  plArticles.forEach(article => {
     createPage({
       path: article.path,
       component: resolve(`src/v2/features/article/ArticlePage.tsx`),
-      context: createArticlePageCtx({
+      context: {
         article,
-        articles: data.articles,
-      }),
+        layout: {
+          ...metadata.pl.layout,
+          ...meta,
+          articles: plArticles.slice(0, 16).map((_, idx) => {
+            const { title, slug } = plArticles[idx]
+
+            return {
+              title,
+              thumbnail: getArticleThumbnail(slug, articleThumbnails).medium,
+              path: "/pl/articles/" + slug + "/",
+            }
+          }),
+        },
+      },
     })
   })
 

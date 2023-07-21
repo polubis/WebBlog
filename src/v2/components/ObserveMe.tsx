@@ -1,15 +1,8 @@
-import React, { ReactNode } from "react"
-import { Author } from "../../models"
+import React from "react"
 import styled from "styled-components"
 import { A, M, XL } from "../../ui"
-import Button from "../button/Button"
-
-interface ObserveMeProps {
-  author: Author
-  header: ReactNode
-  description: ReactNode
-  btnTitle: ReactNode
-}
+import Button from "../../components/button/Button"
+import type { ObserveMeProps } from "./models"
 
 const Container = styled.div`
   background: #272727;
@@ -35,8 +28,8 @@ const ObserveMe = ({
       <XL>{header}</XL>
       <M>{description}</M>
       <A
-        href={author.linkedinURL!}
-        title={author.firstName + " " + author.lastName}
+        href={author.linkedin_url!}
+        title={author.full_name}
         outside
       >
         <Button>{btnTitle}</Button>

@@ -34,7 +34,7 @@ const UnstyledLink = styled(GatsbyLink)`
 
 export default function ({ children }: LayoutProps) {
   const {
-    meta: { routes, discord_url },
+    routes, discord_url,
     t,
   } = useLayoutProvider()
 

@@ -198,19 +198,6 @@ module.exports = {
             allSitePage {
               nodes {
                 path
-                context {
-                  article {
-                    article {
-                      modifiedAt
-                    }
-                  }
-                  lesson {
-                    path
-                  }
-                  course {
-                    modifiedAt
-                  }
-                }
               }
             }
           }

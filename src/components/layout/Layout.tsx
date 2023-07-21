@@ -7,7 +7,6 @@ import { Link as GatsbyLink } from "gatsby"
 import { GreenOnLogo } from "../GreenOnLogo"
 import Button from "../button/Button"
 import { ScrollUpButton } from "../scroll-up-button/ScrollUpButton"
-import { useScrollToHtmlElement } from "../../utils/useScrollToHtmlElement"
 import { SocialBar } from "../social-bar/Socialbar"
 
 interface LayoutProps {
@@ -45,8 +44,6 @@ export default function ({
   disableSocialBar,
   disableFooter,
 }: LayoutProps) {
-  const { ref, scrollTop } = useScrollToHtmlElement<HTMLDivElement>()
-
   const homeLink = (
     <Link
       to={routes.home.to}
@@ -110,7 +107,6 @@ export default function ({
 
   return (
     <Layout
-      ref={ref}
       navigation={
         <Navigation
           logo={
@@ -175,7 +171,7 @@ export default function ({
     >
       {children}
       {disableSocialBar || (
-        <SocialBar scrollToTopNode={<ScrollUpButton onClick={scrollTop} />} />
+        <SocialBar scrollToTopNode={<ScrollUpButton onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} />} />
       )}
     </Layout>
   )

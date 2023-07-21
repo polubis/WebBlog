@@ -111,27 +111,27 @@ interface FooterProps {
 }
 
 const Footer = ({ links }: FooterProps) => {
-  const { t, articles, meta } = useLayoutProvider()
+  const layout = useLayoutProvider()
 
   return (
     <Container className="ui-footer">
       <Content>
         <div className="footer-top-section">
           <div className="footer-section col">
-            <X>{t.about_us}</X>
-            <M>{t.about_us_text}</M>
+            <X>{layout.t.about_us}</X>
+            <M>{layout.t.about_us_text}</M>
             <M>
-              {t.about_us_text_community}{" "}
-              <A outside href={meta.discord_url} className="form-button">
-                {t.this_form_link}
+              {layout.t.about_us_text_community}{" "}
+              <A outside href={layout.discord_url} className="form-button">
+                {layout.t.this_form_link}
               </A>
               .
             </M>
           </div>
           <div className="footer-section col">
-            <X>{t.recommended_articles}</X>
+            <X>{layout.t.recommended_articles}</X>
             <div className="footer-articles wrap">
-              {articles.map(article => (
+              {layout.articles.map(article => (
                 <Link
                   style={{
                     width: article.thumbnail.width,
@@ -152,37 +152,37 @@ const Footer = ({ links }: FooterProps) => {
             </div>
           </div>
           <div className="footer-section col">
-            <X>{t.navigation_label}</X>
+            <X>{layout.t.navigation_label}</X>
             <div className="footer-links col">{links}</div>
           </div>
         </div>
         <div className="footer-articles-content row">
           <a
-            href={meta.linkedin_url}
-            title={`${meta.site_name} ${t.linkedin_profile}`}
+            href={layout.linkedin_url}
+            title={`${layout.site_name} ${layout.t.linkedin_profile}`}
             target="_blank"
           >
             <LinkedinIcon />
           </a>
           <a
             className="icon-link"
-            href={meta.discord_url}
-            title={`${meta.site_name} ${t.discord_channel}`}
+            href={layout.discord_url}
+            title={`${layout.site_name} ${layout.t.discord_channel}`}
             target="_blank"
           >
             <DiscordIcon />
           </a>
           <a
             className="icon-link"
-            href={meta.fb_url}
-            title={`${meta.site_name} ${t.fb_profile}`}
+            href={layout.fb_url}
+            title={`${layout.site_name} ${layout.t.fb_profile}`}
             target="_blank"
           >
             <FacebookIcon />
           </a>
           <div className="footer-company row">
             <S className="ui-footer-gray">
-              {t.powered_by} {meta.site_name}
+              {layout.t.powered_by} {layout.site_name}
             </S>
             <GreenOnLogo />
           </div>
