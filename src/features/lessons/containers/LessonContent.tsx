@@ -4,7 +4,7 @@ import styled from "styled-components"
 import { L_DOWN, SM_DOWN } from "../../../utils/viewport"
 import { CourseChapters } from "../../courses/components/course-chapters/CourseChapters"
 import Button from "../../../components/button/Button"
-import { Link as GatsbyLink } from "gatsby"
+import { Link } from "gatsby"
 import Loadable from "react-loadable"
 import Layout from "../../../components/layout/Layout"
 import {
@@ -16,8 +16,8 @@ import {
   Translated,
 } from "../../../models"
 import { A, Content } from "../../../ui"
-import { Breadcrumbs } from "../../../components/breadcrumbs/Breadcrumbs"
 import { useCustomGAEvent } from "../../../utils/useCustomGAEvent"
+import { Breadcrumbs } from "../../../v2/components/Breadcrumbs"
 
 const MobileCourseChapters = Loadable({
   loader: () =>
@@ -37,27 +37,6 @@ const CourseChaptersWrapper = styled.div`
     top: 0;
     right: 0;
     padding: 20px 20px 0 0;
-  }
-`
-
-const Dates = styled.div`
-  display: flex;
-  flex-flow: wrap;
-`
-
-const Wrapper = styled.div`
-  ${Dates} {
-    margin: 32px 0 40px 0;
-
-    & > * {
-      margin: 0 10px 10px 0;
-
-      @media ${SM_DOWN} {
-        width: 100%;
-        margin: 0 0 10px 0;
-        text-align: center;
-      }
-    }
   }
 `
 
@@ -86,6 +65,10 @@ const Container = styled.main`
   display: grid;
   grid-template-columns: 920px 1fr;
   gap: 32px;
+
+  .breadcrumbs {
+    margin-bottom: 28px;
+  }
 
   @media ${L_DOWN} {
     grid-template-columns: 1fr;
@@ -116,8 +99,6 @@ const LessonContent = ({
 }: LessonContentProps) => {
   const { track } = useCustomGAEvent()
 
-
-
   return (
     <>
       <h1 style={{ visibility: "hidden", height: 0, margin: "0" }}>
@@ -131,19 +112,19 @@ const LessonContent = ({
       <Layout articles={articles} t={t} routes={site.routes}>
         <Content paddingY>
           <Container>
-            <Wrapper>
-              <Breadcrumbs
-                items={[
-                  { label: "Home", path: "/" },
-                  { label: "Courses", path: "/courses/" },
-                  { label: course.name, path: course.path },
-                  { label: lesson.name, path: lesson.path },
-                ]}
-              />
+            <div>
+              <Breadcrumbs>
+                <Link to="/">Home</Link>
+                <Link to="/courses/">Courses</Link>
+                <Link to={course.path}>{course.name}</Link>
+                <span>{lesson.name}</span>
+              </Breadcrumbs>
               <MDXRenderer>{lesson.body}</MDXRenderer>
               <BottomNavigation>
                 <A
-                  href={`https://github.com/polubis/WebBlog/tree/main/src/courses/${lesson.slug}.mdx`} outside>
+                  href={`https://github.com/polubis/WebBlog/tree/main/src/courses/${lesson.slug}.mdx`}
+                  outside
+                >
                   <Button
                     onClick={() => track({ name: "lesson_source_clicked" })}
                   >
@@ -151,17 +132,17 @@ const LessonContent = ({
                   </Button>
                 </A>
                 {lesson.prevLesson && (
-                  <GatsbyLink to={lesson.prevLesson.path}>
+                  <Link to={lesson.prevLesson.path}>
                     <Button>PREVIOUS</Button>
-                  </GatsbyLink>
+                  </Link>
                 )}
                 {lesson.nextLesson && (
-                  <GatsbyLink to={lesson.nextLesson.path}>
+                  <Link to={lesson.nextLesson.path}>
                     <Button>NEXT</Button>
-                  </GatsbyLink>
+                  </Link>
                 )}
               </BottomNavigation>
-            </Wrapper>
+            </div>
             <CourseChaptersWrapper>
               <CourseChapters
                 activeChapterId={chapter.id}

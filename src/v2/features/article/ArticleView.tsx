@@ -4,18 +4,18 @@ import styled from "styled-components"
 import { Content, M } from "../../../ui"
 import { Reviewers } from "../../../components/article/Reviewers"
 import { MDXRenderer } from "gatsby-plugin-mdx"
-import Tags from "../../../components/article/Tags"
 import Intro from "../../../components/article/Intro"
 import { useScrollToTop } from "../../../utils/useScrollToTop"
 import { useArticleProvider } from "./ArticleProvider"
 import Thumbnail from "../../../components/article/Thumbnail"
 import Layout from "../../containers/Layout"
 import { useLayoutProvider } from "../../providers/LayoutProvider"
-import { Breadcrumbs } from "../../../components/breadcrumbs/Breadcrumbs"
 import { ReadInOtherLanguageBanner } from "../../../components/article/ReadInOtherLanguageBanner"
 import { Stack } from "../../../components/article/Stack"
 import { ArticleFooter } from "../../containers/ArticleFooter"
 import { ProgressDisplayer } from "../../../components/article/ProgressDisplayer"
+import { ArticleTags } from "../../containers/ArticleTags"
+import { ArticleBreadcrumbs } from "../../containers/ArticleBreadcrumbs"
 
 const ArticleContent = styled.main`
   margin: 24px auto;
@@ -24,11 +24,15 @@ const ArticleContent = styled.main`
     width: 920px;
   }
 
+  .breadcrumbs {
+    margin-bottom: 12px;
+  }
+
   .ui-banner {
     margin-bottom: 28px;
   }
 
-  .components-article-tags {
+  .tags {
     margin: 62px 0px 28px;
   }
 
@@ -39,7 +43,6 @@ const ArticleContent = styled.main`
 
 const ArticleView = () => {
   const layout = useLayoutProvider()
-  const { meta } = layout
   const { article, t } = useArticleProvider()
 
   useScrollToTop()
@@ -56,13 +59,7 @@ const ArticleView = () => {
                 url={article.translations[0].path}
               />
             )}
-            <Breadcrumbs
-              items={[
-                { label: layout.t.home, path: meta.routes.home.to },
-                { label: layout.t.articles, path: meta.routes.articles.to },
-                { label: article.title, path: article.path },
-              ]}
-            />
+            <ArticleBreadcrumbs />
             <Thumbnail
               readTime={article.readTime}
               thumbnail={article.thumbnail}
@@ -72,7 +69,7 @@ const ArticleView = () => {
               newLabel={layout.t.new}
               seniorityLevel={article.seniorityLevel}
             />
-            <Tags tags={article.tags} />
+            <ArticleTags />
             <Intro>
               <M>{article.description}</M>
             </Intro>

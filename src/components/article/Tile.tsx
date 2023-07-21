@@ -3,7 +3,6 @@ import styled from "styled-components"
 import { Link } from "gatsby"
 
 import Button from "../button/Button"
-import Tags from "./Tags"
 import { Article } from "../../models/Article"
 import { XL, M } from "../../ui"
 import Details from "./Details"
@@ -12,6 +11,7 @@ import { ReadTimeBadge } from "../badges/ReadTimeBadge"
 import { AuthorBadge } from "../badges/AuthorBadge"
 import Badge from "./Badge"
 import theme from "../../utils/theme"
+import { Tags } from "../../v2/components/Tags"
 
 interface Props {
   article: Article
@@ -19,8 +19,6 @@ interface Props {
 
 const Tile = styled.div`
   position: relative;
-  display: flex;
-  flex-flow: column;
   box-sizing: border-box;
 
   & > a {
@@ -66,8 +64,14 @@ export default function ({ article }: Props) {
   } = article
 
   return (
-    <Tile>
-      <Tags tags={tags} />
+    <Tile className="col">
+      <Tags>
+        {tags.split(",").map(tag => (
+          <h6 key={tag}>
+            {tag}
+          </h6>
+        ))}
+      </Tags>
       <Link to={path}>
         <XL>
           <SeniorityBadge level={seniorityLevel} /> {title}

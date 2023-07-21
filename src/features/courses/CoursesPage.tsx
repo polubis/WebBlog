@@ -7,9 +7,7 @@ import { Content } from "../../ui"
 import { CourseTile } from "./components"
 
 const Grid = styled.div`
-  display: flex;
   gap: 32px;
-  flex-flow: wrap;
   justify-content: center;
 
   & > * {
@@ -23,7 +21,7 @@ interface CoursesPageProps {
 }
 
 const CoursesPage = ({
-  pageContext: { courses, articles, site, translationObject, footerArticles },
+  pageContext: { courses, site, translationObject, footerArticles },
 }: CoursesPageProps) => {
   const t = translationObject["en"]
 
@@ -44,7 +42,7 @@ const CoursesPage = ({
           <h1 style={{ visibility: "hidden", height: 0, margin: "0" }}>
             List of courses
           </h1>
-          <Grid>
+          <Grid className="wrap">
             {courses.map(course => (
               <CourseTile key={course.name} data={course} />
             ))}
