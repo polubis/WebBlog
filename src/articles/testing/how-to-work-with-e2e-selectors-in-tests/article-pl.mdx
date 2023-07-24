@@ -1,0 +1,164 @@
+---
+cdate: 2023-07-24
+mdate: 2023-07-24
+authorId: polubis
+treviewerId: kwozniak
+lreviewerId: kzalewska
+tags: testing,improvements,quality
+langs: ["en"]
+lang: pl
+stack: cypress,javascript,typescript
+description: Sprawdzimy wszystkie popularne podejścia, które znacznie ułatwiają utrzymywanie oraz skalowanie selektorów dla testów e2e.
+readTime: 4
+seniorityLevel: intermediate
+title: Selektory w testach e2e i ich efektywne utrzymywanie
+---
+<Prelude label="Trochę o selektorach dla testów e2e">
+  <M>
+    Podczas pisania testów <B>e2e</B> musisz zawsze wykorzystać jakiś selektor. Im bardziej precyzyjny i unikalny, tym lepiej dla Ciebie i Twoich testów. Dlaczego? Załóżmy, że mamy <B>selektor</B>, który wygląda w ten sposób: 
+  </M>
+  <Snippet>{`
+// To jakiś kod JSX komponentu w React.
+<button className="button">Pierwszy</button>
+<button className="button">Drugi</button>
+<button className="button">Trzeci</button>
+  `}</Snippet>
+  <M>Teraz w testach <B>e2e</B>, załóżmy, że korzystamy z <B>Cypress</B>, nasz kod mógłby wyglądać tak: </M>
+  <Snippet>{`
+// ❌ Fatalnie - dodasz jakiś button przed "Pierwszym"
+// i masz w testach niespodziankę.
+cy.get('button:first-of-type');
+  `}</Snippet>
+  <M>Najlepiej pisać selektory w taki sposób, aby zawsze były unikalne i niezależne od struktury <B>HTML</B> (zmiana w niej nie powinna wywalić testów). Tylko takie podejście da Ci stabilność w testach. Oczywiście od tej reguły mogą być wyjątki, ale jeżeli jest taka możliwość, to powinniśmy starać się przestrzegać tej zasady. </M>
+    <Snippet>{`
+// Dodaliśmy unikalną klasę - "nazwa-componentu-button-first".
+<button className="button nazwa-componentu-button-first">Pierwszy</button>
+<button className="button">Drugi</button>
+<button className="button">Trzeci</button>
+// W testach e2e
+cy.get('.nazwa-componentu-button-first');
+  `}</Snippet>
+  <M>Szczerze? To chyba jeszcze gorszy pomysł. Dlaczego? </M>
+  <L>
+  <Li>Jak zmieni się nazwa komponentu - musisz zmienić nazwę klasy</Li> 
+  <Li>Selektor jest unikalny na skalę komponentu, lecz nie jest na skalę aplikacji :)</Li>
+  </L>
+  <M>A może zmienić klasę na <B>#id</B>? Tutaj będą te same problemy. No to cholbyka, co w takim razie mamy zrobić? Problem nie jest w tym, jaki atrybut ustawiamy, ale w tym jaką wartość mu przypisujemy. Powinniśmy wiedzieć, jaki jest zbiór możliwych selektorów, skąd je brać i czy są unikalne na skalę aplikacji/biblioteki, bądź funkcjonalności.</M>
+</Prelude>
+
+<Section>
+<XL>Jak osiągnąć skończoną liczbę selektorów?</XL>
+<M>Możesz stworzyć zwykły obiekt <B>JavaScript</B> lub <B>JSON</B> i wykorzystywać jego wartości w testach <B>e2e</B>, jak i w kodzie aplikacji. </M>
+<Snippet>{`
+// app-selectors.ts
+const app_selectors = {
+  nav_bar: "nav_bar",
+  sign_out_control: "sign_out_control"
+};
+// jakiś-component.ts
+import { app_selectors } from "selectors/app";
+<button className={app_selectors.sign_out_control}>No weź mnie wyloguj</button>
+// jakiś-test-e2e.ts
+import { app_selectors } from "selectors/app";
+cy.get('.' + app_selectors.sign_out_control);
+`}</Snippet>
+<M>Teraz już wiemy, jaką mamy liczbę selektorów, które powinny być wykorzystane w testach <B>e2e</B> - wiemy, że są skończone. Również utrzymanie ich będzie o wiele prostsze (zmiana w jednym miejscu).</M>
+<M>Dalej widzę tu dwa problemy: </M>
+<L>
+  <Li>Ten obiekt może być koszmarnie duży - co będzie rzutowało na rozmiar aplikacji,</Li>
+  <Li>Każdy może użyć dowolnego atrybutu: klasa, id lub inny,</Li>
+</L>
+</Section>
+
+<Section>
+  <XL>Jak pozbyć się dużego obiektu i odchudzić aplikację?</XL>
+  <M>Najpierw zdefiniujmy <B>string literals</B> z <B>TypeScript</B>, które określą jakich selektorów możemy użyć.</M>
+  <Snippet>{`
+type SharedSelectors = "app-navbar" | "app-sign-out-control" | "app-sign-in-control"
+type RegisterFeatureSelectors = "register-confirm-control"
+type AppE2ESelectors = SharedSelectors | RegisterFeatureSelectors`}</Snippet>
+<M>Teraz zarówno w kodzie testów <B>e2e</B>, jak i kodzie aplikacji będzie korzystać z następującej funkcji: </M>
+<Snippet>{`
+const select = (selector: AppE2ESelectors): AppE2ESelectors => selector`}</Snippet>
+<M>Funkcja, która jedyne, co robi, to bierze parametr i go zwraca? LOL... No ok, to teraz patrz na to. Zamist dużego obiektu masz funkcję oraz <B>type literals</B>, które określają zawsze skończoną liczbę selektorów. Następującą funkcję należy teraz zaimportować i wywołać w aplikacji oraz w testach. Wygąda to tak: </M>
+<Img description="Zwróć uwagę na podpowiedzi, które otrzymujesz od TypeScript" src="https://drive.google.com/uc?export=view&id=1LRxTPFldr7cAB-_RcysP6uS1t-ifgmWB" />
+<M>No dobra, ale w dalszym ciągu każdy może użyć sobie dowolnego atrybutu. Jeden deweloper będzie wykorzystywać <B>klasy</B>, inny <B>id</B>, a jeszcze inny skorzysta z <B>selektorów accessibility</B>. Jak możemy to zabezpieczyć?</M>
+</Section>
+
+<Section>
+  <XL>Tworzymy fasadę na Cypress.get</XL>
+  <M>Teraz potrzebujemy ograniczenia - powinniśmy używać tylko i wyłącznie konkretnych atrybutów - na potrzeby przykładu będzie to <B>data-attribute</B> o nazwie <B>data-i</B>.</M>
+  <Snippet>{`
+  import type { AppE2ESelectors } from './defs';
+   
+const get = (selector: AppE2ESelectors): AppE2ESelectors => {
+  return selector;
+};
+ 
+// Fasada na Cypress.get, aby umożliwić w testach korzystanie
+// tylko i wyłącznie z ograniczonej liczby selektorów.
+const getter =
+  <T extends { get: (selector: string) => ReturnType<T['get']> }>(cy: T) =>
+  (selector: BlogSelectors): ReturnType<T['get']> => {
+    // Jak widać w tym miejscu umożliwiamy wybór przez "data-i".
+    return cy.get('data-i=' + selector);
+  };
+`}</Snippet>
+<M>Zwróć uwagę na to, że przekazujemy instancję <B>Cypress</B> i de facto ją zwracamy, ale z przechwyconym typem. </M>
+<M>A tak wygląda użycie w kodzie testów oraz aplikacji.</M>
+<Snippet>{`
+// @@@ To jest kod jakiegoś testu e2e.
+ 
+import { getter } from "test-utils";
+const get = getter(cy);
+// Tu będzie już podpowiadał TypeScript.
+get("nasz-selektor");
+ 
+// @@@ To jest kod w aplikacji
+ 
+import { get } from "test-utils";
+// Tutaj też podpowiada TypeScript.
+<button data-i={get("nasz-selektor")}></button>
+`}</Snippet>
+</Section>
+
+<Section>
+<XL>Wybór selektorów dla testów e2e</XL>
+<M>No dobra, ale co z <B>good practices</B>? Część deweloperów uważa, że selektory dla testów <B>e2e</B> powinny być tam, gdzie możliwe oparte o atrybuty dostępności - <B>accessibility</B>. To zależy...</M>
+<M>Jeżeli ktoś chce przetestować jednocześnie <B>accessibility</B> oraz ścieżki biznesowe aplikacji w testach <B>e2e</B>, musi się liczyć z tym, że takie testy mogą znacznie częściej psuć się i wymagać zmiany.  Wykorzystanie <B>data-attributes</B> pozwala na oznaczenie elementu <B>HTML</B> unikalną wartością, która referuje do tego, czym ten element jest w kontekście biznesowym, a ten atrybut będzie tylko i wyłącznie używany przez testy <B>e2e</B>.</M>
+<M>Dzięki temu zmiana styli, logiki, dodanie innych atrybutów, czy zmiana samej struktury <B>HTML</B> (zmiana kolejności, dodanie elementu wyżej lub niżej oraz zagnieżdżenie) - nie popsuje naszych testów. </M>
+<M>Sama dokumentacja <B>Cypress</B> mówi o tym, że wykorzystanie <B>data-cy</B> to najlepsza możliwa praktyka. Nasze selektory będa odseparowane całkowicie od zmian w stylach, czy logice. Nie znięchęcam do używania selektorów <B>accessibility</B>, ale należy się liczyć z tym, że takie testy <B>e2e</B> będą znacznie cięższe do utrzymania, a zmiany w strukturze <B>HTML</B> będą psuły testy, a nie powinny. </M>
+<M>Moim zdaniem to idealny przykład wyboru rozwiązania po <B>preferencjach</B> dewelopera, a nie zyskach/stratach. Ja wybieram opcję z <B>data-attributes</B> dlatego, że (i nie mówię Ci, że to <B>best practice</B>): </M>
+<L ordered>
+  <Li>Testy e2e są czasochłonne i kosztowne. Każdy false negative marnuje nam czas. Dlatego wolę ograniczyć ilość failujących testów w momencie zmiany struktury HTML'a.</Li>
+  <Li>Wolę testować accessibility w izolacji - na poziomie testów jednostkowych komponentu, bądź nawet napisać testy e2e tylko dla komponentu, sprawdzające accessibility.</Li>
+  <Li>Testy z data-attributes są bardzo łatwe w utrzymaniu i definiowaniu skończonej liczby selektorów e2e.</Li>
+</L>
+<Hint hasBg>Link do dokumentacji <B>Cypress</B> z przykładem, o którym wspominałem: <A outside href="https://academy.bigbinary.com/learn-qa-automation-using-cypress/cypress-best-practices">Cypress best practices</A>.</Hint>
+</Section>
+
+<Section>
+<XL>Skalowanie selektorów i definicji typów</XL>
+<M>Jedna funkcja do obsługi wszystkich selektorów to trochę mało. Aby lepiej skalować podpowiedzi, które <B>TypeScript</B> będzie nam oferował, możemy stworzyć kilka funkcji (per feature): </M>
+<Snippet>{`
+type SharedSelectors = "app-navbar" | "app-sign-out-control" | "app-sign-in-control"
+type RegisterFeatureSelectors = "register-confirm-control"
+type AppE2ESelectors = SharedSelectors | RegisterFeatureSelectors
+ 
+const getSharedSelectors = (selector: SharedSelectors): SharedSelectors => {
+  return selector;
+};
+const getRegisterSelectors = (selector: RegisterFeatureSelectors): RegisterFeatureSelectors => {
+  return selector;
+};
+const getAllSelectors= (selector: AppE2ESelectors): AppE2ESelectors => {
+  return selector;
+};
+ `}</Snippet>
+</Section>
+
+<Summary label="Podsumowanie i słów kilka o testach e2e">
+<M>Testy <B>e2e</B> są piekielnie czasochłonne. Muszą być napisane w taki sposób, aby były odporne na zmianę implementacji - style, logika, struktura dokumentu <B>HTML</B>. Stosowanie selektorów w oparciu o <B>data-attributes</B> zapewnia odporność na wszystkie trzy wymienione. </M>
+<M>Zmieniłeś nazwę klasy? Zmieniłeś strukturę <B>HTML'a</B>? Dodałeś nowe elementy? Testy będą dalej działać prawidłowo i nie wymagać żadnej zmiany, o tyle jeżeli funkcjonalność rzeczywiście działa i selektor z <B>data-attribute</B> nie uległ zmianie.</M>
+<Hint hasBg>Proszę, potraktuj ten wpis jako ciekawostkę. Naprawdę nie lubię nazywać rzeczy jako <B>good/bad</B> practice, bo sądzę, że jeżeli ktoś umie uargumentować jakieś rozwiązanie, to jest to wystarczające do stosowania go. Oczywiście, jeżeli te argumenty do Ciebie trafiają. Sprawdź sam i wypracuj własną opinie! </Hint>
+</Summary>

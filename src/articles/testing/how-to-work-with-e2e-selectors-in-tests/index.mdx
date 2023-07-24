@@ -1,0 +1,163 @@
+---
+cdate: 2023-07-24
+mdate: 2023-07-24
+authorId: polubis
+treviewerId: kwozniak
+lreviewerId: kzalewska
+tags: testing,improvements,quality
+langs: ["pl"]
+lang: en
+stack: cypress,javascript,typescript
+description: We will check out all the popular approaches that make it much easier to maintain and scale selectors for e2e tests.
+readTime: 4
+seniorityLevel: intermediate
+title: How to work with e2e selectors in tests
+---
+<Prelude label="A bit about selectors for e2e tests">
+  <M>
+    When writing <B>e2e</B> tests, you must always use a selector. The more precise and unique it is, the better for you and your tests. Why? Suppose we have a <B>selector</B> that looks like this: 
+  </M>
+  <Snippet>{`
+// Some JSX component code in React.
+<button className="button">First</button>
+<button className="button">Second</button>
+<button className="button">Third</button>
+  `}</Snippet>
+  <M>Now for <B>e2e</B> tests, suppose we are using <B>Cypress</B>, our code could look like this:</M>
+  <Snippet>{`
+// ❌ Fatally - you will add a button before "First"
+// and you have a surprise in your tests.
+cy.get('button:first-of-type');
+  `}</Snippet>
+  <M>It's best to write selectors in such a way that they are always unique and independent of the <B>HTML</B> structure (changing it should not break the tests). Only such an approach will give you stability in tests. Of course, there may be exceptions to this rule, but if there is such a possibility, we should try to follow this pattern.</M>
+    <Snippet>{`
+// We added a unique class - "component-name-button-first".
+<button className="button component-name-button-first">First</button>
+<button className="button">Second</button>
+<button className="button">Third</button>
+// In e2e tests
+cy.get('.component-name-button-first');
+  `}</Snippet>
+  <M>Honestly? That's an even worse idea. Why? </M>
+  <L>
+  <Li>When the component name change - you need to rename the class</Li> 
+  <Li>A selector is unique at the component scale, but not at the application scale :)</Li>
+  </L>
+  <M>Maybe we should change from class to <B>#id</B>? Same problems will appear. Well then, what are we supposed to do? The problem is not what attribute we set, but what value we assign to it. We should know what the set of possible selectors is, where to get them and whether they are unique on the scale of the application/library or functionality.</M>
+</Prelude>
+
+<Section>
+<XL>How to achieve a finite number of selectors?</XL>
+<M>You can create a simple <B>JavaScript</B> or <B>JSON</B> object and use its values in <B>e2e</B> tests as well as in the application code.</M>
+<Snippet>{`
+// app-selectors.ts
+const app_selectors = {
+  nav_bar: "nav_bar",
+  sign_out_control: "sign_out_control"
+};
+// some-component.ts
+import { app_selectors } from "selectors/app";
+<button className={app_selectors.sign_out_control}>Come on, log me out</button>
+// some-test-e2e.ts
+import { app_selectors } from "selectors/app";
+cy.get('.' + app_selectors.sign_out_control);
+`}</Snippet>
+<M>Now we know what number of selectors we have that should be used in <B>e2e</B> tests - we know that they are finite. Also, maintaining them will be much easier (change in one place).</M>
+<M>I still see two problems here: </M>
+<L>
+  <Li>This object can be terribly large - which will affect the size of the application,</Li>
+  <Li>Anyone can use any attribute: class, id or other,</Li>
+</L>
+</Section>
+
+<Section>
+  <XL>How to get rid of a large object and slim down the application?</XL>
+  <M>  First, let's define <B>string literals</B> from <B>TypeScript</B>, which will determine what selectors we can use.</M>
+  <Snippet>{`
+type SharedSelectors = "app-navbar" | "app-sign-out-control" | "app-sign-in-control"
+type RegisterFeatureSelectors = "register-confirm-control"
+type AppE2ESelectors = SharedSelectors | RegisterFeatureSelectors`}</Snippet>
+<M>Now in both <B>e2e</B> tests code and application code, it will use the following function:</M>
+<Snippet>{`
+const select = (selector: AppE2ESelectors): AppE2ESelectors => selector`}</Snippet>
+<M>A function that all it does is take a parameter and return it? LOL... Okay, now watch this. Instead of a large object, you have a function and <B>type literals</B> that always specify a finite number of selectors. The following function must be imported and called in the application and tests. </M>
+<Img description="Pay attention to the hints you get from TypeScript" src="https://drive.google.com/uc?export=view&id=1LRxTPFldr7cAB-_RcysP6uS1t-ifgmWB" />
+<M>Okay, but still anyone can use any attribute. One developer will use <B>classes</B>, another <B>id</B>, and another will use <B>accessibility selectors</B>. How can we secure it?</M>
+</Section>
+
+<Section>
+  <XL>Creating a facade on Cypress.get</XL>
+  <M>Now we need a constraint - we should only use specific attributes - for the purposes of the example it will be a <B>data-attribute</B> named <B>data-i</B>.</M>
+  <Snippet>{`
+  import type { AppE2ESelectors } from './defs';
+   
+const get = (selector: AppE2ESelectors): AppE2ESelectors => {
+  return selector;
+};
+ 
+// Facade on Cypress.get to allow use
+// only a limited number of selectors.
+const getter =
+  <T extends { get: (selector: string) => ReturnType<T['get']> }>(cy: T) =>
+  (selector: BlogSelectors): ReturnType<T['get']> => {
+    // As you can see here we can select only by "data-i".
+  };
+`}</Snippet>
+<M>Note that we are passing a <B>Cypress</B> instance and actually returning it, but with a captured type.</M>
+<M>And this is how it looks like in the code of tests and applications.</M>
+<Snippet>{`
+// @@@ This is some e2e test code.
+ 
+import { getter } from "test-utils";
+const get = getter(cy);
+// TypeScript will help you here.
+get("our-selektor");
+ 
+// @@@ This is the code in the app
+ 
+import { get } from "test-utils";
+// TypeScript will help you here too.
+<button data-i={get("our-selektor")}></button>
+`}</Snippet>
+</Section>
+
+<Section>
+<XL>Choosing selectors for e2e tests</XL>
+<M>Okay, but what about <B>good practices</B>? Some developers believe that selectors for <B>e2e</B> tests should be based on <B>accessibility</B> attributes where possible. It depends... I'm already explaining what's going on.</M>
+<M>If someone wants to test the <B>accessibility</B> and business paths of the application in <B>e2e</B> tests at the same time, he must take into account that such tests can fail much more often and require changes. The use of <B>data-attributes</B> allows you to mark an <B>HTML</B> element with a unique value that refers to what this element is in a business context, and this attribute will only be used by <B>e2e</B> tests.</M>
+<M>Thanks to this, changing styles, logic, adding other attributes, or changing the <B>HTML</B> structure itself (changing the order, adding an element higher or lower, and nesting) - will not break our tests.</M>
+<M>The <B>Cypress</B> documentation itself says that using <B>data-cy</B> is the best practice. Our selectors will be completely separated from changes in styles or logic. I do not discourage the use of <B>accessibility</B> selectors, but it should be taken into account that such <B>e2e</B> tests will be much harder to maintain, and changes in the <B>HTML</B> structure will break the tests, and they shouldn't.</M>
+<M>In my opinion, this is a perfect example of choosing a solution based on the developer's <B>preferences</B>, not profits/losses. I choose the <B>data-attributes</B> option because (and I'm not telling you it's <B>best practice</B>):</M>
+<L ordered>
+  <Li>E2e testing is time-consuming and expensive. Every false negative wastes our time. That's why I prefer to limit the number of failing tests when changing the HTML structure.</Li>
+  <Li>I prefer to test accessibility in isolation - at the level of component unit tests, or even write e2e tests only for the component and check accessibility.</Li>
+  <Li>Data-attributes tests are very easy to maintain and define a finite number of selectors.</Li>
+</L>
+<Hint hasBg>Link to the <B>Cypress</B> documentation with the example I mentioned: <A outside href="https://academy.bigbinary.com/learn-qa-automation-using-cypress/cypress-best-practices">Cypress best practices</A>.</Hint>
+</Section>
+
+<Section>
+<XL>Scaling of selectors and type definitions</XL>
+<M>One function to handle all selectors is a bit much. To better scale the hints that <B>TypeScript</B> will offer us, we can create a few functions (per feature):</M>
+<Snippet>{`
+type SharedSelectors = "app-navbar" | "app-sign-out-control" | "app-sign-in-control"
+type RegisterFeatureSelectors = "register-confirm-control"
+type AppE2ESelectors = SharedSelectors | RegisterFeatureSelectors
+ 
+const getSharedSelectors = (selector: SharedSelectors): SharedSelectors => {
+  return selector;
+};
+const getRegisterSelectors = (selector: RegisterFeatureSelectors): RegisterFeatureSelectors => {
+  return selector;
+};
+const getAllSelectors= (selector: AppE2ESelectors): AppE2ESelectors => {
+  return selector;
+};
+ `}</Snippet>
+</Section>
+
+<Summary label="Summary and a few words about e2e tests">
+<M><B>E2e</B> tests are hellishly time-consuming. They must be written in such a way that they are resistant to changes in implementation - styles, logic, and structure of the <B>HTML</B> document. Using selectors based on <B>data-attributes</B> provides resistance to all three listed.</M>
+<M>Did you change the class name? Did you change the <B>HTML</B> structure? Have you added new items? The tests will continue to work properly and do not require any changes, as long as the functionality actually works and the <B>data-attribute</B> selector has not changed.</M>
+<Hint hasBg>Please treat this post as a curiosity. I really don't like to call things <B>good/bad</B> practice, because I think if someone can argue a solution, that's good enough to use it. Of course, if these arguments appeal to you.</Hint>
+</Summary>
