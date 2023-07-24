@@ -2,7 +2,6 @@ import React from "react"
 import { L_UP } from "../../../utils/viewport"
 import styled from "styled-components"
 import { Content, M } from "../../../ui"
-import { Reviewers } from "../../../components/article/Reviewers"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import Intro from "../../../components/article/Intro"
 import { useScrollToTop } from "../../../utils/useScrollToTop"
@@ -16,6 +15,7 @@ import { ArticleFooter } from "../../containers/ArticleFooter"
 import { ProgressDisplayer } from "../../../components/article/ProgressDisplayer"
 import { ArticleTags } from "../../containers/ArticleTags"
 import { ArticleBreadcrumbs } from "../../containers/ArticleBreadcrumbs"
+import { Reviewers } from "../../components/Reviewers"
 
 const ArticleContent = styled.main`
   margin: 24px auto;
@@ -42,47 +42,63 @@ const ArticleContent = styled.main`
 `
 
 const ArticleView = () => {
-  const layout = useLayoutProvider()
-  const { article, t } = useArticleProvider()
-
   useScrollToTop()
+  const layout = useLayoutProvider()
+  const {
+    read_time,
+    thumbnail,
+    t: {
+      other_lang_banner_message,
+      other_lang_banner_link
+    },
+    description,
+    title,
+    is_new,
+    seniority,
+    author,
+    tech_reviewer,
+    ling_reviewer,
+    translation_path,
+    body,
+    technologies
+  } = useArticleProvider()
 
   return (
     <>
       <Layout>
         <Content>
           <ArticleContent>
-            {article.translations.length > 0 && (
+            {translation_path && (
               <ReadInOtherLanguageBanner
-                text={t.other_lang_banner_message}
-                linkLabel={t.other_lang_banner_link}
-                url={article.translations[0].path}
+                text={other_lang_banner_message}
+                linkLabel={other_lang_banner_link}
+                url={translation_path}
               />
             )}
             <ArticleBreadcrumbs />
             <Thumbnail
-              readTime={article.readTime}
-              thumbnail={article.thumbnail}
-              title={article.title}
+              readTime={read_time}
+              thumbnail={thumbnail.full}
+              title={title}
               thumbnailAlt={layout.t.article_thumbnail}
-              isNew={article.isNew}
+              isNew={is_new}
               newLabel={layout.t.new}
-              seniorityLevel={article.seniorityLevel}
+              seniorityLevel={seniority}
             />
             <ArticleTags />
             <Intro>
-              <M>{article.description}</M>
+              <M>{description}</M>
             </Intro>
             <Reviewers
-              author={article.author}
-              techReviewer={article.techReviewer}
-              lingReviewer={article.lingReviewer}
+              author={author}
+              tech={tech_reviewer}
+              ling={ling_reviewer}
               authorLabel={layout.t.author}
-              linguisticCheckLabel={layout.t.linguistic_check}
-              technicalCheckLabel={layout.t.technical_check}
+              lingLabel={layout.t.linguistic_check}
+              techLabel={layout.t.technical_check}
             />
-            <Stack className='center' items={article.stack} />
-            <MDXRenderer>{article.body}</MDXRenderer>
+            <Stack className="center" items={technologies} />
+            <MDXRenderer>{body}</MDXRenderer>
             <ArticleFooter />
           </ArticleContent>
         </Content>

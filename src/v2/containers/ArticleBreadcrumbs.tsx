@@ -5,13 +5,13 @@ import { Breadcrumbs } from "../components/Breadcrumbs"
 import { Link } from 'gatsby'
 
 const ArticleBreadcrumbs = () => {
-    const { meta, t } = useLayoutProvider()
-    const { article: { title } } = useArticleProvider()
+    const { routes, t } = useLayoutProvider()
+    const { title } = useArticleProvider()
 
     return (
         <Breadcrumbs>
-            <Link to={meta.routes.home.to}>{t.home}</Link>
-            <Link to={meta.routes.articles.to}>{t.articles}</Link>
+            <Link to={routes.home.to}>{t.home}</Link>
+            <Link to={routes.articles.to}>{t.articles}</Link>
             <span>{title}</span>
         </Breadcrumbs>
     )

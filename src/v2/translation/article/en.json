@@ -1,8 +1,10 @@
 {
-    "other_lang_banner_message": "This article is also published in polish language.",
-    "other_lang_banner_link": "Change language",
-    "observe_me_header": "I create content regularly!",
-    "observe_me_description_first_part": "I hope you found my post interesting. If so, maybe you'll take a peek at my",
-    "observe_me_description_second_part": "where I publish posts daily.",
-    "observe_me_follow": "Follow me"
+  "other_lang_banner_message": "This article is also published in polish language.",
+  "other_lang_banner_link": "Change language",
+  "observe_me_header": "I create content regularly!",
+  "observe_me_description_first_part": "I hope you found my post interesting. If so, maybe you'll take a peek at my",
+  "observe_me_description_second_part": "where I publish posts daily.",
+  "observe_me_follow": "Follow me",
+  "created": "created",
+  "updated": "updated"
 }

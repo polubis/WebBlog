@@ -105,3 +105,15 @@ html {
   opacity: 0;
   animation: animate-in 0.4s ease-in-out 0.4s forwards;
 }
+
+.cap {
+  text-transform: capitalize;
+}
+
+.upper {
+  text-transform: uppercase;
+}
+
+.clickable {
+  cursor: pointer;
+}

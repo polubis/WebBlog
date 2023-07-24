@@ -4,7 +4,7 @@ import { useArticleProvider } from "../features/article/ArticleProvider"
 
 const ArticleTags = () => {
     const {
-        article: { tags },
+        tags,
     } = useArticleProvider()
 
     return (

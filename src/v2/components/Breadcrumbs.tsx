@@ -12,6 +12,7 @@ const Container = styled.div`
     align-items: center;
     font-size: 16px;
     color: #fff;
+    flex-shrink: 0;
 
     :last-child {
         text-decoration: none;
@@ -32,13 +33,13 @@ const Container = styled.div`
 `
 
 const Breadcrumbs = ({ className, children }: BreadcrumbsProps) => {
-    return (
-        <Container
-            className={`breadcrumbs ${className ? " " + className : ""} row`}
-        >
-            {children}
-        </Container>
-    )
+  return (
+    <Container
+      className={`breadcrumbs ${className ? " " + className : ""} row`}
+    >
+      {children}
+    </Container>
+  )
 }
 
 export { Breadcrumbs }
