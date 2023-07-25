@@ -1,35 +1,20 @@
 const { createUser } = require("./createUser")
 const { getArticleThumbnail } = require("./getArticleThumbnail")
 const { sortByDates } = require("./sortByDates")
-const meta = require("../core/meta.json")
 const article_en = require("../translation/article/en.json")
-const layout_en = require("../translation/layout/en.json")
 const article_pl = require("../translation/article/pl.json")
-const layout_pl = require("../translation/layout/pl.json")
 const { createTechnologies } = require("./createTechnologies")
+const { createMetadata } = require("./create-metadata")
+const { createLayout } = require("./create-layout")
 
-const metadata = {
-  en: {
-    layout: {
-      t: layout_en,
-      lang: meta.langs.en,
-      lang_alternate: meta.langs.pl,
-    },
-    article: {
-      t: article_en,
-    },
+const { metadata, meta } = createMetadata({
+  article: {
+    t: article_en,
   },
-  pl: {
-    layout: {
-      t: layout_pl,
-      lang: meta.langs.pl,
-      lang_alternate: meta.langs.en,
-    },
-    article: {
-      t: article_pl,
-    },
+  article: {
+    t: article_pl,
   },
-}
+})
 
 const ArticlePageCreator = ({ createPage }) => ({
   makeComponent,
@@ -129,18 +114,17 @@ const ArticlePageCreator = ({ createPage }) => ({
       component: makeComponent(),
       context: {
         article,
-        layout: {
-          ...metadata[lang].layout,
-          ...meta,
-          articles: data.slice(0, 16).map(({ title, slug, path }) => ({
-            title,
-            thumbnail: getArticleThumbnail(slug, articleThumbnails).medium,
-            path,
-          })),
-        },
+        layout: createLayout({
+          metadata,
+          meta,
+          lang,
+          articles: data,
+        }),
       },
     })
   })
+
+  return data
 }
 
 module.exports = {

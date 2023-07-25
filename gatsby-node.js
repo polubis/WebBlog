@@ -330,6 +330,50 @@ exports.createPages = async ({ actions, graphql }) => {
   const { courses, site, materials } = data
   const { routes } = site
 
+  const authorsAvatars = result.data.authorsAvatars.nodes
+  const articleThumbnails = result.data.articleThumbnails.nodes
+  const technologiesAvatars = result.data.technologiesAvatars.nodes
+
+  const createEnglishArticlePages = ArticlePageCreator({
+    createPage,
+  })({
+    makeSlug: getEnArticleSlug,
+    makeComponent: () => resolve(`src/v2/features/article/ArticlePage.tsx`),
+    makePath: ({ slug }) => "/articles/" + slug + "/",
+    makeGaPage: ({ slug }) => "articles/" + slug,
+    makeSourceUrl: ({ slug, meta }) =>
+      meta.article_source_url + "/articles/" + slug,
+    makeTranslationPath: ({ slug }) => "/pl/articles/" + slug + "/",
+  })
+
+  const enArticles = createEnglishArticlePages({
+    articles: result.data.articles.nodes,
+    authorsAvatars,
+    articleThumbnails,
+    technologiesAvatars,
+    authors,
+  })
+
+  const createPolishArticlePages = ArticlePageCreator({
+    createPage,
+  })({
+    makeSlug: getPlArticleSlug,
+    makeComponent: () => resolve(`src/v2/features/article/ArticlePage.tsx`),
+    makePath: ({ slug }) => "/pl/articles/" + slug + "/",
+    makeGaPage: ({ slug }) => "pl/articles/" + slug,
+    makeSourceUrl: ({ slug, meta }) =>
+      meta.article_source_url + "/articles/" + slug,
+    makeTranslationPath: ({ slug }) => "/articles/" + slug + "/",
+  })
+
+  const plArticles = createPolishArticlePages({
+    articles: result.data.translatedArticles.nodes,
+    authorsAvatars,
+    articleThumbnails,
+    technologiesAvatars,
+    authors,
+  })
+
   createPage({
     path: routes.home.to,
     component: resolve(`src/components/home/HomePage.tsx`),
@@ -383,50 +427,6 @@ exports.createPages = async ({ actions, graphql }) => {
         material,
       },
     })
-  })
-
-  const authorsAvatars = result.data.authorsAvatars.nodes
-  const articleThumbnails = result.data.articleThumbnails.nodes
-  const technologiesAvatars = result.data.technologiesAvatars.nodes
-
-  const createEnglishArticlePages = ArticlePageCreator({
-    createPage,
-  })({
-    makeSlug: getEnArticleSlug,
-    makeComponent: () => resolve(`src/v2/features/article/ArticlePage.tsx`),
-    makePath: ({ slug }) => "/articles/" + slug + "/",
-    makeGaPage: ({ slug }) => "articles/" + slug,
-    makeSourceUrl: ({ slug, meta }) =>
-      meta.article_source_url + "/articles/" + slug,
-    makeTranslationPath: ({ slug }) => "/pl/articles/" + slug + "/",
-  })
-
-  createEnglishArticlePages({
-    articles: result.data.articles.nodes,
-    authorsAvatars,
-    articleThumbnails,
-    technologiesAvatars,
-    authors,
-  })
-
-  const createPolishArticlePages = ArticlePageCreator({
-    createPage,
-  })({
-    makeSlug: getPlArticleSlug,
-    makeComponent: () => resolve(`src/v2/features/article/ArticlePage.tsx`),
-    makePath: ({ slug }) => "/pl/articles/" + slug + "/",
-    makeGaPage: ({ slug }) => "pl/articles/" + slug,
-    makeSourceUrl: ({ slug, meta }) =>
-      meta.article_source_url + "/articles/" + slug,
-    makeTranslationPath: ({ slug }) => "/articles/" + slug + "/",
-  })
-
-  createPolishArticlePages({
-    articles: result.data.translatedArticles.nodes,
-    authorsAvatars,
-    articleThumbnails,
-    technologiesAvatars,
-    authors,
   })
 
   courses.forEach(course => {
