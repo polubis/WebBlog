@@ -2,11 +2,9 @@ import React from "react"
 
 import { ArticleProvider } from "./ArticleProvider"
 import { ArticleView } from "./ArticleView"
-import { SiteMeta } from "../../../utils/SiteMeta"
-import {
-  LayoutProvider,
-} from "../../providers/LayoutProvider"
+import { LayoutProvider } from "../../providers/LayoutProvider"
 import { Article, Layout } from "../../core/models"
+import { SEO } from "../../containers/SEO"
 
 interface ArticlePageProps {
   pageContext: {
@@ -19,24 +17,21 @@ const ArticlePage = ({ pageContext }: ArticlePageProps) => {
   const { article, layout } = pageContext
 
   return (
-    <SiteMeta
-      siteName={layout.site_name}
-      siteLang={layout.lang.html}
-      gaPage={article.ga_page}
-      url={article.ga_page + "/"}
-      robots="index,follow,max-image-preview:large"
-      title={article.title}
-      type="article"
-      author={article.author.full_name}
-      description={article.description}
-      image={article.thumbnail.full.src}
-    >
-      <LayoutProvider initialState={layout}>
-        <ArticleProvider initialState={article}>
+    <LayoutProvider initialState={layout}>
+      <ArticleProvider initialState={article}>
+        <SEO
+          ga_page={article.ga_page}
+          url={article.url}
+          title={article.title}
+          type="article"
+          description={article.description}
+          image={layout.site_url + article.thumbnail.full.src}
+          author={article.author.full_name}
+        >
           <ArticleView />
-        </ArticleProvider>
-      </LayoutProvider>
-    </SiteMeta>
+        </SEO>
+      </ArticleProvider>
+    </LayoutProvider>
   )
 }
 

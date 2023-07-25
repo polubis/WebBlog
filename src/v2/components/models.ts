@@ -36,10 +36,27 @@ interface ReviewersProps {
   techLabel: string
 }
 
+interface SEOProps {
+  title: string
+  site_name: string
+  locale: string
+  locale_alternate: string
+  lang: string
+  description: string
+  type: string
+  robots?: string
+  url: string
+  ga_page: string
+  children: ReactNode
+  image?: string
+  author?: string
+}
+
 export type {
   TagsProps,
   BreadcrumbsProps,
   UserBadgeProps,
   ObserveMeProps,
   ReviewersProps,
+  SEOProps,
 }
