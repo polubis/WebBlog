@@ -3,12 +3,12 @@ import React from "react"
 import { ArticleProvider } from "./ArticleProvider"
 import { ArticleView } from "./ArticleView"
 import { LayoutProvider } from "../../providers/LayoutProvider"
-import { Article, Layout } from "../../core/models"
+import { ArticlePageModel, Layout } from "../../core/models"
 import { SEO } from "../../containers/SEO"
 
 interface ArticlePageProps {
   pageContext: {
-    article: Article
+    article: ArticlePageModel
     layout: Layout
   }
 }

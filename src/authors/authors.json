@@ -4,9 +4,13 @@
     "name": "polubis",
     "firstName": "Adrian",
     "lastName": "Połubiński",
-    "platformRoles": ["content-creator", "contributor"],
+    "platformRoles": [
+      "content-creator",
+      "contributor"
+    ],
     "role": "Senior Frontend Developer",
-    "bio": "Software development and application design are more than just a job for me. I have been a freelancer for a few years and I carried out projects in various technologies. Focused on React, TypeScript, NodeJS. In my free time, I play guitar.",
+    "bioPl": "Pisanie aplikacji oraz projektowanie apek, to dla mnie o wiele więcej niż zwykła praca. Byłem freelancerem przez kilka lat i zajmowałem się różnymi projektami. Głównie skupiony na React, Typescript i NodeJS. W wolnym czasie gram na gitarze.",
+    "bio": "Software development and application design are more than just a job for me. I have been a freelancer for a few years and I carried out projects in various technologies. Focused on React, TypeScript and NodeJS. In my free time, I play guitar.",
     "githubURL": "https://github.com/polubis",
     "linkedinURL": "https://www.linkedin.com/in/adrian-po%C5%82ubi%C5%84ski-281ab2172/",
     "projects": [
@@ -15,7 +19,12 @@
         "name": "Creating a CRM for companies selling heat pumps",
         "description": "FrontEnd: Creating a Customer panel along with CRUD operations. Backend: Creating a controller, model and endPionts, export to JSON",
         "from": "2023.01.01",
-        "stack": ["React", "Bootstrap", "MongoDB", "Next.js"],
+        "stack": [
+          "React",
+          "Bootstrap",
+          "MongoDB",
+          "Next.js"
+        ],
         "appUrl": "www.link.com",
         "codeUrl": "https://github.com/kmilek73/java_start",
         "images": []
@@ -26,9 +35,12 @@
     "id": "awęgrodzki",
     "name": "awęgrodzki",
     "firstName": "Artur",
-    "platformRoles": ["contributor"],
+    "platformRoles": [
+      "contributor"
+    ],
     "lastName": "Węgrodzki",
     "role": ".NET developer",
+    "bioPl": "Głównie zajmuje się technolgiami C# oraz .NET. Specjalizuje się w pisaniu API, aplikacjach mobilnych oraz bazach danych. W wolnym czasie jeżdzę rowerem i gram w gierki.",
     "bio": "Daily working in C# and .NET environments. Specialized in Backend APIs, Xamarin mobile applications and databases. In my free time, I ride a bike and play games.",
     "linkedinURL": "https://www.linkedin.com/in/artur-w%C4%99grodzki-926109194/",
     "projects": []
@@ -37,9 +49,12 @@
     "id": "kreszko",
     "name": "kreszko",
     "firstName": "Krzysztof",
-    "platformRoles": ["contributor"],
+    "platformRoles": [
+      "contributor"
+    ],
     "lastName": "Reszko",
     "role": "Editor & Reviewer",
+    "bioPl": "Nauczyciel języka angielskiego z zamiłowania. W wolnym czasie tłumaczę oraz edytuje artykuły. Po pracy siłownia i gry komputerowe.",
     "bio": "English teacher. In the meantime, I do translation and editing work. My Interests are fitness and video games.",
     "projects": []
   },
@@ -47,9 +62,13 @@
     "id": "ejuchnikowski",
     "name": "ejuchnikowski",
     "firstName": "Emil",
-    "platformRoles": ["content-creator", "contributor"],
+    "platformRoles": [
+      "content-creator",
+      "contributor"
+    ],
     "lastName": "Juchnikowski",
     "role": "Solution architect",
+    "bioPl": "Pracuję jako Software Architect. Zacząłem swoją karierę prawie 10 lat temu jako .NET deweloper. Aktualnie zajmuję się ekosystemem JavaScript. Obecny stack to: Angular, Ioinic, NodeJS oraz MongoDB. Po pracy biegam oraz trenuje boks. Moje motto to: 'Głównym ograniczeniem jest wyobraźnia, a nie czas i pieniądze'.",
     "bio": "I work as a Software Architect, and started my career 10 years ago as a .NET developer. Currently, I mainly write in JavaScript and deal with the frontend ecosystem. Current stack includes Angular, Ionic, NodeJS, NestJS and MongoDB. Outside of work, I enjoy running and boxing training. My motto is: 'The only limitation is the imagination, and not those who still say time and money.'",
     "projects": [],
     "githubURL": "https://github.com/emiljuchnikowski",
@@ -60,8 +79,12 @@
     "name": "kwozniak",
     "firstName": "Kacper",
     "lastName": "Woźniak",
-    "platformRoles": ["content-creator", "contributor"],
+    "platformRoles": [
+      "content-creator",
+      "contributor"
+    ],
     "role": "Frontend developer",
+    "bioPl": "Skupiam się głównie na React, Vue oraz TypeScript podczas pracy. Po pracy piszę własne aplikacje i ogarniam tematy związane z motoryzacją.",
     "bio": "Professionally - frontend developer focused on React, Vue and Typescript. I am happy to engage in additional activities related to programming. Privately - motorization enthusiast.",
     "githubURL": "https://github.com/ajronn",
     "linkedinURL": "https://www.linkedin.com/in/ajronn/",
@@ -70,10 +93,14 @@
   {
     "id": "pjurczyk",
     "name": "pjurczyk",
-    "platformRoles": ["content-creator", "contributor"],
+    "platformRoles": [
+      "content-creator",
+      "contributor"
+    ],
     "firstName": "Patryk",
     "lastName": "Jurczyk",
     "role": "Frontend developer",
+    "bioPl": "Pracuję w React oraz TypeScript. Lubię robić rzeczy bardziej skomplikowane, bo to dzięki nim uczę się najwięcej. W wolnym czasie chodzę na siłownie oraz jeżdzę rowerem.",
     "bio": "The technologies I develop are React and TypeScript. I like to take on more and more difficult things because with them I can learn the most. I spend my free time actively at the gym or cycling.",
     "githubURL": "https://github.com/PatrykJurczyk",
     "linkedinURL": "https://www.linkedin.com/in/patryk-jurczyk-832311241/",
@@ -84,8 +111,11 @@
     "name": "kzalewska",
     "firstName": "Klaudia",
     "lastName": "Zalewska",
-    "platformRoles": ["contributor"],
+    "platformRoles": [
+      "contributor"
+    ],
     "role": "Junior Q&A",
+    "bioPl": "Piszę w czystym JavaScript, którego znajmość przydaje mi się do testowania e2e w Cypress. Po pracy czytam wiele książek - głównie kryminalnych.",
     "bio": "I have a foundation in programming and JavaScript, which helps me ensure software quality and create seamless user experiences. Outside of work, I enjoy reading criminal books.",
     "githubURL": "https://github.com/klaudiazalewska",
     "linkedinURL": "https://www.linkedin.com/in/klaudia-zalewska-725902231/",
@@ -95,9 +125,12 @@
     "id": "tmarczak",
     "name": "tmarczak",
     "firstName": "Tomasz",
-    "platformRoles": ["contributor"],
+    "platformRoles": [
+      "contributor"
+    ],
     "lastName": "Marczak",
     "role": "Frontend developer",
+    "bioPl": "Kodowanie to moje hobby i poznałem wielu przyjaciół ucząc się TypeScript oraz React. Aktualnie pracuję w firmie produkującej części do statków. Po pracy lubię robić dosłownie 'wszystko'. Kocham koty i serial 'The Office'.",
     "bio": "Coding is my hobby and I made friends with TypeScript and React. I’m curently working in cruise ship industry and love designing useful things. Besides that I'm interested in a little bit of everything and nothing in particular, however boxing seem to tickle my mind more. I love cats and 'The Office'.",
     "githubURL": "https://tomaszmarczak.github.io/",
     "linkedinURL": "https://www.linkedin.com/in/tomasz-marczak-4a12a811a/",
@@ -107,9 +140,12 @@
     "id": "stymcio",
     "name": "stymcio",
     "firstName": "Szymon",
-    "platformRoles": ["contributor"],
+    "platformRoles": [
+      "contributor"
+    ],
     "lastName": "Tymcio",
     "role": "Frontend Developer",
+    "bioPl": "Napędza mnie pasja do tworzenia stron internetowych. Skupiam się na tym obszarze. Lubię testować nowe rzeczy oraz eksplorować ostatnie nowinki ze świata frontend.",
     "bio": "Driven by a passion for creating engaging websites, I am a dedicated web technology enthusiast who is eager to explore the latest trends and push the boundaries.",
     "githubURL": "https://github.com/pypcio",
     "linkedinURL": "https://www.linkedin.com/in/szymon-tymcio-411882261/",
@@ -119,9 +155,12 @@
     "id": "goteii",
     "name": "goteii",
     "firstName": "Dawid",
-    "platformRoles": ["contributor"],
+    "platformRoles": [
+      "contributor"
+    ],
     "lastName": "Dowgiałło",
     "role": "Frontend Developer",
+    "bioPl": "Jestem frontend deweloperem, który uwielba Angular, Vue, React, JS oraz Typescript. W wolnym czasie uczę się nowych rzeczy, gram w gry i słucham muzyki.",
     "bio": "Frontend developer with a knowledge of Angular, Vue, React, JS and Typescript. In my free time I expand my knowledge, play games and listen to music.",
     "githubURL": "https://github.com/Goteii",
     "linkedinURL": "https://www.linkedin.com/in/dawid-dowgia%C5%82%C5%82o-49a4741a9/",
@@ -131,9 +170,12 @@
     "id": "pawelg",
     "name": "pawelg",
     "firstName": "Paweł",
-    "platformRoles": ["contributor"],
+    "platformRoles": [
+      "contributor"
+    ],
     "lastName": "Gnat",
     "role": "Frontend Developer",
+    "bioPl": "Przenoszę wymagania biznesowe na dowolny kod. Kocham rozwój osobisty. Każdego dnia się czegoś uczę i nie mogę przestać. Możesz znaleźć mnie na Instagramie - @pawel.coder.",
     "bio": "I develop your business through programming. I love entrepreneurship and personal development. I learn something new every day and I can't get enough of it. You can find more about me on Instagram @pawel.coder.",
     "githubURL": "https://github.com/Pawel-Gnat",
     "linkedinURL": "https://www.linkedin.com/in/pawe%C5%82-gnat/",
@@ -145,6 +187,7 @@
     "firstName": "Bartłomiej",
     "lastName": "Stępień",
     "role": "Frontend Developer",
+    "bioPl": "Moje ulubione technolgie to React oraz TypeScript. Uwielbiam tworzyć nowoczesne strony internetowe oraz skomplikowane funkcjonalności. Po pracy głównie siłownia, dbanie o swoje zdrowie i wiele, wiele sportu.",
     "bio": "My favorite technologies that I am constantly learning and improving in are React and TypeScript. I love creating modern user interfaces and developing features that bring value to users. In addition to coding, I actively spend my free time on the field or at the gym, taking care of my health and fitness.",
     "githubURL": "https://github.com/Bartlomiejste",
     "linkedinURL": "https://www.linkedin.com/in/stepien-bartlomiej/",

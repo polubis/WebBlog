@@ -3,33 +3,9 @@ const { getArticleThumbnail } = require("./getArticleThumbnail")
 const { sortByDates } = require("./sortByDates")
 const meta = require("../core/meta.json")
 const article_en = require("../translation/article/en.json")
-const layout_en = require("../translation/layout/en.json")
 const article_pl = require("../translation/article/pl.json")
-const layout_pl = require("../translation/layout/pl.json")
 const { createTechnologies } = require("./createTechnologies")
-
-const metadata = {
-  en: {
-    layout: {
-      t: layout_en,
-      lang: meta.langs.en,
-      lang_alternate: meta.langs.pl,
-    },
-    article: {
-      t: article_en,
-    },
-  },
-  pl: {
-    layout: {
-      t: layout_pl,
-      lang: meta.langs.pl,
-      lang_alternate: meta.langs.en,
-    },
-    article: {
-      t: article_pl,
-    },
-  },
-}
+const { createLayout } = require("./create-layout")
 
 const ArticlePageCreator = ({ createPage }) => ({
   makeComponent,
@@ -46,6 +22,10 @@ const ArticlePageCreator = ({ createPage }) => ({
   authors,
 }) => {
   const sortedArticles = sortByDates(articles)
+  const articleTranslations = {
+    pl: article_pl,
+    en: article_en,
+  }
 
   const data = sortedArticles.map((article, index) => {
     const { body } = article
@@ -67,12 +47,31 @@ const ArticlePageCreator = ({ createPage }) => ({
     } = article.frontmatter
 
     const path = makePath({ slug })
+    const author = createUser(authorId, authors, authorsAvatars)
+    const tech_reviewer = createUser(treviewerId, authors, authorsAvatars)
+    const ling_reviewer = createUser(lreviewerId, authors, authorsAvatars)
     const articlePageObject = {
-      author: createUser(authorId, authors, authorsAvatars),
-      tech_reviewer: createUser(treviewerId, authors, authorsAvatars),
-      ling_reviewer: createUser(lreviewerId, authors, authorsAvatars),
+      author: {
+        ...author,
+        avatar: {
+          medium: author.avatar.medium,
+          small: author.avatar.small,
+        },
+      },
+      tech_reviewer: {
+        ...tech_reviewer,
+        avatar: {
+          small: tech_reviewer.avatar.small,
+        },
+      },
+      ling_reviewer: {
+        ...ling_reviewer,
+        avatar: {
+          small: ling_reviewer.avatar.small,
+        },
+      },
       thumbnail: getArticleThumbnail(slug, articleThumbnails),
-      t: metadata[lang].article.t,
+      t: articleTranslations[lang],
       cdate,
       mdate,
       lang,
@@ -123,24 +122,24 @@ const ArticlePageCreator = ({ createPage }) => ({
 
   const { lang } = data[0]
 
+  const layout = createLayout({
+    lang,
+    articles: data,
+    articleThumbnails,
+  })
+
   data.forEach(article => {
     createPage({
       path: article.path,
       component: makeComponent(),
       context: {
         article,
-        layout: {
-          ...metadata[lang].layout,
-          ...meta,
-          articles: data.slice(0, 16).map(({ title, slug, path }) => ({
-            title,
-            thumbnail: getArticleThumbnail(slug, articleThumbnails).medium,
-            path,
-          })),
-        },
+        layout,
       },
     })
   })
+
+  return [layout, data]
 }
 
 module.exports = {

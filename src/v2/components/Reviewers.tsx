@@ -12,15 +12,15 @@ const Container = styled.div`
   }
 
   & > :first-child .author-avatar {
-      border-left: 4px solid ${theme.primary};
+    border-left: 4px solid ${theme.primary};
   }
 
   & > :nth-child(2) .author-avatar {
-      border-top: 6px solid ${theme.primary};
+    border-top: 6px solid ${theme.primary};
   }
 
   & > :last-child .author-avatar {
-      border-right: 4px solid ${theme.primary};
+    border-right: 4px solid ${theme.primary};
   }
 
   .reviewers-avatar-container {
@@ -40,35 +40,35 @@ const Container = styled.div`
 `
 
 export const Reviewers = ({
-    author,
-    ling,
-    tech,
-    authorLabel,
-    lingLabel,
-    techLabel,
+  author,
+  ling,
+  tech,
+  authorLabel,
+  lingLabel,
+  techLabel,
 }: ReviewersProps) => {
-    return (
-        <Container className="center components-reviewers">
-            <Link to="/authors/">
-                <div className="reviewers-avatar-container col">
-                    <AuthorAvatar avatar={tech.avatar.small} />
-                    <S>{techLabel}</S>
-                </div>
-            </Link>
+  return (
+    <Container className="center components-reviewers">
+      <Link to="/authors/">
+        <div className="reviewers-avatar-container col">
+          <AuthorAvatar avatar={tech.avatar.small} />
+          <S>{techLabel}</S>
+        </div>
+      </Link>
 
-            <Link to="/authors/">
-                <div className="reviewers-avatar-container col">
-                    <AuthorAvatar avatar={author.avatar.medium} />
-                    <S>{authorLabel}</S>
-                </div>
-            </Link>
+      <Link to="/authors/">
+        <div className="reviewers-avatar-container col">
+          <AuthorAvatar avatar={author.avatar.medium} />
+          <S>{authorLabel}</S>
+        </div>
+      </Link>
 
-            <Link to="/authors/">
-                <div className="reviewers-avatar-container col">
-                    <AuthorAvatar avatar={ling.avatar.small} />
-                    <S>{lingLabel}</S>
-                </div>
-            </Link>
-        </Container>
-    )
+      <Link to="/authors/">
+        <div className="reviewers-avatar-container col">
+          <AuthorAvatar avatar={ling.avatar.small} />
+          <S>{lingLabel}</S>
+        </div>
+      </Link>
+    </Container>
+  )
 }

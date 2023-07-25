@@ -46,6 +46,12 @@ const Container = styled.div`
       grid-template-columns: 100%;
     }
 
+    @media ${T_UP} {
+      .ui-snippet {
+        max-width: calc(100vw - 300px);
+      }
+    }
+
     .snippets-creator-code-header {
       @media ${T_UP} {
         width: calc(100% - 260px);

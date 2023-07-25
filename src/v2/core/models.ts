@@ -7,6 +7,8 @@ import type article_pl from "../translation/article/pl.json"
 import type meta from "../core/meta.json"
 import type layout_en from "../translation/layout/en.json"
 import type layout_pl from "../translation/layout/pl.json"
+import type authors_en from "../translation/authors/en.json"
+import type authors_pl from "../translation/authors/pl.json"
 
 type Id = string
 type Title = string
@@ -26,7 +28,6 @@ export interface MinimumArticle {
 }
 
 export interface UserAvatar {
-  name: Name
   tiny: FixedObject
   small: FixedObject
   medium: FixedObject
@@ -52,6 +53,7 @@ export type Lang = typeof meta["langs"]["en"] | typeof meta["langs"]["pl"]
 export type LangKey = Lang["key"]
 export type LayoutT = typeof layout_en | typeof layout_pl
 export type ArticleT = typeof article_en | typeof article_pl
+export type AuthorsT = typeof authors_en | typeof authors_pl
 
 export interface ArticleThumbnail {
   full: FluidObject
@@ -77,7 +79,7 @@ export enum Seniority {
   expert = "🥇",
 }
 
-export interface Article {
+export interface ArticlePageModel {
   title: Title
   description: string
   mdate: Mdate
@@ -95,11 +97,18 @@ export interface Article {
   thumbnail: ArticleThumbnail
   lang: LangKey
   t: ArticleT
-  author: User
-  tech_reviewer: User
-  ling_reviewer: User
+  author: Omit<User, "avatar"> & Pick<User["avatar"], "small" | "medium">
+  tech_reviewer: Omit<User, "avatar"> & Pick<User["avatar"], "small">
+  ling_reviewer: Omit<User, "avatar"> & Pick<User["avatar"], "small">
   tags: string
   technologies: Technology[]
   next?: MinimumArticle
   prev?: MinimumArticle
+}
+
+export interface AuthorsPageModel {
+  t: AuthorsT
+  ga_page: string
+  url: string
+  authors: (Omit<User, "avatar"> & { avatar: FixedObject })[]
 }
