@@ -60,6 +60,7 @@ export interface ArticleThumbnail {
 
 export interface Layout extends Meta {
   lang: Lang
+  lang_alternate: Lang
   t: LayoutT
   articles: MinimumArticle[]
 }
@@ -87,10 +88,12 @@ export interface Article {
   read_time: number
   cdate: CDate
   source_url: Url
+  url: Url
   slug: Slug
   translation_path?: string
   seniority: Seniority
   thumbnail: ArticleThumbnail
+  lang: LangKey
   t: ArticleT
   author: User
   tech_reviewer: User
