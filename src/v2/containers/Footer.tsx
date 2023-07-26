@@ -33,7 +33,7 @@ const Container = styled.footer`
       }
     }
 
-    & > *:not(:last-child) {
+    & > * {
       margin: 0 12px 12px 0;
     }
   }

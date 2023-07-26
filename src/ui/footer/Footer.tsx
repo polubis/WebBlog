@@ -117,7 +117,7 @@ const Articles = styled.div`
     border-radius: 4px;
   }
 
-  & > *:not(:last-child) {
+  & > * {
     margin: 0 12px 12px 0;
   }
 `
