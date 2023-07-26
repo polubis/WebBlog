@@ -7,12 +7,12 @@ import { M, XL } from "../../../../ui"
 import { Link } from "gatsby"
 import Badge from "../../../../components/article/Badge"
 import Button from "../../../../components/button/Button"
-import { ReadTimeBadge } from "../../../../components/badges/ReadTimeBadge"
 import { useArticlesPageProvider } from "../ArticlesPageProvider"
 import { Seniority } from "../../../core/models"
 import AuthorAvatar from "../../../../components/article/AuthorAvatar"
 import { useLayoutProvider } from "../../../providers/LayoutProvider"
 import { Tags } from "../../../components/Tags"
+import { ReadTime } from "../../../components/ReadTime"
 
 const Grid = styled.div`
   display: grid;
@@ -151,7 +151,7 @@ const ArticlesGrid = () => {
               <Link to={routes.authors.to}>
                 <AuthorAvatar avatar={author.avatar.small} />
               </Link>
-              <ReadTimeBadge minutes={read_time} />
+              <ReadTime time={read_time} />
               {is_new && <Badge color={theme.green}>{newText}</Badge>}
             </div>
             <Link to={path}>

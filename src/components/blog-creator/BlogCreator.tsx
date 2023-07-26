@@ -5,38 +5,16 @@ import BlogCreatorLayout from "./BlogCreatorLayout"
 import { BlogPreview } from "./BlogPreview"
 import { T_DOWN } from "../../utils/viewport"
 import { useModal } from "../../ui"
-import Loadable from "react-loadable"
 import { BlogCreatorHeading } from "./BlogCreatorHeading"
 import Button from "../button/Button"
 import { useCustomGAEvent } from "../../utils/useCustomGAEvent"
 import { useEditor } from "./useEditor"
 import { useLeavePageAlert } from "../../utils/useLeavePageAlert"
-
-const EditableSnippet = Loadable({
-  loader: () =>
-    import("../../ui/snippet/EditableSnippet").then(m => m.EditableSnippet),
-  loading: () => null,
-})
-
-const TemplateSelector = Loadable({
-  loader: () => import("./TemplateSelector").then(m => m.TemplateSelector),
-  loading: () => null,
-})
-
-const FullScreenCreator = Loadable({
-  loader: () => import("./FullScreenCreator").then(m => m.FullScreenCreator),
-  loading: () => null,
-})
-
-const ErrorsSection = Loadable({
-  loader: () => import("./ErrorsSection").then(m => m.ErrorsSection),
-  loading: () => null,
-})
-
-const BlogCreatorLoader = Loadable({
-  loader: () => import("./BlogCreatorLoader").then(m => m.BlogCreatorLoader),
-  loading: () => null,
-})
+import { ErrorsSection } from "./ErrorsSection"
+import { EditableSnippet } from "../../ui/snippet/EditableSnippet"
+import { BlogCreatorLoader } from "./BlogCreatorLoader"
+import { FullScreenCreator } from "./FullScreenCreator"
+import { TemplateSelector } from "./TemplateSelector"
 
 const Container = styled.div`
   display: flex;
@@ -49,8 +27,6 @@ const Container = styled.div`
 `
 
 const CodeContainer = styled.div`
-  display: flex;
-  flex-flow: column;
   width: 48%;
 
   @media ${T_DOWN} {
@@ -59,8 +35,6 @@ const CodeContainer = styled.div`
 `
 
 const PreviewScroll = styled.div`
-  display: flex;
-  flex-flow: column;
   flex-shrink: 0;
   width: 48%;
   margin-left: 4%;
@@ -142,9 +116,6 @@ export default function () {
       )}
       {isOpen || (
         <BlogCreatorLayout>
-          <h1 style={{ visibility: "hidden", height: 0, margin: "0" }}>
-            A powerful editor for articles
-          </h1>
           <Heading>
             <BlogCreatorHeading
               buttons={
@@ -155,8 +126,8 @@ export default function () {
             />
           </Heading>
           <Container>
-            <CodeContainer>{Editor}</CodeContainer>
-            <PreviewScroll>
+            <CodeContainer className="col">{Editor}</CodeContainer>
+            <PreviewScroll className="col">
               {Errors}
               {Preview}
             </PreviewScroll>

@@ -5,6 +5,7 @@ import Layout from "../../components/layout/Layout"
 import { Content } from "../../ui"
 import { Material } from "../../models"
 import { MDXRenderer } from "gatsby-plugin-mdx"
+import { MdxProvider } from "../../v2/providers/MdxProvider"
 
 interface MaterialPageProps {
   pageContext: { material: Material } & AllDataResponse
@@ -29,7 +30,7 @@ const MaterialPage = ({
     >
       <Layout t={t} articles={footerArticles} routes={site.routes}>
         <Content paddingY>
-          <MDXRenderer>{material.body}</MDXRenderer>
+          <MdxProvider renderer={MDXRenderer}>{material.body}</MdxProvider>
         </Content>
       </Layout>
     </SiteMeta>

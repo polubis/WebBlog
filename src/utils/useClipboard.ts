@@ -1,4 +1,5 @@
 import { useState, useMemo, useCallback } from "react"
+import { isInSSR } from "./isInSSR"
 
 interface ClipboardUnsupportedState {
   status: "unsupported"
@@ -25,6 +26,10 @@ type ClipboardState =
   | ClipboardErrorState
 
 const createStatus = (): ClipboardState => {
+  if (isInSSR()) {
+    return { status: "unsupported" }
+  }
+
   return navigator?.clipboard ? { status: "ready" } : { status: "unsupported" }
 }
 

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react"
+import { isInSSR } from "./isInSSR"
 
 interface Config {
   threshold?: number
@@ -12,6 +13,8 @@ export const useIsVisible = (
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
+    if (isInSSR()) return
+
     const observer = new IntersectionObserver(
       ([{ isIntersecting }]) => {
         if (useOnce && isIntersecting && ref.current) {
