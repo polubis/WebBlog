@@ -1,13 +1,15 @@
 import React, { ReactNode } from "react"
-import { M, Modal, XL, useModal } from "../../ui"
-import AuthorAvatar from "../../components/article/AuthorAvatar"
-import Divider from "../../components/divider/Divider"
-import Badge from "../../components/article/Badge"
-import { SecondaryButton } from "../../components/button/Button"
-import { useArticlesProvider } from "./ArticlesProvider"
 import styled from "styled-components"
-import theme from "../../utils/theme"
-import { Author, SeniorityLevel } from "../../models"
+import theme from "../../../../utils/theme"
+import { M, Modal, XL, useModal } from "../../../../ui"
+import { Seniority } from "../../../core/models"
+import { useArticlesFiltersProvider } from "../ArticlesFiltersProvider"
+import Badge from "../../../../components/article/Badge"
+import AuthorAvatar from "../../../../components/article/AuthorAvatar"
+import Divider from "../../../../components/divider/Divider"
+import { SecondaryButton } from "../../../../components/button/Button"
+import { useLayoutProvider } from "../../../providers/LayoutProvider"
+import { useArticlesPageProvider } from "../ArticlesPageProvider"
 
 const FiltersModal = styled.div`
   .diff-level-heading {
@@ -30,6 +32,7 @@ const FiltersModal = styled.div`
   .filters-form-authors-section {
     & > * {
       margin: 0 8px 8px 0;
+      flex-shrink: 0;
       cursor: pointer;
 
       &:hover {
@@ -38,10 +41,11 @@ const FiltersModal = styled.div`
     }
 
     .authors-section-avatar {
-      border: 2px solid transparent;
+      width: 50px;
+      height: 50px;
 
       &.active {
-        border: 2px solid ${theme.primary};
+        outline: 2px solid ${theme.primary};
       }
     }
   }
@@ -84,13 +88,14 @@ const BadgesSection = styled.div`
 `
 
 interface FiltersFormProps {
-  authors: Author[]
   trigger: (modal: ReturnType<typeof useModal>) => ReactNode
 }
 
 const AUTHORS_DISPLAY_LIMIT = 4
 
-const FiltersForm = ({ authors, trigger }: FiltersFormProps) => {
+const FiltersForm = ({ trigger }: FiltersFormProps) => {
+  const { t: layoutT } = useLayoutProvider()
+  const { t: articlesPageT, authors } = useArticlesPageProvider()
   const modal = useModal()
   const {
     filters,
@@ -102,9 +107,9 @@ const FiltersForm = ({ authors, trigger }: FiltersFormProps) => {
     changeSeniority,
     changeAuthor,
     setAllSeniorityLevels,
-  } = useArticlesProvider()
+  } = useArticlesFiltersProvider()
 
-  const seniorityLevels = Object.entries(SeniorityLevel)
+  const seniorityLevels = Object.entries(Seniority)
 
   return (
     <>
@@ -113,9 +118,9 @@ const FiltersForm = ({ authors, trigger }: FiltersFormProps) => {
       {modal.isOpen && (
         <Modal maxWidth="500px" onClose={modal.close}>
           <FiltersModal className="col">
-            <XL>Filters</XL>
+            <XL>{articlesPageT.filters}</XL>
 
-            <M className="diff-level-heading">Difficulty levels</M>
+            <M className="diff-level-heading">{articlesPageT.diff_levels}</M>
 
             <BadgesSection className="wrap">
               <Badge
@@ -126,7 +131,7 @@ const FiltersForm = ({ authors, trigger }: FiltersFormProps) => {
                 }
                 onClick={() => setAllSeniorityLevels()}
               >
-                All {Object.values(SeniorityLevel).join(" ")}
+                {articlesPageT.all} {Object.values(Seniority).join(" ")}
               </Badge>
               {seniorityLevels.map(([key, emoji]) => (
                 <Badge
@@ -144,7 +149,7 @@ const FiltersForm = ({ authors, trigger }: FiltersFormProps) => {
               ))}
             </BadgesSection>
 
-            <M className="authors-heading">Authors</M>
+            <M className="authors-heading">{layoutT.authors}</M>
 
             <Badge
               className="authors-badge row clickable"
@@ -152,12 +157,11 @@ const FiltersForm = ({ authors, trigger }: FiltersFormProps) => {
               color={allAuthorsSelected ? theme.primary : theme.secondary}
               onClick={() => setAllAuthors()}
             >
-              <span>All ({authors.length})</span>
+              <span>
+                {articlesPageT.all} ({authors.length})
+              </span>
               {authors.slice(0, AUTHORS_DISPLAY_LIMIT).map(author => (
-                <AuthorAvatar
-                  key={author.id}
-                  avatar={author.avatar.tiny.fixed}
-                />
+                <AuthorAvatar key={author.id} avatar={author.avatar.tiny} />
               ))}
               <span>... +{authors.length - AUTHORS_DISPLAY_LIMIT}</span>
             </Badge>
@@ -173,16 +177,18 @@ const FiltersForm = ({ authors, trigger }: FiltersFormProps) => {
                     filters.authors[author.id] ? " active" : ""
                   }`}
                 >
-                  <AuthorAvatar avatar={author.avatar.small.fixed} />
+                  <AuthorAvatar avatar={author.avatar.small} />
                 </div>
               ))}
             </section>
 
             <footer className="filters-form-footer row">
               <SecondaryButton disabled={!changed} onClick={reset}>
-                Reset
+                {articlesPageT.reset}
               </SecondaryButton>
-              <SecondaryButton onClick={modal.close}>Ok</SecondaryButton>
+              <SecondaryButton onClick={modal.close}>
+                {articlesPageT.ok}
+              </SecondaryButton>
             </footer>
           </FiltersModal>
         </Modal>

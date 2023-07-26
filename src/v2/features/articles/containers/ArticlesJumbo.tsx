@@ -1,21 +1,20 @@
 import React from "react"
 import styled from "styled-components"
-import theme from "../../utils/theme"
-import { B, FilterIcon, IconButton, Input, M, XXL } from "../../ui"
-import Button, { SecondaryButton } from "../../components/button/Button"
-import Divider from "../../components/divider/Divider"
-import Img from "gatsby-image"
-import { Author, Image } from "../../models"
+import { useArticlesPageProvider } from "../ArticlesPageProvider"
+import { useLayoutProvider } from "../../../providers/LayoutProvider"
+import theme from "../../../../utils/theme"
+import { FilterIcon, IconButton, Input, M, XXL } from "../../../../ui"
+import { useArticlesFiltersProvider } from "../ArticlesFiltersProvider"
+import Divider from "../../../../components/divider/Divider"
+import Button, { SecondaryButton } from "../../../../components/button/Button"
+import Badge from "../../../../components/article/Badge"
 import { Link } from "gatsby"
-import Badge from "../../components/article/Badge"
-import { useArticlesProvider } from "./ArticlesProvider"
+import Image from "gatsby-image"
 import { FiltersForm } from "./FiltersForm"
 
 const Container = styled.figure`
-  display: flex;
   position: relative;
   align-items: center;
-  flex-flow: column;
   padding: 80px 20px;
   margin: 0;
   background: ${theme.grayE};
@@ -23,7 +22,6 @@ const Container = styled.figure`
 `
 
 const Footer = styled.div`
-  display: flex;
   justify-content: center;
 
   & > *:not(:last-child) {
@@ -48,7 +46,6 @@ const Wrapper = styled.div`
   }
 
   .articles-jumbo-badges-section {
-    display: flex;
     justify-content: center;
     position: absolute;
     bottom: -13.5px;
@@ -67,8 +64,6 @@ const Wrapper = styled.div`
 `
 
 const InputWrapper = styled.div`
-  display: flex;
-  align-items: center;
   margin: 24px 0 40px 0;
 
   .ui-input {
@@ -82,48 +77,38 @@ const InputWrapper = styled.div`
   }
 `
 
-interface ArticlesJumboProps {
-  bubblesImg: Image
-  authors: Author[]
+const thumbnailStyle = {
+  position: "absolute",
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100%",
 }
 
-const ArticlesJumbo = ({ bubblesImg, authors }: ArticlesJumboProps) => {
+const ArticlesJumbo = () => {
+  const { t: layoutT, routes } = useLayoutProvider()
+  const { thumbnail, t: articlesPageT } = useArticlesPageProvider()
   const {
     filters,
     changed,
     reset,
     filteredArticles,
     changeQuery,
-  } = useArticlesProvider()
+  } = useArticlesFiltersProvider()
 
   return (
-    <Container>
-      <Img
-        fluid={bubblesImg}
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-        }}
-      />
+    <Container className="col">
+      <Image fluid={thumbnail} loading="eager" style={thumbnailStyle} />
       <Wrapper>
-        <XXL>Find something interesting to read</XXL>
-        <M>
-          When writing our articles, we place great emphasis on the{" "}
-          <B>quality</B> of their content and teaching materials. Thanks to this
-          you will be able to find <B>meaningful materials</B> and understand{" "}
-          <B>complex issues</B>.
-        </M>
-        <InputWrapper>
+        <XXL>{articlesPageT.heading}</XXL>
+        <M>{articlesPageT.heading_description}</M>
+        <InputWrapper className="row">
           <Input
-            placeholder="🔍 Type to find an article..."
+            placeholder={`🔍 ${articlesPageT.input_placeholder}`}
             value={filters.query}
             onChange={e => changeQuery(e.target.value)}
           />
           <FiltersForm
-            authors={authors}
             trigger={modal => (
               <IconButton
                 className={`filter-button${changed ? " active" : ""}`}
@@ -136,23 +121,24 @@ const ArticlesJumbo = ({ bubblesImg, authors }: ArticlesJumboProps) => {
         </InputWrapper>
 
         <Divider className="divider" horizontal />
-        <Footer>
+        <Footer className="row">
           {changed && (
-            <SecondaryButton onClick={reset}>Clean filters</SecondaryButton>
+            <SecondaryButton onClick={reset}>
+              {articlesPageT.clean_filters}
+            </SecondaryButton>
           )}
-          <Link to="/blog-creator/">
-            <Button>Create article</Button>
+          <Link to={routes.creator.to}>
+            <Button>{layoutT.create_article}</Button>
           </Link>
         </Footer>
 
-        <div className="articles-jumbo-badges-section">
+        <div className="articles-jumbo-badges-section row">
           <Badge color={theme.black} background={theme.secondary}>
-            {filteredArticles.length} article
-            {filteredArticles.length === 1 ? "" : "s"}
+            {articlesPageT.found}: {filteredArticles.length}
           </Badge>
           {changed && (
             <Badge color={theme.black} background={theme.greenA}>
-              Filters active
+              {articlesPageT.filters_active}
             </Badge>
           )}
         </div>

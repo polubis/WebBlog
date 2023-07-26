@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react"
-import { Article, Author, SeniorityLevel } from "../../models"
+import { ArticlesPageModelArticleAuthor, Seniority } from "../../../core/models"
+import { useArticlesPageProvider } from "../ArticlesPageProvider"
 
 interface ArticlesFilters {
   authors: Record<string, boolean>
@@ -7,7 +8,8 @@ interface ArticlesFilters {
   query: string
 }
 
-const useArticlesFilters = (authors: Author[], articles: Article[]) => {
+const useArticlesFilters = () => {
+  const { authors, articles } = useArticlesPageProvider()
   const initialFilters = useMemo(
     (): ArticlesFilters => ({
       authors: authors.reduce<Record<string, boolean>>(
@@ -17,9 +19,7 @@ const useArticlesFilters = (authors: Author[], articles: Article[]) => {
         }),
         {}
       ),
-      seniorityLevels: Object.keys(SeniorityLevel).reduce<
-        Record<string, boolean>
-      >(
+      seniorityLevels: Object.keys(Seniority).reduce<Record<string, boolean>>(
         (acc, key) => ({
           ...acc,
           [key]: true,
@@ -42,7 +42,7 @@ const useArticlesFilters = (authors: Author[], articles: Article[]) => {
   const allSeniorityLevelsSelected = useMemo(
     () =>
       Object.values(filters.seniorityLevels).filter(flag => flag).length ===
-      Object.values(SeniorityLevel).length,
+      Object.values(Seniority).length,
     [filters.seniorityLevels]
   )
 
@@ -61,7 +61,7 @@ const useArticlesFilters = (authors: Author[], articles: Article[]) => {
     })
   }
 
-  const changeAuthor = (id: Author["id"]) => {
+  const changeAuthor = (id: ArticlesPageModelArticleAuthor["id"]) => {
     setFilters({
       ...filters,
       authors: {
@@ -102,7 +102,7 @@ const useArticlesFilters = (authors: Author[], articles: Article[]) => {
     const filtered = articles.filter(
       article =>
         !!filters.authors[article.author.id] &&
-        !!filters.seniorityLevels[article.seniorityLevel]
+        !!filters.seniorityLevels[article.seniority]
     )
 
     const query = filters.query.trim().toLowerCase()
