@@ -8,6 +8,8 @@ import type meta from "../core/meta.json"
 import type layout_en from "../translation/layout/en.json"
 import type layout_pl from "../translation/layout/pl.json"
 import type authors_en from "../translation/authors/en.json"
+import type articles_en from "../translation/articles/en.json"
+import type articles_pl from "../translation/articles/pl.json"
 import type authors_pl from "../translation/authors/pl.json"
 
 type Id = string
@@ -18,6 +20,7 @@ type CDate = string
 type Mdate = string
 type Url = string
 type Slug = string
+type GaPage = string
 
 export type FixedObject = GatsbyFixedObject & { originalName: string }
 
@@ -53,6 +56,7 @@ export type Lang = typeof meta["langs"]["en"] | typeof meta["langs"]["pl"]
 export type LangKey = Lang["key"]
 export type LayoutT = typeof layout_en | typeof layout_pl
 export type ArticleT = typeof article_en | typeof article_pl
+export type ArticlesT = typeof articles_en | typeof articles_pl
 export type AuthorsT = typeof authors_en | typeof authors_pl
 
 export interface ArticleThumbnail {
@@ -108,7 +112,36 @@ export interface ArticlePageModel {
 
 export interface AuthorsPageModel {
   t: AuthorsT
-  ga_page: string
-  url: string
+  ga_page: GaPage
+  url: Url
   authors: (Omit<User, "avatar"> & { avatar: FixedObject })[]
+}
+
+export interface ArticlesPageModelArticleAuthor {
+  id: User["id"]
+  full_name: User["full_name"]
+  avatar: {
+    tiny: FixedObject
+    small: FixedObject
+  }
+}
+
+export interface ArticlesPageModel {
+  t: ArticlesT
+  ga_page: string
+  url: Url
+  thumbnail: FluidObject
+  authors: ArticlesPageModelArticleAuthor[]
+  articles: (Pick<
+    ArticlePageModel,
+    | "path"
+    | "description"
+    | "title"
+    | "is_new"
+    | "read_time"
+    | "tags"
+    | "seniority"
+  > & {
+    author: ArticlesPageModelArticleAuthor
+  })[]
 }

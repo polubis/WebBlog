@@ -9,6 +9,7 @@ const {
 } = require("./src/v2/api/getArticleThumbnail")
 const { ArticlePageCreator } = require("./src/v2/api/article-page-creator")
 const { AuthorsPageCreator } = require("./src/v2/api/authors-page-creator")
+const { ArticlesPageCreator } = require("./src/v2/api/articles-page-creator")
 
 exports.onCreateWebpackConfig = ({ actions }) => {
   actions.setWebpackConfig({
@@ -407,14 +408,39 @@ exports.createPages = async ({ actions, graphql }) => {
     },
   })
 
-  createPage({
-    path: routes.articles.to,
-    component: resolve(`src/features/articles/ArticlesPage.tsx`),
-    context: {
-      ...data,
-      bubblesImg: result.data.bubblesImg.nodes[0].childImageSharp.fluid,
-    },
+  // Articles
+  const createArticlesPage = ArticlesPageCreator({
+    createPage,
+    makeComponent: () => resolve(`src/v2/features/articles/ArticlesPage.tsx`),
   })
+  const createEnArticlesPage = createArticlesPage({
+    ga_page: "articles",
+    path: "/articles/",
+  })
+  const createPlArticlesPage = createArticlesPage({
+    ga_page: "pl/articles",
+    path: "/pl/articles/",
+  })
+  const articlesThumbnail =
+    result.data.bubblesImg.nodes[0].childImageSharp.fluid
+  createPlArticlesPage({
+    layout: plLayout,
+    lang: "pl",
+    authors,
+    articles: plArticles,
+    thumbnail: articlesThumbnail,
+    authorsAvatars,
+  })
+  createEnArticlesPage({
+    layout: enLayout,
+    lang: "en",
+    articles: enArticles,
+    authors,
+    thumbnail: articlesThumbnail,
+    authorsAvatars,
+  })
+
+  // Articles
 
   createPage({
     path: routes.courses.to,
