@@ -101,7 +101,9 @@ export interface ArticlePageModel {
   thumbnail: ArticleThumbnail
   lang: LangKey
   t: ArticleT
-  author: Omit<User, "avatar"> & Pick<User["avatar"], "small" | "medium">
+  author: Omit<User, "avatar"> & {
+    avatar: Pick<User["avatar"], "small" | "medium">
+  }
   tech_reviewer: Omit<User, "avatar"> & Pick<User["avatar"], "small">
   ling_reviewer: Omit<User, "avatar"> & Pick<User["avatar"], "small">
   tags: string
@@ -126,22 +128,24 @@ export interface ArticlesPageModelArticleAuthor {
   }
 }
 
+export type ArticlesPageModelArticle = Pick<
+  ArticlePageModel,
+  | "path"
+  | "description"
+  | "title"
+  | "is_new"
+  | "read_time"
+  | "tags"
+  | "seniority"
+> & {
+  author: ArticlesPageModelArticleAuthor
+}
+
 export interface ArticlesPageModel {
   t: ArticlesT
   ga_page: string
   url: Url
   thumbnail: FluidObject
   authors: ArticlesPageModelArticleAuthor[]
-  articles: (Pick<
-    ArticlePageModel,
-    | "path"
-    | "description"
-    | "title"
-    | "is_new"
-    | "read_time"
-    | "tags"
-    | "seniority"
-  > & {
-    author: ArticlesPageModelArticleAuthor
-  })[]
+  articles: ArticlesPageModelArticle[]
 }

@@ -10,7 +10,7 @@ interface BlogCreatorPageProps {
 }
 
 const BlogCreatorPage = ({
-  pageContext: { articles, site, translationObject, footerArticles },
+  pageContext: { site, translationObject, footerArticles },
 }: BlogCreatorPageProps) => {
   const t = translationObject["en"]
 
@@ -28,6 +28,9 @@ const BlogCreatorPage = ({
     >
       <Layout articles={footerArticles} t={t} routes={site.routes}>
         <Content paddingY>
+          <h1 style={{ visibility: "hidden", height: 0, margin: "0" }}>
+            A powerful editor for articles
+          </h1>
           <BlogCreator />
         </Content>
       </Layout>

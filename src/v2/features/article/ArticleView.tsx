@@ -2,7 +2,6 @@ import React from "react"
 import { L_UP } from "../../../utils/viewport"
 import styled from "styled-components"
 import { Content, M } from "../../../ui"
-import { MDXRenderer } from "gatsby-plugin-mdx"
 import Intro from "../../../components/article/Intro"
 import { useScrollToTop } from "../../../utils/useScrollToTop"
 import { useArticleProvider } from "./ArticleProvider"
@@ -16,6 +15,8 @@ import { ProgressDisplayer } from "../../../components/article/ProgressDisplayer
 import { ArticleTags } from "../../containers/ArticleTags"
 import { ArticleBreadcrumbs } from "../../containers/ArticleBreadcrumbs"
 import { Reviewers } from "../../components/Reviewers"
+import { MdxProvider } from "../../providers/MdxProvider"
+import { MDXRenderer } from "gatsby-plugin-mdx"
 
 const ArticleContent = styled.main`
   margin: 24px auto;
@@ -47,10 +48,7 @@ const ArticleView = () => {
   const {
     read_time,
     thumbnail,
-    t: {
-      other_lang_banner_message,
-      other_lang_banner_link
-    },
+    t: { other_lang_banner_message, other_lang_banner_link },
     description,
     title,
     is_new,
@@ -60,7 +58,7 @@ const ArticleView = () => {
     ling_reviewer,
     translation_path,
     body,
-    technologies
+    technologies,
   } = useArticleProvider()
 
   return (
@@ -98,7 +96,7 @@ const ArticleView = () => {
               techLabel={layout.t.technical_check}
             />
             <Stack className="center" items={technologies} />
-            <MDXRenderer>{body}</MDXRenderer>
+            <MdxProvider renderer={MDXRenderer}>{body}</MdxProvider>
             <ArticleFooter />
           </ArticleContent>
         </Content>

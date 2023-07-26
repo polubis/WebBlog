@@ -2,10 +2,11 @@ import React from "react"
 import styled from "styled-components"
 import Img, { FluidObject } from "gatsby-image"
 
-import { ReadTimeIcon, XXL } from "../../ui"
+import { XXL } from "../../ui"
 import Badge from "./Badge"
 import theme from "../../utils/theme"
-import { SeniorityBadge } from "../badges/SeniorityBadge"
+import { ReadTime } from "../../v2/components/ReadTime"
+import { Seniority } from "../../v2/core/models"
 
 const Container = styled.figure`
   position: relative;
@@ -22,14 +23,6 @@ const Container = styled.figure`
 
     ${Badge} {
       margin: 0 0 10px 10px;
-    }
-
-    .read-time-badge {
-      & > *:first-child {
-        margin-right: 2px;
-        width: 14px;
-        height: 14px;
-      }
     }
   }
 
@@ -88,13 +81,10 @@ export default function ({
         style={imgStyle}
       />
       <XXL>
-        <SeniorityBadge level={seniorityLevel} /> {title}
+        <span title={seniorityLevel}>{Seniority[seniorityLevel]}</span> {title}
       </XXL>
       <div className="thumbnail-badge wrap">
-        <Badge className="read-time-badge row" color={theme.secondary}>
-          <ReadTimeIcon />
-          {readTime}m
-        </Badge>
+        <ReadTime time={readTime} />
         {isNew && <Badge color={theme.green}>{newLabel}</Badge>}
       </div>
     </Container>

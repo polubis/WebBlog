@@ -1,15 +1,15 @@
 import React from "react"
-import { A } from "../../ui"
+import { A, M, S } from "../../ui"
 import { useLayoutProvider } from "../providers/LayoutProvider"
 import Button from "../../components/button/Button"
 import { useArticleProvider } from "../features/article/ArticleProvider"
 import { useCustomGAEvent } from "../../utils/useCustomGAEvent"
 import { ObserveMe } from "../components/ObserveMe"
 import { SM_DOWN } from "../../utils/viewport"
-import { Link } from 'gatsby'
+import { Link } from "gatsby"
 import styled from "styled-components"
-import { UserBadge } from "../components/UserBadge"
 import { Dates } from "./Dates"
+import AuthorAvatar from "../../components/article/AuthorAvatar"
 
 const Container = styled.div`
   .observe-me {
@@ -40,6 +40,10 @@ const Container = styled.div`
       }
     }
   }
+
+  .author-personality {
+    margin-left: 16px;
+  }
 `
 
 const ArticleFooter = () => {
@@ -50,11 +54,17 @@ const ArticleFooter = () => {
   return (
     <Container>
       <div className="row">
-        <UserBadge
-          avatar={article.author.avatar.small}
-          fullName={article.author.full_name}
-          role={article.author.role}
-        />
+        <Link to={layout.routes.authors.to}>
+          <div className="clickable row">
+            <AuthorAvatar avatar={article.author.avatar.small} />
+            <div className="author-personality col">
+              <M className="cap" bold>
+                {article.author.full_name}
+              </M>
+              <S>{article.author.role}</S>
+            </div>
+          </div>
+        </Link>
       </div>
       {article.author.linkedin_url !== undefined && (
         <ObserveMe

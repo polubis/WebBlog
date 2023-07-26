@@ -1,4 +1,3 @@
-import { MDXRenderer } from "gatsby-plugin-mdx"
 import React from "react"
 import styled from "styled-components"
 import { L_DOWN, SM_DOWN } from "../../../utils/viewport"
@@ -18,6 +17,8 @@ import {
 import { A, Content } from "../../../ui"
 import { useCustomGAEvent } from "../../../utils/useCustomGAEvent"
 import { Breadcrumbs } from "../../../v2/components/Breadcrumbs"
+import { MdxProvider } from "../../../v2/providers/MdxProvider"
+import { MDXRenderer } from "gatsby-plugin-mdx"
 
 const MobileCourseChapters = Loadable({
   loader: () =>
@@ -119,7 +120,7 @@ const LessonContent = ({
                 <Link to={course.path}>{course.name}</Link>
                 <span>{lesson.name}</span>
               </Breadcrumbs>
-              <MDXRenderer>{lesson.body}</MDXRenderer>
+              <MdxProvider renderer={MDXRenderer}>{lesson.body}</MdxProvider>
               <BottomNavigation>
                 <A
                   href={`https://github.com/polubis/WebBlog/tree/main/src/courses/${lesson.slug}.mdx`}

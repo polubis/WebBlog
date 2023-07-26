@@ -1,5 +1,5 @@
 import type { ReactElement, ReactNode } from "react"
-import type { ArticlePageModel, FixedObject, User } from "../core/models"
+import type { ArticlePageModel, User } from "../core/models"
 
 interface BaseProps {
   className?: string
@@ -11,13 +11,6 @@ interface TagsProps extends BaseProps {
 
 interface BreadcrumbsProps extends BaseProps {
   children: ReactElement[]
-}
-
-interface UserBadgeProps {
-  avatar: FixedObject
-  fullName: string
-  role: string
-  mini?: boolean
 }
 
 interface ObserveMeProps {
@@ -60,12 +53,16 @@ interface AuthorTileProps {
   footer: ReactNode
 }
 
+interface ReadTimeProps {
+  time: number
+}
+
 export type {
   AuthorTileProps,
   TagsProps,
   BreadcrumbsProps,
-  UserBadgeProps,
   ObserveMeProps,
   ReviewersProps,
   SEOProps,
+  ReadTimeProps,
 }
