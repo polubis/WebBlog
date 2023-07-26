@@ -16,12 +16,14 @@ const createUser = (authorId, authors, authorsAvatars) => {
     platformRoles,
     name,
     githubURL,
+    bioPl,
     linkedinURL,
   } = author
 
   return {
     id,
     bio,
+    bioPl,
     role,
     name,
     avatar: {

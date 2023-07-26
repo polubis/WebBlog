@@ -1,5 +1,5 @@
 import type { ReactElement, ReactNode } from "react"
-import type { FixedObject, User } from "../core/models"
+import type { ArticlePageModel, FixedObject, User } from "../core/models"
 
 interface BaseProps {
   className?: string
@@ -28,9 +28,9 @@ interface ObserveMeProps {
 }
 
 interface ReviewersProps {
-  author: User
-  tech: User
-  ling: User
+  author: ArticlePageModel["author"]
+  tech: ArticlePageModel["tech_reviewer"]
+  ling: ArticlePageModel["ling_reviewer"]
   authorLabel: string
   lingLabel: string
   techLabel: string
@@ -52,7 +52,16 @@ interface SEOProps {
   author?: string
 }
 
+interface AuthorTileProps {
+  avatar: ReactNode
+  fullName: string
+  role: string
+  bio: string
+  footer: ReactNode
+}
+
 export type {
+  AuthorTileProps,
   TagsProps,
   BreadcrumbsProps,
   UserBadgeProps,
