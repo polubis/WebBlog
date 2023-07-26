@@ -6,6 +6,10 @@
     "snippets": "Snippety",
     "create_article": "Stwórz artykuł",
     "join": "Dołącz",
+    "beginner": "Początkujący",
+    "intermediate": "Zaawansowany",
+    "advanced": "Średnio zaawansowany",
+    "expert": "Ekspert",
     "progress_display": [
         "Nie przewijaj, tylko spróbuj przeczytać 🐼.",
         "Niech będzie, że przeczytałeś 🐍.",

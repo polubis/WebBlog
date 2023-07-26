@@ -53,6 +53,7 @@ interface Props {
   newLabel: string
   thumbnailAlt: string
   seniorityLevel: any
+  seniorityTitle: string
 }
 
 const imgStyle = {
@@ -71,6 +72,7 @@ export default function ({
   newLabel,
   thumbnailAlt,
   seniorityLevel,
+  seniorityTitle,
 }: Props) {
   return (
     <Container className="center">
@@ -81,7 +83,7 @@ export default function ({
         style={imgStyle}
       />
       <XXL>
-        <span title={seniorityLevel}>{Seniority[seniorityLevel]}</span> {title}
+        <span title={seniorityTitle}>{Seniority[seniorityLevel]}</span> {title}
       </XXL>
       <div className="thumbnail-badge wrap">
         <ReadTime time={readTime} />

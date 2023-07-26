@@ -48,7 +48,7 @@ const ArticleView = () => {
   const {
     read_time,
     thumbnail,
-    t: { other_lang_banner_message, other_lang_banner_link },
+    t,
     description,
     title,
     is_new,
@@ -68,13 +68,14 @@ const ArticleView = () => {
           <ArticleContent>
             {translation_path && (
               <ReadInOtherLanguageBanner
-                text={other_lang_banner_message}
-                linkLabel={other_lang_banner_link}
+                text={t.other_lang_banner_message}
+                linkLabel={t.other_lang_banner_link}
                 url={translation_path}
               />
             )}
             <ArticleBreadcrumbs />
             <Thumbnail
+              seniorityTitle={layout.t[seniority]}
               readTime={read_time}
               thumbnail={thumbnail.full}
               title={title}

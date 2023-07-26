@@ -8,9 +8,11 @@ import type meta from "../core/meta.json"
 import type layout_en from "../translation/layout/en.json"
 import type layout_pl from "../translation/layout/pl.json"
 import type authors_en from "../translation/authors/en.json"
+import type authors_pl from "../translation/authors/pl.json"
 import type articles_en from "../translation/articles/en.json"
 import type articles_pl from "../translation/articles/pl.json"
-import type authors_pl from "../translation/authors/pl.json"
+import type courses_en from "../translation/courses/en.json"
+import type courses_pl from "../translation/courses/pl.json"
 
 type Id = string
 type Title = string
@@ -58,6 +60,7 @@ export type LayoutT = typeof layout_en | typeof layout_pl
 export type ArticleT = typeof article_en | typeof article_pl
 export type ArticlesT = typeof articles_en | typeof articles_pl
 export type AuthorsT = typeof authors_en | typeof authors_pl
+export type CoursesT = typeof courses_en | typeof courses_pl
 
 export interface ArticleThumbnail {
   full: FluidObject
@@ -143,9 +146,27 @@ export type ArticlesPageModelArticle = Pick<
 
 export interface ArticlesPageModel {
   t: ArticlesT
-  ga_page: string
+  ga_page: GaPage
   url: Url
   thumbnail: FluidObject
   authors: ArticlesPageModelArticleAuthor[]
   articles: ArticlesPageModelArticle[]
+}
+
+export type CourseStatus = "SHEDULED" | "PENDING" | "FINISHED"
+
+export interface CoursesPageModelCourse {
+  tags: string[]
+  title: Title
+  description: string
+  path: Path
+  status: CourseStatus
+  duration: number
+}
+
+export interface CoursesPageModel {
+  t: CoursesT
+  ga_page: string
+  url: Url
+  courses: CoursesPageModelCourse[]
 }

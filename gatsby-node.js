@@ -10,6 +10,8 @@ const {
 const { ArticlePageCreator } = require("./src/v2/api/article-page-creator")
 const { AuthorsPageCreator } = require("./src/v2/api/authors-page-creator")
 const { ArticlesPageCreator } = require("./src/v2/api/articles-page-creator")
+const { CourseModel } = require("./src/v2/api/course-model")
+const { CoursesPageCreator } = require("./src/v2/api/courses-page-creator")
 
 exports.onCreateWebpackConfig = ({ actions }) => {
   actions.setWebpackConfig({
@@ -17,6 +19,30 @@ exports.onCreateWebpackConfig = ({ actions }) => {
       fs: "empty",
     },
   })
+}
+
+const createCoursesPage = ({ result, createPage, enLayout }) => {
+  const authorsAvatars = result.data.authorsAvatars.nodes
+  const lessons = result.data.lessons.nodes
+  const coursesThumbnails = result.data.coursesImages.nodes
+  const courses = result.data.courses.nodes.map(course =>
+    CourseModel(course, {
+      coursesThumbnails,
+      authors,
+      authorsAvatars,
+      lessons,
+      path: "/courses/",
+    })
+  )
+
+  const create = CoursesPageCreator({
+    createPage,
+    makeComponent: () => resolve("src/v2/features/courses/CoursesPage.tsx"),
+    ga_page: "courses",
+    path: "/courses/",
+  })
+
+  create({ layout: enLayout, lang: "en", courses })
 }
 
 exports.createPages = async ({ actions, graphql }) => {
@@ -219,6 +245,33 @@ exports.createPages = async ({ actions, graphql }) => {
         nodes {
           relativePath
           childImageSharp {
+            fluid {
+              base64
+              aspectRatio
+              src
+              srcSet
+              sizes
+            }
+          }
+        }
+      }
+      coursesImages: allFile(
+        filter: { relativePath: { regex: "/course.jpg/" } }
+      ) {
+        nodes {
+          name
+          relativePath
+          medium: childImageSharp {
+            fixed(width: 50, height: 50, quality: 24) {
+              base64
+              width
+              height
+              src
+              srcSet
+              originalName
+            }
+          }
+          full: childImageSharp {
             fluid {
               base64
               aspectRatio
@@ -442,11 +495,11 @@ exports.createPages = async ({ actions, graphql }) => {
 
   // Articles
 
-  createPage({
-    path: routes.courses.to,
-    component: resolve(`src/features/courses/CoursesPage.tsx`),
-    context: data,
-  })
+  // Courses
+
+  createCoursesPage({ result, createPage, enLayout })
+
+  // Courses
 
   createPage({
     path: routes.creator.to,

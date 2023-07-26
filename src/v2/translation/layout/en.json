@@ -6,6 +6,10 @@
     "snippets": "Snippets",
     "create_article": "Create article",
     "join": "Join",
+    "beginner": "Beginner",
+    "intermediate": "Intermediate",
+    "advanced": "Advanced",
+    "expert": "Expert",
     "progress_display": [
         "Don't scroll, just read it 🐼.",
         "Well, let me believe you've read it 🐍.",

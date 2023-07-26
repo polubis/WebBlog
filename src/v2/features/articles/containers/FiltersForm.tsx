@@ -9,7 +9,10 @@ import AuthorAvatar from "../../../../components/article/AuthorAvatar"
 import Divider from "../../../../components/divider/Divider"
 import { SecondaryButton } from "../../../../components/button/Button"
 import { useLayoutProvider } from "../../../providers/LayoutProvider"
-import { useArticlesPageProvider } from "../ArticlesPageProvider"
+import {
+  ArticlesPageProvider,
+  useArticlesPageProvider,
+} from "../ArticlesPageProvider"
 
 const FiltersModal = styled.div`
   .diff-level-heading {
@@ -131,7 +134,10 @@ const FiltersForm = ({ trigger }: FiltersFormProps) => {
                 }
                 onClick={() => setAllSeniorityLevels()}
               >
-                {articlesPageT.all} {Object.values(Seniority).join(" ")}
+                {articlesPageT.all}{" "}
+                {Object.values(Seniority)
+                  .map(seniority => layoutT[seniority])
+                  .join(" ")}
               </Badge>
               {seniorityLevels.map(([key, emoji]) => (
                 <Badge
@@ -144,7 +150,7 @@ const FiltersForm = ({ trigger }: FiltersFormProps) => {
                   }
                   onClick={() => changeSeniority(key)}
                 >
-                  {key} {emoji}
+                  {layoutT[key]} {emoji}
                 </Badge>
               ))}
             </BadgesSection>
