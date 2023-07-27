@@ -1,11 +1,7 @@
 import React from "react"
-import Badge from "../../../../components/article/Badge"
-import { CourseStatus } from "../../../../models"
-import theme from "../../../../utils/theme"
-
-export interface CourseStatusBadgeProps {
-  value: CourseStatus
-}
+import Badge from "../../components/article/Badge"
+import theme from "../../utils/theme"
+import type { CourseStatusBadgeProps } from "./models"
 
 export const CourseStatusBadge = ({ value }: CourseStatusBadgeProps) => {
   if (value === "SHEDULED") {

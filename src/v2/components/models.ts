@@ -1,5 +1,5 @@
 import type { ReactElement, ReactNode } from "react"
-import type { ArticlePageModel, User } from "../core/models"
+import type { ArticlePageModel, CourseStatus, User } from "../core/models"
 
 interface BaseProps {
   className?: string
@@ -57,6 +57,29 @@ interface ReadTimeProps {
   time: number
 }
 
+interface CourseChaptersProps {
+  activeLessonId: string
+  activeChapterId: string
+  chapters: {
+    title: string
+    path: string
+    duration: number
+    lessons: {
+      title: string
+      path: string
+      duration: number
+    }[]
+  }[]
+}
+
+interface CourseStatusBadgeProps {
+  value: CourseStatus
+}
+
+interface TimeBadgeProps {
+  value: number
+}
+
 export type {
   AuthorTileProps,
   TagsProps,
@@ -65,4 +88,7 @@ export type {
   ReviewersProps,
   SEOProps,
   ReadTimeProps,
+  CourseChaptersProps,
+  CourseStatusBadgeProps,
+  TimeBadgeProps,
 }

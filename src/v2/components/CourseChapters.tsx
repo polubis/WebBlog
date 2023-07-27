@@ -1,16 +1,12 @@
 import React, { Fragment, useState } from "react"
 import styled from "styled-components"
-import { Chapter, Lesson } from "../../../../models"
-import { ChevronIcon, IconButton, Label, M, S } from "../../../../ui"
-import { formatMinutes } from "../../../../utils/formatMinutes"
-import theme from "../../../../utils/theme"
-import { M_DOWN } from "../../../../utils/viewport"
 import { Link as GatsbyLink } from "gatsby"
+import theme from "../../utils/theme"
+import { ChevronIcon, IconButton, Label, M, S } from "../../ui"
+import { M_DOWN } from "../../utils/viewport"
+import { formatMinutes } from "../../utils/formatMinutes"
 
 const TextContent = styled.div`
-  display: flex;
-  flex-flow: column;
-
   ${S} {
     margin-top: 2px;
     color: ${theme.grayA};
@@ -48,8 +44,6 @@ const LessonListItem = styled.li`
 `
 
 const LessonsList = styled.ul`
-  display: flex;
-  flex-flow: column;
   padding: 0 0 20px 0;
   margin: 0;
 
@@ -59,8 +53,6 @@ const LessonsList = styled.ul`
 `
 
 const ChaptersListItem = styled.li`
-  display: flex;
-  align-items: center;
   justify-content: space-between;
   cursor: pointer;
 
@@ -84,8 +76,6 @@ const ChaptersListItem = styled.li`
 `
 
 const ChaptersList = styled.ul`
-  display: flex;
-  flex-flow: column;
   margin: 0;
   padding: 0;
 
@@ -109,9 +99,17 @@ const ChaptersList = styled.ul`
 `
 
 export interface CourseChaptersProps {
-  activeLessonId?: Lesson["id"]
-  activeChapterId?: Chapter["id"]
-  chapters: Chapter[]
+  activeLessonId?: string
+  activeChapterId?: string
+  chapters: {
+    duration: number
+    title: string
+    lessons: {
+      title: string
+      duration: number
+      path: string
+    }[]
+  }[]
 }
 
 export const CourseChapters = ({
@@ -119,34 +117,34 @@ export const CourseChapters = ({
   activeChapterId,
   chapters,
 }: CourseChaptersProps) => {
-  const [hiddenChapters, setHiddenChapters] = useState<Record<string, boolean>>(
-    {}
-  )
+  const [hidden, setHidden] = useState<Record<string, boolean>>({})
 
-  const handleChapterToggle = (name: Chapter["name"]): void => {
-    setHiddenChapters(prevChapters => ({
-      ...prevChapters,
-      [name]: hiddenChapters[name] ? false : true,
-    }))
+  const toggle = (title: string): void => {
+    setHidden({
+      ...hidden,
+      [title]: hidden[title] ? false : true,
+    })
   }
 
   return (
-    <ChaptersList className="components-course-chapters">
+    <ChaptersList className="components-course-chapters col">
       {chapters.map((chapter, index) => (
-        <Fragment key={chapter.name}>
+        <Fragment key={chapter.title}>
           <ChaptersListItem
-            className={activeChapterId === chapter.id ? "active" : ""}
-            onClick={() => handleChapterToggle(chapter.name)}
+            className={`row${
+              activeChapterId === chapter.title ? " active" : ""
+            }`}
+            onClick={() => toggle(chapter.title)}
           >
-            <TextContent>
+            <TextContent className="col">
               <Label className="chapter-name">
-                {index + 1}. {chapter.name}
+                {index + 1}. {chapter.title}
               </Label>
               <S>{formatMinutes(chapter.duration)}</S>
             </TextContent>
             <IconButton
               className={`toggle-btn ${
-                hiddenChapters[chapter.name] ? "expanded" : ""
+                hidden[chapter.title] ? "expanded" : ""
               }`}
               variant="secondary-outlined"
             >
@@ -154,20 +152,20 @@ export const CourseChapters = ({
             </IconButton>
           </ChaptersListItem>
 
-          {hiddenChapters[chapter.name] || (
-            <LessonsList>
+          {hidden[chapter.title] || (
+            <LessonsList className="col">
               {chapter.lessons.map(lesson => (
                 <LessonListItem
                   className={
-                    activeChapterId === chapter.id &&
-                    activeLessonId === lesson.id
+                    activeChapterId === chapter.title &&
+                    activeLessonId === lesson.title
                       ? "active"
                       : ""
                   }
-                  key={lesson.name}
+                  key={lesson.title}
                 >
                   <GatsbyLink to={lesson.path}>
-                    <M>{lesson.name}</M>
+                    <M>{lesson.title}</M>
                     <S className="minutes">
                       {formatMinutes(lesson.duration, true)}
                     </S>

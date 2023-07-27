@@ -1,12 +1,11 @@
 import React, { useState } from "react"
 import styled from "styled-components"
-import { Chapter, Lesson } from "../../../../models"
-import theme from "../../../../utils/theme"
-import { usePortal } from "../../../../utils/usePortal"
-import { useScroll } from "../../../../utils/useScroll"
-import { CourseChapters } from "../course-chapters"
-import { CloseIcon, IconButton, ListIcon } from "../../../../ui"
-import { L_UP, M_UP } from "../../../../utils/viewport"
+import theme from "../../utils/theme"
+import { L_UP, M_UP } from "../../utils/viewport"
+import { usePortal } from "../../utils/usePortal"
+import { useScroll } from "../../utils/useScroll"
+import { CloseIcon, IconButton, ListIcon } from "../../ui"
+import type { MobileNavigationProps } from "./models"
 
 const Wrapper = styled.div`
   display: flex;
@@ -52,17 +51,7 @@ const Expander = styled.div`
   }
 `
 
-interface MobileCourseChaptersProps {
-  chapters: Chapter[]
-  lessonId: Lesson["id"]
-  chapterId: Chapter["id"]
-}
-
-const MobileCourseChapters = ({
-  chapterId,
-  lessonId,
-  chapters,
-}: MobileCourseChaptersProps) => {
+const MobileNavigation = ({ children }: MobileNavigationProps) => {
   const { render } = usePortal()
   const { direction, offsetY } = useScroll()
   const [open, setOpen] = useState(false)
@@ -82,11 +71,7 @@ const MobileCourseChapters = ({
       )}
       {open && (
         <Wrapper>
-          <CourseChapters
-            activeChapterId={chapterId}
-            activeLessonId={lessonId}
-            chapters={chapters}
-          />
+          {children}
           <CloseButtonWrapper>
             <IconButton
               rounded
@@ -103,4 +88,4 @@ const MobileCourseChapters = ({
   )
 }
 
-export { MobileCourseChapters }
+export { MobileNavigation }

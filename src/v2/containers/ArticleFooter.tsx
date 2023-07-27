@@ -8,8 +8,10 @@ import { ObserveMe } from "../components/ObserveMe"
 import { SM_DOWN } from "../../utils/viewport"
 import { Link } from "gatsby"
 import styled from "styled-components"
-import { Dates } from "./Dates"
 import AuthorAvatar from "../../components/article/AuthorAvatar"
+import { format } from "date-fns"
+import theme from "../../utils/theme"
+import Badge from "../../components/article/Badge"
 
 const Container = styled.div`
   .observe-me {
@@ -18,6 +20,16 @@ const Container = styled.div`
 
   .dates {
     margin: 32px 0 40px 0;
+
+    & > * {
+      margin: 0 10px 10px 0;
+
+      @media ${SM_DOWN} {
+        width: 100%;
+        margin: 0 0 10px 0;
+        text-align: center;
+      }
+    }
   }
 
   .article-bottom-nav {
@@ -82,7 +94,14 @@ const ArticleFooter = () => {
           btnTitle={article.t.observe_me_follow}
         />
       )}
-      <Dates />
+      <div className="dates wrap">
+        <Badge color={theme.secondary}>
+          {layout.t.created}: {format(new Date(article.cdate), "dd-MM-yyyy")}
+        </Badge>
+        <Badge color={theme.secondary}>
+          {layout.t.updated}: {format(new Date(article.mdate), "dd-MM-yyyy")}
+        </Badge>
+      </div>
       <div className="article-bottom-nav">
         <A href={article.source_url} outside>
           <Button onClick={() => track({ name: "article_source_clicked" })}>

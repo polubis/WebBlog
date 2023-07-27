@@ -117,3 +117,30 @@ html {
 .clickable {
   cursor: pointer;
 }
+
+.button {
+  display: block;
+  background: none;
+  font-size: 14px;
+  font-weight: bolder;
+  padding: 10px 18px;
+  min-width: 72px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: inherit;
+  color: #fff;
+}
+
+a.button {
+  text-decoration: none;
+}
+
+.button.primary:hover {
+  background: #ff7878;
+  color: #000;
+}
+
+.button.primary {
+  border: 1px solid #ff7878;
+  color: #ff7878;
+}

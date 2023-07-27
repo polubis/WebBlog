@@ -10,8 +10,11 @@ const {
 const { ArticlePageCreator } = require("./src/v2/api/article-page-creator")
 const { AuthorsPageCreator } = require("./src/v2/api/authors-page-creator")
 const { ArticlesPageCreator } = require("./src/v2/api/articles-page-creator")
-const { CourseModel } = require("./src/v2/api/course-model")
 const { CoursesPageCreator } = require("./src/v2/api/courses-page-creator")
+const { CoursePageCreator } = require("./src/v2/api/course-page-creator")
+const { CoursesCollection } = require("./src/v2/api/courses-collection")
+const { DataRepository } = require("./src/v2/api/data-repository")
+const { LessonPageCreator } = require("./src/v2/api/lesson-page-creator")
 
 exports.onCreateWebpackConfig = ({ actions }) => {
   actions.setWebpackConfig({
@@ -21,20 +24,7 @@ exports.onCreateWebpackConfig = ({ actions }) => {
   })
 }
 
-const createCoursesPage = ({ result, createPage, enLayout }) => {
-  const authorsAvatars = result.data.authorsAvatars.nodes
-  const lessons = result.data.lessons.nodes
-  const coursesThumbnails = result.data.coursesImages.nodes
-  const courses = result.data.courses.nodes.map(course =>
-    CourseModel(course, {
-      coursesThumbnails,
-      authors,
-      authorsAvatars,
-      lessons,
-      path: "/courses/",
-    })
-  )
-
+const createCoursesPage = ({ courses, createPage, enLayout }) => {
   const create = CoursesPageCreator({
     createPage,
     makeComponent: () => resolve("src/v2/features/courses/CoursesPage.tsx"),
@@ -43,6 +33,40 @@ const createCoursesPage = ({ result, createPage, enLayout }) => {
   })
 
   create({ layout: enLayout, lang: "en", courses })
+}
+
+const createManyCoursesPages = ({ courses, createPage, enLayout }) => {
+  const create = CoursePageCreator({
+    createPage,
+    makeComponent: () => resolve("src/v2/features/course/CoursePage.tsx"),
+  })
+
+  courses.forEach(course => {
+    create({ layout: enLayout, lang: "en", course })
+  })
+}
+
+const createManyLessonsPages = ({ courses, createPage, enLayout }) => {
+  const create = LessonPageCreator({
+    createPage,
+    makeComponent: () => resolve("src/v2/features/lesson/LessonPage.tsx"),
+  })
+
+  courses.forEach(course => {
+    course.chapters.forEach((chapter, chapterIndex) => {
+      chapter.lessons.forEach(lesson => {
+        create({
+          layout: enLayout,
+          lang: "en",
+          lesson,
+          course,
+          chapter,
+          prevChapter: course.chapters[chapterIndex - 1],
+          nextChapter: course.chapters[chapterIndex + 1],
+        })
+      })
+    })
+  })
 }
 
 exports.createPages = async ({ actions, graphql }) => {
@@ -382,7 +406,7 @@ exports.createPages = async ({ actions, graphql }) => {
     translationObject,
   })
 
-  const { courses, site, materials } = data
+  const { site, materials } = data
   const { routes } = site
 
   const authorsAvatars = result.data.authorsAvatars.nodes
@@ -494,12 +518,17 @@ exports.createPages = async ({ actions, graphql }) => {
   })
 
   // Articles
+  const dataRepository = DataRepository(result)
+  const enCourses = CoursesCollection(
+    dataRepository,
+    enLayout,
+    "/courses/",
+    "courses"
+  )
 
-  // Courses
-
-  createCoursesPage({ result, createPage, enLayout })
-
-  // Courses
+  createCoursesPage({ courses: enCourses, createPage, enLayout })
+  createManyCoursesPages({ courses: enCourses, createPage, enLayout })
+  createManyLessonsPages({ courses: enCourses, createPage, enLayout })
 
   createPage({
     path: routes.creator.to,
@@ -521,32 +550,6 @@ exports.createPages = async ({ actions, graphql }) => {
         ...data,
         material,
       },
-    })
-  })
-
-  courses.forEach(course => {
-    createPage({
-      path: course.path,
-      component: resolve(`src/features/courses/Course.tsx`),
-      context: {
-        ...data,
-        course,
-      },
-    })
-
-    course.chapters.forEach(chapter => {
-      chapter.lessons.forEach(lesson => {
-        createPage({
-          path: lesson.path,
-          component: resolve(`src/features/lessons/Lesson.tsx`),
-          context: {
-            ...data,
-            lesson,
-            chapter,
-            course,
-          },
-        })
-      })
     })
   })
 }
