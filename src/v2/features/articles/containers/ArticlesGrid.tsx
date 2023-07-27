@@ -115,7 +115,7 @@ const Tile = styled.div`
 `
 
 const ArticlesGrid = () => {
-  const { routes } = useLayoutProvider()
+  const { routes, t: layoutT } = useLayoutProvider()
   const { filteredArticles } = useArticlesFiltersProvider()
   const { t: articlesPageT } = useArticlesPageProvider()
   const readArticleText = articlesPageT.read_article
@@ -142,7 +142,10 @@ const ArticlesGrid = () => {
             </Tags>
             <Link to={path}>
               <XL>
-                <span title={seniority}>{Seniority[seniority]}</span> {title}
+                <span title={layoutT[seniority]}>
+                  {Seniority[seniority]}
+                </span>{" "}
+                {title}
               </XL>
             </Link>
             <M normal>{description}</M>
