@@ -10,6 +10,7 @@ import { XL, M, Hint, A, B } from "../../ui/text"
 import { List } from "../../components/article/List"
 import { Snippet } from "../../ui/snippet"
 import { L, Li } from "../../components/article/L"
+import { Demo } from "../components/mdx/Demo"
 
 const default_components = {
   Section,
@@ -26,6 +27,7 @@ const default_components = {
   B,
   L,
   Li,
+  Demo,
 }
 
 interface MdxProviderProps {

@@ -38,6 +38,8 @@ const Container = styled.section`
   }
 
   ${Huge} {
+    display: flex;
+    justify-content: center;
     max-width: 300px;
     text-align: center;
     text-shadow: -6px 11px 15px ${theme.black};
