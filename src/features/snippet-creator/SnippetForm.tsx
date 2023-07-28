@@ -2,7 +2,6 @@ import React, { ReactNode, useMemo } from "react"
 import styled from "styled-components"
 import { Banner, XL } from "../../ui"
 import Button from "../../components/button/Button"
-import { useEditor } from "../../components/blog-creator/useEditor"
 import { SM_DOWN } from "../../utils/viewport"
 import { Center } from "./Center"
 import { useKeyPress } from "../../utils/useKeyPress"
@@ -12,6 +11,7 @@ import {
   MIN_FRAME_CODE_CHARACTERS,
 } from "./consts"
 import Loadable from "react-loadable"
+import { useEditor } from "../../v2/logic/useEditor"
 
 const EditableSnippet = Loadable({
   loader: () =>

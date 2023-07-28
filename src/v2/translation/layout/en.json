@@ -38,5 +38,7 @@
     "technical_check": "Technical check",
     "show_source": "Show source",
     "new": "New",
-    "article_thumbnail": "Article thumbnail"
+    "article_thumbnail": "Article thumbnail",
+    "back": "Back",
+    "loading": "Loading"
 }

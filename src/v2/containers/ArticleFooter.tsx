@@ -11,6 +11,7 @@ import AuthorAvatar from "../../components/article/AuthorAvatar"
 import { format } from "date-fns"
 import theme from "../../utils/theme"
 import Badge from "../../components/article/Badge"
+import { NavigationSection } from "../components/NavigationSection"
 
 const Container = styled.div`
   .observe-me {
@@ -27,27 +28,6 @@ const Container = styled.div`
         width: 100%;
         margin: 0 0 10px 0;
         text-align: center;
-      }
-    }
-  }
-
-  .article-bottom-nav {
-    display: flex;
-    justify-content: right;
-
-    & > *:not(:first-child) {
-      margin: 0 0 0 20px;
-    }
-
-    @media ${SM_DOWN} {
-      flex-flow: column;
-
-      & > *:not(:first-child) {
-        margin: 20px 0 0 0;
-      }
-
-      button {
-        width: 100%;
       }
     }
   }
@@ -101,7 +81,7 @@ const ArticleFooter = () => {
           {layout.t.updated}: {format(new Date(article.mdate), "dd-MM-yyyy")}
         </Badge>
       </div>
-      <div className="article-bottom-nav">
+      <NavigationSection>
         <a
           href={article.source_url}
           className="button primary upper"
@@ -122,7 +102,7 @@ const ArticleFooter = () => {
             {layout.t.next}
           </Link>
         )}
-      </div>
+      </NavigationSection>
     </Container>
   )
 }

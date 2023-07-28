@@ -17,9 +17,18 @@ const Container = styled.div`
     margin-top: 32px;
   }
 
+
+  .ui-snippet {
+    max-width: 100%;
+  }
+
   ${M} {
     margin: 12px 0 32px 0;
     max-width: 620px;
+    text-align: center;
+  }
+
+  ${XL} {
     text-align: center;
   }
 `

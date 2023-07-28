@@ -154,6 +154,7 @@ const AComponent = styled.a`
   font-size: 16px;
   font-weight: ${(props: Props) => getWeight(props, Weight.NORMAL)};
   color: ${theme.primary};
+  word-break: break-word;
 
   &:hover {
     opacity: 0.9;

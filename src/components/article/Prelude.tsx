@@ -13,7 +13,7 @@ export default function ({
   label = "Prelude",
 }: Props): React.ReactElement {
   return (
-    <Section containerType="prelude">
+    <Section>
       <XL shifted>{label}</XL>
       {children}
     </Section>

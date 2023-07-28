@@ -3,10 +3,16 @@ import { XL } from "../../ui"
 
 import Section from "./Section"
 
-export const Example = ({ children }: { children: ReactNode }) => {
+export const Example = ({
+  children,
+  label = "Full example",
+}: {
+  children: ReactNode
+  label?: string
+}) => {
   return (
-    <Section containerType="example">
-      <XL>Full example</XL>
+    <Section>
+      <XL>{label}</XL>
       {children}
     </Section>
   )

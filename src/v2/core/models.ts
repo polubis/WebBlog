@@ -20,6 +20,8 @@ import type lesson_en from "../translation/course/en.json"
 import type home_pl from "../translation/home/pl.json"
 import type home_en from "../translation/home/en.json"
 import type { TimelineData } from "../../components/timeline/models/data"
+import type blog_creator_en from "../translation/blog-creator/en.json"
+import type blog_creator_pl from "../translation/blog-creator/pl.json"
 
 type Id = string
 type Title = string
@@ -71,6 +73,7 @@ export type CoursesT = typeof courses_en | typeof courses_pl
 export type CourseT = typeof course_en | typeof course_pl
 export type LessonT = typeof lesson_en | typeof lesson_pl
 export type HomeT = typeof home_en | typeof home_pl
+export type BlogCreatorT = typeof blog_creator_en | typeof blog_creator_pl
 
 export interface ArticleThumbnail {
   full: FluidObject
@@ -268,4 +271,11 @@ export interface HomePageModel {
   random_user_avatar: FixedObject
   thumbnail: FluidObject
   timeline: TimelineData
+}
+
+export interface BlogCreatorPageModel {
+  t: BlogCreatorT
+  ga_page: GaPage
+  url: Url
+  samples: Record<keyof BlogCreatorT["samples"], string>
 }

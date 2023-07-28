@@ -13,7 +13,7 @@ export default function ({
   label = "Summary",
 }: Props): React.ReactElement {
   return (
-    <Section containerType="summary">
+    <Section>
       <XL shifted>{label}</XL>
       {children}
     </Section>
