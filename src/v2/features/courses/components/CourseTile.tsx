@@ -2,8 +2,8 @@ import React from "react"
 import styled from "styled-components"
 import { CodeEditorTile, M, XL } from "../../../../ui"
 import { CourseTileProps } from "./models"
-import { CourseTimeBadge } from "../../../../features/courses/components"
-import { CourseStatusBadge } from "../../../../features/courses/components/course-status-badge/CourseStatusBadge"
+import { CourseStatusBadge } from "../../../components/CourseStatusBadge"
+import { TimeBadge } from "../../../components/TimeBadge"
 
 const Container = styled.div`
   border-radius: 4px;
@@ -45,7 +45,7 @@ const CourseTile = ({
       <CodeEditorTile>
         <div className="course-tile-content col">
           <div className="course-tile-badges wrap">
-            <CourseTimeBadge value={readTime} />
+            <TimeBadge value={readTime} />
             <CourseStatusBadge value={status} />
           </div>
           <XL>{title}</XL>

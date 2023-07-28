@@ -9,6 +9,8 @@
     "beginner": "Beginner",
     "intermediate": "Intermediate",
     "advanced": "Advanced",
+    "created": "created",
+    "updated": "updated",
     "expert": "Expert",
     "progress_display": [
         "Don't scroll, just read it 🐼.",

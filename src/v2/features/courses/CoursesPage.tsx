@@ -6,14 +6,14 @@ import { SEO } from "../../containers/SEO"
 import { CoursesPageProvider } from "./CoursesPageProvider"
 import { CoursesView } from "./CoursesView"
 
-interface ArticlePageProps {
+interface CoursesPageProps {
   pageContext: {
     courses: CoursesPageModel
     layout: Layout
   }
 }
 
-const CoursesPage = ({ pageContext }: ArticlePageProps) => {
+const CoursesPage = ({ pageContext }: CoursesPageProps) => {
   const { courses, layout } = pageContext
 
   return (

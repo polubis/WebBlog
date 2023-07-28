@@ -13,6 +13,10 @@ import type articles_en from "../translation/articles/en.json"
 import type articles_pl from "../translation/articles/pl.json"
 import type courses_en from "../translation/courses/en.json"
 import type courses_pl from "../translation/courses/pl.json"
+import type course_en from "../translation/course/en.json"
+import type course_pl from "../translation/course/pl.json"
+import type lesson_pl from "../translation/course/pl.json"
+import type lesson_en from "../translation/course/en.json"
 
 type Id = string
 type Title = string
@@ -61,6 +65,8 @@ export type ArticleT = typeof article_en | typeof article_pl
 export type ArticlesT = typeof articles_en | typeof articles_pl
 export type AuthorsT = typeof authors_en | typeof authors_pl
 export type CoursesT = typeof courses_en | typeof courses_pl
+export type CourseT = typeof course_en | typeof course_pl
+export type LessonT = typeof lesson_en | typeof lesson_pl
 
 export interface ArticleThumbnail {
   full: FluidObject
@@ -107,8 +113,12 @@ export interface ArticlePageModel {
   author: Omit<User, "avatar"> & {
     avatar: Pick<User["avatar"], "small" | "medium">
   }
-  tech_reviewer: Omit<User, "avatar"> & Pick<User["avatar"], "small">
-  ling_reviewer: Omit<User, "avatar"> & Pick<User["avatar"], "small">
+  tech_reviewer: Omit<User, "avatar"> & {
+    avatar: Pick<User["avatar"], "small">
+  }
+  ling_reviewer: Omit<User, "avatar"> & {
+    avatar: Pick<User["avatar"], "small">
+  }
   tags: string
   technologies: Technology[]
   next?: MinimumArticle
@@ -169,4 +179,71 @@ export interface CoursesPageModel {
   ga_page: string
   url: Url
   courses: CoursesPageModelCourse[]
+}
+
+export interface CoursePageModel {
+  t: CourseT
+  ga_page: GaPage
+  url: Url
+  mdate: Mdate
+  cdate: CDate
+  status: CourseStatus
+  title: Title
+  tags: string[]
+  technologies: Technology[]
+  description: string
+  thumbnail: FluidObject
+  duration: number
+  lessons_count: number
+  author: Omit<User, "avatar"> & {
+    avatar: Pick<User["avatar"], "small" | "medium">
+  }
+  tech_reviewer: Omit<User, "avatar"> & {
+    avatar: Pick<User["avatar"], "small">
+  }
+  ling_reviewer: Omit<User, "avatar"> & {
+    avatar: Pick<User["avatar"], "small">
+  }
+  chapters: {
+    duration: number
+    title: Title
+    lessons: {
+      title: Title
+      duration: number
+      path: Path
+    }[]
+  }[]
+}
+
+export interface LessonPageModel {
+  t: LessonT
+  ga_page: GaPage
+  url: Url
+  body: string
+  description: string
+  title: Title
+  course: {
+    title: Title
+    path: Path
+  }
+  chapter: {
+    title: Title
+  }
+  chapters: {
+    duration: number
+    title: Title
+    lessons: {
+      title: Title
+      duration: number
+      path: Path
+    }[]
+  }[]
+  source_url: Url
+  thumbnail: FluidObject
+  next?: {
+    path: Path
+  }
+  prev?: {
+    path: Path
+  }
 }
