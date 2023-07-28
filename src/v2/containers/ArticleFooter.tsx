@@ -1,7 +1,6 @@
 import React from "react"
 import { A, M, S } from "../../ui"
 import { useLayoutProvider } from "../providers/LayoutProvider"
-import Button from "../../components/button/Button"
 import { useArticleProvider } from "../features/article/ArticleProvider"
 import { useCustomGAEvent } from "../../utils/useCustomGAEvent"
 import { ObserveMe } from "../components/ObserveMe"
@@ -103,21 +102,24 @@ const ArticleFooter = () => {
         </Badge>
       </div>
       <div className="article-bottom-nav">
-        <A href={article.source_url} outside>
-          <Button onClick={() => track({ name: "article_source_clicked" })}>
-            {layout.t.show_source}
-          </Button>
-        </A>
+        <a
+          href={article.source_url}
+          className="button primary upper"
+          target="_blank"
+          onClick={() => track({ name: "article_source_clicked" })}
+        >
+          {layout.t.show_source}
+        </a>
 
         {article.prev && (
-          <Link to={article.prev.path}>
-            <Button>{layout.t.prev}</Button>
+          <Link to={article.prev.path} className="button primary upper">
+            {layout.t.prev}
           </Link>
         )}
 
         {article.next && (
-          <Link to={article.next.path}>
-            <Button>{layout.t.next}</Button>
+          <Link to={article.next.path} className="button primary upper">
+            {layout.t.next}
           </Link>
         )}
       </div>

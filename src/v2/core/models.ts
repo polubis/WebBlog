@@ -17,6 +17,9 @@ import type course_en from "../translation/course/en.json"
 import type course_pl from "../translation/course/pl.json"
 import type lesson_pl from "../translation/course/pl.json"
 import type lesson_en from "../translation/course/en.json"
+import type home_pl from "../translation/home/pl.json"
+import type home_en from "../translation/home/en.json"
+import type { TimelineData } from "../../components/timeline/models/data"
 
 type Id = string
 type Title = string
@@ -67,6 +70,7 @@ export type AuthorsT = typeof authors_en | typeof authors_pl
 export type CoursesT = typeof courses_en | typeof courses_pl
 export type CourseT = typeof course_en | typeof course_pl
 export type LessonT = typeof lesson_en | typeof lesson_pl
+export type HomeT = typeof home_en | typeof home_pl
 
 export interface ArticleThumbnail {
   full: FluidObject
@@ -246,4 +250,22 @@ export interface LessonPageModel {
   prev?: {
     path: Path
   }
+}
+
+export interface HomePageModel {
+  t: HomeT
+  ga_page: GaPage
+  url: Url
+  articles_count: number
+  authors_count: number
+  courses_count: number
+  students_count: number
+  devs_count: number
+  lessons_count: number
+  technologies_count: number
+  showcase_frames: string[]
+  topics_count: number
+  random_user_avatar: FixedObject
+  thumbnail: FluidObject
+  timeline: TimelineData
 }

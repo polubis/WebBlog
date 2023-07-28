@@ -3,6 +3,7 @@ import { useScrollToTop } from "../../../utils/useScrollToTop"
 import Layout from "../../containers/Layout"
 import { Content } from "../../../ui"
 
+import Loadable from "react-loadable"
 import { useLessonPageProvider } from "./LessonPageProvider"
 import { useLayoutProvider } from "../../providers/LayoutProvider"
 import styled from "styled-components"
@@ -12,8 +13,13 @@ import { Link } from "gatsby"
 import { MdxProvider } from "../../providers/MdxProvider"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import { useCustomGAEvent } from "../../../utils/useCustomGAEvent"
-import { MobileNavigation } from "../../ui/MobileNavigation"
 import { CourseChapters } from "../../components/CourseChapters"
+
+const MobileNavigation = Loadable({
+  loader: () =>
+    import("../../ui/MobileNavigation").then(m => m.MobileNavigation),
+  loading: () => null,
+})
 
 const CourseChaptersWrapper = styled.div`
   position: relative;

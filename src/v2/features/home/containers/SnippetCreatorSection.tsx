@@ -1,10 +1,10 @@
 import React, { useEffect } from "react"
 import styled from "styled-components"
-import { T_DOWN } from "../../utils/viewport"
-import theme from "../../utils/theme"
 import Loadable from "react-loadable"
-import { useIsVisible } from "../../utils/useIsVisible"
-import { isInSSR } from "../../utils/isInSSR"
+import theme from "../../../../utils/theme"
+import { T_DOWN } from "../../../../utils/viewport"
+import { isInSSR } from "../../../../utils/isInSSR"
+import { useIsVisible } from "../../../../utils/useIsVisible"
 
 const SnippetCreatorSectionContent = Loadable({
   loader: () =>

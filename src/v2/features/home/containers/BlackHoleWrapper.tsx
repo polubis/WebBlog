@@ -1,12 +1,14 @@
 import React, { useMemo } from "react"
-import { useElementSize } from "../../utils/useElementSize"
-import { lUp, mUp } from "../../utils/viewport"
-import { BlackHole, BlackHoleProps } from "../black-hole/BlackHole"
+import { useElementSize } from "../../../../utils/useElementSize"
+import { lUp, mUp } from "../../../../utils/viewport"
+import { BlackHole, BlackHoleProps } from "../components/BlackHole"
 
 const BlackHoleWrapper = () => {
   const [state] = useElementSize()
 
-  const props = useMemo((): BlackHoleProps & { key: string } => {
+  const props = useMemo((): Omit<BlackHoleProps, "paused"> & {
+    key: string
+  } => {
     const id = "hole"
 
     if (state.status === "undetected" || state.status === "unsupported") {

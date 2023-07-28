@@ -1,20 +1,14 @@
 import React from "react"
 import { useLayoutEffect } from "react"
-import { useIsVisible } from "../../utils/useIsVisible"
-
-interface BlackHoleProps {
-  id: string
-  height: number
-  width: number
-  radius: number
-}
+import { useIsVisible } from "../../../../utils/useIsVisible"
+import { BlackHoleProps } from "./models"
 
 const useBlackHoleAnimation = ({
   id,
   height,
   width,
-  radius,
   paused,
+  radius,
 }: BlackHoleProps & { paused: boolean }) => {
   useLayoutEffect(() => {
     let canvas = document.getElementById(id)! as HTMLCanvasElement

@@ -125,6 +125,8 @@ html {
   font-weight: bolder;
   padding: 10px 18px;
   min-width: 72px;
+  text-align: center;
+  max-width: max-content;
   border-radius: 4px;
   cursor: pointer;
   font-family: inherit;

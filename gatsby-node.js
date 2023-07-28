@@ -2,7 +2,6 @@ const { resolve } = require("path")
 const { getAllDataQuery } = require("./src/api/getAllDataQuery")
 const authors = require("./src/authors/authors.json")
 const translationObject = require("./translations.json")
-const fetch = require("node-fetch")
 const {
   getPlArticleSlug,
   getEnArticleSlug,
@@ -15,6 +14,7 @@ const { CoursePageCreator } = require("./src/v2/api/course-page-creator")
 const { CoursesCollection } = require("./src/v2/api/courses-collection")
 const { DataRepository } = require("./src/v2/api/data-repository")
 const { LessonPageCreator } = require("./src/v2/api/lesson-page-creator")
+const { HomePageCreator } = require("./src/v2/api/home-page-creator")
 
 exports.onCreateWebpackConfig = ({ actions }) => {
   actions.setWebpackConfig({
@@ -388,18 +388,6 @@ exports.createPages = async ({ actions, graphql }) => {
     }
   `)
 
-  const discordMembersResult = await fetch(
-    `https://discord.com/api/v9/invites/PxXQayT3x3?with_counts=true`
-  )
-  const discordMembersData = await discordMembersResult.json()
-  const discordMembers = discordMembersData.approximate_member_count
-
-  const githubContributorsResult = await fetch(
-    `https://api.github.com/repos/polubis/WebBlog/contributors`
-  )
-  const githubContributorsData = await githubContributorsResult.json()
-  const githubContributors = githubContributorsData.length
-
   const data = getAllDataQuery({
     ...result.data,
     authors,
@@ -413,7 +401,8 @@ exports.createPages = async ({ actions, graphql }) => {
   const articleThumbnails = result.data.articleThumbnails.nodes
   const technologiesAvatars = result.data.technologiesAvatars.nodes
 
-  // Article
+  const dataRepository = await DataRepository(result)
+
   const createEnglishArticlePages = ArticlePageCreator({
     createPage,
   })({
@@ -453,9 +442,7 @@ exports.createPages = async ({ actions, graphql }) => {
     technologiesAvatars,
     authors,
   })
-  // Article
 
-  // Authors
   const createAuthorsPage = AuthorsPageCreator({
     createPage,
     makeComponent: () => resolve(`src/v2/features/authors/AuthorsPage.tsx`),
@@ -472,17 +459,37 @@ exports.createPages = async ({ actions, graphql }) => {
     path: "/pl/authors/",
   })
   createPlAuthorsPage({ layout: plLayout, lang: "pl", authorsAvatars, authors })
-  // Authors
 
-  createPage({
-    path: routes.home.to,
-    component: resolve(`src/components/home/HomePage.tsx`),
-    context: {
-      ...data,
-      holeImg: result.data.blackHoleImg.nodes[0].childImageSharp.fluid,
-      discordMembers,
-      githubContributors,
-    },
+  const enCourses = CoursesCollection(
+    dataRepository,
+    enLayout,
+    "/courses/",
+    "courses"
+  )
+
+  const createHomePage = HomePageCreator({
+    createPage,
+    makeComponent: () => resolve(`src/v2/features/home/HomePage.tsx`),
+  })
+
+  createHomePage({
+    ...dataRepository,
+    courses: enCourses,
+    layout: enLayout,
+    articles: enArticles,
+    path: "/",
+    ga_page: "",
+    lang: "en",
+  })
+
+  createHomePage({
+    ...dataRepository,
+    courses: [],
+    layout: plLayout,
+    articles: plArticles,
+    path: "/pl/",
+    ga_page: "pl",
+    lang: "pl",
   })
 
   // Articles
@@ -518,13 +525,6 @@ exports.createPages = async ({ actions, graphql }) => {
   })
 
   // Articles
-  const dataRepository = DataRepository(result)
-  const enCourses = CoursesCollection(
-    dataRepository,
-    enLayout,
-    "/courses/",
-    "courses"
-  )
 
   createCoursesPage({ courses: enCourses, createPage, enLayout })
   createManyCoursesPages({ courses: enCourses, createPage, enLayout })

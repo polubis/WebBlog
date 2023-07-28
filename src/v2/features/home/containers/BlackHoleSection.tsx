@@ -1,11 +1,11 @@
 import React from "react"
 import styled, { keyframes } from "styled-components"
-import { Content, Huge } from "../../ui"
-import theme from "../../utils/theme"
-import { M_DOWN } from "../../utils/viewport"
 import Loadable from "react-loadable"
-import { Image } from "../../models"
-import GatsbyImage from "gatsby-image"
+import Image from "gatsby-image"
+import { useHomePageProvider } from "../HomePageProvider"
+import { Content, Huge } from "../../../../ui"
+import theme from "../../../../utils/theme"
+import { M_DOWN } from "../../../../utils/viewport"
 
 const animateIn = keyframes`
   from {
@@ -58,34 +58,28 @@ const BlackHoleWrapper = Loadable({
   loading: () => null,
 })
 
-interface BlackHoleSectionProps {
-  holeImg: Image
+const imageStyle = {
+  position: "absolute",
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100%",
 }
 
-const BlackHoleSection = ({ holeImg }: BlackHoleSectionProps) => {
+const BlackHoleSection = () => {
+  const home = useHomePageProvider()
+
   return (
     <Wrapper>
-      <GatsbyImage
-        fluid={holeImg}
-        alt="Black hole"
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-        }}
-      />
+      <Image fluid={home.thumbnail} alt={home.t.sentence} style={imageStyle} />
       <Content>
         <Container>
-          <Huge>Cosmic dose of knowledge</Huge>
+          <Huge>{home.t.sentence}</Huge>
           <BlackHoleWrapper />
         </Container>
       </Content>
     </Wrapper>
   )
 }
-
-export type { BlackHoleSectionProps }
 
 export { BlackHoleSection }

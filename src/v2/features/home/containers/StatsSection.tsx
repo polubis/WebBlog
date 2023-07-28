@@ -1,12 +1,12 @@
 import React from "react"
 import styled from "styled-components"
-import { CodeEditorTile, M, XXL } from "../../ui"
-import AuthorAvatar from "../article/AuthorAvatar"
-import Button from "../button/Button"
 import { Link } from "gatsby"
-import { T_DOWN, M_DOWN, M_UP } from "../../utils/viewport"
-import { Author } from "../../models"
-import theme from "../../utils/theme"
+import { useLayoutProvider } from "../../../providers/LayoutProvider"
+import { useHomePageProvider } from "../HomePageProvider"
+import theme from "../../../../utils/theme"
+import { M_DOWN, M_UP, T_DOWN } from "../../../../utils/viewport"
+import { CodeEditorTile, M, XXL } from "../../../../ui"
+import AuthorAvatar from "../../../../components/article/AuthorAvatar"
 
 const Container = styled.section`
   display: grid;
@@ -46,8 +46,6 @@ const Container = styled.section`
 `
 
 const BloggerTileContent = styled.div`
-  display: flex;
-  flex-flow: column;
   padding-bottom: 12px;
 
   & > *:nth-child(2) {
@@ -93,126 +91,100 @@ const AvatarWrapper = styled.div`
   }
 `
 
-interface StatsSectionProps {
-  articlesCount: number
-  authorsCount: number
-  coursesCount: number
-  lessonsCount: number
-  topAuthor: Author
-  chaptersCount: number
-  stackCount: number
-  discordMembers: number
-  githubContributors: number
-}
+const StatsSection = () => {
+  const layout = useLayoutProvider()
+  const home = useHomePageProvider()
 
-const StatsSection = ({
-  articlesCount,
-  authorsCount,
-  coursesCount,
-  lessonsCount,
-  topAuthor,
-  chaptersCount,
-  stackCount,
-  discordMembers,
-  githubContributors,
-}: StatsSectionProps) => {
   return (
-    <Container className="statsSectionContainer">
-      <Link to="/articles/">
+    <Container>
+      <Link to={layout.routes.articles.to}>
         <CodeEditorTile>
           <XXL>
-            {articlesCount} {articlesCount === 1 ? "article" : "articles"}
+            {home.articles_count} {layout.t.articles}
           </XXL>
         </CodeEditorTile>
       </Link>
 
-      <Link to="/authors/">
+      <Link to={layout.routes.authors.to}>
         <CodeEditorTile>
           <XXL>
-            {authorsCount} {authorsCount === 1 ? "author" : "authors"}
+            {home.authors_count} {layout.t.authors}
           </XXL>
         </CodeEditorTile>
       </Link>
 
-      <Link to="/courses/">
+      <Link to={layout.routes.courses.to}>
         <CodeEditorTile>
           <XXL>
-            {coursesCount} {coursesCount === 1 ? "course" : "courses"}
+            {home.courses_count} {layout.t.courses}
           </XXL>
         </CodeEditorTile>
       </Link>
 
       <a
-        href="https://discord.gg/PxXQayT3x3"
-        title="Discord members"
+        href={layout.discord_url}
+        title={layout.t.discord_channel}
         target="_blank"
         rel="noopener noreferrer"
       >
         <CodeEditorTile>
           <XXL>
-            {discordMembers} {discordMembers === 1 ? "student" : "students"}
+            {home.students_count} {home.t.students}
           </XXL>
         </CodeEditorTile>
       </a>
 
       <a
-        href="https://github.com/polubis/WebBlog"
-        title="Contributors"
+        href={layout.repo_url}
+        title={layout.t.contributors}
         target="_blank"
         rel="noopener noreferrer"
       >
         <CodeEditorTile>
           <XXL>
-            {githubContributors} {githubContributors === 1 ? "dev" : "devs"}
+            {home.devs_count} {home.t.devs}
           </XXL>
         </CodeEditorTile>
       </a>
 
-      <Link to="/courses/">
+      <Link to={layout.routes.courses.to}>
         <CodeEditorTile>
           <XXL>
-            {lessonsCount} {lessonsCount === 1 ? "lesson" : "lessons"}
+            {home.lessons_count} {home.t.lessons}
           </XXL>
         </CodeEditorTile>
       </Link>
 
-      <Link to="/courses/">
+      <Link to={layout.routes.courses.to}>
         <CodeEditorTile>
           <XXL>
-            {chaptersCount} {chaptersCount === 1 ? "chapter" : "chapters"}
+            {home.topics_count} {home.t.chapters}
           </XXL>
         </CodeEditorTile>
       </Link>
 
-      <Link to="/articles/">
+      <Link to={layout.routes.articles.to}>
         <CodeEditorTile>
           <XXL>
-            {stackCount} {stackCount === 1 ? "topic" : "topics"}
+            {home.technologies_count} {home.t.topics}
           </XXL>
         </CodeEditorTile>
       </Link>
 
       <CodeEditorTile>
-        <BloggerTileContent>
-          <XXL>Become a blogger</XXL>
-          <M>
-            Use our creator and add your first article. You will get the
-            necessary technical assistance.
-          </M>
-          <Link to="/blog-creator/">
-            <Button className="write-article-button">
-              WRITE YOUR FIRST ARTICLE
-            </Button>
+        <BloggerTileContent className="col">
+          <XXL>{home.t.become_a_heading}</XXL>
+          <M>{home.t.become_a_description}</M>
+          <Link className="button primary upper" to={layout.routes.creator.to}>
+            {home.t.become_a_action}
           </Link>
         </BloggerTileContent>
         <AvatarWrapper>
-          <AuthorAvatar avatar={topAuthor.avatar.big.fixed} />
+          <AuthorAvatar avatar={home.random_user_avatar} />
         </AvatarWrapper>
       </CodeEditorTile>
     </Container>
   )
 }
-
-export type { StatsSectionProps }
 
 export { StatsSection }
