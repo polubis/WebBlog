@@ -1,0 +1,48 @@
+{
+    "page_title": "edytor: Narzędzie do tworzenia artykułów w oparciu o zmodyfikowaną składnie mdx",
+    "page_description": "Używaj naszego edytora do tworzenia artykułow oraz kursów i otrzymaj techniczne oraz językowe wsparcie.",
+    "sentence": "Edytor do tworzenia artykułów",
+    "full_screen": "Pełny ekran",
+    "submit_article": "Prześlij artykuł",
+    "article_preview": "Podgląd artykułu",
+    "version": "Wersja",
+    "choose_template": "Wybierz templatkę",
+    "leave_warn": "Po wyjściu z tej strony cały twój postęp zostanie utracony. Czy napewno chcesz to zrobić?",
+    "errors_heading": "Wykryto błędy w składni",
+    "errors_description": "Powodem może być użycie nie wspieranego tagu, użycie iframe lub niedomknięcie tagu.",
+    "errors_here_is_a_list": "Poniżej lista wspieranych tagów: ",
+    "still_problems": "Jeżeli dalej masz problemy to daj nam znać lub zapytaj na naszym kanale",
+    "demo_info": {
+        "heading": "Proszę przeczytaj to!",
+        "desc": "Nie martw się, Twój przykład będzie działał. Podczas edycji w czasie rzeczywistym pomijamy wyświetlanie kilku znaczników w celu optymalizacji, przykładowo znacznika"
+    },
+    "copied": "Skopiowano! Teraz wklej zawartość w dowolne miejsce.",
+    "samples": {
+        "default": "Domyślna templatka",
+        "image": "Zdjęcie",
+        "snippet": "Fragment z kodem",
+        "heading": "Nagłówek",
+        "paragraph": "Paragraf",
+        "section": "Sekcja",
+        "example": "Przykład",
+        "demo": "Demo",
+        "prelude": "Wstęp",
+        "summary": "Podsumowanie",
+        "link": "Link",
+        "bold": "Pogrubiony tekst",
+        "hint": "Podpowiedź"
+    },
+    "loader": {
+        "heading": "Trochę ciekawostek",
+        "mascot": {
+            "1": "Maskotką naszej platformy jest",
+            "2": "kotek ze strzelbą",
+            "3": "Udalo Ci się go znaleźć?"
+        },
+        "gpt": {
+            "1": "Nie boj się",
+            "2": "Czat GPT",
+            "3": "nie zabierze Ci pracy - on jedynie ją ułatwia."
+        }
+    }
+}

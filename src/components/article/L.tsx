@@ -62,7 +62,7 @@ interface LProps {
   children: ReactNode
 }
 
-const L = ({ ordered, children }) => {
+const L = ({ ordered, children }: LProps) => {
   return (
     <List className="l">
       {ordered ? <ol>{children}</ol> : <ul>{children}</ul>}

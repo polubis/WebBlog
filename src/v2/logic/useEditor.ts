@@ -1,13 +1,12 @@
 import { useMemo, useEffect } from "react"
 import { useState } from "react"
-import { INIT_MDX } from "./config"
 import { Subject, debounceTime, tap } from "rxjs"
 
-const useEditor = (initMdx = INIT_MDX) => {
+const useEditor = initMdx => {
   const [mdx, setMdx] = useState(initMdx)
   const [currentMdx, setCurrentMdx] = useState(mdx)
   const [hasErrors, setHasErrors] = useState(false)
-  const [changed, setChanged] = useState(false);
+  const [changed, setChanged] = useState(false)
 
   const mdxChanged = useMemo(() => new Subject<string>(), [])
   const mdxChanged$ = useMemo(() => mdxChanged.asObservable(), [])

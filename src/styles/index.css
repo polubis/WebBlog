@@ -119,7 +119,9 @@ html {
 }
 
 .button {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: none;
   font-size: 14px;
   font-weight: bolder;

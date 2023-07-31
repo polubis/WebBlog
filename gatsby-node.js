@@ -15,6 +15,9 @@ const { CoursesCollection } = require("./src/v2/api/courses-collection")
 const { DataRepository } = require("./src/v2/api/data-repository")
 const { LessonPageCreator } = require("./src/v2/api/lesson-page-creator")
 const { HomePageCreator } = require("./src/v2/api/home-page-creator")
+const {
+  BlogCreatorPageCreator,
+} = require("./src/v2/api/blog-creator-page-creator")
 
 exports.onCreateWebpackConfig = ({ actions }) => {
   actions.setWebpackConfig({
@@ -66,6 +69,27 @@ const createManyLessonsPages = ({ courses, createPage, enLayout }) => {
         })
       })
     })
+  })
+}
+
+const createBlogCreatorPage = ({ createPage, enLayout, plLayout }) => {
+  const create = BlogCreatorPageCreator({
+    createPage,
+    makeComponent: () =>
+      resolve("src/v2/features/blog-creator/BlogCreatorPage.tsx"),
+  })
+
+  create({
+    lang: "en",
+    layout: enLayout,
+    ga_page: "blog-creator",
+    path: "/blog-creator/",
+  })
+  create({
+    lang: "pl",
+    layout: plLayout,
+    ga_page: "pl/blog-creator",
+    path: "/pl/blog-creator/",
   })
 }
 
@@ -529,12 +553,7 @@ exports.createPages = async ({ actions, graphql }) => {
   createCoursesPage({ courses: enCourses, createPage, enLayout })
   createManyCoursesPages({ courses: enCourses, createPage, enLayout })
   createManyLessonsPages({ courses: enCourses, createPage, enLayout })
-
-  createPage({
-    path: routes.creator.to,
-    component: resolve(`src/features/blog-creator/BlogCreatorPage.tsx`),
-    context: data,
-  })
+  createBlogCreatorPage({ createPage, enLayout, plLayout })
 
   createPage({
     path: "/snippet-creator/",

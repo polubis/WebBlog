@@ -1,9 +1,10 @@
 import React, { ReactNode } from "react"
 import styled from "styled-components"
-import { usePortal } from "../../utils/usePortal"
-import theme from "../../utils/theme"
-import Button from "../button/Button"
 import { BlogCreatorHeading } from "./BlogCreatorHeading"
+import theme from "../../../../utils/theme"
+import { usePortal } from "../../../../utils/usePortal"
+import Button from "../../../../components/button/Button"
+import { useLayoutProvider } from "../../../providers/LayoutProvider"
 
 const Container = styled.div`
   display: grid;
@@ -48,6 +49,7 @@ interface FullScreenCreatorProps {
 
 const FullScreenCreator = ({ children, onClose }: FullScreenCreatorProps) => {
   const { render } = usePortal()
+  const layout = useLayoutProvider()
 
   const [First, Second] = children
 
@@ -57,7 +59,7 @@ const FullScreenCreator = ({ children, onClose }: FullScreenCreatorProps) => {
         <BlogCreatorHeading
           buttons={
             <Button className="full-mode-btn" onClick={onClose}>
-              BACK
+              {layout.t.back}
             </Button>
           }
         />
