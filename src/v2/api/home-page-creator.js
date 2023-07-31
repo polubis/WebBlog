@@ -122,8 +122,8 @@ const HomePageCreator = ({ createPage, makeComponent }) => ({
     pl,
   }
   const showcase_frames = {
-    en: REFACTOR_SAMPLE_EN,
-    pl: REFACTOR_SAMPLE_PL
+    en: [...REFACTOR_SAMPLE_EN],
+    pl: [...REFACTOR_SAMPLE_PL]
   }
 
   createPage({

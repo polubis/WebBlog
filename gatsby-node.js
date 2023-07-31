@@ -1,7 +1,5 @@
 const { resolve } = require("path")
-const { getAllDataQuery } = require("./src/api/getAllDataQuery")
 const authors = require("./src/authors/authors.json")
-const translationObject = require("./translations.json")
 const {
   getPlArticleSlug,
   getEnArticleSlug,
@@ -18,6 +16,9 @@ const { HomePageCreator } = require("./src/v2/api/home-page-creator")
 const {
   BlogCreatorPageCreator,
 } = require("./src/v2/api/blog-creator-page-creator")
+const {
+  SnippetCreatorPageCreator,
+} = require("./src/v2/api/snippet-creator-page-creator")
 
 exports.onCreateWebpackConfig = ({ actions }) => {
   actions.setWebpackConfig({
@@ -90,6 +91,27 @@ const createBlogCreatorPage = ({ createPage, enLayout, plLayout }) => {
     layout: plLayout,
     ga_page: "pl/blog-creator",
     path: "/pl/blog-creator/",
+  })
+}
+
+const createSnippetsCreatorPage = ({ createPage, enLayout, plLayout }) => {
+  const create = SnippetCreatorPageCreator({
+    createPage,
+    makeComponent: () =>
+      resolve("src/v2/features/snippet-creator/SnippetCreatorPage.tsx"),
+  })
+
+  create({
+    lang: "en",
+    layout: enLayout,
+    ga_page: "snippet-creator",
+    path: "/snippet-creator/",
+  })
+  create({
+    lang: "pl",
+    layout: plLayout,
+    ga_page: "pl/snippet-creator",
+    path: "/pl/snippet-creator/",
   })
 }
 
@@ -251,23 +273,6 @@ exports.createPages = async ({ actions, graphql }) => {
           }
         }
       }
-      materials: allMdx(
-        filter: { fileAbsolutePath: { regex: "/material.mdx/" } }
-      ) {
-        nodes {
-          frontmatter {
-            cdate
-            mdate
-            authorId
-            description
-            stack
-            title
-          }
-          body
-          slug
-          fileAbsolutePath
-        }
-      }
       lessons: allMdx(filter: { slug: { regex: "/lessons/" } }) {
         nodes {
           slug
@@ -288,22 +293,6 @@ exports.createPages = async ({ actions, graphql }) => {
         }
       }
       coursesThumbnails: allFile(
-        filter: { relativePath: { regex: "/course.jpg/" } }
-      ) {
-        nodes {
-          relativePath
-          childImageSharp {
-            fluid {
-              base64
-              aspectRatio
-              src
-              srcSet
-              sizes
-            }
-          }
-        }
-      }
-      coursesImages: allFile(
         filter: { relativePath: { regex: "/course.jpg/" } }
       ) {
         nodes {
@@ -360,72 +349,16 @@ exports.createPages = async ({ actions, graphql }) => {
           }
         }
       }
-      site {
-        siteMetadata {
-          siteUrl
-          siteName
-          siteDescription
-          langs {
-            en {
-              html
-              key
-            }
-            pl {
-              html
-              key
-            }
-          }
-          routes {
-            articles {
-              key
-              to
-              gaPage
-            }
-            authors {
-              key
-              to
-              gaPage
-            }
-            courses {
-              key
-              to
-              gaPage
-            }
-            snippetCreator {
-              key
-              to
-              gaPage
-            }
-            creator {
-              key
-              to
-              gaPage
-            }
-            home {
-              key
-              to
-              gaPage
-            }
-          }
-        }
-      }
     }
   `)
 
-  const data = getAllDataQuery({
-    ...result.data,
-    authors,
-    translationObject,
-  })
-
-  const { site, materials } = data
-  const { routes } = site
-
-  const authorsAvatars = result.data.authorsAvatars.nodes
-  const articleThumbnails = result.data.articleThumbnails.nodes
-  const technologiesAvatars = result.data.technologiesAvatars.nodes
-
   const dataRepository = await DataRepository(result)
+
+  const {
+    authorsAvatars,
+    articleThumbnails,
+    technologiesAvatars,
+  } = dataRepository
 
   const createEnglishArticlePages = ArticlePageCreator({
     createPage,
@@ -516,7 +449,6 @@ exports.createPages = async ({ actions, graphql }) => {
     lang: "pl",
   })
 
-  // Articles
   const createArticlesPage = ArticlesPageCreator({
     createPage,
     makeComponent: () => resolve(`src/v2/features/articles/ArticlesPage.tsx`),
@@ -548,27 +480,9 @@ exports.createPages = async ({ actions, graphql }) => {
     authorsAvatars,
   })
 
-  // Articles
-
   createCoursesPage({ courses: enCourses, createPage, enLayout })
   createManyCoursesPages({ courses: enCourses, createPage, enLayout })
   createManyLessonsPages({ courses: enCourses, createPage, enLayout })
   createBlogCreatorPage({ createPage, enLayout, plLayout })
-
-  createPage({
-    path: "/snippet-creator/",
-    component: resolve(`src/features/snippet-creator/SnippetCreatorPage.tsx`),
-    context: data,
-  })
-
-  materials.forEach(material => {
-    createPage({
-      path: material.path,
-      component: resolve(`src/features/materials/MaterialPage.tsx`),
-      context: {
-        ...data,
-        material,
-      },
-    })
-  })
+  createSnippetsCreatorPage({ createPage, enLayout, plLayout })
 }

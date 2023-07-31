@@ -22,6 +22,8 @@ import type home_en from "../translation/home/en.json"
 import type { TimelineData } from "../../components/timeline/models/data"
 import type blog_creator_en from "../translation/blog-creator/en.json"
 import type blog_creator_pl from "../translation/blog-creator/pl.json"
+import type snippet_creator_en from "../translation/snippet-creator/en.json"
+import type snippet_creator_pl from "../translation/snippet-creator/pl.json"
 
 type Id = string
 type Title = string
@@ -74,6 +76,9 @@ export type CourseT = typeof course_en | typeof course_pl
 export type LessonT = typeof lesson_en | typeof lesson_pl
 export type HomeT = typeof home_en | typeof home_pl
 export type BlogCreatorT = typeof blog_creator_en | typeof blog_creator_pl
+export type SnippetCreatorT =
+  | typeof snippet_creator_en
+  | typeof snippet_creator_pl
 
 export interface ArticleThumbnail {
   full: FluidObject
@@ -278,4 +283,35 @@ export interface BlogCreatorPageModel {
   ga_page: GaPage
   url: Url
   samples: Record<keyof BlogCreatorT["samples"], string>
+}
+
+export interface SnippetCreatorPageModel {
+  t: SnippetCreatorT
+  ga_page: GaPage
+  url: Url
+  samples: string[]
+}
+
+export interface Response<T> {
+  data: T
+  errors: string[]
+  hasErrors: boolean
+  success: boolean
+}
+
+export interface SnippetFrame {
+  id: number
+  code: string
+  animation: {
+    displayTime: number
+    type: "slideRight" | "opacity" | "slideLeft"
+  }
+}
+
+export interface Snippet {
+  description: string
+  name: string
+  id: string
+  gifUrl: string
+  frames: Omit<SnippetFrame, "id">[]
 }

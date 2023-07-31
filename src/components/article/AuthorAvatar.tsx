@@ -1,9 +1,9 @@
 import React from "react"
 import Image from "gatsby-image"
-import type { AuthorAvatarFixedObject } from "../../models"
+import type { FixedObject } from "../../v2/core/models"
 
 interface AuthorAvatarProps {
-  avatar: AuthorAvatarFixedObject
+  avatar: FixedObject
 }
 
 export default function ({ avatar }: AuthorAvatarProps) {

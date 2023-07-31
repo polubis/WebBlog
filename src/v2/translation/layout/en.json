@@ -40,5 +40,12 @@
     "new": "New",
     "article_thumbnail": "Article thumbnail",
     "back": "Back",
-    "loading": "Loading"
+    "loading": "Loading",
+    "copy": "Copy",
+    "copied": "Copied",
+    "yes": "Yes",
+    "no": "No",
+    "confirm": "Confirm",
+    "just_a_moment": "Just a moment :)",
+    "smth_wrong": "Something went wrong - please try again."
 }
