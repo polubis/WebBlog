@@ -18,7 +18,9 @@ import { NavigationSection } from "../../components/NavigationSection"
 
 const MobileNavigation = Loadable({
   loader: () =>
-    import("../../ui/MobileNavigation").then(m => m.MobileNavigation),
+    import("../../ui/mobile-navigation/MobileNavigation").then(
+      m => m.MobileNavigation
+    ),
   loading: () => null,
 })
 
