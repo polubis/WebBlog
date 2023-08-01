@@ -6,16 +6,35 @@ import styled from "styled-components"
 import { T_DOWN } from "../../../utils/viewport"
 import { useCustomGAEvent } from "../../../utils/useCustomGAEvent"
 import { useLeavePageAlert } from "../../../utils/useLeavePageAlert"
-import { ErrorsSection } from "./containers/ErrorsSection"
-import { BlogPreview } from "./containers/BlogPreview"
 import { BlogCreatorLoader } from "./containers/BlogCreatorLoader"
 import { BlogCreatorHeading } from "./containers/BlogCreatorHeading"
 import Button from "../../../components/button/Button"
-import { EditableSnippet } from "../../../ui/snippet/EditableSnippet"
 import BlogCreatorLayout from "./components/BlogCreatorLayout"
 import { FullScreenCreator } from "./containers/FullScreenCreator"
-import { TemplateSelector } from "./containers/TemplateSelector"
 import { useEditor } from "../../logic/useEditor"
+import Loadable from "react-loadable"
+
+const TemplateSelector = Loadable({
+  loader: () =>
+    import("./containers/TemplateSelector").then(m => m.TemplateSelector),
+  loading: () => null,
+})
+
+const BlogPreview = Loadable({
+  loader: () => import("./containers/BlogPreview").then(m => m.BlogPreview),
+  loading: () => null,
+})
+
+const EditableSnippet = Loadable({
+  loader: () =>
+    import("../../../ui/snippet/EditableSnippet").then(m => m.EditableSnippet),
+  loading: () => null,
+})
+
+const ErrorsSection = Loadable({
+  loader: () => import("./containers/ErrorsSection").then(m => m.ErrorsSection),
+  loading: () => null,
+})
 
 const Container = styled.div`
   display: flex;
@@ -145,7 +164,7 @@ export const BlogCreatorView = () => {
           <FullScreenCreator onClose={close}>
             <>
               {Editor}
-              <TemplateSelector onChange={change} />
+              <TemplateSelector />
             </>
             <>
               {Errors}
