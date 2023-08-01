@@ -221,7 +221,7 @@ export const CreateSnippetForm = ({
   }
 
   if (creationState.type === "done") {
-    const link = `/${layout.routes.snippet_creator.to}/?id= + creationState.data + /`
+    const link = `${layout.routes.snippet_creator.to}?id= + ${creationState.data} + /`
 
     return (
       <Center className="create-snippet-form-final-screen">
@@ -251,15 +251,16 @@ export const CreateSnippetForm = ({
               }
             </InteractiveButton>
             <footer className="footer">
-              <A className="button primary upper" href={link} outside>
+              <a className="button primary upper" href={link} target="_blank">
                 {creator.t.sandbox.final.go_to_snippet}
-              </A>
-              <A
+              </a>
+              <a
                 className="button primary upper"
                 href={layout.routes.snippet_creator.to}
+                target="_blank"
               >
                 {creator.t.sandbox.final.i_want_new}
-              </A>
+              </a>
             </footer>
           </Section>
         </FinalScreen>
