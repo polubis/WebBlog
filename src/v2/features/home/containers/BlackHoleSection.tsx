@@ -73,7 +73,12 @@ const BlackHoleSection = () => {
 
   return (
     <Wrapper>
-      <Image fluid={home.thumbnail} alt={home.t.sentence} style={imageStyle} />
+      <Image
+        loading="eager"
+        fluid={home.thumbnail}
+        alt={home.t.sentence}
+        style={imageStyle}
+      />
       <Content>
         <Container>
           <Huge>{home.t.sentence}</Huge>
