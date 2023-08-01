@@ -40,5 +40,12 @@
     "new": "Nowy",
     "article_thumbnail": "Zdjęcie artykułu",
     "back": "Powrót",
-    "loading": "Ładowanie"
+    "loading": "Ładowanie",
+    "copy": "Skopiuj",
+    "copied": "Skopiowano",
+    "yes": "Tak",
+    "no": "Nie",
+    "confirm": "Potwierdź",
+    "just_a_moment": "Dosłownie chwilka :)",
+    "smth_wrong": "Coś poszło nie tak - spróbuj ponownie."
 }

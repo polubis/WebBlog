@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, ReactNode, useState } from "react"
-import { useInterval } from "../../features/snippet-creator/useInterval"
 import { isInSSR } from "../../utils/isInSSR"
 import { Code } from "./Code"
 import { useCounter } from "../../utils/useCounter"
+import { useInterval } from "../../utils/useInterval"
 
 type Frames = string[]
 

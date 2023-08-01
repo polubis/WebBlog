@@ -1,57 +1,7 @@
 const siteUrl = `https://greenonsoftware.com`
 const siteName = "GreenOn Software"
-const siteDescription = `A place for people who love programming and personal development.`
-const langs = {
-  en: {
-    html: "en-US",
-    key: "en",
-  },
-  pl: {
-    html: "pl-PL",
-    key: "pl",
-  },
-}
-const routes = {
-  articles: {
-    to: "/articles/",
-    gaPage: "articles",
-    key: "articles",
-  },
-  authors: {
-    to: "/authors/",
-    gaPage: "authors",
-    key: "authors",
-  },
-  courses: {
-    to: "/courses/",
-    gaPage: "courses",
-    key: "courses",
-  },
-  creator: {
-    to: "/blog-creator/",
-    gaPage: "blog-creator",
-    key: "creator",
-  },
-  snippetCreator: {
-    to: "/snippet-creator/",
-    gaPage: "snippet-creator",
-    key: "snippetCreator",
-  },
-  home: {
-    to: "/",
-    gaPage: "",
-    key: "home",
-  },
-}
 
 module.exports = {
-  siteMetadata: {
-    siteUrl,
-    siteName,
-    siteDescription,
-    langs,
-    routes,
-  },
   plugins: [
     "gatsby-plugin-styled-components",
     {
@@ -59,10 +9,10 @@ module.exports = {
       options: {
         name: siteName,
         short_name: siteName,
-        description: siteDescription,
-        start_url: routes.home.to,
+        description: `A place for people who love programming and personal development.`,
+        start_url: '/',
         background_color: `#0A0A0A`,
-        lang: langs.en.html,
+        lang: "en-US",
         theme_color: `#fff`,
         display: `standalone`,
         icons: [
@@ -164,13 +114,6 @@ module.exports = {
       options: {
         name: `articles`,
         path: `${__dirname}/src/articles`,
-      },
-    },
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        name: `materials`,
-        path: `${__dirname}/src/materials`,
       },
     },
     {
