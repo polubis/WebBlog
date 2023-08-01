@@ -1,7 +1,6 @@
 import React, { ReactNode, useMemo } from "react"
 import styled from "styled-components"
 import { SM_DOWN } from "../../../../utils/viewport"
-import Loadable from "react-loadable"
 import { Banner, XL } from "../../../../ui"
 import { useEditor } from "../../../logic/useEditor"
 import {
@@ -14,14 +13,7 @@ import Button from "../../../../components/button/Button"
 import { useKeyPress } from "../../../../utils/useKeyPress"
 import { useLayoutProvider } from "../../../providers/LayoutProvider"
 import { useSnippetCreatorPageProvider } from "../SnippetCreatorPageProvider"
-
-const EditableSnippet = Loadable({
-  loader: () =>
-    import("../../../../ui/snippet/EditableSnippet").then(
-      m => m.EditableSnippet
-    ),
-  loading: () => null,
-})
+import { EditableSnippet } from "../../../../ui/snippet/EditableSnippet"
 
 const Container = styled.div`
   @media ${SM_DOWN} {

@@ -1,9 +1,12 @@
-import React, { ReactNode } from "react"
+import React from "react"
 import styled from "styled-components"
 
 import { DiscordIcon, IconButton, LinkedinIcon } from "../../ui"
 import { useScroll } from "../../utils/useScroll"
 import theme from "../../utils/theme"
+import { ScrollUpButton } from "../scroll-up-button/ScrollUpButton"
+import { useLayoutProvider } from "../../v2/providers/LayoutProvider"
+import { FacebookIcon } from "../../ui/icons/FacebookIcon"
 
 const Container = styled.div`
   position: fixed;
@@ -34,11 +37,8 @@ const Container = styled.div`
   }
 `
 
-interface SocialBarProps {
-  scrollToTopNode: ReactNode
-}
-
-const SocialBar = ({ scrollToTopNode }: SocialBarProps) => {
+const SocialBar = () => {
+  const layout = useLayoutProvider()
   const { offsetY, direction } = useScroll({ strategy: "throttle" })
 
   return (
@@ -46,9 +46,8 @@ const SocialBar = ({ scrollToTopNode }: SocialBarProps) => {
       className={direction === "up" && offsetY > 150 ? "visible" : "hidden"}
     >
       <a
-        className="icon-link"
-        href="https://discord.gg/PxXQayT3x3"
-        title="GreenOn Software Discord channel"
+        href={layout.discord_url}
+        title={layout.t.discord_channel}
         target="_blank"
       >
         <IconButton>
@@ -56,15 +55,26 @@ const SocialBar = ({ scrollToTopNode }: SocialBarProps) => {
         </IconButton>
       </a>
       <a
-        href="https://www.linkedin.com/in/adrian-po%C5%82ubi%C5%84ski-281ab2172/"
-        title="Linkedin GreenOn Software profile"
+        href={layout.fb_url}
+        title={layout.t.fb_profile}
+        target="_blank"
+      >
+        <IconButton>
+          <FacebookIcon />
+        </IconButton>
+      </a>
+      <a
+        href={layout.linkedin_url}
+        title={layout.t.linkedin_profile}
         target="_blank"
       >
         <IconButton>
           <LinkedinIcon />
         </IconButton>
       </a>
-      {scrollToTopNode}
+      <ScrollUpButton
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      />
     </Container>
   )
 }

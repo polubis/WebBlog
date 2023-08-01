@@ -4,11 +4,15 @@ import theme from "../../utils/theme"
 import styled from "styled-components"
 import { Link as GatsbyLink } from "gatsby"
 import { GreenOnLogo } from "../../components/GreenOnLogo"
-import Button from "../../components/button/Button"
-import { SocialBar } from "../../components/social-bar/Socialbar"
-import { ScrollUpButton } from "../../components/scroll-up-button/ScrollUpButton"
 import { useLayoutProvider } from "../providers/LayoutProvider"
 import { Footer } from "./Footer"
+import Loadable from "react-loadable"
+
+const SocialBar = Loadable({
+  loader: () =>
+    import("../../components/social-bar/Socialbar").then(m => m.SocialBar),
+  loading: () => null,
+})
 
 interface LayoutProps {
   children: ReactNode
@@ -33,10 +37,7 @@ const UnstyledLink = styled(GatsbyLink)`
 `
 
 export default function ({ children }: LayoutProps) {
-  const {
-    routes, discord_url,
-    t,
-  } = useLayoutProvider()
+  const { routes, discord_url, t } = useLayoutProvider()
 
   const homeLink = (
     <Link to={routes.home.to} key={routes.home.key} activeStyle={activeStyle}>
@@ -124,11 +125,12 @@ export default function ({ children }: LayoutProps) {
           action={
             <a
               href={discord_url}
+              className="button primary upper"
               title={t.discord_channel}
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Button>{t.join}</Button>
+              {t.join}
             </a>
           }
         />
@@ -149,13 +151,7 @@ export default function ({ children }: LayoutProps) {
       }
     >
       {children}
-      <SocialBar
-        scrollToTopNode={
-          <ScrollUpButton
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          />
-        }
-      />
+      <SocialBar />
     </Layout>
   )
 }

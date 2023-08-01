@@ -137,6 +137,7 @@ const useBlackHoleAnimation = ({
 
 const BlackHole = (props: BlackHoleProps) => {
   const { ref, isVisible } = useIsVisible()
+
   useBlackHoleAnimation({
     ...props,
     paused: !isVisible,

@@ -221,10 +221,10 @@ export const CreateSnippetForm = ({
   }
 
   if (creationState.type === "done") {
-    const link = `${layout.routes.snippet_creator.to}?id= + ${creationState.data} + /`
+    const link = `${layout.routes.snippet_creator.to}?id=${creationState.data}/`
 
     return (
-      <Center className="create-snippet-form-final-screen">
+      <Center>
         <FinalScreen className="col">
           <Section>
             <XL>{creator.t.sandbox.final.title}</XL>

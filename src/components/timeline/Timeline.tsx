@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useMemo } from "react"
 import { Fragment } from "react"
 import {
   Container,
@@ -12,8 +12,16 @@ import { TimelineProps } from "./models"
 import { DEFAULT_SETUP } from "./setup"
 import { useCount } from "./utils"
 
-export const Timeline = ({ data, setup = DEFAULT_SETUP }: TimelineProps) => {
+export const Timeline = (props: TimelineProps) => {
+  const { data } = props
   const count = useCount(data)
+  const setup = useMemo(
+    () => ({
+      ...DEFAULT_SETUP,
+      ...props.setup,
+    }),
+    [props.setup]
+  )
 
   return (
     <Container setup={setup} count={count}>

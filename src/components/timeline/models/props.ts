@@ -4,7 +4,7 @@ import { TimelineSetup, TimelineItemsCount } from "./setup";
 
 export interface TimelineProps {
   data: TimelineData;
-  setup?: TimelineSetup;
+  setup?: Partial<TimelineSetup>;
 }
 
 export interface ContainerProps {
