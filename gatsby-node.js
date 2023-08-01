@@ -143,7 +143,7 @@ exports.createPages = async ({ actions, graphql }) => {
           name
           relativePath
           medium: childImageSharp {
-            fixed(width: 60, height: 60, quality: 24) {
+            fixed(width: 50, height: 50, quality: 24) {
               base64
               width
               height
