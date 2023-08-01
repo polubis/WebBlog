@@ -1,19 +1,43 @@
 import React, { ReactElement, useEffect } from "react"
-import { SnippetForm } from "./containers/SnippetForm"
 import { useKeyPress } from "../../../utils/useKeyPress"
 import Button from "../../../components/button/Button"
 import { Center } from "./components/Center"
 import { Percentage } from "../../../ui"
-import { CreateSnippetForm } from "./containers/CreateSnippetForm"
-import { LoadedSnippetView } from "./components/LoadedSnippetView"
-import { SnippetsErrorScreen } from "./containers/SnippetsErrorScreen"
 import { IdleView } from "./containers/IdleVIew"
 import { FullScreenAnimation } from "../../../components/full-screen-animation/FullScreenAnimation"
 import { useSnippetCreator } from "./logic/useSnippetCreator"
 import { useSnippetGet } from "./logic/useSnippetGet"
-import { Sandbox } from "./containers/Sandbox"
 import { useSnippetCreatorPageProvider } from "./SnippetCreatorPageProvider"
 import { DraftEditButton } from "./containers/Triggers"
+import Loadable from "react-loadable"
+
+const SnippetsErrorScreen = Loadable({
+  loader: () =>
+    import("./containers/SnippetsErrorScreen").then(m => m.SnippetsErrorScreen),
+  loading: () => null,
+})
+
+const Sandbox = Loadable({
+  loader: () => import("./containers/Sandbox").then(m => m.Sandbox),
+  loading: () => null,
+})
+
+const CreateSnippetForm = Loadable({
+  loader: () =>
+    import("./containers/CreateSnippetForm").then(m => m.CreateSnippetForm),
+  loading: () => null,
+})
+
+const SnippetForm = Loadable({
+  loader: () => import("./containers/SnippetForm").then(m => m.SnippetForm),
+  loading: () => null,
+})
+
+const LoadedSnippetView = Loadable({
+  loader: () =>
+    import("./components/LoadedSnippetView").then(m => m.LoadedSnippetView),
+  loading: () => null,
+})
 
 interface SnippetCreatorProps {
   layout: (children: ReactElement) => ReactElement
