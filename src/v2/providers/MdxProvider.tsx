@@ -16,8 +16,31 @@ import { useCustomGAEvent } from "../../utils/useCustomGAEvent"
 import type {
   CodeProps,
   DynamicCodeProps,
+  InjectedPreHeaderProps,
   StaticCodeProps,
 } from "../ui/code/models"
+import { Interactive } from "../ui/code/Interactive"
+import { TinyButton } from "../ui/code/TinyButton"
+import { useLayoutProvider } from "./LayoutProvider"
+
+const CodeHeader = ({ copy }: InjectedPreHeaderProps) => {
+  const layout = useLayoutProvider()
+
+  return (
+    <Interactive>
+      {({ active, start }) => (
+        <TinyButton
+          onClick={() => {
+            start()
+            copy()
+          }}
+        >
+          {active ? `✂️ ${layout.t.copied}` : `✂️ ${layout.t.copy}`}
+        </TinyButton>
+      )}
+    </Interactive>
+  )
+}
 
 const DynamicCode = (props: DynamicCodeProps) => {
   const { track } = useCustomGAEvent()
@@ -30,12 +53,19 @@ const DynamicCode = (props: DynamicCodeProps) => {
       onError={() => {
         track({ name: "rendering_code_error", link: props.src })
       }}
+      Header={CodeHeader}
     />
   )
 }
 
 const StaticCode = (props: StaticCodeProps) => {
-  return <Code {...props} Loading={() => <CodePlaceholder label="loading" />} />
+  return (
+    <Code
+      {...props}
+      Header={CodeHeader}
+      Loading={() => <CodePlaceholder label="loading" />}
+    />
+  )
 }
 
 const default_components = {

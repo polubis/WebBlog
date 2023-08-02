@@ -6,4 +6,5 @@ export const pre_config = {
   padding_bot,
   padding_height: padding_top + padding_bot,
   line_height: 24,
+  header_height: 50
 }

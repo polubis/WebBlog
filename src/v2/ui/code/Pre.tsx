@@ -4,6 +4,7 @@ import styled from "styled-components"
 import type { HighlightStatus, PreProps, Range } from "./models"
 import { S } from "../../../ui"
 import { pre_config } from "./consts"
+import { useClipboard } from "../../../utils/useClipboard"
 
 const SNIPPET_THEME: PrismTheme = {
   plain: { color: "#fff", backgroundColor: "#282a36" },
@@ -48,6 +49,15 @@ const SNIPPET_THEME: PrismTheme = {
 }
 
 const Container = styled.div`
+  .pre-header {
+    height: ${pre_config.header_height}px;
+    padding: 8px 12px;
+    background: #3e4360;
+    border-top-left-radius: 4px;
+    border-bottom: 1px solid #6c6c6e;
+    border-top-right-radius: 4px;
+  }
+
   pre {
     font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
     font-size: 16px;
@@ -156,7 +166,9 @@ const Pre = memo(
     added = [],
     changed = [],
     deleted = [],
+    Header,
   }: PreProps) => {
+    const { copy } = useClipboard()
     const getHighlightStatus = (idx: number): HighlightStatus => {
       const line = idx + 1
 
@@ -177,6 +189,11 @@ const Pre = memo(
 
     return (
       <Container className="ui-snippet">
+        {Header && (
+          <div className="pre-header">
+            {Header({ copy: () => copy(children) })}
+          </div>
+        )}
         <PrismSnippet
           {...defaultProps}
           theme={SNIPPET_THEME}

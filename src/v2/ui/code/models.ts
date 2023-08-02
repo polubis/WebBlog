@@ -5,6 +5,10 @@ export type Pair = [number, number]
 export type Range = (number | Pair)[]
 export type HighlightStatus = "added" | "deleted" | "changed" | ""
 
+export interface InjectedPreHeaderProps {
+  copy: () => void
+}
+
 export interface PreProps {
   children: string
   lang?: Language
@@ -13,6 +17,7 @@ export interface PreProps {
   added?: Range
   deleted?: Range
   changed?: Range
+  Header?: (props: InjectedPreHeaderProps) => ReactNode
 }
 
 export interface StaticCodeProps extends PreProps {
@@ -32,6 +37,12 @@ export interface DynamicCodeProps extends Omit<PreProps, "children"> {
 export interface InteractiveProps {
   delay?: number
   children: (props: { active: boolean; start: () => void }) => ReactNode
+}
+
+export interface WithHeaderProps {
+  children: ReactNode
+  Header: (...nodes: ReactNode[]) => ReactNode
+  code: string
 }
 
 export type CodeProps = StaticCodeProps | DynamicCodeProps

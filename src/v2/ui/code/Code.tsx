@@ -5,8 +5,15 @@ import { pre_config } from "./consts"
 import { useIsVisible } from "../../../utils/useIsVisible"
 import { useFetch } from "../../../utils/useFetch"
 
-const getCodeSetup = (linesCount: number, Loading: CodeProps["Loading"]) => {
-  const height = linesCount * pre_config.line_height + pre_config.padding_height
+const getCodeSetup = (
+  linesCount: number,
+  hasHeader: boolean,
+  Loading: CodeProps["Loading"]
+) => {
+  const height =
+    linesCount * pre_config.line_height +
+    pre_config.padding_height +
+    (hasHeader ? pre_config.header_height : 0)
   const style = {
     height: height + "px",
     borderRadius: "4px",
@@ -34,7 +41,11 @@ const StaticCode = ({ children, Loading, ...props }: StaticCodeProps) => {
 
   const code = children.trim()
 
-  const { style, Pre } = getCodeSetup(code.split("\n").length, Loading)
+  const { style, Pre } = getCodeSetup(
+    code.split("\n").length,
+    !!props.Header,
+    Loading
+  )
 
   return isVisible ? (
     <Pre {...props} children={code} />
@@ -55,7 +66,7 @@ const DynamicCode = ({
 }: DynamicCodeProps) => {
   const [state, fetchCode, abort] = useFetch<string>()
   const { isVisible, ref } = useIsVisible({ threshold: 0.1, useOnce: true })
-  const { style, Pre } = getCodeSetup(linesCount, Loading)
+  const { style, Pre } = getCodeSetup(linesCount, !!props.Header, Loading)
 
   useEffect(() => {
     if (isVisible) {
