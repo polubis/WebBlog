@@ -5,7 +5,7 @@ export const Center = styled.div`
   display: flex;
   align-items: center;
   justify-items: center;
-  min-height: 101vh;
+  min-height: 100vh;
 
   & > * {
     margin: auto;

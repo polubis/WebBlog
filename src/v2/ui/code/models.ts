@@ -5,7 +5,7 @@ export type Pair = [number, number]
 export type Range = (number | Pair)[]
 export type HighlightStatus = "added" | "deleted" | "changed" | ""
 
-export interface InjectedPreHeaderProps {
+export interface InjectedPreProps {
   copy: () => void
 }
 
@@ -18,32 +18,29 @@ export interface PreProps {
   deleted?: Range
   animated?: boolean
   changed?: Range
-  Header?: (props: InjectedPreHeaderProps) => ReactNode
+  Header?: (props: InjectedPreProps) => ReactNode
+  Footer?: (props: InjectedPreProps) => ReactNode
 }
 
 export interface StaticCodeProps extends PreProps {
   mode: "static"
-  Loading: () => JSX.Element
+  skipTrim?: boolean
+  Loading?: () => JSX.Element
 }
 
 export interface DynamicCodeProps extends Omit<PreProps, "children"> {
   mode: "dynamic"
   linesCount: number
+  skipTrim?: boolean
   src: string
-  Error: () => JSX.Element
-  Loading: () => JSX.Element
+  Error?: () => JSX.Element
+  Loading?: () => JSX.Element
   onError?: () => void
 }
 
 export interface InteractiveProps {
   delay?: number
   children: (props: { active: boolean; start: () => void }) => ReactNode
-}
-
-export interface WithHeaderProps {
-  children: ReactNode
-  Header: (...nodes: ReactNode[]) => ReactNode
-  code: string
 }
 
 export type CodeProps = StaticCodeProps | DynamicCodeProps

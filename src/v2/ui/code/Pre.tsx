@@ -58,15 +58,6 @@ const animateFragments = keyframes`
 `
 
 const Container = styled.div`
-  .pre-header {
-    height: ${pre_config.header_height}px;
-    padding: 8px 12px;
-    background: #3e4360;
-    border-top-left-radius: 4px;
-    border-bottom: 1px solid #6c6c6e;
-    border-top-right-radius: 4px;
-  }
-
   &.animated {
     & .token-line {
       * {
@@ -185,6 +176,7 @@ const Pre = ({
   deleted = [],
   animated,
   Header,
+  Footer,
 }: PreProps) => {
   const { copy } = useClipboard()
   const getHighlightStatus = (idx: number): HighlightStatus => {
@@ -207,11 +199,7 @@ const Pre = ({
 
   return (
     <Container className={`ui-snippet${animated ? " animated" : ""}`}>
-      {Header && (
-        <div className="pre-header">
-          {Header({ copy: () => copy(children) })}
-        </div>
-      )}
+      {Header && Header({ copy: () => copy(children) })}
       <PrismSnippet
         {...defaultProps}
         theme={SNIPPET_THEME}
@@ -257,6 +245,7 @@ const Pre = ({
           </pre>
         )}
       </PrismSnippet>
+      {Footer && Footer({ copy: () => copy(children) })}
       {description && (
         <S className="description" italic>
           {description}

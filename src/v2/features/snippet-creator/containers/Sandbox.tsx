@@ -1,5 +1,5 @@
 import React from "react"
-import { Banner, Code, XL, useModal } from "../../../../ui"
+import { Banner, XL, useModal } from "../../../../ui"
 import styled from "styled-components"
 import theme from "../../../../utils/theme"
 import type { SnippetCreatorAction, SnippetCreatorState } from "../core/defs"
@@ -28,6 +28,7 @@ import {
   PreviousButton,
   SubmitFramesButton,
 } from "./Triggers"
+import { Code } from "../../../ui/code/Code"
 
 const Dot = styled.div`
   border-radius: 50%;
@@ -290,7 +291,7 @@ const Sandbox = ({ state, action, loadedSnippet }: SandboxProps) => {
                 }`}
                 onClick={() => action.goToFrame(frame.id)}
               >
-                <Code>{frame.code}</Code>
+                <Code mode="static">{frame.code}</Code>
                 <Badge
                   className="frame-badge"
                   background={theme.primary}
@@ -314,17 +315,20 @@ const Sandbox = ({ state, action, loadedSnippet }: SandboxProps) => {
 
             {selectedFrame && (
               <Code
+                mode="static"
                 animated
-                header={
-                  loadedSnippet ? (
-                    <Banner className="editing-copy-of-snippet-banner">
-                      {creator.t.sandbox.we_created_message["1"]} "
-                      {loadedSnippet.name}".{" "}
-                      {creator.t.sandbox.we_created_message["2"]}.
-                    </Banner>
-                  ) : undefined
+                Header={
+                  loadedSnippet
+                    ? () => (
+                        <Banner className="editing-copy-of-snippet-banner">
+                          {creator.t.sandbox.we_created_message["1"]} "
+                          {loadedSnippet.name}".{" "}
+                          {creator.t.sandbox.we_created_message["2"]}.
+                        </Banner>
+                      )
+                    : undefined
                 }
-                footer={
+                Footer={() => (
                   <footer className="sandbox-code-footer">
                     <InteractiveButton
                       onClick={() => copy(selectedFrame!.code)}
@@ -338,7 +342,7 @@ const Sandbox = ({ state, action, loadedSnippet }: SandboxProps) => {
                       }
                     </InteractiveButton>
                   </footer>
-                }
+                )}
               >
                 {selectedFrame.code}
               </Code>
