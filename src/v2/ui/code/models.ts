@@ -16,6 +16,7 @@ export interface PreProps {
   linesOff?: boolean
   added?: Range
   deleted?: Range
+  animated?: boolean
   changed?: Range
   Header?: (props: InjectedPreHeaderProps) => ReactNode
 }

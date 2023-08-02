@@ -1,6 +1,6 @@
-import React, { memo } from "react"
+import React from "react"
 import PrismSnippet, { defaultProps, PrismTheme } from "prism-react-renderer"
-import styled from "styled-components"
+import styled, { keyframes } from "styled-components"
 import type { HighlightStatus, PreProps, Range } from "./models"
 import { S } from "../../../ui"
 import { pre_config } from "./consts"
@@ -48,6 +48,15 @@ const SNIPPET_THEME: PrismTheme = {
   ],
 }
 
+const animateFragments = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`
+
 const Container = styled.div`
   .pre-header {
     height: ${pre_config.header_height}px;
@@ -56,6 +65,15 @@ const Container = styled.div`
     border-top-left-radius: 4px;
     border-bottom: 1px solid #6c6c6e;
     border-top-right-radius: 4px;
+  }
+
+  &.animated {
+    & .token-line {
+      * {
+        animation: ${animateFragments} 1s ease-in-out 0s forwards;
+        opacity: 0;
+      }
+    }
   }
 
   pre {
@@ -157,104 +175,95 @@ const flatRange = (range: Range): number[] => {
   return flattenedRange
 }
 
-const Pre = memo(
-  ({
-    children,
-    lang = "javascript",
-    linesOff,
-    description,
-    added = [],
-    changed = [],
-    deleted = [],
-    Header,
-  }: PreProps) => {
-    const { copy } = useClipboard()
-    const getHighlightStatus = (idx: number): HighlightStatus => {
-      const line = idx + 1
+const Pre = ({
+  children,
+  lang = "javascript",
+  linesOff,
+  description,
+  added = [],
+  changed = [],
+  deleted = [],
+  animated,
+  Header,
+}: PreProps) => {
+  const { copy } = useClipboard()
+  const getHighlightStatus = (idx: number): HighlightStatus => {
+    const line = idx + 1
 
-      if (flatRange(added).includes(line)) {
-        return "added"
-      }
-
-      if (flatRange(deleted).includes(line)) {
-        return "deleted"
-      }
-
-      if (flatRange(changed).includes(line)) {
-        return "changed"
-      }
-
-      return ""
+    if (flatRange(added).includes(line)) {
+      return "added"
     }
 
-    return (
-      <Container className="ui-snippet">
-        {Header && (
-          <div className="pre-header">
-            {Header({ copy: () => copy(children) })}
-          </div>
-        )}
-        <PrismSnippet
-          {...defaultProps}
-          theme={SNIPPET_THEME}
-          code={children}
-          language={lang}
-        >
-          {({ className, style, tokens, getLineProps, getTokenProps }) => (
-            <pre className={className} style={style}>
-              {linesOff
-                ? tokens.map((line, i) => {
-                    const status = getHighlightStatus(i)
+    if (flatRange(deleted).includes(line)) {
+      return "deleted"
+    }
 
-                    return (
-                      <div
-                        key={i}
-                        {...getLineProps({ line, className: status, key: i })}
-                      >
-                        <div className="line-content">
-                          {line.map((token, key) => (
-                            <span
-                              key={key}
-                              {...getTokenProps({ token, key })}
-                            />
-                          ))}
-                        </div>
-                      </div>
-                    )
-                  })
-                : tokens.map((line, i) => {
-                    const status = getHighlightStatus(i)
+    if (flatRange(changed).includes(line)) {
+      return "changed"
+    }
 
-                    return (
-                      <div
-                        key={i}
-                        {...getLineProps({ line, className: status, key: i })}
-                      >
-                        <div className="line-number">{i + 1}</div>
-                        <div className="line-content">
-                          {line.map((token, key) => (
-                            <span
-                              key={key}
-                              {...getTokenProps({ token, key })}
-                            />
-                          ))}
-                        </div>
+    return ""
+  }
+
+  return (
+    <Container className={`ui-snippet${animated ? " animated" : ""}`}>
+      {Header && (
+        <div className="pre-header">
+          {Header({ copy: () => copy(children) })}
+        </div>
+      )}
+      <PrismSnippet
+        {...defaultProps}
+        theme={SNIPPET_THEME}
+        code={children}
+        language={lang}
+      >
+        {({ className, style, tokens, getLineProps, getTokenProps }) => (
+          <pre className={className} style={style}>
+            {linesOff
+              ? tokens.map((line, i) => {
+                  const status = getHighlightStatus(i)
+
+                  return (
+                    <div
+                      key={i}
+                      {...getLineProps({ line, className: status, key: i })}
+                    >
+                      <div className="line-content">
+                        {line.map((token, key) => (
+                          <span key={key} {...getTokenProps({ token, key })} />
+                        ))}
                       </div>
-                    )
-                  })}
-            </pre>
-          )}
-        </PrismSnippet>
-        {description && (
-          <S className="description" italic>
-            {description}
-          </S>
+                    </div>
+                  )
+                })
+              : tokens.map((line, i) => {
+                  const status = getHighlightStatus(i)
+
+                  return (
+                    <div
+                      key={i}
+                      {...getLineProps({ line, className: status, key: i })}
+                    >
+                      <div className="line-number">{i + 1}</div>
+                      <div className="line-content">
+                        {line.map((token, key) => (
+                          <span key={key} {...getTokenProps({ token, key })} />
+                        ))}
+                      </div>
+                    </div>
+                  )
+                })}
+          </pre>
         )}
-      </Container>
-    )
-  },
-  (prev, curr) =>
-    prev.children === curr.children && prev.description === curr.description
-)
+      </PrismSnippet>
+      {description && (
+        <S className="description" italic>
+          {description}
+        </S>
+      )}
+    </Container>
+  )
+}
 
 export { Pre }

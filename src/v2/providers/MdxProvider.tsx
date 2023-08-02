@@ -48,6 +48,7 @@ const DynamicCode = (props: DynamicCodeProps) => {
   return (
     <Code
       {...props}
+      animated
       Error={() => <CodePlaceholder label="smth_wrong" />}
       Loading={() => <CodePlaceholder label="loading" />}
       onError={() => {
@@ -62,6 +63,7 @@ const StaticCode = (props: StaticCodeProps) => {
   return (
     <Code
       {...props}
+      animated
       Header={CodeHeader}
       Loading={() => <CodePlaceholder label="loading" />}
     />
