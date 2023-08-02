@@ -1,11 +1,7 @@
+import { FixedObject } from "../../../v2/core/models"
+
 export interface TimelineGroupItem {
-  avatar: {
-    aspectRatio: number
-    base64: string
-    sizes: string
-    src: string
-    srcSet: string
-  }
+  avatar: FixedObject
   title: string
   url: string
 }
