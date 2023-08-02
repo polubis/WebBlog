@@ -43,12 +43,16 @@ title: Loops in JavaScript and their performance
     Even though time measurement in JavaScript is inaccurate, we can still use a
     built-in API to measure it.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="ts"
     linesCount={10}
     description="A function that measures the duration of any other function"
     src="https://raw.githubusercontent.com/polubis/loops-performance-in-javascript/main/src/performance/measure.ts"
   />
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="ts"
     linesCount={12}
     description="Example use of the measure function"
     src="https://raw.githubusercontent.com/polubis/loops-performance-in-javascript/main/src/snippets/memory-used.ts"
@@ -72,12 +76,16 @@ title: Loops in JavaScript and their performance
     We have a function <B>measure()</B>, so now we need to run it <B>n</B>{" "}
     times.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="ts"
     linesCount={22}
     description="Function to collect results"
     src="https://raw.githubusercontent.com/polubis/loops-performance-in-javascript/main/src/performance/run-probes.ts"
   />
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="ts"
     linesCount={12}
     description="Use of the runProbes() function"
     src="https://raw.githubusercontent.com/polubis/loops-performance-in-javascript/main/src/snippets/run-probes-used.ts"
@@ -92,12 +100,16 @@ title: Loops in JavaScript and their performance
     something lasts <B>0.00001532</B> seconds then - let's agree - the user is
     unlikely to notice it.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="ts"
     linesCount={31}
     description="Function to summarize the result"
     src="https://raw.githubusercontent.com/polubis/loops-performance-in-javascript/main/src/performance/summarize.ts"
   />
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="ts"
     linesCount={23}
     description="We have the result"
     src="https://raw.githubusercontent.com/polubis/loops-performance-in-javascript/main/src/snippets/summary-used.ts"
@@ -119,13 +131,17 @@ title: Loops in JavaScript and their performance
     compare the result with a ready-made tool for checking optimization and we
     will draw conclusions.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="ts"
     linesCount={49}
     description="Do you have a favorite?"
     src="https://raw.githubusercontent.com/polubis/loops-performance-in-javascript/main/src/sum.ts"
   />
   <M>Now we transfer the same data set to each of them.</M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="tsx"
     linesCount={82}
     description="The result and the option to change parameters"
     src="https://raw.githubusercontent.com/polubis/loops-performance-in-javascript/main/src/App.tsx"
@@ -220,7 +236,7 @@ title: Loops in JavaScript and their performance
     </A>
     , which in my opinion is great and similar to writing regular unit tests.
   </M>
-  <Snippet description="It looks beautiful">
+  <Code mode="static" lang="javascript" description="It looks beautiful">
     {`
     const suite = new Benchmark.Suite;
     
@@ -240,7 +256,7 @@ suite.add('RegExp#test', () => {
   console.log('Fastest is ' + this.filter('fastest').map('name'));
 })
 .run({ 'async': true });`}
-  </Snippet>
+  </Code>
 </Section>
 
 <Example>

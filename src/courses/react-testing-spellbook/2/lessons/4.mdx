@@ -20,7 +20,7 @@ description: We'll practice topics connected with snapshot testing.
     <B>DOM</B> tree. How to test such components? You can try to compare
     generated properties with expected ones.
   </M>
-  <Snippet>
+  <Code mode="static" lang="tsx">
     {`
 const { container } = render(<Button />);
 const button = container.queryByClassName()
@@ -30,7 +30,7 @@ expect(button?.className).toBe(
   'button button-size-2 button-rounded button-outlined button-secondary my-button'
 );
     `}
-  </Snippet>
+  </Code>
   <M>
     What if you need to verify other properties like <B>style</B> object. It may
     be really complex object, you can check how complex in following{" "}
@@ -51,7 +51,7 @@ expect(button?.className).toBe(
     So how it works in <B>jest</B> and <B>React</B>? You need to replace
     previous test with following one:
   </M>
-  <Snippet>
+  <Code mode="static" lang="tsx">
     {`
  const { asFragment } = render(<Button />);
 // Button is already rendered.
@@ -60,7 +60,7 @@ expect(button?.className).toBe(
 // toMatchSnapshot() saves generated string and now it's base for comparision.
 expect(asFragment()).toMatchSnapshot();
     `}
-  </Snippet>
+  </Code>
   <M>
     When you run <B>test</B> command the <B>__snapshots__</B> directory will be
     generated near your test file. Inside you can find following snapshot
@@ -121,7 +121,9 @@ expect(asFragment()).toMatchSnapshot();
   <M>Check out the list below: </M>
   <List items="Create a component and make sure manually that it works correctly,Create snapshot test to prevent regression,If you will have some time - jump to tests and write concrete ones,You can remove or leave snapshot test as it is (maybe it still covers uncovered paths) - u2y" />
   <M>Look at following test file to understand how I'm using snapshots:</M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="tsx"
     linesCount={49}
     src="https://raw.githubusercontent.com/polubis/Snippets/main/snapshot-end.test.tsx"
   />

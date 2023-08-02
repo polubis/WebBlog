@@ -37,7 +37,7 @@ description: We will check what mocks are used for and what they really are.
     Let's say we have the following function that is designed to build a path
     for specific article:{" "}
   </M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
   import type { Lang } from 'apps/blog/models';
   
 import path from 'path';
@@ -52,7 +52,7 @@ export const createArticlePath = (lang: Lang, ...rest: string[]): string =>
     'articles',
     ...rest
   );
-  `}</Snippet>
+  `}</Code>
   <M>
     What catches the eye immediately is the use of the <B>path</B> module and
     the globally available <B>process</B> variable.
@@ -76,17 +76,17 @@ export const createArticlePath = (lang: Lang, ...rest: string[]): string =>
 <Section>
   <XL>Let's mock</XL>
   <M>This is how the <B>join()</B> and <B>cwd()</B> methods work: </M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
 path.join('/path/to', 'file.txt');
 // Output (on Unix-like systems): /path/to/file.txt
 // Output (on Windows): \\path\\to\\file.txt
  
 process.cwd()
 // Returns current working director - "/home/user/project"
-`}</Snippet>
+`}</Code>
 <M>Now all we need to do is create a test in which we substitute their implementation and check whether our own function works as expected.</M>
 
-<Snippet description="We created two mocks">{`
+<Code mode="static" lang="ts" description="We created two mocks">{`
 // This import is essential.
 import path from 'path';
  
@@ -131,9 +131,9 @@ describe('Path for dedicated article is created when', () => {
     );
   });
 });
-`}</Snippet>
+`}</Code>
 <M>In the first mock we replace the implementation of the path module and the join method. Thanks to the <B>jest.fn()</B> we will be able to change the implementation in any other test as needed.</M>
-<Snippet description="A way to mock imported modules">{`
+<Code mode="static" lang="ts" description="A way to mock imported modules">{`
 // Here we mock module.
 jest.mock('path', () => ({
   join: jest.fn(), // This allows us to change the implementation later.
@@ -143,9 +143,9 @@ jest.mock('path', () => ({
 (path.join as jest.Mock).mockImplementationOnce((...args: string[]) =>
   args.join('\')
 );
-    `}</Snippet>
+    `}</Code>
     <M>In the second one, we used <B>defineProperty </B> to override a globally available process object property.</M>
-    <Snippet description="A way to mock global objects">{`
+    <Code mode="static" lang="ts" description="A way to mock global objects">{`
 // Temp variable.
 const originalCwd = process.cwd;
  
@@ -163,7 +163,7 @@ afterAll(() => { // It's executed after all tests
   // We restore the original implementation.
   process.cwd = originalCwd; // This is allowed thanks to writeable: true
 });
-    `}</Snippet>
+    `}</Code>
     <M>It is very important to assign a starting value to global objects after testing. If we don't do this, we expose ourselves to side effects and the fact that tests in this file can affect other tests - <B>which is very bad!</B></M>
         <M>Note the use of the <B>object descriptor (writeable: true)</B>, which allowed us to restore to the initial value later. Without this change, it is not possible to overwrite the <B>cwd</B> property implementation.</M>
 </Section>

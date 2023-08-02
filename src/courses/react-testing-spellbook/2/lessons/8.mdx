@@ -28,13 +28,17 @@ description: We will check how functions passed as callbacks can be tested in th
     </A>
     :
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="ts"
     src="https://raw.githubusercontent.com/polubis/Snippets/main/map.ts"
     linesCount={18}
   />
   <M>We need to write a test that will verify:</M>
   <List items="With what arguments the function was invoked,The number of function calls" />
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="ts"
     src="https://raw.githubusercontent.com/polubis/Snippets/main/map-test-with-spy.test.ts"
     linesCount={22}
   />
@@ -61,12 +65,14 @@ description: We will check how functions passed as callbacks can be tested in th
     description="That's our ProgressCircle component"
   />
   <M>We'll be able to call this component in following way: </M>
-  <Snippet>{`<ProgressCircle onEnd={() => { console.log('Counting finished!') }} ms={10000} />`}</Snippet>
+  <Code mode="static" lang="tsx">{`<ProgressCircle onEnd={() => { console.log('Counting finished!') }} ms={10000} />`}</Code>
   <M>
     After a minimum of <B>10 seconds</B> (because it depends on the load of the
     browser) the callback called <B>onEnd</B> will be called.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="tsx"
     linesCount={12}
     src="https://raw.githubusercontent.com/polubis/Snippets/main/progress-circle-spy.test.tsx"
   />

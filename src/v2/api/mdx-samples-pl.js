@@ -64,7 +64,8 @@ const section = `<Section>
     src="/assets/chromatic-and-storybook/storybook.gif"
     description="Przykładowe zdjęcie"
   />
-  <Snippet
+  <Code
+    mode="dynamic"
     description="Przykładowy fragment kodu"
     linesCount={23}
     src="https://raw.githubusercontent.com/polubis/Chromatic-and-storybook/main/src/ui/input-field/InputField.stories.tsx"

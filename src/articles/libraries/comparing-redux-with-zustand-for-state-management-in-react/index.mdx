@@ -56,7 +56,7 @@ readTime: 10
     To start with <B>Redux toolkit</B> and <B>React</B> we need to import created <B>store</B>{" "}
     and pass if through <B>Provider</B>.
   </M>
-  <Snippet>{`
+  <Code mode="static" lang="tsx">{`
 import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './App'
@@ -69,12 +69,12 @@ ReactDOM.render(
     <App />
   </Provider>,
   document.getElementById('root')
-)`}</Snippet>
+)`}</Code>
   <M>
     Now it's time for a <B>slice</B> that will generate <B>reducers</B> and{" "}
     <B>actions</B> for us.
   </M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
 import type { Post } from './models'
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
  
@@ -99,12 +99,12 @@ const postsSlice = createSlice({
 })
  
 export default postsSlice 
-`}</Snippet>
+`}</Code>
   <M>
     {" "}
     Finally, all <B>reducers</B> must be merged into one - <B>reducers.ts</B> file.
   </M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
   import { combineReducers } from "redux"
  
 import postsSlice from "./posts/postsSlice"
@@ -114,12 +114,12 @@ export default combineReducers({
   posts: postsSlice.reducer,
   // It will also grow...
 })
-`}</Snippet>
+`}</Code>
   <M>
     And we still need the <B>store.ts</B> file in which we will connect
     everything.
   </M>
-  <Snippet>{`import { configureStore } from '@reduxjs/toolkit'
+  <Code mode="static" lang="ts">{`import { configureStore } from '@reduxjs/toolkit'
 import { useDispatch, useSelector, type TypedUseSelectorHook } from 'react-redux'
 import reducer from './reducers'
 import thunk from 'redux-thunk'
@@ -136,16 +136,16 @@ export type AppDispatch = typeof store.dispatch
 // Hooks for reading data and triggering changes.
 export const useAppDispatch: () => AppDispatch = useDispatch
 export const useAppSelector: TypedUseSelectorHook<AppState> = useSelector
-`}</Snippet>
+`}</Code>
   <M>Now the code in the component.</M>
-  <Snippet>{`import { useAppSelector, useAppDispatch } from "store"
+  <Code mode="static" lang="tsx">{`import { useAppSelector, useAppDispatch } from "store"
 import { addPost } from "actions/posts"
  
 const AnyComponent = () => {
   const { posts, loading, error } = useAppSelector(({ posts }) => posts)
   const dispatch = useAppDispatch()
 }
-`}</Snippet>
+`}</Code>
   <M>
     I don't know about <B>you</B>, but I see a lot of code that will get even
     more complicated with each new feature.
@@ -158,7 +158,7 @@ const AnyComponent = () => {
     We need a <B>store</B>. That's all! It will have both a <B>state</B> and an{" "}
     <B>actions</B>. Note that <B>usePostsStore</B> is a hook!
   </M>
-  <Snippet>{`import { create } from 'zustand'
+  <Code mode="static" lang="ts">{`import { create } from 'zustand'
 import type { Post } from 'models/posts'
  
 interface PostsStore {
@@ -178,17 +178,17 @@ const usePostsStore = create<PostsStore>((set) => ({
 }))
  
 export { usePostsStore }
-`}</Snippet>
+`}</Code>
   <M>
     Now just import the <B>hook</B> created by <B>Zustand</B> to any component
     and use the state or action.
   </M>
-  <Snippet>{`import { usePostsStore } from 'store/posts'
+  <Code mode="static" lang="tsx">{`import { usePostsStore } from 'store/posts'
  
 const AnyComponent = () => {
   const { loading, posts, error, addPost } = usePostsStore()
 }
-`}</Snippet>
+`}</Code>
   <M>
     Note how relatively short it took to get exactly the same effect as in{" "}
     <B>Redux</B>. It was just one file!
@@ -273,7 +273,7 @@ const AnyComponent = () => {
       act
     </B>.{" "}
   </M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
 // This is in a separate file - "actSignIn.ts".
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { type SignInPayload, signIn } from 'api/auth'
@@ -294,14 +294,14 @@ export const actSignIn = createAsyncThunk(
     }
   }
 )
-`}</Snippet>
+`}</Code>
   <M>
     Now in our <B>slice</B>, we can handle state changes. The{" "}
     <B>Redux toolkit</B> will automatically generate the appropriate actions -{" "}
     <B>pending</B>, <B>fulfilled</B> and <B>rejected</B>, in which we must
     define how to change the state.
   </M>
-  <Snippet>{`import { createSlice } from "@reduxjs/toolkit"
+  <Code mode="static" lang="ts">{`import { createSlice } from "@reduxjs/toolkit"
 import { type SignedInUser } from "api/auth"
 import { actSignIn } from "acts/actSignIn"
  
@@ -339,7 +339,7 @@ const authSlice = createSlice({
       });
   },
 });
-`}</Snippet>
+`}</Code>
   <M>
     It is worth noting that the state change is separated from the API call
     logic. In <B>act</B> we define what to call and what to return, and in{" "}
@@ -354,7 +354,7 @@ const authSlice = createSlice({
     In <B>Zustand</B>, we handle asynchronous operations with a regular function
     with an <B>async</B> annotation.
   </M>
-  <Snippet>{`import { type SignedInUser, type SignInPayload, signIn } from 'api/auth'
+  <Code mode="static" lang="ts">{`import { type SignedInUser, type SignInPayload, signIn } from 'api/auth'
  
 interface SignInStore {
   loading: boolean
@@ -379,7 +379,7 @@ const useSignInStore = create<SignInStore>((set) => ({
     }
   },
 }))
-`}</Snippet>
+`}</Code>
   <M>
     <B>Zustand</B> uses an approach in which the modification of values and
     their reading is in one place - which means that there will be less code.
@@ -393,7 +393,7 @@ const useSignInStore = create<SignInStore>((set) => ({
     In the <B>Redux toolkit</B>, types are inferred for <B>act</B> based on the return
     values and the explicit typing of the parameters passed.
   </M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
 // @@@ Inside "actSignIn.ts". @@@
 export const actSignIn = createAsyncThunk(
   "auth/signIn",
@@ -430,9 +430,9 @@ export const actSignIn = createAsyncThunk(
   state.loading = false
   state.error = payload
 });
-`}</Snippet>
+`}</Code>
   <M>And this is how we should type a regular <B>actions</B>. </M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
 import type { PayloadAction } from "@reduxjs/toolkit";
  
 reducers: {
@@ -440,11 +440,11 @@ reducers: {
     state.user = payload
   }
 }
-`}</Snippet>
+`}</Code>
   <M>
     And finally, typing the state in the <B>slice</B>.{" "}
   </M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
 interface SignInState {
    loading: boolean
    error: string
@@ -458,7 +458,7 @@ const authSlice = createSlice({
     error: '',
     user: null,
   } as SignInState
-})`}</Snippet>
+})`}</Code>
   <M>
     In the <B>Redux toolkit</B>, types are partially deduced, so when we change
     implementation, we also change type definitions for actions called by{" "}
@@ -473,7 +473,7 @@ const authSlice = createSlice({
   <M>
     In <B>Zustand</B> we type everything with single interface.
   </M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
 interface SignInStore {
   loading: boolean
   error: string
@@ -489,7 +489,7 @@ const useSignInStore = create<SignInStore>((set) => ({
     // Type for "payload" is "SignInPayload".
   },
 }))
-`}</Snippet>
+`}</Code>
   <M>
     In <B>Zustand</B> thanks to the overt definition of the interface, we are
     guaranteed that the definition of types has a single source of truth. If we
@@ -520,14 +520,14 @@ const useSignInStore = create<SignInStore>((set) => ({
 
 <Section>
   <XL>Redux-devtools-extension implementation in Redux toolkit</XL>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
   import { createStore, applyMiddleware } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
  
 const store = createStore(
   rootReducer,
   composeWithDevTools(applyMiddleware(/* Any middleware */))
-)`}</Snippet>
+)`}</Code>
 </Section>
 
 <Section>
@@ -539,11 +539,11 @@ const store = createStore(
     be generated based on their names. It is also worth noting that for each store
     we have to connect <B>devtools</B> separately - <B>Zustand</B> is modular.
   </M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
    
-const usePlainStore = create(devtools(store))`}</Snippet>
+const usePlainStore = create(devtools(store))`}</Code>
 </Section>
 
 <Section>
@@ -552,7 +552,7 @@ const usePlainStore = create(devtools(store))`}</Snippet>
     This code will catch the exception in the code and send the logs to the
     database.{" "}
   </M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
  // Inside reportException.ts
 import type { Middleware } from 'redux'
 import { trackError } from 'api/track'
@@ -579,12 +579,12 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(reportException),
 })
-`}</Snippet>
+`}</Code>
 </Section>
 
 <Section>
   <XL>Implementation of own middleware in Zustand</XL>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
 import { create, type StateCreator } from 'zustand'
 import { trackError } from 'api/track'
 import { SomeStoreType } from './models'
@@ -613,21 +613,21 @@ const useAnyStore = create<SomeStoreType>()(
     // Initial state and actions.
   }))
 )
-`}</Snippet>
+`}</Code>
   <M>
     In the case of <B>Zustand</B>, we must explicitly use the <B>middleware</B>{" "}
     for each <B>store</B> - see line <B>25</B>. To avoid code duplication, we
     can create a factory that will take care of creating a <B>store</B> that
     will immediately have the <B>middleware</B> attached.
   </M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
 const createReportableStore = <T>(storeCreator: StateCreator<T>) =>
   create<T>()(reportException<T>(storeCreator));
  
 const useMyReportableStore = createReportableStore<SomeStoreType>((set) => ({
   // Any state and actions.
 }));
-`}</Snippet>
+`}</Code>
   <M>
     We can use the same approach with the <B>devtools</B> we saw earlier.{" "}
   </M>
@@ -647,7 +647,7 @@ const useMyReportableStore = createReportableStore<SomeStoreType>((set) => ({
     need to add a library. Install the package:{" "}
     <B>npm i --legacy-peer-deps --save redux-persist</B>. Another <B>+3kB</B>.
   </M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
 import { configureStore } from "@reduxjs/toolkit";
 import storage from 'redux-persist/lib/storage';
 import { persistReducer, persistStore } from 'redux-persist';
@@ -664,12 +664,12 @@ export const store = configureStore({
   reducer: persistedReducer,
 });
  
-export const persistor = persistStore(store);`}</Snippet>
+export const persistor = persistStore(store);`}</Code>
   <M>
     Now in the main application file <B>app.tsx</B> we need to add a wrapper -{" "}
     <B>PersistGate</B>.
   </M>
-  <Snippet>{`
+  <Code mode="static" lang="tsx">{`
 import { persistor, store } from './store';
 import { PersistGate } from 'redux-persist/integration/react';
  
@@ -679,12 +679,12 @@ root.render(
         <App />
       </PersistGate>
     </Provider>
-);`}</Snippet>
+);`}</Code>
 </Section>
 
 <Section>
   <XL>Data persistence in Zustand</XL>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
   import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
  
@@ -700,7 +700,7 @@ export const useAnyStore = create(
       storage: createJSONStorage(() => sessionStorage)
     }
   );
-)`}</Snippet>
+)`}</Code>
   <Hint hasBg>
     {" "}
     If you want to learn more about working with <B>local/session</B> storage in
@@ -723,7 +723,7 @@ export const useAnyStore = create(
     specific arguments. If they have not changed, the old value will be returned
     - thanks to this, <B>React</B> will not re-render.
   </M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
   import { createSelector } from 'reselect';
   
 const getUsers = state => state.users;
@@ -731,15 +731,15 @@ const getUsers = state => state.users;
 export const getMemoizedUsers = createSelector(
   [getUsers],
   users => users.filter(user => user.active)
-);`}</Snippet>
+);`}</Code>
   <M>And now the component code: </M>
-  <Snippet>{`import { useSelector } from 'react-redux';
+  <Code mode="static" lang="tsx">{`import { useSelector } from 'react-redux';
 import { getMemoizedUsers } from './selectors';
  
 const UserList = () => {
   const memoizedUsers = useSelector(getMemoizedUsers);
 };
-`}</Snippet>
+`}</Code>
   <M>
     I don't know if you noticed, but we installed another library -{" "}
     <B>reselect</B>, which increases the size of our application by another{" "}
@@ -752,18 +752,18 @@ const UserList = () => {
   <M>
     Just use the created <B>store</B> like this:{" "}
   </M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
 const useMemoizedUsers = 
   useUsersStore((state) => state.users.filter(user => user.active));
-`}</Snippet>
+`}</Code>
   <M>And in the component, we do this:</M>
-  <Snippet>{`
+  <Code mode="static" lang="tsx">{`
 import { useMemoizedUsers } from "usersStore";
   
 const UserList = () => {
   const memoizedUsers = useMemoizedUsers();
 };
-`}</Snippet>
+`}</Code>
   <M>
     In addition, we can further improve it by creating a mechanism for creating{" "}
     <B>selectors</B> automatically. This is not the topic of this article, so I
@@ -776,18 +776,18 @@ const UserList = () => {
     </A>
     . We can create a similar mechanism for <B>Redux</B>.
   </M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
 // This is how we call the automatically generated selectors
 // in components.
 const bears = useStore.use.bears();
 const increment = useStore.use.increment();
- `}</Snippet>
+ `}</Code>
 </Section>
 
 <Section>
   <XL>Testing with the Redux toolkit</XL>
   <M>First, we need to start with something that will allow us to mock the <B>store</B>. The <B>createStore</B> function below will allow us to create it and give us the ability to overwrite its value per test. On the other hand, the <B>renderWithStore</B> function will connect any component to <B>Redux</B> ecosystem.</M>
-<Snippet>{`import React, { PropsWithChildren } from "react";
+<Code mode="static" lang="ts">{`import React, { PropsWithChildren } from "react";
 import type { PreloadedState } from "@reduxjs/toolkit";
 import { configureStore } from "@reduxjs/toolkit";
 import { render } from "@testing-library/react";
@@ -814,9 +814,9 @@ export const renderWithStore = (
  
   return { store, ...render(component, { wrapper: Wrapper }) };
 };
-`}</Snippet>
+`}</Code>
 <M>Now let's assume that we want to test how our <B>PostsList</B> component works, which uses <B>useAppSelector</B> and <B>useAppDispatch</B> inside to display the list of posts and to add a post.</M>
-<Snippet>{`
+<Code mode="static" lang="tsx">{`
 import { screen } from "@testing-library/react";
  
 import { renderWithStore } from "store/fixtures";
@@ -840,7 +840,7 @@ describe("Posts works when: ", () => {
   });
 });
  
-`}</Snippet>
+`}</Code>
 <Hint hasBg> If you are interested in topics related to testing, I invite you to read the <A href="/courses/react-testing-spellbook/" outside>React testing spellbook</A> course.</Hint>
 
 </Section>
@@ -852,7 +852,7 @@ describe("Posts works when: ", () => {
     Otherwise, when it is not there, in the next tests we will have the
     previously set state - which is dangerous for the stability of the tests.
   </M>
-  <Snippet>{`import { renderHook, act } from '@testing-library/react';
+  <Code mode="static" lang="tsx">{`import { renderHook, act } from '@testing-library/react';
 import type { StoreApi, UseBoundStore } from 'zustand';
  
 const storeFixture = <T>(
@@ -886,9 +886,9 @@ const storeFixture = <T>(
 };
  
 export { storeFixture };
-`}</Snippet>
+`}</Code>
   <M>And now an example of use when testing a component: </M>
-  <Snippet>{`
+  <Code mode="static" lang="tsx">{`
 import { screen, render, fireEvent } from '@testing-library/react';
 import { PostsList } from './PostsList';
 import { storeFixture } from '@Fixtures';
@@ -917,7 +917,7 @@ describe('Posts works when: ', () => {
     restore();
   });
 });
-`}</Snippet>
+`}</Code>
 </Section>
 
 <Section>
@@ -927,7 +927,7 @@ describe('Posts works when: ', () => {
     The <B>Redux toolkit</B> uses <B>Immer.js</B> so that we can change the state
     in an easy and fun way.
   </M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
 // It was without "Redux toolkit" and "Immer.js".
 state = {
   ...state.user,
@@ -935,7 +935,7 @@ state = {
 };
 // It was with "Redux toolkit".
 state.user = payload;
-  `}</Snippet>
+  `}</Code>
   <M>
     {" "}
     However, sometimes we want to reset the state or partially replace it. Unfortunately,
@@ -943,7 +943,7 @@ state.user = payload;
     be disabled. If we want to achieve this effect, we need some additional mechanism
     that we have to write ourselves.
   </M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
 const initialState = {
   user: null,
   loading: false,
@@ -970,7 +970,7 @@ state.value = {
 };
 // Later in some action.
 state.value = initialState;
-  `}</Snippet>
+  `}</Code>
 </Section>
 
 <Section>
@@ -979,19 +979,19 @@ state.value = initialState;
     In <B>Zustand</B> we have a choice. We can replace the state completely or
     merge the new state with the current one.
   </M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
 // This will merge the current state with the given object.
 set({ loading: true  });
 // This will replace the current state completely.
 set(initialState, true);
-  `}</Snippet>
+  `}</Code>
   <M>
     {" "}
     And how to add <B>Immer</B>? If needed, just use the following <B>
       middleware
     </B>.
   </M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
   import { create } from 'zustand'
 import { immer } from 'zustand/middleware/immer'
  
@@ -1011,7 +1011,7 @@ const useCountStore = create(
         state.count += value
       })
   }))
-)`}</Snippet>
+)`}</Code>
 </Section>
 
 <Section>
@@ -1022,13 +1022,13 @@ const useCountStore = create(
     In the <B>Redux toolkit</B>, we need to import the entire <B>store</B> and action
     and call <B>dispatch</B>.
   </M>
-  <Snippet>
+  <Code mode="static" lang="ts">
     {`
 import { store } from '/path/to/createdStore';
 import { testAction } from '/path/to/action';
  
 store.dispatch(testAction('content'));`}
-  </Snippet>
+  </Code>
 </Section>
 
 <Section>
@@ -1037,7 +1037,7 @@ store.dispatch(testAction('content'));`}
     {" "}
     Here, it is enough to declare an <B>action</B>, import it and <B>call</B> it.
   </M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
 const testAction = (): void => {
   useSomeStore.setState({ someData: null });
 };
@@ -1045,7 +1045,7 @@ const testAction = (): void => {
 import { testAction } from 'path/to/action';
  
 testAction();
-`}</Snippet>
+`}</Code>
 </Section>
 
 <Section>
@@ -1056,7 +1056,7 @@ testAction();
       Zustand
     </B>, we can use the following API:
   </M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
 // For Redux.
 store.subscribe(() => {
   // We can do something.
@@ -1065,13 +1065,13 @@ store.subscribe(() => {
 useSomeStore.subscribe(() => {
   // We can do something.
 });
-  `}</Snippet>
+  `}</Code>
   <M>Reading the current state looks similar:</M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
     // For Redux.
 store.getState();
 // For Zustand.
-useSomeStore.getState();`}</Snippet>
+useSomeStore.getState();`}</Code>
   <M>
     You can't see the difference in the API, but there is a dramatic difference
     in the way it works. <B>Redux</B> will call a callback <B>subscribe</B> when
@@ -1096,7 +1096,7 @@ useSomeStore.getState();`}</Snippet>
     In the <B>Redux toolkit</B>, at the very beginning, we must have a mechanism
     to replace the main <B>reducer</B> - we already have it in the library.
   </M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
 // New reducer.
 const newRootReducer = combineReducers({
   existingSlice: existingSliceReducer,
@@ -1104,11 +1104,11 @@ const newRootReducer = combineReducers({
 });
 // We replace it with the current one.
 store.replaceReducer(newRootReducer);
-`}</Snippet>
+`}</Code>
   <M>
     Now we need to be able to add a new <B>slice</B>.
   </M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
 import { createStore } from 'redux';
  
 // These are the reducers that must be 
@@ -1140,16 +1140,16 @@ function createReducer(asyncReducers) {
     ...asyncReducers,
   });
 }
-`}</Snippet>
+`}</Code>
   <M>Now we can call it anywhere:</M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
 import { store } from 'store';
 import { createSlice } from 'redux-toolkit';
  
 store.injectReducer('reducerek', createSlice(
   // Slice config.
 ).reducer);
-`}</Snippet>
+`}</Code>
   <Hint hasBg>
     You can find more about this in the{" "}
     <A href="https://redux.js.org/usage/code-splitting" outside>
@@ -1170,7 +1170,7 @@ store.injectReducer('reducerek', createSlice(
     application to work, which will be loaded at the beginning. Additionally, it
     is predictable in behaviour.
   </M>
-  <Snippet>
+  <Code mode="static" lang="tsx">
     {`// A file RegisterForm.tsx
  
 import { useRegisterStore } from '@store/register';
@@ -1192,7 +1192,7 @@ const RegisterForm = dynamic(() => import('./RegisterForm'));
  
 const RegisterView = () => <RegisterForm />;
 `}
-  </Snippet>
+  </Code>
 </Section>
 
 <Section>
@@ -1202,7 +1202,7 @@ const RegisterView = () => <RegisterForm />;
     In the <B>Redux toolkit</B>, we use the <B>ACTION_TYPE: FUNCTION</B> object, which
     looks elegant, but we still call each <B>reducer</B> on each action.
   </M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
 const firstSlice = createSlice({
   name: "firstSlice",
   {},
@@ -1228,12 +1228,12 @@ store.dispatch(firstSlice.actions.log());
 store.dispatch(secondSlice.actions.log());
 // The number of comparisons is currently 4.
 // Previously 2, now 2 more.
-  `}</Snippet>
+  `}</Code>
   <M>
     In <B>Zustand</B>, each <B>store</B> is independent of each other. So there
     will be no additional comparisons.
   </M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
   const useFirstStore = create();
  
 const firstStoreLog1 = () => {
@@ -1249,7 +1249,7 @@ const secondStoreLog2 = () => {
 firstStoreLog1();
 secondStoreLog2();
 // No extra comparisons here.
-  `}</Snippet>
+  `}</Code>
   <M>
     Now, when we have 30 reducers for the application, with <B>Redux</B> we will
     call 29 additional checks for each <B>reducer</B> when <B>any action</B> is <B>dispatched</B>. Is this a problem?

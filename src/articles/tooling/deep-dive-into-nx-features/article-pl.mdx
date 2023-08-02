@@ -151,7 +151,7 @@ title: Przegląd głównych funkcjonalności narzędzia NX
 <Img border src="https://nx.dev/documentation/shared/images/caching/nx-hashing.svg" />
 <M>Jak można zoptymalizować obsługę <B>cache</B>?</M>
 <M><B>Source code hash inputs</B> - można określić szczegółowo, jakie pliki będą brane pod uwagę podczas budowania hash.</M>
-<Snippet>
+<Code mode="static" lang="json">
 {`{
   "namedInputs": {
     "default": ["{projectRoot}/**/*"],
@@ -166,9 +166,9 @@ title: Przegląd głównych funkcjonalności narzędzia NX
     }
   }
 }
-`}</Snippet>
+`}</Code>
 <M><B>Runtime hash inputs</B> - można określić dodatkowe parametry, które będą podstawiane podczas uruchamiania zadania, na podstawie których będzie budowany <B>hash</B>.</M>
-<Snippet>
+<Code mode="static" lang="json">
 {`{
   "targetDefaults": {
     "build": {
@@ -176,7 +176,7 @@ title: Przegląd głównych funkcjonalności narzędzia NX
     }
   }
 }
-`}</Snippet>
+`}</Code>
 <M><B>Współdzielenie cache (cache sharing)</B></M>
 <M>Pamięć podręczna może być współdzielona pomiędzy wielu programistów, jak i narzędzia <B>CI</B>, w ramach usługi <B>self-hosted</B> oraz w chmurze <B>NX Cloud</B>.</M>
 <M>Wystarczy tylko połączyć się z chmurą <B>NX Cloud</B> poleceniem:
@@ -225,7 +225,7 @@ Wystarczy tylko wywołać polecenie: <B>npx nx graph</B>.
 </M>
 <M>Cała koncepcja polega na odpowiednim otagowaniu bibliotek i aplikacji:
 </M>
-<Snippet>{`{
+<Code mode="static" lang="json">{`{
   "nx": {
     "tags": ["scope:client"]
   }
@@ -240,10 +240,10 @@ Wystarczy tylko wywołać polecenie: <B>npx nx graph</B>.
     "tags": ["scope:shared"]
   }
 }
-`}</Snippet>
+`}</Code>
 <M>Następnie trzeba rozpisać reguły w pliku konfiguracyjnym <B>ESLint</B>:
 </M>
-<Snippet>{`{
+<Code mode="static" lang="json">{`{
   "@nrwl/nx/enforce-module-boundaries": [
     "error",
     {
@@ -265,7 +265,7 @@ Wystarczy tylko wywołać polecenie: <B>npx nx graph</B>.
     }
   ]
 }
-`}</Snippet>
+`}</Code>
 <M>Po skonfigurowaniu reguł wystarczy wykonać polecenie <B>nx lint</B>, albo skonfigurować je w ramach <B>CI</B> i możemy być bezpieczni o odpowiednie wstrzykiwanie zależności w naszym projekcie.</M>
 <Hint hasBg>Takimi grupami mogą być warstwy, albo moduły danego rozwiązania.</Hint>
 </Section>

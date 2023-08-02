@@ -36,7 +36,7 @@ title: Wyjaśniamy this w JavaScript
     Spójrz na poniższy kod, który ma za zadanie stworzyć konkretną listę{" "}
     <B>n-elementów</B> przy wykorzystaniu generycznej klasy <B>List</B>:
   </M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
 "use strict"
 // Abstrakcja z dodatkowymi metodami.
 class List {
@@ -69,7 +69,7 @@ const usersList = new UsersList();
 usersList.handleRemove(9);
 // Zwróci 9 elementów.
 console.log(usersList.list.items); 
-`}</Snippet>
+`}</Code>
   <M>
     Kod w tym przypadku zachowa się w sposób zgodny z naszymi oczekiwaniami.{" "}
     <B>This</B> będzie wskazywać na instancje klasy, czyli w tym przypadku
@@ -93,7 +93,7 @@ console.log(usersList.list.items);
   <M>
     Zmieńmy zatem implementacje klasy <B>List</B>:
   </M>
-  <Snippet
+  <Code mode="static" lang="ts"
     changed={[
       [5, 7],
       [22, 22],
@@ -127,7 +127,7 @@ class UsersList {
     this.list.remove(this.removeUser);
   }
 }
-`}</Snippet>
+`}</Code>
   <M>
     Po próbie odpalenia kodu dostaniesz na konsoli coś takiego:{" "}
     <B>Cannot read properties of undefined (reading 'elementIdxToRemove')</B>.
@@ -173,7 +173,7 @@ class UsersList {
     <B>zasięgu leksykalnego</B> - w naszym przypadku obiektu stworzonego przez
     klasę <B>UsersList</B>, a dokładniej <B>this</B> tego obiektu.
   </M>
-  <Snippet
+  <Code mode="static" lang="ts"
     description="Znowu działa i można iść po kawusię"
     changed={[[1, 1]]}
   >{`removeUser = (_, idx) => {
@@ -181,7 +181,7 @@ class UsersList {
   // Wcześniej była to deklaracja funkcji, a teraz arrow function.
   return this.elementToRemove !== idx;
 };
-`}</Snippet>
+`}</Code>
   <Hint hasBg>
     Zasada 2: Funkcje strzałkowe przypisują wartość <B>this</B>, do <B>this</B>{" "}
     tego, co znajduje się w najbliższym zasięgu leksykalnym - nawet jeżeli są
@@ -205,7 +205,7 @@ class UsersList {
     na podstawie <B>struktury</B> kodu w momencie jego <B>przetwarzania</B>{" "}
     przez silnik JavaScript.
   </M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
   "use strict" 
    
 function Test() {
@@ -228,7 +228,7 @@ function Test() {
  
 const test = Test();
 test.innerThis();
-`}</Snippet>
+`}</Code>
   <M>
     Nabliższy w zasięgu leksykalnym dla funkcji <B>outerThis</B> jest obiekt{" "}
     <B>window</B>. Natomist dla funkcji <B>innerThis</B> jest to obiekt{" "}
@@ -262,7 +262,7 @@ test.innerThis();
 
 <Section>
   <XL>Bindowanie niejawne - "implict binding of this"</XL>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
   "use strict"
    
 function bike() {
@@ -274,7 +274,7 @@ const obj2 = { name: "Gixxer", bike }
  
 obj1.bike() // "Pulsar"
 obj2.bike() // "Gixxer"
-`}</Snippet>
+`}</Code>
   <M>
     W powyższym przykładzie wewnątrz funkcji <B>bike</B> korzystamy z{" "}
     <B>this</B> i logujemy wartość <B>name</B>. W momencie, gdy przypiszemy
@@ -289,7 +289,7 @@ obj2.bike() // "Gixxer"
     A jak zachowa się kod, gdy zamienimy deklarację funkcji <B>bike</B> na
     funkcję strzałkową?
   </M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
 const bike = () => {
   console.log(this.name)
 }
@@ -299,7 +299,7 @@ const obj2 = { name: "Gixxer", bike }
  
 obj1.bike() // Tu dostaniemy wyjątek ❌.
 obj2.bike() // Tu też❌.
-`}</Snippet>
+`}</Code>
   <M>
     Dla obydwu przypadków będzie wyjątek:{" "}
     <B>Cannot read properties of undefined (reading 'name)'</B>. Ten sam powód
@@ -315,7 +315,7 @@ obj2.bike() // Tu też❌.
     miało wartość stworzonego obiektu. Dlatego w poniższym kodzie nie mamy
     problemów.
   </M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
 "use strict"
   
 function Bike(name) {
@@ -333,12 +333,12 @@ const obj1 = new Bike('Pulsar');
 const obj2 = new Bike('Gixxer');
   
 obj1.ride(); // Pulsar
-obj2.ride(); // Gixer`}</Snippet>
+obj2.ride(); // Gixer`}</Code>
   <M>
     Jeżeli wykorzystamy zapis z klasą i użyjemy <B>new</B>, to efekt będzie ten
     sam. Różnica będzie tylko i wyłącznie w składni.
   </M>
-  <Snippet changed={[[3, 11]]}>{`
+  <Code mode="static" lang="ts" changed={[[3, 11]]}>{`
  "use strict"
   
 class Bike {
@@ -356,7 +356,7 @@ const obj1 = new Bike('Pulsar');
 const obj2 = new Bike('Gixxer');
    
 obj1.ride(); // Pulsar
-obj2.ride(); // Gixxer`}</Snippet>
+obj2.ride(); // Gixxer`}</Code>
 
   <Hint hasBg>
     Zasada 5: Przy korzystaniu z <B>new</B> wartość <B>this</B> będzie odnosiła
@@ -371,7 +371,7 @@ obj2.ride(); // Gixxer`}</Snippet>
     A co z dziedziczeniem? Jaką mamy gwarancję, że czegoś nie popsujemy odnosząc
     się do <B>this</B> w klasie <B>Vehicle</B>? Aby to udowodnić przekażemy <B>this</B> jako argument do metody <B>repair</B>, a później sprawdzimy jak zachowa się wynik w oparciu o różne miejsca wywołania oraz w oparciu o różne argumenty.
   </M>
-  <Snippet
+  <Code mode="static" lang="ts"
   >{`
 "use strict"
   
@@ -396,7 +396,7 @@ bike.printInnerThis(); // true, true
 bike.repair(); // false
 // Tutaj "this" to instancja klasy "Bike", ale przekazana jawnie.
 bike.repair(bike); // true
-`}</Snippet>
+`}</Code>
   <M>
     W pierwszym <B>console.log</B> mamy 2x wartość <B>true</B>. Pokazuje to, że odnosząc się do <B>this</B> wewnątrz klas <B>Bike</B> oraz <B>Vehicle</B> mamy pewność, że <B>this</B> dla klasy rodzica i dziecka jest takie same.
   </M>
@@ -411,7 +411,7 @@ bike.repair(bike); // true
 <Section>
   <XL>Słowo kluczowe "static"</XL>
   <M>Tu jest trochę ciekawiej. Spójrz na poniższy kod: </M>
-  <Snippet
+  <Code mode="static" lang="ts"
   >{`
   "use strict"
    
@@ -432,7 +432,7 @@ class Bike extends Vehicle {
  
 Bike.getMetadata(); // Bike,  Klasa Vehicle
 console.log(Bike.name); // Bike
-`}</Snippet>
+`}</Code>
   <M>
     W przypadku pól oraz metod statycznych <B>this</B> przyjmuje wartość klasy,
     a nie instancji obiektu - jego jeszcze nie ma i nie będzie. W końcu to
@@ -453,7 +453,7 @@ console.log(Bike.name); // Bike
     <B> Czy jest możliwość ustawienia tego samemu?</B>
   </M>
   <M>Oczywiście, że tak!</M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
   "use strict"
   
 function Bike() {
@@ -463,7 +463,7 @@ function Bike() {
 const obj = { name: "Pulsar" }
  
 Bike.call(obj); // "Pulsar"
-Bike.apply(obj, ['argument1', 'argument2']); // Pulsar`}</Snippet>
+Bike.apply(obj, ['argument1', 'argument2']); // Pulsar`}</Code>
   <M>
     Większość funkcji pozwala na przekazanie czegoś, co opisane jest jako{" "}
     <B>thisArg</B>. W powyższym przykładzie wywołaliśmy funkcję <B>Bike</B> za
@@ -474,11 +474,11 @@ Bike.apply(obj, ['argument1', 'argument2']); // Pulsar`}</Snippet>
     funkcję z wieloma argumentami - sterowaliśmy jawnie <B>this</B>.
   </M>
   <M>Można zrobić to nawet dla funkcji takich jak: <B>forEach</B>: </M> 
-  <Snippet>{`function logThis() {
+  <Code mode="static" lang="ts">{`function logThis() {
   console.log(this.name);
 }
 [1, 2, 3].forEach(logThis, { name: "hi" }); // 3x hi
-`}</Snippet>
+`}</Code>
 
    <Hint hasBg>Zasada 8: Możemy ustawić wartość <B>this</B> jawnie wykorzystując metodę <B>call</B> lub <B>apply</B>, bądź przekazując dodatkowy argument <B>thisArg</B> do metod takich jak <B>forEach</B>.</Hint>
 </Section>
@@ -491,7 +491,7 @@ Bike.apply(obj, ['argument1', 'argument2']); // Pulsar`}</Snippet>
     lecz w <B>dowolnym</B> momencie. Zamiast pilnować wartości <B>this</B> dla
     każdego wywołania, możemy to zrobić tylko raz - w konstruktorze.
   </M>
-  <Snippet added={[[23, 28]]}>{`
+  <Code mode="static" lang="ts" added={[[23, 28]]}>{`
   "use strict"
    
 class List {
@@ -534,7 +534,7 @@ class UsersList {
 const usersList = new UsersList();
 usersList.handleRemove(9);
 console.log(usersList.list.items); // Zwróci 9 elementów.
-`}</Snippet>
+`}</Code>
   <Hint hasBg>
     Zasada 9: Możemy ustawić <B>this</B> wykorzystując metodę <B>bind</B>, która
     tworzy kopię funkcji i pozwala przekazać własne <B>this</B>.
@@ -548,7 +548,7 @@ console.log(usersList.list.items); // Zwróci 9 elementów.
     funkcyjnie. Spójrz na poniższy przykład, w którym kod napisany obiektowo
     przekształciliśmy do podejścia funkcyjnego i usunęliśmy przy tym <B>this</B>.
   </M>
-  <Snippet>{`"use strict";
+  <Code mode="static" lang="ts">{`"use strict";
  
 const List = (length) => {
   let items = [];
@@ -592,7 +592,7 @@ const usersList = UsersList();
 usersList.handleRemove(9);
 // Zwróci 9 elementów.
 console.log(usersList.list.items);
-`}</Snippet>
+`}</Code>
   <M>
     Zamiast odnosić się do <B>this</B> polegamy teraz na mechanizmie{" "}
     <B>domknięcia (closure)</B>. Jeżeli interesuje Cię, jak to dokładnie działa,

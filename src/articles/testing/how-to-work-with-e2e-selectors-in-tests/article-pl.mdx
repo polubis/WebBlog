@@ -20,21 +20,21 @@ title: Selektory w testach e2e i ich efektywne utrzymywanie
     Im bardziej precyzyjny i unikalny, tym lepiej dla Ciebie i Twoich testów.
     Dlaczego? Załóżmy, że mamy <B>selektor</B>, który wygląda w ten sposób:
   </M>
-  <Snippet>{`
+  <Code mode="static" lang="tsx">{`
 // To jakiś kod JSX komponentu w React.
 <button className="button">Pierwszy</button>
 <button className="button">Drugi</button>
 <button className="button">Trzeci</button>
-  `}</Snippet>
+  `}</Code>
   <M>
     Teraz w testach <B>e2e</B>, załóżmy, że korzystamy z <B>Cypress</B>, nasz
     kod mógłby wyglądać tak:{" "}
   </M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
 // ❌ Fatalnie - dodasz jakiś button przed "Pierwszym"
 // i masz w testach niespodziankę.
 cy.get('button:first-of-type');
-  `}</Snippet>
+  `}</Code>
   <M>
     Najlepiej pisać selektory w taki sposób, aby zawsze były unikalne i
     niezależne od struktury <B>HTML</B> (zmiana w niej nie powinna wywalić
@@ -42,14 +42,14 @@ cy.get('button:first-of-type');
     reguły mogą być wyjątki, ale jeżeli jest taka możliwość, to powinniśmy
     starać się przestrzegać tej zasady.{" "}
   </M>
-  <Snippet>{`
+  <Code mode="static" lang="tsx">{`
 // Dodaliśmy unikalną klasę - "nazwa-componentu-button-first".
 <button className="button nazwa-componentu-button-first">Pierwszy</button>
 <button className="button">Drugi</button>
 <button className="button">Trzeci</button>
 // W testach e2e
 cy.get('.nazwa-componentu-button-first');
-  `}</Snippet>
+  `}</Code>
   <M>Szczerze? To chyba jeszcze gorszy pomysł. Dlaczego? </M>
   <L>
     <Li>Jak zmieni się nazwa komponentu - musisz zmienić nazwę klasy</Li>
@@ -74,7 +74,7 @@ cy.get('.nazwa-componentu-button-first');
     wykorzystywać jego wartości w testach <B>e2e</B>, jak i w kodzie
     aplikacji.{" "}
   </M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
 // app-selectors.ts
 const app_selectors = {
   nav_bar: "nav_bar",
@@ -86,7 +86,7 @@ import { app_selectors } from "selectors/app";
 // jakiś-test-e2e.ts
 import { app_selectors } from "selectors/app";
 cy.get('.' + app_selectors.sign_out_control);
-`}</Snippet>
+`}</Code>
   <M>
     Teraz już wiemy, jaką mamy liczbę selektorów, które powinny być wykorzystane
     w testach <B>e2e</B> - wiemy, że są skończone. Również utrzymanie ich będzie
@@ -108,16 +108,16 @@ cy.get('.' + app_selectors.sign_out_control);
     Najpierw zdefiniujmy <B>string literals</B> z <B>TypeScript</B>, które
     określą jakich selektorów możemy użyć.
   </M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
 type SharedSelectors = "app-navbar" | "app-sign-out-control" | "app-sign-in-control"
 type RegisterFeatureSelectors = "register-confirm-control"
-type AppE2ESelectors = SharedSelectors | RegisterFeatureSelectors`}</Snippet>
+type AppE2ESelectors = SharedSelectors | RegisterFeatureSelectors`}</Code>
   <M>
     Teraz zarówno w kodzie testów <B>e2e</B>, jak i kodzie aplikacji będzie
     korzystać z następującej funkcji:{" "}
   </M>
-  <Snippet>{`
-const select = (selector: AppE2ESelectors): AppE2ESelectors => selector`}</Snippet>
+  <Code mode="static" lang="ts">{`
+const select = (selector: AppE2ESelectors): AppE2ESelectors => selector`}</Code>
   <M>
     Funkcja, która jedyne, co robi, to bierze parametr i go zwraca? LOL... No
     ok, to teraz patrz na to. Zamist dużego obiektu masz funkcję oraz{" "}
@@ -139,19 +139,19 @@ const select = (selector: AppE2ESelectors): AppE2ESelectors => selector`}</Snipp
     inny skorzysta z <B>selektorów dostępności (accessibility)</B>, które dadzą
     możliwość używania strony osobom niepełnosprawnym.
   </M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
 // To jest nawigacja i osoba niewidoma będzie mogła z niej skorzystać.
 cy.get('[role="navigation"]');
 // To jest "div".
 cy.get('div.navigation');
-    `}</Snippet>
+    `}</Code>
   <M>
     Powinniśmy używać tylko i wyłącznie konkretnych atrybutów (skończonej
     liczby) - na potrzeby przykładu będzie to <B>data-attribute</B> o nazwie{" "}
     <B>data-i</B>. Może być ich tyle ile chcemy, ale ilość musi być skończona i
     zdefiniowana w jednym miejscu.
   </M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
   import type { AppE2ESelectors } from './defs';
    
 const get = (selector: AppE2ESelectors): AppE2ESelectors => {
@@ -166,13 +166,13 @@ const getter =
     // Jak widać w tym miejscu umożliwiamy wybór przez "data-i".
     return cy.get('data-i=' + selector);
   };
-`}</Snippet>
+`}</Code>
   <M>
     Zwróć uwagę na to, że przekazujemy instancję <B>Cypress</B> i de facto ją
     zwracamy, ale z przechwyconym typem.{" "}
   </M>
   <M>A tak wygląda użycie w kodzie testów oraz aplikacji.</M>
-  <Snippet>{`
+  <Code mode="static" lang="tsx">{`
 // @@@ To jest kod jakiegoś testu e2e.
  
 import { getter } from "test-utils";
@@ -185,7 +185,7 @@ get("nasz-selektor");
 import { get } from "test-utils";
 // Tutaj też podpowiada TypeScript.
 <button data-i={get("nasz-selektor")}></button>
-`}</Snippet>
+`}</Code>
 </Section>
 
 <Section>
@@ -258,7 +258,7 @@ import { get } from "test-utils";
     skalować podpowiedzi, które <B>TypeScript</B> będzie nam oferował, możemy
     stworzyć kilka funkcji (per feature):{" "}
   </M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
 type SharedSelectors = "app-navbar" | "app-sign-out-control" | "app-sign-in-control"
 type RegisterFeatureSelectors = "register-confirm-control"
 type AppE2ESelectors = SharedSelectors | RegisterFeatureSelectors
@@ -272,7 +272,7 @@ const getRegisterSelectors = (selector: RegisterFeatureSelectors): RegisterFeatu
 const getAllSelectors= (selector: AppE2ESelectors): AppE2ESelectors => {
   return selector;
 };
- `}</Snippet>
+ `}</Code>
 </Section>
 
 <Summary label="Podsumowanie i słów kilka o testach e2e">

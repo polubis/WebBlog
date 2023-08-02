@@ -36,7 +36,7 @@ title: This keyword in JavaScript
     Take a look at the following code, which is designed to create a specific
     list of <B>n</B> elements using the generic <B>List</B> class:
   </M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
 "use strict"
 // Abstraction with additional methods.
 class List {
@@ -69,7 +69,7 @@ const usersList = new UsersList();
 usersList.handleRemove(9);
 // Returns 9 elements.
 console.log(usersList.list.items); 
-`}</Snippet>
+`}</Code>
   <M>
     The code in this case will behave as we expect. <B>This</B> will point to
     instances of the class that is, in this case, the object created with{" "}
@@ -93,7 +93,7 @@ console.log(usersList.list.items);
   <M>
     So let's change the implementation of the <B>List</B> class:
   </M>
-  <Snippet
+  <Code mode="static" lang="ts"
     changed={[
       [5, 7],
       [22, 22],
@@ -127,7 +127,7 @@ class UsersList {
     this.list.remove(this.removeUser);
   }
 }
-`}</Snippet>
+`}</Code>
   <M>
     After trying to run the code, you will get something like this on your
     console:{" "}
@@ -169,7 +169,7 @@ class UsersList {
     our case, the object created by the <B>UsersList</B> class, or more
     precisely, <B>this</B> of that object.
   </M>
-  <Snippet
+  <Code mode="static" lang="ts"
     description="It's working again and we can go get some coffee"
     changed={[[1, 1]]}
   >{`removeUser = (_, idx) => {
@@ -177,7 +177,7 @@ class UsersList {
   // Previously it was a function declaration, and now it is an arrow function.
   return this.elementToRemove !== idx;
 };
-`}</Snippet>
+`}</Code>
   <Hint hasBg>
     Rule 2: Arrow functions assign a value of <B>this</B>, to the <B>this</B> of
     whatever is in the nearest lexical context - even if it's passed as a{" "}
@@ -199,7 +199,7 @@ class UsersList {
     Regardless of how the function is called, lexical context is determined by
     the <B>structure</B> of the code during processing by the JavaScript engine.
   </M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
   "use strict" 
    
 function Test() {
@@ -222,7 +222,7 @@ function Test() {
  
 const test = Test();
 test.innerThis();
-`}</Snippet>
+`}</Code>
   <M>
     The closest in lexical context for the <B>outerThis</B> function is the{" "}
     <B>window</B> object. In contrast, for the <B>innerFunction</B> function, it
@@ -257,7 +257,7 @@ test.innerThis();
 
 <Section>
   <XL>Implicit binding of "this"</XL>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
   "use strict"
    
 function bike() {
@@ -269,7 +269,7 @@ const obj2 = { name: "Gixxer", bike }
  
 obj1.bike() // "Pulsar"
 obj2.bike() // "Gixxer"
-`}</Snippet>
+`}</Code>
   <M>
     In the above example inside the <B>bike</B> function, we use <B>this</B> to
     log the <B>name</B> value. When we assign the <B>bike</B> function
@@ -283,7 +283,7 @@ obj2.bike() // "Gixxer"
     How will the code behave when we replace the <B>bike</B> function
     declaration with an <B>arrow function</B>?
   </M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
 const bike = () => {
   console.log(this.name)
 }
@@ -293,7 +293,7 @@ const obj2 = { name: "Gixxer", bike }
  
 obj1.bike() // Here we get an exception ❌.
 obj2.bike() // Here too❌.
-`}</Snippet>
+`}</Code>
   <M>
     For both cases we get an exception:{" "}
     <B>Cannot read properties of undefined (reading 'name)'</B>. Same reason as
@@ -309,7 +309,7 @@ obj2.bike() // Here too❌.
     value of the created object. Therefore, in the following code, we have no
     problems.
   </M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
 "use strict"
   
 function Bike(name) {
@@ -327,12 +327,12 @@ const obj1 = new Bike('Pulsar');
 const obj2 = new Bike('Gixxer');
   
 obj1.ride(); // Pulsar
-obj2.ride(); // Gixer`}</Snippet>
+obj2.ride(); // Gixer`}</Code>
   <M>
     If we use the notation with the <B>class</B> and use <B>new</B>, the effect
     will be the same. The difference will be only in the syntax.
   </M>
-  <Snippet changed={[[3, 11]]}>{`
+  <Code mode="static" lang="ts" changed={[[3, 11]]}>{`
  "use strict"
   
 class Bike {
@@ -350,7 +350,7 @@ const obj1 = new Bike('Pulsar');
 const obj2 = new Bike('Gixxer');
    
 obj1.ride(); // Pulsar
-obj2.ride(); // Gixxer`}</Snippet>
+obj2.ride(); // Gixxer`}</Code>
   <Hint hasBg>
     Rule 5: When using <B>new</B>, the value of <B>this</B> will refer to the
     created object - the syntax (whether a class or a function as a constructor)
@@ -363,7 +363,7 @@ obj2.ride(); // Gixxer`}</Snippet>
      <M>
    What about <B>inheritance</B>? What guarantee do we have that we won't mess something up by referring to <B>this</B> in the <B>Vehicle</B> class? To prove it, we'll pass <B>this</B> as an argument to the <B>repair</B> method, and then check how the result behaves based on different call locations and based on different arguments.
   </M>
-  <Snippet
+  <Code mode="static" lang="ts"
   >{`
 "use strict"
   
@@ -388,7 +388,7 @@ bike.printInnerThis(); // true, true
 bike.repair(); // false
 // Here "this" is an instance of the class "Bike", but passed explicitly.
 bike.repair(bike); // true
-`}</Snippet>
+`}</Code>
   <M>
     In the first <B>console.log</B> we have 2x the value <B>true</B>. It shows that by referring to <B>this</B> inside the <B>Bike</B> and <B>Vehicle</B> classes, we are sure that <B>this</B> for the parent and child classes is the same.
   </M>
@@ -401,7 +401,7 @@ bike.repair(bike); // true
 <Section>
   <XL>"Static" keyword and "this"</XL>
   <M>Here is a little more interesting. Take a look at the code below: </M>
-  <Snippet
+  <Code mode="static" lang="ts"
   >{`
   "use strict"
    
@@ -422,7 +422,7 @@ class Bike extends Vehicle {
  
 Bike.getMetadata(); // Bike, Vehicle class
 console.log(Bike.name); // Bike
-`}</Snippet>
+`}</Code>
   <M>
     In the case of fields and static methods, <B>this</B> takes the value of a
     class, not an instance of an object - it's not there yet and will not be.
@@ -442,7 +442,7 @@ Until now, we have relied on "magic" JavaScript mechanisms that set the value of
     <B>Is it possible to set this up ourselves?</B>
   </M>
   <M>Of course, it is!</M>
-  <Snippet>{`
+  <Code mode="static" lang="ts">{`
   "use strict"
   
 function Bike() {
@@ -452,7 +452,7 @@ function Bike() {
 const obj = { name: "Pulsar" }
  
 Bike.call(obj); // "Pulsar"
-Bike.apply(obj, ['argument1', 'argument2']); // Pulsar`}</Snippet>
+Bike.apply(obj, ['argument1', 'argument2']); // Pulsar`}</Code>
   <M>
 Most functions allow you to pass something described as <B>thisArg</B>. In the above example, we called the <B>Bike</B> function using <B>call</B>. Next, we passed an <B>obj</B> object as <B>this</B>.
   </M>
@@ -460,11 +460,11 @@ Most functions allow you to pass something described as <B>thisArg</B>. In the a
  Later we did the same with <B>apply</B>, which allows us to call functions with multiple arguments. In other words, we controlled the binding of <B>this</B>.
   </M>
   <M>This can even be done for functions such as <B>forEach</B>:</M> 
-  <Snippet>{`function logThis() {
+  <Code mode="static" lang="ts">{`function logThis() {
   console.log(this.name);
 }
 [1, 2, 3].forEach(logThis, { name: "hi" }); // 3x hi
-`}</Snippet>
+`}</Code>
 
    <Hint hasBg>Rule 8: We can set the value of <B>this</B> explicitly using the <B>call</B> or <B>apply</B> method or by passing the additional argument <B>thisArg</B> to methods such as <B>forEach</B>.</Hint>
 </Section>
@@ -478,7 +478,7 @@ Most functions allow you to pass something described as <B>thisArg</B>. In the a
     of <B>this</B> for each call, we can do it only once - in the{" "}
     <B>constructor</B>.
   </M>
-  <Snippet added={[[23, 28]]}>{`
+  <Code mode="static" lang="ts" added={[[23, 28]]}>{`
   "use strict"
    
 class List {
@@ -521,7 +521,7 @@ class UsersList {
 const usersList = new UsersList();
 usersList.handleRemove(9);
 console.log(usersList.list.items); // Returns 9 elements.
-`}</Snippet>
+`}</Code>
   <Hint hasBg>
     Rule 9: We can set <B>this</B> using the <B>bind</B> method, which creates a
     copy of the function and allows you to pass your own <B>this</B>.
@@ -536,7 +536,7 @@ console.log(usersList.list.items); // Returns 9 elements.
     object-oriented <B>code</B> to a functional approach and we removed{" "}
     <B>this</B> entirely.
   </M>
-  <Snippet>{`"use strict";
+  <Code mode="static" lang="ts">{`"use strict";
  
 const List = (length) => {
   let items = [];
@@ -580,7 +580,7 @@ const usersList = UsersList();
 usersList.handleRemove(9);
 // Returns 9 elements.
 console.log(usersList.list.items);
-`}</Snippet>
+`}</Code>
   <M>
     Instead of referring to <B>this</B>, now we rely on the <B>closure</B>{" "}
     mechanism. If you are interested in how it works, feel free to check{" "}

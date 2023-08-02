@@ -20,21 +20,21 @@ title: How to work with e2e selectors in tests
     precise and unique it is, the better for you and your tests. Why? Suppose we
     have a <B>selector</B> that looks like this:
   </M>
-  <Snippet>{`
+  <Code mode='static' lang='tsx'>{`
 // Some JSX component code in React.
 <button className="button">First</button>
 <button className="button">Second</button>
 <button className="button">Third</button>
-  `}</Snippet>
+  `}</Code>
   <M>
     Now for <B>e2e</B> tests, suppose we are using <B>Cypress</B>, our code
     could look like this:
   </M>
-  <Snippet>{`
+  <Code mode='static' lang='ts'>{`
 // ❌ Fatally - you will add a button before "First"
 // and you have a surprise in your tests.
 cy.get('button:first-of-type');
-  `}</Snippet>
+  `}</Code>
   <M>
     It's best to write selectors in such a way that they are always unique and
     independent of the <B>HTML</B> structure (changing it should not break the
@@ -42,14 +42,14 @@ cy.get('button:first-of-type');
     there may be exceptions to this rule, but if there is such a possibility, we
     should try to follow this pattern.
   </M>
-  <Snippet>{`
+  <Code mode='static' lang='tsx'>{`
 // We added a unique class - "component-name-button-first".
 <button className="button component-name-button-first">First</button>
 <button className="button">Second</button>
 <button className="button">Third</button>
 // In e2e tests
 cy.get('.component-name-button-first');
-  `}</Snippet>
+  `}</Code>
   <M>Honestly? That's an even worse idea. Why? </M>
   <L>
     <Li>When the component name change - you need to rename the class</Li>
@@ -73,7 +73,7 @@ cy.get('.component-name-button-first');
     You can create a simple <B>JavaScript</B> or <B>JSON</B> object and use its
     values in <B>e2e</B> tests as well as in the application code.
   </M>
-  <Snippet>{`
+  <Code mode='static' lang='ts'>{`
 // app-selectors.ts
 const app_selectors = {
   nav_bar: "nav_bar",
@@ -85,7 +85,7 @@ import { app_selectors } from "selectors/app";
 // some-test-e2e.ts
 import { app_selectors } from "selectors/app";
 cy.get('.' + app_selectors.sign_out_control);
-`}</Snippet>
+`}</Code>
   <M>
     Now we know what number of selectors we have that should be used in{" "}
     <B>e2e</B> tests - we know that they are finite. Also, maintaining them will
@@ -108,16 +108,16 @@ cy.get('.' + app_selectors.sign_out_control);
     First, let's define <B>string literals</B> from <B>TypeScript</B>, which will
     determine what selectors we can use.
   </M>
-  <Snippet>{`
+  <Code mode='static' lang='ts'>{`
 type SharedSelectors = "app-navbar" | "app-sign-out-control" | "app-sign-in-control"
 type RegisterFeatureSelectors = "register-confirm-control"
-type AppE2ESelectors = SharedSelectors | RegisterFeatureSelectors`}</Snippet>
+type AppE2ESelectors = SharedSelectors | RegisterFeatureSelectors`}</Code>
   <M>
     Now in both <B>e2e</B> tests code and application code, it will use the
     following function:
   </M>
-  <Snippet>{`
-const select = (selector: AppE2ESelectors): AppE2ESelectors => selector`}</Snippet>
+  <Code mode='static' lang='ts'>{`
+const select = (selector: AppE2ESelectors): AppE2ESelectors => selector`}</Code>
   <M>
     A function that all it does is take a parameter and return it? LOL... Okay,
     now watch this. Instead of a large object, you have a function and{" "}
@@ -139,19 +139,19 @@ const select = (selector: AppE2ESelectors): AppE2ESelectors => selector`}</Snipp
     <B>accessibility selectors</B> that will give disabled people the ability to
     use the site.
   </M>
-  <Snippet>{`
+  <Code mode='static' lang='ts'>{`
 // This is navigation and a blind person will be able to use it.
 cy.get('[role="navigation"]');
 // This is just a "div".
 cy.get('div.navigation');
-    `}</Snippet>
+    `}</Code>
   <M>
     We should use only specific attributes (a finite number) - for the purpose
     of the example it will be a <B>data-attribute</B> named <B>data-i</B>. There
     can be as many of them as we want, but the number must be finite and defined
     in one place.
   </M>
-  <Snippet>{`
+  <Code mode='static' lang='ts'>{`
   import type { AppE2ESelectors } from './defs';
    
 const get = (selector: AppE2ESelectors): AppE2ESelectors => {
@@ -165,13 +165,13 @@ const getter =
   (selector: BlogSelectors): ReturnType<T['get']> => {
     // As you can see here we can select only by "data-i".
   };
-`}</Snippet>
+`}</Code>
   <M>
     Note that we are passing a <B>Cypress</B> instance and actually returning
     it, but with a captured type.
   </M>
   <M>And this is how it looks like in the code of tests and applications.</M>
-  <Snippet>{`
+  <Code mode='static' lang='ts'>{`
 // @@@ This is some e2e test code.
  
 import { getter } from "test-utils";
@@ -184,7 +184,7 @@ get("our-selektor");
 import { get } from "test-utils";
 // TypeScript will help you here too.
 <button data-i={get("our-selektor")}></button>
-`}</Snippet>
+`}</Code>
 </Section>
 
 <Section>
@@ -257,7 +257,7 @@ import { get } from "test-utils";
     hints that <B>TypeScript</B> will offer us, we can create a few functions
     (per feature):
   </M>
-  <Snippet>{`
+  <Code mode='static' lang='ts'>{`
 type SharedSelectors = "app-navbar" | "app-sign-out-control" | "app-sign-in-control"
 type RegisterFeatureSelectors = "register-confirm-control"
 type AppE2ESelectors = SharedSelectors | RegisterFeatureSelectors
@@ -271,7 +271,7 @@ const getRegisterSelectors = (selector: RegisterFeatureSelectors): RegisterFeatu
 const getAllSelectors= (selector: AppE2ESelectors): AppE2ESelectors => {
   return selector;
 };
- `}</Snippet>
+ `}</Code>
 </Section>
 
 <Summary label="Summary and a few words about e2e tests">

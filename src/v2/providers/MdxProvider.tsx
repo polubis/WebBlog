@@ -8,7 +8,6 @@ import { Example } from "../../components/article/Example"
 import Img from "../../components/article/Img"
 import { XL, M, Hint, A, B } from "../../ui/text"
 import { List } from "../../components/article/List"
-import { Snippet } from "../../ui/snippet"
 import { L, Li } from "../../components/article/L"
 import { Demo } from "../components/mdx/Demo"
 import { Code } from "../ui/code/Code"
@@ -43,7 +42,6 @@ const default_components = {
   Section,
   Summary,
   Prelude,
-  Snippet,
   Code: (props: CodeProps) => {
     if (props.mode === "static") {
       return <StaticCode {...props} />

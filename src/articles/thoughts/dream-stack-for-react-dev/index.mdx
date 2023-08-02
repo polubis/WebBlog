@@ -282,7 +282,9 @@ title: Dream stack for React dev
     applications? Forget about <B>npm install</B>. All you need is a simple{" "}
     <B>import</B> statement.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="tsx"
     linesCount={7}
     src="/snippets/dream-stack-for-react-dev/how-to-import.tsx"
     description="The power of monorepo and nx"
@@ -316,7 +318,9 @@ title: Dream stack for React dev
     We are using <B>styled-components</B> so there is a need to create global
     styles, in which we'll declare our setup for fonts.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="ts"
     linesCount={31}
     src="/snippets/dream-stack-for-react-dev/global-style.ts"
     description="Almost, but not yet"
@@ -325,7 +329,9 @@ title: Dream stack for React dev
     The current setup doesn't work yet. We need to add minor changes in the{" "}
     <B>preview.js</B> file and its extension must be changed to <B>.tsx</B>.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="tsx"
     linesCount={18}
     src="/snippets/dream-stack-for-react-dev/preview.tsx"
   />
@@ -333,15 +339,17 @@ title: Dream stack for React dev
     In the <B>ts.config</B> file, we need to add <B>preview.tsx</B> to{" "}
     <B>include</B> array. Errors will be displayed if we skip that.
   </M>
-  <Snippet>{`  "include": [
+  <Code mode="static" lang="json">{`  "include": [
     {/* ...Other files */}
     "preview.tsx"
-  ]`}</Snippet>
+  ]`}</Code>
   <M>
     Well, how to test it? We need a component. Below is a partial implementation
     of <B>Font</B> component and usage in various places.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="tsx"
     linesCount={94}
     description="Partial implementation and usage"
     src="/snippets/dream-stack-for-react-dev/Font.tsx"
@@ -383,7 +391,7 @@ title: Dream stack for React dev
     of both by default so the only thing left is the husky setup. To do this, we
     need to define an aliases for the scripts in <B>package.json</B>.
   </M>
-  <Snippet>
+  <Code mode="static" lang="json">
     {`
 "scripts": {
    "prepare": "cd .. && husky install system/.husky", // Changes folder and configures husky.
@@ -391,7 +399,7 @@ title: Dream stack for React dev
    "format:fixAll": "prettier --write \"./**/*.{js,ts,tsx}\"" // Runs prettier and formats if possible.
 }
 `}
-  </Snippet>
+  </Code>
   <M>
     Now every developer must run the <B>prepare</B> command after downloading
     the repository. Without that, husky will not work. After launching, you
@@ -407,7 +415,7 @@ title: Dream stack for React dev
     The last change is to define the scripts that will be executed before the
     commit.
   </M>
-  <Snippet>
+  <Code mode="static" lang="bash">
     {`
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
@@ -416,7 +424,7 @@ echo "Runnig linting and fix..."
 npm run lint:fixAll
 npm run format:fixAll
 `}
-  </Snippet>
+  </Code>
   <M>
     Now every time when someone tries to do a commit then the scripts will be
     executed. If you want to skip the husky because you're just checking
@@ -454,7 +462,9 @@ npm run format:fixAll
     unique variables to which we assign the settings of our design system.
   </M>
   <List items="background.color='#f0f0f0',font.color='#000000',boxes.radius100='4px',font.size100='16px'" />
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="ts"
     linesCount={25}
     src="/snippets/dream-stack-for-react-dev/design-tokens.ts"
   />
@@ -471,7 +481,9 @@ npm run format:fixAll
     we need to make sure that the values are taken from the theme, which the
     user is using.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="ts"
     linesCount={26}
     src="/snippets/dream-stack-for-react-dev/theme-object.ts"
   />
@@ -482,7 +494,9 @@ npm run format:fixAll
     scalable components library. Now it's time for real work. Let's use{" "}
     <B>Context API</B> to provide logic for themes management.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="tsx"
     linesCount={50}
     src="/snippets/dream-stack-for-react-dev/provider.tsx"
     description="We're injecting themes and an API to change them"
@@ -492,13 +506,19 @@ npm run format:fixAll
     the ability to set up the UI in any way you want. Now with every next
     component you just need to use this approach.
   </M>
-  <Snippet linesCount={5} src="/snippets/dream-stack-for-react-dev/css.ts" />
+  <Code
+    mode="dynamic"
+    lang="ts" 
+    linesCount={5} 
+    src="/snippets/dream-stack-for-react-dev/css.ts" />
   <M>
     Let's assume that you want to use a component, and later you want to change
     theme. All you need to do is to wrap the whole application with the provider
     and import the dedicated component.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="tsx"
     linesCount={8}
     src="/snippets/dream-stack-for-react-dev/usage-in-all-places.tsx"
   />
@@ -531,24 +551,28 @@ npm run format:fixAll
     structure, just for convenience when importing. Next, I changed the
     configuration in the <B>main.js</B> file.
   </M>
-  <Snippet>{`staticDirs: [{ from: '../../../assets', to: '/' }]`}</Snippet>
+  <Code mode="static" lang="json">{`staticDirs: [{ from: '../../../assets', to: '/' }]`}</Code>
   <M>
     I corrected the import in font face to be shorter. The assets directory is
     redundant. Immediately after that, the fonts in the storybook updated their
     look and started to look like a real <B>"Lexend"</B>.
   </M>
-  <Snippet>{`src: url('/fonts/LexendBold.ttf') format('truetype');`}</Snippet>
+  <Code mode="static" lang="json">{`src: url('/fonts/LexendBold.ttf') format('truetype');`}</Code>
   <M>
     Now the applications. Here is a little more work. We need to use the webpack
     plugin to copy the contents of one folder to another. We'll do this for both
     applications in Next.js and in pure React.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="javascript"
     description="React SPA fonts copied!"
     linesCount={26}
     src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/0ab6b3c21eecbe7d6446979c3bc1035adfe90c2f/system/apps/blog-creator/webpack.config.js"
   />
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="javascript"
     linesCount={39}
     src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/0ab6b3c21eecbe7d6446979c3bc1035adfe90c2f/system/apps/blog/next.config.js"
     description="Next.js fonts copied!"
@@ -573,11 +597,11 @@ npm run format:fixAll
     different on the server and on the client. To fix it we need to add this to{" "}
     <B>next.config.js</B>.
   </M>
-  <Snippet>
+  <Code mode="static" lang="json">
     {`compiler: {
   styledComponents: true // Next.js sets up the Babel plugin for styled-components.
 }`}
-  </Snippet>
+  </Code>
   <Hint hasBg>
     In this{" "}
     <A

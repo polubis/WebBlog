@@ -48,27 +48,27 @@ description: Quick dive through project setup with tests configuration.
 
 <Section>
   <XL>How to run storybook for UI lib?</XL>
-  <Snippet>{`
+  <Code mode="static" lang="bash">{`
 cd .system // changes directory
 npx nx run figa-ui:storybook // runs storybook for UI library.
-  `}</Snippet>
+  `}</Code>
 </Section>
 
 <Section>
   <XL>How to run tests?</XL>
-  <Snippet>{`
+  <Code mode="static" lang="bash">{`
 cd .system // changes directory
 npx nx run-many --target=test --projects=figa-hooks --watch // runs tests for figa-hooks library.
 npx nx run-many --target=test --projects=figa-ui,figa-hooks --watch // runs tests for many libs.
 npx nx run-many --target=test  --watch // runs tests for every lib and app in monorepo.
-  `}</Snippet>
+  `}</Code>
 </Section>
 
 <Section>
   <XL>How to run apps?</XL>
-  <Snippet>{`
+  <Code mode="static" lang="bash">{`
 cd .system // changes directory
 npx nx run-many --target=serve --all // runs all apps in monorepo.
 npx nx run-many --parallel --target=serve --projects=blog,blog-creator // runs specified apps in monorepo.
-  `}</Snippet>
+  `}</Code>
 </Section>

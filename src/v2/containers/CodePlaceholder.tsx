@@ -6,10 +6,11 @@ import { LayoutT } from "../core/models"
 
 const Container = styled.div`
   height: 100%;
+  padding: 20px;
 
   ${XL} {
-    padding: 20px;
     text-align: center;
+    margin: 0;
   }
 `
 

@@ -45,12 +45,16 @@ title: Pętle w JavaScript oraz ich performance
     się tylko na <B>performance.now()</B>, bo to nie zastosowane API w tym
     przypadku robi różnice, a sposób pomiaru i to co mierzymy.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="ts"
     linesCount={10}
     description="Funkcja mierząca czas trwania dowolnej innej funkcji"
     src="https://raw.githubusercontent.com/polubis/loops-performance-in-javascript/main/src/performance/measure.ts"
   />
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="ts"
     linesCount={12}
     description="Przykładowe wykorzystanie funkcji measure"
     src="https://raw.githubusercontent.com/polubis/loops-performance-in-javascript/main/src/snippets/memory-used.ts"
@@ -73,12 +77,16 @@ title: Pętle w JavaScript oraz ich performance
   <M>
     Mamy funkcję <B>measure()</B>, więc teraz musimy ją uruchomić <B>n</B> razy.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="ts"
     linesCount={22}
     description="Funkcja do zbierania wyników"
     src="https://raw.githubusercontent.com/polubis/loops-performance-in-javascript/main/src/performance/run-probes.ts"
   />
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="ts"
     linesCount={12}
     description="Wykorzystanie funkcji runProbes()"
     src="https://raw.githubusercontent.com/polubis/loops-performance-in-javascript/main/src/snippets/run-probes-used.ts"
@@ -93,12 +101,16 @@ title: Pętle w JavaScript oraz ich performance
     czterech, bo jeżeli coś trwa <B>0.00001532</B> sekundy to umówmy się -
     użytkownik tego raczej nie zauważy.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="ts"
     linesCount={31}
     description="Funkcja do podsumowania wyniku"
     src="https://raw.githubusercontent.com/polubis/loops-performance-in-javascript/main/src/performance/summarize.ts"
   />
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="ts"
     linesCount={23}
     description="Mamy rezultat"
     src="https://raw.githubusercontent.com/polubis/loops-performance-in-javascript/main/src/snippets/summary-used.ts"
@@ -120,7 +132,9 @@ title: Pętle w JavaScript oraz ich performance
     liczb (czyli każda zrobi to samo, ale inaczej). Później porównamy wynik z
     gotowym narzędziem do sprawdzania optymalizacji i wyciągniemy wnioski.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="ts"
     linesCount={49}
     description="Masz jakiegoś faworyta?"
     src="https://raw.githubusercontent.com/polubis/loops-performance-in-javascript/main/src/sum.ts"
@@ -129,7 +143,9 @@ title: Pętle w JavaScript oraz ich performance
     Teraz ten sam zbiór danych przekażemy do każdej z nich i wyciągniemy
     wnioski.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="tsx"
     linesCount={82}
     description="Pokazujemy rezultat i dajemy możliwość zmiany parametrów"
     src="https://raw.githubusercontent.com/polubis/loops-performance-in-javascript/main/src/App.tsx"
@@ -233,7 +249,7 @@ title: Pętle w JavaScript oraz ich performance
     Tym razem będą to jednak testy szybkości działania programu a nie tego czy prawidłowo
     działa.
   </M>
-  <Snippet description="Pięknie to wygląda">
+  <Code mode="static" lang="javascript" description="Pięknie to wygląda">
     {`
     const suite = new Benchmark.Suite;
     
@@ -253,7 +269,7 @@ suite.add('RegExp#test', () => {
   console.log('Fastest is ' + this.filter('fastest').map('name'));
 })
 .run({ 'async': true });`}
-  </Snippet>
+  </Code>
 </Section>
 
 <Example>

@@ -62,7 +62,7 @@ title: Porting for React applications
     <B>static pages</B>, we usually have some kind of <B>GraphQL</B> query and{" "}
     <B>JSX</B> code.
   </M>
-  <Snippet>{`
+  <Code mode='static' lang='tsx'>{`
 // --- OurPage.tsx file ---
 const query = graphql\`
     images: allFile(filter: { name: { regex: "/image/" } }) {
@@ -86,7 +86,7 @@ interface OurPageProps {
 const OurPage = ({ pageContext: { images } }: OurPageProps) => {
     return <div>{images.length}</div>
 }
-`}</Snippet>
+`}</Code>
   <M>
     It is a request like any other. What if the technology we migrate to does
     not have <B>GraphQL</B> but <B>something else</B>? The data will have the
@@ -110,7 +110,7 @@ const OurPage = ({ pageContext: { images } }: OurPageProps) => {
     Thanks to this, the replacement of the library will get around without any
     problem. Take a look at the following example:
   </M>
-  <Snippet description="New file has been created">
+  <Code mode='static' lang='tsx' description="New file has been created">
     {`
 // --- OurPageView.tsx ---
  
@@ -128,14 +128,14 @@ const OurPageView = ({ images }: OurPageViewProps) => {
  
 export { OurPageView, type OurPageViewProps }
 `}
-  </Snippet>
+  </Code>
   <M>
     Note the absence of any reference to <B>Gatsby</B>. There are no queries.
     This component can be used also in <B>Next</B>, pure <B>SPA React</B> and
     others.
   </M>
   <M>Now we need to apply changes to our page file.</M>
-  <Snippet description="Small refactor added">
+  <Code mode='static' lang='tsx' description="Small refactor added">
     {`
 // --- OurPage.tsx file ---
  
@@ -161,7 +161,7 @@ const OurPage = ({ pageContext: { images } }: OurPageProps) => {
     return <OurPageView images={images} />
 }
 `}
-  </Snippet>
+  </Code>
   <M>
     By implementing such an approach we reduce the coupling of the business
     sphere of the application with a particular technology.
@@ -192,7 +192,7 @@ const OurPage = ({ pageContext: { images } }: OurPageProps) => {
     {" "}
     Firstly, we'll use it in <B>Next.js</B>:
   </M>
-  <Snippet>
+  <Code mode='static' lang='tsx'>
     {`
 interface OurPageProps {
     images: Image[]
@@ -215,11 +215,11 @@ const OurPage = (props: OurPageProps) => {
         <OurPageView images={images} />
     ); 
 }; `}
-  </Snippet>
+  </Code>
   <M>
     Secondly, we'll use it in <B>Gatsby</B>:
   </M>
-  <Snippet>
+  <Code mode='static' lang='tsx'>
     {`
 import type { Image } from '@models'
 import { OurPageView } from '@views'
@@ -241,7 +241,7 @@ const OurPage = ({ pageContext: { images } }: OurPageProps) => {
     return <OurPageView images={images} />
 }
 `}
-  </Snippet>
+  </Code>
 </Section>
 <Section>
   <XL>Keep a healthy mind</XL>

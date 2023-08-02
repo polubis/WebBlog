@@ -29,7 +29,9 @@ title: Mocking up with factories
     Both of them return the same entity - user object. That object can be
     described with following interface:
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="ts"
     description="User shape"
     linesCount={16}
     src="/snippets/mocking-up-with-factories/typical-mock.ts"
@@ -39,7 +41,9 @@ title: Mocking up with factories
     <B>list of users</B> and <B>user by id</B>. So let's use a typical UI/logic
     implementation for this.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="tsx"
     description="Mocks used in application"
     linesCount={47}
     src="/snippets/mocking-up-with-factories/typical-mock-usage.tsx"
@@ -48,7 +52,9 @@ title: Mocking up with factories
     If you will have more layers in your architecture, it will be more
     complicated. In addition, there will be a need to apply same mocks in tests.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="ts"
     description="Mocks used in testing"
     linesCount={20}
     src="/snippets/mocking-up-with-factories/typical-mocks-in-tests.test.ts"
@@ -72,7 +78,9 @@ title: Mocking up with factories
     method) which will create this object for us based on configuration or
     chained methods call.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="ts"
     description="Factory created!"
     linesCount={27}
     src="/snippets/mocking-up-with-factories/users-factory.ts"
@@ -81,13 +89,17 @@ title: Mocking up with factories
     You're using function to generate always new object. With factory you can
     chain methods to achieve object shape which you need.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="tsx"
     description="Refactors friendly mocking"
     linesCount={49}
     src="/snippets/mocking-up-with-factories/improved-mock-usage.tsx"
   />
   <M>Same for tests.</M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="ts"
     description="Tests improved"
     linesCount={20}
     src="/snippets/mocking-up-with-factories/improved-mocks-in-tests.test.ts"

@@ -68,7 +68,9 @@ title: Proxy and reflect in JavaScript
     that write programs. It is a certain level of abstraction.
   </M>
   <M>To illustrate this more easily, let's discuss it with this example:</M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="javascript"
     description="For loop"
     linesCount={5}
     src="/snippets/proxy-and-reflect-in-javascript/for.js"
@@ -77,7 +79,9 @@ title: Proxy and reflect in JavaScript
     According to the data it is a plain text, but according to the code it is
     something to be interpreted as an instruction, so:
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="markdown"
     description="For as set of instructions"
     linesCount={5}
     src="/snippets/proxy-and-reflect-in-javascript/for-pseudo.txt"
@@ -113,7 +117,9 @@ title: Proxy and reflect in JavaScript
 <Section>
   <XL>3. Proxy in JavaScript</XL>
   <M>Let's start with a simple example for reference:</M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="javascript"
     description="Your first proxy"
     linesCount={22}
     src="/snippets/proxy-and-reflect-in-javascript/first-proxy.js"
@@ -128,7 +134,9 @@ title: Proxy and reflect in JavaScript
     Even more can be achieved by overwriting <B>set</B> behavior. Just look at
     this:
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="javascript"
     description="Strict"
     linesCount={19}
     src="/snippets/proxy-and-reflect-in-javascript/set-change.js"
@@ -147,25 +155,33 @@ title: Proxy and reflect in JavaScript
 <Section>
   <XL>4. Proxy use cases</XL>
   <M>Logging access to an object:</M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="javascript"
     description="Logging properties"
     linesCount={15}
     src="/snippets/proxy-and-reflect-in-javascript/logging-access-to-obj.js"
   />
   <M>Custom error handling/validation:</M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="javascript"
     description="Cool validation"
     linesCount={25}
     src="/snippets/proxy-and-reflect-in-javascript/validation.js"
   />
   <M>Protect the object field:</M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="javascript"
     description="Like a guard"
     linesCount={23}
     src="/snippets/proxy-and-reflect-in-javascript/guard.js"
   />
   <M>Lazy initialization:</M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="javascript"
     description="Lazy"
     linesCount={22}
     src="/snippets/proxy-and-reflect-in-javascript/lazy.js"
@@ -203,7 +219,9 @@ title: Proxy and reflect in JavaScript
     behavior.
   </M>
   <M>It is a modified example "Protect the object field":</M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="javascript"
     description="Guard but with Reflect"
     linesCount={18}
     src="/snippets/proxy-and-reflect-in-javascript/reflect-guard.js"
@@ -218,19 +236,25 @@ title: Proxy and reflect in JavaScript
 <Section>
   <XL>7. Reflect use cases</XL>
   <M>Need to find out if an object has a field?</M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="javascript"
     description="Searching..."
     linesCount={1}
     src="/snippets/proxy-and-reflect-in-javascript/find-field.js"
   />
   <M>Need to return all the keys of an object?</M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="javascript"
     description="Keys list"
     linesCount={1}
     src="/snippets/proxy-and-reflect-in-javascript/keys-in-obj.js"
   />
   <M>Want to add a new field? No problem!</M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="javascript"
     description="Adding field"
     linesCount={1}
     src="/snippets/proxy-and-reflect-in-javascript/new-field.js"

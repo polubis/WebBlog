@@ -43,7 +43,9 @@ title: State management with rxjs in React
     more time to implement something but later it saves a lot of your time if
     it's not too complicated.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="tsx"
     description="Behavior what?"
     linesCount={28}
     src="https://raw.githubusercontent.com/polubis/State-management-with-RxJs-in-React/main/src/snippets/simple-store.tsx"
@@ -63,7 +65,9 @@ title: State management with rxjs in React
     object per component's life cycle. With <B>useEffect()</B> we update the
     state based on the signals from our module store and this triggers rerender.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="tsx"
     description="Hello React component"
     linesCount={52}
     src="https://raw.githubusercontent.com/polubis/State-management-with-RxJs-in-React/main/src/snippets/usage-in-component.tsx"
@@ -81,7 +85,9 @@ title: State management with rxjs in React
     between files. This gives you the same behavior as with redux without tons
     of boilerplate. As in redux you will need to reset the state if needed.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="tsx"
     description="Works but you can modularize that thing"
     linesCount={39}
     src="https://raw.githubusercontent.com/polubis/State-management-with-RxJs-in-React/main/src/snippets/sharing-state-without-context-api.tsx"
@@ -95,7 +101,9 @@ title: State management with rxjs in React
     ecosystem. Right now, there is no need to reset the state. You determine in
     components where dedicated store API can be exposed in the component tree.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="tsx"
     description="ContextAPI implementation"
     linesCount={38}
     src="https://raw.githubusercontent.com/polubis/State-management-with-RxJs-in-React/main/src/snippets/sharing-state-with-context-api.tsx"
@@ -104,7 +112,9 @@ title: State management with rxjs in React
     As you probably noticed we're exposing a dedicated hook to hide Context
     details.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="tsx"
     description="ContextAPI Consuming"
     linesCount={31}
     src="https://raw.githubusercontent.com/polubis/State-management-with-RxJs-in-React/main/src/snippets/consuming-shared-context-state.tsx"
@@ -126,7 +136,9 @@ title: State management with rxjs in React
     Firstly, lets create <B>createStore()</B> function which allows us to create
     store object.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="ts"
     description="Factory method"
     linesCount={50}
     src="https://raw.githubusercontent.com/polubis/State-management-with-RxJs-in-React/main/src/framework/createStore.ts"
@@ -135,7 +147,9 @@ title: State management with rxjs in React
     Next, we need a hook which reduces boilerplate and connects us to React
     ecosystem.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="tsx"
     description="Hook for connection with React"
     linesCount={19}
     src="https://raw.githubusercontent.com/polubis/State-management-with-RxJs-in-React/main/src/framework/useStore.tsx"
@@ -145,7 +159,9 @@ title: State management with rxjs in React
     This function will return the wrapper component and hook to consume provided
     API in the component tree.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="tsx"
     description="Connection with ContextAPI"
     linesCount={70}
     src="https://raw.githubusercontent.com/polubis/State-management-with-RxJs-in-React/main/src/framework/createContextStore.tsx"
@@ -154,13 +170,17 @@ title: State management with rxjs in React
     Let's construct ContextAPI provider and hook for reading state/performing
     actions.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="tsx"
     description="Fast and without boilerplate"
     linesCount={9}
     src="https://raw.githubusercontent.com/polubis/State-management-with-RxJs-in-React/main/src/final/ChatProvider.tsx"
   />
   <M>Right now you can use it in an easy way inside the component.</M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="tsx"
     description="Usage"
     linesCount={53}
     src="https://raw.githubusercontent.com/polubis/State-management-with-RxJs-in-React/main/src/final/Chat.tsx"

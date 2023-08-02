@@ -19,7 +19,7 @@ description: We will convert the test syntax to one that is close to the syntax 
     <B>Describe</B> means functionality, and <B>it</B> means a specific test. We
     will make the following transformation:
   </M>
-  <Snippet description="For humans">
+  <Code mode="static" lang="markdown" description="For humans">
     {`
 Feature: Our friend knows how to make a pizza.
 1. Is the pizza size between 30 cm and 34 cm?
@@ -29,8 +29,8 @@ Feature: Our friend knows how to make a pizza.
 5. Isn't the pizza plate dirty?
 6. Did the pizza taste good for 90% customers?
    `}
-  </Snippet>
-  <Snippet description="For computers">
+  </Code>
+  <Code mode="static" lang="ts" description="For computers">
     {`
 describe("Our friend knows how to make a pizza", () => {
   it("Pizza size is between 30cm and 40 cm", () => {});
@@ -46,7 +46,7 @@ describe("Our friend knows how to make a pizza", () => {
   it("Pizza tastes good to 90% of customers", () => {});
 });
     `}
-  </Snippet>
+  </Code>
   <M>
     Note that we have moved from questions to assertions. The reason is simple -
     less text is produced and it is more intuitive to read. Also, if it is
