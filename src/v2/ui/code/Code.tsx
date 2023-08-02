@@ -29,11 +29,10 @@ const getCodeSetup = (linesCount: number, Loading: CodeProps["Loading"]) => {
   return { Pre, style }
 }
 
-const StaticCode = (props: StaticCodeProps) => {
+const StaticCode = ({ children, Loading, ...props }: StaticCodeProps) => {
   const { isVisible, ref } = useIsVisible({ threshold: 0.1, useOnce: true })
 
-  const code = props.children.trim()
-  const { Loading } = props
+  const code = children.trim()
 
   const { style, Pre } = getCodeSetup(code.split("\n").length, Loading)
 
