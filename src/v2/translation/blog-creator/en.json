@@ -20,7 +20,6 @@
     "samples": {
         "default": "Default",
         "image": "Image",
-        "snippet": "Snippet",
         "heading": "Heading",
         "paragraph": "Paragraph",
         "section": "Section",
@@ -30,7 +29,8 @@
         "summary": "Summary",
         "link": "Link",
         "bold": "Bold text",
-        "hint": "Hint"
+        "hint": "Hint",
+        "code": "Code"
     },
     "loader": {
         "heading": "Did you know that?",

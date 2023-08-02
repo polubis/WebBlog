@@ -35,8 +35,8 @@ export const GroupItem = ({
       }}
     >
       <Image
-        alt="Article thumbnail"
-        fluid={item.avatar}
+        alt={item.title}
+        fixed={item.avatar}
         style={{
           borderRadius: "50%",
           height: setup.item.height,

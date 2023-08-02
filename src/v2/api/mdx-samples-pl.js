@@ -15,7 +15,8 @@ const default_template = `<Prelude label="Przykład tytułu dla sekcji wstęp">
     src="/assets/chromatic-and-storybook/storybook.gif"
     description="Przykładowe zdjęcie"
   />
-  <Snippet
+  <Code
+    mode="dynamic"
     description="Przykładowy fragment kodu"
     linesCount={23}
     src="https://raw.githubusercontent.com/polubis/Chromatic-and-storybook/main/src/ui/input-field/InputField.stories.tsx"
@@ -96,12 +97,6 @@ const image = `<Img
   description="Przykładowe zdjęcie"
 />
 `
-const snippet = `<Snippet
-  description="Przykładowy fragment kodu"
-  linesCount={23}
-  src="https://raw.githubusercontent.com/polubis/Chromatic-and-storybook/main/src/ui/input-field/InputField.stories.tsx"
-/>
-`
 const link = `<A href="https://github.com/polubis/Chromatic-and-storybook" outside>
   Repozytorium
 </A>
@@ -127,6 +122,12 @@ const example = `<Example label="Przykład nagłówka dla sekcji przykładu">
 const summary = `<Summary label="Przykład nagłówka dla podsumowania">
   <M>Jakiś tekst</M>
 </Summary>`
+const code = `<Code
+  mode="dynamic"
+  description="Przykładowy fragment kodu"
+  linesCount={23}
+  src="https://raw.githubusercontent.com/polubis/Chromatic-and-storybook/main/src/ui/input-field/InputField.stories.tsx"
+/>`
 
 module.exports = {
   default: default_template,
@@ -137,9 +138,9 @@ module.exports = {
   bold,
   list,
   image,
-  snippet,
   link,
   demo,
   example,
   summary,
+  code,
 }

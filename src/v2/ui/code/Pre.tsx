@@ -52,11 +52,13 @@ const Container = styled.div`
     font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
     font-size: 16px;
     text-align: left;
-    overflow-x: scroll;
-    padding: ${pre_config.padding_top}px 12px ${pre_config.padding_bot} 12px;
+    overflow-x: auto;
+    padding: ${pre_config.padding_top}px 12px ${pre_config.padding_bot}px 12px;
     white-space: pre;
     word-spacing: normal;
+    margin: 0;
     word-break: normal;
+    border-radius: 4px;
     word-wrap: normal;
     -moz-tab-size: 4;
     -o-tab-size: 4;
@@ -97,7 +99,7 @@ const Container = styled.div`
 const Pre = memo(
   ({ children, lang = "javascript", linesOff, description }: PreProps) => {
     return (
-      <Container>
+      <Container className="ui-snippet">
         <PrismSnippet
           {...defaultProps}
           theme={SNIPPET_THEME}

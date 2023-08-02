@@ -21,12 +21,18 @@ interface SnippetCreatorOpened {
   name: "snippet_creator_opened"
 }
 
+interface RenderingCodeError {
+  name: "rendering_code_error"
+  link: string
+}
+
 type AnalyticsEvent =
   | FullScreenClicked
   | ArticleSourceClicked
   | SnippetCreated
   | LessonSourceClicked
   | SnippetCreatorOpened
+  | RenderingCodeError
 
 export const useCustomGAEvent = () => {
   const track = (e: AnalyticsEvent): void => {

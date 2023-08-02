@@ -20,7 +20,6 @@
     "samples": {
         "default": "Domyślna templatka",
         "image": "Zdjęcie",
-        "snippet": "Fragment z kodem",
         "heading": "Nagłówek",
         "paragraph": "Paragraf",
         "section": "Sekcja",
@@ -30,7 +29,8 @@
         "summary": "Podsumowanie",
         "link": "Link",
         "bold": "Pogrubiony tekst",
-        "hint": "Podpowiedź"
+        "hint": "Podpowiedź",
+        "code": "Fragment z kodem"
     },
     "loader": {
         "heading": "Trochę ciekawostek",

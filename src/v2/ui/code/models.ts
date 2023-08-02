@@ -8,4 +8,18 @@ export interface PreProps {
   linesOff?: boolean
 }
 
-export type CodeProps = PreProps
+export interface StaticCodeProps extends PreProps {
+  mode: "static"
+  Loading: () => JSX.Element
+}
+
+export interface DynamicCodeProps extends Omit<PreProps, "children"> {
+  mode: "dynamic"
+  linesCount: number
+  src: string
+  Error: () => JSX.Element
+  Loading: () => JSX.Element
+  onError?: () => void
+}
+
+export type CodeProps = StaticCodeProps | DynamicCodeProps
