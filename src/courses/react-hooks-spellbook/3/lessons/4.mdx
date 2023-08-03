@@ -51,7 +51,7 @@ description: We take a look at how to use the native IntersectionObserver API an
   <M>
     This is how we'll use our <B>useIntersectionObserver</B> hook.{" "}
   </M>
-  <Snippet>{`
+  <Code mode="static" lang="tsx">{`
  // Flag "visible" changes if div has 40% visibility.
 const { visible, ref } = 
    useIntersectionObserver<HTMLDivElement>({ treshhold: 0.4 });
@@ -67,7 +67,7 @@ return (
     </div>
     <div>{visible ? 'Main homepage section is visible' : ''}</div>
   </>
-)`}</Snippet>
+)`}</Code>
 </Section>
 
 <Section>
@@ -76,7 +76,7 @@ return (
     First, let's create interfaces. They will define what our hook will accept
     and what will return.
   </M>
-  <Snippet description="Type definitions for our useIntersectionObserver hook - defs.ts">{`
+  <Code mode="static" lang="tsx" description="Type definitions for our useIntersectionObserver hook - defs.ts">{`
   import type { MutableRefObject } from 'react';
  
 /**
@@ -100,12 +100,12 @@ interface IntersectionObserverReturn<T extends HTMLElement> {
   visible: boolean;
 }
  
-export type { IntersectionObserverConfig, IntersectionObserverReturn };`}</Snippet>
+export type { IntersectionObserverConfig, IntersectionObserverReturn };`}</Code>
   <M>
     Now it's time to implement the <B>useIntersectionObserver</B> hook itself.
     We have interfaces so we know how it should more or less work.
   </M>
-  <Snippet description="Implementation located inside use-intersection-observer.ts">{`
+  <Code mode="static" lang="tsx" description="Implementation located inside use-intersection-observer.ts">{`
   import type {
   IntersectionObserverConfig,
   IntersectionObserverReturn,
@@ -171,7 +171,7 @@ export const useIntersectionObserver = <T extends HTMLElement>(
   }, [threshold, root, rootMargin]);
  
   return { ref, visible };
-};`}</Snippet>
+};`}</Code>
   <M>
     Hook cannot be used on the server side - so we blocked this option at the
     very beginning.
@@ -189,7 +189,7 @@ export const useIntersectionObserver = <T extends HTMLElement>(
 <Section>
   <XL>Testing useIntersectionObserver hook mechanisms</XL>
   <M>We need to add tests that allow us to do refactors later.</M>
-  <Snippet description="Tests which will prevent regression - use-intersection-observer.test.tsx">{`
+  <Code mode="static" lang="tsx" description="Tests which will prevent regression - use-intersection-observer.test.tsx">{`
   import { renderHook } from '@testing-library/react-hooks';
  
 import { useIntersectionObserver } from './use-intersection-observer';
@@ -234,7 +234,7 @@ describe('Intersection check works when: ', () => {
  
     expect(result.current.visible).toBe(true);
   });
-});`}</Snippet>
+});`}</Code>
 </Section>
 
 <Section>

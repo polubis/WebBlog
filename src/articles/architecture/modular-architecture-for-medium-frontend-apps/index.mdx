@@ -45,7 +45,9 @@ title: Modular architecture for medium frontend apps
     you'll have problems that show up late, or to be more precise, as new
     functionality is added.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="tsx"
     linesCount={62}
     src="https://raw.githubusercontent.com/polubis/Modular-architecture-for-medium-frontend-apps/main/snippets/no-layers.tsx"
     description="A messy solution"
@@ -93,7 +95,9 @@ title: Modular architecture for medium frontend apps
     src="/assets/modular-architecture-for-medium-frontend-apps/lp.jpg"
     description="Now you have 2 layers"
   />
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="tsx"
     src="https://raw.githubusercontent.com/polubis/Modular-architecture-for-medium-frontend-apps/main/snippets/2-layers.tsx"
     description="2 layers in code"
     linesCount={63}
@@ -132,12 +136,16 @@ title: Modular architecture for medium frontend apps
     directory. This library will store purely presentation components, you can
     treat it as a <B>design system</B> implementation.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="tsx"
     src="https://raw.githubusercontent.com/polubis/Modular-architecture-for-medium-frontend-apps/main/src/libs/ui/avatar/Avatar.tsx"
     description="Avatar component"
     linesCount={13}
   />
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="tsx"
     src="https://raw.githubusercontent.com/polubis/Modular-architecture-for-medium-frontend-apps/main/src/libs/ui/avatars-grid/AvatarsGrid.tsx"
     description="AvatarsGrid component"
     linesCount={27}
@@ -147,12 +155,16 @@ title: Modular architecture for medium frontend apps
     generic logic to handle API requests, rendering and anything that will be
     useful in various applications.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="ts"
     src="https://raw.githubusercontent.com/polubis/Modular-architecture-for-medium-frontend-apps/main/src/libs/development-kit/useFetch.ts"
     description="Generic hook for fetching"
     linesCount={60}
   />
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="tsx"
     src="https://raw.githubusercontent.com/polubis/Modular-architecture-for-medium-frontend-apps/main/src/libs/development-kit/Renderer.tsx"
     description="Render handler"
     linesCount={30}
@@ -180,7 +192,9 @@ title: Modular architecture for medium frontend apps
     encapsulating the logic, performing API requests and carrying out the
     necessary data mapping.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="ts"
     src="https://raw.githubusercontent.com/polubis/Modular-architecture-for-medium-frontend-apps/main/src/features/users/services/users.service.ts"
     description="Now you can fetch users"
     linesCount={51}
@@ -189,7 +203,9 @@ title: Modular architecture for medium frontend apps
     Now, look at the next layer - <B>logic</B>. We will use <B>useFetch</B>{" "}
     generic hook to implement users fetch.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="ts"
     src="https://raw.githubusercontent.com/polubis/Modular-architecture-for-medium-frontend-apps/main/src/features/users/logic/use-users.ts"
     description="Handling fetch users"
     linesCount={13}
@@ -199,7 +215,9 @@ title: Modular architecture for medium frontend apps
     be used only inside this application. This layer can use models from the
     application domain.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="tsx"
     src="https://raw.githubusercontent.com/polubis/Modular-architecture-for-medium-frontend-apps/main/src/features/users/components/users-list/users-list.component.tsx"
     description="Rendering users list"
     linesCount={42}
@@ -208,7 +226,9 @@ title: Modular architecture for medium frontend apps
     It's time to glue everything with <B>container</B>. The layer that is
     supposed to bind the <B>logic</B> to the <B>component</B>.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="tsx"
     src="https://raw.githubusercontent.com/polubis/Modular-architecture-for-medium-frontend-apps/Showcase/snippets/users.container.tsx"
     description="Looks simple?"
     linesCount={8}
@@ -218,7 +238,9 @@ title: Modular architecture for medium frontend apps
     functionality. Here you can add things like <B>lazy loading</B> or{" "}
     <B>authorization</B> logic.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="tsx"
     src="https://raw.githubusercontent.com/polubis/Modular-architecture-for-medium-frontend-apps/main/snippets/users.module.tsx"
     description="Here everything starts"
     linesCount={5}
@@ -270,13 +292,17 @@ title: Modular architecture for medium frontend apps
     As before we will split it into layers to achieve goals. Firstly, we add
     service.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="ts"
     src="https://raw.githubusercontent.com/polubis/Modular-architecture-for-medium-frontend-apps/main/src/shared/auth/services/auth.service.ts"
     description="Authorization service"
     linesCount={54}
   />
   <M>Next, we need authorization logic.</M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="tsx"
     src="https://raw.githubusercontent.com/polubis/Modular-architecture-for-medium-frontend-apps/main/src/shared/auth/logic/auth.tsx"
     description="Context used"
     linesCount={45}
@@ -284,7 +310,9 @@ title: Modular architecture for medium frontend apps
   <M>
     It's time for <B>module</B>. It groups the whole feature.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="tsx"
     src="https://raw.githubusercontent.com/polubis/Modular-architecture-for-medium-frontend-apps/main/src/shared/auth/auth.module.tsx"
     description="Module is ultra simple"
     linesCount={5}
@@ -293,7 +321,9 @@ title: Modular architecture for medium frontend apps
     Now we need to wrap our entire application with <B>AuthModule</B>. Now you
     can use authorization!
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="tsx"
     src="https://raw.githubusercontent.com/polubis/Modular-architecture-for-medium-frontend-apps/main/src/index.tsx"
     description="App wrapped"
     linesCount={22}
@@ -302,7 +332,9 @@ title: Modular architecture for medium frontend apps
     Last step - just consume authorization API via <B>useAuthContext</B> hook
     and decide what should be displayed.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="tsx"
     src="https://raw.githubusercontent.com/polubis/Modular-architecture-for-medium-frontend-apps/main/src/features/users/containers/users.container.tsx"
     description="Consuming auth API"
     linesCount={26}

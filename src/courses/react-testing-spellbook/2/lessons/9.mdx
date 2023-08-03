@@ -34,7 +34,7 @@ description: We'll check how we can mock environment variables so that our tests
     Please look at the following code snippet, in which we try to get a{" "}
     <B>URL</B> to our <B>API</B> with the <B>getUrl</B> function.
   </M>
-  <Snippet>
+  <Code mode="static" lang="ts">
     {`
   // We declare the shape of the global 
 // object "process.env".
@@ -57,7 +57,7 @@ const getUrl = () => {
 };
  
 export { getUrl };`}
-  </Snippet>
+  </Code>
   <M>
     At the very beginning, we declared the shape of the global object{" "}
     <B>process.env</B> only for the file with our code - outside of it, this
@@ -68,14 +68,14 @@ export { getUrl };`}
   <M>
     This is how we will get this <B>URL</B> in various files.
   </M>
-  <Snippet>
+  <Code mode="static" lang="ts">
     {`
 // This is how we will do.
 const url = getUrl(); ✔️
 // That's not how we're going to do it.
 const url = process.env.NEXT_PUBLIC_API_URL ❌
     `}
-  </Snippet>
+  </Code>
   <M>
     As a curiosity, it is worth adding that the used approach, in which we throw
     an exception in the absence of a variable is called <B>fail fast</B>. Code
@@ -89,7 +89,7 @@ const url = process.env.NEXT_PUBLIC_API_URL ❌
   <XL>Let's mock the environment variable!</XL>
   <M>Okay, let's write a test to check:</M>
   <List items="exception throw if there is no variable,variable return if exists" />
-  <Snippet>
+  <Code mode="static" lang="ts">
     {`
     import { getUrl } from './get-url';
     
@@ -128,7 +128,7 @@ describe('Reads API url when: ', () => {
   });
 });
     `}
-  </Snippet>
+  </Code>
   <M>
     We need to make sure that after modifying the global <B>process</B> object,
     we set the value again to the initial one. Otherwise, we may influence other
@@ -166,7 +166,7 @@ describe('Reads API url when: ', () => {
     So let's create a simple <B>environmentFixture</B> function, that will make
     our tests much <B>prettier</B>.
   </M>
-  <Snippet
+  <Code mode="static" lang="ts"
     description="Oh gosh, how nice and clean it is..."
     added={[
       [1, 15],
@@ -214,7 +214,7 @@ describe('Reads API url when: ', () => {
     expect(getUrl()).toBe(API_URL);
   });
 });
-`}</Snippet>
+`}</Code>
   <M>
     We encapsulated the repeatable logic in the <B>fixture</B> function.
     Besides, we can use this logic in other tests - simply by creating a

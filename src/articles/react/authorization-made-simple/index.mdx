@@ -28,7 +28,9 @@ title: Authorization made simple
     call. The following function waits 3 seconds and then simulates a BE query
     that returns a flag.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="ts"
     linesCount={20}
     src="/snippets/authorization-made-simple/service.ts"
   />
@@ -40,7 +42,9 @@ title: Authorization made simple
     We create a <B>provider</B> that will hold information via the{" "}
     <B>Context API</B>. In <B>useEffect</B> we're calling backend for status.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="tsx"
     linesCount={54}
     src="/snippets/authorization-made-simple/provider.tsx"
   />
@@ -53,7 +57,9 @@ title: Authorization made simple
     write two guards that depending on the values stored in the provider will
     render (or not) part of the UI.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="tsx"
     linesCount={46}
     src="/snippets/authorization-made-simple/guard.tsx"
   />
@@ -65,7 +71,9 @@ title: Authorization made simple
     It's time for a use case example. We are going to use the default layout
     rendered with <B>create-react-app</B>.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="tsx"
     linesCount={25}
     src="/snippets/authorization-made-simple/usage.tsx"
   />

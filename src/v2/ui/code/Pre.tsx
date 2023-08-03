@@ -1,9 +1,10 @@
-import React, { memo } from "react"
+import React from "react"
 import PrismSnippet, { defaultProps, PrismTheme } from "prism-react-renderer"
-import styled from "styled-components"
-import type { PreProps } from "./models"
+import styled, { keyframes } from "styled-components"
+import type { HighlightStatus, PreProps, Range } from "./models"
 import { S } from "../../../ui"
 import { pre_config } from "./consts"
+import { useClipboard } from "../../../utils/useClipboard"
 
 const SNIPPET_THEME: PrismTheme = {
   plain: { color: "#fff", backgroundColor: "#282a36" },
@@ -47,7 +48,25 @@ const SNIPPET_THEME: PrismTheme = {
   ],
 }
 
+const animateFragments = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`
+
 const Container = styled.div`
+  &.animated {
+    & .token-line {
+      * {
+        animation: ${animateFragments} 1s ease-in-out 0s forwards;
+        opacity: 0;
+      }
+    }
+  }
+
   pre {
     font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
     font-size: 16px;
@@ -71,6 +90,30 @@ const Container = styled.div`
     .token-line {
       display: table-row;
       height: ${pre_config.line_height}px;
+
+      &.changed {
+        background: #383838;
+
+        .line-number::after {
+          content: "•";
+        }
+      }
+
+      &.added {
+        background: rgba(0, 255, 0, 0.1);
+
+        .line-number::after {
+          content: "+";
+        }
+      }
+
+      &.deleted {
+        background: rgba(250, 36, 36, 0.2);
+
+        .line-number::after {
+          content: "-";
+        }
+      }
     }
 
     .line-number {
@@ -82,6 +125,7 @@ const Container = styled.div`
       position: relative;
 
       &::after {
+        margin-left: 4px;
         position: absolute;
       }
     }
@@ -96,30 +140,99 @@ const Container = styled.div`
   }
 `
 
-const Pre = memo(
-  ({ children, lang = "javascript", linesOff, description }: PreProps) => {
-    return (
-      <Container className="ui-snippet">
-        <PrismSnippet
-          {...defaultProps}
-          theme={SNIPPET_THEME}
-          code={children}
-          language={lang}
-        >
-          {({ className, style, tokens, getLineProps, getTokenProps }) => (
-            <pre className={className} style={style}>
-              {linesOff
-                ? tokens.map((line, i) => (
-                    <div key={i} {...getLineProps({ line, key: i })}>
+const flatRange = (range: Range): number[] => {
+  const flattenedRange = range.reduce<number[]>((acc, item) => {
+    const tuple = Array.isArray(item) ? item : [item]
+
+    if (tuple.some(value => value <= 0)) {
+      throw Error("Less than 1 are not allowed")
+    }
+
+    const isRange = tuple.length === 2
+    if (isRange) {
+      const [first, second] = tuple
+
+      if (first > second) {
+        throw Error("First value cannot be greater than second one")
+      }
+      for (let i = first; i <= second; i++) {
+        acc.push(i)
+      }
+    }
+
+    return acc
+  }, [])
+
+  return flattenedRange
+}
+
+const Pre = ({
+  children,
+  lang = "javascript",
+  linesOff,
+  description,
+  added = [],
+  changed = [],
+  deleted = [],
+  animated,
+  Header,
+  Footer,
+}: PreProps) => {
+  const { copy } = useClipboard()
+  const getHighlightStatus = (idx: number): HighlightStatus => {
+    const line = idx + 1
+
+    if (flatRange(added).includes(line)) {
+      return "added"
+    }
+
+    if (flatRange(deleted).includes(line)) {
+      return "deleted"
+    }
+
+    if (flatRange(changed).includes(line)) {
+      return "changed"
+    }
+
+    return ""
+  }
+
+  return (
+    <Container className={`ui-snippet${animated ? " animated" : ""}`}>
+      {Header && Header({ copy: () => copy(children) })}
+      <PrismSnippet
+        {...defaultProps}
+        theme={SNIPPET_THEME}
+        code={children}
+        language={lang}
+      >
+        {({ className, style, tokens, getLineProps, getTokenProps }) => (
+          <pre className={className} style={style}>
+            {linesOff
+              ? tokens.map((line, i) => {
+                  const status = getHighlightStatus(i)
+
+                  return (
+                    <div
+                      key={i}
+                      {...getLineProps({ line, className: status, key: i })}
+                    >
                       <div className="line-content">
                         {line.map((token, key) => (
                           <span key={key} {...getTokenProps({ token, key })} />
                         ))}
                       </div>
                     </div>
-                  ))
-                : tokens.map((line, i) => (
-                    <div key={i} {...getLineProps({ line, key: i })}>
+                  )
+                })
+              : tokens.map((line, i) => {
+                  const status = getHighlightStatus(i)
+
+                  return (
+                    <div
+                      key={i}
+                      {...getLineProps({ line, className: status, key: i })}
+                    >
                       <div className="line-number">{i + 1}</div>
                       <div className="line-content">
                         {line.map((token, key) => (
@@ -127,18 +240,19 @@ const Pre = memo(
                         ))}
                       </div>
                     </div>
-                  ))}
-            </pre>
-          )}
-        </PrismSnippet>
-        {description && (
-          <S className="description" italic>
-            {description}
-          </S>
+                  )
+                })}
+          </pre>
         )}
-      </Container>
-    )
-  }
-)
+      </PrismSnippet>
+      {Footer && Footer({ copy: () => copy(children) })}
+      {description && (
+        <S className="description" italic>
+          {description}
+        </S>
+      )}
+    </Container>
+  )
+}
 
 export { Pre }

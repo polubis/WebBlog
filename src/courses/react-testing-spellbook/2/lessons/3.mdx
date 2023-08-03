@@ -18,7 +18,9 @@ description: We'll write first unit test for newly created React component.
     customizable. We'll use approach called <B>types first</B> - first
     interfaces, implementation later:{' '}
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="ts"
     src='https://raw.githubusercontent.com/polubis/Snippets/main/defs.ts'
     linesCount={31}
     description='We mixed native button properties with ours'
@@ -27,7 +29,9 @@ description: We'll write first unit test for newly created React component.
     Inside <B>consts.ts</B> file we'll store constants. We want to limit options
     for better <B>type-safety</B>.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="ts"
     src='https://raw.githubusercontent.com/polubis/Snippets/main/consts.ts'
     linesCount={6}
     description='You can choose value from 1 to 5, other are unsupported'
@@ -35,7 +39,9 @@ description: We'll write first unit test for newly created React component.
   <M>
     Take a look at implementation for <B>Button</B> component:
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="tsx"
     src='https://raw.githubusercontent.com/polubis/Snippets/main/button.tsx'
     linesCount={21}
     description='A lot of default properties'
@@ -53,7 +59,9 @@ description: We'll write first unit test for newly created React component.
   </M>
   <List items='Class names creation,Option to pass other properties,Option to pass any children' />
   <M>So let's write first test - the easiest one: </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="tsx"
     src='https://raw.githubusercontent.com/polubis/Snippets/main/button.test.tsx'
     linesCount={12}
     description='Render function used to simulate rendering and HTML nodes creation'
@@ -93,7 +101,9 @@ description: We'll write first unit test for newly created React component.
   <XL>Adding missing tests</XL>
   <M>Let's add tests for: </M>
   <List items='Class names creation,Option to pass other properties' />
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="tsx"
     src='https://raw.githubusercontent.com/polubis/Snippets/main/button-more.test.tsx'
     linesCount={25}
   />
@@ -130,7 +140,7 @@ description: We'll write first unit test for newly created React component.
     to find these and replace them. After change our fragile test description
     will be:
   </M>
-  <Snippet>{`it('[FRAGILE] assigns class names by properties')`}</Snippet>
+  <Code mode="static" lang="ts">{`it('[FRAGILE] assigns class names by properties')`}</Code>
   <Hint hasBg>
     As a developer you decide which suites are valuable for you. Tests should
     save you from bugs and regression instead of being perfect and pretty. It's

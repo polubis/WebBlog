@@ -23,7 +23,7 @@ description: We will divide the tests based on certain predicates and determine 
     and answer concrete questions.
   </M>
   <M>In the context of a pizza creation it will be the following situations:</M>
-  <Snippet>
+  <Code mode="static" lang="ts">
     {`
 describe("Pizza meets standards when", () => {
   // Take a meter and measure this.
@@ -42,7 +42,7 @@ describe("Pizza meets standards when", () => {
   it("plate is clean", () => {});
 });
     `}
-  </Snippet>
+  </Code>
   <M>
     <B>Integration tests</B> verifies cooperation. They are also quite fast.
     When we write them, we don't focus on specific things as in unit tests but
@@ -53,7 +53,7 @@ describe("Pizza meets standards when", () => {
     was made according to the recipe in the book. Below is an example of such
     tests:
   </M>
-  <Snippet>
+  <Code mode="static" lang="ts">
     {`
 describe("Pizza meets standards when", () => {
   // We assume that the recipe contains the necessary steps.
@@ -65,7 +65,7 @@ describe("Pizza meets standards when", () => {
   it("the person making the pizza is supervised by the cook", () => {});
 });
     `}
-  </Snippet>
+  </Code>
   <M>
     <B>E2e tests</B> focus on the user's perspective, not the implementation.
     They are technologically agnostic and usually execute for a long time (they
@@ -76,13 +76,13 @@ describe("Pizza meets standards when", () => {
     and based on what recipe - we simply ask the customer what he thinks about
     the taste (the customer is our application).
   </M>
-  <Snippet>
+  <Code mode="static" lang="ts">
     {`
 describe("Pizza meets standards when", () => {
   it("customer enjoys the taste", () => {});
 });
     `}
-  </Snippet>
+  </Code>
 </Section>
 
 <Summary>

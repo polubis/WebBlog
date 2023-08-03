@@ -27,7 +27,7 @@ const ErrorsSection = () => {
         <L>
           <Li>Prelude, Section, Example, Summary, Demo</Li>
           <Li>L, Li</Li>
-          <Li>Snippet</Li>
+          <Li>Code</Li>
           <Li>Img</Li>
           <Li>Hint, M, XL, A, B</Li>
         </L>

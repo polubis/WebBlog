@@ -42,7 +42,7 @@ export const SnippetCreatorSectionContent = () => {
       <XL>{home.t.snippet_creator_heading}</XL>
       <M>{home.t.snippet_creator_description}</M>
       <CodeFrames frames={home.showcase_frames} />
-      <Link className="button primary upper" to={layout.routes.creator.to}>
+      <Link className="button primary upper" to={layout.routes.snippet_creator.to}>
         {home.t.show_me}
       </Link>
     </Container>

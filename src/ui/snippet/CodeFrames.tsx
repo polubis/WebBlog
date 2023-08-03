@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, ReactNode, useState } from "react"
 import { isInSSR } from "../../utils/isInSSR"
-import { Code } from "./Code"
 import { useCounter } from "../../utils/useCounter"
 import { useInterval } from "../../utils/useInterval"
+import { Code } from "../../v2/ui/code/Code"
 
 type Frames = string[]
 
@@ -18,7 +18,6 @@ export interface CodeFramesProps {
   className?: string
   footer?: (payload: FooterPayload) => ReactNode
   autoPlayOnInit?: boolean
-  preserveSpace?: boolean
 }
 
 export const preserveSpaceForFrames = (frames: Frames): Frames => {
@@ -30,7 +29,7 @@ export const preserveSpaceForFrames = (frames: Frames): Frames => {
   )
 
   const enhanced = frames.map((code, idx) => {
-    let enhancedCode = code
+    let enhancedCode = code.trim()
     const diff = max - splitted[idx].length
 
     for (let i = 0; i < diff; i++) {
@@ -44,10 +43,8 @@ export const preserveSpaceForFrames = (frames: Frames): Frames => {
 }
 
 const CodeFrames = ({
-  className,
   delay,
   frames,
-  preserveSpace = true,
   footer,
   autoPlayOnInit = true,
 }: CodeFramesProps) => {
@@ -59,10 +56,7 @@ const CodeFrames = ({
     onTick: counter.next,
   })
 
-  const enhancedFrames = useMemo(
-    () => (preserveSpace ? preserveSpaceForFrames(frames) : frames),
-    [frames, preserveSpace]
-  )
+  const enhancedFrames = useMemo(() => preserveSpaceForFrames(frames), [frames])
 
   useEffect(() => {
     if (isInSSR()) {
@@ -78,15 +72,17 @@ const CodeFrames = ({
 
   return (
     <Code
-      className={className}
+      mode="static"
+      skipTrim
       animated
-      footer={
+      Footer={
         footer
-          ? footer({
-              counter,
-              autoPlay,
-              setAutoPlay,
-            })
+          ? () =>
+              footer({
+                counter,
+                autoPlay,
+                setAutoPlay,
+              })
           : undefined
       }
     >

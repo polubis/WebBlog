@@ -31,7 +31,9 @@ description: We'll write basic unit tests for generic functions.
   <M>
     Take a look at following implementation of <B>map</B>:
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="ts"
     src="https://raw.githubusercontent.com/polubis/Snippets/main/map.ts"
     description="Map function in a functional paradigm"
     linesCount={18}
@@ -50,12 +52,16 @@ description: We'll write basic unit tests for generic functions.
       restaurant
     </B> metaphor.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="ts"
     src="https://raw.githubusercontent.com/polubis/Snippets/main/map.test.ts"
     linesCount={7}
   />
   <M>Let's add the implementation for tests.</M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="ts"
     src="https://raw.githubusercontent.com/polubis/Snippets/main/map-full.test.ts"
     linesCount={29}
     description="We added enter to separate execution from expectation"
@@ -69,7 +75,9 @@ description: We'll write basic unit tests for generic functions.
     I think it's bad when developers using implementation details or refers to
     an API in test names.{" "}
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="ts"
     src="https://raw.githubusercontent.com/polubis/Snippets/main/do-and-dont-do.ts"
     linesCount={13}
   />
@@ -80,7 +88,9 @@ description: We'll write basic unit tests for generic functions.
     API shape. It will reduce amount of time to maintain code and will make
     tests like documentation.
   </M>
-  <Snippet
+  <Code
+    mode="dynamic"
+    lang="ts"
     src="https://raw.githubusercontent.com/polubis/Snippets/main/map-good.ts"
     linesCount={13}
     description="Less work - better for business and developers"

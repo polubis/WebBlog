@@ -42,7 +42,7 @@ description: How to write multi-step forms, change screens or handle simple rout
     src="Type safety and protection from passing not allowed props"
     src="https://raw.githubusercontent.com/polubis/Snippets/main/useStepperDemo.gif"
   />
-  <Snippet description="These functions blocks the possibility of passing bad parameters - they're type-guards!">{`import { useStepper } from './use-stepper';
+  <Code lang="tsx" mode="static" description="These functions blocks the possibility of passing bad parameters - they're type-guards!">{`import { useStepper } from './use-stepper';
  
 interface EmailStepProps {
   onChange: React.ChangeEventHandler<HTMLInputElement>;
@@ -99,15 +99,23 @@ const RegisterForm = () => {
   throw Error(
     'You did something wrong - there may be additional unsupported step!'
   );
-};`}</Snippet>
+};`}</Code>
 </Section>
 
 <Section>
   <XL>The implementation of useStepper</XL>
-  <Snippet description="Types for useStepper" src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/main/system/libs/figa-hooks/src/lib/use-stepper/defs.ts" linesCount={47} />
-  <Snippet description="Implementation of useStepper" src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/main/system/libs/figa-hooks/src/lib/use-stepper/use-stepper.tsx" linesCount={75} />
-  <Snippet description="Tests for useStepper" src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/main/system/libs/figa-hooks/src/lib/use-stepper/use-stepper.test.tsx" linesCount={106} />
-  <Snippet description="Re-exports" src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/main/system/libs/figa-hooks/src/lib/use-stepper/index.ts" linesCount={2} />
+  <Code
+    mode="dynamic"
+    lang="ts" description="Types for useStepper" src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/main/system/libs/figa-hooks/src/lib/use-stepper/defs.ts" linesCount={47} />
+  <Code
+    mode="dynamic"
+    lang="tsx" description="Implementation of useStepper" src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/main/system/libs/figa-hooks/src/lib/use-stepper/use-stepper.tsx" linesCount={75} />
+  <Code
+    mode="dynamic"
+    lang="tsx" description="Tests for useStepper" src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/main/system/libs/figa-hooks/src/lib/use-stepper/use-stepper.test.tsx" linesCount={106} />
+  <Code
+    mode="dynamic"
+    lang="ts" description="Re-exports" src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/main/system/libs/figa-hooks/src/lib/use-stepper/index.ts" linesCount={2} />
 </Section>
 
 <Example>

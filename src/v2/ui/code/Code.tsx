@@ -5,8 +5,17 @@ import { pre_config } from "./consts"
 import { useIsVisible } from "../../../utils/useIsVisible"
 import { useFetch } from "../../../utils/useFetch"
 
-const getCodeSetup = (linesCount: number, Loading: CodeProps["Loading"]) => {
-  const height = linesCount * pre_config.line_height + pre_config.padding_height
+const getCodeSetup = (
+  linesCount: number,
+  hasHeader: boolean,
+  hasFooter: boolean,
+  Loading: CodeProps["Loading"]
+) => {
+  const height =
+    linesCount * pre_config.line_height +
+    pre_config.padding_height +
+    (hasHeader ? pre_config.header_height : 0) +
+    (hasFooter ? pre_config.footer_height : 0)
   const style = {
     height: height + "px",
     borderRadius: "4px",
@@ -19,7 +28,7 @@ const getCodeSetup = (linesCount: number, Loading: CodeProps["Loading"]) => {
         loader: () => import("./Pre").then(m => m.Pre),
         loading: () => (
           <div className="ui-snippet" style={style}>
-            <Loading />
+            {Loading && <Loading />}
           </div>
         ),
       }),
@@ -29,19 +38,28 @@ const getCodeSetup = (linesCount: number, Loading: CodeProps["Loading"]) => {
   return { Pre, style }
 }
 
-const StaticCode = (props: StaticCodeProps) => {
+const StaticCode = ({
+  children,
+  Loading,
+  skipTrim,
+  ...props
+}: StaticCodeProps) => {
   const { isVisible, ref } = useIsVisible({ threshold: 0.1, useOnce: true })
 
-  const code = props.children.trim()
-  const { Loading } = props
+  const code = skipTrim ? children : children.trim()
 
-  const { style, Pre } = getCodeSetup(code.split("\n").length, Loading)
+  const { style, Pre } = getCodeSetup(
+    code.split("\n").length,
+    !!props.Header,
+    !!props.Footer,
+    Loading
+  )
 
   return isVisible ? (
     <Pre {...props} children={code} />
   ) : (
     <div className="ui-snippet" ref={ref} style={style}>
-      <Loading />
+      {Loading && <Loading />}
     </div>
   )
 }
@@ -52,11 +70,17 @@ const DynamicCode = ({
   Loading,
   Error,
   onError,
+  skipTrim,
   ...props
 }: DynamicCodeProps) => {
   const [state, fetchCode, abort] = useFetch<string>()
   const { isVisible, ref } = useIsVisible({ threshold: 0.1, useOnce: true })
-  const { style, Pre } = getCodeSetup(linesCount, Loading)
+  const { style, Pre } = getCodeSetup(
+    linesCount,
+    !!props.Header,
+    !!props.Footer,
+    Loading
+  )
 
   useEffect(() => {
     if (isVisible) {
@@ -65,7 +89,8 @@ const DynamicCode = ({
           const res = await fetch(src, { signal })
 
           if (res.ok) {
-            return resolve((await res.text()).trim())
+            const code = await res.text()
+            return resolve(skipTrim ? code : code.trim())
           }
 
           onError && onError()
@@ -87,7 +112,7 @@ const DynamicCode = ({
   if (state.type === "idle") {
     return (
       <div className="ui-snippet" ref={ref} style={style}>
-        <Loading />
+        {Loading && <Loading />}
       </div>
     )
   }
@@ -95,14 +120,14 @@ const DynamicCode = ({
   if (state.type === "pending") {
     return (
       <div className="ui-snippet" style={style}>
-        <Loading />
+        {Loading && <Loading />}
       </div>
     )
   }
 
   return (
     <div className="ui-snippet" style={style}>
-      <Error />
+      {Error && <Error />}
     </div>
   )
 }

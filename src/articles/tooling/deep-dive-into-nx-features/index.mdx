@@ -141,7 +141,7 @@ One such tool is the <B>NRWL Extension</B>, or <B>NX</B> for short. In this arti
 <Img border src="https://nx.dev/documentation/shared/images/caching/nx-hashing.svg" />
 <M>How to optimise <B>cache</B>?</M>
 <M><B>Source code hash inputs</B> - it can specify which files will be considered when building the hash.</M>
-<Snippet>
+<Code mode="static" lang="json">
 {`{
   "namedInputs": {
     "default": ["{projectRoot}/**/*"],
@@ -156,9 +156,9 @@ One such tool is the <B>NRWL Extension</B>, or <B>NX</B> for short. In this arti
     }
   }
 }
-`}</Snippet>
+`}</Code>
 <M><B>Runtime hash inputs</B> - it can specify additional parameters that will be substituted when starting the task, based on which the <B>hash</B> will be built.</M>
-<Snippet>
+<Code mode="static" lang="json">
 {`{
   "targetDefaults": {
     "build": {
@@ -166,7 +166,7 @@ One such tool is the <B>NRWL Extension</B>, or <B>NX</B> for short. In this arti
     }
   }
 }
-`}</Snippet>
+`}</Code>
 <M><B>Cache sharing</B></M>
 <M>The cache can be shared between multiple developers as well as <B>CI</B> tools, as part of a <B>self-hosted</B> service and in the <B>NX Cloud</B>.
 </M>
@@ -208,7 +208,7 @@ All you have to do is run the command: <B>npx nx graph</B>.
 <M>Appropriate configuration allows you to create rules that allow or block the use of given libraries or groups of libraries by others.</M>
 <M>The whole concept is about tagging libraries and applications appropriately:
 </M>
-<Snippet>{`{
+<Code mode="static" lang="json">{`{
   "nx": {
     "tags": ["scope:client"]
   }
@@ -223,10 +223,10 @@ All you have to do is run the command: <B>npx nx graph</B>.
     "tags": ["scope:shared"]
   }
 }
-`}</Snippet>
+`}</Code>
 <M>Then you need to write the rules in the <B>ESLint</B> configuration file:
 </M>
-<Snippet>{`{
+<Code mode="static" lang="json">{`{
   "@nrwl/nx/enforce-module-boundaries": [
     "error",
     {
@@ -248,7 +248,7 @@ All you have to do is run the command: <B>npx nx graph</B>.
     }
   ]
 }
-`}</Snippet>
+`}</Code>
 <M>After configuring the rules, just execute the <B>nx lint</B> command, or configure them as part of the <B>CI</B>, and we can be safe about proper dependency injection in our project.</M>
 <Hint hasBg>Such groups can be layers or modules of a given solution.</Hint>
 </Section>
