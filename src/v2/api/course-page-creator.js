@@ -20,8 +20,6 @@ const CoursePageCreator = ({ createPage, makeComponent }) => ({
     title,
     tags,
     technologies,
-    duration,
-    lessons_count,
     description,
     author,
     tech_reviewer,
@@ -30,55 +28,73 @@ const CoursePageCreator = ({ createPage, makeComponent }) => ({
     chapters,
   } = course
 
+  const courseChapters = chapters.map(chapter => ({
+    duration: chapter.lessons
+      .filter(({ deprecated }) => !deprecated)
+      .reduce((acc, { duration }) => acc + duration, 0),
+    title: chapter.title,
+    lessons: chapter.lessons
+      .filter(({ deprecated }) => !deprecated)
+      .map(lesson => ({
+        title: lesson.title,
+        duration: lesson.duration,
+        path: lesson.path,
+      })),
+  }))
+  const lessons_count = chapters.reduce((acc, chapter) => {
+    return acc + chapter.lessons.filter(({ deprecated }) => !deprecated).length
+  }, 0)
+
+  const context = {
+    course: {
+      t: translation[lang],
+      ga_page,
+      url,
+      mdate,
+      thumbnail: thumbnail.full,
+      chapters: courseChapters,
+      cdate,
+      status,
+      title,
+      lessons_count,
+      tags,
+      description,
+      technologies,
+      duration: chapters.reduce(
+        (totalAcc, chapter) =>
+          totalAcc +
+          chapter.lessons
+            .filter(({ deprecated }) => !deprecated)
+            .reduce((acc, { duration }) => acc + duration, 0),
+        0
+      ),
+      author: {
+        ...author,
+        avatar: {
+          medium: author.avatar.medium,
+          small: author.avatar.small,
+        },
+      },
+      tech_reviewer: {
+        ...tech_reviewer,
+        avatar: {
+          small: tech_reviewer.avatar.small,
+        },
+      },
+      ling_reviewer: {
+        ...ling_reviewer,
+        avatar: {
+          small: ling_reviewer.avatar.small,
+        },
+      },
+    },
+    layout,
+  }
+
   createPage({
     path: course.path,
     component: makeComponent(),
-    context: {
-      course: {
-        t: translation[lang],
-        ga_page,
-        url,
-        mdate,
-        thumbnail: thumbnail.full,
-        chapters: chapters.map(chapter => ({
-          duration: chapter.duration,
-          title: chapter.title,
-          lessons: chapter.lessons.map(lesson => ({
-            title: lesson.title,
-            duration: lesson.duration,
-            path: lesson.path,
-          })),
-        })),
-        cdate,
-        status,
-        title,
-        lessons_count,
-        tags,
-        description,
-        technologies,
-        duration,
-        author: {
-          ...author,
-          avatar: {
-            medium: author.avatar.medium,
-            small: author.avatar.small,
-          },
-        },
-        tech_reviewer: {
-          ...tech_reviewer,
-          avatar: {
-            small: tech_reviewer.avatar.small,
-          },
-        },
-        ling_reviewer: {
-          ...ling_reviewer,
-          avatar: {
-            small: ling_reviewer.avatar.small,
-          },
-        },
-      },
-      layout,
-    },
+    context,
   })
 }
 

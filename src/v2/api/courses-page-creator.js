@@ -21,11 +21,18 @@ const CoursesPageCreator = ({
         ga_page,
         url: layout.site_url + path,
         courses: courses.map(
-          ({ title, description, status, duration, tags, path }) => ({
+          ({ title, description, status, tags, path, chapters }) => ({
             title,
             description,
             status,
-            duration,
+            duration: chapters.reduce(
+              (totalAcc, chapter) =>
+                totalAcc +
+                chapter.lessons
+                  .filter(({ deprecated }) => !deprecated)
+                  .reduce((acc, { duration }) => acc + duration, 0),
+              0
+            ),
             tags,
             path,
           })

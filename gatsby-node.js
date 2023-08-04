@@ -280,6 +280,7 @@ exports.createPages = async ({ actions, graphql }) => {
           frontmatter {
             name
             duration
+            deprecated
             description
           }
         }
@@ -479,7 +480,7 @@ exports.createPages = async ({ actions, graphql }) => {
     thumbnail: articlesThumbnail,
     authorsAvatars,
   })
-
+  
   createCoursesPage({ courses: enCourses, createPage, enLayout })
   createManyCoursesPages({ courses: enCourses, createPage, enLayout })
   createManyLessonsPages({ courses: enCourses, createPage, enLayout })
