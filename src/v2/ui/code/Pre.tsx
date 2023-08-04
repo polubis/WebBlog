@@ -118,7 +118,9 @@ const Container = styled.div`
   }
 
   .description {
-    margin-top: 4px;
+    display: block;
+    padding-top: 4px;
+    height: ${pre_config.description_height}px;
   }
 `
 

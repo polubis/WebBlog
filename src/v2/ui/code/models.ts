@@ -22,10 +22,17 @@ export interface PreProps {
   Footer?: (props: InjectedPreProps) => ReactNode
 }
 
+export interface RollerProps {
+  onExpand: () => void
+  children: ReactNode
+}
+
 export interface StaticCodeProps extends PreProps {
   mode: "static"
   skipTrim?: boolean
+  rolled?: boolean
   Loading?: () => JSX.Element
+  Roller?: (props: RollerProps) => JSX.Element
 }
 
 export interface DynamicCodeProps extends Omit<PreProps, "children"> {
@@ -33,9 +40,11 @@ export interface DynamicCodeProps extends Omit<PreProps, "children"> {
   linesCount: number
   skipTrim?: boolean
   src: string
+  rolled?: boolean
   Error?: () => JSX.Element
   Loading?: () => JSX.Element
   onError?: () => void
+  Roller?: (props: RollerProps) => void
 }
 
 export interface InteractiveProps {

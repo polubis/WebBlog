@@ -63,25 +63,6 @@ const section = `<Section>
     </A>
     .
   </M>
-  <Img
-    src="/assets/chromatic-and-storybook/storybook.gif"
-    description="Storybook presented"
-  />
-  <Code
-    mode="dynamic"
-    description="Sample with code"
-    linesCount={23}
-    src="https://raw.githubusercontent.com/polubis/Chromatic-and-storybook/main/src/ui/input-field/InputField.stories.tsx"
-  />
-  <L ordered>
-    <Li>I'm ordered list item</Li>
-  </L>
-  <L>
-    <Li>I'm normal list element</Li>
-  </L>
-  <Hint hasBg>
-    This is an example of hint and <B>bolding</B>.
-  </Hint>
 </Section>
 `
 const link = `<A outside href="https://github.com/polubis/CRA-TEMPLATE">
@@ -133,6 +114,13 @@ const code = `<Code
   linesCount={23}
   src="https://raw.githubusercontent.com/polubis/Chromatic-and-storybook/main/src/ui/input-field/InputField.stories.tsx"
 />`
+const static_code = `<Code rolled mode="static" lang="ts">{\`import type {
+  ScrollAxis,
+  ScrollConfig,
+  ScrollReturn,
+  ScrollResult,
+  ScrollState,
+} from './defs';\`}</Code>`
 
 module.exports = {
   default: default_template,
@@ -149,4 +137,5 @@ module.exports = {
   example,
   summary,
   code,
+  static_code,
 }

@@ -8,4 +8,5 @@ export const pre_config = {
   line_height: 24,
   header_height: 50,
   footer_height: 50,
+  description_height: 28,
 }

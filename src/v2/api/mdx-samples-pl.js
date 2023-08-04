@@ -60,25 +60,6 @@ const section = `<Section>
       linku
     </A>.
   </M>
-  <Img
-    src="/assets/chromatic-and-storybook/storybook.gif"
-    description="Przykładowe zdjęcie"
-  />
-  <Code
-    mode="dynamic"
-    description="Przykładowy fragment kodu"
-    linesCount={23}
-    src="https://raw.githubusercontent.com/polubis/Chromatic-and-storybook/main/src/ui/input-field/InputField.stories.tsx"
-  />
-  <L ordered>
-    <Li>Element listy numerowanej</Li>
-  </L>
-  <L>
-    <Li>Element normalnej listy</Li>
-  </L>
-  <Hint hasBg>
-    Przykład użycia "podpowiedzi" oraz <B>pogrubienia</B> czcionki.
-  </Hint>
 </Section>
 `
 const hint = `<Hint hasBg>
@@ -129,6 +110,13 @@ const code = `<Code
   linesCount={23}
   src="https://raw.githubusercontent.com/polubis/Chromatic-and-storybook/main/src/ui/input-field/InputField.stories.tsx"
 />`
+const static_code = `<Code rolled mode="static" lang="ts">{\`import type {
+  ScrollAxis,
+  ScrollConfig,
+  ScrollReturn,
+  ScrollResult,
+  ScrollState,
+} from './defs';\`}</Code>`
 
 module.exports = {
   default: default_template,
@@ -144,4 +132,5 @@ module.exports = {
   example,
   summary,
   code,
+  static_code,
 }
