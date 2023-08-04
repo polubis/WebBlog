@@ -101,6 +101,7 @@ const CourseModel = (
       let chapterLessonsCollection = chapterLessons.map(lesson => ({
         title: lesson.frontmatter.name,
         duration: lesson.frontmatter.duration,
+        deprecated: lesson.frontmatter.deprecated,
         ga_page:
           ga_page +
           "/" +

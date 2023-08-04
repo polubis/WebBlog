@@ -123,7 +123,7 @@ const HomePageCreator = ({ createPage, makeComponent }) => ({
   }
   const showcase_frames = {
     en: [...REFACTOR_SAMPLE_EN],
-    pl: [...REFACTOR_SAMPLE_PL]
+    pl: [...REFACTOR_SAMPLE_PL],
   }
 
   createPage({
@@ -141,7 +141,9 @@ const HomePageCreator = ({ createPage, makeComponent }) => ({
         showcase_frames: showcase_frames[lang],
         lessons_count: courses.reduce((acc, course) => {
           const lessonsCount = course.chapters.reduce(
-            (lessonsAcc, chapter) => lessonsAcc + chapter.lessons.length,
+            (lessonsAcc, chapter) =>
+              lessonsAcc +
+              chapter.lessons.filter(({ deprecated }) => !deprecated).length,
             0
           )
           return acc + lessonsCount

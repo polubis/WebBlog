@@ -93,26 +93,14 @@ const Container = styled.div`
 
       &.changed {
         background: #383838;
-
-        .line-number::after {
-          content: "•";
-        }
       }
 
       &.added {
         background: rgba(0, 255, 0, 0.1);
-
-        .line-number::after {
-          content: "+";
-        }
       }
 
       &.deleted {
         background: rgba(250, 36, 36, 0.2);
-
-        .line-number::after {
-          content: "-";
-        }
       }
     }
 
@@ -122,12 +110,6 @@ const Container = styled.div`
       padding-right: 12px;
       user-select: none;
       opacity: 0.5;
-      position: relative;
-
-      &::after {
-        margin-left: 4px;
-        position: absolute;
-      }
     }
 
     .line-content {
