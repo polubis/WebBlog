@@ -81,6 +81,10 @@ html {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.14);
 }
 
+.tshadow1 {
+  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.51);
+}
+
 .r1 {
   border-radius: 4px;
 }
@@ -147,4 +151,8 @@ a.button {
 .button.primary {
   border: 1px solid #ff7878;
   color: #ff7878;
+}
+
+.tcenter {
+  text-align: center;
 }

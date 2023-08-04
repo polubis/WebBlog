@@ -16,44 +16,10 @@ import { useCustomGAEvent } from "../../utils/useCustomGAEvent"
 import type {
   CodeProps,
   DynamicCodeProps,
-  InjectedPreProps,
   StaticCodeProps,
 } from "../ui/code/models"
-import { Interactive } from "../ui/code/Interactive"
-import { TinyButton } from "../ui/code/TinyButton"
-import { useLayoutProvider } from "./LayoutProvider"
-import styled from "styled-components"
-import { pre_config } from "../ui/code/consts"
-
-const CodeHeaderContainer = styled.div`
-  height: ${pre_config.header_height}px;
-  padding: 8px 12px;
-  background: #3e4360;
-  border-top-left-radius: 4px;
-  border-bottom: 1px solid #6c6c6e;
-  border-top-right-radius: 4px;
-`
-
-const CodeHeader = ({ copy }: InjectedPreProps) => {
-  const layout = useLayoutProvider()
-
-  return (
-    <CodeHeaderContainer>
-      <Interactive>
-        {({ active, start }) => (
-          <TinyButton
-            onClick={() => {
-              start()
-              copy()
-            }}
-          >
-            {active ? `✂️ ${layout.t.copied}` : `✂️ ${layout.t.copy}`}
-          </TinyButton>
-        )}
-      </Interactive>
-    </CodeHeaderContainer>
-  )
-}
+import { CodeHeader } from "../containers/CodeHeader"
+import { CodeRoller } from "../containers/CodeRoller"
 
 const DynamicCode = (props: DynamicCodeProps) => {
   const { track } = useCustomGAEvent()
@@ -68,6 +34,7 @@ const DynamicCode = (props: DynamicCodeProps) => {
         track({ name: "rendering_code_error", link: props.src })
       }}
       Header={CodeHeader}
+      Roller={CodeRoller}
     />
   )
 }
@@ -79,6 +46,7 @@ const StaticCode = (props: StaticCodeProps) => {
       animated
       Header={CodeHeader}
       Loading={() => <CodePlaceholder label="loading" />}
+      Roller={CodeRoller}
     />
   )
 }

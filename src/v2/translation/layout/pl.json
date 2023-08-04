@@ -47,5 +47,10 @@
     "no": "Nie",
     "confirm": "Potwierdź",
     "just_a_moment": "Dosłownie chwilka :)",
-    "smth_wrong": "Coś poszło nie tak - spróbuj ponownie."
+    "smth_wrong": "Coś poszło nie tak - spróbuj ponownie.",
+    "roller": {
+        "title": "Ten snippecik jest trochę duży 🙀",
+        "description": "Postanowiliśmy go nie wyświetlać od razu. Jeżeli chcesz go zobaczyć to kliknij w poniższy przycisk.",
+        "btn_title": "Pokaż snippet"
+    }
 }

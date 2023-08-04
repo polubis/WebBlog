@@ -30,7 +30,8 @@
         "link": "Link",
         "bold": "Bold text",
         "hint": "Hint",
-        "code": "Code"
+        "code": "Code",
+        "static_code": "Static code"
     },
     "loader": {
         "heading": "Did you know that?",

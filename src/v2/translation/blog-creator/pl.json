@@ -30,7 +30,8 @@
         "link": "Link",
         "bold": "Pogrubiony tekst",
         "hint": "Podpowiedź",
-        "code": "Fragment z kodem"
+        "code": "Fragment z kodem",
+        "static_code": "Fragment ze statycznym kodem"
     },
     "loader": {
         "heading": "Trochę ciekawostek",
