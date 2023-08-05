@@ -7,7 +7,7 @@ import theme from "../../../../utils/theme"
 import { useCustomGAEvent } from "../../../../utils/useCustomGAEvent"
 import Button from "../../../../components/button/Button"
 import Divider from "../../../../components/divider/Divider"
-import { Validator, useForm } from "../../../../utils/useForm"
+import { useForm } from "../../../../utils/useForm"
 import { Signal, useFetch } from "../../../../utils/useFetch"
 import Section from "../../../../components/article/Section"
 import { useKeyPress } from "../../../../utils/useKeyPress"
@@ -23,6 +23,7 @@ import { useClipboard } from "../../../../utils/useClipboard"
 import { SnippetFrame } from "../../../core/models"
 import { useSnippetCreatorPageProvider } from "../SnippetCreatorPageProvider"
 import { useLayoutProvider } from "../../../providers/LayoutProvider"
+import { maxLength, minLength, required } from "../../../../utils/validators"
 
 const FinalScreen = styled.div`
   justify-content: center;
@@ -114,19 +115,6 @@ const createSnippet = async (signal: Signal, body: string): Promise<string> => {
 
   return result.data
 }
-
-const required = (message: string): Validator<string> => value =>
-  value === "" ? message : ""
-const minLength = (
-  limit: number,
-  message: string
-): Validator<string> => value =>
-  value.length <= limit ? `${message} >= ${limit}` : ""
-const maxLength = (
-  limit: number,
-  message: string
-): Validator<string> => value =>
-  value.length >= limit ? `${message} <= ${limit}` : ""
 
 export const CreateSnippetForm = ({
   frames,

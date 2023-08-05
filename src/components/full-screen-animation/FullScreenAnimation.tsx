@@ -19,7 +19,7 @@ const Container = styled.div<{ animated: boolean }>`
   bottom: 0;
   min-height: 100vh;
   background: ${theme.black};
-  z-index: 111;
+  z-index: 129;
 
   ${props =>
     props.animated &&
