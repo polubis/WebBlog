@@ -19,7 +19,12 @@ import type {
 import { Comment, TMap } from "../../core/models"
 import comments_en from "../../translation/comments/en.json"
 import comments_pl from "../../translation/comments/en.json"
-import { getAuth, signInWithPopup, GoogleAuthProvider, User } from "firebase/auth";
+import {
+  getAuth,
+  signInWithPopup,
+  GoogleAuthProvider,
+  User,
+} from "firebase/auth"
 
 const Context = createContext<CommentsProviderNullableCtx>(null)
 
@@ -39,10 +44,11 @@ const t: TMap<CommentsT> = {
 }
 
 const app = initializeApp(config)
-const auth = getAuth(app);
-const cache = new Map<string, Comment[]>()
+const auth = getAuth(app)
+const db = getFirestore(app)
+const provider = new GoogleAuthProvider()
 
-const provider = new GoogleAuthProvider();
+const cache = new Map<string, Comment[]>()
 
 const authorizeViaGoogle = async (): Promise<User> => {
   if (auth.currentUser) {
@@ -72,18 +78,23 @@ export const CommentsProvider = ({
       startAdd: async () => {
         if (state.is === "loaded") {
           try {
-            await authorizeViaGoogle();
-            setState({ is: "add", comments: [...state.comments] })
+            const user = await authorizeViaGoogle()
+            setState({ is: "add", comments: [...state.comments], user })
           } catch (error) {
+            setState({ is: "fail" })
           }
         }
       },
       startReadComments: () => {
-        if (state.is === "add" || state.is === 'add_fail') {
+        if (state.is === "add") {
           setState({ is: "loaded", comments: [...state.comments] })
         }
       },
       reset: () => {
+        if (state.is === "loading" || state.is === "adding") {
+          return
+        }
+
         setState({ is: "idle" })
       },
       load: async () => {
@@ -97,14 +108,13 @@ export const CommentsProvider = ({
         try {
           setState({ is: "loading" })
 
-          const db = getFirestore(app)
-
           const response = (await (
             await getDoc(doc(db, "comments", path))
           ).data()) as Record<string, Comment>
 
           if (response === undefined) {
             setState({ is: "loaded", comments: [] })
+            cache.set(path, [])
             return
           }
 
@@ -113,6 +123,7 @@ export const CommentsProvider = ({
               author: comment.author,
               content: comment.content,
               id,
+              rate: comment.rate,
               path,
             }))
             .sort((a, b) => {
@@ -124,25 +135,36 @@ export const CommentsProvider = ({
           cache.set(path, comments)
           setState({ is: "loaded", comments })
         } catch (error) {
-          setState({ is: "load_fail" })
+          setState({ is: "fail" })
         }
       },
       add: async comment => {
-        const { comments } = state as LoadedState
-
-        setState({ is: "adding", comments })
-
         try {
-          const db = getFirestore(app)
+          const user = auth.currentUser
+
+          if (!user) {
+            throw Error("Not authorized")
+          }
+
+          const { comments } = state as LoadedState
+
+          setState({ is: "adding", comments, user })
 
           const docRef = doc(db, "comments", path)
 
           const commentsDoc = await getDoc(docRef)
-          const id = v4()
+          const commentId = v4()
+          const author = {
+            id: user.uid,
+            nickname: user.displayName,
+            avatar: user.photoURL,
+          }
           const body = {
-            [v4()]: {
+            [commentId]: {
               content: comment.content,
-              author: comment.author,
+              rate: comment.rate,
+              author,
+              date: new Date().toISOString(),
             },
           }
 
@@ -154,10 +176,13 @@ export const CommentsProvider = ({
 
           setState({
             is: "loaded",
-            comments: [...comments, { ...comment, id, path }],
+            comments: [
+              ...comments,
+              { ...comment, id: commentId, path, author },
+            ],
           })
         } catch (error) {
-          setState({ is: "add_fail", comments })
+          setState({ is: "fail" })
         }
       },
     }),

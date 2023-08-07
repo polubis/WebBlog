@@ -14,7 +14,8 @@ const ArticlePageCreator = ({ createPage }) => ({
   makeSourceUrl,
   makeTranslationPath,
   makePath,
-}) => ({
+  getArticleRates,
+}) => async ({
   articles,
   authorsAvatars,
   articleThumbnails,
@@ -26,6 +27,8 @@ const ArticlePageCreator = ({ createPage }) => ({
     pl: article_pl,
     en: article_en,
   }
+
+  const rates = await getArticleRates()
 
   const data = sortedArticles.map((article, index) => {
     const { body } = article
@@ -50,6 +53,13 @@ const ArticlePageCreator = ({ createPage }) => ({
     const author = createUser(authorId, authors, authorsAvatars)
     const tech_reviewer = createUser(treviewerId, authors, authorsAvatars)
     const ling_reviewer = createUser(lreviewerId, authors, authorsAvatars)
+    const ga_page = makeGaPage({ slug })
+
+    const firebasePathParts = path.replace(/\//g, "-").split("-")
+    firebasePathParts.pop()
+    firebasePathParts.shift()
+    const fireBasePath = firebasePathParts.join("-")
+
     const articlePageObject = {
       author: {
         ...author,
@@ -79,12 +89,13 @@ const ArticlePageCreator = ({ createPage }) => ({
       tags,
       seniority: seniorityLevel,
       description,
+      rate: rates[fireBasePath],
       body,
       url: meta.site_url + path,
       read_time: readTime,
       slug,
-      path: makePath({ slug }),
-      ga_page: makeGaPage({ slug }),
+      path,
+      ga_page,
       source_url: makeSourceUrl({ slug, meta }),
       is_new: index === 0,
       technologies: createTechnologies(stack, technologiesAvatars),

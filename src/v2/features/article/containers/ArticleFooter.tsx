@@ -21,6 +21,7 @@ const Container = styled.div`
   }
 
   .section {
+    position: relative;
     background: #272727;
     padding: 28px;
     border-radius: 4px;
@@ -30,6 +31,13 @@ const Container = styled.div`
 
     ${M} {
       margin: 12px 0 24px 0;
+    }
+
+    .article-comment-rate {
+      right: 0;
+      top: 0;
+      padding: 12px;
+      position: absolute;
     }
   }
 
@@ -54,13 +62,14 @@ const Container = styled.div`
 
 const CommentsBox = () => {
   const article = useArticleProvider()
+  const layout = useLayoutProvider()
 
   return (
     <div className="section">
       <XL>{article.t.comments.header}</XL>
       <M>{article.t.comments.description}</M>
       <button title={article.t.comments.open} className="upper button primary">
-        {article.t.comments.open}
+        {layout.t.loading}
       </button>
     </div>
   )

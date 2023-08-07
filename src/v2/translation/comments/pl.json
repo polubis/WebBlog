@@ -1,8 +1,10 @@
 {
-    "comments": "Komentarze",
-    "add_comment": "Dodaj komentarz",
-    "close_comments": "Zamknij komentarze",
+    "comments": "Oceny",
+    "add_comment": "Oceń",
+    "close_comments": "Zamknij oceny",
     "nick": "Twoja ksywka",
-    "content": "Treść komentarza",
-    "lack_of_comments": "Póki co brak komentarzy"
+    "content": "Treść opinii",
+    "lack_of_comments": "Brak opinii. Bądź pierwszym komentującym!",
+    "rate": "Ocena",
+    "rate_description": "Pomiędzy 1-10"
 }

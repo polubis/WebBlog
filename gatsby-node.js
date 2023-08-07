@@ -19,6 +19,7 @@ const {
 const {
   SnippetCreatorPageCreator,
 } = require("./src/v2/api/snippet-creator-page-creator")
+const { getArticleRates } = require("./src/v2/api/setup-firebase")
 
 exports.onCreateWebpackConfig = ({ actions }) => {
   actions.setWebpackConfig({
@@ -371,9 +372,10 @@ exports.createPages = async ({ actions, graphql }) => {
     makeSourceUrl: ({ slug, meta }) =>
       meta.article_source_url + "/articles/" + slug,
     makeTranslationPath: ({ slug }) => "/pl/articles/" + slug + "/",
+    getArticleRates,
   })
 
-  const [enLayout, enArticles] = createEnglishArticlePages({
+  const [enLayout, enArticles] = await createEnglishArticlePages({
     articles: result.data.articles.nodes,
     authorsAvatars,
     articleThumbnails,
@@ -391,9 +393,10 @@ exports.createPages = async ({ actions, graphql }) => {
     makeSourceUrl: ({ slug, meta }) =>
       meta.article_source_url + "/articles/" + slug,
     makeTranslationPath: ({ slug }) => "/articles/" + slug + "/",
+    getArticleRates,
   })
 
-  const [plLayout, plArticles] = createPolishArticlePages({
+  const [plLayout, plArticles] = await createPolishArticlePages({
     articles: result.data.translatedArticles.nodes,
     authorsAvatars,
     articleThumbnails,
@@ -480,7 +483,7 @@ exports.createPages = async ({ actions, graphql }) => {
     thumbnail: articlesThumbnail,
     authorsAvatars,
   })
-  
+
   createCoursesPage({ courses: enCourses, createPage, enLayout })
   createManyCoursesPages({ courses: enCourses, createPage, enLayout })
   createManyLessonsPages({ courses: enCourses, createPage, enLayout })

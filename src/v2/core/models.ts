@@ -92,6 +92,8 @@ export interface Layout extends Meta {
   articles: MinimumArticle[]
 }
 
+export type Rate = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
+
 export interface Technology {
   id: Id
   avatar: FixedObject
@@ -112,6 +114,7 @@ export interface ArticlePageModel {
   ga_page: string
   path: string
   is_new: boolean
+  rate?: Rate
   read_time: number
   cdate: CDate
   source_url: Url
@@ -316,11 +319,17 @@ export interface Snippet {
   frames: Omit<SnippetFrame, "id">[]
 }
 
+
 export interface Comment {
   id: Id
   path: Path
   content: string
-  author: string
+  rate: Rate
+  author: {
+    id: Id
+    avatar: string | null
+    nickname: string | null
+  }
 }
 
 export type TMap<T> = Record<LangKey, T>

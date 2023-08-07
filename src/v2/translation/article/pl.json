@@ -6,9 +6,9 @@
     "observe_me_description_second_part": "gdzie publikuję posty każdego dnia.",
     "observe_me_follow": "Mój profil",
     "comments": {
-        "header": "Komentarze",
-        "description": "Dodawaj komentarze i przeglądaj to, co sądzą inni o tym artykule!",
-        "open": "Zobacz komentarze",
-        "close": "Zamknij komentarze"
+        "header": "Oceny",
+        "description": "Przejrzyj oceny tego artykułu i dodaj swoją opinię.",
+        "open": "Zobacz oceny",
+        "close": "Zamknij oceny"
     }
 }
