@@ -231,7 +231,7 @@ const Pre = ({
       </PrismSnippet>
       {Footer && Footer({ copy: () => copy(children) })}
       {description && (
-        <S className="description" italic>
+        <S title={description} className="description truncated" italic>
           {description}
         </S>
       )}

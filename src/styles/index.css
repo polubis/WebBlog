@@ -156,3 +156,9 @@ a.button {
 .tcenter {
   text-align: center;
 }
+
+.truncated {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
