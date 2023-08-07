@@ -139,22 +139,91 @@ html {
   color: #fff;
 }
 
+.icon-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  cursor: pointer;
+  color: #fff;
+  flex-shrink: 0;
+  border-radius: 50%;
+}
+
+.icon-button.small {
+  height: 32px;
+  width: 32px;
+}
+
+.icon-button.small svg {
+  width: 20px;
+  height: 20px;
+}
+
+.button:disabled,
+.icon-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.button.w-full {
+  max-width: 100%;
+}
+
 a.button {
   text-decoration: none;
 }
 
-.button.primary:hover {
+.button.primary:not(:disabled):hover,
+.icon-button.primary:not(:disabled):hover {
   background: #ff7878;
   color: #000;
 }
 
-.button.primary {
+.icon-button.primary:not(:disabled):hover svg path {
+  fill: #000;
+}
+
+.button.primary,
+.icon-button.primary {
   border: 1px solid #ff7878;
   color: #ff7878;
 }
 
+.icon-button.primary svg path {
+  fill: #ff7878;
+}
+
+.button.secondary,
+.icon-button.secondary {
+  border: 1px solid #fff;
+  color: #fff;
+}
+
+.icon-button.secondary svg path {
+  fill: #fff;
+}
+
+.button.secondary:not(:disabled):hover,
+.icon-button.secondary:not(:disabled):hover {
+  background: #fff;
+  color: #000;
+}
+
+.icon-button.secondary:not(:disabled):hover svg path {
+  fill: #000;
+}
+
 .tcenter {
   text-align: center;
+}
+
+.h-full {
+  height: 100%;
+}
+
+.m-top-6 {
+  margin-top: 24px;
 }
 
 .truncated {

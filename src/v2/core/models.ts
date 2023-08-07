@@ -65,7 +65,7 @@ export interface User {
 }
 
 export type Meta = typeof meta
-export type Lang = typeof meta["langs"]["en"] | typeof meta["langs"]["pl"]
+export type Lang = typeof meta["langs"]["en"]  | typeof meta["langs"]["pl"]
 export type LangKey = Lang["key"]
 export type LayoutT = typeof layout_en | typeof layout_pl
 export type ArticleT = typeof article_en | typeof article_pl
@@ -84,6 +84,7 @@ export interface ArticleThumbnail {
   full: FluidObject
   medium: FixedObject
 }
+
 
 export interface Layout extends Meta {
   lang: Lang
@@ -315,3 +316,13 @@ export interface Snippet {
   gifUrl: string
   frames: Omit<SnippetFrame, "id">[]
 }
+
+export interface Comment {
+  id: Id
+  path: Path
+  content: string
+  author: string
+}
+
+
+export type TMap<T> = Record<LangKey, T>;
