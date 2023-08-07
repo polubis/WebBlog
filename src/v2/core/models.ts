@@ -25,7 +25,7 @@ import type blog_creator_pl from "../translation/blog-creator/pl.json"
 import type snippet_creator_en from "../translation/snippet-creator/en.json"
 import type snippet_creator_pl from "../translation/snippet-creator/pl.json"
 
-type Id = string
+export type Id = string
 type Title = string
 type Name = string
 type Path = string
@@ -315,3 +315,16 @@ export interface Snippet {
   gifUrl: string
   frames: Omit<SnippetFrame, "id">[]
 }
+
+export interface Comment {
+  id: Id
+  path: Path
+  content: string
+  author: string
+}
+
+export type TMap<T> = Record<LangKey, T>
+
+export type State<I extends string, T = undefined> = T extends undefined
+  ? { is: I }
+  : { is: I } & T

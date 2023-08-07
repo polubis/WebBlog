@@ -26,6 +26,10 @@ interface RenderingCodeError {
   link: string
 }
 
+interface CommentsSectionOpened {
+  name: "comments_section_opened"
+}
+
 type AnalyticsEvent =
   | FullScreenClicked
   | ArticleSourceClicked
@@ -33,6 +37,7 @@ type AnalyticsEvent =
   | LessonSourceClicked
   | SnippetCreatorOpened
   | RenderingCodeError
+  | CommentsSectionOpened
 
 export const useCustomGAEvent = () => {
   const track = (e: AnalyticsEvent): void => {

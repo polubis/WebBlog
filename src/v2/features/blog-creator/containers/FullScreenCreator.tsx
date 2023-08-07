@@ -19,7 +19,7 @@ const Container = styled.div`
   bottom: 0;
   height: 100vh;
   background: ${theme.black};
-  z-index: 110;
+  z-index: 130;
 `
 
 const Header = styled.header`
