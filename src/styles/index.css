@@ -225,3 +225,9 @@ a.button {
 .m-top-6 {
   margin-top: 24px;
 }
+
+.truncated {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
