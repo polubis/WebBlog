@@ -3,6 +3,9 @@ import styled from "styled-components"
 import { useCommentsProvider } from "../CommentsProvider"
 import { M, S, X, XL } from "../../../../ui"
 import { Header } from "../components/Header"
+import { useLayoutProvider } from "../../../providers/LayoutProvider"
+import { Avatar } from "../../../components/Avatar"
+import { Rate } from "../../../components/Rate"
 
 const Container = styled.div`
   display: grid;
@@ -16,6 +19,16 @@ const Container = styled.div`
 
     & > * {
       margin-bottom: 12px;
+
+      .avatar {
+        height: 40px;
+        width: 40px;
+        margin-right: 12px;
+      }
+
+      .truncated {
+        margin-bottom: 8px;
+      }
     }
 
     ${X} {
@@ -25,6 +38,7 @@ const Container = styled.div`
 `
 
 export const CommentsList = () => {
+  const layout = useLayoutProvider()
   const { state, reset, startAdd, t } = useCommentsProvider()
 
   if (state.is === "loaded") {
@@ -43,7 +57,19 @@ export const CommentsList = () => {
           <div className="comments-list">
             {state.comments.map(comment => (
               <div key={comment.id}>
-                <M bold>{comment.author}</M>
+                <div className="row truncated">
+                  <Avatar
+                    src={comment.author.avatar}
+                    alt={comment.author.nickname ?? layout.t.anonymous}
+                  />
+                  <div className="col">
+                    <S>
+                      {t.rate}: <Rate rate={comment.rate} />
+                    </S>
+                    <M bold>{comment.author.nickname ?? layout.t.anonymous}</M>
+                  </div>
+                </div>
+
                 <S italic>{comment.content}</S>
               </div>
             ))}

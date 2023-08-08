@@ -6,9 +6,9 @@
   "observe_me_description_second_part": "where I publish posts daily.",
   "observe_me_follow": "Follow me",
   "comments": {
-    "header": "Comments",
-    "description": "Add your honest opinion about this article to help us improve the content.",
-    "open": "See comments",
-    "close": "Close comments"
+    "header": "Rating",
+    "description": "Add your honest opinion about this article and help us improve the content.",
+    "open": "See ratings",
+    "close": "Close ratings"
   }
 }

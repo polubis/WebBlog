@@ -80,6 +80,15 @@ interface TimeBadgeProps {
   value: number
 }
 
+export interface AvatarProps {
+  src?: string | null
+  alt: string
+}
+
+export interface RateProps {
+  rate: number
+}
+
 export type {
   AuthorTileProps,
   TagsProps,

@@ -25,7 +25,7 @@ import type blog_creator_pl from "../translation/blog-creator/pl.json"
 import type snippet_creator_en from "../translation/snippet-creator/en.json"
 import type snippet_creator_pl from "../translation/snippet-creator/pl.json"
 
-type Id = string
+export type Id = string
 type Title = string
 type Name = string
 type Path = string
@@ -65,7 +65,7 @@ export interface User {
 }
 
 export type Meta = typeof meta
-export type Lang = typeof meta["langs"]["en"]  | typeof meta["langs"]["pl"]
+export type Lang = typeof meta["langs"]["en"] | typeof meta["langs"]["pl"]
 export type LangKey = Lang["key"]
 export type LayoutT = typeof layout_en | typeof layout_pl
 export type ArticleT = typeof article_en | typeof article_pl
@@ -85,13 +85,14 @@ export interface ArticleThumbnail {
   medium: FixedObject
 }
 
-
 export interface Layout extends Meta {
   lang: Lang
   lang_alternate: Lang
   t: LayoutT
   articles: MinimumArticle[]
 }
+
+export type Rate = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
 
 export interface Technology {
   id: Id
@@ -113,6 +114,7 @@ export interface ArticlePageModel {
   ga_page: string
   path: string
   is_new: boolean
+  rate?: Rate
   read_time: number
   cdate: CDate
   source_url: Url
@@ -317,12 +319,21 @@ export interface Snippet {
   frames: Omit<SnippetFrame, "id">[]
 }
 
+
 export interface Comment {
   id: Id
   path: Path
   content: string
-  author: string
+  rate: Rate
+  author: {
+    id: Id
+    avatar: string | null
+    nickname: string | null
+  }
 }
 
+export type TMap<T> = Record<LangKey, T>
 
-export type TMap<T> = Record<LangKey, T>;
+export type State<I extends string, T = undefined> = T extends undefined
+  ? { is: I }
+  : { is: I } & T

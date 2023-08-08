@@ -5,6 +5,7 @@ import { useLayoutProvider } from "../../../providers/LayoutProvider"
 import { useArticleProvider } from "../ArticleProvider"
 import { M, XL } from "../../../../ui"
 import { CommentsView } from "../../comments/CommentsView"
+import { Rate } from "../../../components/Rate"
 
 export const ArticleComments = () => {
   const layout = useLayoutProvider()
@@ -24,6 +25,13 @@ export const ArticleComments = () => {
       {({ load, reset, state }) => (
         <>
           <div className="section">
+            {article.rate && (
+              <div className="article-comment-rate">
+                <XL>
+                  <Rate rate={article.rate} />
+                </XL>
+              </div>
+            )}
             <XL>{article.t.comments.header}</XL>
             <M>{article.t.comments.description}</M>
             {state.is === "idle" ? (

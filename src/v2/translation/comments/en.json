@@ -1,8 +1,10 @@
 {
-    "comments": "Comments",
-    "add_comment": "Add comment",
+    "comments": "Ratings",
+    "add_comment": "Add rating",
     "nick": "Nickname",
     "content": "Content",
-    "close_comments": "Close comments",
-    "lack_of_comments": "No comments added yet"
+    "close_comments": "Close ratings",
+    "lack_of_comments": "No ratings added yet",
+    "rate": "Rate",
+    "rate_description": "Between 1-10"
 }

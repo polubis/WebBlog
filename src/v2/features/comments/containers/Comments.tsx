@@ -12,12 +12,12 @@ export const Comments = () => {
   if (state.is === "loading") {
     return (
       <div className="center h-full">
-        <XL className="center">{layout.t.just_a_moment}</XL>
+        <XL className="tcenter">{layout.t.just_a_moment}</XL>
       </div>
     )
   }
 
-  if (state.is === "load_fail") {
+  if (state.is === "fail") {
     return (
       <div className="center col h-full">
         <XL className="tcenter">{layout.t.smth_wrong}</XL>
@@ -45,7 +45,7 @@ export const Comments = () => {
     return <CommentsList />
   }
 
-  if (state.is === "add" || state.is === "add_fail" || state.is === "adding") {
+  if (state.is === "add" || state.is === "adding") {
     return <CommentsForm />
   }
 
