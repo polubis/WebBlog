@@ -13,7 +13,7 @@ const default_template = `<Prelude label="This is example of prelude title">
     .
   </M>
   <Img
-    src="/assets/chromatic-and-storybook/storybook.gif"
+    src="https://drive.google.com/uc?export=view&id=17i6JJvqhvrPtY8cGZj_jXN-rbv_p6NHY"
     description="Storybook presented"
   />
   <Code
@@ -70,7 +70,7 @@ const link = `<A outside href="https://github.com/polubis/CRA-TEMPLATE">
 </A>
 `
 const image = `<Img
-  src="/assets/chromatic-and-storybook/storybook.gif"
+  src="https://drive.google.com/uc?export=view&id=17i6JJvqhvrPtY8cGZj_jXN-rbv_p6NHY"
   description="Storybook presented"
 />
 `

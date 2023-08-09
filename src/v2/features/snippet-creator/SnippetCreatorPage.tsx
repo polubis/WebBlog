@@ -35,7 +35,20 @@ const SnippetCreatorPage = ({ pageContext }: SnippetCreatorPageProps) => {
           <SnippetCreatorView
             layout={children => (
               <Layout>
-                <Content paddingY>{children}</Content>
+                <Content paddingY>
+                  <h1
+                    style={{
+                      visibility: "hidden",
+                      opacity: 0,
+                      position: "absolute",
+                      width: 0,
+                      height: 0,
+                    }}
+                  >
+                    {creator.t.page.title}
+                  </h1>
+                  {children}
+                </Content>
               </Layout>
             )}
           />

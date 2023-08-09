@@ -12,7 +12,7 @@ const default_template = `<Prelude label="Przykład tytułu dla sekcji wstęp">
     </A>.
   </M>
   <Img
-    src="/assets/chromatic-and-storybook/storybook.gif"
+    src="https://drive.google.com/uc?export=view&id=17i6JJvqhvrPtY8cGZj_jXN-rbv_p6NHY"
     description="Przykładowe zdjęcie"
   />
   <Code
@@ -75,7 +75,7 @@ const list = `<L ordered>
 </L>
 `
 const image = `<Img
-  src="/assets/chromatic-and-storybook/storybook.gif"
+  src="https://drive.google.com/uc?export=view&id=17i6JJvqhvrPtY8cGZj_jXN-rbv_p6NHY"
   description="Przykładowe zdjęcie"
 />
 `

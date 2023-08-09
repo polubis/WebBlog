@@ -98,7 +98,7 @@ const ArticlesJumbo = () => {
 
   return (
     <Container className="col">
-      <Image fluid={thumbnail} loading="eager" style={thumbnailStyle} />
+      <Image fluid={thumbnail} alt={articlesPageT.heading} loading="eager" style={thumbnailStyle} />
       <Wrapper>
         <XXL>{articlesPageT.heading}</XXL>
         <M>{articlesPageT.heading_description}</M>
