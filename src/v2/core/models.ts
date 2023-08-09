@@ -26,14 +26,14 @@ import type snippet_creator_en from "../translation/snippet-creator/en.json"
 import type snippet_creator_pl from "../translation/snippet-creator/pl.json"
 
 export type Id = string
-type Title = string
-type Name = string
-type Path = string
-type CDate = string
-type Mdate = string
-type Url = string
-type Slug = string
-type GaPage = string
+export type Title = string
+export type Name = string
+export type Path = string
+export type CDate = string
+export type Mdate = string
+export type Url = string
+export type Slug = string
+export type GaPage = string
 
 export type FixedObject = GatsbyFixedObject & { originalName: string }
 
@@ -319,12 +319,12 @@ export interface Snippet {
   frames: Omit<SnippetFrame, "id">[]
 }
 
-
 export interface Comment {
   id: Id
   path: Path
   content: string
-  rate: Rate
+  rate?: Rate
+  date: CDate
   author: {
     id: Id
     avatar: string | null

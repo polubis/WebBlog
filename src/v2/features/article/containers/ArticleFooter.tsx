@@ -14,6 +14,7 @@ import Badge from "../../../../components/article/Badge"
 import { NavigationSection } from "../../../components/NavigationSection"
 import { useIsVisible } from "../../../../utils/useIsVisible"
 import Loadable from "react-loadable"
+import { article_comments_box_id } from "../../../core/consts"
 
 const Container = styled.div`
   .observe-me {
@@ -30,13 +31,23 @@ const Container = styled.div`
     width: calc(100% + 40px);
 
     ${M} {
-      margin: 12px 0 24px 0;
+      &:nth-of-type(1) {
+        margin: 12px 0 0 0;
+      }
+
+      &:nth-of-type(2) {
+        margin: 4px 0 4px 0;
+      }
+
+      &:nth-of-type(3) {
+        margin: 4px 0 20px 0;
+      }
     }
 
     .article-comment-rate {
       right: 0;
       top: 0;
-      padding: 12px;
+      padding: 16px;
       position: absolute;
     }
   }
@@ -65,9 +76,11 @@ const CommentsBox = () => {
   const layout = useLayoutProvider()
 
   return (
-    <div className="section">
+    <div id={article_comments_box_id} className="section">
       <XL>{article.t.comments.header}</XL>
       <M>{article.t.comments.description}</M>
+      <M>{article.t.comments.notice}</M>
+      <M>{article.t.comments.if_you_want_to_see}</M>
       <button title={article.t.comments.open} className="upper button primary">
         {layout.t.loading}
       </button>

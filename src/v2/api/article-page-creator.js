@@ -14,7 +14,7 @@ const ArticlePageCreator = ({ createPage }) => ({
   makeSourceUrl,
   makeTranslationPath,
   makePath,
-  getArticleRates,
+  rates,
 }) => async ({
   articles,
   authorsAvatars,
@@ -27,8 +27,6 @@ const ArticlePageCreator = ({ createPage }) => ({
     pl: article_pl,
     en: article_en,
   }
-
-  const rates = await getArticleRates()
 
   const data = sortedArticles.map((article, index) => {
     const { body } = article

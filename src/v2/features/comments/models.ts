@@ -1,5 +1,5 @@
 import type { ReactNode } from "react"
-import type { Comment, LangKey, State } from "../../core/models"
+import type { Comment, LangKey, Rate, State } from "../../core/models"
 import type comments_en from "../../translation/comments/en.json"
 import type comments_pl from "../../translation/comments/en.json"
 import type { User } from "firebase/auth"
@@ -23,7 +23,7 @@ export type CommentsProviderState =
 export interface CommentsProviderCtx {
   state: CommentsProviderState
   t: CommentsT
-  add: (comment: Pick<Comment, "content" | "rate">) => Promise<void>
+  add: (content: string, rate?: Rate) => Promise<void>
   load: () => Promise<void>
   reset: () => void
   startReadComments: () => void

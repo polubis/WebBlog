@@ -15,7 +15,6 @@ interface ArticlePageProps {
 
 const ArticlePage = ({ pageContext }: ArticlePageProps) => {
   const { article, layout } = pageContext
-
   return (
     <LayoutProvider initialState={layout}>
       <ArticleProvider initialState={article}>

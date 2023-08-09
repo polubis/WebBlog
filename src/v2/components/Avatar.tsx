@@ -22,7 +22,7 @@ export const Avatar = ({ src, alt }: AvatarProps) => {
   return (
     <Container className="avatar">
       {src ? (
-        <img className="circle" src={src} alt={alt} />
+        <img referrerPolicy="no-referrer" className="circle" src={src} alt={alt} />
       ) : (
         <div title={alt} className="center circle">
           <X>{alt.charAt(0)}</X>

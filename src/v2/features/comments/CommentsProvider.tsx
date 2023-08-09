@@ -1,14 +1,14 @@
-import React, { createContext, useState, useMemo, useContext } from "react"
+import React, {
+  createContext,
+  useState,
+  useMemo,
+  useContext,
+  useEffect,
+} from "react"
 import { initializeApp } from "firebase/app"
-import {
-  doc,
-  getDoc,
-  getFirestore,
-  setDoc,
-  updateDoc,
-} from "firebase/firestore"
-import { v4 } from "uuid"
+import { getFirestore } from "firebase/firestore"
 import type {
+  AddState,
   CommentsProviderCtx,
   CommentsProviderNullableCtx,
   CommentsProviderProps,
@@ -16,7 +16,7 @@ import type {
   CommentsT,
   LoadedState,
 } from "./models"
-import { Comment, TMap } from "../../core/models"
+import { TMap } from "../../core/models"
 import comments_en from "../../translation/comments/en.json"
 import comments_pl from "../../translation/comments/en.json"
 import {
@@ -24,7 +24,13 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   User,
+  onAuthStateChanged,
+  signInWithRedirect,
 } from "firebase/auth"
+import { prepareToCreateComment } from "./api/create-comment/create-comment"
+import { prepareToLoadComments } from "./api/create-comment/load-comments"
+import { lUp } from "../../../utils/viewport"
+import { article_comments_box_id, move_to_param } from "../../core/consts"
 
 const Context = createContext<CommentsProviderNullableCtx>(null)
 
@@ -48,19 +54,11 @@ const auth = getAuth(app)
 const db = getFirestore(app)
 const provider = new GoogleAuthProvider()
 
-const cache = new Map<string, Comment[]>()
-
-const authorizeViaGoogle = async (): Promise<User> => {
-  if (auth.currentUser) {
-    return Promise.resolve(auth.currentUser)
-  }
-  try {
-    const { user } = await signInWithPopup(auth, provider)
-    return Promise.resolve(user)
-  } catch (error) {
-    return Promise.reject(error)
-  }
-}
+const addState = (state: LoadedState, user: User): AddState => ({
+  is: "add",
+  comments: state.comments,
+  user,
+})
 
 export const CommentsProvider = ({
   children,
@@ -76,13 +74,20 @@ export const CommentsProvider = ({
       t: t[lang],
       state,
       startAdd: async () => {
-        if (state.is === "loaded") {
+        if (state.is !== "loaded") return
+
+        if (auth.currentUser) {
+          setState(addState(state, auth.currentUser))
+          return
+        }
+
+        if (lUp(window.innerWidth)) {
           try {
-            const user = await authorizeViaGoogle()
-            setState({ is: "add", comments: [...state.comments], user })
-          } catch (error) {
-            setState({ is: "fail" })
-          }
+            await signInWithPopup(auth, provider)
+          } catch {}
+        } else {
+          localStorage.setItem(move_to_param, article_comments_box_id)
+          await signInWithRedirect(auth, provider)
         }
       },
       startReadComments: () => {
@@ -98,88 +103,39 @@ export const CommentsProvider = ({
         setState({ is: "idle" })
       },
       load: async () => {
-        const cachedComments = cache.get(path)
-
-        if (Array.isArray(cachedComments)) {
-          setState({ is: "loaded", comments: cachedComments })
-          return
-        }
-
         try {
           setState({ is: "loading" })
 
-          const response = (await (
-            await getDoc(doc(db, "comments", path))
-          ).data()) as Record<string, Comment>
+          const { loadComments } = prepareToLoadComments(db)
 
-          if (response === undefined) {
-            setState({ is: "loaded", comments: [] })
-            cache.set(path, [])
-            return
-          }
+          const comments = await loadComments({ path })
 
-          const comments = Object.entries(response)
-            .map<Comment>(([id, comment]) => ({
-              author: comment.author,
-              content: comment.content,
-              id,
-              rate: comment.rate,
-              path,
-            }))
-            .sort((a, b) => {
-              if (a.id > b.id) return 1
-              if (a.id === b.id) return 0
-              return -1
-            })
-
-          cache.set(path, comments)
           setState({ is: "loaded", comments })
         } catch (error) {
           setState({ is: "fail" })
         }
       },
-      add: async comment => {
+      add: async (content, rate) => {
         try {
-          const user = auth.currentUser
-
-          if (!user) {
-            throw Error("Not authorized")
-          }
-
+          const { createComment, user } = prepareToCreateComment(db, auth)
           const { comments } = state as LoadedState
 
           setState({ is: "adding", comments, user })
 
-          const docRef = doc(db, "comments", path)
-
-          const commentsDoc = await getDoc(docRef)
-          const commentId = v4()
-          const author = {
-            id: user.uid,
-            nickname: user.displayName,
-            avatar: user.photoURL,
-          }
-          const body = {
-            [commentId]: {
-              content: comment.content,
-              rate: comment.rate,
-              author,
-              date: new Date().toISOString(),
-            },
-          }
-
-          if (commentsDoc.exists()) {
-            await updateDoc(docRef, body)
-          } else {
-            await setDoc(docRef, body)
-          }
+          const { created, updated } = await createComment({
+            path,
+            content,
+            rate,
+          })
+          const increasedComments = [...comments, created]
 
           setState({
             is: "loaded",
-            comments: [
-              ...comments,
-              { ...comment, id: commentId, path, author },
-            ],
+            comments: updated
+              ? increasedComments.map(comment =>
+                  comment.id === updated.id ? updated : comment
+                )
+              : increasedComments,
           })
         } catch (error) {
           setState({ is: "fail" })
@@ -188,6 +144,26 @@ export const CommentsProvider = ({
     }),
     [state]
   )
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, user => {
+      if (user) {
+        setState(state => {
+          if (state.is === "loaded") {
+            return addState(state, user)
+          }
+
+          return state
+        })
+      } else {
+        // Handle sign out
+      }
+    })
+
+    return () => {
+      unsubscribe()
+    }
+  }, [])
 
   return <Context.Provider value={value}>{children(value)}</Context.Provider>
 }
