@@ -29,10 +29,12 @@ const getArticleRates = async () => {
     const data = doc.data()
 
     Object.entries(data).forEach(([, comment]) => {
-      if (Array.isArray(result[articleId])) {
-        result[articleId].push(comment.rate)
-      } else {
-        result[articleId] = [comment.rate]
+      if (comment.rate) {
+        if (Array.isArray(result[articleId])) {
+          result[articleId].push(comment.rate)
+        } else {
+          result[articleId] = [comment.rate]
+        }
       }
     })
   })

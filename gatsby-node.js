@@ -362,6 +362,8 @@ exports.createPages = async ({ actions, graphql }) => {
     technologiesAvatars,
   } = dataRepository
 
+  const rates = await getArticleRates()
+
   const createEnglishArticlePages = ArticlePageCreator({
     createPage,
   })({
@@ -372,7 +374,7 @@ exports.createPages = async ({ actions, graphql }) => {
     makeSourceUrl: ({ slug, meta }) =>
       meta.article_source_url + "/articles/" + slug,
     makeTranslationPath: ({ slug }) => "/pl/articles/" + slug + "/",
-    getArticleRates,
+    rates,
   })
 
   const [enLayout, enArticles] = await createEnglishArticlePages({
@@ -393,7 +395,7 @@ exports.createPages = async ({ actions, graphql }) => {
     makeSourceUrl: ({ slug, meta }) =>
       meta.article_source_url + "/articles/" + slug,
     makeTranslationPath: ({ slug }) => "/articles/" + slug + "/",
-    getArticleRates,
+    rates,
   })
 
   const [plLayout, plArticles] = await createPolishArticlePages({

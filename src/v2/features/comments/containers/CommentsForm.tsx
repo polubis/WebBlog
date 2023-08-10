@@ -1,8 +1,8 @@
-import React, { FormEventHandler } from "react"
+import React, { FormEventHandler, useMemo } from "react"
 import { useCommentsProvider } from "../CommentsProvider"
 import { useForm } from "../../../../utils/useForm"
 import { M, S, Textarea } from "../../../../ui"
-import type { Comment } from "../../../core/models"
+import type { Rate as RateModel } from "../../../core/models"
 import styled from "styled-components"
 import { Header } from "../components/Header"
 import { maxLength, minLength, required } from "../../../../utils/validators"
@@ -12,7 +12,13 @@ import theme from "../../../../utils/theme"
 import { Rate } from "../../../components/Rate"
 
 const Container = styled.form`
+  height: 100%;
+
   & > * {
+    &:first-child {
+      margin-top: auto;
+    }
+
     &:nth-child(2) {
       margin: 20px 0 16px 0;
     }
@@ -45,30 +51,44 @@ const Container = styled.form`
 `
 
 export const CommentsForm = () => {
-  const layout = useLayoutProvider()
   const comments = useCommentsProvider()
-  const [{ values, invalid, errors }, { set }] = useForm<{
+
+  const userRate = useMemo(() => {
+    const { state } = comments
+
+    if (state.is === "add" || state.is === "adding") {
+      return (
+        state.comments.find(
+          comment =>
+            comment.author.id === state.user.uid && comment.rate !== undefined
+        )?.rate ?? 0
+      )
+    }
+
+    return 0
+  }, [])
+
+  const layout = useLayoutProvider()
+  const [{ values, invalid }, { set }] = useForm<{
     content: string
     rate: number
   }>({
-    values: { content: "", rate: 0 },
+    values: { content: "", rate: userRate },
     validators: {
       content: [
         required("Required"),
         minLength(2, "Invalid length"),
         maxLength(200, "Invalid length"),
       ],
-      rate: [
-        value => {
-          return value < 1 || value > 10 ? "Required" : ""
-        },
-      ],
     },
   })
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = e => {
     e.preventDefault()
-    comments.add(values as Pick<Comment, "content" | "rate">)
+    comments.add(
+      values.content,
+      values.rate > 0 ? (values.rate as RateModel) : undefined
+    )
   }
 
   if (comments.state.is === "add" || comments.state.is === "adding") {
@@ -83,13 +103,14 @@ export const CommentsForm = () => {
           <M className="truncated">{nickname}</M>
         </div>
         <Textarea
+          autoFocus
           value={values.content}
           placeholder={`${comments.t.content}*`}
           onChange={e => set({ key: "content", value: e.target.value })}
         />
         <div className="rate-field col">
           <M>
-            {comments.t.rate} {values.rate > 0 && <Rate rate={values.rate} />}*
+            {comments.t.rate} {values.rate > 0 && <Rate rate={values.rate} />}
           </M>
           <input
             step={1}
@@ -98,10 +119,14 @@ export const CommentsForm = () => {
             max={10}
             type="range"
             onChange={e =>
-              set({ key: "rate", value: +e.target.value as Comment["rate"] })
+              set({ key: "rate", value: +e.target.value as RateModel })
             }
           />
-          <S>{comments.t.rate_description}</S>
+          <S>
+            {userRate > 0
+              ? comments.t.we_spotted_rate
+              : comments.t.rate_description}
+          </S>
         </div>
         <div className="footer">
           <button

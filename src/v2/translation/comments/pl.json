@@ -6,5 +6,7 @@
     "content": "Treść opinii",
     "lack_of_comments": "Brak opinii. Bądź pierwszym komentującym!",
     "rate": "Ocena",
-    "rate_description": "Pomiędzy 1-10"
+    "rate_description": "Pomiędzy 1-10",
+    "we_spotted_rate": "Wygląda na to, że oceniłeś już ten artykuł. Możesz zmienić ocenę teraz i jednocześnie dodać nowy komentarz 🍕.",
+    "the_rate_is": "Aktualna ocena:"
 }

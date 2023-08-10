@@ -6,5 +6,7 @@
     "close_comments": "Close ratings",
     "lack_of_comments": "No ratings added yet",
     "rate": "Rate",
-    "rate_description": "Between 1-10"
+    "rate_description": "Between 1-10",
+    "we_spotted_rate": "Looks like you already rated this article. You can change the rate now and add new comment in the same time 🍕.",
+    "the_rate_is": "The current rate is:"
 }
