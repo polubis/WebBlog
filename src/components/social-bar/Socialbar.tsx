@@ -73,7 +73,7 @@ const SocialBar = () => {
         </IconButton>
       </a>
       <ScrollUpButton
-        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        onClick={() => window.scrollTo({ top: 0 })}
       />
     </Container>
   )

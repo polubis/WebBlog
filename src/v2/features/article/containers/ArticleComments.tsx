@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useMemo } from "react"
+import React, { useMemo } from "react"
 import { useCustomGAEvent } from "../../../../utils/useCustomGAEvent"
 import { CommentsProvider } from "../../comments/CommentsProvider"
 import { useLayoutProvider } from "../../../providers/LayoutProvider"
@@ -7,28 +7,10 @@ import { M, XL } from "../../../../ui"
 import { CommentsView } from "../../comments/CommentsView"
 import { Rate } from "../../../components/Rate"
 import type { CommentsProviderCtx } from "../../comments/models"
-import { isInSSR } from "../../../../utils/isInSSR"
-import { move_to_param } from "../../../core/consts"
-
-const load_comments_btn = "articles-open-comments-button"
 
 const ConnectedComments = ({ state, load, reset }: CommentsProviderCtx) => {
   const article = useArticleProvider()
   const { track } = useCustomGAEvent()
-
-  useLayoutEffect(() => {
-    if (isInSSR()) return
-
-    const moveTo = localStorage.getItem(move_to_param)
-
-    if (!moveTo) return
-
-    const element = document.getElementById(load_comments_btn)
-
-    if (!element) return
-
-    element.click()
-  }, [])
 
   return (
     <>
@@ -48,7 +30,6 @@ const ConnectedComments = ({ state, load, reset }: CommentsProviderCtx) => {
           <button
             title={article.t.comments.open}
             className="upper button primary"
-            id={load_comments_btn}
             onClick={() => {
               track({ name: "comments_section_opened" })
               load()
