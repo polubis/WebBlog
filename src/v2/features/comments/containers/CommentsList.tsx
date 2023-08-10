@@ -10,11 +10,16 @@ import { format } from "date-fns"
 import theme from "../../../../utils/theme"
 import { Comment } from "../../../core/models"
 
-const getCommentsRate = (comments: Comment[]) => {
+const getCommentsRate = (comments: Comment[]): number | undefined => {
   const withRates = comments.filter(
     comment => comment.rate
   ) as Required<Comment>[]
   const withRatesLength = withRates.length
+
+  if (withRatesLength === 0) {
+    return
+  }
+
   const ratesSum = withRates.reduce((acc, comment) => acc + comment.rate, 0)
 
   return +(((ratesSum / withRatesLength) * 100) / 100).toFixed(2)
@@ -59,6 +64,8 @@ export const CommentsList = () => {
   const { state, reset, startAdd, t } = useCommentsProvider()
 
   if (state.is === "loaded") {
+    const totalRate = getCommentsRate(state.comments)
+
     return (
       <Container className="in">
         <Header
@@ -102,9 +109,11 @@ export const CommentsList = () => {
               ))}
             </div>
             <div className="row">
-              <X>
-                {t.the_rate_is} <Rate rate={getCommentsRate(state.comments)} />
-              </X>
+              {totalRate && (
+                <X>
+                  {t.the_rate_is} <Rate rate={totalRate} />
+                </X>
+              )}
             </div>
           </>
         )}

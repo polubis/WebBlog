@@ -25,9 +25,9 @@ export const prepareToLoadComments = (db: Firestore): LoadCommentsReturn => {
           date: comment.date,
         }))
         .sort((a, b) => {
-          if (a.date < b.date) return 1
+          if (a.date < b.date) return -1
           if (a.date === b.date) return 0
-          return -1
+          return 1
         })
 
       return comments
