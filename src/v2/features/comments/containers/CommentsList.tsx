@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from "react"
+import React from "react"
 import styled from "styled-components"
 import { useCommentsProvider } from "../CommentsProvider"
 import { M, S, X, XL } from "../../../../ui"
@@ -9,8 +9,6 @@ import { Rate } from "../../../components/Rate"
 import { format } from "date-fns"
 import theme from "../../../../utils/theme"
 import { Comment } from "../../../core/models"
-import { move_to_param } from "../../../core/consts"
-import { isInSSR } from "../../../../utils/isInSSR"
 
 const getCommentsRate = (comments: Comment[]) => {
   const withRates = comments.filter(
@@ -21,8 +19,6 @@ const getCommentsRate = (comments: Comment[]) => {
 
   return +(((ratesSum / withRatesLength) * 100) / 100).toFixed(2)
 }
-
-const add_comment_article_btn = "article-add-rating-button"
 
 const Container = styled.div`
   display: grid;
@@ -61,21 +57,6 @@ const Container = styled.div`
 export const CommentsList = () => {
   const layout = useLayoutProvider()
   const { state, reset, startAdd, t } = useCommentsProvider()
-
-  useLayoutEffect(() => {
-    if (isInSSR()) return
-
-    const moveTo = localStorage.getItem(move_to_param)
-
-    if (!moveTo) return
-
-    const element = document.getElementById(add_comment_article_btn)
-
-    if (!element) return
-
-    localStorage.removeItem(move_to_param)
-    element.click()
-  }, [])
 
   if (state.is === "loaded") {
     return (
@@ -130,7 +111,6 @@ export const CommentsList = () => {
 
         <button
           className="add-comment-button upper button primary w-full"
-          id={add_comment_article_btn}
           onClick={startAdd}
           title={t.add_comment}
         >

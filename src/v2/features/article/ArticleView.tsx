@@ -17,8 +17,6 @@ import { ArticleBreadcrumbs } from "../../containers/ArticleBreadcrumbs"
 import { Reviewers } from "../../components/Reviewers"
 import { MdxProvider } from "../../providers/MdxProvider"
 import { MDXRenderer } from "gatsby-plugin-mdx"
-import { move_to_param } from "../../core/consts"
-import { useMoveToFromLS } from "../../utils/useMoveToFromLS"
 
 const ArticleContent = styled.main`
   margin: 24px auto;
@@ -62,8 +60,6 @@ const ArticleView = () => {
     body,
     technologies,
   } = useArticleProvider()
-
-  useMoveToFromLS(move_to_param)
 
   return (
     <>

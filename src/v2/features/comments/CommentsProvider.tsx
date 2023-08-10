@@ -29,8 +29,7 @@ import {
 } from "firebase/auth"
 import { prepareToCreateComment } from "./api/create-comment/create-comment"
 import { prepareToLoadComments } from "./api/create-comment/load-comments"
-import { lUp } from "../../../utils/viewport"
-import { article_comments_box_id, move_to_param } from "../../core/consts"
+import { tUp } from "../../../utils/viewport"
 
 const Context = createContext<CommentsProviderNullableCtx>(null)
 
@@ -81,14 +80,11 @@ export const CommentsProvider = ({
           return
         }
 
-        if (lUp(window.innerWidth)) {
-          try {
-            await signInWithPopup(auth, provider)
-          } catch {}
-        } else {
-          localStorage.setItem(move_to_param, article_comments_box_id)
-          await signInWithRedirect(auth, provider)
-        }
+        try {
+          tUp(window.innerWidth)
+            ? await signInWithPopup(auth, provider)
+            : await signInWithRedirect(auth, provider)
+        } catch {}
       },
       startReadComments: () => {
         if (state.is === "add") {

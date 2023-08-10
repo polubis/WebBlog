@@ -14,7 +14,6 @@ import Badge from "../../../../components/article/Badge"
 import { NavigationSection } from "../../../components/NavigationSection"
 import { useIsVisible } from "../../../../utils/useIsVisible"
 import Loadable from "react-loadable"
-import { article_comments_box_id } from "../../../core/consts"
 
 const Container = styled.div`
   .observe-me {
@@ -76,7 +75,7 @@ const CommentsBox = () => {
   const layout = useLayoutProvider()
 
   return (
-    <div id={article_comments_box_id} className="section">
+    <div className="section">
       <XL>{article.t.comments.header}</XL>
       <M>{article.t.comments.description}</M>
       <M>{article.t.comments.notice}</M>
