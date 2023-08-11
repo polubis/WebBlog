@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useLayoutEffect } from "react"
 import { A, M, S, XL } from "../../../../ui"
 import { useLayoutProvider } from "../../../providers/LayoutProvider"
 import { useArticleProvider } from "../ArticleProvider"
@@ -14,6 +14,8 @@ import Badge from "../../../../components/article/Badge"
 import { NavigationSection } from "../../../components/NavigationSection"
 import { useIsVisible } from "../../../../utils/useIsVisible"
 import Loadable from "react-loadable"
+import { isInSSR } from "../../../../utils/isInSSR"
+import { article_comments_section_id, scroll_to_key } from "../../../core/consts"
 
 const Container = styled.div`
   .observe-me {
@@ -74,8 +76,29 @@ const CommentsBox = () => {
   const article = useArticleProvider()
   const layout = useLayoutProvider()
 
+  useLayoutEffect(() => {
+    if (isInSSR()) return
+
+    const scrollTo = localStorage.getItem(scroll_to_key)
+ 
+    if (!scrollTo) return;
+
+    const element = document.getElementById(scrollTo)
+
+    if (!element) return;
+   
+    const timeout = setTimeout(() => {
+      element.scrollIntoView()
+      localStorage.removeItem(scroll_to_key)
+    }, 150)
+
+    return () => {
+      clearTimeout(timeout)
+    }
+  }, [])
+
   return (
-    <div className="section">
+    <div id={article_comments_section_id} className="section">
       <XL>{article.t.comments.header}</XL>
       <M>{article.t.comments.description}</M>
       <M>{article.t.comments.notice}</M>
