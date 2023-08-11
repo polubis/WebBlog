@@ -1,0 +1,517 @@
+---
+cdate: 2023-08-11
+mdate: 2023-08-11
+authorId: polubis
+treviewerId: kwozniak
+lreviewerId: kzalewska
+tags: components,refactors,patterns
+langs: ["en"]
+lang: pl
+stack: react,typescript
+description: Zrobimy review obrzydliwego komponentu "Comments", a następnie wykorzystamy wzorce takie jak "slot" czy "function as a child" do oczyszczenia kodu.
+seniorityLevel: intermediate
+title: Jak tworzyć skalowalne i reużywalne komponenty w React
+readTime: 6
+---
+
+<Prelude label="Słów kilka na temat komponentów">
+  <M>
+    Najlepszy komponent to taki, który może być wykorzystany w <B>dowolnej</B>{" "}
+    aplikacji. Dodatkowo taki komponent powinien mieć:
+  </M>
+  <L>
+    <Li>proste i łatwe do zrozumienia API,</Li>
+    <Li>definicje typów w TypeScript lub w innej technologii,</Li>
+    <Li>możliwość ustawienia zachowania w oparciu o przekazane parametry,</Li>
+    <Li>testy.</Li>
+  </L>
+  <M>
+    Tak jak u ludzi, nasze komponenty mogą mieć objawy, które wskazują na to, że
+    są po prostu "chore". Tak, bardzo lubię metafory... Tłumacząc prostymi
+    słowami, najlepszy komponent to taki, który może być użyty w innej aplikacji
+    bez żadnych dodatowych zmian - w zasadzie <B>ctrl+c</B> i <B>ctrl+v</B> i
+    działa.{" "}
+  </M>
+  <Hint hasBg>
+    Ta prosta definicja jest mojego autorstwa - chcę jedynie pokazać, jak
+    istotne jest tworzenie komponentów odseparowanych od domeny i specyfiki
+    aplikacji.
+  </Hint>
+</Prelude>
+
+<Section>
+  <XL>
+    Przykład komponetu, który jest powiązany z domeną aplikacji i jest źle
+    zaprojektowany
+  </XL>
+  <M>
+    Szanujcie swój cenny czas. Jeżeli spędzamy czas na implementacji komponentu
+    i zrobimy to źle, nigdy więcej nie będziemy mogli wykorzystać go bez
+    większych zmian, a przecież nie o to nam chodzi - nasz czas jest bardzo
+    cenny.
+  </M>
+  <M>
+    Spójrzmy na poniższy komponent. Zaznaczyłem symbolem ❌ fragmenty, które są
+    "złe". Później poprawimy te części.
+  </M>
+  <Code
+    mode="static"
+    lang="tsx"
+  >{`// ❌ Komponent jest powiązany z domeną aplikacji, bo importujemy
+// model domenowy - "Comment".
+import type { Comment } from "@api/services";
+ 
+// ❌ Callbacki mają dziwne i nieintuicyjne nazwy.
+export interface CommentsProps {
+  comments: Comment[];
+  nextClicked: () => void;
+  previous: () => void;
+  itemClick: (comment: Comment) => void;
+}
+ 
+export const Comments = ({
+  comments,
+  nextClicked,
+  previous,
+  itemClick
+}: CommentsProps) => {
+  return (
+    // ❌ Brak możliwości dodania dodatkowej klasy i atrybutów.
+    <div className="comments">
+      {/* ❌ Brak możliwości podmiany "headera". */}
+      <h3>Comments list</h3>
+      <ul className="list">
+        {comments.map((comment) => (
+          // ❌ Tylko jeden rodzaj elementu listy jest wspierany.
+          <li key={comment.id} className="list-item" onClick={itemClick}>
+            {comment.content}
+          </li>
+        ))}
+      </ul>
+      {/* ❌ Brak możliwości zmiany "footera". Możemy użyć tylko buttonów.*/}
+      <button onClick={previous}>See previous comments</button>
+      <button onClick={nextClicked}>Load next comments</button>
+    </div>
+  );
+};
+`}</Code>
+  <M>A tu przykład potencjalnego użycia: </M>
+  <Code mode="static" lang="tsx">{`// @@@ Użycie @@@
+ 
+// Trochę to brzydkie...
+<Comments
+  comments={[]}
+  nextClicked={() => {}}
+  previous={() => {}}
+  itemClick={() => {}}
+/>
+ 
+// W celu zmiany stylów dla bezpieczeństwa, 
+// musimy dodać specjalny wrapper. W innym przypadku
+// istnieje ryzyko kolizji klas i styli.
+<div className="jakiś-wrapperek">
+  <Comments
+    comments={[]}
+    nextClicked={() => {}}
+    previous={() => {}}
+    itemClick={() => {}}
+  />
+</div>
+`}</Code>
+  <M>
+    Po pierwsze, musimy zrozumieć jakie role powinien spełniać nasz komponent.
+    Powinien wyświetlić listę komentarzy oraz <B>header</B> i <B>footer</B>.
+  </M>
+  <M>
+    Musimy wprowadzić zmiany aby rozdzielić nasz komponent od{" "}
+    <B>domeny aplikacji</B>. Możemy to osiągnąć wykorzystując techniki takie jak{" "}
+    <B>content projection</B> czy <B>function as a child</B>.
+  </M>
+  <M>
+    Stwórzmy więc nowy komponent - <B>List</B>. Dlaczego potrzebujemy nowego?
+    Zaraz to wytłumaczymy ☜(ﾟヮﾟ☜).
+  </M>
+</Section>
+
+<Section>
+  <XL>Projektujemy reużywalny i rozszeżalny komponent List</XL>
+  <M>
+    Musimy zaimplementować nowy komponent ponieważ nie chcemy zepsuć aktualnie
+    zaimplementowanego komponentu <B>Comments</B>. Najpierw stworzymy komponent{" "}
+    <B>List</B>, upewnimy się, że działa prawidłowo, a następnie wykorzystamy go
+    wewnątrz komponentu <B>Comments</B>.
+  </M>
+  <M>Przykłady użycia: </M>
+  <Code
+    mode="static"
+    lang="tsx"
+    description="Wariant prosty"
+  >{`export const Comments = () => {
+  return (
+    // Wykorzystaliśmy wstrzyknięty "ListItem" do wyświetlenia elementu listy.
+    <List<Comment> items={comments}>
+      {({ item, ListItem }) => <ListItem {...item} key={item.id} />}
+    </List>
+  );
+};`}</Code>
+  <Code
+    mode="static"
+    lang="tsx"
+    description="Z własnym elementem listy"
+  >{`export const CommentsWithOwnListItem = () => {
+  return (
+    // Tutaj wykorzystaliśmy własny element listy.
+    <List<Comment> items={comments}>
+      {({ item }) => (
+        <li key={item.id} className="different-item">
+          {item.content}
+        </li>
+      )}
+    </List>
+  );
+};`}</Code>
+  <Code
+    mode="static"
+    lang="tsx"
+    description="Z użyciem własnego headera i footera"
+  >{`export const CommentsWithHeaderAndFooter = () => {
+  return (
+    // Dodaliśmy "header" oraz "footer".
+    <List<Comment>
+      items={comments}
+      header={<h1>My header!</h1>}
+      footer={
+        <footer>
+          <button>First click button</button>
+          <button>Second button</button>
+        </footer>
+      }
+    >
+      {({ item, ListItem }) => <ListItem {...item} key={item.id} />}
+    </List>
+  );
+};`}</Code>
+  <M>
+    Dodatkowo przekazaliśmy typ <B>Comment</B> do komponentu <B>List</B>, aby
+    wskazać kształ modelu na którym będzie on operował. Teraz jeżeli będziemy
+    chcieli odnieść się do właściwości dowolnego komentarza, a ona nie będzie
+    zdefiniowana lub będzie miała zły typ - <B>TypeScript</B> będzie się darł
+    jak stara pościel.
+  </M>
+</Section>
+
+<Section>
+  <XL>Tworzymy definicje typów dla komponentu List</XL>
+  <M>
+   Zazwyczaj zaczynam swoją pracę od stworzenia definicji typów w oddzielnym pliku. Dzięki temu często wyłapuję nieścisłości na etapie modelowania. Również, daje mi to możliwość skorzystania z typów przy implementowaniu innego <B>wariantu komponentu</B>, jak i również, mogę skorzystać z typów w <B>komponencie rodzica</B>, który korzysta z komponentu <B>List</B>.
+  </M>
+    <M>
+   Dodatkowo taka separacja jest o wiele bardziej czytelna.
+  </M>
+  <Code mode="static" lang="tsx">{`import type { ReactNode } from "react";
+ 
+// Bazowy kształt danych.
+interface ItemBase {
+  id: string;
+  content: string;
+}
+ 
+// Typ generyczny musi mieć co najmniej "id" oraz "content".
+export interface ListItemInjectedProps<T extends ItemBase> {
+  item: T;
+  index: number;
+  ListItem: (props: ItemBase) => ReactNode;
+}
+ 
+export interface ListProps<T extends ItemBase> {
+  items: T[];
+  // Wstrzykniemy dane oraz komponent "ListItem" z dziecka do rodzica
+  // i to rodzic zdecyduje czy go użyć lub wprowadzić własny
+  // "ListItem".
+  children: (props: ListItemInjectedProps<T>) => ReactNode;
+  header?: ReactNode;
+  footer?: ReactNode;
+}
+`}</Code>
+  <M>
+   Użyliśmy <B>typu generycznego - T</B> oraz <B>type constraints - extends</B> w celu weryfikacji przekazanego typu generycznego. Musi mieć co najmniej <B>id</B> oraz <B>content</B>.
+  </M>
+  <M>
+   Kolejna ciekawą rzeczą jest <B>ListItem</B> - jest to po prostu komponent, który ma zwrócić <B>ReactNode</B>.
+  </M>
+  <M>
+    W tym momencie, wprowadzony zapis może wydawać Ci się trochę dziwny. Nie martw się. Zaraz wszystko się wyjaśni (～￣(OO)￣)ブ!
+
+  </M>
+</Section>
+
+<Section>
+  <XL>Implementujemy komponent List w oparciu o typy</XL>
+  <M>
+    Spójrz na poniższy kod. Zaimportowaliśmy stworzone typy i dopisaliśmy
+    implementacje spełniająć zawarty "kontrakt" z <B>TypeScript</B>. Kod jest
+    znacznie krótszy niż początkowa implementacja oraz oferuje więcej
+    możliwości.
+  </M>
+  <Code
+    mode="static"
+    lang="tsx"
+  >{`import type { ItemBase, ListProps } from "./list.models";
+ 
+// Ten komponent jest "prywatny". 
+// Nie chcemy go "exportować". On zostanie
+// wstrzyknięty do funkcji "children".
+const ListItem = (props: ItemBase) => (
+  <li className="list-item">{props.content}</li>
+);
+ 
+export const List = <T extends ItemBase>({
+  items,
+  header,
+  footer,
+  children
+}: ListProps<T>) => {
+  return (
+    <div className="list-container">
+      {header}
+      {/* Przy każdej iteracji wywołujemy funkcję "children"
+      i przekazjemy potrzebne dane oraz komponent do rodzica. */}
+      <ul className="list">
+        {items.map((item, index) => children({ item, index, ListItem }))}
+      </ul>
+      {footer}
+    </div>
+  );
+};
+`}</Code>
+  <M>
+    Teraz zwróć uwagę na to - możemy stworzyć tyle wariantów komponentu{" "}
+    <B>Comments</B> ile tylko dusza zapragnie. Ten przykład pokazuje jak
+    świetnie sprawdza się kompozycja w <B>React</B>.
+  </M>
+  <M>
+    Jak wykorzystać stworzony kod? Widzieliśmy już to wcześniej, ale sprawdźmy
+    raz jeszcze dla przypomnienia.
+  </M>
+  <Code rolled mode="static" lang="tsx">{`
+import type { Comment } from "@api/services";
+ 
+const comments: Comment[] = [
+  {
+    id: "0",
+    content: "O bracie!",
+    date: new Date().toISOString()
+  },
+  {
+    id: "1",
+    content: "O siostro!",
+    date: new Date().toISOString()
+  }
+];
+ 
+export const Comments = () => {
+  return (
+    <List<Comment> items={comments}>
+      {({ item, ListItem }) => <ListItem {...item} key={item.id} />}
+    </List>
+  );
+};
+ 
+export const CommentsWithOwnListItem = () => {
+  return (
+    <List<Comment> items={comments}>
+      {({ item }) => (
+        <li key={item.id} className="different-item">
+          {item.content}
+        </li>
+      )}
+    </List>
+  );
+};
+ 
+export const CommentsWithHeaderAndFooter = () => {
+  return (
+    <List<Comment>
+      items={comments}
+      header={<h1>My header!</h1>}
+      footer={
+        <footer>
+          <button>Weź mnie kliknij</button>
+          <button>Wyloguj</button>
+        </footer>
+      }
+    >
+      {({ item, ListItem }) => <ListItem {...item} key={item.id} />}
+    </List>
+  );
+};
+`}</Code>
+</Section>
+
+<Section>
+  <XL>Ostatnie poprawki - dodajemy nowe możliwości do komponentu List</XL>
+  <M>
+    No dobra, ale dalej nie możemy przekazać własnej <B>klasy</B>,{" "}
+    <B>eventów</B> czy dowolnych, innych właściwości. Aby to uzyskać
+    skorzystajmy z definicji typów, która jest dostępna w bibliotece{" "}
+    <B>React</B> i rozszerzmy nasze typy.
+  </M>
+  <Code
+    changed={[
+      [1, 1],
+      [23, 23],
+    ]}
+    added={[
+      [8, 11],
+      [15, 15],
+    ]}
+    mode="static"
+    lang="tsx"
+  >{`import type { ReactNode, DetailedHTMLProps, HTMLAttributes } from "react";
+ 
+export interface ItemBase {
+  id: string;
+  content: string;
+}
+// Natywna definicja typów dla "diva".
+type NativeContainerProps = DetailedHTMLProps<
+  HTMLAttributes<HTMLDivElement>,
+  HTMLDivElement
+>;
+// Pozbyliśmy się "children" za pomocą "Omit".
+// Przecież przekazujemy własny wariant "children", który
+// mocno się różni od tego zdefiniowanego w "NativeContainerProps".
+interface ListContainerProps extends Omit<NativeContainerProps, "children"> {}
+ 
+export interface ListItemInjectedProps<T extends ItemBase> {
+  item: T;
+  index: number;
+  ListItem: (props: ItemBase) => ReactNode;
+}
+// Tutaj łączymy nasze własne "propsy" z natywnymi.
+export interface ListProps<T extends ItemBase> extends ListContainerProps {
+  items: T[];
+  children: (props: ListItemInjectedProps<T>) => ReactNode;
+  header?: ReactNode;
+  footer?: ReactNode;
+}
+`}</Code>
+  <M>
+    Ostatnia zmiana i mamy to! Musimy wkorzystać dwa operatory: <B>spread</B>{" "}
+    oraz <B>rest</B>. Pierwszy posłuży do przypisania dowolnych, przekazanych{" "}
+    <B>propsów</B> do zmiennej <B>props</B>, a drugi to umieszczenia ich w
+    znaczniku <B>div</B>.
+  </M>
+  <Code
+    added={[
+      [6, 6],
+      [9, 9],
+      [16, 16],
+      [17, 17],
+    ]}
+    mode="static"
+    lang="tsx"
+  >{`
+export const List = <T extends ItemBase>({
+  items,
+  header,
+  footer,
+  children,
+  className,
+  // Skorzystaliśmy z operatora "rest". Przypisaliśmy
+  // wszystkie dodatkowe "propsy" do zmiennej "props".
+  ...props
+}: ListProps<T>) => {
+  return (
+    // Skorzystaliśmy z operatora "spread", aby przekazać
+    // pozostałe właściwości do znacznika "div" oraz dodaliśmy
+    // obsługę dodatkowej klasy.
+    <div
+      className={\`list-container\$\{className ? " " + className : ""\}\`}
+      {...props}
+    >
+      {header}
+      <ul className="list">
+        {items.map((item, index) => children({ item, index, ListItem }))}
+      </ul>
+      {footer}
+    </div>
+  );
+};
+`}</Code>
+  <M>
+    Teraz możemy przekazać nasze <B>propsy</B> plus wszystko, co można przekazać
+    do znacznika <B>div</B>.
+  </M>
+  <Code
+    description="Teraz możemy wszystko"
+    mode="static"
+    lang="tsx"
+  >{`export const Comments = () => {
+  return (
+    <List<Comment>
+      items={comments}
+      onClick={handleClick}
+      id="idczek"
+      className="klaska"
+    >
+      {({ item, ListItem }) => <ListItem {...item} key={item.id} />}
+    </List>
+  );
+};`}</Code>
+  <Hint hasBg>
+    Pominąłem implementację testów ponieważ ten artykuł nie jest o tym. Jeżeli
+    interesuje Cię ten temat, to zapraszam do tego kursu -{" "}
+    <A
+      href="https://greenonsoftware.com/courses/react-testing-spellbook/"
+      outside
+    >
+      React testing spellbook
+    </A>
+    .
+  </Hint>
+</Section>
+
+<Demo label="Cały przykład na platformie CodeSandbox" height="500px">
+  <iframe
+    src="https://codesandbox.io/embed/make-your-components-healthy-with-these-patterns-42q7gl?fontsize=14&hidenavigation=1&theme=dark"
+    style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+    title="Make your components healthy with these patterns"
+    allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+    sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+  ></iframe>
+</Demo>
+
+<Summary label="Przemyślenia i wnioski">
+  <M>
+    Wydaje mi się, że rezultat jest prosty i oczywisty - możemy tworzyć tyle
+    wariantów komponentu <B>Comments</B> ile chcemy. Co ciekawe, możemy tworzyć
+    inne komponenty - <B>Posts</B>, <B>Users</B> i tak dalej.
+  </M>
+  <M>
+    Teraz już wiesz jak korzystać z technik <B>slot pattern</B> (implementacja
+    "header" oraz "footer") oraz <B>function as a child</B> (implementacja
+    wyświetlania dowolnego elementu listy).{" "}
+  </M>
+  <M>Jeżeli lubisz podobne artykuły do polecam serdecznie: </M>
+  <Hint hasBg>
+    Wizualizacja danych na osi czasu -{" "}
+    <A
+      href="https://greenonsoftware.com/articles/practice/react-timeline-component/"
+      outside
+    >
+      Creating React timeline component
+    </A>
+    .
+  </Hint>
+  <Hint hasBg>
+    Tworzymy komponent do wyświetlania kodu -{" "}
+    <A
+      href="https://greenonsoftware.com/articles/practice/react-code-snippet-component/"
+      outside
+    >
+      React code snippet component
+    </A>
+    .
+  </Hint>
+</Summary>

@@ -1,0 +1,512 @@
+---
+cdate: 2023-08-11
+mdate: 2023-08-11
+authorId: polubis
+treviewerId: kwozniak
+lreviewerId: kzalewska
+tags: components,refactors,patterns
+langs: ["pl"]
+lang: en
+stack: react,typescript
+description: We'll review the ugly Comments component and then we'll perform a refactor with content projection techniques. We'll create a reusable List component.
+seniorityLevel: intermediate
+title: Make your components healthy with these patterns
+readTime: 6
+---
+
+<Prelude label="Few words about healthy components">
+  <M>
+    The best component is the one, that can be used in <B>any</B> application.
+    In addition, it should have:{" "}
+  </M>
+  <L>
+    <Li>simple and easy to understand API</Li>
+    <Li>type definitions in TypeScript or any other technology</Li>
+    <Li>
+      should be easy to extend without modifying the internal implementation
+    </Li>
+    <Li>should have the tests - it may be in "Jest" or any other technology</Li>
+  </L>
+  <M>
+    Just like humans, our components can have symptoms that indicate a disease.
+    Yes, I like metaphors... So in simple words, the perfect example of a
+    healthy component is one, that can be <B>ctrl+c</B> and <B>ctrl+v</B> to
+    other applications and it will work without any additional effort - just
+    like a <B>library</B> that you are installing to your huge <B>JavaScript</B>{" "}
+    projects.
+  </M>
+  <Hint hasBg>
+    That definition is invented by <B>Me</B> - just to show what is exactly
+    important in implementing good components, decoupled from the application
+    domain.
+  </Hint>
+</Prelude>
+
+<Section>
+  <XL>Example of coupled and badly designed component</XL>
+  <M>
+    Respect your time. Think about that. If you're spending time to implement a
+    component and you will do it badly, you'll never again be able to use it
+    without big changes.
+  </M>
+  <M>
+    Look at following one. I marked with ❌ the parts that are bad. Later we'll
+    improve them.
+  </M>
+  <Code
+    mode="static"
+    lang="tsx"
+  >{`// ❌ The component is coupled with the application domain model.
+import type { Comment } from "@api/services";
+ 
+// ❌ The callbacks have weird and intuitive names.
+export interface CommentsProps {
+  comments: Comment[];
+  nextClicked: () => void;
+  previous: () => void;
+  itemClick: (comment: Comment) => void;
+}
+ 
+export const Comments = ({
+  comments,
+  nextClicked,
+  previous,
+  itemClick
+}: CommentsProps) => {
+  return (
+    // ❌ There is no option to apply custom class.
+    <div className="comments">
+      {/* ❌ Header cannot be replaced with something else. */}
+      <h3>Comments list</h3>
+      <ul className="list">
+        {comments.map((comment) => (
+          // ❌ Only one list item type is supported.
+          <li key={comment.id} className="list-item" onClick={itemClick}>
+            {comment.content}
+          </li>
+        ))}
+      </ul>
+      {/* ❌ Only buttons can be used, any other case is impossible. */}
+      <button onClick={previous}>See previous comments</button>
+      <button onClick={nextClicked}>Load next comments</button>
+    </div>
+  );
+};
+`}</Code>
+  <M>And that's how the usage may look like</M>
+  <Code mode="static" lang="tsx">{`// @@@ The usage @@@
+ 
+// It's a little bit ugly...
+<Comments
+  comments={[]}
+  nextClicked={() => {}}
+  previous={() => {}}
+  itemClick={() => {}}
+/>
+ 
+// If we want to change the comments UI, we need
+// to add wrappers or style directly in CSS...
+<div className="some-wrapper-to-style">
+  <Comments
+    comments={[]}
+    nextClicked={() => {}}
+    previous={() => {}}
+    itemClick={() => {}}
+  />
+</div>
+`}</Code>
+  <M>
+    Firstly, we need to understand the responsibility of this component. It
+    should render the list of comments and provide a header at the top, and a
+    footer at the bottom.
+  </M>
+  <M>
+    We need to provide the changes to <B>decouple</B> it from the application{" "}
+    <B>domain</B>. We can use the <B>content projection</B> technique with the{" "}
+    <B>children</B> property as a function - it's often called{" "}
+    <B>function as a child pattern</B>.
+  </M>
+  <M>
+    So, let's create a new component called <B>List</B> - why do we need a new
+    one? It will be explained later ☜(ﾟヮﾟ☜).
+  </M>
+</Section>
+
+<Section>
+  <XL>Designing reusable and decoupled List component</XL>
+  <M>
+    We need a new component because we don't want to mess up the currently
+    implemented <B>Comments</B> one. So, the plan is to create a <B>List</B>{" "}
+    one, then check if it works separately ok, and then we'll use this{" "}
+    <B>List</B> component inside the <B>Comments</B> component.
+  </M>
+  <M>That's how it will be used: </M>
+  <Code
+    mode="static"
+    lang="tsx"
+    description="The easiest variant"
+  >{`export const Comments = () => {
+  return (
+    // We used injected ListItem component.
+    <List<Comment> items={comments}>
+      {({ item, ListItem }) => <ListItem {...item} key={item.id} />}
+    </List>
+  );
+};`}</Code>
+  <Code
+    mode="static"
+    lang="tsx"
+    description="With custom list item"
+  >{`export const CommentsWithOwnListItem = () => {
+  return (
+    // Here we want to use our custom
+    // list item component.
+    <List<Comment> items={comments}>
+      {({ item }) => (
+        <li key={item.id} className="different-item">
+          {item.content}
+        </li>
+      )}
+    </List>
+  );
+};`}</Code>
+  <Code
+    mode="static"
+    lang="tsx"
+    description="With header and footer nodes"
+  >{`export const CommentsWithHeaderAndFooter = () => {
+  return (
+    // Here we added header and footer.
+    <List<Comment>
+      items={comments}
+      header={<h1>My header!</h1>}
+      footer={
+        <footer>
+          <button>First click button</button>
+          <button>Second button</button>
+        </footer>
+      }
+    >
+      {({ item, ListItem }) => <ListItem {...item} key={item.id} />}
+    </List>
+  );
+};`}</Code>
+  <M>
+    Look how we injected the model - <B>Comment</B> into the component. It's
+    insanely safe to use right now. If you'll try to use not allowed property in
+    the interface, <B>TypeScript</B> will warn you!
+  </M>
+</Section>
+
+<Section>
+  <XL>Creating type definitions for the List component</XL>
+  <M>
+    As usual, I'm starting from <B>type definitions</B> to be able to catch
+    weird use cases. In addition, later I can reuse them in other component
+    variants or maybe in components that consume the implemented one.
+  </M>
+  <Code mode="static" lang="tsx">{`import type { ReactNode } from "react";
+ 
+// Base model for the ListItem component props.
+interface ItemBase {
+  id: string;
+  content: string;
+}
+ 
+// Passed generic type must have at least "id" and "content".
+export interface ListItemInjectedProps<T extends ItemBase> {
+  item: T;
+  index: number;
+  ListItem: (props: ItemBase) => ReactNode;
+}
+ 
+export interface ListProps<T extends ItemBase> {
+  items: T[];
+  // We'll inject the "ListItem" component from children to parent
+  // and the parent will decide what should be rendered.
+  children: (props: ListItemInjectedProps<T>) => ReactNode;
+  header?: ReactNode;
+  footer?: ReactNode;
+}
+`}</Code>
+  <M>
+    We've used <B>generic - T</B> and <B>type constraints - extends</B> to
+    verify a given generic type. It must have at least two properties -{" "}
+    <B>id</B> and <B>content</B>.{" "}
+  </M>
+  <M>
+    Another interesting part is the type definition for <B>ListItem</B>. It will
+    be a function that takes props and returns a <B>ReactNode</B>.
+  </M>
+  <M>
+    It will be completely clear what is going on when we start using these
+    models to implement this component. Don't worry (～￣(OO)￣)ブ!
+  </M>
+</Section>
+
+<Section>
+  <XL>Let's implement the List component</XL>
+  <M>
+    Look at the following code in which we just imported previously created
+    models, and compare it with the previous, starting implementation - a lot
+    simpler, and you can pass your own header, footer and you can define the{" "}
+    <B>ListItem</B> component.{" "}
+  </M>
+  <Code
+    mode="static"
+    lang="tsx"
+  >{`import type { ItemBase, ListProps } from "./list.models";
+ 
+// We don't want to export this component.
+// It's internal implementation detail.
+const ListItem = (props: ItemBase) => (
+  <li className="list-item">{props.content}</li>
+);
+ 
+export const List = <T extends ItemBase>({
+  items,
+  header,
+  footer,
+  children
+}: ListProps<T>) => {
+  return (
+    <div className="list-container">
+      {header}
+      {/* Here the all magic happens. We're calling in
+      each iteration provided function as a child. */}
+      <ul className="list">
+        {items.map((item, index) => children({ item, index, ListItem }))}
+      </ul>
+      {footer}
+    </div>
+  );
+};
+`}</Code>
+  <M>
+    Now we can create as many <B>List</B> variants as we want, and we don't have
+    ugly callbacks passed to the <B>Comments</B> component as previously. This
+    code shows how greatly designed <B>React</B> is. You can compose any feature
+    with greatly written components.
+  </M>
+  <M>How to use it? You've already seen this but let's check again!</M>
+  <Code rolled mode="static" lang="tsx">{`
+import type { Comment } from "@api/services";
+ 
+const comments: Comment[] = [
+  {
+    id: "0",
+    content: "My first comment brother!",
+    date: new Date().toISOString()
+  },
+  {
+    id: "1",
+    content: "My second comment brother!",
+    date: new Date().toISOString()
+  }
+];
+ 
+export const Comments = () => {
+  return (
+    <List<Comment> items={comments}>
+      {({ item, ListItem }) => <ListItem {...item} key={item.id} />}
+    </List>
+  );
+};
+ 
+export const CommentsWithOwnListItem = () => {
+  return (
+    <List<Comment> items={comments}>
+      {({ item }) => (
+        <li key={item.id} className="different-item">
+          {item.content}
+        </li>
+      )}
+    </List>
+  );
+};
+ 
+export const CommentsWithHeaderAndFooter = () => {
+  return (
+    <List<Comment>
+      items={comments}
+      header={<h1>My header!</h1>}
+      footer={
+        <footer>
+          <button>First click button</button>
+          <button>Second button</button>
+        </footer>
+      }
+    >
+      {({ item, ListItem }) => <ListItem {...item} key={item.id} />}
+    </List>
+  );
+};
+`}</Code>
+</Section>
+
+<Section>
+  <XL>Making the List component more customizable</XL>
+  <M>
+    How about passing our own <B>className</B>, <B>events</B>, or other
+    properties to the container node in our <B>List</B> component? Yea, that's
+    what is missing! Let's extend the basic <B>ul</B> node props that{" "}
+    <B>React</B> provides.
+  </M>
+  <Code
+    changed={[
+      [1, 1],
+      [23, 23],
+    ]}
+    added={[
+      [8, 11],
+      [15, 15],
+    ]}
+    mode="static"
+    lang="tsx"
+  >{`import type { ReactNode, DetailedHTMLProps, HTMLAttributes } from "react";
+ 
+export interface ItemBase {
+  id: string;
+  content: string;
+}
+// That's the native div element type definition.
+type NativeContainerProps = DetailedHTMLProps<
+  HTMLAttributes<HTMLDivElement>,
+  HTMLDivElement
+>;
+// Here we removed the "children" property with "Omit".
+// It's because we're using our own - the function
+// passed as a child!
+interface ListContainerProps extends Omit<NativeContainerProps, "children"> {}
+ 
+export interface ListItemInjectedProps<T extends ItemBase> {
+  item: T;
+  index: number;
+  ListItem: (props: ItemBase) => ReactNode;
+}
+// Here we merge our own properties with native ones!
+export interface ListProps<T extends ItemBase> extends ListContainerProps {
+  items: T[];
+  children: (props: ListItemInjectedProps<T>) => ReactNode;
+  header?: ReactNode;
+  footer?: ReactNode;
+}
+`}</Code>
+  <M>
+    The last improvement and we will be ready to go! We need to use the{" "}
+    <B>spread</B> operator and <B>rest</B> operator to maintain additional{" "}
+    <B>props</B> and assign them to the <B>div</B> wrapper.
+  </M>
+  <Code
+    added={[
+      [6, 6],
+      [9, 9],
+      [16, 16],
+      [17, 17],
+    ]}
+    mode="static"
+    lang="tsx"
+  >{`
+export const List = <T extends ItemBase>({
+  items,
+  header,
+  footer,
+  children,
+  className,
+  // We used the rest operator to assign other 
+  // properties to variable "props".
+  ...props
+}: ListProps<T>) => {
+  return (
+    // We've used the spread operator to assign other props.
+    // We destructured className. We want to merge incoming
+    // class with default one.
+    <div
+      className={\`list-container\$\{className ? " " + className : ""\}\`}
+      {...props}
+    >
+      {header}
+      <ul className="list">
+        {items.map((item, index) => children({ item, index, ListItem }))}
+      </ul>
+      {footer}
+    </div>
+  );
+};
+`}</Code>
+  <M>
+    Now we can pass any properties to the <B>List</B> component. Events, id,
+    className, and everything that is defined in our interface.
+  </M>
+  <Code
+    description="Now the sky is the limit"
+    mode="static"
+    lang="tsx"
+  >{`export const Comments = () => {
+  return (
+    <List<Comment>
+      items={comments}
+      onClick={handleClick}
+      id="my-id"
+      className="my-class"
+    >
+      {({ item, ListItem }) => <ListItem {...item} key={item.id} />}
+    </List>
+  );
+};`}</Code>
+  <Hint hasBg>
+    I skipped tests for this component, it's not a subject for this article. If
+    you are interested about testing feel free to check following course -{" "}
+    <A
+      href="https://greenonsoftware.com/courses/react-testing-spellbook/"
+      outside
+    >
+      React testing spellbook
+    </A>
+    .
+  </Hint>
+</Section>
+
+<Demo label="The full example on Codesandbox" height="500px">
+  <iframe
+    src="https://codesandbox.io/embed/make-your-components-healthy-with-these-patterns-42q7gl?fontsize=14&hidenavigation=1&theme=dark"
+    style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+    title="Make your components healthy with these patterns"
+    allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+    sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+  ></iframe>
+</Demo>
+
+<Summary label="Conclusions and thoughts">
+  <M>
+    The result is simple - we can create as many <B>List</B> variants as we
+    want. Now you know how to decouple your components from the application
+    domain and how to use techniques like <B>content projection</B>,{" "}
+    <B>slot pattern</B> and <B>function as a child</B> to make your components
+    more flexible and reusable.
+  </M>
+  <M>
+    If you are interested in articles similar to this one, I can recommend the
+    following stuff:{" "}
+  </M>
+  <Hint hasBg>
+    Let's visualize the data on timeline -{" "}
+    <A
+      href="https://greenonsoftware.com/articles/practice/react-timeline-component/"
+      outside
+    >
+      Creating React timeline component
+    </A>
+    .
+  </Hint>
+  <Hint hasBg>
+    Let's display fancy snippets -{" "}
+    <A
+      href="https://greenonsoftware.com/articles/practice/react-code-snippet-component/"
+      outside
+    >
+      React code snippet component
+    </A>
+    .
+  </Hint>
+</Summary>
