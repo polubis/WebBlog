@@ -99,13 +99,34 @@ title: React useRef hook
     out the rubbish. It was also not an order but a request, and you did it late
     or not.
   </M>
-  <Code
-    mode="dynamic"
-    lang="ts"
-    description="Sync or async?"
-    linesCount={24}
-    src="https://raw.githubusercontent.com/polubis/React-useRef-hook/main/src/snippets/as-immediate-state-manager.ts"
-  />
+  <Code mode="static" lang="tsx">{`import { useRef, useState } from "react";
+ 
+const useCounter = () => {
+  const syncCounter = useRef(0);
+  const [asyncCounter, setAsyncCounter] = useState(0);
+ 
+  const asyncIncrement = () => {
+    // This is not an immediate change, just an async request.
+    console.log(asyncCounter); // 0
+    setAsyncCounter((prevCounter) => prevCounter + 1);
+    console.log(asyncCounter); // 0
+    setAsyncCounter((prevCounter) => prevCounter + 1);
+    console.log(asyncCounter); // 0
+    setAsyncCounter((prevCounter) => prevCounter + 1);
+    console.log(asyncCounter); // 0
+  };
+ 
+  const syncIncrement = () => {
+    // This is an immediate change.
+    console.log(syncCounter.current); // 0
+    syncCounter.current = syncCounter.current + 1;
+    console.log(syncCounter.current); // 1
+    syncCounter.current = syncCounter.current + 1;
+    console.log(syncCounter.current); // 2
+    syncCounter.current = syncCounter.current + 1;   
+    console.log(syncCounter.current); // 3
+  };
+};`}</Code>
 </Section>
 
 <Section>

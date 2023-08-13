@@ -29,7 +29,7 @@ readTime: 6
     Tak jak u ludzi, nasze komponenty mogą mieć objawy, które wskazują na to, że
     są po prostu "chore". Tak, bardzo lubię metafory... Tłumacząc prostymi
     słowami, najlepszy komponent to taki, który może być użyty w innej aplikacji
-    bez żadnych dodatowych zmian - w zasadzie <B>ctrl+c</B> i <B>ctrl+v</B> i
+    bez żadnych dodatkowych zmian - w zasadzie <B>ctrl+c</B> i <B>ctrl+v</B> i
     działa.{" "}
   </M>
   <Hint hasBg>
@@ -41,7 +41,7 @@ readTime: 6
 
 <Section>
   <XL>
-    Przykład komponetu, który jest powiązany z domeną aplikacji i jest źle
+    Przykład komponentu, który jest powiązany z domeną aplikacji i jest źle
     zaprojektowany
   </XL>
   <M>
@@ -134,7 +134,7 @@ export const Comments = ({
 </Section>
 
 <Section>
-  <XL>Projektujemy reużywalny i rozszeżalny komponent List</XL>
+  <XL>Projektujemy reużywalny i rozszerzalny komponent List</XL>
   <M>
     Musimy zaimplementować nowy komponent ponieważ nie chcemy zepsuć aktualnie
     zaimplementowanego komponentu <B>Comments</B>. Najpierw stworzymy komponent{" "}
@@ -193,7 +193,7 @@ export const Comments = ({
 };`}</Code>
   <M>
     Dodatkowo przekazaliśmy typ <B>Comment</B> do komponentu <B>List</B>, aby
-    wskazać kształ modelu na którym będzie on operował. Teraz jeżeli będziemy
+    wskazać kształt modelu na którym będzie on operował. Teraz jeżeli będziemy
     chcieli odnieść się do właściwości dowolnego komentarza, a ona nie będzie
     zdefiniowana lub będzie miała zły typ - <B>TypeScript</B> będzie się darł
     jak stara pościel.
@@ -249,7 +249,7 @@ export interface ListProps<T extends ItemBase> {
   <XL>Implementujemy komponent List w oparciu o typy</XL>
   <M>
     Spójrz na poniższy kod. Zaimportowaliśmy stworzone typy i dopisaliśmy
-    implementacje spełniająć zawarty "kontrakt" z <B>TypeScript</B>. Kod jest
+    implementacje spełniając zawarty "kontrakt" z <B>TypeScript</B>. Kod jest
     znacznie krótszy niż początkowa implementacja oraz oferuje więcej
     możliwości.
   </M>
@@ -397,7 +397,7 @@ export interface ListProps<T extends ItemBase> extends ListContainerProps {
 }
 `}</Code>
   <M>
-    Ostatnia zmiana i mamy to! Musimy wkorzystać dwa operatory: <B>spread</B>{" "}
+    Ostatnia zmiana i mamy to! Musimy wykorzystać dwa operatory: <B>spread</B>{" "}
     oraz <B>rest</B>. Pierwszy posłuży do przypisania dowolnych, przekazanych{" "}
     <B>propsów</B> do zmiennej <B>props</B>, a drugi to umieszczenia ich w
     znaczniku <B>div</B>.
