@@ -1,0 +1,364 @@
+---
+name: Manage Modals, Dialogs, and features with type-safety useToggle hook
+description: We'll dive into use cases of custom useToggle hook. We'll implement it, write types and add tests. We'll show the code before and after the implementation of useToggle.
+duration: 4
+---
+
+<Prelude label="Let's understand why you may need the useToggle hook">
+  <M>
+    Usually when creating components like: <B>Dialogs</B>, <B>Menus</B>,{" "}
+    <B>Modals</B>, and <B>Alerts</B>, you need a flag that determines whether
+    should something be displayed or not. With this flag, you need to provide 3
+    functions: <B>open</B>, <B>close</B>, and <B>toggle</B>. It will probably
+    looks like the following code:{" "}
+  </M>
+  <Code mode="static" lang="tsx">{`const InsideAnyToggleableComponent = () => {
+  const [opened, setOpened] = useState(false);
+ 
+  const open = () => {
+    setOpened(true);
+  };
+ 
+  const close = () => {
+    setOpened(false);
+  };
+ 
+  const toggle = () => {
+    setOpened(!opened);
+  };
+};`}</Code>
+  <M>
+    Imagine that you have tons of components like mentioned one and in addition
+    in your application logic, you need to determine whether to show something
+    or hide.{" "}
+  </M>
+  <Code mode="static" lang="tsx">{`const AnyApplicationComponent = () => {
+  const [showUsers, setShowUsers] = useState(false);
+ 
+  const handleShowButtonClick = () => {
+    setShowUsers(true);
+  };
+ 
+  const handleCloseButtonClick = () => {
+    setShowUsers(false);
+  };
+ 
+  return <>{showUsers && <UsersList />}</>;
+};`}</Code>
+  <M>
+    The next case may require assigning some data when you want to display UI
+    parts - for example, you want to edit user data, so you need to store
+    somewhere the current user object, update this object, close the form, and
+    reset the object to <B>initial value</B> or just <B>null</B>.
+  </M>
+  <Code mode="static" lang="tsx">{`const UserDetails = () => {
+  const [showForm, setShowForm] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+ 
+  const openForm = (data: User) => {
+    setShowForm(true);
+    setUser(user);
+  };
+ 
+  const closeForm = () => {
+    setShowForm(false);
+    setUser(null);
+  };
+ 
+  return (
+    <>
+      <button onClick={() => openForm({ id: 1, username: 'Juan' })}>
+        Edit user
+      </button>
+      {showForm && <UserForm onClose={closeForm} />}
+    </>
+  );
+};`}</Code>
+  <M>
+    This code is easy to understand but hard to maintain - the same repetitive
+    logic, hard coded in different places. You need to write repeated tests to
+    cover these cases for every component that needs to show/hide UI or for
+    components that store some data during toggling.
+  </M>
+  <M>
+    This is the moment when lights turn on and we're kicking in with easy to use
+    and type-safe hook. This hook will be called <B>useToggle</B> - it was
+    really hard for me to find the appropriate name for this hook.{" "}
+  </M>
+</Prelude>
+
+<Section>
+  <XL>How we will use the useToggle hook?</XL>
+  <M>
+    We want to make this hook "flat" as possible to reduce the number of lines.
+    So it will be used in the following way:{" "}
+  </M>
+  <Code
+    description="Have we use a vacuum cleaner?"
+    mode="static"
+    lang="tsx"
+  >{`  const UserDetails = () => {
+  const form = useToggle<User>();
+ 
+  return (
+    <>
+      <button onClick={() => form.open({ id: 1, username: 'Juan' })}>
+        Edit user
+      </button>
+      {showForm && <UserForm onClose={form.close} />}
+    </>
+  );
+};`}</Code>
+  <M>
+    It's insane how we reduced the code from the previous example. Let's explore
+    the full API of this hook:{" "}
+  </M>
+  <Code mode="static" lang="ts">{`
+ // When just a flag is needed.
+const form = useToggle();
+// When flag and data is needed,
+const form = useToggle<User>();
+// When we want to start with data and flag.
+const form = useToggle<User>({ opened: true, data: { id: 1 }});
+// When you love destructuring assignment.
+const { opened, closed, data, open, close, toggle, setData } = useToggle();
+ 
+// Means something is closed.
+form.closed; 
+// Means something is opened.
+form.opened; 
+// Stores the data.
+form.data; 
+ 
+// Makes opened falsy and sets data to "null".
+form.close();
+// Makes opened truthy and assigns the data.
+form.open(); /* or */ form.open({ id: 1 })
+// Toggles opened flag and assigns the data.
+form.toggle(); /* or */ form.toggle({ id: 1 });
+ 
+// Overrides the data.
+form.setData({ id: 1 });`}</Code>
+</Section>
+
+<Section>
+  <XL>Creating type definitions in TypeScript</XL>
+  <M>
+    Contracts in terms of <B>type-safety</B> are required to achieve protection
+    from typos, invalid usage of functions, and invalid usage of returned data.
+    Let's create them in separate file:
+  </M>
+  <Code mode="static" lang="ts">{`  
+// The config passed to hook.
+interface ToggleConfig<T = null> {
+  data?: T | null;
+  opened?: boolean;
+}
+// The shape of data used inside the hook.
+interface ToggleState<T = null> {
+  data: T | null;
+  opened: boolean;
+  closed: boolean;
+}
+// This is what the hook will return.
+interface ToggleReturn<T = null> extends ToggleState<T> {
+  open: (data?: T | null) => void;
+  close: () => void;
+  toggle: (data?: T | null) => void;
+  setData: (data: T | null) => void;
+}
+ 
+export type { ToggleConfig, ToggleState, ToggleReturn };`}</Code>
+  <M>
+    We've used generics <B>T</B> and we assigned the initial type to <B>null</B>.
+    It means if we skip providing the generic type to hook, the default data type
+    will be <B>null</B>.
+  </M>
+</Section>
+
+<Section>
+  <XL>Implementation process of the useToggle hook</XL>
+  <M>
+    Now it's time for implementation. With before-created type definitions,
+    we'll be safe during implementation. <B>Look</B> at the following <B>gif</B>{" "}
+    to understand the order and implementation process with defined contracts.
+  </M>
+  <Img src="https://drive.google.com/uc?export=view&id=1V6zb9ghHyuLVYA8Q-8vty8nyipBRFTMO" />
+  <M>
+    Ok, we know how it was implemented so let's explain each part of this
+    implementation.
+  </M>
+  <Code mode="static" lang="ts">{`import { useState } from 'react';
+import type { ToggleConfig, ToggleReturn, ToggleState } from './defs';
+ 
+const useToggle = <T = null>(
+  // The default config assignment.
+  config: ToggleConfig<T> = { data: null, opened: false }
+): ToggleReturn<T> => {
+  // We used a constructor to create the initial state - 
+  // to avoid the recreation of objects in every re-render.
+  const [state, setState] = useState<ToggleState<T>>(() => ({
+    opened: !!config.opened,
+    closed: !config.opened,
+    // We converted the data to null if it's 
+    // undefined - to be sure that it will 
+    // be always provided data type via T generic 
+    // or null.
+    data: config.data ?? null,
+  }));
+ 
+  // We explicitly assigned types for each 
+  // function to be sure that our implementation matches 
+  // provided contracts. 
+  const open: ToggleReturn<T>['open'] = (data) => {
+    setState({ opened: true, closed: false, data: data ?? null });
+  };
+ 
+  const close: ToggleReturn<T>['close'] = () => {
+    setState({ opened: false, closed: true, data: null });
+  };
+ 
+  const toggle: ToggleReturn<T>['toggle'] = (data) => {
+    if (state.opened) {
+      close();
+    } else {
+      open(data);
+    }
+  };
+ 
+  const setData: ToggleReturn<T>['setData'] = (data) => {
+    setState((state) => ({ ...state, data }));
+  };
+ 
+  return {
+    // We spreaded properties from the state to a new 
+    // object to avoid nested objects.
+    ...state,
+    open,
+    close,
+    toggle,
+    setData,
+  };
+};
+ 
+export { useToggle };
+`}</Code>
+  <M>Now is the time for unit tests!</M>
+</Section>
+
+<Section>
+  <XL>Unit tests for useToggle hook</XL>
+  <M>
+    We'll use the <B>react-testing-library</B> module that allows us to test
+    hooks. We'll try to go through the typical use case of this hook and we'll
+    check if the state changed correctly.
+  </M>
+  <Code mode="static" lang="ts">{`  it('works in full, real scenario', () => {
+  const data = { id: 1 };
+  const { result } = renderHook(() => useToggle({ opened: true, data }));
+ 
+  act(() => {
+    result.current.close();
+  });
+ 
+  expect(result.current.opened).toBe(false);
+  expect(result.current.closed).toBe(true);
+  expect(result.current.data).toBe(null);
+ 
+  act(() => {
+    result.current.open(data);
+  });
+ 
+  expect(result.current.opened).toBe(true);
+  expect(result.current.closed).toBe(false);
+  expect(result.current.data).toEqual(data);
+ 
+  act(() => {
+    result.current.toggle();
+  });
+ 
+  expect(result.current.opened).toBe(false);
+  expect(result.current.closed).toBe(true);
+  expect(result.current.data).toBe(null);
+ 
+  act(() => {
+    result.current.toggle(data);
+  });
+ 
+  expect(result.current.opened).toBe(true);
+  expect(result.current.closed).toBe(false);
+  expect(result.current.data).toEqual(data);
+ 
+  act(() => {
+    result.current.setData({ id: 2 });
+  });
+ 
+  expect(result.current.data).toEqual({ id: 2 });
+});`}</Code>
+  <M>
+    We started by assigning the initial state to our hook via configuration and
+    then we closed, opened, toggled, and reassigned data. After each
+    interaction, we checked the state.{" "}
+  </M>
+</Section>
+
+<Example label="Final result">
+  <M>
+    <A
+      href="https://github.com/polubis/Dream-stack-for-React-dev/tree/article/Manage-Modals%2C-Dialogs%2C-and-features-with-type-safety-useToggle-hook/system/libs/figa-hooks/src/lib/use-toggle"
+      outside
+    >
+      Repository
+    </A>{" "}
+    to play with implemented code. In addition below you have all the required
+    code Copy and paste it and just use <B>useToggle</B> hook.
+  </M>
+  <M>Look at type definitions file. </M>
+  <Code
+    description="defs.ts"
+    rolled
+    mode="async"
+    src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/article/Manage-Modals%2C-Dialogs%2C-and-features-with-type-safety-useToggle-hook/system/libs/figa-hooks/src/lib/use-toggle/defs.ts"
+    lang="ts"
+  />
+  <M>Now the implementation kicks in. </M>
+  <Code
+    description="use-toggle.ts"
+    rolled
+    mode="async"
+    src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/article/Manage-Modals%2C-Dialogs%2C-and-features-with-type-safety-useToggle-hook/system/libs/figa-hooks/src/lib/use-toggle/use-toggle.ts"
+    lang="ts"
+  />
+  <M>In the end the really important part - tests.</M>
+  <Code
+    description="use-toggle.test.ts"
+    rolled
+    mode="async"
+    src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/article/Manage-Modals%2C-Dialogs%2C-and-features-with-type-safety-useToggle-hook/system/libs/figa-hooks/src/lib/use-toggle/use-toggle.test.ts"
+    lang="ts"
+  />
+</Example>
+
+<Summary label="What did we learn in this lesson?">
+  <M>
+    As you have probably seen, sometimes simple logic can be frustrating to work
+    with if you need to repeat such logic in different places. This simple{" "}
+    <B>useToggle</B> hook shows how you can wrap such logic inside a reusable,
+    independent being.{" "}
+  </M>
+  <M>
+    What scenarios can be handled with this utility? It may be useful in
+    creating any components like <B>Modal</B>, <B>Menu</B>, in simple words - to
+    create something that appears and disappears.
+  </M>
+  <M>
+    In addition, we can assign additional data that may be useful when dealing
+    with real business requirements or more complex components.
+  </M>
+  <M>
+    Everything is tested in a single place, so next time when you'll test your
+    components you need to focus only on checking - is the <B>useToggle</B> hook
+    used? If yes, you can skip testing these flags and data setup in your
+    application/presentation-related components.
+  </M>
+</Summary>

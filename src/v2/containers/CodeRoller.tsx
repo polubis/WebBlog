@@ -32,7 +32,7 @@ export const CodeRoller = ({ children, onExpand }: RollerProps) => {
   const layout = useLayoutProvider()
 
   return (
-    <Container>
+    <Container className='ui-snippet'>
       {children}
       <div className="roller-backdrop center r1">
         <XL className="tcenter tshadow1">{layout.t.roller.title}</XL>
