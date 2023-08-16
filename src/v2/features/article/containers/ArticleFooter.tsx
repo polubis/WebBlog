@@ -4,7 +4,7 @@ import { useLayoutProvider } from "../../../providers/LayoutProvider"
 import { useArticleProvider } from "../ArticleProvider"
 import { useCustomGAEvent } from "../../../../utils/useCustomGAEvent"
 import { ObserveMe } from "../../../components/ObserveMe"
-import { SM_DOWN } from "../../../../utils/viewport"
+import { M_DOWN, SM_DOWN } from "../../../../utils/viewport"
 import { Link } from "gatsby"
 import styled from "styled-components"
 import AuthorAvatar from "../../../../components/article/AuthorAvatar"
@@ -15,8 +15,11 @@ import { NavigationSection } from "../../../components/NavigationSection"
 import { useIsVisible } from "../../../../utils/useIsVisible"
 import Loadable from "react-loadable"
 import { isInSSR } from "../../../../utils/isInSSR"
-import { article_comments_section_id, scroll_to_key } from "../../../core/consts"
-import { VotesProvider } from "../../../providers/VotesProvider"
+import {
+  article_comments_section_id,
+  scroll_to_key,
+} from "../../../core/consts"
+import { VotesBox } from "../../../components/VotesBox"
 
 const Container = styled.div`
   .observe-me {
@@ -71,6 +74,24 @@ const Container = styled.div`
   .author-personality {
     margin-left: 16px;
   }
+
+  .article-footer-author-section {
+    & > *:first-child {
+      margin-right: 32px;
+    }
+
+    @media ${M_DOWN} {
+      justify-content: space-between;
+
+      & > *:first-child {
+        margin-right: 16px;
+      }
+    }
+
+    .author-avatar {
+      flex-shrink: 0;
+    }
+  }
 `
 
 const CommentsBox = () => {
@@ -82,11 +103,11 @@ const CommentsBox = () => {
 
     const scrollTo = localStorage.getItem(scroll_to_key)
 
-    if (!scrollTo) return;
+    if (!scrollTo) return
 
     const element = document.getElementById(scrollTo)
 
-    if (!element) return;
+    if (!element) return
 
     const timeout = setTimeout(() => {
       element.scrollIntoView()
@@ -130,6 +151,25 @@ const CommentsWrapper = () => {
   )
 }
 
+const ArticleVotes = Loadable({
+  loader: () => import("./ArticleVotes").then(m => m.ArticleVotes),
+  loading: () => <VotesBox />,
+})
+
+const VotesWrapper = () => {
+  const { ref, isVisible } = useIsVisible({ threshold: 0.1, useOnce: true })
+
+  if (isVisible) {
+    return <ArticleVotes />
+  }
+
+  return (
+    <div ref={ref}>
+      <VotesBox />
+    </div>
+  )
+}
+
 const ArticleFooter = () => {
   const layout = useLayoutProvider()
   const article = useArticleProvider()
@@ -137,7 +177,7 @@ const ArticleFooter = () => {
 
   return (
     <Container>
-      <div className="row">
+      <div className="article-footer-author-section row">
         <Link to={layout.routes.authors.to}>
           <div className="clickable row">
             <AuthorAvatar avatar={article.author.avatar.small} />
@@ -149,6 +189,7 @@ const ArticleFooter = () => {
             </div>
           </div>
         </Link>
+        <VotesWrapper />
       </div>
       {article.author.linkedin_url !== undefined && (
         <ObserveMe
@@ -166,14 +207,6 @@ const ArticleFooter = () => {
           btnTitle={article.t.observe_me_follow}
         />
       )}
-      <VotesProvider>
-        {({ addPositive, addNegative, vote }) => (
-          <>
-            <button onClick={addPositive}>Positive {vote.positive}</button>
-            <button onClick={addNegative}>Negative {vote.negative}</button>
-          </>
-        )}
-      </VotesProvider>
       <CommentsWrapper />
       <div className="dates wrap">
         <Badge color={theme.secondary}>

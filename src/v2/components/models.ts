@@ -89,6 +89,10 @@ export interface RateProps {
   rate: number
 }
 
+export interface VotesBoxProps {
+  children?: ReactNode
+}
+
 export type {
   AuthorTileProps,
   TagsProps,

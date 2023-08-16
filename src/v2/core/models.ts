@@ -333,11 +333,8 @@ export interface Comment {
 }
 
 export interface Vote {
-  id: Id
-  path: Path
   positive: number
   negative: number
-  date: CDate
 }
 
 export type TMap<T> = Record<LangKey, T>

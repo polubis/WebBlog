@@ -55,5 +55,7 @@
         "description": "We are hiding too big snippets to reduce the time to load of our page. If you want to see it, just click the button below.",
         "btn_title": "Show me"
     },
-    "anonymous": "Anonymous"
+    "anonymous": "Anonymous",
+    "like_this": "I like this content",
+    "i_dont_like_this": "I don't like this content"
 }

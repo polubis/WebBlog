@@ -6,6 +6,12 @@ import { useLayoutProvider } from "../providers/LayoutProvider"
 
 const Container = styled.div`
   position: relative;
+  
+  .ui-snippet {
+    pre {
+      overflow: hidden;
+    }
+  }
 
   .roller-backdrop {
     position: absolute;
