@@ -18,7 +18,7 @@ const FeedbackButton = styled.button`
   align-items: center;
   font-family: "Lexend", sans-serif;
 
-  &:hover {
+  &:hover:not(:disabled) {
     cursor: pointer;
     background: #c7bdbdab;
   }

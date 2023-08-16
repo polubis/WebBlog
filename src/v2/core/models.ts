@@ -332,6 +332,11 @@ export interface Comment {
   }
 }
 
+export interface Vote {
+  positive: number
+  negative: number
+}
+
 export type TMap<T> = Record<LangKey, T>
 
 export type State<I extends string, T = undefined> = T extends undefined
