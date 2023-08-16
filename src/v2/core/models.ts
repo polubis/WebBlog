@@ -332,6 +332,13 @@ export interface Comment {
   }
 }
 
+export interface Vote {
+  id: Id
+  path: Path
+  counter: number
+  date: CDate
+}
+
 export type TMap<T> = Record<LangKey, T>
 
 export type State<I extends string, T = undefined> = T extends undefined
