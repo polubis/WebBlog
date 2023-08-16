@@ -16,11 +16,12 @@ export interface FirebaseProviderProps {
 }
 
 export interface VotesProviderState {
-  vote?: Vote
+  vote: Vote
 }
 
 export interface VotesProviderCtx extends VotesProviderState {
   addPositive: () => Promise<void>
+  addNegative: () => Promise<void>
 }
 
 export interface VotesProviderProps {

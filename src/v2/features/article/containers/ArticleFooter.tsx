@@ -167,8 +167,11 @@ const ArticleFooter = () => {
         />
       )}
       <VotesProvider>
-        {({ addPositive, vote }) => (
-          <button onClick={addPositive}>Click me XD</button>
+        {({ addPositive, addNegative, vote }) => (
+          <>
+            <button onClick={addPositive}>Positive {vote.positive}</button>
+            <button onClick={addNegative}>Negative {vote.negative}</button>
+          </>
         )}
       </VotesProvider>
       <CommentsWrapper />

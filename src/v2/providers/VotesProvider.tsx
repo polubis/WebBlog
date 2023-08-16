@@ -22,15 +22,29 @@ const createVote = (vote: Partial<Vote> = {}): Vote => {
 }
 
 export const VotesProvider = ({ children, vote }: VotesProviderProps) => {
-    const [state, setState] = useState<VotesProviderState>(() => ({ vote }))
+    const [state, setState] = useState<VotesProviderState>(() => ({ vote: createVote(vote) }))
 
     const value = useMemo(
         (): VotesProviderCtx => ({
             ...state,
+            addNegative: () => {
+                setState((state) => ({
+                    ...state,
+                    vote: {
+                        ...state.vote,
+                        negative: state.vote.negative + 1
+                    }
+                }))
+
+                return Promise.resolve()
+            },
             addPositive: () => {
                 setState((state) => ({
                     ...state,
-                    vote: createVote(state.vote)
+                    vote: {
+                        ...state.vote,
+                        positive: state.vote.positive + 1
+                    }
                 }))
 
                 return Promise.resolve()
