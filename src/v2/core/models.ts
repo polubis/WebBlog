@@ -335,7 +335,8 @@ export interface Comment {
 export interface Vote {
   id: Id
   path: Path
-  counter: number
+  positive: number
+  negative: number
   date: CDate
 }
 

@@ -27,7 +27,8 @@ export const FirebaseProvider = ({
     const value = useMemo(() => ({
         app, auth, db, provider
     }), [])
-    return <Context.Provider value={value}>{value}</Context.Provider>
+
+    return <Context.Provider value={value}>{children}</Context.Provider>
 }
 
 export const useFirebaseProvider = (): FirebaseProviderCtx => {

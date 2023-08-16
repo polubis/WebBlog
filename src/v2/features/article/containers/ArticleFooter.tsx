@@ -16,6 +16,7 @@ import { useIsVisible } from "../../../../utils/useIsVisible"
 import Loadable from "react-loadable"
 import { isInSSR } from "../../../../utils/isInSSR"
 import { article_comments_section_id, scroll_to_key } from "../../../core/consts"
+import { VotesProvider } from "../../../providers/VotesProvider"
 
 const Container = styled.div`
   .observe-me {
@@ -80,13 +81,13 @@ const CommentsBox = () => {
     if (isInSSR()) return
 
     const scrollTo = localStorage.getItem(scroll_to_key)
- 
+
     if (!scrollTo) return;
 
     const element = document.getElementById(scrollTo)
 
     if (!element) return;
-   
+
     const timeout = setTimeout(() => {
       element.scrollIntoView()
       localStorage.removeItem(scroll_to_key)
@@ -165,6 +166,11 @@ const ArticleFooter = () => {
           btnTitle={article.t.observe_me_follow}
         />
       )}
+      <VotesProvider>
+        {({ addPositive, vote }) => (
+          <button onClick={addPositive}>Click me XD</button>
+        )}
+      </VotesProvider>
       <CommentsWrapper />
       <div className="dates wrap">
         <Badge color={theme.secondary}>
