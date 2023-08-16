@@ -5,8 +5,6 @@ import React, {
   useContext,
   useEffect,
 } from "react"
-import { initializeApp } from "firebase/app"
-import { getFirestore } from "firebase/firestore"
 import type {
   AddState,
   CommentsProviderCtx,
@@ -20,9 +18,7 @@ import { TMap } from "../../core/models"
 import comments_en from "../../translation/comments/en.json"
 import comments_pl from "../../translation/comments/en.json"
 import {
-  getAuth,
   signInWithPopup,
-  GoogleAuthProvider,
   User,
   onAuthStateChanged,
   signInWithRedirect,
@@ -31,28 +27,14 @@ import { prepareToCreateComment } from "./api/create-comment/create-comment"
 import { prepareToLoadComments } from "./api/create-comment/load-comments"
 import { tUp } from "../../../utils/viewport"
 import { article_comments_section_id, scroll_to_key } from "../../core/consts"
+import { useFirebaseProvider } from "../../providers/FirebaseProvider"
 
 const Context = createContext<CommentsProviderNullableCtx>(null)
-
-const config = {
-  apiKey: process.env.GATSBY_API_KEY,
-  authDomain: process.env.GATSBY_AUTH_DOMAIN,
-  projectId: process.env.GATSBY_PROJECT_ID,
-  storageBucket: process.env.GATSBY_STORAGE_BUCKET,
-  messagingSenderId: process.env.GATSBY_MESSAGING_SENDER_ID,
-  appId: process.env.GATSBY_APP_ID,
-  measurementId: process.env.GATSBY_MEASURMENT_ID,
-}
 
 const t: TMap<CommentsT> = {
   en: comments_en,
   pl: comments_pl,
 }
-
-const app = initializeApp(config)
-const auth = getAuth(app)
-const db = getFirestore(app)
-const provider = new GoogleAuthProvider()
 
 const addState = (state: LoadedState, user: User): AddState => ({
   is: "add",
@@ -65,6 +47,7 @@ export const CommentsProvider = ({
   path,
   lang,
 }: CommentsProviderProps) => {
+  const { auth, db, provider } = useFirebaseProvider()
   const [state, setState] = useState<CommentsProviderState>(() => ({
     is: "idle",
   }))

@@ -7,6 +7,7 @@ import { M, XL } from "../../../../ui"
 import { CommentsView } from "../../comments/CommentsView"
 import { Rate } from "../../../components/Rate"
 import type { CommentsProviderCtx } from "../../comments/models"
+import { FirebaseProvider } from "../../../providers/FirebaseProvider"
 
 const ConnectedComments = ({ state, load, reset }: CommentsProviderCtx) => {
   const article = useArticleProvider()
@@ -65,8 +66,11 @@ export const ArticleComments = () => {
   }, [article.path])
 
   return (
-    <CommentsProvider path={path} lang={layout.lang.key}>
-      {props => <ConnectedComments {...props} />}
-    </CommentsProvider>
+    <FirebaseProvider>
+      <CommentsProvider path={path} lang={layout.lang.key}>
+        {props => <ConnectedComments {...props} />}
+      </CommentsProvider>
+    </FirebaseProvider>
+
   )
 }
