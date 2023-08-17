@@ -45,5 +45,11 @@
             "2": "Czat GPT",
             "3": "nie zabierze Ci pracy - on jedynie ją ułatwia."
         }
-    }
+    },
+    "description": "Opis",
+    "skip_edition_disclaimer": "Jeżeli pominiesz edycje tego formularza, to zostanie skopiowany domyślny szablon.",
+    "add_image": "Dodaj zdjęcie",
+    "add_link": "Dodaj link",
+    "copied_and_paste_now": "Skopiowano! Teraz wklej zawartość w edytor.",
+    "default_copied_and_paste_now": "Skopiowano domyślny szablon. Teraz wklej zawartość w edytor."
 }

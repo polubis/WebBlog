@@ -65,9 +65,10 @@ const section = `<Section>
   </M>
 </Section>
 `
-const link = `<A outside href="https://github.com/polubis/CRA-TEMPLATE">
-  link
-</A>
+const link = `
+<A outside href="https://github.com/polubis/CRA-TEMPLATE">
+    link title
+  </A>
 `
 const image = `<Img
   src="https://drive.google.com/uc?export=view&id=17i6JJvqhvrPtY8cGZj_jXN-rbv_p6NHY"

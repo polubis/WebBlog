@@ -9,8 +9,8 @@ import { useLayoutProvider } from "../../../providers/LayoutProvider"
 const Container = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 99px 1fr;
-  grid-template-areas: "header header" "first second";
+  grid-template-rows: 99px 1fr 70px;
+  grid-template-areas: "header header" "first second" "toolbox second";
   gap: 0 24px;
   position: fixed;
   top: 0;
@@ -29,6 +29,11 @@ const Header = styled.header`
   background: ${theme.bg};
 `
 
+const ToolboxWrapper = styled.div`
+  padding: 0 20px;
+  grid-area: toolbox;
+`
+
 const FirstWrapper = styled.div`
   overflow-y: auto;
   height: 100%;
@@ -43,7 +48,7 @@ const SecondWrapper = styled.div`
 `
 
 interface FullScreenCreatorProps {
-  children: [ReactNode, ReactNode]
+  children: [ReactNode, ReactNode, ReactNode]
   onClose: () => void
 }
 
@@ -51,7 +56,7 @@ const FullScreenCreator = ({ children, onClose }: FullScreenCreatorProps) => {
   const { render } = usePortal()
   const layout = useLayoutProvider()
 
-  const [First, Second] = children
+  const [First, Second, Toolbox] = children
 
   return render(
     <Container>
@@ -64,7 +69,12 @@ const FullScreenCreator = ({ children, onClose }: FullScreenCreatorProps) => {
           }
         />
       </Header>
-      <FirstWrapper>{First}</FirstWrapper>
+      <FirstWrapper>
+        {First}
+      </FirstWrapper>
+      <ToolboxWrapper className="row">
+        {Toolbox}
+      </ToolboxWrapper>
       <SecondWrapper>{Second}</SecondWrapper>
     </Container>
   )
