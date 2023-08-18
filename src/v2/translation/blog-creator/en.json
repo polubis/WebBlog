@@ -1,49 +1,55 @@
 {
-    "page_title": "creator: Tool for creating articles",
-    "page_description": "Use our tool to create articles and courses in a fast, developer-friendly way. Consume huge dose of components and get technical review.",
-    "sentence": "A powerful editor for articles",
-    "full_screen": "Full screen",
-    "submit_article": "Submit article",
-    "article_preview": "Article preview",
-    "version": "Version",
-    "choose_template": "Choose template",
-    "leave_warn": "After leaving this page your progress will not be saved. Are you sure?",
-    "errors_heading": "Errors detected",
-    "errors_description": "This may be caused because you've used unsupported tag, an iframe or you forgot to close a tag.",
-    "errors_here_is_a_list": "Here is a list of supported tags: ",
-    "still_problems": "If you still have problems please join our community on",
-    "demo_info": {
-        "heading": "Please read it!",
-        "desc": "Don't worry, it will work when published. For performance reasons we're skipping rendering the"
+  "page_title": "creator: Tool for creating articles",
+  "page_description": "Use our tool to create articles and courses in a fast, developer-friendly way. Consume huge dose of components and get technical review.",
+  "sentence": "A powerful editor for articles",
+  "full_screen": "Full screen",
+  "submit_article": "Submit article",
+  "article_preview": "Article preview",
+  "version": "Version",
+  "choose_template": "Choose template",
+  "leave_warn": "After leaving this page your progress will not be saved. Are you sure?",
+  "errors_heading": "Errors detected",
+  "errors_description": "This may be caused because you've used unsupported tag, an iframe or you forgot to close a tag.",
+  "errors_here_is_a_list": "Here is a list of supported tags: ",
+  "still_problems": "If you still have problems please join our community on",
+  "demo_info": {
+    "heading": "Please read it!",
+    "desc": "Don't worry, it will work when published. For performance reasons we're skipping rendering the"
+  },
+  "copied": "Copied! Now you need to paste it.",
+  "samples": {
+    "default": "Default",
+    "image": "Image",
+    "heading": "Heading",
+    "paragraph": "Paragraph",
+    "section": "Section",
+    "example": "Example",
+    "demo": "Demo",
+    "prelude": "Prelude",
+    "summary": "Summary",
+    "link": "Link",
+    "bold": "Bold text",
+    "hint": "Hint",
+    "code": "Code",
+    "static_code": "Static code"
+  },
+  "loader": {
+    "heading": "Did you know that?",
+    "mascot": {
+      "1": "Our platform's mascot is a",
+      "2": "kitten with gun",
+      "3": "Maybe you have already seen it?"
     },
-    "copied": "Copied! Now you need to paste it.",
-    "samples": {
-        "default": "Default",
-        "image": "Image",
-        "heading": "Heading",
-        "paragraph": "Paragraph",
-        "section": "Section",
-        "example": "Example",
-        "demo": "Demo",
-        "prelude": "Prelude",
-        "summary": "Summary",
-        "link": "Link",
-        "bold": "Bold text",
-        "hint": "Hint",
-        "code": "Code",
-        "static_code": "Static code"
-    },
-    "loader": {
-        "heading": "Did you know that?",
-        "mascot": {
-            "1": "Our platform's mascot is a",
-            "2": "kitten with gun",
-            "3": "Maybe you have already seen it?"
-        },
-        "gpt": {
-            "1": "Don't be afraid",
-            "2": "The GPT chat",
-            "3": "won't take away your work - it can only make it easier."
-        }
+    "gpt": {
+      "1": "Don't be afraid",
+      "2": "The GPT chat",
+      "3": "won't take away your work - it can only make it easier."
     }
+  },
+  "description": "Description",
+  "skip_edition_disclaimer": "If you skip editing this form, the default template will be copied.",
+  "add_image": "Add image",
+  "add_link": "Add link",
+  "copied_and_paste_now": "Copied! Paste it now in editor.",
+  "default_copied_and_paste_now": "Default example copied! Paste it now in editor."
 }
