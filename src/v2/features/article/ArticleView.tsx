@@ -17,6 +17,13 @@ import { ArticleBreadcrumbs } from "../../containers/ArticleBreadcrumbs"
 import { Reviewers } from "../../components/Reviewers"
 import { MdxProvider } from "../../providers/MdxProvider"
 import { MDXRenderer } from "gatsby-plugin-mdx"
+import '@suziwen/gitalk/dist/gitalk.css'
+import GitalkComponent from "gitalk/dist/gitalk-component";
+
+const CommentsWrapper = styled.div`
+.gt-counts {
+color:#fff;
+}`
 
 const ArticleContent = styled.main`
   margin: 24px auto;
@@ -100,6 +107,30 @@ const ArticleView = () => {
             <MdxProvider renderer={MDXRenderer}>{body}</MdxProvider>
             <ArticleFooter />
           </ArticleContent>
+          <CommentsWrapper>
+            {
+ /* clientID String
+ Required. GitHub Application Client ID.
+
+clientSecret String
+Required. GitHub Application Client Secret.
+repo String
+Required. GitHub repository.
+
+owner String
+Required. GitHub repository owner. Can be personal user or organization.
+
+admin Array
+Required. GitHub repository owner and collaborators. (Users who having write access to this repository) */}
+{/* https://github.com/gitalk/gitalk */}
+              <GitalkComponent options={{
+                clientID: "----",
+                clientSecret: "----",
+                repo: "WebBlog",
+                owner: "polubis",
+                admin: ["polubis", "i", "collaborators", ],
+              }} />
+              </CommentsWrapper>
         </Content>
       </Layout>
       <ProgressDisplayer labels={layout.t.progress_display} />
