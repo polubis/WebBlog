@@ -51,21 +51,30 @@ export const Reviewers = ({
     <Container className="center components-reviewers">
       <Link to="/authors/">
         <div className="reviewers-avatar-container col">
-          <AuthorAvatar avatar={tech.avatar.small} />
+          <AuthorAvatar
+            avatar={tech.avatar.small}
+            avatarTitle={tech.full_name}
+          />
           <S>{techLabel}</S>
         </div>
       </Link>
 
       <Link to="/authors/">
         <div className="reviewers-avatar-container col">
-          <AuthorAvatar avatar={author.avatar.medium} />
+          <AuthorAvatar
+            avatar={author.avatar.medium}
+            avatarTitle={author.full_name}
+          />
           <S>{authorLabel}</S>
         </div>
       </Link>
 
       <Link to="/authors/">
         <div className="reviewers-avatar-container col">
-          <AuthorAvatar avatar={ling.avatar.small} />
+          <AuthorAvatar
+            avatar={ling.avatar.small}
+            avatarTitle={ling.full_name}
+          />
           <S>{lingLabel}</S>
         </div>
       </Link>

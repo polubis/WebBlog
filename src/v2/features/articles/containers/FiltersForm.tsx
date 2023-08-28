@@ -167,7 +167,11 @@ const FiltersForm = ({ trigger }: FiltersFormProps) => {
                 {articlesPageT.all} ({authors.length})
               </span>
               {authors.slice(0, AUTHORS_DISPLAY_LIMIT).map(author => (
-                <AuthorAvatar key={author.id} avatar={author.avatar.tiny} />
+                <AuthorAvatar
+                  key={author.id}
+                  avatar={author.avatar.tiny}
+                  avatarTitle={author.full_name}
+                />
               ))}
               <span>... +{authors.length - AUTHORS_DISPLAY_LIMIT}</span>
             </Badge>
@@ -183,7 +187,10 @@ const FiltersForm = ({ trigger }: FiltersFormProps) => {
                     filters.authors[author.id] ? " active" : ""
                   }`}
                 >
-                  <AuthorAvatar avatar={author.avatar.small} />
+                  <AuthorAvatar
+                    avatar={author.avatar.small}
+                    avatarTitle={author.full_name}
+                  />
                 </div>
               ))}
             </section>
