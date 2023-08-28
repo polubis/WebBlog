@@ -1,0 +1,155 @@
+---
+cdate: 2023-04-28
+mdate: 2023-04-28
+authorId: tmarczak
+treviewerId: polubis
+lreviewerId: kreszko
+tags: theming,performance,benchmark
+langs: ["pl"]
+stack: react,styled-components
+description: We will examine how to switch themes using popular libraries and measure performance.
+title: Switching themes in React
+readTime: 6
+---
+
+<Prelude>
+  <M>
+    Theming is a crucial aspect of designing and building modern web
+    applications. It allows developers to create consistent and visually
+    appealing user interfaces across different components and pages.
+  </M>
+  <M>
+    With <B>styled-components</B> theming, developers can define a set of
+    variables that represent various style properties, such as colors, fonts,
+    and spacing. These variables can then be used to style components, providing
+    a consistent look and feel throughout the application.
+  </M>
+  <M>
+    In this article we'll cover basics of theming with styled-components and
+    demonstrate how to apply a theme to simple React application.
+  </M>
+</Prelude>
+
+<Section>
+  <XL>1. Creating theme file</XL>
+  <M>
+    Let's create a new file <B>theme.ts</B> and add 2 basic themes – light and
+    dark one. We also need a function to randomize themes.
+  </M>
+  <Snippet
+    description="TODO"
+    linesCount={25}
+    src="https://raw.githubusercontent.com/TomaszMarczak/styled-components-poc/main/src/theme.ts"
+  />
+</Section>
+
+<Section>
+  <XL>2. Adding ThemeProvider</XL>
+  <M>
+    <B>ThemeProvider</B> is a component that provides a way to pass a theme
+    object (e.g., lightTheme or darkTheme).
+  </M>
+  <M>
+    By wrapping the root of the application with ThemeProvider, the theme object
+    can be made available to all components in the application.
+  </M>
+  <Snippet description="TODO" linesCount={23} />
+</Section>
+
+<Section>
+  <XL>3. Using themes in components</XL>
+  <M>
+    Each component uses the theme object passed via ThemeProvider to apply
+    styles based on the current theme. As you can see it's really easy.
+  </M>
+  <Snippet description="TODO" linesCount={23} />
+</Section>
+
+<Section>
+  <XL>4. Dynamic theme changing</XL>
+  <M>
+    To change theme, we'll need something that will connect a button to a theme
+    and then update our variable. Inside <B>App</B> component we'll create a{" "}
+    <B>handleSetTheme</B> function that will change theme after clicking given
+    button.
+  </M>
+  <Snippet description="TODO" linesCount={23} />
+</Section>
+
+<Section>
+  <XL>5. Randomizing theme</XL>
+  <M>
+It would be nice effect if we could randomize our theme. Let's add another button the same way as we did before. 
+  </M>
+      <Snippet
+    description="TODO"
+    linesCount={23}
+  />
+
+</Section>
+
+<Section>
+  <XL>6. Testing performance</XL>
+  <M>
+    We want to check how performance goes down in relevance to component
+    quantity. We need more components!
+  </M>
+</Section>
+
+<Section>
+  <XL>7. The results</XL>
+  <M>
+    Now we have working application. We can test it with <B>Profiler</B>. For
+    each case, we'll perform same steps. Let's randomize theme 3 times, then
+    switch to light mode and finally to dark mode. Let’s check how fast we are
+    rendering application with around 100 components.
+  </M>
+  <Snippet description="TODO" linesCount={23} />
+  <M>
+    Each action consumes around 5-6 ms to render components with different
+    themes. What is interesting is the more we play with same amount of
+    components the less time it takes to render.
+  </M>
+  <Hint hasBg>
+    Please note my fantastic skills in pressing buttons almost exactly 1 second
+    apart.{" "}
+  </Hint>
+  <M>Time to put 1 000 components to the test.</M>
+  <Snippet description="TODO" linesCount={23} />
+  <M>
+    Same sequence, but time to render is now around 25ms, 10x more components,
+    but 5x more time to render. This time is still perfectly fine for most cases
+    and delay is basically unnoticeable Finally, we can try working with 10 000
+    components. That’s a lot for single application, but we are here to test
+    boundaries, aren’t we?
+  </M>
+  <Snippet description="TODO" linesCount={23} />
+  <M>
+    Well, it became a little bit annoying to switch themes. Around 230-250ms
+    delay is a lot for functionalities that we expect to work smoothly. I don’t
+    think there is much sense in testing 50 000 elements on the screen, but I
+    will do it so you don’t have to...
+  </M>
+  <Snippet description="TODO" linesCount={23} />
+  <M>
+    I tried 50 000 it was laggy and for 100 000 components my browser stopped
+    responding.
+  </M>
+</Section>
+
+<Example>
+  <M>
+    <A href="https://github.com/polubis/Chromatic-and-storybook" outside>
+      Repository
+    </A>{" "}
+    to play with.
+  </M>
+</Example>
+
+<Summary>
+  <M>
+    In conclusion, the testing of our theming solution with styled-components
+    has yielded positive results. Our application has been put through a series
+    of tests that involved randomizing themes.
+  </M>
+</Summary>
