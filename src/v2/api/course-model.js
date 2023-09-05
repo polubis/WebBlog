@@ -87,63 +87,75 @@ const CourseModel = (
     author,
     tech_reviewer,
     ling_reviewer,
-    chapters: courseChapters.map(chapter => {
-      const courseChapterSlugParts = chapter.slug.split("/")
-      const courseChapterId =
-        courseChapterSlugParts[0] + "/" + courseChapterSlugParts[1]
-      const chapterTitle = chapter.frontmatter.name
-      const chapterLessons = courseLessons.filter(lesson => {
-        const lessonSlugParts = lesson.slug.split("/")
-        const lessonId = lessonSlugParts[0] + "/" + lessonSlugParts[1]
-
-        return lessonId === courseChapterId
+    chapters: courseChapters
+      .sort((prev, curr) => {
+        if (prev.slug > curr.slug) return 1
+        if (prev.slug === curr.slug) return 0
+        return -1
       })
-      let chapterLessonsCollection = chapterLessons.map(lesson => ({
-        title: lesson.frontmatter.name,
-        duration: lesson.frontmatter.duration,
-        deprecated: lesson.frontmatter.deprecated,
-        ga_page:
-          ga_page +
-          "/" +
-          courseId +
-          "/" +
-          titleToSlug(chapterTitle) +
-          "/" +
-          titleToSlug(lesson.frontmatter.name),
-        url:
-          layout.site_url +
-          coursePath +
-          titleToSlug(chapterTitle) +
-          "/" +
-          titleToSlug(lesson.frontmatter.name) +
-          "/",
-        body: lesson.body,
-        description: lesson.frontmatter.description,
-        source_url: layout.course_source_url + path + lesson.slug + ".mdx",
-        path:
-          coursePath +
-          titleToSlug(chapterTitle) +
-          "/" +
-          titleToSlug(lesson.frontmatter.name) +
-          "/",
-      }))
-      chapterLessonsCollection = chapterLessonsCollection.map(
-        (lesson, index) => ({
-          ...lesson,
-          prev: chapterLessonsCollection[index - 1],
-          next: chapterLessonsCollection[index + 1],
-        })
-      )
+      .map(chapter => {
+        const courseChapterSlugParts = chapter.slug.split("/")
+        const courseChapterId =
+          courseChapterSlugParts[0] + "/" + courseChapterSlugParts[1]
+        const chapterTitle = chapter.frontmatter.name
+        const chapterLessons = courseLessons.filter(lesson => {
+          const lessonSlugParts = lesson.slug.split("/")
+          const lessonId = lessonSlugParts[0] + "/" + lessonSlugParts[1]
 
-      return {
-        duration: chapterLessons.reduce(
-          (acc, { frontmatter }) => acc + frontmatter.duration,
-          0
-        ),
-        title: chapter.frontmatter.name,
-        lessons: chapterLessonsCollection,
-      }
-    }),
+          return lessonId === courseChapterId
+        })
+        let chapterLessonsCollection = chapterLessons
+          .sort((prev, curr) => {
+            if (prev.slug > curr.slug) return 1
+            if (prev.slug === curr.slug) return 0
+            return -1
+          })
+          .map(lesson => ({
+            title: lesson.frontmatter.name,
+            duration: lesson.frontmatter.duration,
+            deprecated: lesson.frontmatter.deprecated,
+            ga_page:
+              ga_page +
+              "/" +
+              courseId +
+              "/" +
+              titleToSlug(chapterTitle) +
+              "/" +
+              titleToSlug(lesson.frontmatter.name),
+            url:
+              layout.site_url +
+              coursePath +
+              titleToSlug(chapterTitle) +
+              "/" +
+              titleToSlug(lesson.frontmatter.name) +
+              "/",
+            body: lesson.body,
+            description: lesson.frontmatter.description,
+            source_url: layout.course_source_url + path + lesson.slug + ".mdx",
+            path:
+              coursePath +
+              titleToSlug(chapterTitle) +
+              "/" +
+              titleToSlug(lesson.frontmatter.name) +
+              "/",
+          }))
+        chapterLessonsCollection = chapterLessonsCollection.map(
+          (lesson, index) => ({
+            ...lesson,
+            prev: chapterLessonsCollection[index - 1],
+            next: chapterLessonsCollection[index + 1],
+          })
+        )
+
+        return {
+          duration: chapterLessons.reduce(
+            (acc, { frontmatter }) => acc + frontmatter.duration,
+            0
+          ),
+          title: chapter.frontmatter.name,
+          lessons: chapterLessonsCollection,
+        }
+      }),
   }
 }
 
