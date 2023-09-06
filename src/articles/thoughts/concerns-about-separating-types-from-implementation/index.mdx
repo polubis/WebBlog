@@ -1,0 +1,582 @@
+---
+cdate: 2023-09-06
+mdate: 2023-09-06
+authorId: polubis
+treviewerId: kwozniak
+lreviewerId: kzalewska
+lang: en
+tags: quality,patterns,development
+stack: typescript,react
+description: We'll check how separating types from implementation impacts our applications from different perspectives.
+readTime: 7
+seniorityLevel: advanced
+title: Concerns about separating types from implementation
+---
+
+<Prelude label="The topic introduction">
+  <M>
+    I've seen a lot of different opinions about splitting out the{" "}
+    <B>type definitions</B> from <B>run time</B> code (our application{" "}
+    <B>JavaScript</B> code). A lot of people prefer to have <B>types</B> in the
+    same file - just before the implementation.{" "}
+  </M>
+  <Code
+    mode="static"
+    lang="ts"
+  >{`// The type definition in same file with implementation: "sum.ts".
+type Sum = (...args: number[]) => number
+ 
+const sum: Sum = (...args) => {
+  return args.reduce((acc, arg) => acc + arg, 0)
+}`}</Code>
+  <M>
+    At the same time, other developers prefer to create files for <B>types</B>{" "}
+    per each module.{" "}
+  </M>
+  <Code mode="static" lang="ts">{`// The code inside "defs.ts" file.
+type Sum = (...args: number[]) => number
+ 
+// The code inside "sum.ts" file.
+import type { Sum } from './defs'
+ 
+const sum: Sum = (...args) => {
+  return args.reduce((acc, arg) => acc + arg, 0)
+}`}</Code>
+  <M>
+    I've my own thoughts about this topic and it's a good time to share them and
+    summarize what I've learned during some research and after trying some stuff
+    in code.{" "}
+  </M>
+  <M>
+    Today we'll understand the <B>pros</B>/<B>cons</B> of splitting{" "}
+    <B>type definitions</B> to separate files and we'll check when it's worth to
+    use each option.
+  </M>
+  <Hint hasBg>
+    Little spoiler - as usual in programming it depends from many factors 💨.
+    Continue reading to spot them.{" "}
+  </Hint>
+</Prelude>
+
+<Section>
+  <XL>Good, old and universal rule - the separation of concerns</XL>
+  <M>
+    When you're creating a big feature you probably separate your codebase into
+    distinct sections. The sections will be different based on the platform or
+    technology that you working with. In languages like <B>C#</B>, it's common
+    to separate <B>interfaces</B> (shape of the program/contract), to other
+    files to achieve <B>reusability</B>, <B>modularity</B>,{" "}
+    <B>maintainability</B>, and <B>easy-to-read/understand</B> codebase. This is
+    a universal rule that can be applied to any <B>technology</B>.
+  </M>
+  <M>
+    Let's take a look at an example in which we'll implement complex{" "}
+    <B>button</B> component with motives, variants, and other stuff that are
+    usually used in web apps.
+  </M>
+  <Code
+    rolled
+    description="The button component - button.tsx file"
+    mode="static"
+    lang="tsx"
+  >{`import { Loader } from '../loader';
+import type { ButtonProps } from './defs';
+ 
+import c from 'classnames';
+ 
+const Button = ({ className, loading, ...props }: ButtonProps) => {
+  const {
+    shape = 'rectangle',
+    size = 3,
+    variant = 'filled',
+    motive = 'primary',
+  } = props;
+ 
+  const classes = c(
+    'button',
+    'size-' + size,
+    shape,
+    variant,
+    motive,
+    { loading },
+    className
+  );
+ 
+  if (loading) {
+    const { children, disabled, ...btnProps } = props;
+ 
+    return (
+      <button className={classes} disabled {...btnProps}>
+        <span className="child">{children}</span>
+        <Loader size="tiny" />
+      </button>
+    );
+  }
+ 
+  return <button className={classes} {...props} />;
+};
+ 
+export { Button };
+`}</Code>
+  <M>
+    Now it's time for <B>type definitions</B> - at this moment we'll place them
+    in a separate file.
+  </M>
+  <Code
+    rolled
+    mode="static"
+    lang="ts"
+    description="Type definitions file for button component"
+  >{`import type { ButtonHTMLAttributes, DetailedHTMLProps } from 'react';
+import type {
+  BUTTON_MOTIVES,
+  BUTTON_SHAPES,
+  BUTTON_SIZES,
+  BUTTON_VARIANTS,
+} from './consts';
+ 
+type ButtonSize = (typeof BUTTON_SIZES)[number];
+type ButtonShape = (typeof BUTTON_SHAPES)[number];
+type ButtonVariant = (typeof BUTTON_VARIANTS)[number];
+type ButtonMotive = (typeof BUTTON_MOTIVES)[number];
+ 
+interface ButtonProps
+  extends DetailedHTMLProps<
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  > {
+  size?: ButtonSize;
+  shape?: ButtonShape;
+  variant?: ButtonVariant;
+  motive?: ButtonMotive;
+  loading?: boolean;
+}
+ 
+export type {
+  ButtonProps,
+  ButtonSize,
+  ButtonShape,
+  ButtonVariant,
+  ButtonMotive,
+};
+`}</Code>
+  <M>
+    Lastly, let's add some <B>constants</B>.
+  </M>
+  <Code
+    description="Some constants for button component in separate file"
+    mode="static"
+    lang="ts"
+  >{`const BUTTON_SIZES = [1, 2, 3, 4, 5] as const;
+const BUTTON_SHAPES = ['rounded', 'rectangle'] as const;
+const BUTTON_VARIANTS = ['outlined', 'filled'] as const;
+const BUTTON_MOTIVES = ['primary', 'secondary'] as const;
+  
+export { BUTTON_SIZES, BUTTON_SHAPES, BUTTON_VARIANTS, BUTTON_MOTIVES };
+`}</Code>
+  <M>
+    We're humans, and still, we maintain the codebase (not AI 💔), so it's good
+    to be able to work with code faster and in a more productive way. This
+    simple example shows, how quickly simple component code can increase its
+    number of lines and can start to be harder to read.
+  </M>
+  <M>
+    Compare now what we had with this solution in which everything is added in a
+    single file.
+  </M>
+  <Code
+    rolled
+    mode="static"
+    lang="tsx"
+  >{`import type { ButtonHTMLAttributes, DetailedHTMLProps } from 'react';
+import { Loader } from '../loader';
+ 
+import c from 'classnames';
+ 
+const BUTTON_SIZES = [1, 2, 3, 4, 5] as const;
+const BUTTON_SHAPES = ['rounded', 'rectangle'] as const;
+const BUTTON_VARIANTS = ['outlined', 'filled'] as const;
+const BUTTON_MOTIVES = ['primary', 'secondary'] as const;
+ 
+type ButtonSize = (typeof BUTTON_SIZES)[number];
+type ButtonShape = (typeof BUTTON_SHAPES)[number];
+type ButtonVariant = (typeof BUTTON_VARIANTS)[number];
+type ButtonMotive = (typeof BUTTON_MOTIVES)[number];
+ 
+interface ButtonProps
+  extends DetailedHTMLProps<
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  > {
+  size?: ButtonSize;
+  shape?: ButtonShape;
+  variant?: ButtonVariant;
+  motive?: ButtonMotive;
+  loading?: boolean;
+}
+ 
+const Button = ({ className, loading, ...props }: ButtonProps) => {
+  const {
+    shape = 'rectangle',
+    size = 3,
+    variant = 'filled',
+    motive = 'primary',
+  } = props;
+ 
+  const classes = c(
+    'button',
+    'size-' + size,
+    shape,
+    variant,
+    motive,
+    { loading },
+    className
+  );
+ 
+  if (loading) {
+    const { children, disabled, ...btnProps } = props;
+ 
+    return (
+      <button className={classes} disabled {...btnProps}>
+        <span className="child">{children}</span>
+        <Loader size="tiny" />
+      </button>
+    );
+  }
+ 
+  return <button className={classes} {...props} />;
+};
+ 
+export { Button };
+`}</Code>
+  <M>
+    Imagine now holding <B>type definitions</B> for the big library in the same
+    files with implementation 💥.
+  </M>
+  <Hint hasBg>
+    If you want to check <B>separation of concerns</B> in practice, feel free to
+    visit this{" "}
+    <A
+      href="https://github.com/polubis/Dream-stack-for-React-dev/tree/develop/system/libs/figa-ui/src/lib/button"
+      outside
+    >
+      repository
+    </A>{" "}
+    link with the above-mentioned example.
+  </Hint>
+</Section>
+
+<Section>
+  <XL>The circular dependency risk</XL>
+  <M>
+<B>Circular dependency</B> is a situation when module <B>A</B> will import something from module <B>B</B> and vice-versa. 
+  </M>
+  <Code description="This is a circular dependency" mode="static" lang="ts">{`// a.ts file.
+import { b } from './b';
+ 
+export const a = () => {
+  console.log('A function')
+}
+ 
+// b.ts file
+import { a } from './a';
+ 
+export const b = () => {
+  console.log('B function')
+}`}</Code>
+<M>Unfortunately, if you store the <B>type definitions</B> in the same file with implementation, you increase the risk of providing <B>circular dependency</B>, and with that you can increase a <B>application bundle size</B>, or you can provide really weird/hard to spot bugs.</M>
+<M>The real-world example can be spotted in <B>Redux</B> setup boilerplate.</M>
+
+<Code description="We mixed the type definitions with implementation" mode="static" lang="ts" >{`import rootReducer from "./reducers";
+ 
+export type AppState = ReturnType<typeof rootReducer>;
+ 
+const store = configureStore({
+  reducer: rootReducer
+});
+ 
+export type AppStore = ReturnType<typeof setupStore>;
+export type AppDispatch = AppStore["dispatch"];
+ 
+export const useAppDispatch: () => AppDispatch = useDispatch;
+export const useAppSelector: TypedUseSelectorHook<AppState> = useSelector;`}</Code>
+<M>Firstly, it looks really weird (for me of course). Type declarations are <B>hoisted</B>, but anyway, it looks like we're using two different languages at the same time. It makes it harder to spot what is going on in this file.</M>
+<M>Secondly, imagine that we want to create our custom <B>middleware</B> that listens for <B>dispatched actions</B>, and if it contains <B>pending</B> in <B>action type</B> we want to log the <B>payload</B> of an action. The <B>middleware</B> type from <B>redux</B> takes a type of <B>state</B> to be passed. </M>
+<Code mode="static" lang="ts">{`
+import type { AppState } from './store';
+ 
+export const logPayload: Middleware<{}, AppState> =
+  (store) => (next) => (action) => {
+    if (action.type.includes('pending')) {
+      const { type, ...payload } = action;
+      console.log(payload);
+    }
+    
+    return next(action)
+};`}</Code>
+<M>If we want to attach this middleware to our store, we need to import it and pass it to a <B>configureStore</B> function. </M>
+<Code added={[[2,2], [8,9]]} description="Boom 💥, we have circular dependency" mode="static" lang="ts" >{`import rootReducer from "./reducers";
+import { logPayload } from './logPayload';
+ 
+export type AppState = ReturnType<typeof rootReducer>;
+ 
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(logPayload),
+});
+ 
+export type AppStore = ReturnType<typeof setupStore>;
+export type AppDispatch = AppStore["dispatch"];
+ 
+export const useAppDispatch: () => AppDispatch = useDispatch;
+export const useAppSelector: TypedUseSelectorHook<AppState> = useSelector;`}</Code>
+<M>As you saw creating circular dependency is really easy. We can avoid such a situation by storing <B>type definitions</B> in a separate file.</M>
+<Code description="In defs.ts file" mode="static" lang="ts">{`
+import rootReducer from "./reducers";
+ 
+export type AppState = ReturnType<typeof rootReducer>;`}</Code>
+<M>Now let's change in both places <B>import</B> statements.</M>
+<Code mode="static" lang="ts" >{`import rootReducer from "./reducers";
+import { logPayload } from './logPayload';
+ 
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(logPayload),
+});`}</Code>
+<M>Lastly, little change in the <B>middleware</B> file.</M>
+<Code changed={[[1,1]]} mode="static" lang="ts">{`
+import type { AppState } from './defs';
+ 
+export const logPayload: Middleware<{}, AppState> =
+  // Our code from previous example...
+};`}</Code>
+<M>So, as you saw storing <B>type defs</B> in separate files reduces the risk of having <B>circular dependency</B> between modules.</M>
+<Hint hasBg>There are tools that allows us to track <B>circular dependencies</B>. One of them is the <B>nx</B>. If you are interested, read the <A outside href="https://greenonsoftware.com/articles/tooling/deep-dive-into-nx-features/">Overview of the main functionalities of the NX tool</A> and <A outside href="https://greenonsoftware.com/articles/thoughts/dream-stack-for-react-dev/">Dream stack for React dev</A> articles.</Hint>
+</Section>
+
+<Section>
+  <XL>The impact on performance</XL>
+  <M>
+    <B>Rebuild time 👍</B>
+  </M>
+  <M>
+    When you modify a <B>TypeScript</B> file, the <B>TypeScript </B> compiler
+    needs to recompile that file and any files that depend on it. If your type
+    definitions are centralized in a single file and many other files depend on
+    it, a change to that central file can trigger the recompilation of a large
+    portion of your codebase.{" "}
+  </M>
+  <M>
+    In contrast, if type definitions are separated into smaller, more focused
+    files, changes to one type file are less likely to trigger unnecessary
+    recompilations in unrelated parts of the codebase.
+  </M>
+  <M>
+    <B>Parallelism</B> 👍
+  </M>
+  <M>
+    When type definitions are in separate files, the build tool can parallelize
+    the compilation of these files, potentially reducing the overall build time.
+  </M>
+  <M>
+    <B>Initial build time</B> ❗
+  </M>
+  <M>
+    If you have an excessive number of small type definition files, the initial
+    load time for your development environment (e.g., in an IDE) might be longer
+    because it needs to load and parse more files.
+  </M>
+  <M>
+    <B>Note about performance</B>
+  </M>
+  <M>
+    Before you start any changes in your codebase it's good to have consistent
+    measurements of build times. You have tons of options, but I think the best
+    one is just creating a small script that will create a file in each build
+    (on <B>pull request</B>) with a snapshot of the time required to{" "}
+    <B>build</B> dedicated application or <B>module</B>.{" "}
+  </M>
+  <Hint hasBg>Don't try to fix problems that don't exist!</Hint>
+</Section>
+
+<Section>
+  <XL>Modeling aspect - types first approach</XL>
+  <M>
+    Before you start to work on any code, you should try to think about the
+    shape of <B>API</B>, structure and dependencies. By splitting <B>types</B>{" "}
+    from <B>implementation</B>, you are doing the modeling process -{" "}
+    <B>types first approach</B>.
+  </M>
+  <M>
+    Because of that your <B>API</B> will be more consistent and you'll be able
+    to prepare multiple implementations. They will be independent, but still
+    will have the same shape. Later, it's much easier to choose the best one or
+    replace the other if it contains a bug/has dramatically bad performance.
+  </M>
+  <M>
+    Look at following implementation of multiple variants of <B>sum</B>{" "}
+    function, with separated contract:{" "}
+  </M>
+  <Img
+    src="https://drive.google.com/uc?export=view&id=1hVJa5ZcUxvJL-fAnv9agGbsJb-7Kzcgb"
+    description="The implementation process of multiple sum variants"
+  />
+</Section>
+
+<Section>
+  <XL>The use cases for each option</XL>
+  <M>
+    The general rule is: "Split your <B>types</B> if you need them in other
+    places".
+  </M>
+  <M>
+    <B>Application core, domain models</B>
+  </M>
+  <Code mode="static" lang="ts">{`interface ArticleDto {
+  id: Id;
+  title: Title;
+  description: Description;
+  authorEmail: Email;
+  authorName: Name;
+  thumbnailUrl: Url;
+  status: ArticleStatus;
+  url: Url;
+  lang: Lang;
+}`}</Code>
+  <M>
+    <B>Reusable, presentational components</B>
+  </M>
+  <Code
+    mode="static"
+    lang="ts"
+  >{`type ButtonSize = (typeof BUTTON_SIZES)[number];
+type ButtonShape = (typeof BUTTON_SHAPES)[number];
+type ButtonVariant = (typeof BUTTON_VARIANTS)[number];
+type ButtonMotive = (typeof BUTTON_MOTIVES)[number];
+ 
+interface ButtonProps
+  extends DetailedHTMLProps<
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  > {
+  size?: ButtonSize;
+  shape?: ButtonShape;
+  variant?: ButtonVariant;
+  motive?: ButtonMotive;
+  loading?: boolean;
+}`}</Code>
+  <M>
+    <B>Multiple variants of something</B>
+  </M>
+  <M>
+    Check the <B>gif</B> above 🪓 with <B>sum</B> function.
+  </M>
+  <M>
+    <B>Modeling state and actions</B>
+  </M>
+  <Code mode="static" lang="ts">{`type ThemeKey = 'dark' | 'light';
+type Themes = Record<ThemeKey, Theme>;
+type ThemesList = [ThemeKey, Theme][];
+ 
+interface ThemeProviderValue {
+  key: ThemeKey;
+  theme: Theme;
+  themes: Themes;
+  themesList: ThemesList;
+  setTheme: (key: ThemeKey) => void;
+}`}</Code>
+  <M>
+    <B>Reusable logic</B>
+  </M>
+  <Code
+    mode="static"
+    lang="ts"
+  >{`interface ToggleReturn<T = null> extends ToggleState<T> {
+  closed: boolean;
+  open: () => void;
+  close: () => void;
+  toggle: () => void;
+  set: (state: ToggleState<T>) => void;
+  openWithData: (data?: T | null) => void;
+  toggleWithData: (data?: T | null) => void;
+}`}</Code>
+  <M>
+    <B>Standalone libraries</B>
+  </M>
+  <Code
+    mode="static"
+    lang="ts"
+  >{`import type { CSSProperties, MutableRefObject } from 'react';
+ 
+type ScrollHideStyle = Required<Pick<CSSProperties, 'overflow'>>;
+ 
+interface ScrollHideReturn<T extends HTMLElement> {
+  ref: MutableRefObject<T | null>;
+}
+ 
+export type { ScrollHideReturn, ScrollHideStyle };
+`}</Code>
+  <M>
+    Avoid doing split if you don't need <B>types</B> in other places.
+  </M>
+  <Hint hasBg>
+    If you have concerns about which option to use in the dedicated scenario,
+    inspire yourself with the following{" "}
+    <A
+      href="https://github.com/polubis/Dream-stack-for-React-dev/tree/develop"
+      outside
+    >
+      repository
+    </A>
+    .
+  </Hint>
+</Section>
+
+<Summary label="Let's summarize what we learned">
+  <M>
+    Topics like that are always hard because they cannot be explained in a 0/1
+    way. So what we have learned today?
+  </M>
+  <M>
+    Simple split may increase code readability, especially if your{" "}
+    <B>type definitions</B> are large.{" "}
+  </M>
+  <M>
+    <B>Splitting types</B> into separate files may remove problems with{" "}
+    <B>circular dependencies</B> in your code base, but this problem occurs in
+    really rare situations, so it's not a big deal.
+  </M>
+  <M>
+    <B>Types</B> in separate files will reduce the <B>code rebuild</B> time due
+    to <B>parallelism </B> and <B>caching</B>, but may increase the{" "}
+    <B>initial build time</B>.{" "}
+  </M>
+  <M>
+    We shouldn't do any premature optimizations - measure first and then try to
+    improve build times (if it is a real problem!).
+  </M>
+  <M>
+    Splitting out <B>type definitions</B> allows us to design a nice and
+    developer-friendly API, and it's part of the software modeling process that
+    may have a positive impact on code quality.{" "}
+  </M>
+  <M>
+    It's worth splitting types for <B>domain models</B>, <B>libraries</B>,{" "}
+    <B>reusable/presentation components</B>, when you want to have{" "}
+    <B>multiple variants of implementation</B>, but when you developing small,
+    internal code, it's better to keep <B>types</B> in the same file - there is
+    no need to reuse them in other places.
+  </M>
+  <M>
+    So if you ask me - should I separate definitions from implementation? If it
+    will be a <B>C#</B> ecosystem I would say - definitely yes, but it's{" "}
+    <B>TypeScript</B>, and my answer is: do it if you are writing a separate
+    library, creating reusable components or you're modeling your application
+    domain, but for other cases, I think it's not needed...{" "}
+  </M>
+  <Hint hasBg>
+    Don't try to follow all programming rules like <B>religion</B>.
+  </Hint>
+</Summary>
