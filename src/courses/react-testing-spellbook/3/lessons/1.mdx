@@ -1,0 +1,488 @@
+---
+name: Understanding the integration tests
+duration: 4
+description: Introduction to software integration testing in the React ecosystem with react-testing-library and jest.
+---
+
+<Prelude label="Definitions and required theory">
+  <Hint hasBg>
+    Before you read this article please make sure that you understand{" "}
+    <B>unit tests</B> concepts - here you have{" "}
+    <A
+      href="https://greenonsoftware.com/courses/react-testing-spellbook/mastering-unit-testing/unit-tests-review/"
+      outside
+    >
+      Unit tests review
+    </A>
+    .{" "}
+  </Hint>
+  <M>
+    An <B>integration test</B> is a type of software testing that focuses on
+    evaluating the interactions and interdependencies between different{" "}
+    <B>components</B> or <B>modules</B> of a software application. The primary
+    goal of integration testing is to ensure that these individual parts of the
+    software work together <B>correctly as a whole</B>, rather than just testing
+    them <B>in isolation</B>.
+  </M>
+  <M>
+    Here are some <B>key points</B> to help you understand integration testing:
+  </M>
+  <L>
+    <Li>
+      interaction points - communication of the modules, where it happens, how
+      it happens,
+    </Li>
+    <Li>scope - the part of the feature to check,</Li>
+    <Li>
+      testing real-world scenarios - integration tests verify business cases,
+      flows, whole or part of the program,
+    </Li>
+    <Li>
+      stubs and mocks - like in unit tests they may require stubs and mocks,
+    </Li>
+    <Li>
+      identification of issues - they should try to detect a real
+      business/complete feature problems.
+    </Li>
+  </L>
+  <Hint hasBg>
+    If you want to check the different cases and many <B>unit</B>,{" "}
+    <B>integration</B>, and <B>e2e</B> tests - check the{" "}
+    <A
+      outside
+      href="https://github.com/polubis/Dream-stack-for-React-dev/tree/develop"
+    >
+      Dream stack for React dev
+    </A>{" "}
+    repository.
+  </Hint>
+  <Hint hasBg>
+    To understand what <B>stubs</B> and <B>mocks</B> are, check the following
+    articles:{" "}
+    <A
+      href="https://greenonsoftware.com/courses/react-testing-spellbook/mastering-unit-testing/understanding-stubs-in-testing/"
+      outside
+    >
+      Understanding stubs in testing
+    </A>{" "}
+    and{" "}
+    <A
+      href="https://greenonsoftware.com/courses/react-testing-spellbook/mastering-unit-testing/understanding-mocks-in-testing/"
+      outside
+    >
+      Understanding mocks in testing
+    </A>
+    .
+  </Hint>
+</Prelude>
+
+<Section>
+  <XL>Understanding the feature</XL>
+  <M>
+    Before you start writing <B>integration tests</B> you need to understand the{" "}
+    <B>whole</B> or <B>part</B> of the feature that you want to cover. Without
+    this is really hard to write bulletproof tests that will give you real value
+    (will detect problems in your modules communication that may break your
+    feature).
+  </M>
+  <M>
+    So, let's introduce our feature - <B>the sign-in </B> one.{" "}
+  </M>
+  <Hint hasBg>
+    Yea, again this repetitive concept but it's really great to show how{" "}
+    <B>integration tests</B> work.
+  </Hint>
+  <Img
+    src="https://drive.google.com/uc?export=view&id=1Vx_i3av1xz3jvXjprJznWHxDin9w4RDt"
+    description="The demo of sign-in feature"
+  />
+  <M>
+    Let's forget about implementation and focus on parts that are worthy to
+    cover.
+  </M>
+  <L ordered>
+    <Li>
+      Is the loader shown and the submit button is disabled during submission?
+    </Li>
+    <Li>
+      Is an alert with an error displayed when credentials are wrong or another
+      server error occurs?
+    </Li>
+    <Li>Is an alert with success displayed when the user is signed in?</Li>
+  </L>
+</Section>
+
+<Section>
+  <XL>The current implementation of sign-in </XL>
+  <M>
+    There is no need to deep dive into each module that we're using here - the
+    most important part is that we are relying on other modules. In the example
+    below, we're using <B>Zustand</B> stores, some <B>actions</B>,{" "}
+    <B>presentational components</B>, and simple models.
+  </M>
+  <Hint hasBg>
+    If you want to understand the <B>Zustand</B> a little bit more, I recommend
+    following{" "}
+    <A
+      href="https://greenonsoftware.com/articles/libraries/comparing-redux-with-zustand-for-state-management-in-react/"
+      outside
+    >
+      🥇 Comparing Redux with Zustand for state management in React
+    </A>{" "}
+    article.
+  </Hint>
+  <Code
+    rolled
+    mode="static"
+    lang="tsx"
+  >{`import { Alert, Box, Button, Font, Input } from '@system/figa-ui';
+import { useSignInStore } from '../../store/sign-in';
+import { useSignOutStore } from '../../store/sign-out';
+import { useState } from 'react';
+import { get } from '@system/blog-selectors';
+import { useMoveToRedirect } from '../../dk';
+// A lot of dependencies on other modules here!
+const SignInForm = () => {
+  const signInStore = useSignInStore();
+  const signOutStore = useSignOutStore();
+  const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
+  const { redirect } = useMoveToRedirect();
+  
+  const handleSignIn = async () => {
+    await signInStore.signIn({
+      login,
+      password,
+    });
+ 
+    redirect();
+  };
+ 
+  return (
+    <>
+      <Box spacing={[400, 150, 400, 400]} maxWidth="320px" margin="auto">
+        <Font variant="h6">Sign in into your account</Font>
+        <Input
+          value={login}
+          autoFocus
+          data-i={get('sign-in-login-input')}
+          placeholder="Login*"
+          onChange={(e) => setLogin(e.target.value)}
+        />
+        <Input
+          value={password}
+          type="password"
+          data-i={get('sign-in-password-input')}
+          placeholder="Password*"
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <Button
+          data-i={get('sign-in-confirm-btn')}
+          loading={
+            signInStore.key === 'pending' || signOutStore.key === 'pending'
+          }
+          onClick={handleSignIn}
+        >
+          Confirm
+        </Button>
+        {signInStore.key === 'error' && (
+          <Alert data-i={get('sign-in-error-alert')} type="error">
+            {signInStore.error.message}
+          </Alert>
+        )}
+        {signInStore.key === 'ok' && (
+          <Alert data-i={get('sign-in-ok-alert')} type="ok">
+            You are logged in!
+          </Alert>
+        )}
+      </Box>
+    </>
+  );
+};`}</Code>
+  <M>
+    It's a typical scenario. The business state is outside of <B>React</B>{" "}
+    ecosystem (implemented with <B>Zustand</B>), we have some dummy
+    presentational components imported from <B>design system</B> library, and
+    we're using <B>custom hooks</B> and other <B>utils</B>.{" "}
+  </M>
+  <M>
+    I skipped the implementation of other modules... Why I did that? Because in{" "}
+    <B>integration</B> tests, they should be just <B>black boxes</B> for us. We
+    shouldn't know "how they are implemented", but we need to focus on what are
+    they offering to our consumer code - in this example <B>SignInForm</B>{" "}
+    component.
+  </M>
+</Section>
+
+<Section>
+  <XL>Breaking the walls - let's write the first integration test</XL>
+  <M>
+    We know less or more how our feature works, what stuff is worthy of
+    covering, and how our <B>sign-in</B> form is implemented. Now it's time to
+    write well-defined <B>integration tests</B> for the <B>SignInForm</B>{" "}
+    component.
+  </M>
+  <M>
+    Let's start from defining <B>describe</B> and <B>it</B> blocks.{" "}
+  </M>
+  <Code
+    mode="static"
+    lang="tsx"
+  >{`describe('User can use form to sign in when: ', () => {
+  it('goes through success flow', async () => {
+    // Our test code will go here.
+  });
+ 
+  it('goes through failure flow', async () => {
+    // Our test code will go here.
+  });
+});
+`}</Code>
+  <M>
+    We defined 3 cases to cover, but why do we add only 2 scenarios? It's
+    because we'll check the <B>disable of button</B> during <B>success</B> flow
+    and <B>failure</B> flow. They are different user journeys! So, separating
+    this check into separate suites may not detect the issue for a particular
+    journey - the button will be disabled only when submitting in success flow,
+    but won't be disabled in failure one.
+  </M>
+  <M>
+    Now, we'll start from the integration test that verifies <B>success</B> flow
+    and checks whether the <B>button</B> is disabled or not.{" "}
+  </M>
+  <Code
+    mode="static"
+    description="Naive integration test"
+    lang="tsx"
+  >{`describe('User can use form to sign in when: ', () => {
+  const LOGIN = 'tom19944';
+  const PASSWORD = 'my-password-1994';
+ 
+  it('goes through success flow', async () => {
+    render(<SignInForm />);
+    // Initially, our button should be disabled - nothing happened yet.
+    expect(screen.getByText(/Confirm/).closest('button').disabled).toBeFalsy();
+ 
+    // Populating fields with data and submitting.
+    fireEvent.change(screen.getByPlaceholderText('Login*'), {
+      target: { value: LOGIN },
+    });
+    fireEvent.change(screen.getByPlaceholderText('Password*'), {
+      target: { value: PASSWORD },
+    });
+    fireEvent.click(screen.getByText(/Confirm/));
+ 
+    // Checking if the fields have been populated.
+    screen.getByDisplayValue(LOGIN);
+    screen.getByDisplayValue(PASSWORD);
+    // Checking the button disabled status.
+    expect(screen.getByText(/Confirm/).closest('button').disabled).toBeTruthy();
+  });
+});`}</Code>
+  <M>There are 2 problems with our test: </M>
+  <L ordered>
+    <Li>we're not checking the alert message occurrence,</Li>
+    <Li>under the hood the is a real HTTP request call.</Li>
+  </L>
+</Section>
+
+<Section>
+  <XL>Mocking the HTTP service layer</XL>
+  <M>
+    To understand what I'm talking about we need to review an action code of{" "}
+    <B>Zustand</B> store.
+  </M>
+  <Code mode="static" lang="ts">{`import { create } from 'zustand';
+import { getError, signIn } from '@system/blog-api';
+import type { SignInStore } from './defs';
+ 
+const useSignInStore = create<SignInStore>((set) => ({
+  key: 'idle',
+  error: null,
+  signIn: async (payload) => {
+    set({ key: 'pending' });
+ 
+    try {
+      // Here is a real request!
+      await signIn(payload);
+ 
+      set({ key: 'ok' });
+    } catch (error: unknown) {
+      set({ key: 'error', error: getError(error) });
+    }
+  },
+}));
+`}</Code>
+  <M>
+    To avoid <B>HTTP</B> request we need to mock the entire{" "}
+    <B>@system/blog-api</B> module. It's not perfect, I know, and how we can
+    improve that will be explained in the next lesson. Right now, let's just
+    finish our test suites to understand the basics.
+  </M>
+  <Code
+    description="All path covered"
+    added={[
+      [1, 1],
+      [3, 3],
+      [5, 5],
+      [13, 13],
+      [30, 35],
+    ]}
+    mode="static"
+    lang="tsx"
+  >{`import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { SignInForm } from './sign-in-form';
+import { signIn } from '@system/blog-api';
+ 
+jest.mock('@system/blog-api')
+ 
+describe('User can use form to sign in when: ', () => {
+  const LOGIN = 'tom19944';
+  const PASSWORD = 'my-password-1994';
+ 
+  it('goes through success flow', async () => {
+    // Here we're mocking our signIn function response.
+    (signIn as jest.Mock).mockResolvedValue({})
+    render(<SignInForm />);
+ 
+    expect(screen.getByText(/Confirm/).closest('button').disabled).toBeFalsy();
+ 
+    fireEvent.change(screen.getByPlaceholderText('Login*'), {
+      target: { value: LOGIN },
+    });
+    fireEvent.change(screen.getByPlaceholderText('Password*'), {
+      target: { value: PASSWORD },
+    });
+    fireEvent.click(screen.getByText(/Confirm/));
+ 
+    screen.getByDisplayValue(LOGIN);
+    screen.getByDisplayValue(PASSWORD);
+    expect(screen.getByText(/Confirm/).closest('button').disabled).toBeTruthy();
+ 
+    await waitFor(() => {
+      // HTTP request is an async operation, and we're mocking a "Promise", so
+      // we need to use "waitFor" to check the expected results. 
+      screen.getByText(/You are logged in!/)
+      expect(screen.getByText(/Confirm/).closest('button').disabled).toBeFalsy();
+    })
+  });
+});
+`}</Code>
+  <M>
+    We completed our first integration test! Now it's time for the second
+    journey - an error case.
+  </M>
+  <Code
+    changed={[
+      [3, 3],
+      [13, 13],
+    ]}
+    added={[[17, 19]]}
+    mode="static"
+    lang="tsx"
+  >{`import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { SignInForm } from './sign-in-form';
+import { getError, signIn } from '@system/blog-api';
+ 
+jest.mock('@system/blog-api')
+ 
+describe('User can use form to sign in when: ', () => {
+  const LOGIN = 'tom19944';
+  const PASSWORD = 'my-password-1994';
+ 
+  it('goes through failure flow', async () => {
+    // Here we're mocking our signIn function response.
+    (signIn as jest.Mock).mockRejectedValue(null);
+    // Here we need to restore original implementation
+    // for "getError" function that is used internally
+    // by "signIn" action, to parse error.
+    (getError as jest.Mock).mockImplementation(
+      jest.requireActual('@system/blog-api')['getError']
+    );
+ 
+    render(<SignInForm />);
+ 
+    expect(screen.getByText(/Confirm/).closest('button').disabled).toBeFalsy();
+ 
+    fireEvent.change(screen.getByPlaceholderText('Login*'), {
+      target: { value: LOGIN },
+    });
+    fireEvent.change(screen.getByPlaceholderText('Password*'), {
+      target: { value: PASSWORD },
+    });
+    fireEvent.click(screen.getByText(/Confirm/));
+ 
+    screen.getByDisplayValue(LOGIN);
+    screen.getByDisplayValue(PASSWORD);
+    expect(screen.getByText(/Confirm/).closest('button').disabled).toBeTruthy();
+ 
+    await waitFor(() => {
+      screen.getByText('Something went wrong...');
+    });
+  });
+});
+`}</Code>
+  <M>
+    We added weird statement in this test:{" "}
+    <B> jest.requireActual('@system/blog-api')['getError']</B>. This perfectly
+    shows, how bad is leaking into testing the{" "}
+    <B>internal implementation details</B> of the module that our code under
+    tests relies on.{" "}
+  </M>
+  <M>
+    This weirdo restores the original implementation for the <B>getError</B>{" "}
+    function that is used by our <B>signIn</B> action to parse the failure
+    scenario and retrieve the message from the response. Remember at the
+    beginning of the file we mocked the entire <B>@system/blog-api</B> module -
+    so the <B>getError</B> function is mocked too!
+  </M>
+  <Hint hasBg>
+    If you're interested in <B>correct</B> way right now, the one with{" "}
+    <B>MSW</B>, just go under the following{" "}
+    <A
+      href="https://github.com/polubis/Dream-stack-for-React-dev/blob/develop/system/apps/blog/components/sign-in-form/sign-in-form.test.tsx"
+      outside
+    >
+      file
+    </A>{" "}
+    and check how it differs.{" "}
+  </Hint>
+</Section>
+
+<Section>
+  <XL>Making sure that tests are working</XL>
+  <M>
+    It's the best part of software testing. Try to break your implementation,
+    remove some flags, functions, or change their implementation, to be sure
+    that your tests spot problems with your code.
+  </M>
+  <Img
+    src="https://drive.google.com/uc?export=view&id=10HCd3EIkNAGrwzFioiMQ5lRdroxrGeCd"
+    description="Dealing with broken implementation"
+  />
+  <Hint hasBg>
+    This part is of course optional and if you have more practice, knowledge and
+    experience, you'll mostly trust your tests.{" "}
+  </Hint>
+</Section>
+
+<Summary label="Conclusions">
+  <M>
+    Right now you understand <B>integration tests</B> theory and{" "}
+    <B>key points</B>. You know how to write basic tests and how to localize
+    paths to cover, but there is an important question: Are these tests good?
+  </M>
+  <M>
+    From the perspective of feature covering, they check all important aspects,
+    but there are implementation details leak into our tests - a mock of the{" "}
+    <B>signIn</B> service function, that's not good.{" "}
+  </M>
+  <M>
+    To improve our code we need <B>MSW</B> library, but this topic will be
+    covered in the next lesson.{" "}
+  </M>
+  <Hint hasBg>
+    Knowledge requires time, so before you will make things perfect, you need to
+    fail and learn from mistakes.
+  </Hint>
+</Summary>
