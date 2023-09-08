@@ -1,0 +1,184 @@
+---
+name: Using MSW library to remove implementation details from tests
+duration: 4
+description: We'll use a MSW library to remove implementation details leaks in our integration tests.
+---
+
+<Prelude label="Good to know before reading">
+  <Hint hasBg>
+    If you are not familiar with the <B>integration testing</B> core concepts,
+    feel free to check{" "}
+    <A
+      href="/courses/react-testing-spellbook/mastering-integration-testing/understanding-the-integration-tests/"
+      outside
+    >
+      Understanding the integration tests
+    </A>{" "}
+    article before reading this post.
+  </Hint>
+  <M>
+    In the above mentioned article, we covered the basics of{" "}
+    <B>integration testing</B>. The conclusion at the end was:{" "}
+    <B>"How we can remove implementation details leak from our tests?"</B>. I
+    proposed a library that is called{" "}
+    <A href="https://mswjs.io/" outside>
+      msw - mock service worker
+    </A>
+    , so right now we will integrate our test environment with this technology and
+    we'll remove implementation details from our test suites.{" "}
+  </M>
+</Prelude>
+
+<Section>
+  <XL>What the hell is a mock service worker library?</XL>
+  <M>
+    This technology allows us to run <B>Node</B> process in the background that
+    intercepts <B>HTTP requests</B> and allows us to override responses for
+    specific endpoints. We can add custom logic, static <B>JSON</B> responses,
+    and whatever we want. It can be understood as a <B>middleware</B> between
+    your <B>application/testing environment</B> and <B>HTTP</B> layer.
+  </M>
+  <M>The most popular use cases are: </M>
+  <L>
+    <Li>mocking responses for integration tests,</Li>
+    <Li>
+      mocking responses for backend endpoints during local development, it's a
+      situation when backend devs still work on some endpoint, but it's not
+      finished yet.
+    </Li>
+  </L>
+  <Hint hasBg>
+    If you know the <B>service workers</B> concept from <B>PWA</B>, the{" "}
+    <B>msw</B> is something similar but designed for different use case -
+    mocking stuff for development purposes.
+  </Hint>
+</Section>
+
+<Section>
+  <XL>The configuration of MSW</XL>
+  <M>
+    It's really simple, first of all, we need to install the package <B>msw</B>.
+    Open the terminal and run the following command:{" "}
+    <B>npm i --legacy-peer-deps --save-dev msw</B>.
+  </M>
+  <M>
+    Keep notice that the <B>package</B> should be installed as{" "}
+    <B>developer dependency</B>. It's because we'll use it only for development
+    purposes!
+  </M>
+  <Hint hasBg>
+    I'll skip the demonstration of how it works in a real, opened application.
+    This <B>lesson</B> is about testing. So, let's dive into configuration for
+    testing.{" "}
+  </Hint>
+  <Code
+    mode="dynamic"
+    description="The simplicity of setup"
+    linesCount={12}
+    lang="ts"
+    src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/lesson/Using-MSW-library-to-remove-implementation-details-from-tests/system/apps/blog/1.ts"
+  />
+  <M>
+    That's all what is needed for configuration or <B>msw</B>, other code needs
+    to be applied in test suites.{" "}
+  </M>
+</Section>
+
+<Section>
+  <XL>Using MSW in tests</XL>
+  <M>
+    I will say it at the beginning - the code for using <B>msw</B> in tests will
+    be mostly repeated - it requires some boilerplate. It's the best case for
+    using the <B>fixture pattern</B>.
+  </M>
+  <Hint hasBg>
+    If you are not familiar with <B>fixtures</B> I recommend to read the
+    following{" "}
+    <A
+      outside
+      href="/courses/react-testing-spellbook/mastering-unit-testing/creating-testing-fixtures/"
+    >
+      Creating testing fixtures
+    </A>{" "}
+    article.
+  </Hint>
+  <M>
+    Now, let's create a <B>fixture</B> that will allow our <B>testing code</B>{" "}
+    to set and get what will be needed for our test logic.
+  </M>
+  <Code
+    mode="dynamic"
+    description="Fixtures for the rescue"
+    linesCount={14}
+    lang="ts"
+    src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/lesson/Using-MSW-library-to-remove-implementation-details-from-tests/system/apps/blog/2.ts"
+  />
+  <M>
+    Now when we want to use <B>msw</B> interception in test suites, we'll need
+    to import the above created <B>fixture</B> and we'll use it in the following
+    way:{" "}
+  </M>
+  <Code
+    mode="dynamic"
+    description="We mocked the endpoint"
+    linesCount={32}
+    rolled
+    lang="tsx"
+    src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/lesson/Using-MSW-library-to-remove-implementation-details-from-tests/system/apps/blog/3.tsx"
+  />
+  <M>
+    We have overridden a default mock from <B>server.ts</B> file. Next, we added
+    some boilerplate connected with starting, mocking, and closing the{" "}
+    <B>Node</B> process - it will be required in every test file. Lastly, if you
+    have <B>default</B> mocks in <B>server</B> setup file (the one that we
+    created at the beginning), I recommend to be careful - your test code may be
+    harder to read, but u2y.
+  </M>
+</Section>
+
+<Section>
+  <XL>Refactoring implementation of fragile test suites</XL>
+  <M>At the beginning let's display our test code that we'll refactor.</M>
+  <Code
+    mode="dynamic"
+    description="Ugly implementation details leaked!"
+    linesCount={41}
+    lang="tsx"
+    rolled
+    src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/lesson/Using-MSW-library-to-remove-implementation-details-from-tests/system/apps/blog/4.tsx"
+  />
+  <M>
+    It's time to remove ugly implementation details with <B>msw</B>.
+  </M>
+  <Code
+    mode="dynamic"
+    description="Ugly implementation details leaked!"
+    linesCount={54}
+    added={[[26, 31]]}
+    lang="tsx"
+    rolled
+    src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/lesson/Using-MSW-library-to-remove-implementation-details-from-tests/system/apps/blog/5.tsx"
+  />
+  <M>A little summary: </M>
+  <L>
+    <Li>we removed service layer mocks,</Li>
+    <Li>no more implementation details,</Li>
+    <Li>no more need for ugly "jest.requireActual" usage,</Li>
+    <Li>
+      if the implementation of service layer change - we don't care anymore,
+      test will work correctly and will not return "false negatives".
+    </Li>
+  </L>
+</Section>
+
+<Summary label="Concerns and results of our refactor">
+  <M>
+    That was a good <B>refactor</B>... We made our tests less fragile to
+    implementation change in our <B>service</B> layer - <B>HTTP logic</B>.{" "}
+  </M>
+  <M>
+    However, we still have some <B>boilerplate</B> that needs to be added and
+    repeated across different tests... Good news! It's fixable and we'll cover
+    it in the next article.
+  </M>
+</Summary>
