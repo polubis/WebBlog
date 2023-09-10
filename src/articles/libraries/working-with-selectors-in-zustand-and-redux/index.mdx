@@ -5,8 +5,8 @@ authorId: polubis
 treviewerId: kwozniak
 lreviewerId: kreszko
 lang: en
-tags: libraries,comparision,fun
-stack: typescript,react,redux,zustand
+tags: libraries,comparision,state
+stack: typescript,react,redux,zustand,javascript
 readTime: 6
 seniorityLevel: intermediate
 title: Working with selectors in Zustand and Redux
@@ -14,209 +14,425 @@ description: We'll dive into the selectors concept in the Zustand/Redux librarie
 ---
 
 <Prelude label="Why do we need selectors?">
-  <M>Selectors have mainly the following purposes: </M>
-  <L>
+  <M>
+    Selectors are just <B>pure functions</B> that may take <B>arguments</B> and
+    they returns a result <B>based on those arguments</B>.
+  </M>
+  <Hint hasBg>
+    If you want to know more about <B>pure functions</B>, check the following{" "}
+    <A
+      outside
+      href="/articles/quick-wins/closures-currying-function-composition-as-your-new-friends/"
+    >
+      Closures, currying, function composition as your new friends
+    </A>{" "}
+    article.
+  </Hint>
+  <M>What selectors give us?</M>
+  <L ordered>
+    <Li>No repetition in our state read logic.</Li>
+    <Li>Less boilerplate.</Li>
+    <Li>Rerenders reduction in components.</Li>
     <Li>
-      reduce the amount of boilerplate connected with reading data from the
-      store,
-    </Li>
-    <Li>
-      improve the maintenance aspect - if your data is read in different places,
-      with selectors you'll reduce the time required to refactor such code
-      later,
-    </Li>
-    <Li>
-      selectors may use flyweight pattern (memoization), so we can reduce
-      rerenders for our components.
+      Option to perform computations based on state change without additional
+      rerenders.
     </Li>
   </L>
 </Prelude>
 
 <Section>
-  <XL>
-    How selectors may reduce the amount of boilerplate connected with state
-    reading?
-  </XL>
+  <XL>No repetition with selectors</XL>
+  <M>
+    Imagine you want to change a <B>property</B> inside <B>store</B>. If it's
+    just 3 places it's not a big deal, but what if it's 20 or more? In the
+    example below we changed one property from <B>user</B> to <B>user1</B>.
+  </M>
   <Code
-    description="Before selector usage"
-    mode="static"
-    lang="tsx"
-  >{`// ❌ The same code in 3 components.
-import { useSelector } from 'redux';
- 
-const ComponentA = () => {
-  const users = useSelector((state) => state.usersReducer.users);
-};
- 
-const ComponentB = () => {
-  const users = useSelector((state) => state.usersReducer.users);
-};
- 
-const ComponentC = () => {
-  const users = useSelector((state) => state.usersReducer.users);
-};
-`}</Code>
+    mode="dynamic"
+    description="In Redux"
+    linesCount={5}
+    lang="ts"
+    changed={[[5, 5]]}
+    src="https://raw.githubusercontent.com/polubis/Working-with-selectors-in-Zustand-and-Redux/main/snippets/1.ts"
+  />
   <Code
-    mode="static"
-    description="After selector usage"
-    lang="tsx"
-  >{`// ✅ With selector.
- 
-// selector.ts file.
-import type { AppState } from './store';
- 
-export const getUser = (state: AppState): AppState['usersReducer']['user'] =>
-  state.usersReducer.user;
- 
-// In components code: ComponentA, ComponentB, ComponentC files.
- 
-import { useSelector } from 'redux';
-import { getUser } from './selectors';
-// No more boilerplate and no code duplication.
-const ComponentA = () => { 
-  const users = useSelector(getUser);
-};
- 
-const ComponentB = () => {
-  const users = useSelector(getUser);
-};
- 
-const ComponentC = () => {
-  const users = useSelector(getUser);
-};
-`}</Code>
-  <M>
-    As you saw we reduced code duplication and boilerplate required to read
-    state data property located in <B>Redux</B> slice.
-  </M>
-  <M>
-    To achieve the same result in <B>Zustand</B>, we just need to use following
-    code:{" "}
-  </M>
-  <Code mode="static" lang="tsx">{`// selectors.ts file.
-const useUserSelector = () => {
-  return useUserStore((state) => state.user);
-};
- 
-// Inside ComponentA file.
-import { useUserSelector } from './selectors';
- 
-const ComponentA = () => {
-  const user = useUserSelector();
-};
-`}</Code>
-  <M>
-    In <B>Zustand</B> we have a little bit less code to write - it's because
-    this library creates a hook for us. Of course for <B>Redux</B> we can create
-    a hook by ourselves. We'll cover following topics later.
-  </M>
-</Section>
-
-<Section>
-  <XL>Improving the maintenance aspect with selectors</XL>
-  <M>
-    Imagine you want to change property inside <B>userSlice</B> when you're
-    working with <B>Redux</B> or in <B>Zustand</B> store. Of course, if it's
-    just 3 places it's not a big deal, but if it will be in 20 - we need to do
-    much more.
-  </M>
-  <Code mode="static" description="In Redux" lang="tsx">{`// selector.ts file.
-import type { AppState } from './store';
- 
-// User is user1 right now.
-export const getUser = (state: AppState): AppState['usersReducer']['user1'] =>
-  state.usersReducer.user1;
- 
-// In components code: ComponentA, ComponentB, ComponentC files.
- 
-import { useSelector } from 'redux';
-import { getUser } from './selectors';
-// Any changes required.
-const ComponentA = () => {
-  const users = useSelector(getUser);
-};
- 
-const ComponentB = () => {
-  const users = useSelector(getUser);
-};
- 
-const ComponentC = () => {
-  const users = useSelector(getUser);
-};
-`}</Code>
-  <Code
-    mode="static"
+    mode="dynamic"
     description="In Zustand"
-    lang="tsx"
-  >{`// selectors.ts file.
-const useUserSelector = () => {
-  // User is user1 right now.
-  return useUserStore((state) => state.user1);
-};
-  
-// Inside ComponentA file.
-import { useUserSelector } from './selectors';
-// Any work required.
-const ComponentA = () => {
-  const user = useUserSelector();
-};
-`}</Code>
-</Section>
-
-<Section>
-  <XL>Selectors and memoization - the "flyweight" pattern</XL>
-</Section>
-
-<Section>
-  <XL>Creating Zustand selector</XL>
+    linesCount={5}
+    lang="ts"
+    changed={[[4, 4]]}
+    src="https://raw.githubusercontent.com/polubis/Working-with-selectors-in-Zustand-and-Redux/main/snippets/2.ts"
+  />
   <M>
+    Without selectors, we'll need to change 20 files. With them, it's only 1...
+    It's important to know that we may use selectors in other application layers
+    - not only components.{" "}
+  </M>
+  <Code
+    rolled
+    mode="dynamic"
+    description="In Zustand"
+    linesCount={56}
+    lang="tsx"
+    description="Easier maintenance with selectors in different layers"
+    src="https://raw.githubusercontent.com/polubis/Working-with-selectors-in-Zustand-and-Redux/main/snippets/3.ts"
+  />
+  <M>
+    We don't need to repeat <B>state.reducer.something</B>. With selectors,
+    we're hardly reducing repetition and code that we need to write to start
+    working on feature.
+  </M>
+  <Hint hasBg>
+    If you're interested in what kind of layers you may create, feel free to
+    check the following{" "}
+    <A
+      href="/articles/libraries/comparing-redux-with-zustand-for-state-management-in-react/"
+      outside
+    >
+      Comparing Redux with Zustand for state management in React
+    </A>{" "}
+    article.
+  </Hint>
+</Section>
 
+<Section>
+  <XL>How selectors reduce the boilerplate?</XL>
+  <M>
+    Imagine you have 20 components in which you're reading the same property -{" "}
+    <B>the users</B>.
+  </M>
+  <Code
+    mode="dynamic"
+    linesCount={11}
+    lang="tsx"
+    description="Without selector in Redux"
+    src="https://raw.githubusercontent.com/polubis/Working-with-selectors-in-Zustand-and-Redux/main/snippets/4.ts"
+  />
+  <Code
+    mode="dynamic"
+    src="https://raw.githubusercontent.com/polubis/Working-with-selectors-in-Zustand-and-Redux/main/snippets/5.ts"
+    description="With selector in Redux"
+    linesCount={19}
+    lang="tsx"
+    added={[
+      [3, 3],
+      [5, 5],
+    ]}
+    changed={[
+      [13, 13],
+      [17, 17],
+    ]}
+  />
+  <M>
+    To achieve the same result in <B>Zustand</B>:
+  </M>
+  <Code
+    description="Selectors in Zustand"
+    src="https://raw.githubusercontent.com/polubis/Working-with-selectors-in-Zustand-and-Redux/main/snippets/6.ts"
+    mode="dynamic"
+    linesCount={11}
+    lang="tsx"
+  />
+  <M>
+    As you saw thanks to <B>selectors</B> we reduced the boilerplate across
+    components.
   </M>
 </Section>
 
 <Section>
-  <XL>Static selectors</XL>
-  <M>
+  <XL>Rerenders reduction with selectors</XL>
+  <M>Let's say we have 3 components. The <B>Top</B>, <B>Between</B> and <B>Last</B>. That's how they will be rendered: </M>
+  <Code mode="dynamic" lang="tsx"   linesCount={5}      src="https://raw.githubusercontent.com/polubis/Working-with-selectors-in-Zustand-and-Redux/main/snippets/7.tsx"/>
+<M>Now, we'll implement a <B>counter</B> feature in <B>Redux</B> and <B>Zustand</B>. The <B>Last</B> component will read the value from the store, the component <B>Between</B> will just render children and the <B>First</B> component will schedule a <B>interval</B>. In every tick, the <B>increment</B> action will be <B>dispatched</B>.</M>
+<M>Let's start from <B>Zustand</B>: </M>
+<Code description="The component structure for Zustand example" src="https://raw.githubusercontent.com/polubis/Working-with-selectors-in-Zustand-and-Redux/main/snippets/8.tsx" mode="dynamic" lang="tsx" linesCount={28} rolled />
 
+<Code
+  description="The Zustand store/actions/selectors"
+  mode="dynamic"
+  src="https://raw.githubusercontent.com/polubis/Working-with-selectors-in-Zustand-and-Redux/main/snippets/9.ts"
+  linesCount={24}
+  rolled
+  lang="ts"
+/>
+<M>
+  When we rerender this code in the main <B>App</B> component, we'll have the
+  following <B>console.logs</B>. Watch the GIF to understand.
+</M>
+<Img
+  src="https://raw.githubusercontent.com/polubis/Working-with-selectors-in-Zustand-and-Redux/main/snippets/selectors.gif"
+  description="The rerenders are performant"
+/>
+<M>
+  Take a look at numbers or logs 👆. <B>First</B> and <B>Between</B> are logged
+  only once, meanwhile the <B>Last</B> is rendering all the time! That's what we
+  want.
+</M>
+<M>
+  Okay, but what about <B>Redux</B>? The result is exactly the same. Some APIs
+  and implementations differ a little bit.{" "}
+</M>
+<Code
+  description="The components implementation in Redux"
+  mode="dynamic"
+  lang="tsx"
+  linesCount={37}
+  rolled
+  src="https://raw.githubusercontent.com/polubis/Working-with-selectors-in-Zustand-and-Redux/main/snippets/10.tsx"
+/>
+<Code
+  description="Typical slice code in Redux"
+  mode="dynamic"
+  lang="ts"
+  linesCount={23}
+  rolled
+  src="https://raw.githubusercontent.com/polubis/Working-with-selectors-in-Zustand-and-Redux/main/snippets/11.tsx"
+/>
+
+<Code
+  description="Selectors in Redux"
+  mode="dynamic"
+  linesCount={5}
+  src="https://raw.githubusercontent.com/polubis/Working-with-selectors-in-Zustand-and-Redux/main/snippets/12.ts"
+  lang="ts"
+/>
+
+<Code
+      src="https://raw.githubusercontent.com/polubis/Working-with-selectors-in-Zustand-and-Redux/main/snippets/13.ts" 
+ description="Redux store setup boilerplate" mode="dynamic" linesCount={11} lang="ts"
+/>
+</Section>
+
+<Section>
+  <XL>Performing computations based on state change</XL>
+  <M>
+    Let's say we want to perform a computation in every <B>counter</B> property
+    change. It will be a simple <B>Fibonacci</B> number. Firstly, we need a
+    function to calculate this number.{" "}
+  </M>
+  <Code
+    src="https://raw.githubusercontent.com/polubis/Working-with-selectors-in-Zustand-and-Redux/main/snippets/14.ts"
+    mode="dynamic"
+    lang="ts"
+    linesCount={13}
+  />
+  <M>
+    Now, we need a new <B>selector</B>.
+  </M>
+  <Code
+    src="https://raw.githubusercontent.com/polubis/Working-with-selectors-in-Zustand-and-Redux/main/snippets/15.ts"
+    mode="dynamic"
+    lang="ts"
+    linesCount={6}
+  />
+  <M>
+    This code will work, but there is a problem. The <B>Fibonacci</B> function
+    will be executed all the time when the <B>counter store</B> property
+    changes. We need to apply here a <B>memoization</B> technique - aka{" "}
+    <B>flyweight</B> pattern. We can achieve it in <B>Redux/Zustand</B> with the
+    same library - <B>reselect</B>.
+  </M>
+  <Hint hasBg>
+    <M>
+      <B>Memoization</B> is an optimization technique that is used to improve
+      the efficiency of algorithms which requires repetitive computations. It's
+      just <B>caching</B>.{" "}
+    </M>
+  </Hint>
+  <Hint hasBg>
+    We can use the built-in <B>React useMemo</B> hook to achieve similar results
+    or implement <B>flyweight</B> pattern with a simple <B>JavaScript</B>{" "}
+    object. I prefer to use the library to avoid maintenance for such code in my
+    codebase and move memoization outside of <B>React</B> ecosystem.
+  </Hint>
+  <Code
+    description="Memoized selector in Redux"
+    mode="dynamic"
+    linesCount={13}
+    src="https://raw.githubusercontent.com/polubis/Working-with-selectors-in-Zustand-and-Redux/main/snippets/16.ts"
+    lang="ts"
+  />
+  <Code
+    src="https://raw.githubusercontent.com/polubis/Working-with-selectors-in-Zustand-and-Redux/main/snippets/17.ts"
+    linesCount={12}
+    description="Memoized selector in Zustand"
+    mode="dynamic"
+    lang="ts"
+  />
+  <M>
+    With these changes <B> Fibonacci </B> function will be executed only, when
+    we pass arguments that are different. It's cool - the previous computation
+    will be stored and returned from the <B>cache</B>. It's fancy especially
+    when we'll open the same component again - the next ticks will run much
+    faster because <B>computations are returned from the cache</B>.
   </M>
 </Section>
 
 <Section>
   <XL>Dynamic selectors</XL>
   <M>
-
+    The <B>dynamic selector</B> is the one that makes our component{" "}
+    <B>rerender</B>. Let's start with examples:
+  </M>
+  <Code
+    mode="dynamic"
+    src="https://raw.githubusercontent.com/polubis/Working-with-selectors-in-Zustand-and-Redux/main/snippets/18.tsx"
+    linesCount={19}
+    rolled
+    description="Dynamic selector in Redux"
+    lang="tsx"
+  />
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    src="https://raw.githubusercontent.com/polubis/Working-with-selectors-in-Zustand-and-Redux/main/snippets/19.tsx"
+    linesCount={27}
+    rolled
+    description="Dynamic selector in Zustand"
+  />
+  <M>
+    So, adding <B>dynamic selector</B> to this code will perform additional{" "}
+    <B>rerenders</B> if the property in a state that we're selecting will
+    change.
+  </M>
+  <M>
+    These selectors are the most used in <B>React</B> applications, but is there
+    an alternative that will not cause a rerender? Yes!
   </M>
 </Section>
 
 <Section>
-  <XL>The rendering aspect of selectors</XL>
+  <XL>Static selectors</XL>
   <M>
-
+    Imagine a situation in which you're not using data from <B>store</B> in your{" "}
+    <B>JSX</B> component code, but this data is required to perform some
+    operations after the user clicks a button - redirection to different urls.
+  </M>
+  <Code
+    src="https://raw.githubusercontent.com/polubis/Working-with-selectors-in-Zustand-and-Redux/main/snippets/20.tsx"
+    mode="dynamic"
+    lang="tsx"
+    linesCount={18}
+  />
+  <M>
+    So, how we can achieve it without making a rerender? Let's create{" "}
+    <B>static selectors</B> for <B>Redux</B> and <B>Zustand</B>. Firstly, the{" "}
+    <B>Redux</B>.{" "}
+  </M>
+  <Code
+    description="Static selector in Redux"
+    mode="dynamic"
+    src="https://raw.githubusercontent.com/polubis/Working-with-selectors-in-Zustand-and-Redux/main/snippets/21.tsx"
+    linesCount={23}
+    rolled
+    lang="tsx"
+  />
+  <M>
+    Now, it's time for <B>Zustand</B>.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    src="https://raw.githubusercontent.com/polubis/Working-with-selectors-in-Zustand-and-Redux/main/snippets/22.tsx"
+    linesCount={20}
+    rolled
+    description="Static selector in Zustand"
+  />
+  <M>
+    As you saw we avoided not needed rerenders and thanks to <B>static</B>{" "}
+    selectors we just picked small slice of our state.
   </M>
 </Section>
 
 <Section>
   <XL>Little tweaks for better readability and naming - conventions</XL>
   <M>
+    When I'm writing my applications I'm trying to prepare some conventions and
+    then follow them in projects. It keeps my codebase consistent and allows me
+    to back to IDE after a long break and still write code in a similar pattern.
+    I'm putting these rules inside the repository and saving it in the <B>md</B>{" "}
+    file. To be honest it can be any place - u2y.
+  </M>
+  <M>
+    <B>Why I'm saying that?</B>
+  </M>
+  <M>
+    Look at the following example with typical naming conventions that are used
+    in <B>Redux</B> or <B>Zustand</B>.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="ts"
+    linesCount={3}
+    src="https://raw.githubusercontent.com/polubis/Working-with-selectors-in-Zustand-and-Redux/main/snippets/23.tsx"
+  />
+  <M>
+    Selectors code quickly will start to be repetitive and will contain the same
+    prefixes... Usually, we're using selectors <B>per feature</B> so I'm
+    wrapping them with one object and then reusing them in many places. From my
+    perspective, it looks much better and it's easier to read but this is just
+    an opinion.{" "}
+  </M>
+  <M>So that's my proposal: </M>
+  <Code
+    src="https://raw.githubusercontent.com/polubis/Working-with-selectors-in-Zustand-and-Redux/main/snippets/24.tsx"
+    mode="dynamic"
+    lang="tsx"
+    linesCount={5}
+  />
+  <M>
+    In addition, you may use the same approach for your <B>Redux/Zustand</B>{" "}
+    actions. It's cool how it makes code modular and reduces repetitive prefixes
+    before selectors and actions.{" "}
+  </M>
+  <Code
+    src="https://raw.githubusercontent.com/polubis/Working-with-selectors-in-Zustand-and-Redux/main/snippets/25.tsx"
+    mode="dynamic"
+    lang="ts"
+    linesCount={5}
+  />
+</Section>
 
+<Demo label="Full example to play with" height="500px">
+  <iframe
+    src="https://codesandbox.io/embed/working-with-selectors-in-zustand-and-redux-x4rxvt?fontsize=14&hidenavigation=1&theme=dark"
+    style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+    title="Working with selectors in Zustand and Redux"
+    allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+    sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+  ></iframe>
+</Demo>
+
+<Section>
+  <XL>Repository to check</XL>
+  <M>
+    If you want to play with this code go to the following{" "}
+    <A
+      href="https://github.com/polubis/Working-with-selectors-in-Zustand-and-Redux"
+      outside
+    >
+      repository
+    </A>
+    .
   </M>
 </Section>
 
 <Summary label="Conclusions and thoughts">
   <M>
-    We explored the <B>selectors</B> concept in <B>Zustand</B> and now you know
-    how to create <B>dynamic</B> and <B>static</B> selectors.
+    We explored the <B>selectors</B> concept in <B>Redux/Zustand</B> and now you
+    know how to create <B>dynamic</B> and <B>static</B> selectors.
   </M>
   <M>
-    Now you know that <B>selectors</B> are an excellent mechanism to reduce
-    rendering impact in <B>React</B> applications. They provide better
-    readability, reduce the extraction of data logic from complex models, and
-    allow us to refactor our state management more easily.
+    You learned that <B>selectors</B> are an excellent mechanism to reduce
+    rendering impact in applications. They provide better readability, reduce
+    the extraction of data logic from complex models, and allow us to refactor
+    our state read logic faster.
   </M>
   <M>
-    As you saw it's good to <B>encapsulate</B> your selectors in <B>object</B>{" "}
-    for better <B>readability</B> and to reduce weird names. Of course, you may
-    have different opinion, but I like to structure my code in a consistent way
-    (in presented approach we did that).{" "}
+    I'm <B>encapsulating</B> selectors in <B>objects</B> for better{" "}
+    <B>readability</B> and to reduce weird names. Of course, you may have
+    different opinion, but I like to structure my code in a consistent way (in
+    presented approach we did that). You may have your own approach - just be
+    consistent and that's all.{" "}
   </M>
 </Summary>

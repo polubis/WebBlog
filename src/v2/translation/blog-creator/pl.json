@@ -47,10 +47,19 @@
     }
   },
   "description": "Opis",
+  "language": "Język programowania",
   "skip_edition_disclaimer": "Jeżeli pominiesz edycje tego formularza, to zostanie skopiowany domyślny szablon.",
   "add_image": "Dodaj zdjęcie",
   "add_link": "Dodaj link",
   "add_code": "Dodaj fragment z kodem",
   "copied_and_paste_now": "Skopiowano! Teraz wklej zawartość w edytor.",
-  "default_copied_and_paste_now": "Skopiowano domyślny szablon. Teraz wklej zawartość w edytor."
+  "default_copied_and_paste_now": "Skopiowano domyślny szablon. Teraz wklej zawartość w edytor.",
+  "snippet_url": "Adres URL",
+  "the_content_to_display": "Opis wyświetli się poniżej fragmentu z kodem",
+  "paste_your_snippet": "Wklej fragment z kodem",
+  "trying_to_detect": "⌚ Próbuję określić technologię...",
+  "loading_snippet": "⌚ Ładuję fragmnt z kodem...",
+  "snippet_is_loaded": "✅ Załadowano fragment z kodem, kliknij aby zobaczyć.",
+  "snippet_load_failed": "❌ Błąd ładowania. Sprawdź poprawność URL i czy masz uprawnienia",
+  "snippet_idle": "Przykład: [https://github.com/user/repo/file.ts]"
 }

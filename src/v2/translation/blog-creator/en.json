@@ -47,10 +47,19 @@
     }
   },
   "description": "Description",
+  "language": "Programming language",
   "skip_edition_disclaimer": "If you skip editing this form, the default template will be copied.",
   "add_image": "Add image",
   "add_link": "Add link",
   "add_code": "Add code snippet",
   "copied_and_paste_now": "Copied! Paste it now in editor.",
-  "default_copied_and_paste_now": "Default example copied! Paste it now in editor."
+  "default_copied_and_paste_now": "Default example copied! Paste it now in editor.",
+  "snippet_url": "Code URL",
+  "the_content_to_display": "The content to display below snippet",
+  "paste_your_snippet": "Paste your snippet",
+  "trying_to_detect": "⌚ Trying to detect language...",
+  "loading_snippet": "⌚ Loading code snippet...",
+  "snippet_is_loaded": "✅ Snippet is loaded, click to preview.",
+  "snippet_load_failed": "❌ Load failed. URL may be invalid or you don't have access",
+  "snippet_idle": "Example: [https://github.com/user/repo/file.ts]"
 }

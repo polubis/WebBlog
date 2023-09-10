@@ -27,7 +27,7 @@ export const LinkPopover = () => {
             label={`${creator.t.add_link} - <A>`}
             position={0}
             trigger={toggler => (
-                <IconButton onClick={toggler.open}>
+                <IconButton title={creator.t.add_link} onClick={toggler.open}>
                     <LinkIcon />
                 </IconButton>
             )}

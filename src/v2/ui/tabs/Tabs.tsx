@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import type { TabsProps } from './models'
+import c from 'classnames'
 
 const Container = styled.div`
     & > * {
@@ -20,7 +21,7 @@ const Container = styled.div`
 
 const Tabs = ({ className, children }: TabsProps) => {
     return (
-        <Container className={`tabs row ${className}`}>{children}</Container>
+        <Container className={c('tabs', 'row', className)}>{children}</Container>
     )
 }
 

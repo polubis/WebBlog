@@ -122,6 +122,14 @@ html {
   cursor: pointer;
 }
 
+.hoverable {
+  cursor: pointer;
+}
+
+.hoverable:hover {
+  text-decoration: underline;
+}
+
 .button {
   display: flex;
   align-items: center;
