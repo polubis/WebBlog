@@ -5,6 +5,9 @@ import { BlogCreatorPageModel, Layout } from "../../core/models"
 import { SEO } from "../../containers/SEO"
 import { BlogCreatorPageProvider } from "./BlogCreatorPageProvider"
 import { BlogCreatorView } from "./BlogCreatorView"
+import { Tabs } from "../../ui/tabs/Tabs"
+import { Tab } from "../../ui/tabs/Tab"
+import { M } from "../../../ui"
 
 interface BlogCreatorPageProps {
   pageContext: {
@@ -19,6 +22,15 @@ const BlogCreatorPage = ({ pageContext }: BlogCreatorPageProps) => {
   return (
     <LayoutProvider initialState={layout}>
       <BlogCreatorPageProvider initialState={creator}>
+        <Tabs>
+          <Tab active>
+            <M>Stuff</M>
+          </Tab>
+          <Tab>
+            <M>Stuff</M>
+          </Tab>
+          <Tab>      <M>Stuff</M></Tab>
+        </Tabs>
         <SEO
           ga_page={creator.ga_page}
           url={creator.url}
