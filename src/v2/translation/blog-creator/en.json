@@ -50,6 +50,7 @@
   "skip_edition_disclaimer": "If you skip editing this form, the default template will be copied.",
   "add_image": "Add image",
   "add_link": "Add link",
+  "add_code": "Add code snippet",
   "copied_and_paste_now": "Copied! Paste it now in editor.",
   "default_copied_and_paste_now": "Default example copied! Paste it now in editor."
 }

@@ -12,7 +12,9 @@ const Container = styled.div`
   bottom: 84px;
   border-radius: 4px;
   padding: 12px;
-  max-width: 320px;
+  max-width: 400px;
+  max-height: 80vh;
+  overflow-y: auto;
 
   .popover-header {
     justify-content: space-between;

@@ -1,55 +1,56 @@
 {
-    "page_title": "edytor: Narzędzie do tworzenia artykułów",
-    "page_description": "Używaj naszego edytora do tworzenia artykułow oraz kursów i otrzymaj techniczne oraz językowe wsparcie.",
-    "sentence": "Edytor do tworzenia artykułów",
-    "full_screen": "Pełny ekran",
-    "submit_article": "Prześlij artykuł",
-    "article_preview": "Podgląd artykułu",
-    "version": "Wersja",
-    "choose_template": "Wybierz templatkę",
-    "leave_warn": "Po wyjściu z tej strony cały twój postęp zostanie utracony. Czy napewno chcesz to zrobić?",
-    "errors_heading": "Wykryto błędy w składni",
-    "errors_description": "Powodem może być użycie nie wspieranego tagu, użycie iframe lub niedomknięcie tagu.",
-    "errors_here_is_a_list": "Poniżej lista wspieranych tagów: ",
-    "still_problems": "Jeżeli dalej masz problemy to daj nam znać lub zapytaj na naszym kanale",
-    "demo_info": {
-        "heading": "Proszę przeczytaj to!",
-        "desc": "Nie martw się, Twój przykład będzie działał. Podczas edycji w czasie rzeczywistym pomijamy wyświetlanie kilku znaczników w celu optymalizacji, przykładowo znacznika"
+  "page_title": "edytor: Narzędzie do tworzenia artykułów",
+  "page_description": "Używaj naszego edytora do tworzenia artykułow oraz kursów i otrzymaj techniczne oraz językowe wsparcie.",
+  "sentence": "Edytor do tworzenia artykułów",
+  "full_screen": "Pełny ekran",
+  "submit_article": "Prześlij artykuł",
+  "article_preview": "Podgląd artykułu",
+  "version": "Wersja",
+  "choose_template": "Wybierz templatkę",
+  "leave_warn": "Po wyjściu z tej strony cały twój postęp zostanie utracony. Czy napewno chcesz to zrobić?",
+  "errors_heading": "Wykryto błędy w składni",
+  "errors_description": "Powodem może być użycie nie wspieranego tagu, użycie iframe lub niedomknięcie tagu.",
+  "errors_here_is_a_list": "Poniżej lista wspieranych tagów: ",
+  "still_problems": "Jeżeli dalej masz problemy to daj nam znać lub zapytaj na naszym kanale",
+  "demo_info": {
+    "heading": "Proszę przeczytaj to!",
+    "desc": "Nie martw się, Twój przykład będzie działał. Podczas edycji w czasie rzeczywistym pomijamy wyświetlanie kilku znaczników w celu optymalizacji, przykładowo znacznika"
+  },
+  "copied": "Skopiowano! Teraz wklej zawartość w dowolne miejsce.",
+  "samples": {
+    "default": "Domyślna templatka",
+    "image": "Zdjęcie",
+    "heading": "Nagłówek",
+    "paragraph": "Paragraf",
+    "section": "Sekcja",
+    "example": "Przykład",
+    "demo": "Demo",
+    "prelude": "Wstęp",
+    "summary": "Podsumowanie",
+    "link": "Link",
+    "bold": "Pogrubiony tekst",
+    "hint": "Podpowiedź",
+    "code": "Fragment z kodem",
+    "static_code": "Fragment ze statycznym kodem"
+  },
+  "loader": {
+    "heading": "Trochę ciekawostek",
+    "mascot": {
+      "1": "Maskotką naszej platformy jest",
+      "2": "kotek ze strzelbą",
+      "3": "Udalo Ci się go znaleźć?"
     },
-    "copied": "Skopiowano! Teraz wklej zawartość w dowolne miejsce.",
-    "samples": {
-        "default": "Domyślna templatka",
-        "image": "Zdjęcie",
-        "heading": "Nagłówek",
-        "paragraph": "Paragraf",
-        "section": "Sekcja",
-        "example": "Przykład",
-        "demo": "Demo",
-        "prelude": "Wstęp",
-        "summary": "Podsumowanie",
-        "link": "Link",
-        "bold": "Pogrubiony tekst",
-        "hint": "Podpowiedź",
-        "code": "Fragment z kodem",
-        "static_code": "Fragment ze statycznym kodem"
-    },
-    "loader": {
-        "heading": "Trochę ciekawostek",
-        "mascot": {
-            "1": "Maskotką naszej platformy jest",
-            "2": "kotek ze strzelbą",
-            "3": "Udalo Ci się go znaleźć?"
-        },
-        "gpt": {
-            "1": "Nie boj się",
-            "2": "Czat GPT",
-            "3": "nie zabierze Ci pracy - on jedynie ją ułatwia."
-        }
-    },
-    "description": "Opis",
-    "skip_edition_disclaimer": "Jeżeli pominiesz edycje tego formularza, to zostanie skopiowany domyślny szablon.",
-    "add_image": "Dodaj zdjęcie",
-    "add_link": "Dodaj link",
-    "copied_and_paste_now": "Skopiowano! Teraz wklej zawartość w edytor.",
-    "default_copied_and_paste_now": "Skopiowano domyślny szablon. Teraz wklej zawartość w edytor."
+    "gpt": {
+      "1": "Nie boj się",
+      "2": "Czat GPT",
+      "3": "nie zabierze Ci pracy - on jedynie ją ułatwia."
+    }
+  },
+  "description": "Opis",
+  "skip_edition_disclaimer": "Jeżeli pominiesz edycje tego formularza, to zostanie skopiowany domyślny szablon.",
+  "add_image": "Dodaj zdjęcie",
+  "add_link": "Dodaj link",
+  "add_code": "Dodaj fragment z kodem",
+  "copied_and_paste_now": "Skopiowano! Teraz wklej zawartość w edytor.",
+  "default_copied_and_paste_now": "Skopiowano domyślny szablon. Teraz wklej zawartość w edytor."
 }

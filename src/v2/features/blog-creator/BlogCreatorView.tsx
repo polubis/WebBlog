@@ -16,6 +16,7 @@ import Loadable from "react-loadable"
 import { LinkPopover } from "./containers/LinkPopover"
 import { BlogCreatorAlertsProvider } from "./providers/BlogCreatorAlertsProvider"
 import { ImagePopover } from "./containers/ImagePopover"
+import { CodePopover } from "./containers/CodePopover"
 
 const TemplateSelector = Loadable({
   loader: () =>
@@ -189,33 +190,7 @@ export const BlogCreatorView = () => {
               <CodeContainerToolbox className="row">
                 <LinkPopover />
                 <ImagePopover />
-                {/* <Popover position={1} trigger={toggler => (
-                <IconButton onClick={toggler.open}>
-                  <ListIcon />
-                </IconButton>
-              )}>
-                {toggler => (
-                  <div>siema</div>
-                )}
-              </Popover> */}
-                {/* <Popover position={2} trigger={toggler => (
-                <IconButton onClick={toggler.open}>
-                  <ImageIcon />
-                </IconButton>
-              )}>
-                {toggler => (
-                  <div>siema</div>
-                )}
-              </Popover>
-              <Popover position={3} trigger={toggler => (
-                <IconButton onClick={toggler.open}>
-                  <CodeIcon />
-                </IconButton>
-              )}>
-                {toggler => (
-                  <div>siema</div>
-                )}
-              </Popover> */}
+                <CodePopover />
               </CodeContainerToolbox>
             </FullScreenCreator>
           </BlogCreatorAlertsProvider>
