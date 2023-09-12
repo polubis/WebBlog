@@ -1,10 +1,41 @@
 const { createTechnologies } = require("./createTechnologies")
 const { createUser } = require("./createUser")
 
+const getCourseId = slug => {
+  return slug.split("/")[0]
+}
+
+const getLessonId = slug => {
+  const parts = slug.split("/")
+  const id = parts[0] + "/" + parts[1]
+
+  return id
+}
+
+const getChapterId = slug => {
+  const parts = slug.split("/")
+  const id = parts[0] + "/" + parts[1]
+
+  return id
+}
+
+const getLessonThumbnail = (thumbnails, courseId, chapterId, lessonId) => {
+  const thumbnail = thumbnails.find(({ relativePath }) => {
+    return (
+      courseId === getCourseId(relativePath) &&
+      chapterId === getChapterId(relativePath) &&
+      lessonId === getLessonId(relativePath).split(".")[0]
+    )
+  })
+
+  return thumbnail
+}
+
 const CourseModel = (
   { slug, frontmatter },
   {
     coursesThumbnails,
+    lessonsThumbnails,
     authors,
     authorsAvatars,
     technologiesAvatars,
@@ -28,7 +59,7 @@ const CourseModel = (
     lreviewerId,
   } = frontmatter
 
-  const courseId = slug.split("/")[0]
+  const courseId = getCourseId(slug)
   const thumbnail = coursesThumbnails.find(
     ({ relativePath }) => relativePath.split("/")[0] === courseId
   )
@@ -41,17 +72,16 @@ const CourseModel = (
   const tech_reviewer = createUser(treviewerId, authors, authorsAvatars)
   const ling_reviewer = createUser(lreviewerId, authors, authorsAvatars)
   const courseLessons = lessons.filter(
-    lesson => lesson.slug.split("/")[0] === courseId
+    lesson => getCourseId(lesson.slug) === courseId
   )
   const duration = courseLessons.reduce(
     (acc, { frontmatter: { duration } }) => duration + acc,
     0
   )
   const coursePath = path + courseId + "/"
-  const courseChapters = chapters.filter(chapter => {
-    const chapterCourseId = chapter.slug.split("/")[0]
-    return courseId === chapterCourseId
-  })
+  const courseChapters = chapters.filter(
+    chapter => courseId === getCourseId(chapter.slug)
+  )
 
   const titleToSlug = title => {
     let kebabCase = title
@@ -65,6 +95,14 @@ const CourseModel = (
     }
 
     return kebabCase
+  }
+
+  const getLessonOrCourseThumbnail = lessonThumbnail => {
+    if (lessonThumbnail) {
+      return lessonThumbnail.full.fluid
+    }
+
+    return thumbnail.full.fluid
   }
 
   return {
@@ -94,16 +132,11 @@ const CourseModel = (
         return -1
       })
       .map(chapter => {
-        const courseChapterSlugParts = chapter.slug.split("/")
-        const courseChapterId =
-          courseChapterSlugParts[0] + "/" + courseChapterSlugParts[1]
+        const courseChapterId = getChapterId(chapter.slug)
         const chapterTitle = chapter.frontmatter.name
-        const chapterLessons = courseLessons.filter(lesson => {
-          const lessonSlugParts = lesson.slug.split("/")
-          const lessonId = lessonSlugParts[0] + "/" + lessonSlugParts[1]
-
-          return lessonId === courseChapterId
-        })
+        const chapterLessons = courseLessons.filter(
+          lesson => getLessonId(lesson.slug) === courseChapterId
+        )
         let chapterLessonsCollection = chapterLessons
           .sort((prev, curr) => {
             if (prev.slug > curr.slug) return 1
@@ -114,6 +147,14 @@ const CourseModel = (
             title: lesson.frontmatter.name,
             duration: lesson.frontmatter.duration,
             deprecated: lesson.frontmatter.deprecated,
+            thumbnail: getLessonOrCourseThumbnail(
+              getLessonThumbnail(
+                lessonsThumbnails,
+                courseId,
+                courseChapterId,
+                getLessonId(lesson.slug)
+              )
+            ),
             ga_page:
               ga_page +
               "/" +

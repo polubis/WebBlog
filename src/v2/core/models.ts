@@ -236,6 +236,8 @@ export interface LessonPageModel {
   url: Url
   body: string
   description: string
+  thumbnail: FluidObject
+  duration: number
   title: Title
   course: {
     title: Title
@@ -254,7 +256,6 @@ export interface LessonPageModel {
     }[]
   }[]
   source_url: Url
-  thumbnail: FluidObject
   next?: {
     path: Path
   }

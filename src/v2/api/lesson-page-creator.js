@@ -26,6 +26,7 @@ const LessonPageCreator = ({ createPage, makeComponent }) => ({
         ga_page: lesson.ga_page,
         url,
         title,
+        duration: lesson.duration,
         source_url,
         description,
         body,
@@ -46,7 +47,7 @@ const LessonPageCreator = ({ createPage, makeComponent }) => ({
         chapter: {
           title: chapter.title,
         },
-        thumbnail: course.thumbnail.full,
+        thumbnail: lesson.thumbnail,
         chapters: course.chapters.map(chapter => ({
           duration: chapter.lessons
             .filter(({ deprecated }) => !deprecated)

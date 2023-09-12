@@ -51,7 +51,7 @@ const createManyCoursesPages = ({ courses, createPage, enLayout }) => {
   })
 }
 
-const createManyLessonsPages = ({ courses, createPage, enLayout }) => {
+const createManyLessonsPages = ({ courses, createPage, enLayout, lessonsThumbnails }) => {
   const create = LessonPageCreator({
     createPage,
     makeComponent: () => resolve("src/v2/features/lesson/LessonPage.tsx"),
@@ -135,6 +135,31 @@ exports.createPages = async ({ actions, graphql }) => {
               src
               srcSet
               originalName
+            }
+          }
+        }
+      }
+      lessonsThumbnails: allFile(filter: {relativePath: {regex: "/lessons\/[0-9].jpg/"}}) {
+        nodes {
+          name
+          relativePath
+          medium: childImageSharp {
+            fixed(width: 50, height: 50, quality: 24) {
+              base64
+              width
+              height
+              src
+              srcSet
+              originalName
+            }
+          }
+          full: childImageSharp {
+            fluid {
+              base64
+              aspectRatio
+              src
+              srcSet
+              sizes
             }
           }
         }
@@ -360,6 +385,7 @@ exports.createPages = async ({ actions, graphql }) => {
     authorsAvatars,
     articleThumbnails,
     technologiesAvatars,
+    lessonsThumbnails
   } = dataRepository
 
   const rates = await getArticleRates()
@@ -488,7 +514,7 @@ exports.createPages = async ({ actions, graphql }) => {
 
   createCoursesPage({ courses: enCourses, createPage, enLayout })
   createManyCoursesPages({ courses: enCourses, createPage, enLayout })
-  createManyLessonsPages({ courses: enCourses, createPage, enLayout })
+  createManyLessonsPages({ courses: enCourses, createPage, enLayout, lessonsThumbnails })
   createBlogCreatorPage({ createPage, enLayout, plLayout })
   createSnippetsCreatorPage({ createPage, enLayout, plLayout })
 }
