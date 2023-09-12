@@ -57,5 +57,7 @@
     },
     "anonymous": "Anonymous",
     "like_this": "I like this content",
-    "i_dont_like_this": "I don't like this content"
+    "i_dont_like_this": "I don't like this content",
+    "share": "Share",
+    "invitations": "Invitations"
 }

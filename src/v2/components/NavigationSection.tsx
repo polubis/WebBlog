@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react"
 import styled from "styled-components"
-import { SM_DOWN } from "../../utils/viewport"
+import { T_DOWN } from "../../utils/viewport"
 
 const Container = styled.div`
   display: flex;
@@ -10,7 +10,7 @@ const Container = styled.div`
     margin: 0 0 0 20px;
   }
 
-  @media ${SM_DOWN} {
+  @media ${T_DOWN} {
     flex-flow: column;
 
     & > *:not(:first-child) {

@@ -49,7 +49,11 @@ const useClipboard = () => {
     }
   }, [])
 
-  return { state, copy }
+  const reset = (): void => {
+    setState({ status: "ready" })
+  }
+
+  return { state, copy, reset }
 }
 
 export type { ClipboardState }

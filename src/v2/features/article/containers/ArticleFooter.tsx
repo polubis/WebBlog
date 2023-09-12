@@ -20,6 +20,7 @@ import {
   scroll_to_key,
 } from "../../../core/consts"
 import { VotesBox } from "../../../components/VotesBox"
+import { ShareButton } from "../../../containers/ShareButton"
 
 const Container = styled.div`
   .observe-me {
@@ -220,6 +221,16 @@ const ArticleFooter = () => {
         </Badge>
       </div>
       <NavigationSection>
+        <ShareButton
+          url={article.source_url + "/index.mdx"}
+          link={article.url}
+          title={article.title}
+          description={article.description}
+          time={article.read_time}
+          tags={article.tags.split(',')}
+          stack={article.technologies.map(technology => technology.id)}
+          level={article.seniority}
+        />
         <a
           href={article.source_url}
           className="button primary upper"
