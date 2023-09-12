@@ -75,7 +75,7 @@ export default function ({
   seniorityTitle,
 }: Props) {
   return (
-    <Container className="center">
+    <Container className="center thumbnail">
       <Img
         fluid={thumbnail}
         alt={thumbnailAlt}
