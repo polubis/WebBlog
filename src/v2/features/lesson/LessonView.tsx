@@ -16,6 +16,7 @@ import { useCustomGAEvent } from "../../../utils/useCustomGAEvent"
 import { CourseChapters } from "../../components/CourseChapters"
 import { NavigationSection } from "../../components/NavigationSection"
 import Thumbnail from "../../../components/article/Thumbnail"
+import { ShareButton } from "../../containers/ShareButton"
 
 const MobileNavigation = Loadable({
   loader: () =>
@@ -98,6 +99,16 @@ const LessonView = () => {
               />
               <MdxProvider renderer={MDXRenderer}>{lesson.body}</MdxProvider>
               <NavigationSection>
+                <ShareButton
+                  url={lesson.source_url}
+                  link={lesson.url}
+                  title={lesson.title}
+                  description={lesson.description}
+                  time={lesson.duration}
+                  level={lesson.course.seniority}
+                  tags={lesson.course.tags}
+                  stack={lesson.course.technologies.map(technology => technology.id)}
+                />
                 <a
                   className="button primary upper"
                   href={lesson.source_url}
