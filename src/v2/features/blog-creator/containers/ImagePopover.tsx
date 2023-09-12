@@ -48,7 +48,6 @@ export const ImagePopover = () => {
 
         if (isGDriveUrl) {
             const gDriveId = values.url.split('/')[5]
-            console.log(gDriveId)
             values.url = `https://drive.google.com/uc?export=view&id=${gDriveId}`
         }
 

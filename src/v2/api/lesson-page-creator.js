@@ -44,6 +44,8 @@ const LessonPageCreator = ({ createPage, makeComponent }) => ({
           path: course.path,
           title: course.title,
           seniority: course.seniority,
+          tags: course.tags,
+          technologies: course.technologies
         },
         chapter: {
           title: chapter.title,

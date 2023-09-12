@@ -243,6 +243,8 @@ export interface LessonPageModel {
     title: Title
     path: Path
     seniority: Seniority
+    tags: string[]
+    technologies: Technology[]
   }
   chapter: {
     title: Title
