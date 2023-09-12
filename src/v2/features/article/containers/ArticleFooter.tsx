@@ -180,7 +180,10 @@ const ArticleFooter = () => {
       <div className="article-footer-author-section row">
         <Link to={layout.routes.authors.to}>
           <div className="clickable row">
-            <AuthorAvatar avatar={article.author.avatar.small} />
+            <AuthorAvatar
+              avatar={article.author.avatar.small}
+              avatarTitle={article.author.full_name}
+            />
             <div className="author-personality col">
               <M className="cap" bold>
                 {article.author.full_name}

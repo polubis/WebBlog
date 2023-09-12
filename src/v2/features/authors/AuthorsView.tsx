@@ -34,7 +34,12 @@ const AuthorsView = () => {
               bio={author.bio}
               role={author.role}
               fullName={author.full_name}
-              avatar={<AuthorAvatar avatar={author.avatar} />}
+              avatar={
+                <AuthorAvatar
+                  avatar={author.avatar}
+                  avatarTitle={author.full_name}
+                />
+              }
               footer={
                 <>
                   {author.github_url && (

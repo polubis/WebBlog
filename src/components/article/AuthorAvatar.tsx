@@ -4,14 +4,15 @@ import type { FixedObject } from "../../v2/core/models"
 
 interface AuthorAvatarProps {
   avatar: FixedObject
+  avatarTitle?: string
 }
 
-export default function ({ avatar }: AuthorAvatarProps) {
+export default function ({ avatar, avatarTitle }: AuthorAvatarProps) {
   return (
     <Image
       className="center circle shadow1 author-avatar"
-      alt={avatar.originalName}
-      title={avatar.originalName}
+      alt={avatarTitle || avatar.originalName}
+      title={avatarTitle || avatar.originalName}
       fixed={avatar}
       style={{
         borderRadius: "50%",

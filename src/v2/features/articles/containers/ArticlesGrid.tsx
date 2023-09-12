@@ -142,9 +142,7 @@ const ArticlesGrid = () => {
             </Tags>
             <Link to={path}>
               <XL>
-                <span title={layoutT[seniority]}>
-                  {Seniority[seniority]}
-                </span>{" "}
+                <span title={layoutT[seniority]}>{Seniority[seniority]}</span>
                 {title}
               </XL>
             </Link>
@@ -152,7 +150,10 @@ const ArticlesGrid = () => {
 
             <div className="tile-details row">
               <Link to={routes.authors.to}>
-                <AuthorAvatar avatar={author.avatar.small} />
+                <AuthorAvatar
+                  avatar={author.avatar.small}
+                  avatarTitle={author.full_name}
+                />
               </Link>
               <ReadTime time={read_time} />
               {is_new && <Badge color={theme.green}>{newText}</Badge>}

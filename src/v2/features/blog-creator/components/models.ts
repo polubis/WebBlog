@@ -6,8 +6,9 @@ export interface PopoverProps {
   label: string
   trigger: (props: ReturnType<typeof useModal>) => ReactNode
   children: (props: ReturnType<typeof useModal>) => ReactNode
+  disabled?: boolean
 }
 
 export interface PopoverContentProps {
-  children: [ReactNode, ReactNode]
+  children: [ReactNode, ReactNode] | ReactNode
 }

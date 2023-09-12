@@ -4,9 +4,6 @@ import theme from "../../utils/theme"
 import { M } from "../text"
 
 const Container = styled.div`
-  display: flex;
-  flex-flow: column;
-
   ${M} {
     margin-top: 4px;
     color: ${theme.placeholderText};
@@ -16,14 +13,15 @@ const Container = styled.div`
 
 export interface FieldProps {
   children: ReactNode
-  description?: string
+  description?: ReactNode
+  onClick?(): void;
 }
 
-export const Field = ({ children, description }: FieldProps) => {
+export const Field = ({ children, description, onClick }: FieldProps) => {
   return (
-    <Container>
+    <Container className='col'>
       {children}
-      {description && <M>{description}</M>}
+      {description && <M className={onClick ? 'hoverable' : ''} onClick={onClick}>{description}</M>}
     </Container>
   )
 }
