@@ -1,10 +1,17 @@
 const { createTechnologies } = require("./createTechnologies")
 const { createUser } = require("./createUser")
 
+const getLessonThumbnail = (thumbnails, lessonSlug) => {
+  return thumbnails.find(({ relativePath }) => {
+    return relativePath.replace(".jpg", "") === lessonSlug
+  })
+}
+
 const CourseModel = (
   { slug, frontmatter },
   {
     coursesThumbnails,
+    lessonsThumbnails,
     authors,
     authorsAvatars,
     technologiesAvatars,
@@ -26,6 +33,7 @@ const CourseModel = (
     authorId,
     treviewerId,
     lreviewerId,
+    seniorityLevel,
   } = frontmatter
 
   const courseId = slug.split("/")[0]
@@ -67,6 +75,14 @@ const CourseModel = (
     return kebabCase
   }
 
+  const getLessonOrCourseThumbnail = lessonThumbnail => {
+    if (lessonThumbnail) {
+      return lessonThumbnail.full.fluid
+    }
+
+    return thumbnail.full.fluid
+  }
+
   return {
     title: name,
     description,
@@ -74,6 +90,7 @@ const CourseModel = (
     status,
     cdate,
     mdate,
+    seniority: seniorityLevel,
     duration,
     ga_page: ga_page + "/" + courseId,
     url: layout.site_url + coursePath,
@@ -114,6 +131,9 @@ const CourseModel = (
             title: lesson.frontmatter.name,
             duration: lesson.frontmatter.duration,
             deprecated: lesson.frontmatter.deprecated,
+            thumbnail: getLessonOrCourseThumbnail(
+              getLessonThumbnail(lessonsThumbnails, lesson.slug)
+            ),
             ga_page:
               ga_page +
               "/" +

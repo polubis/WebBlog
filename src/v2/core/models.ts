@@ -234,12 +234,15 @@ export interface LessonPageModel {
   t: LessonT
   ga_page: GaPage
   url: Url
+  duration: number
   body: string
+  thumbnail: FluidObject
   description: string
   title: Title
   course: {
     title: Title
     path: Path
+    seniority: Seniority
   }
   chapter: {
     title: Title
@@ -254,7 +257,6 @@ export interface LessonPageModel {
     }[]
   }[]
   source_url: Url
-  thumbnail: FluidObject
   next?: {
     path: Path
   }
