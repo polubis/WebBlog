@@ -1,12 +1,12 @@
 import type { ReactPortal, ReactNode } from "react"
 
-import { useEffect, useMemo } from "react"
+import { useLayoutEffect, useMemo } from "react"
 import { createPortal } from "react-dom"
 
 const usePortal = () => {
   const wrapper = useMemo(() => document.createElement("div"), [])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     document.body.appendChild(wrapper)
 
     return () => {

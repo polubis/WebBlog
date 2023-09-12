@@ -13,13 +13,26 @@ import BlogCreatorLayout from "./components/BlogCreatorLayout"
 import { FullScreenCreator } from "./containers/FullScreenCreator"
 import { useEditor } from "../../logic/useEditor"
 import Loadable from "react-loadable"
-import { LinkPopover } from "./containers/LinkPopover"
 import { BlogCreatorAlertsProvider } from "./providers/BlogCreatorAlertsProvider"
-import { ImagePopover } from "./containers/ImagePopover"
 
-const TemplateSelector = Loadable({
+const LinkPopover = Loadable({
+  loader: () => import("./containers/LinkPopover").then(m => m.LinkPopover),
+  loading: () => null,
+})
+
+const ImagePopover = Loadable({
+  loader: () => import("./containers/ImagePopover").then(m => m.ImagePopover),
+  loading: () => null,
+})
+
+const CodePopover = Loadable({
+  loader: () => import("./containers/CodePopover").then(m => m.CodePopover),
+  loading: () => null,
+})
+
+const TemplatesPopover = Loadable({
   loader: () =>
-    import("./containers/TemplateSelector").then(m => m.TemplateSelector),
+    import("./containers/TemplatesPopover").then(m => m.TemplatesPopover),
   loading: () => null,
 })
 
@@ -178,10 +191,7 @@ export const BlogCreatorView = () => {
         {isOpen && (
           <BlogCreatorAlertsProvider>
             <FullScreenCreator onClose={close}>
-              <>
-                {Editor}
-                <TemplateSelector />
-              </>
+              {Editor}
               <>
                 {Errors}
                 {Preview}
@@ -189,33 +199,8 @@ export const BlogCreatorView = () => {
               <CodeContainerToolbox className="row">
                 <LinkPopover />
                 <ImagePopover />
-                {/* <Popover position={1} trigger={toggler => (
-                <IconButton onClick={toggler.open}>
-                  <ListIcon />
-                </IconButton>
-              )}>
-                {toggler => (
-                  <div>siema</div>
-                )}
-              </Popover> */}
-                {/* <Popover position={2} trigger={toggler => (
-                <IconButton onClick={toggler.open}>
-                  <ImageIcon />
-                </IconButton>
-              )}>
-                {toggler => (
-                  <div>siema</div>
-                )}
-              </Popover>
-              <Popover position={3} trigger={toggler => (
-                <IconButton onClick={toggler.open}>
-                  <CodeIcon />
-                </IconButton>
-              )}>
-                {toggler => (
-                  <div>siema</div>
-                )}
-              </Popover> */}
+                <CodePopover />
+                <TemplatesPopover />
               </CodeContainerToolbox>
             </FullScreenCreator>
           </BlogCreatorAlertsProvider>

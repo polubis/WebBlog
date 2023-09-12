@@ -72,7 +72,7 @@ export const ImagePopover = () => {
             label={`${creator.t.add_image} - <Img />`}
             position={1}
             trigger={toggler => (
-                <IconButton onClick={toggler.open}>
+                <IconButton title={creator.t.add_image} onClick={toggler.open}>
                     <ImageIcon />
                 </IconButton>
             )}

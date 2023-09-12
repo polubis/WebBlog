@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useCallback } from "react"
 import { CloseIcon, X, useModal } from "../../../../ui"
 import type { PopoverProps } from "./models"
 import styled from "styled-components"
@@ -12,7 +12,9 @@ const Container = styled.div`
   bottom: 84px;
   border-radius: 4px;
   padding: 12px;
-  max-width: 320px;
+  max-width: 440px;
+  max-height: 80vh;
+  overflow-y: auto;
 
   .popover-header {
     justify-content: space-between;
@@ -23,11 +25,17 @@ const Container = styled.div`
   }
 `
 
-export const Popover = ({ children, trigger, position, label }: PopoverProps) => {
+export const Popover = ({ children, trigger, position, label, disabled }: PopoverProps) => {
     const toggler = useModal()
 
+    const onOutside = useCallback(() => {
+        if (!disabled) {
+            toggler.close()
+        }
+    }, [disabled])
+
     const { ref } = useClickOutside<HTMLDivElement>({
-        onOutside: toggler.close,
+        onOutside,
     })
     const left = 20 + (position * 52)
 
