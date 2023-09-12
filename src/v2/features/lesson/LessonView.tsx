@@ -15,6 +15,7 @@ import { MDXRenderer } from "gatsby-plugin-mdx"
 import { useCustomGAEvent } from "../../../utils/useCustomGAEvent"
 import { CourseChapters } from "../../components/CourseChapters"
 import { NavigationSection } from "../../components/NavigationSection"
+import Thumbnail from "../../../components/article/Thumbnail"
 
 const MobileNavigation = Loadable({
   loader: () =>
@@ -42,8 +43,8 @@ const Container = styled.main`
   grid-template-columns: 920px 1fr;
   gap: 32px;
 
-  .breadcrumbs {
-    margin-bottom: 28px;
+  .thumbnail {
+    margin: 12px 0 62px 0;
   }
 
   @media ${L_DOWN} {
@@ -86,6 +87,15 @@ const LessonView = () => {
                 <Link to={lesson.course.path}>{lesson.course.title}</Link>
                 <span>{lesson.title}</span>
               </Breadcrumbs>
+              <Thumbnail
+                seniorityTitle={layout.t[lesson.course.seniority]}
+                readTime={lesson.duration}
+                thumbnail={lesson.thumbnail}
+                title={lesson.title}
+                thumbnailAlt={lesson.title}
+                newLabel={layout.t.new}
+                seniorityLevel={lesson.course.seniority}
+              />
               <MdxProvider renderer={MDXRenderer}>{lesson.body}</MdxProvider>
               <NavigationSection>
                 <a

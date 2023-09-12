@@ -264,6 +264,7 @@ exports.createPages = async ({ actions, graphql }) => {
             authorId
             treviewerId
             lreviewerId
+            seniorityLevel
             stack
             tags
             description
@@ -325,6 +326,31 @@ exports.createPages = async ({ actions, graphql }) => {
         nodes {
           relativePath
           childImageSharp {
+            fluid {
+              base64
+              aspectRatio
+              src
+              srcSet
+              sizes
+            }
+          }
+        }
+      }
+      lessonsThumbnails: allFile(filter: {relativePath: {regex: "/lessons\/[1-999].jpg/"}}) {
+        nodes {
+          name
+          relativePath
+          medium: childImageSharp {
+            fixed(width: 50, height: 50, quality: 24) {
+              base64
+              width
+              height
+              src
+              srcSet
+              originalName
+            }
+          }
+          full: childImageSharp {
             fluid {
               base64
               aspectRatio

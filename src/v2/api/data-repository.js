@@ -2,6 +2,7 @@ const authors = require("../../authors/authors.json")
 const fetch = require("node-fetch")
 
 const DataRepository = async result => {
+  const lessonsThumbnails = [...result.data.lessonsThumbnails.nodes]
   const authorsAvatars = [...result.data.authorsAvatars.nodes]
   const lessons = [...result.data.lessons.nodes]
   const coursesThumbnails = [...result.data.coursesThumbnails.nodes]
@@ -29,6 +30,7 @@ const DataRepository = async result => {
     coursesThumbnails,
     technologiesAvatars,
     chapters,
+    lessonsThumbnails,
     courses,
     authors,
     articleThumbnails,
