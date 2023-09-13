@@ -1,0 +1,193 @@
+---
+name: Creating fixture for MSW to reduce boilerplate and setup
+duration: 4
+description: Fixtures may make your life easier and with this pattern, you'll be able to reduce boilerplate. Let's dive into this concept in the context of MSW setup.
+---
+
+<Prelude label="Before we start">
+  <Hint hasBg>This lesson is a continuation of the problem spotted in{" "}
+<A outside href="/courses/react-testing-spellbook/mastering-integration-testing/using-m-s-w-library-to-remove-implementation-details-from-tests/">
+  Using MSW library to remove implementation details from tests
+ </A> article.
+</Hint>
+<Hint hasBg>In <A outside href="/courses/react-testing-spellbook/mastering-unit-testing/creating-testing-fixtures/">
+  Creating testing fixtures
+ </A> article you can read more about this concept.
+</Hint>
+<M>In the previous lesson, we added <B>MSW</B> library to our setup and we refactored our integration tests. At the end of the lesson, we came to the conclusion: "Holly cow, so much boilerplate is produced in every test suite...".
+Just look at the following example: </M>
+<Code
+mode="dynamic"
+rolled
+lang="tsx"
+src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/lesson/Creating-fixture-for-MSW-to-reduce-boilerplate-and-setup/1.tsx"
+linesCount={54}
+description="Almost 10 lines required to start testing"
+/>
+
+<M>We can improve it with a simple <B>fixture</B> pattern. We need a function that allows us to mock any endpoint in an easy way.</M>
+  </Prelude>
+  
+  <Section>
+  <XL>Let's design a "serverFixture" API</XL>
+  <M>Let's first check what we have now. </M>
+  <Code
+mode="dynamic"
+lang="tsx"
+description="The current approach that we want to refactor"
+src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/lesson/Creating-fixture-for-MSW-to-reduce-boilerplate-and-setup/2.tsx"
+linesCount={21}
+/>
+  <M>
+    Our new API should be simple, should reduce the boilerplate, and should be flexible. 
+  </M>
+  <Code
+mode="dynamic"
+lang="tsx"
+description="This is the new API proposal"
+src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/lesson/Creating-fixture-for-MSW-to-reduce-boilerplate-and-setup/3.tsx"
+linesCount={7}
+/>
+
+<M>We'll have less code - that's obvious and we don't need to remember using all of these <B>reset</B> and <B>setup</B> functions in <B>before</B> and <B>after</B> callbacks - forgetting them may cause unexpected issues and they are hard to spot for not experienced developers.</M>
+<M>Also, we removed the need to use <B>server.use</B> wrap, which may be also forgotten. </M>
+</Section>
+
+<Section>
+  <XL>Implementing the "serverFixture" function</XL>
+  <M>
+   The first thing that may be weird is the following code:
+  </M>
+  <Code
+mode="dynamic"
+lang="tsx"
+src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/lesson/Creating-fixture-for-MSW-to-reduce-boilerplate-and-setup/4.tsx"
+linesCount={1}
+/>
+  <M>Why do we need to pass <B>beforeAll, afterEach</B> and <B>afterAll</B> callbacks?</M>
+  <M>It's because, in the testing environment, our <B>fixture</B> function will not have access to <B>jest</B> environment. So, we need to pass these functions as a parameter and call them inside our util.  Check the <B>GIF</B> to understand: </M>
+  <Img
+  src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/lesson/Creating-fixture-for-MSW-to-reduce-boilerplate-and-setup/1.gif"
+  description="Jest functions can be accessed only in test.ts files"
+/>
+<M>Why it's like that? It's because if you use these functions in your regular code you'll add them to the bundle...</M>
+<M>This is the perfect use case for <B>dependency injection</B> pattern and <B>currying technique</B>. Instead of using globally available functions from <B>jest</B>, we'll pass them inside to <B>fixture</B> via parameter.</M>
+<Hint hasBg>If you're interested about <B>patterns</B>, feel free to check the{" "} 
+ <A 
+outside href="https://greenonsoftware.com/articles/quick-wins/closures-currying-function-composition-as-your-new-friends/">Closures, currying and functions composition as your new friends</A> article.</Hint>
+<M>Let's add the required <B>boilerplate</B> and prepare some <B>types</B>.</M>
+<Code
+mode="dynamic"
+lang="tsx"
+rolled
+description="The implementation boilerplate"
+src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/lesson/Creating-fixture-for-MSW-to-reduce-boilerplate-and-setup/5.tsx"
+linesCount={29}
+/>
+
+<M>Now, we need to create a file with types. </M>
+<Code
+mode="dynamic"
+lang="tsx"
+description="Type definitions in separate file"
+src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/lesson/Creating-fixture-for-MSW-to-reduce-boilerplate-and-setup/6.tsx"
+linesCount={9}
+/>
+<M>Okay, now the code is working. We need to add the last part - the <B>mock</B> function that will truly add mocks to the dedicated endpoint. The <B>mock</B> function will have the following signature.</M>
+<Code
+mode="dynamic"
+lang="tsx"
+description="Types for mock function" 
+src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/lesson/Creating-fixture-for-MSW-to-reduce-boilerplate-and-setup/7.tsx"
+linesCount={14}
+/>
+<M>The last part - we need to align the implementation!</M>
+<Code
+mode="dynamic"
+lang="tsx"
+description="Everything ready!"
+src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/lesson/Creating-fixture-for-MSW-to-reduce-boilerplate-and-setup/8.tsx"
+linesCount={14}
+/>
+</Section>
+
+{" "}
+
+<Section>
+  <XL>Using the "serverFixture" in tests.</XL>
+  <M>
+    We have <B>serverFixture</B> fully implemented. Now, we need to use it.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    rolled
+    description="The fixture is applied"
+    src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/lesson/Creating-fixture-for-MSW-to-reduce-boilerplate-and-setup/9.tsx"
+    linesCount={39}
+  />
+</Section>
+
+<Section>
+  <XL>Gotchas and additional stuff</XL>
+  <M>
+    What if you would like to do something more via <B>after</B> and{" "}
+    <B>before</B> functions?
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="Doing additional stuff"
+    src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/lesson/Creating-fixture-for-MSW-to-reduce-boilerplate-and-setup/10.tsx"
+    linesCount={9}
+  />
+  <M>
+    You don't need to worry about that. The <B>jest</B> will call{" "}
+    <B>beforeAll</B> twice. In your testing code and internally inside the{" "}
+    <B>serverFixture</B> function!
+  </M>
+</Section>
+
+<Example label="The final walkthrough">
+  <M>
+ Check the <B>GIF</B> below to understand how it works in practice and how blazingly fast you can now mock your endpoints in <B>integration</B> test without remembering additional stuff.
+  </M>
+<Img
+  src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/lesson/Creating-fixture-for-MSW-to-reduce-boilerplate-and-setup/2.gif"
+  description="How it works?"
+/>
+
+  <M>In the following <A outside href="https://github.com/polubis/Dream-stack-for-React-dev/blob/lesson/Creating-fixture-for-MSW-to-reduce-boilerplate-and-setup/system/apps/blog/components/sign-in-form/sign-in-form.test.tsx">repository</A> you can dive into examples that we discussed and many more! Here you have the final code: </M>
+<Code
+mode="dynamic"
+lang="tsx"
+rolled
+description="The types for the fixture"
+src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/lesson/Creating-fixture-for-MSW-to-reduce-boilerplate-and-setup/system/libs/blog-api/src/lib/test-utils/defs.ts"
+linesCount={26}
+/>
+<Code
+mode="dynamic"
+lang="tsx"
+rolled
+description="The fixture implementation"
+src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/lesson/Creating-fixture-for-MSW-to-reduce-boilerplate-and-setup/system/libs/blog-api/src/lib/test-utils/fixtures.ts"
+linesCount={39}
+/>
+<Code
+rolled
+mode="dynamic"
+lang="tsx"
+description="Usage in integration tests"
+src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/lesson/Creating-fixture-for-MSW-to-reduce-boilerplate-and-setup/system/apps/blog/components/sign-in-form/sign-in-form.test.tsx"
+linesCount={62}
+/>
+</Example>
+
+<Summary label="Conclusions and thoughts">
+  <M>
+    We reduced the amount of boilerplate, and things to remember and we added
+    reusable <B>fixture</B> for mocking <B>server endpoints</B>. Writting
+    integration tests right now it's not a guilty pleasure anymore...
+  </M>
+</Summary>
