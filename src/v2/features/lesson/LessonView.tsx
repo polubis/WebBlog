@@ -73,6 +73,8 @@ const LessonView = () => {
     />
   )
 
+  console.log(lesson.course)
+
   return (
     <>
       <Layout>
@@ -107,7 +109,7 @@ const LessonView = () => {
                   time={lesson.duration}
                   level={lesson.course.seniority}
                   tags={lesson.course.tags}
-                  stack={lesson.course.technologies.map(technology => technology.id)}
+                  stack={lesson.course.technologies.map(({ id }) => id)}
                 />
                 <a
                   className="button primary upper"
