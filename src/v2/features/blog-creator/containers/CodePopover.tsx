@@ -1,13 +1,12 @@
-import React, { ChangeEventHandler, useMemo } from "react"
+import React, { ChangeEventHandler, useMemo, useState } from "react"
 import { Popover } from "../components/Popover"
-import { Field, IconButton, Input, M, Modal, S } from "../../../../ui"
+import { Field, IconButton, Input, M, Modal } from "../../../../ui"
 import { useClipboard } from "../../../../utils/useClipboard"
 import { useBlogCreatorPageProvider } from "../BlogCreatorPageProvider"
 import { useBlogCreatorAlertsProvider } from "../providers/BlogCreatorAlertsProvider"
 import { PopoverContent } from "../components/PopoverContent"
 import { useForm } from "../../../../utils/useForm"
 import { useLayoutProvider } from "../../../providers/LayoutProvider"
-import { EditableSnippet } from "../../../../ui/snippet/EditableSnippet"
 import { CodeIcon } from "../../../../ui/icons/CodeIcon"
 import { Tabs } from "../../../ui/tabs/Tabs"
 import { Tab } from "../../../ui/tabs/Tab"
@@ -18,16 +17,10 @@ import { SelectOption } from "../../../ui/select/models"
 import styled from "styled-components"
 import { useToggle } from "../../../utils/useToggle"
 import { Code } from "../../../ui/code/Code"
+import { CodePopoverStaticForm } from "./CodePopoverStaticForm"
 
 const TabsWrapper = styled.div`
   padding-bottom: 12px;
-`
-
-const EditableSnippetWrapper = styled.div`
-  .ui-editable-snippet {
-    border-radius: 4px;
-    min-height: 44px;
-  }
 `
 
 const modes = ["Static", "Dynamic"] as const
@@ -37,7 +30,6 @@ type Mode = typeof modes[number]
 interface Model {
   language: Language
   code: string
-  mode: Mode
   rolled: boolean
   description: string
   src: string
@@ -89,10 +81,10 @@ const removeStartEndEnters = (value: string): string =>
 const countLinesOfCode = (code: string): number =>
   removeStartEndEnters(code).split("\n").length
 
-const createCodeSnippet = (model: Model): string => {
+const createCodeSnippet = (mode: Mode, model: Model): string => {
   const parts = [
     "<Code",
-    `mode="${model.mode.toLowerCase()}"`,
+    `mode="${mode.toLowerCase()}"`,
     `lang="${model.language}"`,
   ]
 
@@ -104,13 +96,13 @@ const createCodeSnippet = (model: Model): string => {
     parts.push("rolled")
   }
 
-  if (model.mode === "Dynamic") {
+  if (mode === "Dynamic") {
     parts.push(`src="${model.src}"`)
     parts.push(`linesCount={${countLinesOfCode(model.code)}}`)
     parts.push("/>")
   }
 
-  if (model.mode === "Static") {
+  if (mode === "Static") {
     const parsedCode = model.code.replace(/`/g, "\\`")
     parts.push(">")
     parts.push(`{\`${parsedCode}\`}`)
@@ -137,14 +129,18 @@ export const CodePopover = () => {
   const { copy } = useClipboard()
   const previewModal = useToggle()
 
-  const initial_model: Model = useMemo(() => ({
-    code: creator.t.paste_your_snippet,
-    rolled: false,
-    mode: "Static",
-    description: "",
-    src: "",
-    language: "tsx",
-  }), [])
+  const [mode, setMode] = useState<Mode>("Static")
+
+  const initial_model: Model = useMemo(
+    () => ({
+      code: creator.t.paste_your_snippet,
+      rolled: false,
+      description: "",
+      src: "",
+      language: "tsx",
+    }),
+    []
+  )
 
   const [{ values }, { set, reset }] = useForm<Model>({
     values: initial_model,
@@ -166,28 +162,11 @@ export const CodePopover = () => {
     },
   })
 
-  const handleConfirm = (): void => {
-    let value = createCodeSnippet(values)
-    const { src, mode, ...currentValues } = values
-    const { src: a, mode: b, ...initialValues } = initial_model
-    const changed =
-      JSON.stringify(initialValues) !== JSON.stringify(currentValues)
-
-    if (changed) {
-      add({
-        message: creator.t.copied_and_paste_now,
-      })
-    } else {
-      add({
-        message: creator.t.default_copied_and_paste_now,
-      })
-    }
-    copy(value)
+  const handleCopyConfirm = (toggler: { close: () => void }): void => {
+    add({ message: creator.t.copied_and_paste_now })
+    copy(createCodeSnippet(mode, values))
     reset()
-  }
-
-  const handleModeChange = (mode: Mode): void => {
-    set({ key: "mode", value: mode })
+    toggler.close()
   }
 
   const handleSrcChange: ChangeEventHandler<HTMLInputElement> = e => {
@@ -279,42 +258,21 @@ export const CodePopover = () => {
             <>
               <TabsWrapper>
                 <Tabs>
-                  {modes.map(mode => (
+                  {modes.map(currentMode => (
                     <Tab
-                      key={mode}
-                      active={mode === values.mode}
-                      onClick={() => handleModeChange(mode)}
+                      key={currentMode}
+                      active={currentMode === mode}
+                      onClick={() => setMode(currentMode)}
                     >
-                      <M>{mode}</M>
+                      <M>{currentMode}</M>
                     </Tab>
                   ))}
                 </Tabs>
               </TabsWrapper>
 
-              {values.mode === "Static" && (
-                <>
-                  <Field description={creator.t.paste_your_snippet}>
-                    <EditableSnippetWrapper>
-                      <EditableSnippet
-                        language={values.language ?? "tsx"}
-                        value={values.code}
-                        onChange={value =>
-                          set({
-                            key: "code",
-                            value,
-                          })
-                        }
-                      />
-                    </EditableSnippetWrapper>
-                  </Field>
+              {mode === "Static" && <CodePopoverStaticForm />}
 
-                  {LanguageField}
-                  {DescriptionField}
-                  {/* {RolledField} */}
-                </>
-              )}
-
-              {values.mode === "Dynamic" && (
+              {mode === "Dynamic" && (
                 <>
                   {SrcField}
                   {LanguageField}
@@ -322,26 +280,15 @@ export const CodePopover = () => {
                   {/* {RolledField} */}
                 </>
               )}
-
-              <S>{creator.t.skip_edition_disclaimer}</S>
             </>
-
-            <button
-              className="upper button primary"
-              disabled={snippet.is === "busy"}
-              onClick={() => {
-                handleConfirm()
-                toggler.close()
-              }}
-            >
-              {layout.t.copy}
-            </button>
           </PopoverContent>
         )}
       </Popover>
       {previewModal.opened && (
         <Modal onClose={previewModal.close}>
-          <Code lang={values.language} mode="static">{values.code}</Code>
+          <Code lang={values.language} mode="static">
+            {values.code}
+          </Code>
         </Modal>
       )}
     </>

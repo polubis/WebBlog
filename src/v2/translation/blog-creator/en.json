@@ -56,12 +56,13 @@
   "default_copied_and_paste_now": "Default example copied! Paste it now in editor.",
   "snippet_url": "Code URL",
   "the_content_to_display": "The content to display below snippet",
-  "paste_your_snippet": "Paste your snippet",
+  "paste_your_snippet": "Code snippet*",
   "trying_to_detect": "⌚ Trying to detect language...",
   "loading_snippet": "⌚ Loading code snippet...",
   "snippet_is_loaded": "✅ Snippet is loaded, click to preview.",
   "snippet_load_failed": "❌ Load failed. URL may be invalid or you don't have access",
   "snippet_idle": "Example: [https://github.com/user/repo/file.ts]",
   "formatted": "Your code has been formatted!",
-  "format_code": "Format code"
+  "format_code": "Format code",
+  "use_example": "Example"
 }
