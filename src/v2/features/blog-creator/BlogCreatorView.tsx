@@ -15,24 +15,8 @@ import { useEditor } from "../../logic/useEditor"
 import Loadable from "react-loadable"
 import { BlogCreatorAlertsProvider } from "./providers/BlogCreatorAlertsProvider"
 
-const LinkPopover = Loadable({
-  loader: () => import("./containers/LinkPopover").then(m => m.LinkPopover),
-  loading: () => null,
-})
-
-const ImagePopover = Loadable({
-  loader: () => import("./containers/ImagePopover").then(m => m.ImagePopover),
-  loading: () => null,
-})
-
-const CodePopover = Loadable({
-  loader: () => import("./containers/CodePopover").then(m => m.CodePopover),
-  loading: () => null,
-})
-
-const TemplatesPopover = Loadable({
-  loader: () =>
-    import("./containers/TemplatesPopover").then(m => m.TemplatesPopover),
+const Toolbox = Loadable({
+  loader: () => import("./containers/Toolbox").then(m => m.Toolbox),
   loading: () => null,
 })
 
@@ -67,18 +51,6 @@ const CodeContainer = styled.div`
 
   @media ${T_DOWN} {
     width: 100%;
-  }
-`
-
-const CodeContainerToolbox = styled.div`
-  overflow-x: auto;
-
-  path {
-    fill: #000;
-  }
-
-  & > *:not(:last-child) {
-    margin-right: 12px;
   }
 `
 
@@ -196,12 +168,7 @@ export const BlogCreatorView = () => {
                 {Errors}
                 {Preview}
               </>
-              <CodeContainerToolbox className="row">
-                <LinkPopover />
-                <ImagePopover />
-                <CodePopover />
-                <TemplatesPopover />
-              </CodeContainerToolbox>
+              <Toolbox code={mdx} onFormat={change} />
             </FullScreenCreator>
           </BlogCreatorAlertsProvider>
         )}
