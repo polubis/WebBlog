@@ -73,8 +73,6 @@ const LessonView = () => {
     />
   )
 
-  console.log(lesson.course)
-
   return (
     <>
       <Layout>
