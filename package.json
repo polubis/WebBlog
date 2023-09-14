@@ -38,6 +38,7 @@
     "gatsby-remark-images": "^3.10.0",
     "gatsby-source-filesystem": "^2.9.1",
     "gatsby-transformer-sharp": "^2.11.0",
+    "js-beautify": "^1.14.9",
     "prism-react-renderer": "^1.3.5",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
@@ -55,8 +56,8 @@
     "@types/styled-components": "^5.1.7",
     "cypress": "^12.9.0",
     "gatsby-plugin-robots-txt": "^1.8.0",
-    "typescript": "^5.0.3",
-    "prettier": "2.2.1"
+    "prettier": "2.2.1",
+    "typescript": "^5.0.3"
   },
   "repository": {
     "type": "git",
