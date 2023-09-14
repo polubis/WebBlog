@@ -75,6 +75,21 @@
     "linkedinURL": "https://www.linkedin.com/in/emil-juchnikowski-25b251bb/"
   },
   {
+    "id": "ajurczyk",
+    "name": "ajurczyk",
+    "firstName": "Adam",
+    "platformRoles": [
+      "contributor"
+    ],
+    "lastName": "Jurczyk",
+    "role": "Frontend Developer",
+    "bioPl": "Zacząłem kodować ponieważ kocham tworzyć nowe rzeczy. Staram tworzyć się perfekcyjny aplikacje o ile jest to możliwe. Tworzę w React, NextJS, TailwindCSS oraz TypeScript. W czasie wolnym tworzę muzyke i uprawiam sport.",
+    "bio": "I started to code because i love to build cool stuff. There is nothing more fulfilling for me than well written software that works. My main tech-stack is React, NextJS, TailwindCSS and TypeScript. I also produce music and try to stay healthy and fit with regular exercise.",
+    "projects": [],
+    "githubURL": "https://github.com/EjdemJ",
+    "linkedinURL": "https://www.linkedin.com/in/adam-jurczyk-27b938279/"
+  },
+  {
     "id": "kwozniak",
     "name": "kwozniak",
     "firstName": "Kacper",
