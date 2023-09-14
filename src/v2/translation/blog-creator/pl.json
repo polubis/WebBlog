@@ -61,5 +61,7 @@
   "loading_snippet": "⌚ Ładuję fragmnt z kodem...",
   "snippet_is_loaded": "✅ Załadowano fragment z kodem, kliknij aby zobaczyć.",
   "snippet_load_failed": "❌ Błąd ładowania. Sprawdź poprawność URL i czy masz uprawnienia",
-  "snippet_idle": "Przykład: [https://github.com/user/repo/file.ts]"
+  "snippet_idle": "Przykład: [https://github.com/user/repo/file.ts]",
+  "formatted": "Kod został sformatowany!",
+  "format_code": "Sformatuj kod"
 }
