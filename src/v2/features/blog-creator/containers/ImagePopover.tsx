@@ -29,8 +29,9 @@ export const ImagePopover = () => {
     }
 
     const handleConfirm = (): void => {
+        let url = values.url;
         let value = creator.samples.image
-        const changed = values.description !== "" && values.url !== ""
+        const changed = values.description !== "" && url !== ""
 
         if (changed) {
             add({
@@ -43,16 +44,16 @@ export const ImagePopover = () => {
         }
 
         const isGDriveUrl =
-            /https:\/\/drive\.google\.com/g.test(values.url) &&
-            /usp=drive_link/g.test(values.url)
+            /https:\/\/drive\.google\.com/g.test(url) &&
+            /usp=drive_link/g.test(url)
 
         if (isGDriveUrl) {
-            const gDriveId = values.url.split('/')[5]
-            values.url = `https://drive.google.com/uc?export=view&id=${gDriveId}`
+            const gDriveId = url.split('/')[5]
+            url = `https://drive.google.com/uc?export=view&id=${gDriveId}`
         }
 
-        if (values.url !== "") {
-            value = value.replace(/src="([^"]*)"/g, `src="${values.url}"`)
+        if (url !== "") {
+            value = value.replace(/src="([^"]*)"/g, `src="${url}"`)
         }
 
         if (values.description !== "") {
