@@ -119,7 +119,8 @@ const Container = styled.div`
 
   .description {
     display: block;
-    padding-top: 4px;
+    transform: translateY(-${(pre_config.estimated_scroll_size / 2) - 2}px);
+    background: #000;
     height: ${pre_config.description_height}px;
   }
 `
@@ -161,6 +162,7 @@ const Pre = ({
   animated,
   Header,
   Footer,
+  height,
 }: PreProps) => {
   const { copy } = useClipboard()
   const getHighlightStatus = (idx: number): HighlightStatus => {
@@ -184,51 +186,59 @@ const Pre = ({
   return (
     <Container className={`ui-snippet${animated ? " animated" : ""}`}>
       {Header && Header({ copy: () => copy(children) })}
-      <PrismSnippet
-        {...defaultProps}
-        theme={SNIPPET_THEME}
-        code={children}
-        language={lang}
-      >
-        {({ className, style, tokens, getLineProps, getTokenProps }) => (
-          <pre className={className} style={style}>
-            {linesOff
-              ? tokens.map((line, i) => {
-                  const status = getHighlightStatus(i)
+      <div style={{ height }}>
+        <PrismSnippet
+          {...defaultProps}
+          theme={SNIPPET_THEME}
+          code={children}
+          language={lang}
+        >
+          {({ className, style, tokens, getLineProps, getTokenProps }) => (
+            <pre className={className} style={style}>
+              {linesOff
+                ? tokens.map((line, i) => {
+                    const status = getHighlightStatus(i)
 
-                  return (
-                    <div
-                      key={i}
-                      {...getLineProps({ line, className: status, key: i })}
-                    >
-                      <div className="line-content">
-                        {line.map((token, key) => (
-                          <span key={key} {...getTokenProps({ token, key })} />
-                        ))}
+                    return (
+                      <div
+                        key={i}
+                        {...getLineProps({ line, className: status, key: i })}
+                      >
+                        <div className="line-content">
+                          {line.map((token, key) => (
+                            <span
+                              key={key}
+                              {...getTokenProps({ token, key })}
+                            />
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  )
-                })
-              : tokens.map((line, i) => {
-                  const status = getHighlightStatus(i)
+                    )
+                  })
+                : tokens.map((line, i) => {
+                    const status = getHighlightStatus(i)
 
-                  return (
-                    <div
-                      key={i}
-                      {...getLineProps({ line, className: status, key: i })}
-                    >
-                      <div className="line-number">{i + 1}</div>
-                      <div className="line-content">
-                        {line.map((token, key) => (
-                          <span key={key} {...getTokenProps({ token, key })} />
-                        ))}
+                    return (
+                      <div
+                        key={i}
+                        {...getLineProps({ line, className: status, key: i })}
+                      >
+                        <div className="line-number">{i + 1}</div>
+                        <div className="line-content">
+                          {line.map((token, key) => (
+                            <span
+                              key={key}
+                              {...getTokenProps({ token, key })}
+                            />
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  )
-                })}
-          </pre>
-        )}
-      </PrismSnippet>
+                    )
+                  })}
+            </pre>
+          )}
+        </PrismSnippet>
+      </div>
       {Footer && Footer({ copy: () => copy(children) })}
       {description && (
         <S title={description} className="description truncated" italic>

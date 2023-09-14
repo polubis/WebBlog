@@ -35,9 +35,12 @@ const getCodeSetup = (
   Loading: CodeProps["Loading"]
 ) => {
   const rollableLinesCount = rolled ? rolled_max_line_count : linesCount
-  const height =
+  const preservationHeight =
     rollableLinesCount * pre_config.line_height +
     pre_config.padding_height +
+    pre_config.estimated_scroll_size
+  const height =
+    preservationHeight +
     (hasHeader ? pre_config.header_height : 0) +
     (hasFooter ? pre_config.footer_height : 0) +
     (hasDescription ? pre_config.description_height : 0)
@@ -60,7 +63,7 @@ const getCodeSetup = (
     []
   )
 
-  return { Pre, style }
+  return { Pre, style, preservationHeight }
 }
 
 const StaticCode = ({
@@ -76,7 +79,7 @@ const StaticCode = ({
 
   const code = getFormattedCode(children, skipTrim, toggler.isOpen)
 
-  const { style, Pre } = getCodeSetup(
+  const { style, Pre, preservationHeight } = getCodeSetup(
     code.split("\n").length,
     !!toggler.isOpen,
     !!props.Header,
@@ -89,10 +92,10 @@ const StaticCode = ({
     <>
       {toggler.isOpen ? (
         <Roller onExpand={toggler.close}>
-          <Pre {...props} children={code} />
+          <Pre {...props} height={preservationHeight + "px"} children={code} />
         </Roller>
       ) : (
-        <Pre {...props} children={code} />
+        <Pre {...props} height={preservationHeight + "px"} children={code} />
       )}
     </>
   ) : (
@@ -116,7 +119,7 @@ const DynamicCode = ({
   const toggler = useModal(rolled && !!Roller)
   const [state, fetchCode, abort] = useFetch<string>()
   const { isVisible, ref } = useIsVisible({ threshold: 0.1, useOnce: true })
-  const { style, Pre } = getCodeSetup(
+  const { style, Pre, preservationHeight } = getCodeSetup(
     linesCount,
     !!toggler.isOpen,
     !!props.Header,
@@ -155,10 +158,10 @@ const DynamicCode = ({
       <>
         {toggler.isOpen ? (
           <Roller onExpand={toggler.close}>
-            <Pre {...props} children={code} />
+            <Pre {...props} height={preservationHeight + "px"} children={code} />
           </Roller>
         ) : (
-          <Pre {...props} children={code} />
+          <Pre {...props} height={preservationHeight + "px"} children={code} />
         )}
       </>
     )
