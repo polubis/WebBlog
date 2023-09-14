@@ -13,6 +13,7 @@ export interface PreProps {
   children: string
   lang?: Language
   description?: ReactNode
+  height?: string
   linesOff?: boolean
   added?: Range
   deleted?: Range

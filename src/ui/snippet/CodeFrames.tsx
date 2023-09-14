@@ -21,7 +21,7 @@ export interface CodeFramesProps {
 }
 
 export const preserveSpaceForFrames = (frames: Frames): Frames => {
-  const splitted = frames.map(frame => frame.split("\n"))
+  const splitted = frames.map(frame => frame.trim().split("\n"))
 
   const max = splitted.reduce(
     (acc, split) => (acc >= split.length ? acc : split.length),
