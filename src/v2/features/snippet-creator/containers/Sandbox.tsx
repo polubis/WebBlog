@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useCallback } from "react"
 import { Banner, XL, useModal } from "../../../../ui"
 import styled from "styled-components"
 import theme from "../../../../utils/theme"
@@ -8,7 +8,6 @@ import { FramesProgress } from "../components/FramesProgress"
 import { T_DOWN, T_UP } from "../../../../utils/viewport"
 import { Navigation } from "../components/Navigation"
 import { useKeyPress } from "../../../../utils/useKeyPress"
-import { useClickOutside } from "../../../../utils/useClickOutside"
 import { MAX_FRAMES_COUNT, MIN_FRAMES_COUNT } from "../core/config"
 import { Confirmation } from "./Confirmation"
 import { InteractiveButton } from "../../../../ui/snippet/InteractiveButton"
@@ -29,6 +28,7 @@ import {
   SubmitFramesButton,
 } from "./Triggers"
 import { Code } from "../../../ui/code/Code"
+import { useClickOutside } from "../../../utils/useClickOutside"
 
 const Dot = styled.div`
   border-radius: 50%;
@@ -254,12 +254,14 @@ const Sandbox = ({ state, action, loadedSnippet }: SandboxProps) => {
     },
   })
 
+  const onOutside = useCallback(() => {
+    if (!confirmation.isOpen) {
+      action.closeNavigationPanel()
+    }
+  }, [confirmation.isOpen])
+
   const { ref: headerRef } = useClickOutside<HTMLDivElement>({
-    onOutside: () => {
-      if (!confirmation.isOpen) {
-        action.closeNavigationPanel()
-      }
-    },
+    onOutside,
   })
 
   const maxFramesExceeded = state.frames.length >= MAX_FRAMES_COUNT
