@@ -1,0 +1,170 @@
+---
+name: Hiding window and HTML element scroll with the useScrollHide hook
+description: We'll check how to show/hide scroll programmatically and by default. After this article, you'll have a powerful useScrollHide hook to work with Modals and similar components.
+duration: 5
+---
+
+<Prelude label="The use cases for the useScrollHide hook">
+  <M>Imagine you've <B>Modal</B> component and during display, you have double scroll. First is window scroll and the second scroll is inside <B>Modal</B>. It may cause weird UX and frustrating to use UI. The best approach to improve that is just disabling the scroll on <B>window</B> when <B>Modal</B> is displayed. </M>
+  <M>To understand the use case check the following <B>GIF</B>: </M>
+<Img
+  src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/lesson/Hiding-window-and-HTML-element-scroll-with-the-useScrollHide-hook/hook-demo.gif"
+  description="How our hook works in the context of Modal component"
+/>
+
+  <M>This hook may be used to hide/show scroll programmatically for <B>window</B> or other <B>HTML elements</B>. It may be useful when you create any component that appears on the screen and contains a scroll - <B>menu</B>, <B>select</B>, <B>dialog</B>, <B>alert</B>, ...etc. 
+</M>
+</Prelude>
+
+<Section>
+  <XL>How to use the useScrollHide hook?</XL>
+  <M>
+    We'll use our hook in 2 scenarios: with <B>window</B> and with any other{" "}
+    <B>HTML element</B>.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="The overview of the hook API"
+    src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/lesson/Hiding-window-and-HTML-element-scroll-with-the-useScrollHide-hook/the-api-review.tsx"
+    linesCount={18}
+  />
+  <M>
+    If we want to use the scroll hide mechanism and apply it to{" "}
+    <B>HTML element</B>, we need to pass the type of this element to our hook.
+  </M>
+  <M>
+    In addition, we have <B>2 methods</B> to programmatically maintain the
+    scroll.
+  </M>
+</Section>
+
+<Section>
+  <XL>Implementation process</XL>
+  <M>Check the following <B>GIF</B> to understand how it was implemented step by step: </M>
+<Img
+src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/lesson/Hiding-window-and-HTML-element-scroll-with-the-useScrollHide-hook/implementation.gif"
+  description="Implementation process"
+/>
+
+  <M>
+    Let's start the explanation with  boilerplate for our hook.
+  </M>
+  <Code
+mode="dynamic"
+lang="ts"
+description="The boilerplate setup"
+src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/lesson/Hiding-window-and-HTML-element-scroll-with-the-useScrollHide-hook/boilerplate.tsx"
+linesCount={19}
+/>
+<M>Now, we need a mechanism that determines what we should track (window or HTML element). We should pick the <B>HTML element</B> if the value of <B>ref</B> is assigned - different than <B>null</B>. Otherwise, it will be a <B>window</B>.</M>
+<Code
+mode="dynamic"
+lang="tsx"
+added={[[5,5]]}
+description="Adding getElement function"
+src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/lesson/Hiding-window-and-HTML-element-scroll-with-the-useScrollHide-hook/adding-get-element.ts"
+linesCount={8}
+/>
+<M>We want to hide the scroll just after the component is mounted. So, we need the <B>effect</B>. It will work like this: </M>
+<L>
+  <Li>if the component is mounted - we'll call the 'hide' function to hide scroll,</Li>
+  <Li>if the component is unmounted - we'll call the 'show' function to restore scroll.</Li>
+</L>
+<Code
+mode="dynamic"
+lang="tsx"
+added={[[6,12]]}
+description="Adding useEffect implementation"
+src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/lesson/Hiding-window-and-HTML-element-scroll-with-the-useScrollHide-hook/adding-effect.ts"
+linesCount={13}
+/>
+<M>We need to store initial styles for our target element in which we want to hide/show scroll. For that, we'll also use <B>ref</B> object. It's because it will store these values per hook usage and will not cause additional rerenders like <B>useState</B> hook. </M>
+<Code
+mode="dynamic"
+lang="tsx"
+added={[[1,1], [3,3], [5,7], [12,12]]}
+description="Setup for initial style"
+src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/lesson/Hiding-window-and-HTML-element-scroll-with-the-useScrollHide-hook/adding-initial-style.tsx"
+linesCount={14}
+/>
+<M>Why the <B>overflow</B> value is <B>auto</B> by default? If the target element (window or HTML element) will not have a <B>overflow</B>, we want to set this value to <B>auto</B> - to make the scroll working as before.</M>
+<M>Last but not least, we need to implement <B>show</B> and <B>hide</B> functions.</M>
+<Code
+added={[[3,8], [10,14]]}
+mode="dynamic"
+lang="ts"
+description="Adding show and hide functions"
+src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/lesson/Hiding-window-and-HTML-element-scroll-with-the-useScrollHide-hook/adding-show-hide.ts"
+linesCount={15}
+/>
+<M>In each, at the beginning we get an element - the window or HTML element. Next, we are assigning styles to hide and show scroll. </M>
+<M>Now, it will work, but we're using <B>useEffect</B> to perform some <B>DOM</B> operations - reading values and changing styles. </M>
+<M>We've used <B>useEffect</B>, but we should use <B>useLayoutEffect</B> which is designed for that case - it's executed after <B>browser repaints</B> our view - so we will be sure that our styles data is up to date.</M>
+<Code
+mode="dynamic"
+lang="tsx"
+changed={[[1,1]]}
+description="We've replaced useEffect with useLayoutEffect"
+src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/lesson/Hiding-window-and-HTML-element-scroll-with-the-useScrollHide-hook/replacing-with-use-layout-effect.tsx"
+linesCount={5}
+/>
+<M>Last thing... Still, we need to take into consideration <B> server-side rendering</B>. Right now we'll have logged bad looking error/warning on server side (Next or Gatsby). To fix that we need to use abstraction for <B>useLayoutEffect</B> that blocks executing it on <B>server-side</B>. </M>
+<Code
+mode="dynamic"
+lang="tsx"
+changed={[[8,8]]}
+description="Using custom hook to avoid server-side errors"
+src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/lesson/Hiding-window-and-HTML-element-scroll-with-the-useScrollHide-hook/use-iso-replacement.tsx"
+linesCount={15}
+/>
+<Hint hasBg>
+I'm using <B>useIsomorphicLayoutEffect</B> in almost all hooks that I implemented if I want to use <B>useLayoutEffect</B>. If you want to understand what this hook does, check the following <A outside href="/courses/react-hooks-spellbook/rendering/removing-server-warnings-for-use-layout-effect-with-custom-hook/">🔰 Removing server warnings for useLayoutEffect with a custom hook</A> article.
+</Hint>
+</Section>
+
+<Section>
+  <XL>The complete implementation with tests and separated type definitions</XL>
+  <M>
+    Check the final code in the following{" "}
+    <A
+      outside
+      href="https://github.com/polubis/Dream-stack-for-React-dev/tree/lesson/Hiding-window-and-HTML-element-scroll-with-the-useScrollHide-hook/system/libs/figa-hooks/src/lib"
+    >
+      Dream stack for React developer
+    </A>{" "}
+    repository. Below you've snippets to explore and use in your projects.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    rolled
+    description="Interfaces - defs.ts file"
+    src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/lesson/Hiding-window-and-HTML-element-scroll-with-the-useScrollHide-hook/system/libs/figa-hooks/src/lib/use-scroll-hide/defs.ts"
+    linesCount={13}
+  />
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    rolled
+    description="Implementation - use-scroll-hide.ts file"
+    src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/lesson/Hiding-window-and-HTML-element-scroll-with-the-useScrollHide-hook/system/libs/figa-hooks/src/lib/use-scroll-hide/use-scroll-hide.ts"
+    linesCount={44}
+  />
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    rolled
+    description="Tests - inside use-scroll-hide.test.tsx file"
+    src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/lesson/Hiding-window-and-HTML-element-scroll-with-the-useScrollHide-hook/system/libs/figa-hooks/src/lib/use-scroll-hide/use-scroll-hide.test.tsx"
+    linesCount={73}
+  />
+</Section>
+
+<Summary label="Conclusions">
+  <M>
+    Now you know how to hide scroll for dedicated <B>UI</B> components with a
+    reusable hook. We've learned that <B>server side</B> code may prompt an
+    error/warning if we use <B>useLayoutEffect</B> on the server.{" "}
+  </M>
+</Summary>
