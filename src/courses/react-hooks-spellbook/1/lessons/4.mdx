@@ -1,0 +1,78 @@
+---
+name: Removing server warnings for useLayoutEffect with custom hook
+description: We'll write one liner hook that will remove popular warning on Next.js or Gatsby that makes developer scarry. We'll investigate te source of the warning and we'll check why it occurs.
+duration: 3
+---
+
+<Prelude label="Why you see this long and weird error?">
+<Hint hasBg>This article will be linked in other articles many times - this hook is used really often when writing SSR working hooks/components. </Hint>
+<M><B>"The useLayoutEffect  does nothing on the server, because its effect cannot be encoded into the server renderer's output format. This will lead to a mismatch between the initial, non-hydrated UI and the intended UI. To avoid this, useLayoutEffect should only be used in components that render exclusively on the client."</B></M>
+  <M>Why you see this error? The <B>useLayoutEffect</B> is designed for reading real <B>DOM</B> information from the browser environment (client-side). On server side, there is no <B>DOM</B>, so when we'll try to create our hooks/components and we'll use <B>useLayoutEffect</B> on the server, the initial expected result may be weird - aka buggy as hell. That's why frameworks skip calling this hook. </M>
+
+  <Hint hasBg>In other frameworks like <B>Gatsby</B> the similar approach is used.</Hint>
+  <Hint hasBg>The <B>useEffect</B> calls are also <B>skipped</B> on server-side. This hook is designed for <B>client-side</B> code, but that's not a part of this article.</Hint>
+<Hint hasBg>In following 
+<A outside href="https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85">
+    Github thread
+  </A> you may find more information.
+</Hint>
+</Prelude>
+
+<Section>
+  <XL>Fixing this weird warning</XL>
+  <M>You need to do following stuff to fix it:</M>
+  <L>
+    <Li>check is the code executed in the server environment,</Li>
+    <Li>
+      if it's a server environment, you need to call empty function instead of
+      useLayoutEffect,
+    </Li>
+  </L>
+  <M>or you may</M>
+  <L>
+    <Li>lazy load the component.</Li>
+  </L>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="Weird warning fixed!"
+    src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/lesson/Removing-useLayoutEffect-does-nothing-on-the-server-warning-with-useIsomorphicLayoutEffect-hook/system/fix-idea.ts"
+    linesCount={11}
+  />
+  <M>Now we need to use our hook in components or custom hooks.</M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="Used in custom Modal component"
+    src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/lesson/Removing-useLayoutEffect-does-nothing-on-the-server-warning-with-useIsomorphicLayoutEffect-hook/system/usage-in-components.tsx"
+    linesCount={13}
+  />
+  <M>
+    I showed you two of the most popular names/implementations for this hook.
+    What is important, you may avoid using this when you're sure that your code
+    is executed only on the <B>client-side</B>. For example, it may happen when
+    you use the <B>code splitting/lazy loading</B> technique.{" "}
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="Lazy loading protects you from warning"
+    src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/lesson/Removing-useLayoutEffect-does-nothing-on-the-server-warning-with-useIsomorphicLayoutEffect-hook/system/lazy-demo.tsx"
+    linesCount={14}
+  />
+</Section>
+
+<Summary label="Conclusions">
+  <M>
+    Now we know how to fix this weird warning and we know that{" "}
+    <B>useLayoutEffect</B> and <B>useEffect</B> calls are skipped on the server
+    side in all <B>SSR/SSG</B> frameworks. It happens because there is no option
+    to access <B>browser DOM</B> object on the server side.{" "}
+  </M>
+  <M>
+    In addition, we know that for <B>useLayoutEffect</B> there is a warning
+    prompted during <B>build phase</B> or when a component will be dynamically
+    rendered with <B>SSG</B> technique. So, when it will happen - just use our
+    newly created, simple abstractions.{" "}
+  </M>
+</Summary>
