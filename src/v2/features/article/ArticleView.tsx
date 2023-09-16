@@ -17,6 +17,9 @@ import { ArticleBreadcrumbs } from "../../containers/ArticleBreadcrumbs"
 import { Reviewers } from "../../components/Reviewers"
 import { MdxProvider } from "../../providers/MdxProvider"
 import { MDXRenderer } from "gatsby-plugin-mdx"
+import { Image } from "../../mdx-components/image/Image"
+import { ImageRoller } from "../../containers/ImageRoller"
+import { ImagePlaceholder } from "../../containers/ImagePlaceholder"
 
 const ArticleContent = styled.main`
   margin: 24px auto;
@@ -97,6 +100,45 @@ const ArticleView = () => {
               techLabel={layout.t.technical_check}
             />
             <Stack className="center" items={technologies} />
+            <Image
+              src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/lesson/Hiding-window-and-HTML-element-scroll-with-the-useScrollHide-hook/hook-demo.gif"
+              performant
+              border
+              alt="My image"
+              title="Title"
+              description="My text"
+              Error={() => <ImagePlaceholder label="smth_wrong" />}
+              Loading={() => <ImagePlaceholder label="loading" />}
+              Roller={toggler => <ImageRoller onExpand={toggler.open} />}
+            />
+            <Image
+              src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/lesson/Hiding-window-and-HTML-element-scroll-with-the-useScrollHide-hook/hook-demo.gif"
+              description="My text"
+              alt="My image"
+              title="Title"
+              Error={() => <ImagePlaceholder label="smth_wrong" />}
+              Loading={() => <ImagePlaceholder label="loading" />}
+              Roller={toggler => <ImageRoller onExpand={toggler.open} />}
+            />
+            <Image
+              src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/lesson/Hiding-window-and-HTML-element-scroll-with-the-useScrollHide-hook/hook-demo.gif"
+              performant
+              alt="My image"
+              title="Title"
+              Error={() => <ImagePlaceholder label="smth_wrong" />}
+              Loading={() => <ImagePlaceholder label="loading" />}
+              Roller={toggler => <ImageRoller onExpand={toggler.open} />}
+            />
+            <Image
+              border
+              src="https://drive.google.com/uc?export=view&id=17i6JJvqhvrPtY8cGZj_jXN-rbv_p6NHY"
+              description="My text"
+              alt="My image"
+              title="Title"
+              Error={() => <ImagePlaceholder label="smth_wrong" />}
+              Loading={() => <ImagePlaceholder label="loading" />}
+              Roller={toggler => <ImageRoller onExpand={toggler.open} />}
+            />
             <MdxProvider renderer={MDXRenderer}>{body}</MdxProvider>
             <ArticleFooter />
           </ArticleContent>

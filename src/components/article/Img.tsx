@@ -16,6 +16,7 @@ const Img = styled.figure<{ border: Props["border"] }>`
   & > img {
     max-width: 100%;
     max-height: 100%;
+    
     ${props =>
       props.border &&
       css`
