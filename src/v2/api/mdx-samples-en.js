@@ -12,8 +12,8 @@ const default_template = `<Prelude label="This is example of prelude title">
     </A>
     .
   </M>
-  <Img
-    src="https://drive.google.com/uc?export=view&id=17i6JJvqhvrPtY8cGZj_jXN-rbv_p6NHY"
+  <Image
+    src="https://raw.githubusercontent.com/polubis/Snippets/main/e2e-selectors-how-it-works.gif"
     description="Storybook presented"
   />
   <Code
@@ -70,8 +70,8 @@ const link = `
     link title
   </A>
 `
-const image = `<Img
-  src="https://drive.google.com/uc?export=view&id=17i6JJvqhvrPtY8cGZj_jXN-rbv_p6NHY"
+const image = `<Image
+  src="https://raw.githubusercontent.com/polubis/Snippets/main/e2e-selectors-how-it-works.gif"
   description="Storybook presented"
 />
 `
