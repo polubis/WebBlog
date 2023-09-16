@@ -63,5 +63,10 @@
   "snippet_load_failed": "❌ Load failed. URL may be invalid or you don't have access",
   "snippet_idle": "Example: [https://github.com/user/repo/file.ts]",
   "formatted": "Your code has been formatted!",
-  "format_code": "Format code"
+  "format_code": "Format code",
+  "title_description": "The title of link",
+  "url_description": "The URL address to use",
+  "title": "Title",
+  "use_previous": "Use previous values",
+  "used": "Used"
 }

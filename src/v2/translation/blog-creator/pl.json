@@ -63,5 +63,10 @@
   "snippet_load_failed": "❌ Błąd ładowania. Sprawdź poprawność URL i czy masz uprawnienia",
   "snippet_idle": "Przykład: [https://github.com/user/repo/file.ts]",
   "formatted": "Kod został sformatowany!",
-  "format_code": "Sformatuj kod"
+  "format_code": "Sformatuj kod",
+  "title_description": "Tytuł linku",
+  "url_description": "Adres URL",
+  "title": "Tytuł",
+  "use_previous": "Użyj wcześniejszych wartości",
+  "used": "Zastosowano"
 }
