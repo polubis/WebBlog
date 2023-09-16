@@ -52,8 +52,13 @@
   "smth_wrong": "Coś poszło nie tak - spróbuj ponownie.",
   "roller": {
     "title": "Ten snippecik jest trochę duży 🙀",
-    "description": "Postanowiliśmy go nie wyświetlać od razu. Jeżeli chcesz go zobaczyć to kliknij w poniższy przycisk.",
+    "description": "Postanowiliśmy nie wyświetlać go od razu. Jeżeli chcesz go zobaczyć to kliknij w poniższy przycisk.",
     "btn_title": "Pokaż snippet"
+  },
+  "image_placeholder": {
+    "title": "Te zdjątko jest całkiem duże 🙀",
+    "description": "Postanowiliśmy nie wyświetlać go od razu. Jeżeli chcesz je zobaczyć to kliknij w poniższy przycisk.",
+    "btn_title": "Pokaż zdjątko"
   },
   "anonymous": "Gal anonim",
   "like_this": "Lubię to",
