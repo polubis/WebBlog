@@ -5,4 +5,9 @@ interface MarkdownFormatterProps {
 
 interface ToolboxProps extends MarkdownFormatterProps {}
 
-export type { MarkdownFormatterProps, ToolboxProps }
+interface LinkPopoverFormData {
+  url: string
+  title: string
+}
+
+export type { MarkdownFormatterProps, ToolboxProps, LinkPopoverFormData }
