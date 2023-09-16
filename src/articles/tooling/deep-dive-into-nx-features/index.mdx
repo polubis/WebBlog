@@ -138,7 +138,8 @@ One such tool is the <B>NRWL Extension</B>, or <B>NX</B> for short. In this arti
 <M><B>Caching tasks results</B></M>
 <M><B>NX</B> uses a cache not repeatedly to build code that has already been made. In the context of this tool, <B>cache</B> sharing means that different libraries or scripts used in the project can use the same <B>cache</B>, storing information about compilation, file scanning, etc. This way these processes do not have to be repeated for each library or script which speeds up the construction process and increases efficiency.</M>
 <M>How does the cache work in practice? Before running a given task, <B>NX</B> calculates the <B>hash</B> of the given library. If the <B>hash</B> is the same as in the previous call, it doesn't do the job again, just takes the result of the previous call.</M>
-<Img border src="https://nx.dev/documentation/shared/images/caching/nx-hashing.svg" description="Hashing in Nx" />
+<Image
+    rolled src="https://nx.dev/documentation/shared/images/caching/nx-hashing.svg" description="Hashing in Nx" />
 <M>How to optimise <B>cache</B>?</M>
 <M><B>Source code hash inputs</B> - it can specify which files will be considered when building the hash.</M>
 <Code mode="static" lang="json">
@@ -172,7 +173,8 @@ One such tool is the <B>NRWL Extension</B>, or <B>NX</B> for short. In this arti
 </M>
 <M>All you have to do is connect to the <B>NX Cloud</B> with the command: <B>npx nx connect-to-nx-cloud</B> and the results of our tasks can be used by every member of the team.
 </M>
-<Img border src="https://nx.dev/documentation/shared/images/dte/distributed-caching.svg" description="Distributed caching in Nx" />
+<Image
+    rolled src="https://nx.dev/documentation/shared/images/dte/distributed-caching.svg" description="Distributed caching in Nx" />
 
 <M><B>Graph NX</B></M>
 <M>This graph allows you to visually explore dependencies in projects, libraries, and tasks that are within a monorepo.
@@ -190,7 +192,8 @@ All you have to do is run the command: <B>npx nx graph</B>.
 
 <M><B>Distribute task execution</B></M>
 <M>This is support for delegating tasks to many agents and parallelizing their performance for even more effective work. This functionality minimizes the execution time of <B>CI</B> processes, along with maintaining the proper order of execution.</M>
-<Img src="https://nx.dev/documentation/shared/images/dte/binning.svg" border />
+<Image
+    rolled src="https://nx.dev/documentation/shared/images/dte/binning.svg" />
 <M>Distributed task execution can run on any <B>CI</B> provider. The developer is only responsible for configuring tasks in his <B>CI</B>.<B> NX Cloud</B> then coordinates how these tasks work together.</M>
 <M>Integration with the <B>IDE - NX Console</B> is a <B>UI</B> for <B>NX</B>, which is made available in the form of plugins for such <B>IDE's</B> as <B>VS Code</B>, <B>WebStorm</B> or <B>Neovim</B>.
 </M>

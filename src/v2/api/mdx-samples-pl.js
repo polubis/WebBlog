@@ -11,8 +11,8 @@ const default_template = `<Prelude label="Przykład tytułu dla sekcji wstęp">
       linku
     </A>.
   </M>
-  <Img
-    src="https://drive.google.com/uc?export=view&id=17i6JJvqhvrPtY8cGZj_jXN-rbv_p6NHY"
+  <Image
+    src="https://raw.githubusercontent.com/polubis/Snippets/main/e2e-selectors-how-it-works.gif"
     description="Przykładowe zdjęcie"
   />
   <Code
@@ -74,8 +74,8 @@ const list = `<L ordered>
   <Li>Element normalnej listy</Li>
 </L>
 `
-const image = `<Img
-  src="https://drive.google.com/uc?export=view&id=17i6JJvqhvrPtY8cGZj_jXN-rbv_p6NHY"
+const image = `<Image
+  src="https://raw.githubusercontent.com/polubis/Snippets/main/e2e-selectors-how-it-works.gif"
   description="Przykładowe zdjęcie"
 />
 `

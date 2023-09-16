@@ -148,7 +148,8 @@ title: Przegląd głównych funkcjonalności narzędzia NX
 <M><B>Przechowywanie rezultatów budowania w cache (caching tasks results)</B></M>
 <M><B>NX</B> używa pamięci podręcznej, aby nie budować wielokrotnie kodu, który już był budowany. W kontekście tego narzędzia, współdzielenie <B>cache</B> oznacza, że różne biblioteki lub skrypty, które są używane w projekcie, mogą wykorzystać ten sam <B>cache</B>, przechowując informacje o kompilacji, skanowaniu plików, itp. Dzięki temu procesy te nie muszą być powtarzane dla każdej biblioteki czy skryptu, co przyspiesza proces budowy i zwiększa wydajność.</M>
 <M>Jak cache działa w praktyce? Przed uruchomieniem danego zadania <B>NX</B> oblicza <B>hash</B> danej biblioteki. Jeżeli <B>hash</B> jest taki sam, jak w poprzednim wywołaniu, to ponownie nie wykonuje zadania, tylko bierze rezultat poprzedniego wywołania.</M>
-<Img border src="https://nx.dev/documentation/shared/images/caching/nx-hashing.svg" description="Hashowanie w Nx" />
+<Image
+    rolled src="https://nx.dev/documentation/shared/images/caching/nx-hashing.svg" description="Hashowanie w Nx" />
 <M>Jak można zoptymalizować obsługę <B>cache</B>?</M>
 <M><B>Source code hash inputs</B> - można określić szczegółowo, jakie pliki będą brane pod uwagę podczas budowania hash.</M>
 <Code mode="static" lang="json">
@@ -183,7 +184,8 @@ title: Przegląd głównych funkcjonalności narzędzia NX
 <B>npx nx connect-to-nx-cloud</B>
 i z wyników naszych zadań może skorzystać każdy członek zespołu.
 </M>
-<Img border src="https://nx.dev/documentation/shared/images/dte/distributed-caching.svg" alt="Współdzielenie cache w Nx" />
+<Image
+    rolled src="https://nx.dev/documentation/shared/images/dte/distributed-caching.svg" alt="Współdzielenie cache w Nx" />
 
 <M><B>Graf NX</B></M>
 <M>Graf ten pozwala na wizualną eksplorację zależności w projektach, bibliotekach i zadaniach, które są w ramach monorepo.
@@ -205,7 +207,8 @@ Wystarczy tylko wywołać polecenie: <B>npx nx graph</B>.
 
 <M><B>Współdzielenie zasobów podczas zadań (distribute task execution)</B></M>
 <M>Jest to wsparcie do delegowania zadań na wiele agentów i zrównoleglenie wykonywania ich do jeszcze efektywniejszej pracy. Funkcjonalność ta minimalizuje czas wykonywania procesów <B>CI</B>, wraz z zachowaniem odpowiedniej kolejności wykonywania.</M>
-<Img src="https://nx.dev/documentation/shared/images/dte/binning.svg" border />
+<Image
+    rolled src="https://nx.dev/documentation/shared/images/dte/binning.svg" />
 <M>Rozproszone wykonywanie zadań może działać na dowolnym dostawcy <B>CI</B>. Programista jest tylko odpowiedzialny za konfigurowanie zadań w swoim <B>CI</B>. Następnie<B> NX Cloud</B> koordynuje sposób, w jaki te zadania współpracują z sobą.
 </M>
 <M>Integracja z <B>IDE - NX Console</B> jest to <B>UI</B> dla <B>NX</B>, które jest udostępniane w formie pluginów dla takich <B>IDE</B>, jak <B>VS Code</B>, <B>WebStorm</B>, czy <B>Neovim</B>.

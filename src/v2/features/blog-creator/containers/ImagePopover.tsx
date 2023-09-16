@@ -43,15 +43,6 @@ export const ImagePopover = () => {
             })
         }
 
-        const isGDriveUrl =
-            /https:\/\/drive\.google\.com/g.test(url) &&
-            /usp=drive_link/g.test(url)
-
-        if (isGDriveUrl) {
-            const gDriveId = url.split('/')[5]
-            url = `https://drive.google.com/uc?export=view&id=${gDriveId}`
-        }
-
         if (url !== "") {
             value = value.replace(/src="([^"]*)"/g, `src="${url}"`)
         }
@@ -69,7 +60,7 @@ export const ImagePopover = () => {
 
     return (
         <Popover
-            label={`${creator.t.add_image} - <Img />`}
+            label={`${creator.t.add_image} - <Image />`}
             position={1}
             trigger={toggler => (
                 <IconButton title={creator.t.add_image} onClick={toggler.open}>

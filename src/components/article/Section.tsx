@@ -35,6 +35,7 @@ const Section = styled.section`
 
     & + .l,
     & + .ui-image,
+    & + .ui-image-wrapper,
     & + .ui-snippet {
       margin-top: 24px;
     }
@@ -51,13 +52,24 @@ const Section = styled.section`
   .ui-snippet {
     & + ${M}, & + .l,
     & + .ui-snippet,
-    & + .ui-image {
+    & + .ui-image,
+    & + .ui-image-wrapper {
       margin-top: 24px;
     }
   }
 
   .ui-image {
     & + ${M}, & + .ui-snippet,
+    & + .ui-image,
+    & + .ui-image-wrapper,
+    & + .l {
+      margin-top: 24px;
+    }
+  }
+
+  .ui-image-wrapper {
+    & + ${M}, & + .ui-snippet,
+    & + .ui-image-wrapper,
     & + .ui-image,
     & + .l {
       margin-top: 24px;

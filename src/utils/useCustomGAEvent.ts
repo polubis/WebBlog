@@ -26,6 +26,11 @@ interface RenderingCodeError {
   link: string
 }
 
+interface RenderingImageError {
+  name: "rendering_image_error"
+  link: string
+}
+
 interface CommentsSectionOpened {
   name: "comments_section_opened"
 }
@@ -38,6 +43,7 @@ type AnalyticsEvent =
   | SnippetCreatorOpened
   | RenderingCodeError
   | CommentsSectionOpened
+  | RenderingImageError
 
 export const useCustomGAEvent = () => {
   const track = (e: AnalyticsEvent): void => {

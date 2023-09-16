@@ -17,7 +17,8 @@ title: Build useStepper hook in React
   <M>Let's say you have a <B>simple screen with steps</B>. It can look more or less like the one in the gif below:
 </M>
 
-<Img
+<Image
+  rolled
   description="An example of usage in an application"
   src="https://raw.githubusercontent.com/polubis/Build-useForm-hook-in-React/8524e26360f0ee5764cd024df0dfdf3f3fc0015e/src/snippets/Example.gif"
 />
@@ -42,7 +43,8 @@ title: Build useStepper hook in React
 <Section>
   <XL>1. The usage of useStepper</XL>
     <M>For a start, look at how we will use our hook. Pay attention to the hints that appear thanks to TypeScript.</M>
-  <Img description="See how it looks in the IDE" src="Type safety and protection from passing not allowed props" src="https://raw.githubusercontent.com/polubis/Snippets/main/useStepperDemo.gif" />
+  <Image
+    rolled description="See how it looks in the IDE" src="Type safety and protection from passing not allowed props" src="https://raw.githubusercontent.com/polubis/Snippets/main/useStepperDemo.gif" />
  <Code mode="static" lang="tsx" description="These functions blocks the possibility of passing bad parameters - they're type-guards!">{`import { useStepper } from './use-stepper';
  
 interface EmailStepProps {
