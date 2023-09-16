@@ -46,3 +46,5 @@ const useToggle = <T = null>(
 }
 
 export { useToggle }
+
+export type { ToggleReturn }

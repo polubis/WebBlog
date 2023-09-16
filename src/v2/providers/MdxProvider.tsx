@@ -5,7 +5,6 @@ import Section from "../../components/article/Section"
 import Summary from "../../components/article/Summary"
 import Prelude from "../../components/article/Prelude"
 import { Example } from "../../components/article/Example"
-import Img from "../../components/article/Img"
 import { XL, M, Hint, A, B } from "../../ui/text"
 import { List } from "../../components/article/List"
 import { L, Li } from "../../components/article/L"
@@ -20,6 +19,7 @@ import type {
 } from "../ui/code/models"
 import { CodeHeader } from "../containers/CodeHeader"
 import { CodeRoller } from "../containers/CodeRoller"
+import { ImageContainer } from "../containers/ImageContainer"
 
 const DynamicCode = (props: DynamicCodeProps) => {
   const { track } = useCustomGAEvent()
@@ -64,7 +64,6 @@ const default_components = {
   },
   Example,
   List,
-  Img,
   XL,
   M,
   Hint,
@@ -73,6 +72,7 @@ const default_components = {
   L,
   Li,
   Demo,
+  Image: ImageContainer,
 }
 
 interface MdxProviderProps {

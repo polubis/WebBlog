@@ -8,9 +8,10 @@ duration: 6
   <M>Imagine you've built the <B>Modal</B> or <B>Sidebar</B> component that contains a backdrop behind or you have a <B>Popover</B> component that displays a small menu when clicking the dedicated button.</M>
   <M>These components must be closed after clicking the backdrop area (for <B>Modal</B> and <B>Sidebar</B>) or in the case when you have <B>Popover</B> component, you need to detect the moment of click the space out of the <B>Popover</B> trigger element.</M>
   <M>To understand it more, please check the <B>gif</B> below with presented situations: </M>
-  <Img
+  <Image
+    rolled
   description="The use case of hook"
-  src="https://drive.google.com/uc?export=view&id=1r26NYiUu7oWaLUsj8UHAzvXTyRuX-MeR"
+   src="https://raw.githubusercontent.com/polubis/Snippets/main/popover-use-case.gif"
 />
 <M>So as you saw, we just closed these components after clicking <B>outside</B> their area. Let's create the <B>useClickOutside</B> hook to be able to reuse such logic between different components.</M>
 
@@ -41,9 +42,10 @@ duration: 6
   )
 }`}</Code>
 <M>What is really cool? Look how <B>TypeScript</B> will protect us from using invalid elements. </M>
-<Img
+<Image
+  rolled
 description="TypeScript protection"
-  src="https://drive.google.com/uc?export=view&id=1SIL9Dp2XiP2UZ21QAv9R7P4mHCKRHHlN"
+  src="https://raw.githubusercontent.com/polubis/Snippets/main/tscheck.gif"
 />
 
 </Section>
