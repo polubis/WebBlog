@@ -1,13 +1,13 @@
 import { useEffect } from "react"
 import { Snippet, SnippetFrame } from "../../../core/models"
 import { useSnippetCreatorState } from "./useSnippetCreatorState"
-import { useCustomGAEvent } from "../../../../utils/useCustomGAEvent"
 import { useInterval } from "../../../../utils/useInterval"
+import { useAnalytics } from "../../../../utils/useAnalytics"
 
 const useSnippetCreator = () => {
   const [state, dispatch] = useSnippetCreatorState()
 
-  const { track } = useCustomGAEvent()
+  const { track } = useAnalytics()
 
   const action = {
     closeNavigationPanel: () => dispatch({ type: "closeNavigationPanel" }),

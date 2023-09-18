@@ -4,7 +4,6 @@ import styled from "styled-components"
 import { Field, Input, Textarea, XL, M, A, B } from "../../../../ui"
 import { Alert } from "../../../../ui/alert"
 import theme from "../../../../utils/theme"
-import { useCustomGAEvent } from "../../../../utils/useCustomGAEvent"
 import Button from "../../../../components/button/Button"
 import Divider from "../../../../components/divider/Divider"
 import { useForm } from "../../../../utils/useForm"
@@ -24,6 +23,7 @@ import { SnippetFrame } from "../../../core/models"
 import { useSnippetCreatorPageProvider } from "../SnippetCreatorPageProvider"
 import { useLayoutProvider } from "../../../providers/LayoutProvider"
 import { maxLength, minLength, required } from "../../../../utils/validators"
+import { useAnalytics } from "../../../../utils/useAnalytics"
 
 const FinalScreen = styled.div`
   justify-content: center;
@@ -122,7 +122,7 @@ export const CreateSnippetForm = ({
 }: CreateSnippetFormProps) => {
   const creator = useSnippetCreatorPageProvider()
   const layout = useLayoutProvider()
-  const { track } = useCustomGAEvent()
+  const { track } = useAnalytics()
   const { copy } = useClipboard()
 
   const initialSetup = useMemo(

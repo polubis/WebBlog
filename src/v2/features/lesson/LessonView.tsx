@@ -12,11 +12,11 @@ import { Breadcrumbs } from "../../components/Breadcrumbs"
 import { Link } from "gatsby"
 import { MdxProvider } from "../../providers/MdxProvider"
 import { MDXRenderer } from "gatsby-plugin-mdx"
-import { useCustomGAEvent } from "../../../utils/useCustomGAEvent"
 import { CourseChapters } from "../../components/CourseChapters"
 import { NavigationSection } from "../../components/NavigationSection"
 import Thumbnail from "../../../components/article/Thumbnail"
 import { ShareButton } from "../../containers/ShareButton"
+import { useAnalytics } from "../../../utils/useAnalytics"
 
 const MobileNavigation = Loadable({
   loader: () =>
@@ -61,7 +61,7 @@ const Container = styled.main`
 const LessonView = () => {
   useScrollToTop()
 
-  const { track } = useCustomGAEvent()
+  const { track } = useAnalytics()
   const layout = useLayoutProvider()
   const lesson = useLessonPageProvider()
 
