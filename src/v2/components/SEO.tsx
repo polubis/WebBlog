@@ -1,7 +1,7 @@
 import React from "react"
 import { Helmet } from "react-helmet"
 import type { SEOProps } from "./models"
-import { useGAPage } from "../../utils/useGAPage"
+import { useAnalytics } from "../../utils/useAnalytics"
 
 const SEO = ({
   title,
@@ -18,7 +18,7 @@ const SEO = ({
   author,
   locale_alternate,
 }: SEOProps) => {
-  useGAPage(ga_page)
+  useAnalytics(ga_page)
 
   return (
     <>

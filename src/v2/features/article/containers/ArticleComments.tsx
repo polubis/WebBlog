@@ -1,5 +1,4 @@
 import React, { useMemo } from "react"
-import { useCustomGAEvent } from "../../../../utils/useCustomGAEvent"
 import { CommentsProvider } from "../../comments/CommentsProvider"
 import { useLayoutProvider } from "../../../providers/LayoutProvider"
 import { useArticleProvider } from "../ArticleProvider"
@@ -8,10 +7,11 @@ import { CommentsView } from "../../comments/CommentsView"
 import { Rate } from "../../../components/Rate"
 import type { CommentsProviderCtx } from "../../comments/models"
 import { FirebaseProvider } from "../../../providers/FirebaseProvider"
+import { useAnalytics } from "../../../../utils/useAnalytics"
 
 const ConnectedComments = ({ state, load, reset }: CommentsProviderCtx) => {
   const article = useArticleProvider()
-  const { track } = useCustomGAEvent()
+  const { track } = useAnalytics()
 
   return (
     <>
