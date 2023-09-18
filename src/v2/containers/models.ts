@@ -11,4 +11,13 @@ interface ImageErrorWrapperProps {
   src: string
 }
 
-export type { ImageContainerProps, ImageRollerProps, ImageErrorWrapperProps }
+interface CodeErrorWrapperProps {
+  src: string
+}
+
+export type {
+  ImageContainerProps,
+  ImageRollerProps,
+  ImageErrorWrapperProps,
+  CodeErrorWrapperProps,
+}
