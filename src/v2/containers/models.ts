@@ -15,9 +15,14 @@ interface CodeErrorWrapperProps {
   src: string
 }
 
+interface LanguageLinksProps {
+  row?: boolean;
+}
+
 export type {
   ImageContainerProps,
   ImageRollerProps,
+  LanguageLinksProps,
   ImageErrorWrapperProps,
   CodeErrorWrapperProps,
 }
