@@ -4,7 +4,6 @@ import Layout from "../../containers/Layout"
 import { useBlogCreatorPageProvider } from "./BlogCreatorPageProvider"
 import styled from "styled-components"
 import { T_DOWN } from "../../../utils/viewport"
-import { useCustomGAEvent } from "../../../utils/useCustomGAEvent"
 import { useLeavePageAlert } from "../../../utils/useLeavePageAlert"
 import { BlogCreatorLoader } from "./containers/BlogCreatorLoader"
 import { BlogCreatorHeading } from "./containers/BlogCreatorHeading"
@@ -14,6 +13,7 @@ import { FullScreenCreator } from "./containers/FullScreenCreator"
 import { useEditor } from "../../logic/useEditor"
 import Loadable from "react-loadable"
 import { BlogCreatorAlertsProvider } from "./providers/BlogCreatorAlertsProvider"
+import { useAnalytics } from "../../../utils/useAnalytics"
 
 const Toolbox = Loadable({
   loader: () => import("./containers/Toolbox").then(m => m.Toolbox),
@@ -93,7 +93,7 @@ const Heading = styled.header`
 export const BlogCreatorView = () => {
   const creator = useBlogCreatorPageProvider()
 
-  const { track } = useCustomGAEvent()
+  const { track } = useAnalytics()
   const { isOpen, open, close } = useModal()
   const [
     { currentMdx, mdx, hasErrors, changed },

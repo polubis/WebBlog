@@ -2,7 +2,6 @@ import React, { useLayoutEffect } from "react"
 import { A, M, S, XL } from "../../../../ui"
 import { useLayoutProvider } from "../../../providers/LayoutProvider"
 import { useArticleProvider } from "../ArticleProvider"
-import { useCustomGAEvent } from "../../../../utils/useCustomGAEvent"
 import { ObserveMe } from "../../../components/ObserveMe"
 import { M_DOWN, SM_DOWN } from "../../../../utils/viewport"
 import { Link } from "gatsby"
@@ -21,6 +20,7 @@ import {
 } from "../../../core/consts"
 import { VotesBox } from "../../../components/VotesBox"
 import { ShareButton } from "../../../containers/ShareButton"
+import { useAnalytics } from "../../../../utils/useAnalytics"
 
 const Container = styled.div`
   .observe-me {
@@ -174,7 +174,7 @@ const VotesWrapper = () => {
 const ArticleFooter = () => {
   const layout = useLayoutProvider()
   const article = useArticleProvider()
-  const { track } = useCustomGAEvent()
+  const { track } = useAnalytics()
 
   return (
     <Container>
