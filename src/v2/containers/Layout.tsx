@@ -7,6 +7,10 @@ import { GreenOnLogo } from "../../components/GreenOnLogo"
 import { useLayoutProvider } from "../providers/LayoutProvider"
 import { Footer } from "./Footer"
 import Loadable from "react-loadable"
+import { NavigationAction } from "./NavigationAction"
+import { LanguageLinks } from "./LanguageLinks"
+import { JoinUsLink } from "./JoinUsLink"
+import Divider from "../../components/divider/Divider"
 
 const SocialBar = Loadable({
   loader: () =>
@@ -37,7 +41,7 @@ const UnstyledLink = styled(GatsbyLink)`
 `
 
 export default function ({ children }: LayoutProps) {
-  const { routes, discord_url, t } = useLayoutProvider()
+  const { routes, t, lang } = useLayoutProvider()
 
   const homeLink = (
     <Link to={routes.home.to} key={routes.home.key} activeStyle={activeStyle}>
@@ -62,7 +66,7 @@ export default function ({ children }: LayoutProps) {
       {t.authors}
     </Link>
   )
-  const coursesLink = (
+  const coursesLink = lang.key === 'en' ? (
     <Link
       to={routes.courses.to}
       key={routes.courses.key}
@@ -70,7 +74,7 @@ export default function ({ children }: LayoutProps) {
     >
       {t.courses}
     </Link>
-  )
+  ) : null
   const snippetsLink = (
     <Link
       to={routes.snippet_creator.to}
@@ -120,19 +124,12 @@ export default function ({ children }: LayoutProps) {
               {createArticleLink}
               {homeLink}
               {snippetsLink}
+              <LanguageLinks row />
+              <div style={{ height: '4px' }} />
+              <JoinUsLink />
             </>
           }
-          action={
-            <a
-              href={discord_url}
-              className="button primary upper"
-              title={t.discord_channel}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {t.join}
-            </a>
-          }
+          action={<NavigationAction />}
         />
       }
       footer={

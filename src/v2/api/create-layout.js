@@ -16,10 +16,31 @@ const metadata = {
   },
 }
 
+const createRoutes = (lang, meta) => {
+  if (lang === meta.langs.pl.key) {
+    return Object.entries(meta.routes).reduce((acc, [routeKey, routeValue]) => {
+      return {
+        ...acc,
+        [routeKey]: {
+          ...routeValue,
+          to:
+            routeValue.to === "/"
+              ? `/${meta.langs.pl.key}/`
+              : "/" + meta.langs.pl.key + routeValue.to,
+          gaPage: meta.langs.pl.key + "/" + routeValue.gaPage,
+        },
+      }
+    }, {})
+  }
+
+  return meta.routes
+}
+
 const createLayout = ({ lang, articles, articleThumbnails }) => {
   return {
     ...metadata[lang],
     ...meta,
+    routes: createRoutes(lang, meta),
     articles: articles.slice(0, 16).map(({ title, slug, path }) => ({
       title,
       thumbnail: getArticleThumbnail(slug, articleThumbnails).medium,
