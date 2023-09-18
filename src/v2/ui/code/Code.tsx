@@ -3,8 +3,8 @@ import Loadable from "react-loadable"
 import type { CodeProps, DynamicCodeProps, StaticCodeProps } from "./models"
 import { pre_config } from "./consts"
 import { useIsVisible } from "../../../utils/useIsVisible"
-import { useFetch } from "../../../utils/useFetch"
 import { useModal } from "../../../ui"
+import { useCodeLoad } from "./useCodeLoad"
 
 const rolled_max_line_count = 10
 
@@ -110,14 +110,13 @@ const DynamicCode = ({
   src,
   Loading,
   Error,
-  onError,
   skipTrim,
   rolled,
   Roller,
   ...props
 }: DynamicCodeProps) => {
   const toggler = useModal(rolled && !!Roller)
-  const [state, fetchCode, abort] = useFetch<string>()
+  const [state, loadCode] = useCodeLoad()
   const { isVisible, ref } = useIsVisible({ threshold: 0.1, useOnce: true })
   const { style, Pre, preservationHeight } = getCodeSetup(
     linesCount,
@@ -129,27 +128,8 @@ const DynamicCode = ({
   )
 
   useEffect(() => {
-    if (isVisible) {
-      fetchCode(signal => {
-        return new Promise(async (resolve, reject) => {
-          const res = await fetch(src, { signal })
-
-          if (res.ok) {
-            const code = await res.text()
-            return resolve(code)
-          }
-
-          onError && onError()
-
-          return reject("Something went wrong")
-        })
-      })
-    }
+    isVisible && loadCode(src)
   }, [isVisible])
-
-  useEffect(() => {
-    abort()
-  }, [])
 
   if (state.type === "done") {
     const code = getFormattedCode(state.data, skipTrim, toggler.isOpen)
@@ -158,7 +138,11 @@ const DynamicCode = ({
       <>
         {toggler.isOpen ? (
           <Roller onExpand={toggler.close}>
-            <Pre {...props} height={preservationHeight + "px"} children={code} />
+            <Pre
+              {...props}
+              height={preservationHeight + "px"}
+              children={code}
+            />
           </Roller>
         ) : (
           <Pre {...props} height={preservationHeight + "px"} children={code} />
