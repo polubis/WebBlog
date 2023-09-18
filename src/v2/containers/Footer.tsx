@@ -11,7 +11,6 @@ import { useLayoutProvider } from "../providers/LayoutProvider"
 
 const Container = styled.footer`
   background: ${theme.black};
-  border-top: 2px solid ${theme.grayC};
 
   .ui-footer-gray {
     color: ${theme.grayD};

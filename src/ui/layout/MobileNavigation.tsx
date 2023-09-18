@@ -7,8 +7,6 @@ import { L_UP } from "../../utils/viewport"
 import { useScroll } from "../../utils/useScroll"
 
 const Expander = styled.aside<{ open: boolean }>`
-  display: flex;
-  flex-flow: column;
   justify-content: flex-end;
   position: fixed;
   right: 20px;
@@ -28,7 +26,7 @@ const Expander = styled.aside<{ open: boolean }>`
   ${props =>
     props.open &&
     css`
-      transform: scale(2) rotate(45deg);
+      transform: scale(1.2) rotate(45deg);
     `}
 `
 
@@ -36,10 +34,6 @@ const Navigation = styled.nav`
   position: fixed;
   top: 0;
   left: 0;
-  display: flex;
-  flex-flow: column;
-  justify-content: center;
-  align-items: center;
   z-index: 106;
   height: 100vh;
   width: 100vw;
@@ -73,11 +67,12 @@ const MobileNavigation = ({ links }: MobileNavigation) => {
   return render(
     <>
       {isVisible && (
-        <Expander open={isOpen}>
+        <Expander className="col" open={isOpen}>
           <GreenOnLogo onClick={toggleOpen} />
         </Expander>
       )}
-      {isOpen && <Navigation>{links}</Navigation>}
+      {isOpen && <Navigation className="center col">{links}
+      </Navigation>}
     </>
   )
 }

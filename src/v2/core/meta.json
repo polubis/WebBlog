@@ -47,7 +47,7 @@
     },
     "home": {
       "to": "/",
-      "gaPage": "",
+      "gaPage": "home",
       "key": "home"
     }
   }

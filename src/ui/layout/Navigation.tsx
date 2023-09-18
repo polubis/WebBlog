@@ -13,10 +13,11 @@ const MobileNavigation = Loadable({
 
 const Container = styled.header`
   height: 99px;
+  position: relative;
   border-bottom: 1px solid ${theme.grayC};
   background: ${theme.bg};
 
-  & > .ui-layout-content {
+  & > * {
     display: flex;
     align-items: center;
     justify-content: space-between;
