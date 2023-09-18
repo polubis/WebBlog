@@ -9,59 +9,14 @@ import { XL, M, Hint, A, B } from "../../ui/text"
 import { List } from "../../components/article/List"
 import { L, Li } from "../../components/article/L"
 import { Demo } from "../components/mdx/Demo"
-import { Code } from "../ui/code/Code"
-import { CodePlaceholder } from "../containers/CodePlaceholder"
-import { useCustomGAEvent } from "../../utils/useCustomGAEvent"
-import type {
-  CodeProps,
-  DynamicCodeProps,
-  StaticCodeProps,
-} from "../ui/code/models"
-import { CodeHeader } from "../containers/CodeHeader"
-import { CodeRoller } from "../containers/CodeRoller"
 import { ImageContainer } from "../containers/ImageContainer"
-
-const DynamicCode = (props: DynamicCodeProps) => {
-  const { track } = useCustomGAEvent()
-
-  return (
-    <Code
-      {...props}
-      animated
-      Error={() => <CodePlaceholder label="smth_wrong" />}
-      Loading={() => <CodePlaceholder label="loading" />}
-      onError={() => {
-        track({ name: "rendering_code_error", link: props.src })
-      }}
-      Header={CodeHeader}
-      Roller={CodeRoller}
-    />
-  )
-}
-
-const StaticCode = (props: StaticCodeProps) => {
-  return (
-    <Code
-      {...props}
-      animated
-      Header={CodeHeader}
-      Loading={() => <CodePlaceholder label="loading" />}
-      Roller={CodeRoller}
-    />
-  )
-}
+import { CodeContainer } from "../containers/CodeContainer"
 
 const default_components = {
   Section,
   Summary,
   Prelude,
-  Code: (props: CodeProps) => {
-    if (props.mode === "static") {
-      return <StaticCode {...props} />
-    }
-
-    return <DynamicCode {...props} />
-  },
+  Code: CodeContainer,
   Example,
   List,
   XL,
