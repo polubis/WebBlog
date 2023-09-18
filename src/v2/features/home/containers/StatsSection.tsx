@@ -17,6 +17,10 @@ const Container = styled.section`
   margin: 0 auto;
   padding: 162px 20px;
 
+  ${XXL} {
+    text-transform: capitalize;
+  }
+
   & > a {
     text-decoration: none;
     outline: 2px solid transparent;
@@ -113,14 +117,6 @@ const StatsSection = () => {
         </CodeEditorTile>
       </Link>
 
-      <Link to={layout.routes.courses.to}>
-        <CodeEditorTile>
-          <XXL>
-            {home.courses_count} {layout.t.courses}
-          </XXL>
-        </CodeEditorTile>
-      </Link>
-
       <a
         href={layout.discord_url}
         title={layout.t.discord_channel}
@@ -147,21 +143,34 @@ const StatsSection = () => {
         </CodeEditorTile>
       </a>
 
-      <Link to={layout.routes.courses.to}>
-        <CodeEditorTile>
-          <XXL>
-            {home.lessons_count} {home.t.lessons}
-          </XXL>
-        </CodeEditorTile>
-      </Link>
+      {layout.lang.key === 'en' &&
+        <>
+          <Link to={layout.routes.courses.to}>
+            <CodeEditorTile>
+              <XXL>
+                {home.lessons_count} {home.t.lessons}
+              </XXL>
+            </CodeEditorTile>
+          </Link>
 
-      <Link to={layout.routes.courses.to}>
-        <CodeEditorTile>
-          <XXL>
-            {home.topics_count} {home.t.chapters}
-          </XXL>
-        </CodeEditorTile>
-      </Link>
+          <Link to={layout.routes.courses.to}>
+            <CodeEditorTile>
+              <XXL>
+                {home.courses_count} {home.t.courses}
+              </XXL>
+            </CodeEditorTile>
+          </Link>
+
+          <Link to={layout.routes.courses.to}>
+            <CodeEditorTile>
+              <XXL>
+                {home.topics_count} {home.t.chapters}
+              </XXL>
+            </CodeEditorTile>
+          </Link>
+        </>
+      }
+
 
       <Link to={layout.routes.articles.to}>
         <CodeEditorTile>
