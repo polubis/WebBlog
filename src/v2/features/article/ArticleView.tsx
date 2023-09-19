@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useMemo } from "react"
 import { L_UP } from "../../../utils/viewport"
 import styled from "styled-components"
 import { Content, M } from "../../../ui"
@@ -17,6 +17,8 @@ import { ArticleBreadcrumbs } from "../../containers/ArticleBreadcrumbs"
 import { Reviewers } from "../../components/Reviewers"
 import { MdxProvider } from "../../providers/MdxProvider"
 import { MDXRenderer } from "gatsby-plugin-mdx"
+import { SummaryFooter } from "../../containers/SummaryFooter"
+import { ArticleBasedDataProviderModel } from "../../providers/models"
 
 const ArticleContent = styled.main`
   margin: 24px auto;
@@ -56,10 +58,38 @@ const ArticleView = () => {
     author,
     tech_reviewer,
     ling_reviewer,
+    path,
+    tags,
     translation_path,
     body,
     technologies,
+    prev,
+    next,
+    source_url,
+    rate,
+    cdate,
+    mdate,
   } = useArticleProvider()
+
+  const summaryFooterProps = useMemo(
+    (): ArticleBasedDataProviderModel => ({
+      seniority,
+      author,
+      technologies,
+      tags: tags.split(","),
+      duration: read_time,
+      title,
+      description,
+      prev,
+      next,
+      path,
+      source_url: source_url + "/index.mdx",
+      rate,
+      cdate,
+      mdate,
+    }),
+    []
+  )
 
   return (
     <>
@@ -98,6 +128,7 @@ const ArticleView = () => {
             />
             <Stack className="center" items={technologies} />
             <MdxProvider renderer={MDXRenderer}>{body}</MdxProvider>
+            <SummaryFooter {...summaryFooterProps} />
             <ArticleFooter />
           </ArticleContent>
         </Content>

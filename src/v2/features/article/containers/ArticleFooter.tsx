@@ -96,7 +96,6 @@ const Container = styled.div`
 `
 
 const CommentsBox = () => {
-  const article = useArticleProvider()
   const layout = useLayoutProvider()
 
   useLayoutEffect(() => {
@@ -122,11 +121,11 @@ const CommentsBox = () => {
 
   return (
     <div id={article_comments_section_id} className="section">
-      <XL>{article.t.comments.header}</XL>
-      <M>{article.t.comments.description}</M>
-      <M>{article.t.comments.notice}</M>
-      <M>{article.t.comments.if_you_want_to_see}</M>
-      <button title={article.t.comments.open} className="upper button primary">
+      <XL>{layout.t.comments.header}</XL>
+      <M>{layout.t.comments.description}</M>
+      <M>{layout.t.comments.notice}</M>
+      <M>{layout.t.comments.if_you_want_to_see}</M>
+      <button title={layout.t.comments.open} className="upper button primary">
         {layout.t.loading}
       </button>
     </div>
