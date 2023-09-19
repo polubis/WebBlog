@@ -9,7 +9,9 @@ const config = {
   author_section: 92,
   author_section_margin_bottom: 32,
   observe_me_margin_bottom: 20,
-  observe_me_height: 368
+  observe_me_height: 368,
+  comments_section_height: 224,
+  comments_section_margin_bottom: 20
 }
 
 const Container = styled.div`
@@ -23,16 +25,25 @@ const Container = styled.div`
   .observe-me {
     margin-bottom: ${config.observe_me_margin_bottom}px;
   }
+
+  .comments-section {
+    margin-bottom: ${config.comments_section_margin_bottom}px;
+  }
 `
 
 const Placeholder = styled.div`
   background: red;
   border-radius: 4px;
-
 `
 
-const calculateHeight = ({ author: { linkedin_url } }: ArticleBasedDataProviderModel) => {
-  let height = config.author_section + config.author_section_margin_bottom
+const calculateHeight = ({
+  author: { linkedin_url },
+}: ArticleBasedDataProviderModel) => {
+  let height =
+    config.author_section +
+    config.author_section_margin_bottom +
+    config.comments_section_height +
+    config.comments_section_margin_bottom
 
   if (linkedin_url) {
     height += config.observe_me_margin_bottom

@@ -9,8 +9,6 @@ import { format } from "date-fns"
 import theme from "../../../../utils/theme"
 import Badge from "../../../../components/article/Badge"
 import { NavigationSection } from "../../../components/NavigationSection"
-import { useIsVisible } from "../../../../utils/useIsVisible"
-import Loadable from "react-loadable"
 import { isInSSR } from "../../../../utils/isInSSR"
 import {
   article_comments_section_id,
@@ -20,41 +18,6 @@ import { ShareButton } from "../../../containers/ShareButton"
 import { useAnalytics } from "../../../../utils/useAnalytics"
 
 const Container = styled.div`
-  .observe-me {
-    margin: 32px 0 20px 0;
-  }
-
-  .section {
-    position: relative;
-    background: #272727;
-    padding: 28px;
-    border-radius: 4px;
-    max-width: 700px;
-    transform: translateX(-20px);
-    width: calc(100% + 40px);
-
-    ${M} {
-      &:nth-of-type(1) {
-        margin: 12px 0 0 0;
-      }
-
-      &:nth-of-type(2) {
-        margin: 4px 0 4px 0;
-      }
-
-      &:nth-of-type(3) {
-        margin: 4px 0 20px 0;
-      }
-    }
-
-    .article-comment-rate {
-      right: 0;
-      top: 0;
-      padding: 16px;
-      position: absolute;
-    }
-  }
-
   .dates {
     margin: 32px 0 40px 0;
 
@@ -98,30 +61,9 @@ const CommentsBox = () => {
     <div id={article_comments_section_id} className="section">
       <XL>{layout.t.comments.header}</XL>
       <M>{layout.t.comments.description}</M>
-      <M>{layout.t.comments.notice}</M>
-      <M>{layout.t.comments.if_you_want_to_see}</M>
       <button title={layout.t.comments.open} className="upper button primary">
         {layout.t.loading}
       </button>
-    </div>
-  )
-}
-
-const ArticleComments = Loadable({
-  loader: () => import("./ArticleComments").then(m => m.ArticleComments),
-  loading: () => <CommentsBox />,
-})
-
-const CommentsWrapper = () => {
-  const { ref, isVisible } = useIsVisible({ threshold: 0.1, useOnce: true })
-
-  if (isVisible) {
-    return <ArticleComments />
-  }
-
-  return (
-    <div ref={ref}>
-      <CommentsBox />
     </div>
   )
 }
@@ -133,7 +75,6 @@ const ArticleFooter = () => {
 
   return (
     <Container>
-      <CommentsWrapper />
       <div className="dates wrap">
         <Badge color={theme.secondary}>
           {layout.t.created}: {format(new Date(article.cdate), "dd-MM-yyyy")}

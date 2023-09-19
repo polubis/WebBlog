@@ -8,12 +8,11 @@ import { AuthorSection } from "./AuthorSection"
 import { ObserveMe } from "../components/ObserveMe"
 import { A } from "../../ui"
 import { useLayoutProvider } from "../providers/LayoutProvider"
+import { CommentsSection } from "./CommentsSection"
 
 const Content = () => {
   const layout = useLayoutProvider()
   const data = useArticleBasedDataProvider()
-
-  console.log(data)
 
   return (
     <>
@@ -34,6 +33,7 @@ const Content = () => {
           btnTitle={layout.t.observe_me_follow}
         />
       )}
+      <CommentsSection />
     </>
   )
 }
