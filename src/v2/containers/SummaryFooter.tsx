@@ -2,20 +2,51 @@ import React, { useMemo } from "react"
 import { useIsVisible } from "../../utils/useIsVisible"
 import styled from "styled-components"
 import Loadable from "react-loadable"
-import { useLayoutProvider } from "../providers/LayoutProvider"
 import type { ArticleBasedDataProviderModel } from "../providers/models"
-import { XL } from "../../ui"
-import theme from "../../utils/theme"
 import { summary_footer_config } from "../core/consts"
+import { useScrollAfterAuth } from "../logic/useScrollAfterAuth"
 
 const Placeholder = styled.div`
-  background: rgb(40, 42, 54);
-  border-radius: 4px;
+  justify-content: center;
+  overflow: hidden;
+
+  & > * {
+    background: rgb(40, 42, 54);
+    border-radius: 4px;
+  
+    &:nth-child(1) {
+      width: 50%;
+      height: ${summary_footer_config.author_section}px;
+      margin-bottom: ${summary_footer_config.author_section_margin_bottom}px;
+    }
+
+    &:nth-child(2) {
+      width: 80%;
+      height: ${summary_footer_config.observe_me_height}px;
+      margin-bottom: ${summary_footer_config.observe_me_margin_bottom}px;
+    }
+
+    &:nth-child(3) {
+      width: 80%;
+      height: ${summary_footer_config.comments_section_height}px;
+      margin-bottom: ${summary_footer_config.comments_section_margin_bottom}px;
+    }
+
+    &:nth-child(4) {
+      width: 40%;
+      height: ${summary_footer_config.dates_section_height}px;
+      margin-bottom: ${summary_footer_config.dates_section_margin_bottom}px;
+    }
+
+    &:nth-child(5) {
+      width: 50%;
+      height: ${summary_footer_config.navigation_section_item_height}px;
+    }
+  }
 `
 
 const Container = styled.div`
   justify-content: center;
-  border-top: 2px solid ${theme.grayC};
 
   .authors-section {
     margin-bottom: ${summary_footer_config.author_section_margin_bottom}px;
@@ -46,7 +77,7 @@ const calculateHeight = ({
     summary_footer_config.comments_section_margin_bottom +
     summary_footer_config.dates_section_height +
     summary_footer_config.dates_section_margin_bottom +
-    (2 * summary_footer_config.navigation_section_item_height) +
+    2 * summary_footer_config.navigation_section_item_height +
     summary_footer_config.navigation_section_item_margin
 
   if (linkedin_url) {
@@ -69,12 +100,23 @@ const calculateHeight = ({
   return height
 }
 
+const placeholderItems = (
+  <>
+    <div />
+    <div />
+    <div />
+    <div />
+    <div />
+  </>
+)
+
 const SummaryFooter = (props: ArticleBasedDataProviderModel) => {
-  const layout = useLayoutProvider()
   const { isVisible, ref } = useIsVisible({ threshold: 0.1, useOnce: true })
 
   const height = useMemo(() => calculateHeight(props), [])
   const style = useMemo(() => ({ height: `${height}px` }), [])
+
+  useScrollAfterAuth()
 
   const Content = useMemo(
     () =>
@@ -82,10 +124,8 @@ const SummaryFooter = (props: ArticleBasedDataProviderModel) => {
         loader: () =>
           import("./SummaryFooterContent").then(m => m.SummaryFooterContent),
         loading: () => (
-          <Placeholder className="center" style={style}>
-            <XL>
-              {layout.t.loading}
-            </XL>
+          <Placeholder id="summary-footer" className="col" style={style}>
+            {placeholderItems}
           </Placeholder>
         ),
       }),
@@ -94,17 +134,15 @@ const SummaryFooter = (props: ArticleBasedDataProviderModel) => {
 
   if (isVisible) {
     return (
-      <Container className="col" style={style}>
+      <Container id="summary-footer" className="col" style={style}>
         <Content {...props} />
       </Container>
     )
   }
 
   return (
-    <Placeholder className="center" ref={ref} style={style}>
-      <XL>
-        {layout.t.loading}
-      </XL>
+    <Placeholder id="summary-footer" className="col" ref={ref} style={style}>
+      {placeholderItems}
     </Placeholder>
   )
 }

@@ -18,6 +18,7 @@ const Button = styled.button`
   align-items: center;
   justify-content: center;
   font-family: "Lexend", sans-serif;
+  
   &:hover:not(:disabled) {
     cursor: pointer;
     opacity: 0.7;

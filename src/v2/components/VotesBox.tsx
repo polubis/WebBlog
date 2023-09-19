@@ -22,7 +22,7 @@ const Container = styled.div`
     width: 40px;
     height: 40px;
     border-radius: 4px;
-    background: #3e3e3e;
+    background: rgb(40, 42, 54);
   }
 `
 

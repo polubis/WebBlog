@@ -1,4 +1,4 @@
-import React, { useMemo, useLayoutEffect } from "react"
+import React, { useMemo } from "react"
 import { FirebaseProvider } from "../providers/FirebaseProvider"
 import { CommentsProvider } from "../features/comments/CommentsProvider"
 import { useLayoutProvider } from "../providers/LayoutProvider"
@@ -10,8 +10,7 @@ import { useArticleBasedDataProvider } from "../providers/ArticleBasedDataProvid
 import { convertToFirebasePath } from "../utils/convertToFirebasePath"
 import { CommentsProviderCtx } from "../features/comments/models"
 import styled from "styled-components"
-import { isInSSR } from "../../utils/isInSSR"
-import { comments_section_id, scroll_to_key } from "../core/consts"
+import { summary_footer_id } from "../core/consts"
 
 const Container = styled.div`
   position: relative;
@@ -23,7 +22,7 @@ const Container = styled.div`
   width: calc(100% + 40px);
 
   ${M} {
-    margin: 4px 0 20px 0;
+    margin: 12px 0 20px 0;
   }
 
   .article-comment-rate {
@@ -39,30 +38,9 @@ const ConnectedComments = ({ state, load, reset }: CommentsProviderCtx) => {
   const { rate } = useArticleBasedDataProvider()
   const { track } = useAnalytics()
 
-  useLayoutEffect(() => {
-    if (isInSSR()) return
-
-    const scrollTo = localStorage.getItem(scroll_to_key)
-
-    if (!scrollTo) return
-
-    const element = document.getElementById(scrollTo)
-
-    if (!element) return
-
-    const timeout = setTimeout(() => {
-      element.scrollIntoView()
-      localStorage.removeItem(scroll_to_key)
-    }, 150)
-
-    return () => {
-      clearTimeout(timeout)
-    }
-  }, [])
-
   return (
     <>
-      <Container id={comments_section_id} className="comments-section">
+      <Container id={summary_footer_id} className="comments-section">
         {rate && (
           <div className="article-comment-rate">
             <XL>
