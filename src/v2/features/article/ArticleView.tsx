@@ -10,7 +10,6 @@ import Layout from "../../containers/Layout"
 import { useLayoutProvider } from "../../providers/LayoutProvider"
 import { ReadInOtherLanguageBanner } from "../../../components/article/ReadInOtherLanguageBanner"
 import { Stack } from "../../../components/article/Stack"
-import { ArticleFooter } from "./containers/ArticleFooter"
 import { ProgressDisplayer } from "../../../components/article/ProgressDisplayer"
 import { ArticleTags } from "../../containers/ArticleTags"
 import { ArticleBreadcrumbs } from "../../containers/ArticleBreadcrumbs"
@@ -98,7 +97,6 @@ const ArticleView = () => {
             />
             <Stack className="center" items={technologies} />
             <MdxProvider renderer={MDXRenderer}>{body}</MdxProvider>
-            <ArticleFooter />
           </ArticleContent>
         </Content>
       </Layout>

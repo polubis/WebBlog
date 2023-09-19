@@ -451,9 +451,10 @@ exports.createPages = async ({ actions, graphql }) => {
 
   const enCourses = CoursesCollection(
     dataRepository,
+    rates,
     enLayout,
     "/courses/",
-    "courses"
+    "courses",
   )
 
   const createHomePage = HomePageCreator({

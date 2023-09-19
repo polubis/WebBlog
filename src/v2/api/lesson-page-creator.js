@@ -15,10 +15,11 @@ const LessonPageCreator = ({ createPage, makeComponent }) => ({
     pl,
   }
 
-  const { title, body, source_url, next, prev, description, url } = lesson
+  const { title, body, source_url, next, prev, description, url, path } = lesson
+  const { avatar, ...author } = course.author
 
   createPage({
-    path: lesson.path,
+    path,
     component: makeComponent(),
     context: {
       lesson: {
@@ -27,8 +28,15 @@ const LessonPageCreator = ({ createPage, makeComponent }) => ({
         url,
         title,
         source_url,
+        path,
         duration: lesson.duration,
         description,
+        author: {
+          ...author,
+          avatar: {
+            small: avatar.small
+          }
+        },
         body,
         prev: prev
           ? { path: prev.path }
@@ -45,7 +53,7 @@ const LessonPageCreator = ({ createPage, makeComponent }) => ({
           title: course.title,
           seniority: course.seniority,
           tags: course.tags,
-          technologies: course.technologies
+          technologies: course.technologies,
         },
         chapter: {
           title: chapter.title,

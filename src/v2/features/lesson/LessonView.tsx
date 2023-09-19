@@ -13,10 +13,8 @@ import { Link } from "gatsby"
 import { MdxProvider } from "../../providers/MdxProvider"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import { CourseChapters } from "../../components/CourseChapters"
-import { NavigationSection } from "../../components/NavigationSection"
 import Thumbnail from "../../../components/article/Thumbnail"
-import { ShareButton } from "../../containers/ShareButton"
-import { useAnalytics } from "../../../utils/useAnalytics"
+import { SummaryFooter } from "../../containers/SummaryFooter"
 
 const MobileNavigation = Loadable({
   loader: () =>
@@ -61,7 +59,6 @@ const Container = styled.main`
 const LessonView = () => {
   useScrollToTop()
 
-  const { track } = useAnalytics()
   const layout = useLayoutProvider()
   const lesson = useLessonPageProvider()
 
@@ -98,36 +95,24 @@ const LessonView = () => {
                 seniorityLevel={lesson.course.seniority}
               />
               <MdxProvider renderer={MDXRenderer}>{lesson.body}</MdxProvider>
-              <NavigationSection>
-                <ShareButton
-                  url={lesson.source_url}
-                  link={lesson.url}
-                  title={lesson.title}
-                  description={lesson.description}
-                  time={lesson.duration}
-                  level={lesson.course.seniority}
-                  tags={lesson.course.tags}
-                  stack={lesson.course.technologies.map(({ id }) => id)}
-                />
-                <a
-                  className="button primary upper"
-                  href={lesson.source_url}
-                  target="_blank"
-                  onClick={() => track({ name: "lesson_source_clicked" })}
-                >
-                  {layout.t.show_source}
-                </a>
-                {lesson.prev && (
-                  <Link className="button primary upper" to={lesson.prev.path}>
-                    {layout.t.prev}
-                  </Link>
-                )}
-                {lesson.next && (
-                  <Link className="button primary upper" to={lesson.next.path}>
-                    {layout.t.next}
-                  </Link>
-                )}
-              </NavigationSection>
+              {console.log(lesson)}
+              <SummaryFooter
+                path={lesson.url}
+                fullName={lesson.author.full_name}
+                role={lesson.author.role}
+                avatar={lesson.author.avatar.small}
+                url={lesson.source_url}
+                title={lesson.title}
+                sourceUrl={lesson.source_url}
+                description={lesson.description}
+                rate={lesson.rate}
+                duration={lesson.duration}
+                seniority={lesson.course.seniority}
+                tags={lesson.course.tags}
+                technologies={lesson.course.technologies}
+                prevPath={lesson.prev?.path}
+                nextPath={lesson.next?.path}
+              />
             </div>
             <CourseChaptersWrapper>{Chapters}</CourseChaptersWrapper>
           </Container>

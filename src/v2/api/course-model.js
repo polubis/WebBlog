@@ -20,6 +20,7 @@ const CourseModel = (
     lessons,
     ga_page,
     layout,
+    rates,
   }
 ) => {
   const {
@@ -127,38 +128,49 @@ const CourseModel = (
             if (prev.slug === curr.slug) return 0
             return -1
           })
-          .map(lesson => ({
-            title: lesson.frontmatter.name,
-            duration: lesson.frontmatter.duration,
-            deprecated: lesson.frontmatter.deprecated,
-            thumbnail: getLessonOrCourseThumbnail(
-              getLessonThumbnail(lessonsThumbnails, lesson.slug)
-            ),
-            ga_page:
-              ga_page +
-              "/" +
-              courseId +
-              "/" +
-              titleToSlug(chapterTitle) +
-              "/" +
-              titleToSlug(lesson.frontmatter.name),
-            url:
-              layout.site_url +
+          .map(lesson => {
+            const lessonPath =
               coursePath +
               titleToSlug(chapterTitle) +
               "/" +
               titleToSlug(lesson.frontmatter.name) +
-              "/",
-            body: lesson.body,
-            description: lesson.frontmatter.description,
-            source_url: layout.course_source_url + path + lesson.slug + ".mdx",
-            path:
-              coursePath +
-              titleToSlug(chapterTitle) +
-              "/" +
-              titleToSlug(lesson.frontmatter.name) +
-              "/",
-          }))
+              "/"
+
+            const parts = lessonPath.replace(/\//g, "-").split("-")
+            parts.pop()
+            parts.shift()
+            const fireBasePath = parts.join("-")
+
+            return {
+              title: lesson.frontmatter.name,
+              duration: lesson.frontmatter.duration,
+              deprecated: lesson.frontmatter.deprecated,
+              thumbnail: getLessonOrCourseThumbnail(
+                getLessonThumbnail(lessonsThumbnails, lesson.slug)
+              ),
+              rate: rates[fireBasePath],
+              ga_page:
+                ga_page +
+                "/" +
+                courseId +
+                "/" +
+                titleToSlug(chapterTitle) +
+                "/" +
+                titleToSlug(lesson.frontmatter.name),
+              url:
+                layout.site_url +
+                coursePath +
+                titleToSlug(chapterTitle) +
+                "/" +
+                titleToSlug(lesson.frontmatter.name) +
+                "/",
+              body: lesson.body,
+              description: lesson.frontmatter.description,
+              source_url:
+                layout.course_source_url + path + lesson.slug + ".mdx",
+              path: lessonPath,
+            }
+          })
         chapterLessonsCollection = chapterLessonsCollection.map(
           (lesson, index) => ({
             ...lesson,

@@ -237,8 +237,13 @@ export interface LessonPageModel {
   duration: number
   body: string
   thumbnail: FluidObject
+  path: Path;
   description: string
   title: Title
+  rate?: Rate
+  author: Omit<User, "avatar"> & {
+    avatar: Pick<User["avatar"], "small">
+  }
   course: {
     title: Title
     path: Path

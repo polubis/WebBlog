@@ -80,22 +80,25 @@ interface TimeBadgeProps {
   value: number
 }
 
-export interface AvatarProps {
+interface AvatarProps {
   src?: string | null
   alt: string
 }
 
-export interface RateProps {
+interface RateProps {
   rate: number
 }
 
-export interface VotesBoxProps {
+interface VotesBoxProps {
   children?: ReactNode
 }
 
 export type {
   AuthorTileProps,
   TagsProps,
+  AvatarProps,
+  RateProps,
+  VotesBoxProps,
   BreadcrumbsProps,
   ObserveMeProps,
   ReviewersProps,
