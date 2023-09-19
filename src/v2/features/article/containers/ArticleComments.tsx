@@ -10,6 +10,7 @@ import { FirebaseProvider } from "../../../providers/FirebaseProvider"
 import { useAnalytics } from "../../../../utils/useAnalytics"
 
 const ConnectedComments = ({ state, load, reset }: CommentsProviderCtx) => {
+  const layout = useLayoutProvider()
   const article = useArticleProvider()
   const { track } = useAnalytics()
 
@@ -23,28 +24,28 @@ const ConnectedComments = ({ state, load, reset }: CommentsProviderCtx) => {
             </XL>
           </div>
         )}
-        <XL>{article.t.comments.header}</XL>
-        <M>{article.t.comments.description}</M>
-        <M>{article.t.comments.notice}</M>
-        <M>{article.t.comments.if_you_want_to_see}</M>
+        <XL>{layout.t.comments.header}</XL>
+        <M>{layout.t.comments.description}</M>
+        <M>{layout.t.comments.notice}</M>
+        <M>{layout.t.comments.if_you_want_to_see}</M>
         {state.is === "idle" ? (
           <button
-            title={article.t.comments.open}
+            title={layout.t.comments.open}
             className="upper button primary"
             onClick={() => {
               track({ name: "comments_section_opened" })
               load()
             }}
           >
-            {article.t.comments.open}
+            {layout.t.comments.open}
           </button>
         ) : (
           <button
-            title={article.t.comments.close}
+            title={layout.t.comments.close}
             className="upper button primary"
             onClick={reset}
           >
-            {article.t.comments.close}
+            {layout.t.comments.close}
           </button>
         )}
       </div>

@@ -67,5 +67,13 @@
   "invitations": "Zaproszenia",
   "preview": "Podgląd",
   "switch_to_pl": "Zmień na polski",
-  "switch_to_en": "Zmień na angielski"
+  "switch_to_en": "Zmień na angielski",
+  "comments": {
+    "header": "Oceny",
+    "description": "Przejrzyj oceny tego artykułu i dodaj swoją opinię.",
+    "open": "Zobacz oceny",
+    "close": "Zamknij oceny",
+    "notice": "Aktualnie wyświetlana ocena jest nieaktualna. Zostanie zmieniona przy następnej publikacji artykułu - robimy wszystko, aby oszczędzać twój internet 🥕.",
+    "if_you_want_to_see": "Otwórz sekcję ocen, aby zobaczyć aktualną ocenę."
+  }
 }
