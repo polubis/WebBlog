@@ -4,13 +4,16 @@ import {
   useArticleBasedDataProvider,
 } from "../providers/ArticleBasedDataProvider"
 import type { ArticleBasedDataProviderModel } from "../providers/models"
+import { AuthorSection } from "./AuthorSection"
 
 const Content = () => {
   const data = useArticleBasedDataProvider()
 
   console.log(data)
 
-  return <div>Content</div>
+  return <>
+    <AuthorSection />
+  </>
 }
 
 const SummaryFooterContent = (props: ArticleBasedDataProviderModel) => {
