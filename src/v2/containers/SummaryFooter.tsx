@@ -4,9 +4,9 @@ import styled from "styled-components"
 import Loadable from "react-loadable"
 import { useLayoutProvider } from "../providers/LayoutProvider"
 import type { ArticleBasedDataProviderModel } from "../providers/models"
-import { summary_footer_config } from "./config"
 import { XL } from "../../ui"
 import theme from "../../utils/theme"
+import { summary_footer_config } from "../core/consts"
 
 const Placeholder = styled.div`
   background: rgb(40, 42, 54);

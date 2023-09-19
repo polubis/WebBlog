@@ -1,4 +1,4 @@
-import React, { useMemo } from "react"
+import React, { useMemo, useLayoutEffect } from "react"
 import { FirebaseProvider } from "../providers/FirebaseProvider"
 import { CommentsProvider } from "../features/comments/CommentsProvider"
 import { useLayoutProvider } from "../providers/LayoutProvider"
@@ -10,6 +10,8 @@ import { useArticleBasedDataProvider } from "../providers/ArticleBasedDataProvid
 import { convertToFirebasePath } from "../utils/convertToFirebasePath"
 import { CommentsProviderCtx } from "../features/comments/models"
 import styled from "styled-components"
+import { isInSSR } from "../../utils/isInSSR"
+import { comments_section_id, scroll_to_key } from "../core/consts"
 
 const Container = styled.div`
   position: relative;
@@ -37,9 +39,30 @@ const ConnectedComments = ({ state, load, reset }: CommentsProviderCtx) => {
   const { rate } = useArticleBasedDataProvider()
   const { track } = useAnalytics()
 
+  useLayoutEffect(() => {
+    if (isInSSR()) return
+
+    const scrollTo = localStorage.getItem(scroll_to_key)
+
+    if (!scrollTo) return
+
+    const element = document.getElementById(scrollTo)
+
+    if (!element) return
+
+    const timeout = setTimeout(() => {
+      element.scrollIntoView()
+      localStorage.removeItem(scroll_to_key)
+    }, 150)
+
+    return () => {
+      clearTimeout(timeout)
+    }
+  }, [])
+
   return (
     <>
-      <Container className="comments-section">
+      <Container id={comments_section_id} className="comments-section">
         {rate && (
           <div className="article-comment-rate">
             <XL>

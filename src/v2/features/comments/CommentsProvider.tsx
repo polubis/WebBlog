@@ -26,7 +26,7 @@ import {
 import { prepareToCreateComment } from "./api/create-comment/create-comment"
 import { prepareToLoadComments } from "./api/create-comment/load-comments"
 import { tUp } from "../../../utils/viewport"
-import { article_comments_section_id, scroll_to_key } from "../../core/consts"
+import { comments_section_id, scroll_to_key } from "../../core/consts"
 import { useFirebaseProvider } from "../../providers/FirebaseProvider"
 
 const Context = createContext<CommentsProviderNullableCtx>(null)
@@ -70,7 +70,7 @@ export const CommentsProvider = ({
             return;
           }
 
-          localStorage.setItem(scroll_to_key, article_comments_section_id)
+          localStorage.setItem(scroll_to_key, comments_section_id)
           signInWithRedirect(auth, provider)
         } catch { }
       },
