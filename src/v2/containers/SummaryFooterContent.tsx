@@ -9,6 +9,7 @@ import { ObserveMe } from "../components/ObserveMe"
 import { A } from "../../ui"
 import { useLayoutProvider } from "../providers/LayoutProvider"
 import { CommentsSection } from "./CommentsSection"
+import { DatesSection } from "./DatesSection"
 
 const Content = () => {
   const layout = useLayoutProvider()
@@ -34,6 +35,7 @@ const Content = () => {
         />
       )}
       <CommentsSection />
+      <DatesSection />
     </>
   )
 }

@@ -11,13 +11,14 @@ const config = {
   observe_me_margin_bottom: 20,
   observe_me_height: 368,
   comments_section_height: 224,
-  comments_section_margin_bottom: 20
+  comments_section_margin_bottom: 20,
+  dates_section_height: 64,
+  dates_section_margin_bottom: 32,
 }
 
-const Container = styled.div`
-  background: red;
-  border-radius: 4px;
+const Placeholder = styled.div``
 
+const Container = styled.div`
   .authors-section {
     margin-bottom: ${config.author_section_margin_bottom}px;
   }
@@ -29,11 +30,10 @@ const Container = styled.div`
   .comments-section {
     margin-bottom: ${config.comments_section_margin_bottom}px;
   }
-`
 
-const Placeholder = styled.div`
-  background: red;
-  border-radius: 4px;
+  .dates-section {
+    margin-bottom: ${config.dates_section_margin_bottom}px;
+  }
 `
 
 const calculateHeight = ({
@@ -43,7 +43,9 @@ const calculateHeight = ({
     config.author_section +
     config.author_section_margin_bottom +
     config.comments_section_height +
-    config.comments_section_margin_bottom
+    config.comments_section_margin_bottom +
+    config.dates_section_height +
+    config.dates_section_margin_bottom
 
   if (linkedin_url) {
     height += config.observe_me_margin_bottom
