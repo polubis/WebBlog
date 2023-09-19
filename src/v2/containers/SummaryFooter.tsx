@@ -7,19 +7,47 @@ import type { ArticleBasedDataProviderModel } from "../providers/models"
 
 const config = {
   author_section: 92,
+  author_section_margin_bottom: 32,
+  observe_me_margin_bottom: 20,
+  observe_me_height: 368
 }
+
+const Container = styled.div`
+  background: red;
+  border-radius: 4px;
+
+  .authors-section {
+    margin-bottom: ${config.author_section_margin_bottom}px;
+  }
+
+  .observe-me {
+    margin-bottom: ${config.observe_me_margin_bottom}px;
+  }
+`
 
 const Placeholder = styled.div`
   background: red;
   border-radius: 4px;
+
 `
+
+const calculateHeight = ({ author: { linkedin_url } }: ArticleBasedDataProviderModel) => {
+  let height = config.author_section + config.author_section_margin_bottom
+
+  if (linkedin_url) {
+    height += config.observe_me_margin_bottom
+    height += config.observe_me_height
+  }
+
+  return height
+}
 
 const SummaryFooter = (props: ArticleBasedDataProviderModel) => {
   const layout = useLayoutProvider()
   const { isVisible, ref } = useIsVisible({ threshold: 0.1, useOnce: true })
 
-  const height = config.author_section
-  const style = { height: `${height}px` }
+  const height = useMemo(() => calculateHeight(props), [])
+  const style = useMemo(() => ({ minHeight: `${height}px` }), [])
 
   const Content = useMemo(
     () =>
@@ -35,9 +63,9 @@ const SummaryFooter = (props: ArticleBasedDataProviderModel) => {
 
   if (isVisible) {
     return (
-      <div style={style}>
+      <Container style={style}>
         <Content {...props} />
-      </div>
+      </Container>
     )
   }
 

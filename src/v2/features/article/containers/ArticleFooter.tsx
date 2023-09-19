@@ -1,12 +1,10 @@
 import React, { useLayoutEffect } from "react"
-import { A, M, S, XL } from "../../../../ui"
+import { M, XL } from "../../../../ui"
 import { useLayoutProvider } from "../../../providers/LayoutProvider"
 import { useArticleProvider } from "../ArticleProvider"
-import { ObserveMe } from "../../../components/ObserveMe"
-import { M_DOWN, SM_DOWN } from "../../../../utils/viewport"
+import { SM_DOWN } from "../../../../utils/viewport"
 import { Link } from "gatsby"
 import styled from "styled-components"
-import AuthorAvatar from "../../../../components/article/AuthorAvatar"
 import { format } from "date-fns"
 import theme from "../../../../utils/theme"
 import Badge from "../../../../components/article/Badge"
@@ -18,7 +16,6 @@ import {
   article_comments_section_id,
   scroll_to_key,
 } from "../../../core/consts"
-import { VotesBox } from "../../../components/VotesBox"
 import { ShareButton } from "../../../containers/ShareButton"
 import { useAnalytics } from "../../../../utils/useAnalytics"
 
@@ -69,28 +66,6 @@ const Container = styled.div`
         margin: 0 0 10px 0;
         text-align: center;
       }
-    }
-  }
-
-  .author-personality {
-    margin-left: 16px;
-  }
-
-  .article-footer-author-section {
-    & > *:first-child {
-      margin-right: 32px;
-    }
-
-    @media ${M_DOWN} {
-      justify-content: space-between;
-
-      & > *:first-child {
-        margin-right: 16px;
-      }
-    }
-
-    .author-avatar {
-      flex-shrink: 0;
     }
   }
 `
@@ -151,25 +126,6 @@ const CommentsWrapper = () => {
   )
 }
 
-const ArticleVotes = Loadable({
-  loader: () => import("./ArticleVotes").then(m => m.ArticleVotes),
-  loading: () => <VotesBox />,
-})
-
-const VotesWrapper = () => {
-  const { ref, isVisible } = useIsVisible({ threshold: 0.1, useOnce: true })
-
-  if (isVisible) {
-    return <ArticleVotes />
-  }
-
-  return (
-    <div ref={ref}>
-      <VotesBox />
-    </div>
-  )
-}
-
 const ArticleFooter = () => {
   const layout = useLayoutProvider()
   const article = useArticleProvider()
@@ -177,39 +133,6 @@ const ArticleFooter = () => {
 
   return (
     <Container>
-      <div className="article-footer-author-section row">
-        <Link to={layout.routes.authors.to}>
-          <div className="clickable row">
-            <AuthorAvatar
-              avatar={article.author.avatar.small}
-              avatarTitle={article.author.full_name}
-            />
-            <div className="author-personality col">
-              <M className="cap" bold>
-                {article.author.full_name}
-              </M>
-              <S>{article.author.role}</S>
-            </div>
-          </div>
-        </Link>
-        <VotesWrapper />
-      </div>
-      {article.author.linkedin_url !== undefined && (
-        <ObserveMe
-          author={article.author}
-          header={article.t.observe_me_header}
-          description={
-            <>
-              {article.t.observe_me_description_first_part}{" "}
-              <A href={article.author.linkedin_url!} outside>
-                LinkedIn
-              </A>
-              , {article.t.observe_me_description_second_part}
-            </>
-          }
-          btnTitle={article.t.observe_me_follow}
-        />
-      )}
       <CommentsWrapper />
       <div className="dates wrap">
         <Badge color={theme.secondary}>

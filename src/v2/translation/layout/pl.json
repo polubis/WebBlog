@@ -75,5 +75,9 @@
     "close": "Zamknij oceny",
     "notice": "Aktualnie wyświetlana ocena jest nieaktualna. Zostanie zmieniona przy następnej publikacji artykułu - robimy wszystko, aby oszczędzać twój internet 🥕.",
     "if_you_want_to_see": "Otwórz sekcję ocen, aby zobaczyć aktualną ocenę."
-  }
+  },
+  "observe_me_header": "Jestem z tych, którzy publikują codziennie!",
+  "observe_me_description_first_part": "Mam nadzieję, że mój wpis Ci się spodobał. Jeżeli tak jest, to zapraszam Cię na mój",
+  "observe_me_description_second_part": "gdzie publikuję codziennie.",
+  "observe_me_follow": "Mój profil"
 }

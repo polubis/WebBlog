@@ -6,6 +6,7 @@ import { VotesProvider } from "../providers/VotesProvider"
 import { FirebaseProvider } from "../providers/FirebaseProvider"
 import { VotesBox } from "../components/VotesBox"
 import { useArticleBasedDataProvider } from "../providers/ArticleBasedDataProvider"
+import { convertToFirebasePath } from "../utils/convertToFirebasePath"
 
 const Button = styled.button`
   background: transparent;
@@ -57,17 +58,9 @@ const ConnectedVotes = ({
     )
 }
 
-const preparePath = (path: string): string => {
-    const parts = path.replace(/\//g, "-").split("-")
-    parts.pop()
-    parts.shift()
-
-    return parts.join("-")
-}
-
 export const AddVoteSection = () => {
     const { path } = useArticleBasedDataProvider()
-    const preparedPath = useMemo(() => preparePath(path), [path])
+    const preparedPath = useMemo(() => convertToFirebasePath(path), [path])
 
     return (
         <FirebaseProvider>

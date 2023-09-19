@@ -35,7 +35,7 @@ const AuthorSection = () => {
     const data = useArticleBasedDataProvider()
 
     return (
-        <Container className="row">
+        <Container className="authors-section row">
             <GatsbyLink to={layout.routes.authors.to}>
                 <div className="clickable row">
                     <AuthorAvatar

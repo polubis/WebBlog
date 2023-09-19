@@ -75,5 +75,9 @@
     "close": "Close ratings",
     "notice": "Actually displayed rate is not up to date. It's always updated after the next article's publication - we're doing everything to save your internet 🥕.",
     "if_you_want_to_see": "If you want to see the current rate just open the ratings section below."
-  }
+  },
+  "observe_me_header": "I create content regularly!",
+  "observe_me_description_first_part": "I hope you found my post interesting. If so, maybe you'll take a peek at my",
+  "observe_me_description_second_part": "where I publish posts daily.",
+  "observe_me_follow": "Follow me"
 }
