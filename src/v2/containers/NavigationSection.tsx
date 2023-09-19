@@ -6,20 +6,21 @@ import { useAnalytics } from "../../utils/useAnalytics"
 import { Link as GatsbyLink } from "gatsby"
 import { T_DOWN } from "../../utils/viewport"
 import { useArticleBasedDataProvider } from "../providers/ArticleBasedDataProvider"
+import { summary_footer_config } from "./config"
 
 const Container = styled.nav`
   display: flex;
   justify-content: right;
 
   & > *:not(:first-child) {
-    margin: 0 0 0 20px;
+    margin: 0 0 0 ${summary_footer_config.navigation_section_item_margin}px;
   }
 
   @media ${T_DOWN} {
     flex-flow: column;
 
     & > *:not(:first-child) {
-      margin: 20px 0 0 0;
+      margin: ${summary_footer_config.navigation_section_item_margin}px 0 0 0;
     }
     
     & > * {

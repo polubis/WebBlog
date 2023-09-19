@@ -5,13 +5,18 @@ import Loadable from "react-loadable"
 import { useLayoutProvider } from "../providers/LayoutProvider"
 import type { ArticleBasedDataProviderModel } from "../providers/models"
 import { summary_footer_config } from "./config"
+import { XL } from "../../ui"
+import theme from "../../utils/theme"
 
 const Placeholder = styled.div`
-  background: red;
+  background: rgb(40, 42, 54);
   border-radius: 4px;
 `
 
 const Container = styled.div`
+  justify-content: center;
+  border-top: 2px solid ${theme.grayC};
+
   .authors-section {
     margin-bottom: ${summary_footer_config.author_section_margin_bottom}px;
   }
@@ -77,7 +82,11 @@ const SummaryFooter = (props: ArticleBasedDataProviderModel) => {
         loader: () =>
           import("./SummaryFooterContent").then(m => m.SummaryFooterContent),
         loading: () => (
-          <Placeholder style={style}>{layout.t.loading}</Placeholder>
+          <Placeholder className="center" style={style}>
+            <XL>
+              {layout.t.loading}
+            </XL>
+          </Placeholder>
         ),
       }),
     []
@@ -85,15 +94,17 @@ const SummaryFooter = (props: ArticleBasedDataProviderModel) => {
 
   if (isVisible) {
     return (
-      <Container style={style}>
+      <Container className="col" style={style}>
         <Content {...props} />
       </Container>
     )
   }
 
   return (
-    <Placeholder ref={ref} style={style}>
-      {layout.t.loading}
+    <Placeholder className="center" ref={ref} style={style}>
+      <XL>
+        {layout.t.loading}
+      </XL>
     </Placeholder>
   )
 }
