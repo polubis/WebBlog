@@ -11,8 +11,6 @@ import { useClipboard } from "../../utils/useClipboard"
 import styled from "styled-components"
 import theme from "../../utils/theme"
 
-interface ShareButtonProps extends LoadInvtationsPayload {}
-
 const Container = styled.div`
   display: grid;
   justify-content: center;
@@ -41,7 +39,7 @@ const Container = styled.div`
   }
 `
 
-const ShareButton = (props: ShareButtonProps) => {
+const ShareButton = (props: LoadInvtationsPayload) => {
   const layout = useLayoutProvider()
   const [state, { load, reset }] = useInvitationPrepare()
   const { state: copyState, copy, reset: resetCopy } = useClipboard()

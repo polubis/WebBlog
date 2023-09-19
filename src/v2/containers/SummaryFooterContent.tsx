@@ -10,6 +10,7 @@ import { A } from "../../ui"
 import { useLayoutProvider } from "../providers/LayoutProvider"
 import { CommentsSection } from "./CommentsSection"
 import { DatesSection } from "./DatesSection"
+import { NavigationSection } from "./NavigationSection"
 
 const Content = () => {
   const layout = useLayoutProvider()
@@ -36,6 +37,7 @@ const Content = () => {
       )}
       <CommentsSection />
       <DatesSection />
+      <NavigationSection />
     </>
   )
 }

@@ -14,6 +14,8 @@ const config = {
   comments_section_margin_bottom: 20,
   dates_section_height: 64,
   dates_section_margin_bottom: 32,
+  navigation_section_item_height: 40,
+  navigation_section_item_margin: 20,
 }
 
 const Placeholder = styled.div``
@@ -37,6 +39,8 @@ const Container = styled.div`
 `
 
 const calculateHeight = ({
+  prev,
+  next,
   author: { linkedin_url },
 }: ArticleBasedDataProviderModel) => {
   let height =
@@ -45,11 +49,25 @@ const calculateHeight = ({
     config.comments_section_height +
     config.comments_section_margin_bottom +
     config.dates_section_height +
-    config.dates_section_margin_bottom
+    config.dates_section_margin_bottom +
+    2 * config.navigation_section_item_height +
+    config.navigation_section_item_margin
 
   if (linkedin_url) {
     height += config.observe_me_margin_bottom
     height += config.observe_me_height
+  }
+
+  if (prev) {
+    height +=
+      config.navigation_section_item_height +
+      config.navigation_section_item_margin
+  }
+
+  if (next) {
+    height +=
+      config.navigation_section_item_height +
+      config.navigation_section_item_margin
   }
 
   return height

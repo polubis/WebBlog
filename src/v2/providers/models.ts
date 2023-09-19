@@ -60,6 +60,7 @@ export interface ArticleBasedDataProviderModel {
   }
   source_url: Url
   title: Title
+  url: Url
   description: string
   duration: number
   rate?: Rate

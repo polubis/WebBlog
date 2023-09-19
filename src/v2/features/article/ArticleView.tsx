@@ -55,6 +55,7 @@ const ArticleView = () => {
     is_new,
     seniority,
     author,
+    url,
     tech_reviewer,
     ling_reviewer,
     path,
@@ -86,6 +87,7 @@ const ArticleView = () => {
       rate,
       cdate,
       mdate,
+      url
     }),
     []
   )

@@ -7,16 +7,8 @@ interface FullScreenClicked {
   name: "full_screen_clicked"
 }
 
-interface ArticleSourceClicked {
-  name: "article_source_clicked"
-}
-
 interface SnippetCreated {
   name: "snippet_created"
-}
-
-interface LessonSourceClicked {
-  name: "lesson_source_clicked"
 }
 
 interface SnippetCreatorOpened {
@@ -37,15 +29,18 @@ interface CommentsSectionOpened {
   name: "comments_section_opened"
 }
 
+interface SourceClicked {
+  name: "source_clicked"
+}
+
 type AnalyticsEvent =
   | FullScreenClicked
-  | ArticleSourceClicked
   | SnippetCreated
-  | LessonSourceClicked
   | SnippetCreatorOpened
   | RenderingCodeError
   | CommentsSectionOpened
   | RenderingImageError
+  | SourceClicked
 
 const isTrackable = () => !isInSSR() && isProd()
 
