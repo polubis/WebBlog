@@ -141,67 +141,90 @@ description: We'll dive into the selectors concept in the Zustand/Redux librarie
 
 <Section>
   <XL>Rerenders reduction with selectors</XL>
-  <M>Let's say we have 3 components. The <B>Top</B>, <B>Between</B> and <B>Last</B>. That's how they will be rendered: </M>
-  <Code mode="dynamic" lang="tsx"   linesCount={5}      src="https://raw.githubusercontent.com/polubis/Working-with-selectors-in-Zustand-and-Redux/main/snippets/7.tsx"/>
-<M>Now, we'll implement a <B>counter</B> feature in <B>Redux</B> and <B>Zustand</B>. The <B>Last</B> component will read the value from the store, the component <B>Between</B> will just render children and the <B>First</B> component will schedule a <B>interval</B>. In every tick, the <B>increment</B> action will be <B>dispatched</B>.</M>
-<M>Let's start from <B>Zustand</B>: </M>
-<Code description="The component structure for Zustand example" src="https://raw.githubusercontent.com/polubis/Working-with-selectors-in-Zustand-and-Redux/main/snippets/8.tsx" mode="dynamic" lang="tsx" linesCount={28} rolled />
-
-<Code
-  description="The Zustand store/actions/selectors"
-  mode="dynamic"
-  src="https://raw.githubusercontent.com/polubis/Working-with-selectors-in-Zustand-and-Redux/main/snippets/9.ts"
-  linesCount={24}
-  rolled
-  lang="ts"
-/>
-<M>
-  When we rerender this code in the main <B>App</B> component, we'll have the
-  following <B>console.logs</B>. Watch the GIF to understand.
-</M>
-<Image
-  rolled
-  src="https://raw.githubusercontent.com/polubis/Working-with-selectors-in-Zustand-and-Redux/main/snippets/selectors.gif"
-  description="The rerenders are performant"
-/>
-<M>
-  Take a look at numbers or logs 👆. <B>First</B> and <B>Between</B> are logged
-  only once, meanwhile the <B>Last</B> is rendering all the time! That's what we
-  want.
-</M>
-<M>
-  Okay, but what about <B>Redux</B>? The result is exactly the same. Some APIs
-  and implementations differ a little bit.{" "}
-</M>
-<Code
-  description="The components implementation in Redux"
-  mode="dynamic"
-  lang="tsx"
-  linesCount={37}
-  rolled
-  src="https://raw.githubusercontent.com/polubis/Working-with-selectors-in-Zustand-and-Redux/main/snippets/10.tsx"
-/>
-<Code
-  description="Typical slice code in Redux"
-  mode="dynamic"
-  lang="ts"
-  linesCount={23}
-  rolled
-  src="https://raw.githubusercontent.com/polubis/Working-with-selectors-in-Zustand-and-Redux/main/snippets/11.tsx"
-/>
-
-<Code
-  description="Selectors in Redux"
-  mode="dynamic"
-  linesCount={5}
-  src="https://raw.githubusercontent.com/polubis/Working-with-selectors-in-Zustand-and-Redux/main/snippets/12.ts"
-  lang="ts"
-/>
-
-<Code
-      src="https://raw.githubusercontent.com/polubis/Working-with-selectors-in-Zustand-and-Redux/main/snippets/13.ts" 
- description="Redux store setup boilerplate" mode="dynamic" linesCount={11} lang="ts"
-/>
+  <M>
+    Let's say we have 3 components. The <B>Top</B>, <B>Between</B> and{" "}
+    <B>Last</B>. That's how they will be rendered:{" "}
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    linesCount={5}
+    src="https://raw.githubusercontent.com/polubis/Working-with-selectors-in-Zustand-and-Redux/main/snippets/7.tsx"
+  />
+  <M>
+    Now, we'll implement a <B>counter</B> feature in <B>Redux</B> and{" "}
+    <B>Zustand</B>. The <B>Last</B> component will read the value from the
+    store, the component <B>Between</B> will just render children and the{" "}
+    <B>First</B> component will schedule a <B>interval</B>. In every tick, the{" "}
+    <B>increment</B> action will be <B>dispatched</B>.
+  </M>
+  <M>
+    Let's start from <B>Zustand</B>:{" "}
+  </M>
+  <Code
+    description="The component structure for Zustand example"
+    src="https://raw.githubusercontent.com/polubis/Working-with-selectors-in-Zustand-and-Redux/main/snippets/8.tsx"
+    mode="dynamic"
+    lang="tsx"
+    linesCount={28}
+    rolled
+  />
+  <Code
+    description="The Zustand store/actions/selectors"
+    mode="dynamic"
+    src="https://raw.githubusercontent.com/polubis/Working-with-selectors-in-Zustand-and-Redux/main/snippets/9.ts"
+    linesCount={24}
+    rolled
+    lang="ts"
+  />
+  <M>
+    When we rerender this code in the main <B>App</B> component, we'll have the
+    following <B>console.logs</B>. Watch the GIF to understand.
+  </M>
+  <Image
+    rolled
+    src="https://raw.githubusercontent.com/polubis/Working-with-selectors-in-Zustand-and-Redux/main/snippets/selectors.gif"
+    description="The rerenders are performant"
+  />
+  <M>
+    Take a look at numbers or logs 👆. <B>First</B> and <B>Between</B> are
+    logged only once, meanwhile the <B>Last</B> is rendering all the time!
+    That's what we want.
+  </M>
+  <M>
+    Okay, but what about <B>Redux</B>? The result is exactly the same. Some APIs
+    and implementations differ a little bit.{" "}
+  </M>
+  <Code
+    description="The components implementation in Redux"
+    mode="dynamic"
+    lang="tsx"
+    linesCount={37}
+    rolled
+    src="https://raw.githubusercontent.com/polubis/Working-with-selectors-in-Zustand-and-Redux/main/snippets/10.tsx"
+  />
+  <Code
+    description="Typical slice code in Redux"
+    mode="dynamic"
+    lang="ts"
+    linesCount={23}
+    rolled
+    src="https://raw.githubusercontent.com/polubis/Working-with-selectors-in-Zustand-and-Redux/main/snippets/11.tsx"
+  />
+  <Code
+    description="Selectors in Redux"
+    mode="dynamic"
+    linesCount={5}
+    src="https://raw.githubusercontent.com/polubis/Working-with-selectors-in-Zustand-and-Redux/main/snippets/12.ts"
+    lang="ts"
+  />
+  <Code
+    src="https://raw.githubusercontent.com/polubis/Working-with-selectors-in-Zustand-and-Redux/main/snippets/13.ts"
+    description="Redux store setup boilerplate"
+    mode="dynamic"
+    linesCount={11}
+    lang="ts"
+  />
 </Section>
 
 <Section>
@@ -234,11 +257,9 @@ description: We'll dive into the selectors concept in the Zustand/Redux librarie
     same library - <B>reselect</B>.
   </M>
   <Hint hasBg>
-    <M>
-      <B>Memoization</B> is an optimization technique that is used to improve
-      the efficiency of algorithms which requires repetitive computations. It's
-      just <B>caching</B>.{" "}
-    </M>
+    <B>Memoization</B> is an optimization technique that is used to improve the
+    efficiency of algorithms which requires repetitive computations. It's just{" "}
+    <B>caching</B>.{" "}
   </Hint>
   <Hint hasBg>
     We can use the built-in <B>React useMemo</B> hook to achieve similar results
@@ -261,11 +282,11 @@ description: We'll dive into the selectors concept in the Zustand/Redux librarie
     lang="ts"
   />
   <M>
-    With these changes <B>Fibonacci</B> function will be executed only, when
-    we pass arguments that are different. It's cool - the previous computation
-    will be stored and returned from the <B>cache</B>. It's fancy especially
-    when we'll open the same component again - the next ticks will run much
-    faster because <B>computations are returned from the cache</B>.
+    With these changes <B>Fibonacci</B> function will be executed only, when we
+    pass arguments that are different. It's cool - the previous computation will
+    be stored and returned from the <B>cache</B>. It's fancy especially when
+    we'll open the same component again - the next ticks will run much faster
+    because <B>computations are returned from the cache</B>.
   </M>
 </Section>
 
