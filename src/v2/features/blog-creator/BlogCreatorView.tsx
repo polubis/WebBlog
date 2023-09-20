@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react"
-import { Content, Hint, M, XL, useModal } from "../../../ui"
-import Layout from "../../containers/Layout"
-import { useBlogCreatorPageProvider } from "./BlogCreatorPageProvider"
+import { Hint, M, XL, useModal } from "../../../ui"
+import { BlogCreatorPageProvider, useBlogCreatorPageProvider } from "./BlogCreatorPageProvider"
 import styled from "styled-components"
 import { T_DOWN } from "../../../utils/viewport"
 import { useLeavePageAlert } from "../../../utils/useLeavePageAlert"
@@ -11,30 +10,13 @@ import Button from "../../../components/button/Button"
 import BlogCreatorLayout from "./components/BlogCreatorLayout"
 import { FullScreenCreator } from "./containers/FullScreenCreator"
 import { useEditor } from "../../logic/useEditor"
-import Loadable from "react-loadable"
 import { BlogCreatorAlertsProvider } from "./providers/BlogCreatorAlertsProvider"
 import { useAnalytics } from "../../../utils/useAnalytics"
-
-const Toolbox = Loadable({
-  loader: () => import("./containers/Toolbox").then(m => m.Toolbox),
-  loading: () => null,
-})
-
-const BlogPreview = Loadable({
-  loader: () => import("./containers/BlogPreview").then(m => m.BlogPreview),
-  loading: () => null,
-})
-
-const EditableSnippet = Loadable({
-  loader: () =>
-    import("../../../ui/snippet/EditableSnippet").then(m => m.EditableSnippet),
-  loading: () => null,
-})
-
-const ErrorsSection = Loadable({
-  loader: () => import("./containers/ErrorsSection").then(m => m.ErrorsSection),
-  loading: () => null,
-})
+import { BlogPreview } from "./containers/BlogPreview"
+import { EditableSnippet } from "../../../ui/snippet/EditableSnippet"
+import { ErrorsSection } from "./containers/ErrorsSection"
+import { Toolbox } from "./containers/Toolbox"
+import { BlogCreatorPageModel } from "../../core/models"
 
 const Container = styled.div`
   display: flex;
@@ -90,7 +72,7 @@ const Heading = styled.header`
   height: 112px;
 `
 
-export const BlogCreatorView = () => {
+const BlogCreatorView = () => {
   const creator = useBlogCreatorPageProvider()
 
   const { track } = useAnalytics()
@@ -126,53 +108,61 @@ export const BlogCreatorView = () => {
   const Errors = hasErrors ? <ErrorsSection /> : null
 
   return (
-    <Layout>
-      <Content paddingY>
-        <h1 style={{ visibility: "hidden", height: 0, margin: "0" }}>
-          {creator.t.sentence}
-        </h1>
-        {loading && (
-          <BlogCreatorLoader
-            onClose={() => {
-              document.body.style.overflow = "auto"
-              setLoading(false)
-            }}
-          />
-        )}
-        {isOpen || (
-          <BlogCreatorLayout>
-            <Heading>
-              <BlogCreatorHeading
-                buttons={
-                  <Button className="full-mode-btn" onClick={handleOpen}>
-                    {creator.t.full_screen}
-                  </Button>
-                }
-              />
-            </Heading>
-            <Container>
-              <CodeContainer className="col">{Editor}</CodeContainer>
-              <PreviewScroll className="col">
-                {Errors}
-                {Preview}
-              </PreviewScroll>
-            </Container>
-          </BlogCreatorLayout>
-        )}
+    <>
+      <h1 style={{ visibility: "hidden", height: 0, margin: "0" }}>
+        {creator.t.sentence}
+      </h1>
+      {loading && (
+        <BlogCreatorLoader
+          onClose={() => {
+            document.body.style.overflow = "auto"
+            setLoading(false)
+          }}
+        />
+      )}
+      {isOpen || (
+        <BlogCreatorLayout>
+          <Heading>
+            <BlogCreatorHeading
+              buttons={
+                <Button className="full-mode-btn" onClick={handleOpen}>
+                  {creator.t.full_screen}
+                </Button>
+              }
+            />
+          </Heading>
+          <Container>
+            <CodeContainer className="col">{Editor}</CodeContainer>
+            <PreviewScroll className="col">
+              {Errors}
+              {Preview}
+            </PreviewScroll>
+          </Container>
+        </BlogCreatorLayout>
+      )}
 
-        {isOpen && (
-          <BlogCreatorAlertsProvider>
-            <FullScreenCreator onClose={close}>
-              {Editor}
-              <>
-                {Errors}
-                {Preview}
-              </>
-              <Toolbox code={mdx} onFormat={change} />
-            </FullScreenCreator>
-          </BlogCreatorAlertsProvider>
-        )}
-      </Content>
-    </Layout>
+      {isOpen && (
+        <BlogCreatorAlertsProvider>
+          <FullScreenCreator onClose={close}>
+            {Editor}
+            <>
+              {Errors}
+              {Preview}
+            </>
+            <Toolbox code={mdx} onFormat={change} />
+          </FullScreenCreator>
+        </BlogCreatorAlertsProvider>
+      )}
+    </>
   )
 }
+
+const ConnectedBlogCreatorView = (props: BlogCreatorPageModel) => {
+  return (
+    <BlogCreatorPageProvider initialState={props}>
+      <BlogCreatorView />
+    </BlogCreatorPageProvider>
+  )
+}
+
+export { ConnectedBlogCreatorView as BlogCreatorView }
