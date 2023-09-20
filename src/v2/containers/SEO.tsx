@@ -10,6 +10,7 @@ type SEOPartialProps = Omit<
 
 const SEO = (props: SEOPartialProps) => {
   const layout = useLayoutProvider()
+  
   return (
     <SEOComponent
       site_name={layout.site_name}

@@ -1,6 +1,6 @@
 import { ReactNode } from "react"
 
-import { type Language } from "prism-react-renderer"
+import type { Language } from "prism-react-renderer"
 
 type Pair = [number, number]
 type Range = (number | Pair)[]
@@ -23,9 +23,4 @@ interface Highlightable {
   status: HighlightStatus
 }
 
-export type {
-  Range,
-  HighlightStatus,
-  Highlightable,
-  CodeProps,
-}
+export type { Range, HighlightStatus, Highlightable, CodeProps }

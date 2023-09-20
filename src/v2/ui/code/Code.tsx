@@ -1,4 +1,4 @@
-import React, { memo, useMemo, useEffect } from "react"
+import React, { useMemo, useEffect } from "react"
 import Loadable from "react-loadable"
 import type { CodeProps, DynamicCodeProps, StaticCodeProps } from "./models"
 import { pre_config } from "./consts"
@@ -174,12 +174,11 @@ const DynamicCode = ({
   )
 }
 
-const Code = memo((props: CodeProps) => {
-  if (props.mode === "static") {
-    return <StaticCode {...props} />
-  }
-
-  return <DynamicCode {...props} />
-})
+const Code = (props: CodeProps) =>
+  props.mode === "static" ? (
+    <StaticCode {...props} />
+  ) : (
+    <DynamicCode {...props} />
+  )
 
 export { Code }
