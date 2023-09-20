@@ -1,11 +1,12 @@
 import React, { useEffect, useMemo } from "react"
-import { useArticleProvider } from "../ArticleProvider"
-import { FirebaseProvider } from "../../../providers/FirebaseProvider"
-import { VotesProvider } from "../../../providers/VotesProvider"
-import { VotesProviderCtx } from "../../../providers/models"
-import { VotesBox } from "../../../components/VotesBox"
 import styled from "styled-components"
-import { useLayoutProvider } from "../../../providers/LayoutProvider"
+import { useLayoutProvider } from "../providers/LayoutProvider"
+import { VotesProviderCtx } from "../providers/models"
+import { VotesProvider } from "../providers/VotesProvider"
+import { FirebaseProvider } from "../providers/FirebaseProvider"
+import { VotesBox } from "../components/VotesBox"
+import { useArticleBasedDataProvider } from "../providers/ArticleBasedDataProvider"
+import { convertToFirebasePath } from "../utils/convertToFirebasePath"
 
 const Button = styled.button`
   background: transparent;
@@ -17,7 +18,7 @@ const Button = styled.button`
   align-items: center;
   justify-content: center;
   font-family: "Lexend", sans-serif;
-
+  
   &:hover:not(:disabled) {
     cursor: pointer;
     opacity: 0.7;
@@ -58,20 +59,13 @@ const ConnectedVotes = ({
     )
 }
 
-export const ArticleVotes = () => {
-    const article = useArticleProvider()
-
-    const path = useMemo(() => {
-        const commentsPathParts = article.path.replace(/\//g, "-").split("-")
-        commentsPathParts.pop()
-        commentsPathParts.shift()
-
-        return commentsPathParts.join("-")
-    }, [article.path])
+export const AddVoteSection = () => {
+    const { path } = useArticleBasedDataProvider()
+    const preparedPath = useMemo(() => convertToFirebasePath(path), [path])
 
     return (
         <FirebaseProvider>
-            <VotesProvider path={path}>
+            <VotesProvider path={preparedPath}>
                 {props => <ConnectedVotes {...props} />}
             </VotesProvider>
         </FirebaseProvider>

@@ -113,7 +113,7 @@ const LessonView = () => {
                   className="button primary upper"
                   href={lesson.source_url}
                   target="_blank"
-                  onClick={() => track({ name: "lesson_source_clicked" })}
+                  onClick={() => track({ name: 'source_clicked' })}
                 >
                   {layout.t.show_source}
                 </a>
