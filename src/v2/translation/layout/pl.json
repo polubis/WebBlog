@@ -67,5 +67,15 @@
   "invitations": "Zaproszenia",
   "preview": "Podgląd",
   "switch_to_pl": "Zmień na polski",
-  "switch_to_en": "Zmień na angielski"
+  "switch_to_en": "Zmień na angielski",
+  "comments": {
+    "header": "Oceny",
+    "description": "Przejrzyj oceny tego artykułu i dodaj swoją opinię.",
+    "open": "Zobacz oceny",
+    "close": "Zamknij oceny"
+  },
+  "observe_me_header": "Jestem z tych, którzy publikują codziennie!",
+  "observe_me_description_first_part": "Mam nadzieję, że mój wpis Ci się spodobał. Jeżeli tak jest, to zapraszam Cię na mój",
+  "observe_me_description_second_part": "gdzie publikuję codziennie.",
+  "observe_me_follow": "Mój profil"
 }

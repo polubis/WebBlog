@@ -2,7 +2,18 @@ import type { FirebaseApp } from "firebase/app"
 import type { Auth, GoogleAuthProvider } from "firebase/auth"
 import type { Firestore } from "firebase/firestore"
 import type { ReactNode } from "react"
-import type { Path, Vote } from "../core/models"
+import type {
+  CDate,
+  Mdate,
+  Path,
+  Rate,
+  Seniority,
+  Technology,
+  Title,
+  Url,
+  User,
+  Vote,
+} from "../core/models"
 
 export interface FirebaseProviderCtx {
   app: FirebaseApp
@@ -38,4 +49,28 @@ export interface VotesProviderCtx {
 export interface VotesProviderProps {
   children: (ctx: VotesProviderCtx) => ReactNode
   path: Path
+}
+
+export interface ArticleBasedDataProviderModel {
+  path: Path
+  cdate: CDate
+  mdate: Mdate
+  author: Omit<User, "avatar"> & {
+    avatar: Pick<User["avatar"], "small" | "medium">
+  }
+  source_url: Url
+  title: Title
+  url: Url
+  description: string
+  duration: number
+  rate?: Rate
+  next?: {
+    path: Path
+  }
+  prev?: {
+    path: Path
+  }
+  seniority: Seniority
+  tags: string[]
+  technologies: Technology[]
 }

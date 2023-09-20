@@ -67,5 +67,15 @@
   "invitations": "Invitations",
   "preview": "Preview",
   "switch_to_pl": "Switch to polish",
-  "switch_to_en": "Switch to english"
+  "switch_to_en": "Switch to english",
+  "comments": {
+    "header": "Rating",
+    "description": "Add your honest opinion about this article and help us improve the content.",
+    "open": "See ratings",
+    "close": "Close ratings"
+  },
+  "observe_me_header": "I create content regularly!",
+  "observe_me_description_first_part": "I hope you found my post interesting. If so, maybe you'll take a peek at my",
+  "observe_me_description_second_part": "where I publish posts daily.",
+  "observe_me_follow": "Follow me"
 }
