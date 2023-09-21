@@ -11,6 +11,21 @@ import { useLayoutProvider } from "../providers/LayoutProvider"
 import { CommentsSection } from "./CommentsSection"
 import { DatesSection } from "./DatesSection"
 import { NavigationSection } from "./NavigationSection"
+import { PlatformGoal } from "./PlatformGoal"
+import styled from "styled-components"
+import { T_UP } from "../../utils/viewport"
+import theme from "../../utils/theme"
+
+const PlatformGoalContainer = styled.div`
+  display: none;
+
+  @media ${T_UP} {
+    display: flex;
+    margin-top: 30px;
+    padding-top: 30px;
+    border-top: 2px solid ${theme.grayC};
+  }
+`
 
 const Content = () => {
   const layout = useLayoutProvider()
@@ -38,6 +53,9 @@ const Content = () => {
       <CommentsSection />
       <DatesSection />
       <NavigationSection />
+      <PlatformGoalContainer>
+        <PlatformGoal />
+      </PlatformGoalContainer>
     </>
   )
 }
