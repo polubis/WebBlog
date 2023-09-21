@@ -3,17 +3,16 @@ import { useIsVisible } from "../../utils/useIsVisible"
 import styled from "styled-components"
 import Loadable from "react-loadable"
 import type { ArticleBasedDataProviderModel } from "../providers/models"
-import { summary_footer_config } from "../core/consts"
+import { summary_footer_config, summary_footer_id } from "../core/consts"
 import { useScrollAfterAuth } from "../logic/useScrollAfterAuth"
 
 const Placeholder = styled.div`
-  justify-content: center;
   overflow: hidden;
 
   & > * {
     background: rgb(40, 42, 54);
     border-radius: 4px;
-  
+
     &:nth-child(1) {
       width: 50%;
       height: ${summary_footer_config.author_section}px;
@@ -46,8 +45,6 @@ const Placeholder = styled.div`
 `
 
 const Container = styled.div`
-  justify-content: center;
-
   .authors-section {
     margin-bottom: ${summary_footer_config.author_section_margin_bottom}px;
   }
@@ -100,6 +97,7 @@ const calculateHeight = ({
   return height
 }
 
+
 const placeholderItems = (
   <>
     <div />
@@ -124,7 +122,7 @@ const SummaryFooter = (props: ArticleBasedDataProviderModel) => {
         loader: () =>
           import("./SummaryFooterContent").then(m => m.SummaryFooterContent),
         loading: () => (
-          <Placeholder id="summary-footer" className="col" style={style}>
+          <Placeholder id={summary_footer_id} className="col" style={style}>
             {placeholderItems}
           </Placeholder>
         ),
@@ -134,14 +132,14 @@ const SummaryFooter = (props: ArticleBasedDataProviderModel) => {
 
   if (isVisible) {
     return (
-      <Container id="summary-footer" className="col" style={style}>
+      <Container id={summary_footer_id} className="col" style={style}>
         <Content {...props} />
       </Container>
     )
   }
 
   return (
-    <Placeholder id="summary-footer" className="col" ref={ref} style={style}>
+    <Placeholder id={summary_footer_id} className="col" ref={ref} style={style}>
       {placeholderItems}
     </Placeholder>
   )
