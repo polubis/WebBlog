@@ -6,17 +6,10 @@ import { Link as GatsbyLink } from "gatsby"
 import { GreenOnLogo } from "../../components/GreenOnLogo"
 import { useLayoutProvider } from "../providers/LayoutProvider"
 import { Footer } from "./Footer"
-import Loadable from "react-loadable"
 import { NavigationAction } from "./NavigationAction"
 import { LanguageLinks } from "./LanguageLinks"
 import { JoinUsLink } from "./JoinUsLink"
-import Divider from "../../components/divider/Divider"
-
-const SocialBar = Loadable({
-  loader: () =>
-    import("../../components/social-bar/Socialbar").then(m => m.SocialBar),
-  loading: () => null,
-})
+import { SocialBar } from "../../components/social-bar/Socialbar"
 
 interface LayoutProps {
   children: ReactNode
