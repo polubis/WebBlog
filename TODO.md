@@ -12,3 +12,4 @@ Add singel listener for popovers in layout
 
 Improve navigation items on main nav for tablet
 
+Improve server side rendering in usePortal hook

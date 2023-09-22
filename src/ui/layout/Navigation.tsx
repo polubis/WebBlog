@@ -3,13 +3,9 @@ import styled from "styled-components"
 import Divider from "../../components/divider/Divider"
 import theme from "../../utils/theme"
 import { L_UP, T_DOWN } from "../../utils/viewport"
-import Loadable from "react-loadable"
 import { Content } from "./Content"
-
-const MobileNavigation = Loadable({
-  loader: () => import("./MobileNavigation").then(m => m.MobileNavigation),
-  loading: () => null,
-})
+import { MobileNavigation } from "./MobileNavigation"
+import { isInSSR } from "../../utils/isInSSR"
 
 const Container = styled.header`
   height: 99px;
@@ -82,7 +78,9 @@ const Navigation = ({
           {action}
         </Content>
       </Container>
-      <MobileNavigation links={mobileLinks} />
+      {isInSSR() ||
+        <MobileNavigation links={mobileLinks} />
+      }
     </>
   )
 }
