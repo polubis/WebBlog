@@ -1,16 +1,13 @@
-import React from "react"
+import React, { lazy, Suspense } from "react"
 
 import { LayoutProvider } from "../../providers/LayoutProvider"
 import { BlogCreatorPageModel, Layout as LayoutModal } from "../../core/models"
 import { SEO } from "../../containers/SEO"
-import Loadable from 'react-loadable'
 import Layout from "../../containers/Layout"
 import { Content } from "../../../ui"
+import { isInSSR } from "../../../utils/isInSSR"
 
-const BlogCreatorView = Loadable({
-  loader: () => import('./BlogCreatorView').then(m => m.BlogCreatorView),
-  loading: () => null,
-})
+const BlogCreatorView = lazy(() => import("./BlogCreatorView"))
 
 interface BlogCreatorPageProps {
   pageContext: {
@@ -34,7 +31,11 @@ const BlogCreatorPage = ({ pageContext }: BlogCreatorPageProps) => {
             image={layout.site_url + "/icon-192x192.png"}
             description={creator.t.page_description}
           >
-            <BlogCreatorView {...creator} />
+            {isInSSR() || (
+              <Suspense>
+                <BlogCreatorView {...creator} />
+              </Suspense>
+            )}
           </SEO>
         </Content>
       </Layout>

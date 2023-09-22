@@ -165,4 +165,4 @@ const ConnectedBlogCreatorView = (props: BlogCreatorPageModel) => {
   )
 }
 
-export { ConnectedBlogCreatorView as BlogCreatorView }
+export default ConnectedBlogCreatorView
