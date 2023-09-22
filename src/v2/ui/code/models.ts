@@ -1,5 +1,5 @@
 import type { Language } from "prism-react-renderer"
-import type { ReactNode } from "react"
+import type { CSSProperties, ReactNode } from "react"
 
 export type Pair = [number, number]
 export type Range = (number | Pair)[]
@@ -25,7 +25,7 @@ export interface PreProps {
 
 export interface RollerProps {
   onExpand: () => void
-  children: ReactNode
+  style: CSSProperties
 }
 
 export interface StaticCodeProps extends PreProps {

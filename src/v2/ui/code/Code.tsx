@@ -6,24 +6,31 @@ import { useIsVisible } from "../../../utils/useIsVisible"
 import { useModal } from "../../../ui"
 import { useCodeLoad } from "./useCodeLoad"
 
-const rolled_max_line_count = 10
+const getFormattedCode = (code: string, skipTrim?: boolean): string =>
+  skipTrim ? code : code.trim()
 
-const getFormattedCode = (
-  code: string,
-  skipTrim?: boolean,
-  rolled?: boolean
-): string => {
-  let formatted = code
+const calculateHeight = (
+  linesCount: number,
+  rolled: boolean,
+  hasHeader: boolean,
+  hasFooter: boolean,
+  hasDescription: boolean
+) => {
+  const heightWhenRolled = 300
 
-  if (!skipTrim) {
-    formatted = formatted.trim()
-  }
+  if (rolled) return { height: heightWhenRolled, preservationHeight: 0 }
 
-  if (rolled) {
-    formatted = formatted.split("\n").slice(0, rolled_max_line_count).join("\n")
-  }
+  const preservationHeight =
+    linesCount * pre_config.line_height +
+    pre_config.padding_height +
+    pre_config.estimated_scroll_size
+  const height =
+    preservationHeight +
+    (hasHeader ? pre_config.header_height : 0) +
+    (hasFooter ? pre_config.footer_height : 0) +
+    (hasDescription ? pre_config.description_height : 0)
 
-  return formatted
+  return { height, preservationHeight }
 }
 
 const getCodeSetup = (
@@ -34,16 +41,14 @@ const getCodeSetup = (
   hasDescription: boolean,
   Loading: CodeProps["Loading"]
 ) => {
-  const rollableLinesCount = rolled ? rolled_max_line_count : linesCount
-  const preservationHeight =
-    rollableLinesCount * pre_config.line_height +
-    pre_config.padding_height +
-    pre_config.estimated_scroll_size
-  const height =
-    preservationHeight +
-    (hasHeader ? pre_config.header_height : 0) +
-    (hasFooter ? pre_config.footer_height : 0) +
-    (hasDescription ? pre_config.description_height : 0)
+  const { preservationHeight, height } = calculateHeight(
+    linesCount,
+    rolled,
+    hasHeader,
+    hasFooter,
+    hasDescription
+  )
+
   const style = {
     height: height + "px",
     borderRadius: "4px",
@@ -77,7 +82,7 @@ const StaticCode = ({
   const toggler = useModal(rolled && !!Roller)
   const { isVisible, ref } = useIsVisible({ threshold: 0.1, useOnce: true })
 
-  const code = getFormattedCode(children, skipTrim, toggler.isOpen)
+  const code = getFormattedCode(children, skipTrim)
 
   const { style, Pre, preservationHeight } = getCodeSetup(
     code.split("\n").length,
@@ -89,15 +94,11 @@ const StaticCode = ({
   )
 
   return isVisible ? (
-    <>
-      {toggler.isOpen ? (
-        <Roller onExpand={toggler.close}>
-          <Pre {...props} height={preservationHeight + "px"} children={code} />
-        </Roller>
-      ) : (
-        <Pre {...props} height={preservationHeight + "px"} children={code} />
-      )}
-    </>
+    toggler.isOpen ? (
+      <Roller onExpand={toggler.close} style={style} />
+    ) : (
+      <Pre {...props} height={preservationHeight + "px"} children={code} />
+    )
   ) : (
     <div className="ui-snippet" ref={ref} style={style}>
       {Loading && <Loading />}
@@ -132,22 +133,12 @@ const DynamicCode = ({
   }, [isVisible])
 
   if (state.type === "done") {
-    const code = getFormattedCode(state.data, skipTrim, toggler.isOpen)
+    const code = getFormattedCode(state.data, skipTrim)
 
-    return (
-      <>
-        {toggler.isOpen ? (
-          <Roller onExpand={toggler.close}>
-            <Pre
-              {...props}
-              height={preservationHeight + "px"}
-              children={code}
-            />
-          </Roller>
-        ) : (
-          <Pre {...props} height={preservationHeight + "px"} children={code} />
-        )}
-      </>
+    return toggler.isOpen ? (
+      <Roller onExpand={toggler.close} style={style} />
+    ) : (
+      <Pre {...props} height={preservationHeight + "px"} children={code} />
     )
   }
 
