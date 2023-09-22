@@ -1,12 +1,13 @@
-import React, { useMemo } from "react"
+import React, { lazy, Suspense } from "react"
 import { ImagePlaceholder } from "./ImagePlaceholder"
-import Loadable from "react-loadable"
 import { useIsVisible } from "../../utils/useIsVisible"
 import { ImageRoller } from "./ImageRoller"
 import { ImageWrapper } from "../ui/image/ImageWrapper"
 import { ImageContainerProps } from "./models"
 import { useLayoutProvider } from "../providers/LayoutProvider"
 import { ImageErrorWrapper } from "./ImageErrorWrapper"
+
+const Image = lazy(() => import("../ui/image/Image"))
 
 const ImageContainer = (props: ImageContainerProps) => {
   const { isVisible, ref } = useIsVisible({
@@ -22,24 +23,17 @@ const ImageContainer = (props: ImageContainerProps) => {
     </ImageWrapper>
   )
 
-  const Image = useMemo(
-    () =>
-      Loadable({
-        loader: () => import("../ui/image/Image").then(m => m.Image),
-        loading: () => LoadingNode,
-      }),
-    []
-  )
-
   return isVisible ? (
-    <Image
-      {...props}
-      title={layout.t.preview}
-      alt={layout.t.preview}
-      Error={() => <ImageErrorWrapper src={props.src} />}
-      Loading={() => <ImagePlaceholder label="loading" />}
-      Roller={toggler => <ImageRoller onExpand={toggler.open} />}
-    />
+    <Suspense fallback={LoadingNode}>
+      <Image
+        {...props}
+        title={layout.t.preview}
+        alt={layout.t.preview}
+        Error={() => <ImageErrorWrapper src={props.src} />}
+        Loading={() => <ImagePlaceholder label="loading" />}
+        Roller={toggler => <ImageRoller onExpand={toggler.open} />}
+      />
+    </Suspense>
   ) : (
     <div ref={ref}>{LoadingNode}</div>
   )
