@@ -1,6 +1,5 @@
 import React from "react"
 import styled from "styled-components"
-import { image_height } from "./consts"
 import theme from "../../../utils/theme"
 import { S } from "../../../ui"
 import { ImagePreview } from "./ImagePreview"
@@ -9,7 +8,6 @@ import c from "classnames"
 import { ImageContentProps } from "./models"
 
 const Container = styled.div`
-  min-height: ${image_height}px;
   transition: 0.3s opacity ease-in-out;
 
   &.border {
