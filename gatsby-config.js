@@ -4,6 +4,7 @@ const siteName = "GreenOn Software"
 module.exports = {
   plugins: [
     "gatsby-plugin-styled-components",
+    "gatsby-plugin-no-sourcemaps",
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
