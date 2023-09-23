@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from "react"
+import React, { useMemo, useEffect, useRef } from "react"
 import Loadable from "react-loadable"
 import type { CodeProps, DynamicCodeProps, StaticCodeProps } from "./models"
 import { pre_config } from "./consts"
@@ -114,8 +114,10 @@ const DynamicCode = ({
   skipTrim,
   rolled,
   Roller,
+  onLinesDiff,
   ...props
 }: DynamicCodeProps) => {
+  const linesDiffCalled = useRef(false)
   const toggler = useModal(rolled && !!Roller)
   const [state, loadCode] = useCodeLoad()
   const { isVisible, ref } = useIsVisible({ threshold: 0.1, useOnce: true })
@@ -134,11 +136,19 @@ const DynamicCode = ({
 
   if (state.type === "done") {
     const code = getFormattedCode(state.data, skipTrim)
+    const codeLinesCount = code.split("\n").length
+    const totalHeight =
+      linesCount !== codeLinesCount ? undefined : preservationHeight
+
+    if (!totalHeight && !linesDiffCalled.current) {
+      onLinesDiff?.(linesCount, codeLinesCount)
+      linesDiffCalled.current = true
+    }
 
     return toggler.isOpen ? (
       <Roller onExpand={toggler.close} style={style} />
     ) : (
-      <Pre {...props} height={preservationHeight + "px"} children={code} />
+      <Pre {...props} height={totalHeight + "px"} children={code} />
     )
   }
 

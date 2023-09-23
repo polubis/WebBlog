@@ -43,6 +43,7 @@ export interface DynamicCodeProps extends Omit<PreProps, "children"> {
   src: string
   rolled?: boolean
   Error?: () => JSX.Element
+  onLinesDiff?: (linesCount: number, codeLinesCount: number) => void;
   Loading?: () => JSX.Element
   Roller?: (props: RollerProps) => void
 }
