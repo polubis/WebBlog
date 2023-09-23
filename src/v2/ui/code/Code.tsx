@@ -148,7 +148,11 @@ const DynamicCode = ({
     return toggler.isOpen ? (
       <Roller onExpand={toggler.close} style={style} />
     ) : (
-      <Pre {...props} height={totalHeight + "px"} children={code} />
+      <Pre
+        {...props}
+        height={totalHeight ? totalHeight + "px" : undefined}
+        children={code}
+      />
     )
   }
 
