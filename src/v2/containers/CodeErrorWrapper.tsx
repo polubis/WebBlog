@@ -2,16 +2,14 @@ import React, { useEffect } from "react"
 import { CodePlaceholder } from "./CodePlaceholder"
 import { CodeErrorWrapperProps } from "./models"
 import { useAnalytics } from "../../utils/useAnalytics"
-import { useLayoutProvider } from "../providers/LayoutProvider"
+import { useIsInBlogCreator } from "../logic/useIsInBlogCreator"
 
 const CodeErrorWrapper = ({ src }: CodeErrorWrapperProps) => {
   const { trackFullEvent } = useAnalytics()
-  const layout = useLayoutProvider()
+  const { is, url } = useIsInBlogCreator()
 
   useEffect(() => {
-    const url = window.location.pathname + window.location.search
-
-    if (url.includes(layout.routes.creator.to)) {
+    if (!is()) {
       return
     }
 
@@ -19,7 +17,7 @@ const CodeErrorWrapper = ({ src }: CodeErrorWrapperProps) => {
       name: "rendering_code_error",
       category: "errors",
       src,
-      url: window.location.pathname + window.location.search,
+      url: url(),
     })
   }, [])
 

@@ -6,11 +6,11 @@ import { CodeErrorWrapper } from "./CodeErrorWrapper"
 import { Code } from "../ui/code/Code"
 import type { CodeProps } from "../ui/code/models"
 import { useAnalytics } from "../../utils/useAnalytics"
-import { useLayoutProvider } from "../providers/LayoutProvider"
+import { useIsInBlogCreator } from "../logic/useIsInBlogCreator"
 
 const CodeContainer = (props: CodeProps) => {
   const { trackFullEvent } = useAnalytics()
-  const layout = useLayoutProvider()
+  const { is, url } = useIsInBlogCreator()
 
   const base = {
     ...props,
@@ -26,9 +26,7 @@ const CodeContainer = (props: CodeProps) => {
         {...base}
         Error={() => <CodeErrorWrapper src={props.src} />}
         onLinesDiff={(linesCount, codeLinesCount) => {
-          const url = window.location.pathname + window.location.search
-
-          if (url.includes(layout.routes.creator.to)) {
+          if (!is()) {
             return
           }
 
@@ -38,7 +36,7 @@ const CodeContainer = (props: CodeProps) => {
             linesCount,
             codeLinesCount,
             src: props.src,
-            url,
+            url: url(),
           })
         }}
       />
