@@ -1,7 +1,8 @@
 import { isInSSR } from "./isInSSR"
 import { isProd } from "./isProd"
 import { useEffect } from "react"
-import type { GA4 } from "react-ga4/types/ga4"
+import type { GA4, UaEventOptions } from "react-ga4/types/ga4"
+import ga4 from "react-ga4"
 
 interface FullScreenClicked {
   name: "full_screen_clicked"
@@ -13,16 +14,6 @@ interface SnippetCreated {
 
 interface SnippetCreatorOpened {
   name: "snippet_creator_opened"
-}
-
-interface RenderingCodeError {
-  name: "rendering_code_error"
-  link: string
-}
-
-interface RenderingImageError {
-  name: "rendering_image_error"
-  link: string
 }
 
 interface CommentsSectionOpened {
@@ -37,34 +28,42 @@ type AnalyticsEvent =
   | FullScreenClicked
   | SnippetCreated
   | SnippetCreatorOpened
-  | RenderingCodeError
   | CommentsSectionOpened
-  | RenderingImageError
   | SourceClicked
 
-const isTrackable = () => !isInSSR() && isProd()
+interface RenderingCodeErrorEvent {
+  name: "rendering_code_error"
+  url: string
+  src: string
+  category: "errors"
+}
 
-let ga4: GA4 | null = null
+interface RenderingImageErrorEvent {
+  name: "rendering_image_error"
+  url: string
+  src: string
+  category: "errors"
+}
+
+type FullAnalyticsEvent = RenderingCodeErrorEvent | RenderingImageErrorEvent
+
+const isTrackable = () => !isInSSR() && isProd()
 
 const get = (cb: (instance: GA4) => void): void => {
   if (!isTrackable()) {
     return
   }
 
-  if (!ga4) {
-    import("react-ga4").then(lib => {
-      ga4 = lib.default
-      ga4.initialize("G-NVC90KSB0J")
-      cb(ga4)
-    })
-    return
-  }
-
+  ga4.initialize("G-NVC90KSB0J")
   cb(ga4)
 }
 
 const track = (e: AnalyticsEvent): void => {
   get(({ event }) => event(e.name))
+}
+
+const trackFullEvent = ({ name, ...payload }: FullAnalyticsEvent): void => {
+  get(({ event }) => event(name, payload))
 }
 
 const trackPage = (page?: string): void => {
@@ -78,7 +77,7 @@ const useAnalytics = (page?: string) => {
     trackPage(page)
   }, [])
 
-  return { track }
+  return { track, trackFullEvent }
 }
 
 export { useAnalytics }
