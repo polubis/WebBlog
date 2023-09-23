@@ -77,9 +77,6 @@ const LessonView = () => {
     <>
       <Layout>
         <Content paddingY>
-          <h1 style={{ visibility: "hidden", height: 0, margin: "0" }}>
-            {lesson.title}
-          </h1>
           <Container>
             <div>
               <Breadcrumbs>

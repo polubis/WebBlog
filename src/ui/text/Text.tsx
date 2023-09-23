@@ -99,7 +99,6 @@ export const Huge = styled.h1<Props>`
 
 const XXL = styled.h1<Props>`
   font-size: 32px;
-  word-break: break-word;
   font-weight: ${(props: Props) => getWeight(props, Weight.BOLD)};
   ${style}
 `
@@ -107,7 +106,6 @@ const XXL = styled.h1<Props>`
 export const XL = styled.h2<Props>`
   font-size: 26px;
   line-height: 32px;
-  word-break: break-word;
   font-weight: ${(props: Props) => getWeight(props, Weight.BOLD)};
   ${style}
 `

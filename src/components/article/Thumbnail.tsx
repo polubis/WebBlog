@@ -30,6 +30,7 @@ const Container = styled.figure`
     text-shadow: 0 3px 6px rgba(0, 0, 0, 0.51);
     z-index: 2;
     text-align: center;
+    word-break: break-word;
     padding: 0 24px;
   }
 
