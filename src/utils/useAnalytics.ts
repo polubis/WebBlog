@@ -45,7 +45,19 @@ interface RenderingImageErrorEvent {
   category: "errors"
 }
 
-type FullAnalyticsEvent = RenderingCodeErrorEvent | RenderingImageErrorEvent
+interface RenderingCodeLinesCountWarnEvent {
+  name: "rendering_code_lines_count_warn"
+  url: string
+  linesCount: number
+  codeLinesCount: number
+  src: string
+  category: "warnings"
+}
+
+type FullAnalyticsEvent =
+  | RenderingCodeErrorEvent
+  | RenderingImageErrorEvent
+  | RenderingCodeLinesCountWarnEvent
 
 const isTrackable = () => !isInSSR() && isProd()
 
