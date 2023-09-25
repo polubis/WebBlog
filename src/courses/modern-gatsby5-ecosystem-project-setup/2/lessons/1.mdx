@@ -1,0 +1,178 @@
+---
+name: Using Gatsby CLI to setup project
+duration: 4
+description: We'll use Gatsby5 CLI to set up a project with TypeScript, MD | MDX syntax, Google Analytics support, and automatic site maps creation, we'll add a manifest file and support for the GatsbyImage component.
+---
+
+<Prelude label="Gatsby CLI setup">
+  <Hint hasBg>
+    If you want to know the all course concepts, technologies and understand
+    what kind of <B>Node</B> and <B>npm</B> versions you need, check the
+    previous lesson -{" "}
+    <A href="/courses/modern-gatsby5-ecosystem-project-setup/introduction/course-overview/">
+      Course overview
+    </A>
+    .
+  </Hint>
+  <Hint hasBg>
+    If you already read this article - jump into{" "}
+    <A
+      outside
+      href="https://github.com/polubis/Gatsby5-Tailwind-TypeScript-Cypress-jest-rtl-template"
+    >
+      Gatsby5 | Tailwind | TypeScript | Cypress | jest and RTL template
+    </A>{" "}
+    and check{" "}
+    <A
+      outside
+      href="https://github.com/polubis/Gatsby5-Tailwind-TypeScript-Cypress-jest-rtl-template/commits/main"
+    >
+      commits
+    </A>{" "}
+    to understand the progress.
+  </Hint>
+  <M>
+    First of all we need to install <B>Gatsby CLI</B> globally. To achieve that
+    just type in your <B>IDE terminal</B> following command:{" "}
+    <B>npm install -g gatsby-cli</B>.{" "}
+  </M>
+</Prelude>
+
+<Section>
+  <XL>Creating a boilerplate project</XL>
+  <M>
+    If you'll be inside your empty <B>Git</B> repository, be sure that you are
+    in root directory. Then you need to type: <B>npm init gatsby -ts</B>. It
+    will start creation process and you need to answer some questions. Watch the{" "}
+    <B>GIF</B> below to check what I've picked.
+  </M>
+  <Image
+    rolled
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/cli-install-script-showcase.gif"
+    description="The answers to create a project"
+  />
+  <M>Let's describe the information that we provided to the creation script:</M>
+  <L ordered>
+    <Li>we provided folder and project name,</Li>
+    <Li>we selected the TypeScript template,</Li>
+    <Li>we skipped the CMS usage - you may select something if you want,</Li>
+    <Li>
+      we selected styling engine as PostCSS - it will be required later for
+      Tailwind setup,
+    </Li>
+    <Li>
+      we selected the Google Analytics setup, the MD | MDX files support to
+      create pages, the automatic creation of site map files, the automatic
+      creation of manifest file and support for responsive images in Gatsby.
+    </Li>
+  </L>
+  <M>
+    After these changes you should have following folders/files structure in
+    IDE.
+  </M>
+  <Image
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/folders-files-structure.png"
+    description="Folders and files structure"
+  />
+</Section>
+
+<Section>
+  <XL>Removing the wrapping folder</XL>
+  <M>
+    As you probably noticed the application has been added inside the wrapping
+    folder - in my case, it's called <B>blog</B> - the name that I typed during
+    the script. This is frustrating to work with if you don't want to implement
+    the <B>monorepo</B>. It's because providing support for additional tools
+    like <B>husky</B>, <B>Storybook</B>, and many others will require from us
+    additional work.
+  </M>
+  <Hint hasBg>
+    To check and understand what the hell <B>monorepo</B> is, check following{" "}
+    <A
+      outside
+      href="https://greenonsoftware.com/articles/thoughts/dream-stack-for-react-dev/"
+    >
+      🌟 Dream stack for React dev
+    </A>{" "}
+    article.
+  </Hint>
+  <M>
+    To avoid that we need to make our project structure flat. Just copy the
+    content from <B>blog directory</B> (in your case it will be a different
+    name) to <B>root</B> directory as I did in the <B>GIF</B> below:
+  </M>
+  <Image
+    rolled
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/making-project-flat.gif"
+    description="The project is flat now!"
+  />
+  <M>
+    Remember to close the <B>IDE</B> window before you do that. In addition, to
+    make it faster, you may remove <B>node_modules</B> folder, and later when
+    the project structure is flat - just open the project in IDE again and type{" "}
+    <B>npm i</B>.{" "}
+  </M>
+  <M>
+    <B>
+      Really important! The <B>Gatsby CLI</B> created for us additional{" "}
+      <B>.git</B> folder. So, before you make a copy to the{" "}
+      <B>root directory</B>, make sure that you removed this additional
+      folder.{" "}
+    </B>
+  </M>
+  <M>
+    The result of this small improvement will be a flat folders/files structure
+    as in the image below:{" "}
+  </M>
+  <Image
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/flat-folders-files.png"
+    description="We are ready to go!"
+  />
+</Section>
+
+<Section>
+  <XL>Running the project</XL>
+  <M>
+    Now, we are able to run the project. To achieve that just type in your IDE
+    terminal the following command: <B>npm start</B>. Application should be
+    displayed with dummy <B>Gatsby</B> content on <B>localhost:8000</B> URL. For
+    me, it's looking like this:
+  </M>
+  <Image
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/runs-at-8000.png"
+    description="Project works!"
+  />
+</Section>
+
+<Example label="The result">
+  <M>
+    To get current result jump into{" "}
+    <A
+      outside
+      href="https://github.com/polubis/Gatsby5-Tailwind-TypeScript-Cypress-jest-rtl-template"
+    >
+      Gatsby5 | Tailwind | TypeScript | Cypress | jest and RTL template
+    </A>{" "}
+    and check{" "}
+    <A
+      outside
+      href="https://github.com/polubis/Gatsby5-Tailwind-TypeScript-Cypress-jest-rtl-template/commits/main"
+    >
+      commits
+    </A>{" "}
+    to understand the progress.
+  </M>
+</Example>
+
+<Summary label="Conclusions and next steps">
+  <M>
+    We created a dummy <B>Gatsby5</B> project with <B>TypeScript</B> configured.
+    However, it's just the first step to something big! We still need to do a
+    lot of stuff to make our project robust and to be prepared for future
+    development challenges 👌!
+  </M>
+  <M>
+    In the next lesson, we'll add <B>eslint, prettier</B>, and <B>husky</B> to
+    our project to achieve great developer experience in IDE.
+  </M>
+</Summary>
