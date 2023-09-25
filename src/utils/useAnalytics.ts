@@ -1,7 +1,7 @@
 import { isInSSR } from "./isInSSR"
 import { isProd } from "./isProd"
 import { useEffect } from "react"
-import type { GA4, UaEventOptions } from "react-ga4/types/ga4"
+import type { GA4 } from "react-ga4/types/ga4"
 import ga4 from "react-ga4"
 
 interface FullScreenClicked {
@@ -35,6 +35,7 @@ interface RenderingCodeErrorEvent {
   name: "rendering_code_error"
   url: string
   src: string
+  message: string
   category: "errors"
 }
 
@@ -42,15 +43,15 @@ interface RenderingImageErrorEvent {
   name: "rendering_image_error"
   url: string
   src: string
+  message: string
   category: "errors"
 }
 
 interface RenderingCodeLinesCountWarnEvent {
   name: "rendering_code_lines_count_warn"
   url: string
-  linesCount: number
-  codeLinesCount: number
   src: string
+  message: string
   category: "warnings"
 }
 

@@ -16,6 +16,7 @@ const ImageErrorWrapper = ({ src }: ImageErrorWrapperProps) => {
     trackFullEvent({
       name: "rendering_image_error",
       src,
+      message: "Image display failed",
       category: "errors",
       url: url(),
     })

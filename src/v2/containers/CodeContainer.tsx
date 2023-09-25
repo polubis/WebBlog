@@ -33,8 +33,7 @@ const CodeContainer = (props: CodeProps) => {
           trackFullEvent({
             name: "rendering_code_lines_count_warn",
             category: "warnings",
-            linesCount,
-            codeLinesCount,
+            message: `Exp: ${linesCount}, given: ${codeLinesCount}`,
             src: props.src,
             url: url(),
           })

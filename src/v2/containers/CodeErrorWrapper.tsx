@@ -17,6 +17,7 @@ const CodeErrorWrapper = ({ src }: CodeErrorWrapperProps) => {
       name: "rendering_code_error",
       category: "errors",
       src,
+      message: 'Code display failed',
       url: url(),
     })
   }, [])
