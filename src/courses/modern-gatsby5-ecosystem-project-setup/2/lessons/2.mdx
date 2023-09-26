@@ -1,0 +1,433 @@
+---
+name: Adding Eslint with Prettier and Husky to project
+duration: 7
+description: We'll add Eslint, Prettier, and Husky to our project with the required setup. After these changes, you'll be able to format and check your code quality in real-time and after every commit.
+---
+
+<Prelude label="Overview of Eslint, Prettier, and Husky">
+  <Hint hasBg>
+    If you want to know the all course concepts, technologies and understand
+    what kind of <B>Node</B> and <B>npm</B> versions you need, check the
+    previous lesson -{" "}
+    <A href="/courses/modern-gatsby5-ecosystem-project-setup/introduction/course-overview/">
+      Course overview
+    </A>
+    .
+  </Hint>
+  <Hint hasBg>
+    If you already read this article - jump into{" "}
+    <A
+      outside
+      href="https://github.com/polubis/Gatsby5-Tailwind-TypeScript-Cypress-jest-rtl-template"
+    >
+      Gatsby5 | Tailwind | TypeScript | Cypress | jest and RTL template
+    </A>{" "}
+    and check{" "}
+    <A
+      outside
+      href="https://github.com/polubis/Gatsby5-Tailwind-TypeScript-Cypress-jest-rtl-template/commits/main"
+    >
+      commits
+    </A>{" "}
+    to understand the progress.
+  </Hint>
+  <M>
+    In previous lesson -{" "}
+    <A
+      href="https://greenonsoftware.com/courses/modern-gatsby5-ecosystem-project-setup/creating-project/using-gatsby-c-l-i-to-setup-project/"
+      outside
+    >
+      🌟 Using Gatsby CLI to setup project
+    </A>
+    , we created our basic project. Now, it's time to add <B>Eslint</B>, <B>
+      Prettier
+    </B> and <B>Husky</B>. But before, we need to understand what they are for.
+  </M>
+  <M>
+    <B>Eslint</B>
+  </M>
+  <M>
+    <B>Static code analysis tool</B> for JS ecosystem. It helps developers find
+    and fix problems in their code by identifying patterns that do not match
+    coding standards and best practices. In simple words - you have a{" "}
+    <B>configuration file</B>, <B>Eslint</B> takes this config and checks your
+    code for following defined standards.
+  </M>
+  <M>
+    In addition, you have an <B>IDE extension</B> that verifies these rules in
+    real time and prompts you with warnings. Usually, it's used in real-time
+    development and for checking during committing code or on pipelines.
+  </M>
+  <Hint hasBg>
+    I'm using following{" "}
+    <A
+      outside
+      href="https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint"
+    >
+      Eslint IDE extension
+    </A>
+    .
+  </Hint>
+  <Hint hasBg>
+    Here is the link for{" "}
+    <A href="https://eslint.org/docs/latest/" outside>
+      Eslint documentation
+    </A>
+    .{" "}
+  </Hint>
+  <M>
+    <B>Prettier</B>
+  </M>
+  <M>
+    Code formatting tool that helps developers maintain a consistent and
+    aesthetically pleasing code style across their projects. While <B>ESLint</B>{" "}
+    primarily focuses on code quality and coding standards, <B>Prettier</B> is
+    specifically designed for <B>code formatting</B>.
+  </M>
+  <M>
+    So, in simple words - it will make every formatting command work in the same
+    way based on shared config in the repository to avoid different formatting
+    between developers.{" "}
+  </M>
+  <M>
+    With <B>Prettier</B>, there is a similar situation to <B>Eslint</B>, as a
+    developer, you have an <B>extension</B> or you may run it via dedicated
+    command.{" "}
+  </M>
+  <Hint hasBg>
+    Here is the{" "}
+    <A
+      href="https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode"
+      outside
+    >
+      Prettier extension
+    </A>{" "}
+    to make it work in real time.
+  </Hint>
+  <Hint hasBg>
+    Check the{" "}
+    <A outside href="https://prettier.io/docs/en/index.html">
+      Prettier documentation
+    </A>{" "}
+    for more.
+  </Hint>
+  <M>
+    <B>Husky</B>
+  </M>
+  <M>
+    Sets up <B>Git hooks</B>. Git hooks are scripts that run at various points
+    in the <B>Git workflow</B>, allowing you to automate tasks or enforce
+    certain processes when you interact with a <B>Git repository</B>.{" "}
+    <B>Husky</B> simplifies the setup and management of these hooks.
+  </M>
+  <M>
+    So, in simple words - it will execute any script that you want when you
+    commit, push, or in any other phase you want which is connected with{" "}
+    <B>Git workflow</B>.
+  </M>
+  <Hint hasBg>
+    Here is the{" "}
+    <A href="https://typicode.github.io/husky/" outside>
+      Husky documentation
+    </A>{" "}
+    to check.{" "}
+  </Hint>
+</Prelude>
+
+<Section>
+  <XL>Installing necessary dev dependencies</XL>
+  <M>
+    We'll start with installing the above-mentioned technologies. Open the
+    project and type in your <B>IDE terminal</B> the following command:{" "}
+    <B>npm i --save-dev husky eslint prettier</B>.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="json"
+    added={[[2, 4]]}
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/add-3-libs.json"
+    linesCount={5}
+  />
+  <M>
+    Now, let's install plugins that will define <B>Eslint rules</B> - I will use
+    the rules that I'm using always in my projects. Type{" "}
+    <B>
+      npm i @typescript-eslint/eslint-plugin @typescript-eslint/parser
+      eslint-config-prettier eslint-config-standard
+      eslint-import-resolver-typescript eslint-plugin-import
+      eslint-plugin-jsx-a11y eslint-plugin-n eslint-plugin-promise
+      eslint-plugin-prettier eslint-plugin-react eslint-plugin-react-hooks
+      --save-dev{" "}
+    </B>
+    .
+  </M>
+  <M>
+    <B>@typescript-eslint/eslint-plugin</B> - A package for TypeScript-specific
+    ESLint rules.
+  </M>
+  <M>
+    <B>@typescript-eslint/parser</B> - A parser for ESLint that supports
+    TypeScript syntax.
+  </M>
+  <M>
+    <B>eslint-config-prettier</B> - A configuration that disables ESLint rules
+    that conflict with Prettier.
+  </M>
+  <M>
+    <B>eslint-config-standard</B> - A set of ESLint rules for maintaining
+    consistent code style.
+  </M>
+  <M>
+    <B>eslint-import-resolver-typescript</B> - A resolver for ESLint that helps
+    with TypeScript module resolution.
+  </M>
+  <M>
+    <B>eslint-plugin-import</B> - A plugin for ESLint that enforces rules
+    related to import statements.
+  </M>
+  <M>
+    <B>eslint-plugin-jsx-a11y</B> - A plugin for ESLint that checks
+    accessibility rules for JSX elements.
+  </M>
+  <M>
+    <B>eslint-plugin-n</B> - A plugin for ESLint that helps with naming
+    conventions.
+  </M>
+  <M>
+    <B>eslint-plugin-promise</B> - A plugin for ESLint that enforces best
+    practices for JavaScript Promises.
+  </M>
+  <M>
+    <B>eslint-plugin-prettier</B> - Integrates Prettier with ESLint to
+    automatically format code.
+  </M>
+  <M>
+    <B>eslint-plugin-react</B> - A plugin for ESLint that provides rules for
+    React.
+  </M>
+  <M>
+    <B>eslint-plugin-react-hooks</B> - A plugin for ESLint with rules specific
+    to React Hooks.
+  </M>
+  <M>
+    Ok, so your <B>package.json</B> now should have following changes:{" "}
+  </M>
+  <Code
+    added={[
+      [2, 3],
+      [5, 14],
+    ]}
+    mode="dynamic"
+    lang="json"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/packages-now.json"
+    linesCount={17}
+  />
+</Section>
+
+<Section>
+  <XL>Adding configuration files</XL>
+  <M>
+    We need to add <B>.eslintrc</B> in the root directory with the following
+    setup:
+  </M>
+  <Code
+    rolled
+    description="The .eslintrc file"
+    mode="dynamic"
+    lang="json"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/.eslint-file-config"
+    linesCount={62}
+  />
+  <M>
+    It's time for <B>Prettier</B>! In the root directory add the following{" "}
+    <B>.prettierrc</B> file:{" "}
+  </M>
+  <Code
+    mode="dynamic"
+    lang="json"
+    description="The .prettierrc file"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/.prettierrc-setup"
+    linesCount={7}
+  />
+  <M>
+    Make sure that you have installed the required <B>IDE extensions</B> for{" "}
+    <A
+      outside
+      href="https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint"
+    >
+      Eslint
+    </A>{" "}
+    and{" "}
+    <A
+      href="https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode"
+      outside
+    >
+      Prettier extension
+    </A>
+    .
+  </M>
+  <M>
+    Now, when we open our IDE with code we'll be able to <B>verify</B> and{" "}
+    <B>format</B> our code in real-time. See how it works:{" "}
+  </M>
+  <Image
+    rolled
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/eslint-prettier-demo.gif"
+    description="Prettier and Eslint demo in IDE"
+  />
+  <M>
+    I pressed <B>Ctrl + P</B> to open <B>Visual Studio</B> input and then I
+    picked commands to apply. As you saw, we automatically formatted the code
+    and applied the <B>Eslint</B> rules - we've replaced <B>''</B> with{" "}
+    <B>``</B>.
+  </M>
+</Section>
+
+<Section>
+  <XL>Adding scripts to format all files in one go</XL>
+  <M>
+    Doing formatting manually is a pain in the ass... So, we can add script
+    aliases to <B>package.json</B> and then we'll be able to format/fix all
+    files with one command.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="json"
+    added={[[2, 4]]}
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/aliases-for-package-json.json"
+    linesCount={5}
+  />
+  <M>
+    The <B>lint</B> alias will just prepare a check with <B>Eslint</B> and{" "}
+    <B>Prettier</B> rules for the whole project.
+  </M>
+  <M>
+    The <B>format</B> alias will trigger only <B>Prettier</B> formatting for
+    project code.{" "}
+  </M>
+  <M>
+    The <B>lint:fix</B> will run all formatting and rules checks, and if the
+    tool is able to fix them, it will apply fixes, if not - there error will be
+    displayed and you need to improve it manually.
+  </M>
+  <M>Check how it fixes all problems:</M>
+  <Image
+    rolled
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/auto-fix-demo.gif"
+    description="Fix via command demo"
+  />
+</Section>
+
+<Section>
+  <XL>Let's add Husky!</XL>
+  <M>
+    We've already installed <B>Husky</B> library in the previous steps. We just
+    need a config. This config may be automatically generated - the lib provides
+    a command for that. Type <B>npx husky-init</B>. It will do the following
+    changes in your code automatically:
+  </M>
+  <Image
+    rolled
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/husky-init-demo.gif"
+    description="Husky init demo"
+  />
+  <M>
+    Add <B>postinstall</B> alias to <B>package.json</B> - it will run{" "}
+    <B>Husky</B> preparation when someone finishes <B>npm i</B> process.
+    Remember, that files under <B>.husky/_</B> directory will be not included in
+    commits due to <B>.gitignore</B> file which is there.{" "}
+  </M>
+  <M>
+    In addition, I renamed <B>prepare</B> to <B>prepare:husky</B> - for me{" "}
+    <B>prepare</B> it's too generic name...
+  </M>
+  <Code
+    mode="dynamic"
+    lang="json"
+    changed={[[2, 2]]}
+    added={[[3, 3]]}
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/husky-aliases.json"
+    linesCount={4}
+  />
+  <M>
+    Add the following changes to <B>pre-commit.sh</B> file and we have
+    everything 👌!
+  </M>
+  <Code
+    mode="dynamic"
+    lang="bash"
+    description="The pre-commit.sh file"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/pre-commit-initial.sh"
+    linesCount={9}
+  />
+  <M>
+    The first line is known as a <B>shebang</B>, and it specifies the{" "}
+    <B>interpreter</B> to be used for this script.
+  </M>
+  <M>
+    The third executes the <B>husky.sh</B> script located in the <B>_/</B>{" "}
+    directory relative to the directory where this script is located. The{" "}
+    <B>$(dirname -- "$0")</B> part calculates the directory of the current
+    script, and then <B>_/husky.sh</B> is appended to that directory to form the
+    full path to the <B>husky.sh</B> script.
+  </M>
+  <M>
+    Next, we have simple log statement via <B>echo command</B>.
+  </M>
+  <M>
+    Last but not least is our command from <B>package.json</B> alias to execute
+    - runs format and linter fix.{" "}
+  </M>
+  <M>
+    At the end, we are automatically adding all auto-fixed files to our commit
+    with <B>git add .</B>
+  </M>
+  <M>
+    Let's test it. Just try to add some commit and make sure that we have broken{" "}
+    <B>Eslint</B> or <B>Prettier</B> rules - watch the <B>GIF</B>:{" "}
+  </M>
+  <Image
+    rolled
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/husky-commit-demo.gif"
+    description="All works!"
+  />
+  <Hint hasBg>
+    Small tip: these checks may be frustrating to work with if you want to check
+    something - you're doing <B>POC</B> for example, to skip them you can just
+    add <B>--no-verify</B> at the end of <B>commit</B> command -{" "}
+    <B>git commit -m "My commit without checks" --no-verify</B>.{" "}
+  </Hint>
+</Section>
+
+<Example label="The result">
+  <M>
+    To get current result jump into{" "}
+    <A
+      outside
+      href="https://github.com/polubis/Gatsby5-Tailwind-TypeScript-Cypress-jest-rtl-template"
+    >
+      Gatsby5 | Tailwind | TypeScript | Cypress | jest and RTL template
+    </A>{" "}
+    and check{" "}
+    <A
+      outside
+      href="https://github.com/polubis/Gatsby5-Tailwind-TypeScript-Cypress-jest-rtl-template/commits/main"
+    >
+      commits
+    </A>{" "}
+    to understand the progress.
+  </M>
+</Example>
+
+<Summary label="Conclusions and next steps">
+  <M>
+    We've really nice template to start our next projects. However, there is
+    still a lot of stuff to improve. We've just configured <B>Eslint</B>,{" "}
+    <B>Prettier</B>, and <B>Husky</B>, but we need more improvements to make
+    this template bulletproof.
+  </M>
+  <M>
+    In the next article, we'll set up a <B>Tailwind</B> with <B>dark theme</B>{" "}
+    support.
+  </M>
+</Summary>
