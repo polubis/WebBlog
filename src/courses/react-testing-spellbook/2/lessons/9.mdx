@@ -166,7 +166,9 @@ describe('Reads API url when: ', () => {
     So let's create a simple <B>environmentFixture</B> function, that will make
     our tests much <B>prettier</B>.
   </M>
-  <Code mode="static" lang="ts"
+  <Code
+    mode="static"
+    lang="ts"
     description="Oh gosh, how nice and clean it is..."
     added={[
       [1, 15],
@@ -231,19 +233,13 @@ describe('Reads API url when: ', () => {
 
 <Summary>
   <M>
-    We've practised mocking environment variables and reuse of logic in tests
-    using fixtures. It is worth mentioning that environment variables are not
-    the only global objects that we fix in this way. We will discuss this in the
-    next lessons.
-  </M>
-  <M>
-    If you enjoyed it, be sure to visit us on{" "}
-    <A
-      href="https://www.linkedin.com/in/adrian-po%C5%82ubi%C5%84ski-281ab2172/"
-      outside
-    >
-      Linkedin
-    </A>{" "}
-    where we regularly upload content from programming.
+    We've practiced mocking environment variables and reuse of logic in tests by
+    using fixtures. There is still a place for improvement - the{" "}
+    <B>dependency injection pattern</B> may be used to remove the need of
+    manually using <B>fixture.restore()</B>. It's described in the next lesson -{" "}
+    <A href="/courses/react-testing-spellbook/mastering-unit-testing/using-dependency-injection-pattern-to-improve-fixtures/">
+      ⭐ Using dependency injection pattern to improve fixtures
+    </A>
+    .
   </M>
 </Summary>

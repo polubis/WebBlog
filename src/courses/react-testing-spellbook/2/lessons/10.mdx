@@ -1,0 +1,218 @@
+---
+name: Using dependency injection pattern to improve fixtures
+description: We'll inject the Jest environment functions into our fixtures and with the dependency injection pattern, we'll reduce the amount of code and responsibilities from developers during test creation.
+duration: 4
+---
+
+<Prelude label="The problem to solve">
+  <M>
+    In previous lesson -{" "}
+    <A href="/courses/react-testing-spellbook/mastering-unit-testing/mocking-environment-variables/">
+      ⭐ Mocking environment variables
+    </A>
+    , we created a nice working <B>fixture</B> that reduces lines of code when
+    we write tests.{" "}
+  </M>
+  <M>
+    However, the result is not "ideal". Still, we may reduce and remove some
+    responsibilities from developers. Check the following code to understand
+    what I mean:{" "}
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="It must be improved!"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Using-dependency-injection-pattern-to-improve-fixtures/01-the-fixture-problem.tsx"
+    linesCount={40}
+  />
+  <M>
+    So, imagine a situation when you forget to add <B>afterEach</B> and{" "}
+    <B>fixture.restore()</B> statement in one of your tests... It may happen
+    because the <B>fixture.restore()</B> call cleans up all mocks in the
+    environment object. Yea, it will be pretty hard to spot what is causing{" "}
+    <B>false positives</B> or <B>false negatives</B> in our tests.{" "}
+  </M>
+  <M>
+    {" "}
+    Good news! <B>Dependency injection pattern</B> will fix all our problems 💨.
+  </M>
+</Prelude>
+
+<Section>
+  <XL>The dependency injection pattern</XL>
+  <M>
+    Let's explain it with another example not connected with our problem to
+    understand the basic idea. Imagine that you've installed a library called{" "}
+    <B>"users-list"</B> which is a <B>React</B> component with sorting
+    capabilities (yea, really complicated :P).
+  </M>
+  <M>
+    The implementation of component looks like this (remember it's a library
+    code - in your app you just installed it):
+  </M>
+  <Code
+    mode="dynamic"
+    description="Some UsersList component loaded from npm lib"
+    lang="tsx"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Using-dependency-injection-pattern-to-improve-fixtures/02-users-list.tsx"
+    linesCount={24}
+  />
+  <M>
+    {" "}
+    Now, imagine that the implementation of this component sorting mechanism is broken
+    - looks like the <B>sort</B> function from <B>Lodash</B> has a bug!
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="Uhhh, we have problem"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Using-dependency-injection-pattern-to-improve-fixtures/03-bug-in-lodash.tsx"
+    linesCount={2}
+  />
+  <M>
+    So, what's now? What kind of options do you have? You can try to find
+    another lib, copy the lib source code to your code, wait for a fix, or
+    implement it completely on your own... All of these options are
+    time-consuming and it's just a <B>sort</B> function bug...
+  </M>
+  <M>
+    If the author of the library would add one small change, we would not have
+    to do anything... Check the code below to understand how we may improve it:{" "}
+  </M>
+  <Code
+    added={[[7, 9]]}
+    changed={[
+      [11, 11],
+      [16, 16],
+    ]}
+    mode="dynamic"
+    lang="tsx"
+    description="One parameter changed everything!"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Using-dependency-injection-pattern-to-improve-fixtures/04-fix-with-DI.tsx"
+    linesCount={18}
+  />
+  <M>
+    Instead of relying on and being coupled with <B>Lodash</B> without the
+    option to override <B>sort mechanism</B>, we've added <B>UsersListProps</B>{" "}
+    interface, to be able to change sorting mechanism. That's how{" "}
+    <B>dependency injection pattern</B> works in its simplest form.{" "}
+  </M>
+  <M>
+    You need to pass a function that implements the required contract - in our
+    case specified via <B>TypeScript interface</B>. Now, we still are coupled
+    with <B>Lodash</B>, but we may replace it from consumer code, not inside{" "}
+    <B>UsersList</B> library implementation (in addition we improved our code
+    from the SOLID perspective - <B>the Open/Close principle</B>.{" "}
+  </M>
+  <M>
+    The last change must be implemented in the consumer component and our little
+    bug will be fixed without any additional effort.{" "}
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="The sort mechanism is now injected"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Using-dependency-injection-pattern-to-improve-fixtures/05-using-fix-from-DI.tsx"
+    linesCount={9}
+  />
+  <Hint hasBg>
+    <B>Dependency injection pattern</B> may be implemented in many different
+    ways. We may use injection tokens and more advanced mechanisms. The
+    presented approach is the simplest implementation of it!
+  </Hint>
+</Section>
+
+<Section>
+  <XL>Fixing our fixture with dependency injection</XL>
+  <M>
+    We'll use the same technique as above. We'll pass <B>afterEach</B> function
+    from <B>Jest</B> to our fixture. When the fixture is called the first time,
+    it will trigger <B>afterEach</B>, so in test files all of these statements
+    will be removed.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    added={[
+      [1, 1],
+      [7, 9],
+      [11, 13],
+      [15, 17],
+      [19, 19],
+    ]}
+    changed={[
+      [4, 4],
+      [22, 26],
+      [32, 32],
+    ]}
+    deleted={[[35, 37]]}
+    description="No more additional code"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Using-dependency-injection-pattern-to-improve-fixtures/06-fixture-improved.tsx"
+    linesCount={48}
+  />
+  <M>
+    First, we added an additional type to define the signature of{" "}
+    <B>afterEach</B> function. We used <B>higher order function</B> pattern and{" "}
+    <B>closure</B> mechanism to be able to call our fixture function twice.{" "}
+  </M>
+  <M>
+    Second, with injected <B>afterEach</B> and passed the <B>key</B> that is
+    required. Thanks to the <B>closure</B>, <B>afterEach</B> callback will be
+    remembered and we'll be able to do stuff like this:{" "}
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="We reused the initial setup to create different fixtures"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Using-dependency-injection-pattern-to-improve-fixtures/07-creator-showcase.tsx"
+    linesCount={4}
+  />
+</Section>
+
+<Section>
+  <XL>Small note</XL>
+  <M>
+    If you would like to add additional logic to <B>afterEach</B> and you're
+    using this <B>fixture</B> - don't worry about anything, the <B>Jest</B> will
+    run as many callbacks as you define :).
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="The afterEach statements are collected and called together by Jest"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Using-dependency-injection-pattern-to-improve-fixtures/08-small-note.tsx"
+    linesCount={10}
+  />
+  <M>
+    So, you will have always called all defined <B>afterEach</B> functions, the
+    one that we're passing and the others defined in tests. Thanks to that
+    you're not limited to only one <B>afterEach</B> call.
+  </M>
+</Section>
+
+<Example label="The final result">
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    rolled
+    description="The complete implementation"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Using-dependency-injection-pattern-to-improve-fixtures/09-the-final-result.tsx"
+    linesCount={44}
+  />
+</Example>
+
+<Summary label="Conclusions and thoughts">
+  <M>
+    As you saw we've added a nice improvement for developers that reduces the
+    code that they need to write and the responsibility to "remember". In this{" "}
+    <B>particular fixture</B>, it was just <B>3 lines</B> of code and{" "}
+    <B>one responsibility</B>, but in more advanced ones it may be much more!
+  </M>
+  <Hint hasBg>
+    To see more advanced fixtures you may read{" "}
+    <A href="/courses/react-testing-spellbook/mastering-integration-testing/creating-fixture-for-m-s-w-to-reduce-boilerplate-and-setup/">
+      ⭐ Creating fixture for MSW to reduce boilerplate and setup
+    </A>
+    .
+  </Hint>
+</Summary>
