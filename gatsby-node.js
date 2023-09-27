@@ -336,7 +336,7 @@ exports.createPages = async ({ actions, graphql }) => {
           }
         }
       }
-      lessonsThumbnails: allFile(filter: {relativePath: {regex: "/lessons\/[1-999].jpg/"}}) {
+      lessonsThumbnails: allFile(filter: {relativePath: {regex: "/lessons\/[0-999]{1,2}.jpg/"}}) {
         nodes {
           name
           relativePath
