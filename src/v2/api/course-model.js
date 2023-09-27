@@ -1,9 +1,14 @@
 const { createTechnologies } = require("./createTechnologies")
 const { createUser } = require("./createUser")
 
+const getLessonIdFromSlug = slug => {
+  return +slug.split("/").pop()
+}
+
 const getLessonThumbnail = (thumbnails, lessonSlug) => {
-  return thumbnails.find(({ relativePath }) => {
-    return relativePath.replace(".jpg", "") === lessonSlug
+  const lessonId = getLessonIdFromSlug(lessonSlug)
+  return thumbnails.find(({ name }) => {
+    return +name === lessonId
   })
 }
 
@@ -123,8 +128,11 @@ const CourseModel = (
         })
         let chapterLessonsCollection = chapterLessons
           .sort((prev, curr) => {
-            if (prev.slug > curr.slug) return 1
-            if (prev.slug === curr.slug) return 0
+            const prevLessonIdAsNumber = getLessonIdFromSlug(prev.slug)
+            const nextLessonIdAsNumber = getLessonIdFromSlug(curr.slug)
+
+            if (prevLessonIdAsNumber > nextLessonIdAsNumber) return 1
+            if (prevLessonIdAsNumber === nextLessonIdAsNumber) return 0
             return -1
           })
           .map(lesson => ({
