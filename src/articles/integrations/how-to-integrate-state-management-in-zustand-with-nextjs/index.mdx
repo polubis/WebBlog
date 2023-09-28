@@ -1,0 +1,237 @@
+---
+title: How to integrate state management in Zustand with NextJS
+description: We'll dive through the concept of state management in NextJS applications which are using Zustand as state manager. We'll create a small util that will sync the state with the server and the client.
+readtime: 4
+cdate: 2023-09-28
+mdate: 2023-09-28
+authorId: polubis
+treviewerId: kwozniak
+lreviewerId: kzalewska
+lang: en
+tags: integrations,state management
+stack: next,react,typescript,zustand
+seniorityLevel: advanced
+---
+
+<Prelude label="What we will achieve?">
+  <M>
+    The <B>NextJS</B> is a real game changer in the web ecosystem. However,
+    integration with third-party libraries for state management like{" "}
+    <B>Zustand</B> or <B>Redux</B> may be challenging. That's why today, we'll
+    integrate <B>Next.js</B> app with <B>Zustand</B>, and at the end, you will
+    know how to manage your state, keep it synced with a server.
+  </M>
+</Prelude>
+
+<Section>
+  <XL>Adding Zustand to NextJS project</XL>
+  <M>
+    Find some default <B>NextJS</B> project, I'll use this one:{" "}
+    <A
+      href="https://github.com/polubis/Dream-stack-for-React-dev/tree/article/How-to-integrate-state-management-in-Zustand-with-NextJS/system/apps/blog/store"
+      outside
+    >
+      Dream stack for React developer
+    </A>
+    . You can create a dummy <B>NextJS</B> project via publicly available generators
+    - it's not an important part of this article, so let's skip that. Just type in
+    terminal: <B>npm i zustand --save</B> - lib will be added to <B>
+      package.json
+    </B>.
+  </M>
+  <M>
+    Now, let's add the typical boilerplate code that is required to manage our
+    state:{" "}
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="The problem with counter-value difference"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/How%20to%20integrate%20state%20management%20in%20Zustand%20with%20NextJS/counter-sample.tsx"
+    linesCount={36}
+  />
+  <M>
+    In <B>console.log</B> statements we have different values for counter from
+    the <B>server</B> and <B>client</B>. This is really bad and we need to solve
+    this problem.
+  </M>
+</Section>
+
+<Section>
+  <XL>Syncing up the client/server state</XL>
+  <M>
+    We need to sync the state before the first render of any component. The{" "}
+    <B>useCounterStore</B> created by <B>Zustand</B> exposes some static methods
+    to change the state.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="State change via static method"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/How%20to%20integrate%20state%20management%20in%20Zustand%20with%20NextJS/static-change.tsx"
+    linesCount={2}
+  />
+  <M>
+    The state change done in <B>Zustand</B> happens immediately. It's not{" "}
+    <B>async</B> operation, is just like changing a variable.{" "}
+  </M>
+  <M>
+    However, the components or other application layers are listening for state
+    changes. It's a typical implementation of <B>observable pattern</B>. If
+    you're reading state with <B>useCounterStore</B> hook - you're automatically
+    subscribed and the component will rerender after the state change.{" "}
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/How%20to%20integrate%20state%20management%20in%20Zustand%20with%20NextJS/rerenders-when-components-state-change.tsx"
+    linesCount={5}
+  />
+  <M>
+    So, state reading is aka <B>"lazy"</B>. It's not immediate, but setting the
+    state is. That's important information. To sync the state between
+    server/client we just need to update the client state{" "}
+    <B>before the first render happens</B>.
+  </M>
+  <M>
+    Let's add logic to sync up the state! We need a custom hook to handle this.{" "}
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="Implementing useStoreSync hook"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/How%20to%20integrate%20state%20management%20in%20Zustand%20with%20NextJS/use-server-store.ts"
+    linesCount={26}
+  />
+  <M>And then we'll use our hook as follows: </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    added={[[3, 3]]}
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/How%20to%20integrate%20state%20management%20in%20Zustand%20with%20NextJS/counter-al-final.tsx"
+    linesCount={7}
+  />
+  <M>
+    Wow, and that's all? Yup! Okay, so let's describe what happened here step by
+    step. First, we are passing to our <B>useStoreSync</B> hook the original
+    client hook and the initial state returned by the server.{" "}
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/How%20to%20integrate%20state%20management%20in%20Zustand%20with%20NextJS/06.tsx"
+    linesCount={2}
+  />
+  <M>
+    Next, we're checking about synchronization status. If a sync has not
+    happened yet, we're setting the initial state to the state passed from the
+    server, and then we're setting the flag to false - to avoid multiple state
+    changes and not needed rerenders.{" "}
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/How%20to%20integrate%20state%20management%20in%20Zustand%20with%20NextJS/07.tsx"
+    linesCount={10}
+  />
+  <M>
+    Then we're checking the environment in which the code is executed. If it's a
+    server, we're creating a dummy initial hook and we're returning it. If it's
+    a client, we're returning the original hook.{" "}
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/How%20to%20integrate%20state%20management%20in%20Zustand%20with%20NextJS/08.tsx"
+    linesCount={7}
+  />
+  <M>
+    So, we have a generic mechanism to sync our server/client side state without
+    additional rerenders.
+  </M>
+  <M>
+    The most important part is to call it <B>at the first line</B> of your{" "}
+    <B>initial page</B> component and you need to do it <B>only once</B> per{" "}
+    <B>the store</B>.{" "}
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/How%20to%20integrate%20state%20management%20in%20Zustand%20with%20NextJS/11.tsx"
+    linesCount={20}
+  />
+</Section>
+
+<Section>
+  <XL>Exploring real-world use cases</XL>
+  <M>
+    Let's say we're using <B>getStaticProps</B> or <B>getServerProps</B> and we
+    want to load the list of articles on the server. Then, we want to pass the
+    list from the server and generate a page. The state loaded in the server
+    must be synced with the client state. To achieve that we need the following
+    code:{" "}
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/How%20to%20integrate%20state%20management%20in%20Zustand%20with%20NextJS/09.tsx"
+    linesCount={23}
+  />
+  <M>
+    The same rule applies for <B>getServerProps</B>, just the function name will
+    be different, so let's skip that. How to use it with{" "}
+    <B>server components</B> used in new <B>NextJS API</B>?
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/How%20to%20integrate%20state%20management%20in%20Zustand%20with%20NextJS/12.tsx"
+    linesCount={7}
+  />
+</Section>
+
+<Example label="The final code">
+  <M>Here you have the hook implementation: </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/How%20to%20integrate%20state%20management%20in%20Zustand%20with%20NextJS/10.tsx"
+    linesCount={20}
+  />
+  <M>
+    If you are curious how you may use this hook and would like to have more
+    examples, just check the following{" "}
+    <A
+      href="https://github.com/polubis/Dream-stack-for-React-dev/tree/article/How-to-integrate-state-management-in-Zustand-with-NextJS/system/apps/blog/store"
+      outside
+    >
+      Dream stack for React developer
+    </A>{" "}
+    repository.
+  </M>
+</Example>
+
+<Summary label="Summary and conclusions">
+  <M>
+    We integrated and synced up the state from the server with the client one. A
+    small hook needs to be called at the beginning. Life is now much easier!
+  </M>
+  <M>
+    What is really cool, the same solution will work for other <B>frameworks</B>{" "}
+    like <B>Gatsby</B>.{" "}
+  </M>
+  <M>
+    If you want to now more about <B>Zustand</B> and <B>NextJS</B>, feel free to
+    check these articles:{" "}
+  </M>
+  <M>
+    <A href="/articles/libraries/working-with-selectors-in-zustand-and-redux/">
+      ⭐ Working with selectors in Zustand and Redux
+    </A>
+  </M>
+  <M>
+    <A href="/articles/libraries/comparing-redux-with-zustand-for-state-management-in-react/">
+      🥇 Comparing Redux with Zustand for state management in React
+    </A>
+  </M>
+</Summary>
