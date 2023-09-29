@@ -46,6 +46,30 @@
     "projects": []
   },
   {
+    "id": "justynafenik",
+    "name": "justynafenik",
+    "firstName": "Justyna",
+    "lastName": "Fenik",
+    "platformRoles": "tester",
+    "role": "Software Tester",
+    "bioPl": "Strażnik jakości zarabiający na wytykaniu błędów. Testuję manualnie i automatyzuję testy w Robot Framework i Cypress. W wolnym czasie biegam i podróżuję.",
+    "bio": "A quality guard who makes a living by pointing out bugs. I test manually and automate tests in Robot Framework and Cypress. In my free time, I run and travel.",
+    "githubURL": "https://github.com/justynafenik1",
+    "linkedinURL": "www.linkedin.com/in/justyna-fenik-937a2218b",
+    "projects": [
+      {
+        "status": "active",
+        "name": "Testing mobile and web applications for courier services",
+        "description": "Writing test cases, executing and automating them in Robot Framework.",
+        "from": "2022.03.01",
+        "stack": "Robot Framework",
+        "appUrl": "",
+        "codeUrl": "",
+        "images": []
+      }
+    ]
+  },
+  {
     "id": "kreszko",
     "name": "kreszko",
     "firstName": "Krzysztof",
