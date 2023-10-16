@@ -22,6 +22,10 @@ const Section = styled.section`
     margin-bottom: 20px;
   }
 
+  ${Hint} + .l {
+    margin-top: 24px;
+  }
+
   ${Hint} {
     margin: 24px 0 0 0;
   }
@@ -50,7 +54,7 @@ const Section = styled.section`
   }
 
   .ui-snippet {
-    & + ${M}, & + .l,
+    & + ${Hint}, & + ${M}, & + .l,
     & + .ui-snippet,
     & + .ui-image,
     & + .ui-image-wrapper {
@@ -59,7 +63,7 @@ const Section = styled.section`
   }
 
   .ui-image {
-    & + ${M}, & + .ui-snippet,
+    & + ${Hint}, & + ${M}, & + .ui-snippet,
     & + .ui-image,
     & + .ui-image-wrapper,
     & + .l {
@@ -68,7 +72,7 @@ const Section = styled.section`
   }
 
   .ui-image-wrapper {
-    & + ${M}, & + .ui-snippet,
+    & + ${Hint}, & + ${M}, & + .ui-snippet,
     & + .ui-image-wrapper,
     & + .ui-image,
     & + .l {

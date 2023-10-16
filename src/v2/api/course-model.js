@@ -6,9 +6,9 @@ const getLessonIdFromSlug = slug => {
 }
 
 const getLessonThumbnail = (thumbnails, lessonSlug) => {
-  const lessonId = getLessonIdFromSlug(lessonSlug)
-  return thumbnails.find(({ name }) => {
-    return +name === lessonId
+  const lessonId = lessonSlug + ".jpg"
+  return thumbnails.find(({ relativePath }) => {
+    return relativePath === lessonId
   })
 }
 

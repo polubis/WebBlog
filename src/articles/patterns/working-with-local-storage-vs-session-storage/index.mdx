@@ -1,6 +1,6 @@
 ---
 cdate: 2023-07-10
-mdate: 2023-07-10
+mdate: 2023-10-16
 authorId: polubis
 treviewerId: goteii
 lreviewerId: kzalewska
@@ -25,16 +25,6 @@ title: Working with local storage vs session storage
     ensuring <B>type safety</B> and making reading and much manipulation
     simpler!
   </M>
-  <Hint hasBg>
-    If you are lazy and want the final code - you can get it in the following{" "}
-    <A
-      href="https://github.com/polubis/Dream-stack-for-React-dev/tree/article/working-with-local-storage-vs-session-storage-v1/system/libs/utils/src/lib/storage"
-      outside
-    >
-      repository
-    </A>
-    .
-  </Hint>
 </Prelude>
 
 <Section>
@@ -66,7 +56,10 @@ const sValue = sessionStorage.getItem('my-item')
   </M>
   <List items="The key is 'string', The received value is of type 'string', The APIs are identical, No encapsulation" />
   <M>It's easy to make a typo...</M>
-  <Code mode="static" lang="ts">{`const value = localStorage.getItem('ty,po')`}</Code>
+  <Code
+    mode="static"
+    lang="ts"
+  >{`const value = localStorage.getItem('ty,po')`}</Code>
   <M>
     In addition, we can by mistake run this code on the server side, which has
     no chance of working -{" "}
@@ -173,7 +166,11 @@ blogAPI.post()
 blogAPI.get()`}
   </Code>
   <M>Our small library will do just that:</M>
-  <Code mode="static" lang="ts" description="This is how the initialization will look like">{`
+  <Code
+    mode="static"
+    lang="ts"
+    description="This is how the initialization will look like"
+  >{`
 import { storage } from 'storage'
  
 interface AuthStorage {
@@ -184,7 +181,11 @@ interface AuthStorage {
 const authStorage = storage<AuthStorage>("session");
 `}</Code>
   <M>Here are the methods calls:</M>
-  <Code mode="static" lang="ts" description="This is how our methods will look like">{`
+  <Code
+    mode="static"
+    lang="ts"
+    description="This is how our methods will look like"
+  >{`
 // I will only clear what was set by the methods
 // from "authStorage" and nothing more!
 authStorage.clear()
@@ -250,7 +251,11 @@ const storage = <T extends Record<string, any>>(
     </A>
     .
   </Hint>
-  <Code mode="static" lang="ts" description="In this test, we checked whether we received a corresponding exception when the server-side mechanic was used">{`
+  <Code
+    mode="static"
+    lang="ts"
+    description="In this test, we checked whether we received a corresponding exception when the server-side mechanic was used"
+  >{`
 import { storage } from '../storage'
  
 describe('Storage can be used when: ', () => {
@@ -274,7 +279,11 @@ describe('Storage can be used when: ', () => {
   // Other tests here!
 })
 `}</Code>
-  <Code mode="static" lang="ts" description="Here we checked that the key reading mechanism is working properly">
+  <Code
+    mode="static"
+    lang="ts"
+    description="Here we checked that the key reading mechanism is working properly"
+  >
     {`it('picks keys from local storage or session storage', () => {
   const ls = storage<UserData>()
   const ss = storage<UserData>('session')
@@ -287,7 +296,11 @@ describe('Storage can be used when: ', () => {
   expect(ss.getKeys()).toEqual(['id', 'name'])
 })`}
   </Code>
-  <Code mode="static" lang="ts" description="The method under test is designed to set several values">{`
+  <Code
+    mode="static"
+    lang="ts"
+    description="The method under test is designed to set several values"
+  >{`
 it('allows to set several values', () => {
   const ls = storage<UserData>()
  
@@ -297,7 +310,11 @@ it('allows to set several values', () => {
   expect(ls.get('id')).toBe(1)
   expect(ls.get('name')).toBe(null)
 })`}</Code>
-  <Code mode="static" lang="ts" description="We checked that only the values that were set are returned">{`
+  <Code
+    mode="static"
+    lang="ts"
+    description="We checked that only the values that were set are returned"
+  >{`
 it('allows to get all values', () => {
   const ls = storage<UserData>()
  
@@ -313,7 +330,11 @@ it('allows to get all values', () => {
     Well, and at the very end, a test that verifies the operation of several
     methods called after each other - as it will be done in real life.
   </M>
-  <Code mode="static" lang="ts" description="In this test, we check how our mechanism behaves and we simulated a real-use scenario">{`
+  <Code
+    mode="static"
+    lang="ts"
+    description="In this test, we check how our mechanism behaves and we simulated a real-use scenario"
+  >{`
 it('allows to work with storage', () => {
   const specificStorage = storage<UserData>()
  
@@ -433,7 +454,9 @@ return {
   the <B>keys</B>, which we can access thanks to <B>closure</B>.
 </M>
 
-<Code mode="static" lang="ts"
+<Code
+  mode="static"
+  lang="ts"
   added={[
     [1, 3],
     [8, 8],
@@ -464,7 +487,9 @@ return {
   <B>patch</B> and <B>clear</B>.
 </M>
 
-<Code mode="static" lang="ts"
+<Code
+  mode="static"
+  lang="ts"
   added={[
     [1, 4],
     [6, 9],
@@ -510,6 +535,42 @@ return {
 <M>After all these code changes, our tests are as green as <B>Shrek</B>.</M>
 </Section>
 
+<Example label="Complete example">
+  <M>
+    If you want the final code you can get it in the following{" "}
+    <A
+      href="https://github.com/polubis/Dream-stack-for-React-dev/tree/article/working-with-local-storage-vs-session-storage-v1/system/libs/utils/src/lib/storage"
+      outside
+    >
+      repository
+    </A>
+    . Below you have the full solution displayed via code snippets.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="The type definitions - defs.ts file"
+    src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/article/working-with-local-storage-vs-session-storage-v1/system/libs/utils/src/lib/storage/defs.ts"
+    linesCount={3}
+  />
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    rolled
+    description="The implementation - storage.ts file"
+    src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/article/working-with-local-storage-vs-session-storage-v1/system/libs/utils/src/lib/storage/storage.ts"
+    linesCount={95}
+  />
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    rolled
+    description="Tests inside storage.test.ts file"
+    src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/article/working-with-local-storage-vs-session-storage-v1/system/libs/utils/src/lib/storage/storage.test.ts"
+    linesCount={76}
+  />
+</Example>
+
 <Summary>
   <M>Once again at ease with what we have achieved 🧂:</M>
   <List items="We have developer-friendly exceptions, Local/session storage management is modular, We have type-safety and typo protection, No need to store keys in variables, We can easily add new methods and extend the solution, The solution can be used to mock up values in tests as well, Consistent API, Less risk of collisions or overwriting values in other features" />
@@ -531,14 +592,4 @@ return {
     Maybe it was not needed?
   </M>
   <M>In my opinion, it is not essential, but it makes life easier.</M>
-  <M>
-    If you enjoyed it, be sure to visit us on{" "}
-    <A
-      href="https://www.linkedin.com/in/adrian-po%C5%82ubi%C5%84ski-281ab2172/"
-      outside
-    >
-      Linkedin
-    </A>{" "}
-    where we regularly upload content from programming.
-  </M>
 </Summary>
