@@ -1,6 +1,6 @@
 ---
 cdate: 2023-09-21
-mdate: 2023-09-21
+mdate: 2023-10-16
 authorId: polubis
 treviewerId: kwozniak
 lreviewerId: kreszko
@@ -254,6 +254,26 @@ description: Let's understand the all differences between type and interface key
     Type-based declarations are just easier to write :P, that's why a lot of
     current <B>eslint</B> rules detect such cases as above and warn you to
     rewrite it to <B>type</B> syntax.
+  </M>
+</Section>
+
+<Section>
+  <XL>The difference in developer experience</XL>
+  <M>
+    Let's say you defined your interfaces and types in a separate file, and you
+    want to use them in another place. The <B>interface</B> will hide the shape
+    of the object when you hover over it, and the <B>type</B> will not. Look how
+    it looks like in <B>VS code</B>.
+  </M>
+  <Image
+    rolled
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Types%20vs%20interfaces%20in%20TypeScript%20fully%20explained/types-and-interfaces-in-ide.gif"
+    description="Behavior in VS code"
+  />
+  <M>
+    You can read the shape of the interface. You just need to click on the
+    interface and you will be moved to its definition. In <B>VS code</B> it{" "}
+    <B>ctrl + left mouse button</B>.
   </M>
 </Section>
 
