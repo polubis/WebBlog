@@ -55,7 +55,7 @@
     "bioPl": "Strażnik jakości zarabiający na wytykaniu błędów. Testuję manualnie i automatyzuję testy w Robot Framework i Cypress. W wolnym czasie biegam i podróżuję.",
     "bio": "A quality guard who makes a living by pointing out bugs. I test manually and automate tests in Robot Framework and Cypress. In my free time, I run and travel.",
     "githubURL": "https://github.com/justynafenik1",
-    "linkedinURL": "www.linkedin.com/in/justyna-fenik-937a2218b",
+    "linkedinURL": "https://www.linkedin.com/in/justyna-fenik-937a2218b/",
     "projects": [
       {
         "status": "active",
@@ -68,6 +68,20 @@
         "images": []
       }
     ]
+  },
+  {
+    "id": "mystertaran",
+    "name": "mystertaran",
+    "firstName": "Szymon",
+    "lastName": "Taranczewski",
+    "platformRoles": [
+      "contributor"
+    ],
+    "role": "Frontend Developer",
+    "bioPl": "Jestem pasjonatem programowania front-end. Moje serce bije dla JavaScript, TypeScript i React.js. Tworzę aplikacje webowe, strony i sklepy na WordPress. Jestem otwarty na wyzwania i uwielbiam dzielić się wiedzą. Gotów jestem przekształcić każdy pomysł w rzeczywistość.",
+    "bio": "I'm a front-end programming enthusiast with a heart for JavaScript, TypeScript, and React.js. I craft web applications, websites, and WordPress stores. I embrace challenges and love sharing knowledge. I'm ready to turn every ideas into reality!",
+    "githubURL": "https://github.com/mystertaran",
+    "linkedinURL": "https://www.linkedin.com/in/szymon-taranczewski/"
   },
   {
     "id": "kreszko",
