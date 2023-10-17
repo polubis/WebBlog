@@ -1,0 +1,221 @@
+---
+name: TailwindCSS dark mode configuration in Gatsby
+duration: 5
+description: Comprehensive article that guides developers through the process of enabling and customizing dark mode in a Gatsby project using the popular utility-first CSS framework, Tailwind CSS. The article begins by explaining the concept of dark mode and its benefits, highlighting its impact on user experience and accessibility.
+---
+
+<Prelude label="Our goal">
+  <Hint hasBg>
+    If you want to know the all course concepts, technologies and understand
+    what kind of <B>Node</B> and <B>npm</B> versions you need, check the
+    previous lesson -{" "}
+    <A href="/courses/modern-gatsby5-ecosystem-project-setup/introduction/course-overview/">
+      Course overview
+    </A>
+    .
+  </Hint>
+  <Hint hasBg>
+    If you already read this article - jump into{" "}
+    <A
+      outside
+      href="https://github.com/polubis/Gatsby5-Tailwind-TypeScript-Cypress-jest-rtl-template"
+    >
+      Gatsby5 | Tailwind | TypeScript | Cypress | jest and RTL template
+    </A>{" "}
+    and check{" "}
+    <A
+      outside
+      href="https://github.com/polubis/Gatsby5-Tailwind-TypeScript-Cypress-jest-rtl-template/commits/main"
+    >
+      commits
+    </A>{" "}
+    to understand the progress.
+  </Hint>
+  <M>
+    In previous lesson -{" "}
+    <A href="/courses/modern-gatsby5-ecosystem-project-setup/creating-project/adding-tailwind-to-gatsby-project/">
+      🌟 Adding Tailwind to Gatsby project
+    </A>
+    , we added <B>Tailwind</B>. Now, it's time to add <B>dark theme</B> support.
+  </M>
+  <M>
+    Our mechanism will be based on external <B>Gatsby</B> plugin -{" "}
+    <B>gatsby-plugin-dark-mode</B>. Thanks to this we'll avoid not needed
+    complexity in our code. It will require some setup, but the benefits from
+    this will be huge. In addition, our theme will be "remembered" by the
+    browser, so if the user refresh the page, the previously chosen theme will
+    be applied.
+  </M>
+</Prelude>
+
+<Section>
+  <XL>Let's add gatsby-plugin-dark-mode</XL>
+  <M>
+    At the beginning, we need to install as normal dependency mentioned plugin.
+    To achieve it, type in your terminal:{" "}
+    <B>npm i --save gatsby-plugin-dark-mode</B>. This plugin will be used on
+    build - when <B>Gatsby</B> will generate pages and on the <B>client</B>, to
+    change the theme.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="json"
+    descripton="The package.json file"
+    added={[[4, 4]]}
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/TailwindCSS%20dark%20mode%20configuration%20in%20Gatsby/1.json"
+    linesCount={4}
+  />
+  <M>
+    Now, we need to add our plugin to <B>gatsby-config.ts</B> file.{" "}
+  </M>
+  <Code
+    mode="dynamic"
+    lang="ts"
+    description="The gatsby-config.ts file"
+    added={[[3, 3]]}
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/TailwindCSS%20dark%20mode%20configuration%20in%20Gatsby/2.ts"
+    linesCount={3}
+  />
+</Section>
+
+<Section>
+  <XL>Using ThemeToggler to switch theme</XL>
+  <M>
+    Now, we need to define some styles that will work only when <B>dark mode</B>{" "}
+    is selected. Let's do it inside <B>global.css</B> file.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="css"
+    description="The global.css file"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/TailwindCSS%20dark%20mode%20configuration%20in%20Gatsby/3.css"
+    linesCount={26}
+  />
+  <M>
+    The <B>ThemeToggler</B> is a component, that implements{" "}
+    <B>function as a child</B> pattern to inject internal state to child
+    components. Inside the provided data, there is a property that determines
+    the chosen theme and function to change the theme. You may use it in the
+    following example:{" "}
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="The index.tsx file - home page"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/TailwindCSS%20dark%20mode%20configuration%20in%20Gatsby/4.tsx"
+    linesCount={23}
+  />
+  <M>
+    Take a look at different ways to style our <B>HTML</B> via classes. We may
+    use the <B>global</B> way, that you saw in <B>global.css</B> file, or we may
+    do it "inline" with <B>dark prefix</B>.{" "}
+  </M>
+  <M>
+    There is still one missing part to make it work. We need to tell the{" "}
+    <B>Tailwind</B> and the <B>plugin</B>, how dark mode class should be
+    attached. We need to provide the following changes in{" "}
+    <B>tailwind.config.js</B> file:{" "}
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="The tailwind.config.js file"
+    added={[[4, 4]]}
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/TailwindCSS%20dark%20mode%20configuration%20in%20Gatsby/5.ts"
+    linesCount={8}
+  />
+</Section>
+
+<Section>
+  <XL>Adding missing TypeScript definitions</XL>
+  <M>
+    If you open the IDE inside modified files, you'll see a lot of{" "}
+    <B>TypeScript</B> errors. It's because the plugin that we've installed,
+    doesn't contain type definitions. We are lucky that the exposed API of the
+    plugin is really small, so we may add our own type definitions inside our
+    project.
+  </M>
+  <Image
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/TailwindCSS%20dark%20mode%20configuration%20in%20Gatsby/1.gif"
+    description="TypeScript warns us about missing defs"
+  />
+  <M>
+    To fix it we need to define types, update <B>tsconfig.json</B> file to tell{" "}
+    <B>TypeScript</B> - "Hey! There are additional types for this library". So,
+    let's start with <B>type definitions</B>. Let's add them inside the
+    following file: <B>src/declarations/gatsby-plugin-dark-mode.d.ts</B>. We
+    added an additional "declarations" folder - maybe in the future there will
+    be another package to cover with types.{" "}
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/TailwindCSS%20dark%20mode%20configuration%20in%20Gatsby/6.ts"
+    linesCount={16}
+    description="The gatsby-plugin-dark-mode.d.ts file"
+  />
+  <M>
+    Definitions are ready, but still <B>TypeScript</B> doesn't have any idea
+    what it is. We need to update <B>tsconfig.json</B> file in following
+    way:{" "}
+  </M>
+  <Code
+    mode="dynamic"
+    lang="json"
+    added={[[1, 5]]}
+    description="The tsconfig.json file"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/TailwindCSS%20dark%20mode%20configuration%20in%20Gatsby/7.json"
+    linesCount={5}
+  />
+  <M>
+    After these changes, your <B>IDE</B> and <B>TypeScript</B> should be
+    calm.{" "}
+  </M>
+  <Image
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/TailwindCSS%20dark%20mode%20configuration%20in%20Gatsby/2.gif"
+    description="TypeScript definitions added"
+  />
+</Section>
+
+<Example label="The result">
+  <M>
+    Our dark mode works and looks as in the following <B>GIF</B>:{" "}
+  </M>
+  <Image
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/TailwindCSS%20dark%20mode%20configuration%20in%20Gatsby/3.gif"
+    description="The final result"
+  />
+  <M>
+    To get current result jump into{" "}
+    <A
+      outside
+      href="https://github.com/polubis/Gatsby5-Tailwind-TypeScript-Cypress-jest-rtl-template"
+    >
+      Gatsby5 | Tailwind | TypeScript | Cypress | jest and RTL template
+    </A>{" "}
+    and check{" "}
+    <A
+      outside
+      href="https://github.com/polubis/Gatsby5-Tailwind-TypeScript-Cypress-jest-rtl-template/commits/main"
+    >
+      commits
+    </A>{" "}
+    to understand the progress.
+  </M>
+</Example>
+
+<Summary label="Conclusions and next steps">
+  <M>
+    Now our <B>dark mode</B> feature is enabled! Now, you need to add dedicated
+    selectors in your <B>css</B> files or "inline" with <B>dark</B> prefix in
+    class names.
+  </M>
+  <M>
+    It's good to mention that the implemented solution remembers the chosen
+    state. So, after the page refresh, there is still a theme available.{" "}
+  </M>
+  <M>
+    In the next lesson, we'll add <B>commitlint</B> to our project and we'll
+    protect developers from adding bad-looking <B>commits</B>.
+  </M>
+</Summary>
