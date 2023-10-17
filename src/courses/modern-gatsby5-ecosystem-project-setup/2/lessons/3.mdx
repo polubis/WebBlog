@@ -1,0 +1,239 @@
+---
+name: Adding Tailwind to Gatsby project
+duration: 3
+description: The complete guide to configuration for Tailwind in the Gatsby framework. We'll explore all required changes and we'll make our project bulletproof.
+---
+
+<Prelude label="Our goal">
+  <Hint hasBg>
+    If you want to know the all course concepts, technologies and understand
+    what kind of <B>Node</B> and <B>npm</B> versions you need, check the
+    previous lesson -{" "}
+    <A href="/courses/modern-gatsby5-ecosystem-project-setup/introduction/course-overview/">
+      Course overview
+    </A>
+    .
+  </Hint>
+  <Hint hasBg>
+    If you already read this article - jump into{" "}
+    <A
+      outside
+      href="https://github.com/polubis/Gatsby5-Tailwind-TypeScript-Cypress-jest-rtl-template"
+    >
+      Gatsby5 | Tailwind | TypeScript | Cypress | jest and RTL template
+    </A>{" "}
+    and check{" "}
+    <A
+      outside
+      href="https://github.com/polubis/Gatsby5-Tailwind-TypeScript-Cypress-jest-rtl-template/commits/main"
+    >
+      commits
+    </A>{" "}
+    to understand the progress.
+  </Hint>
+  <M>
+    In previous lesson -{" "}
+    <A
+      href="/courses/modern-gatsby5-ecosystem-project-setup/creating-project/adding-eslint-with-prettier-and-husky-to-project/"
+    >
+      🌟 Adding Eslint with Prettier and Husky to project
+    </A>
+    , we added configuration for <B>Eslint</B>, <B>Husky</B> and <B>Prettier</B>.
+    Now, it's time to add <B>Tailwind</B> to our project.
+  </M>
+  <M>
+    We want to connect <B>Tailwind</B> framework to <B>Gatsby</B>. This duo is
+    really powerful and makes our life/developer experience much easier. The
+    setup is really easy. It's almost the same as described in the
+    documentation, just some parts are different.
+  </M>
+</Prelude>
+
+<Section>
+  <XL>Installation of required dependencies</XL>
+  <M>
+    We need to install the required dependencies to make it work. To be precise,
+    only <B>development</B> dependencies. So, type the following command in your
+    terminal:{" "}
+  </M>
+  <M>
+    <B>npm i --save-dev tailwind postcss gatsby-plugin-postcss autoprefixer</B>
+  </M>
+  <Code
+    added={[
+      [3, 3],
+      [12, 12],
+      [10, 10],
+      [14, 14],
+    ]}
+    mode="dynamic"
+    lang="json"
+    description="New packages added"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/dev-deps-tailwind-setup.json"
+    linesCount={16}
+  />
+  <L>
+    <Li>
+      Autoprefixer is a PostCSS plugin that automatically adds vendor prefixes
+      to your CSS code, ensuring compatibility with various web browsers and
+      reducing the need for manual prefixing,
+    </Li>
+    <Li>
+      PostCSS is a versatile tool for processing CSS, offering a wide range of
+      plugins to transform and optimize your stylesheets,
+    </Li>
+    <Li>
+      Gatsby-plugin-postcss integrates PostCSS into Gatsby projects, allowing
+      you to leverage the capabilities of PostCSS to enhance your site's CSS and
+      optimize performance,
+    </Li>
+    <Li>
+      TailwindCSS is a utility-first CSS framework that simplifies and
+      streamlines the process of creating responsive and well-structured user
+      interfaces.
+    </Li>
+  </L>
+</Section>
+
+<Section>
+  <XL>Adding default Tailwind styles</XL>
+  <M>
+    To make <B>Tailwind</B> work, we need to have its default styles attached to{" "}
+    <B>main</B> style file. In our case let's create under <B>src</B> directory,
+    the <B>global.css</B> file with following content:
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="The global.css file under src directory"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/global-file.css"
+    linesCount={3}
+  />
+  <M>
+    With these 3 lines, we included basic styles like resets, paddings, and
+    margins. Next, we added utility classes like "px-3", ...etc. If we would
+    like to use components - the last line is responsible for adding styles for
+    it.{" "}
+  </M>
+  <M>
+    Now, we need to attach this file with styles to <B>gatsby-browser.ts</B>{" "}
+    file, which we need to create at the root of our repository - not under{" "}
+    <B>src</B>!
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="The gatsby-browser.ts file"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/imp1.css"
+    linesCount={1}
+  />
+</Section>
+
+<Section>
+  <XL>Adding configuration files</XL>
+  <M>
+    Unfortunately, if we try to use styles in any of our components or pages, it
+    will not work. Still, we need to add some configuration stuff. The first
+    config will be the one for <B>Tailwind</B>. Create a{" "}
+    <B>tailwind.config.js</B> file under the root directory.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="js"
+    description="The tailwind.config.js file"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/tw-1.js"
+    linesCount={15}
+  />
+  <M>
+    The really important part is the <B>content</B> property. If you add new
+    directories and you want to use styles inside components defined there, you
+    need to add a pattern to the <B>content</B> property. So, if you'll add new
+    components under <B>src/components</B> directory, you need to change this in
+    the following way:
+  </M>
+  <Code
+    mode="dynamic"
+    lang="js"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/tw2.js"
+    linesCount={1}
+  />
+  <M>
+    Now, it's time for <B>postcss.config.js</B> file. We need to create it at
+    the root directory.{" "}
+  </M>
+  <Code
+    mode="dynamic"
+    lang="js"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/tw-3.js"
+    linesCount={6}
+    description="The postcss.config.js file"
+  />
+  <M>
+    This file will have an empty configuration - we don't need for our case to
+    add <B>Autoprefixer</B> or change the <B>Tailwind</B> behavior.{" "}
+  </M>
+  <M>
+    Last, the most important part - we need to add installed{" "}
+    <B>gatsby-plugin-postcss</B> to our <B>gatsby.config.ts</B> file. This
+    plugin integrates <B>Tailwind</B> with <B>Gatsby</B> and allows us to add
+    additional configuration.{" "}
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="The gatsby-config.ts file"
+    added={[[2, 2]]}
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/tw-4.js"
+    linesCount={2}
+  />
+</Section>
+
+<Section>
+  <XL>Testing the setup</XL>
+  <M>
+    Now, when you run the project on <B>development</B> environment via{" "}
+    <B>npm run start</B>, you'll be able to use <B>Tailwind</B>!
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/tw-5.tsx"
+    linesCount={7}
+  />
+  <M>
+    To be sure that everything works correctly also on production build, run{" "}
+    <B>npm run build</B> and then, <B>npm run serve</B> - the application will
+    be opened on another port, and you'll have information about that.{" "}
+  </M>
+</Section>
+
+<Example label="The result">
+  <M>
+    To get current result jump into{" "}
+    <A
+      outside
+      href="https://github.com/polubis/Gatsby5-Tailwind-TypeScript-Cypress-jest-rtl-template"
+    >
+      Gatsby5 | Tailwind | TypeScript | Cypress | jest and RTL template
+    </A>{" "}
+    and check{" "}
+    <A
+      outside
+      href="https://github.com/polubis/Gatsby5-Tailwind-TypeScript-Cypress-jest-rtl-template/commits/main"
+    >
+      commits
+    </A>{" "}
+    to understand the progress.
+  </M>
+</Example>
+
+<Summary label="Conclusions and next steps">
+  <M>
+    <B>Tailwind</B> works. The setup was kinda quick. Thanks to <B>plugins</B>{" "}
+    available in <B>Gatsby</B> ecosystem, it's really easy to configure all what
+    we need.
+  </M>
+  <M>
+    In the next article, we'll add support for <B>dark mode</B> to our project!
+  </M>
+</Summary>
