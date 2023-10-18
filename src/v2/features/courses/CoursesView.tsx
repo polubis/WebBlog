@@ -9,12 +9,11 @@ import { Link } from "gatsby"
 import Button from "../../../components/button/Button"
 
 const Grid = styled.div`
-  gap: 32px;
-  justify-content: center;
+  max-width: 920px;
+  margin: 0 auto;
 
-  & > * {
-    width: 100%;
-    max-width: 420px;
+  & > *:not(:last-child) {
+    margin-bottom: 32px;
   }
 `
 
@@ -30,7 +29,7 @@ const CoursesView = () => {
         {t.page_title}
       </h1>
       <Content paddingY>
-        <Grid className="wrap">
+        <Grid className="col">
           {courses.map(course => (
             <CourseTile
               key={course.title}
