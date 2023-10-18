@@ -51,12 +51,12 @@
   "just_a_moment": "Just a moment :)",
   "smth_wrong": "Something went wrong - please try again.",
   "roller": {
-    "title": "This snippet is kinda big 🙀",
+    "title": "Code snippet is here 🧑‍💻",
     "description": "We are hiding too big snippets to reduce the time to load of our page. If you want to see it, just click the button below.",
     "btn_title": "Show me"
   },
   "image_placeholder": {
-    "title": "This image is really big 🙀",
+    "title": "Image is here 🖼️",
     "description": "We are hiding too big images to reduce your internet transfer. If you want to see it, just click the button below.",
     "btn_title": "Show me"
   },
