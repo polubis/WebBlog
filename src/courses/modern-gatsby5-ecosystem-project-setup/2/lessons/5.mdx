@@ -1,0 +1,204 @@
+---
+name: Organized Git commits with Commitlint
+duration: 3
+description: Discover the power of Commitlint and elevate your version control game! Learn how to create structured and meaningful Git commits that enhance collaboration and simplify project management. Dive into this comprehensive guide to understand the benefits of Commitlint, set it up effortlessly, and ensure your codebase remains clean and efficient. Achieve better code quality, smoother code reviews, and improved project documentation with organized Git commits using Commitlint.
+---
+
+<Prelude label="Embracing conventions: building consistency in development">
+  <Hint hasBg>
+    If you want to know the all course concepts, technologies and understand
+    what kind of <B>Node</B> and <B>npm</B> versions you need, check the initial
+    lesson -{" "}
+    <A href="/courses/modern-gatsby5-ecosystem-project-setup/introduction/course-overview/">
+      Course overview
+    </A>
+    .
+  </Hint>
+  <Hint hasBg>
+    If you already read this article - jump into{" "}
+    <A
+      outside
+      href="https://github.com/polubis/Gatsby5-Tailwind-TypeScript-Cypress-jest-rtl-template"
+    >
+      Gatsby5 | Tailwind | TypeScript | Cypress | jest and RTL template
+    </A>{" "}
+    and check{" "}
+    <A
+      outside
+      href="https://github.com/polubis/Gatsby5-Tailwind-TypeScript-Cypress-jest-rtl-template/commits/main"
+    >
+      commits
+    </A>{" "}
+    to understand the progress.
+  </Hint>
+  <M>
+    In previous lesson -{" "}
+    <A href="/courses/modern-gatsby5-ecosystem-project-setup/creating-project/tailwind-c-s-s-dark-mode-configuration-in-gatsby/">
+      🌟 TailwindCSS dark mode configuration in Gatsby
+    </A>
+    , we added <B>support for dark mode</B>. Now, it's time to add <B>
+      Commitlint
+    </B> and some conventions to our commits.
+  </M>
+  <M>
+    Imagine a big project that you joined yesterday. Almost 1000 commits. So,
+    you would like to check the progress of the project from a time perspective
+    and verify how dedicated features have been developed. Traversing all of
+    these commits may be really time-consuming and if their messages are not
+    clear enough - you will have tons of problems understanding the context of
+    the provided change...
+  </M>
+  <M>
+    In another way, imagine a situation in which you made a problematic, buggy
+    code and it has been pushed to the <B>main</B> branch. If your commit
+    messages will look like in the below image, reverting these changes will be
+    really hard.{" "}
+  </M>
+  <Image
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/Organized%20Git%20commits%20with%20Commitlint/1.jpg"
+    description="Ugly and inconsistent commit messages"
+  />
+  <M>
+    That's why adding conventions for commits in your <B>Git</B> repository will
+    make all of these activities much easier. You'll be able to understand the
+    context, scope, and the reason why dedicated change has been added just by
+    checking the commit name/message/body.{" "}
+  </M>
+  <M>
+    The most popular conventions are from{" "}
+    <A outside href="https://www.conventionalcommits.org/en/v1.0.0/">
+      Conventional commits
+    </A>{" "}
+    specification. This guide describes how we should name our commit messages
+    and provides skeleton for commit body. Here you have some examples:{" "}
+  </M>
+  <Image
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/Organized%20Git%20commits%20with%20Commitlint/2.jpg"
+    description="Now it's easier to understand the Git history"
+  />
+  <M>Is it easier to read and understand? Definitely YES💥!</M>
+  <Hint hasBg>
+    Feel free to check the full{" "}
+    <A outside href="https://www.conventionalcommits.org/en/v1.0.0/">
+      Conventional commits
+    </A>{" "}
+    specification for more conventions.
+  </Hint>
+</Prelude>
+
+<Section>
+  <XL>Commitlint: key to meaningful Git commits</XL>
+  <M>
+    Verifying every commit manually will time consuming. So, I have good news
+    for you. There is a plugin called <B>Commitlint</B> which does it for us. If
+    the commit does not meet the conventions, during the commit stage in our
+    IDE, we will get an error.
+  </M>
+  <Image
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/Organized%20Git%20commits%20with%20Commitlint/3.gif"
+    description="The Commitlint is a policeman"
+  />
+  <M>
+    The same situation should occur on <B>pipelines</B> during the{" "}
+    <B>pull request</B>, but this will be covered in the next lessons.
+  </M>
+</Section>
+
+<Section>
+  <XL>Quick guide to configure Commitlint with Husky</XL>
+  <M>
+    We've already configured <B>Husky</B> in{" "}
+    <A href="/courses/modern-gatsby5-ecosystem-project-setup/creating-project/adding-eslint-with-prettier-and-husky-to-project/">
+      🌟 Adding Eslint with Prettier and Husky to project
+    </A>{" "}
+    lesson. If you don't know how to achieve it, just read it. So, we'll skip
+    this part.
+  </M>
+  <M>
+    First, we need to install packages as development dependency with following
+    command:{" "}
+    <B>npm i --save-dev @commitlint/cli commitlint/config-conventional</B>.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="json"
+    added={[[2, 3]]}
+    description="Packages added to package.json file"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/Organized%20Git%20commits%20with%20Commitlint/1.json"
+    linesCount={4}
+  />
+  <M>
+    Now, it's time for the configuration file in which we'll specify some rules
+    for <B>Commitlint</B>. Let's create the <B>commitlint.config.js</B> file in
+    the <B>root</B> directory with following content.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="js"
+    description="The commitlint.config.js file"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/Organized%20Git%20commits%20with%20Commitlint/2.js"
+    linesCount={21}
+  />
+  <M>
+    The last part is adding <B>commit-msg</B> file under <B>.husky</B>{" "}
+    directory.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="bash"
+    description="The commit-msg file"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/Organized%20Git%20commits%20with%20Commitlint/3.sh"
+    linesCount={4}
+  />
+  <M>
+    The first line indicates the interpreter to use. The second one runs another
+    script - <B>husky.sh</B>. The last line triggers <B>Commitlint</B> with{" "}
+    <B>edit mode</B>.{" "}
+  </M>
+</Section>
+
+<Example label="The result">
+  <M>
+    Our <B>Commitlint</B> should protect us from making ugly commits in
+    following way:{" "}
+  </M>
+  <Image
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/Organized%20Git%20commits%20with%20Commitlint/4.gif"
+    description="The final result"
+  />
+  <M>
+    To get current result jump into{" "}
+    <A
+      outside
+      href="https://github.com/polubis/Gatsby5-Tailwind-TypeScript-Cypress-jest-rtl-template"
+    >
+      Gatsby5 | Tailwind | TypeScript | Cypress | jest and RTL template
+    </A>{" "}
+    and check{" "}
+    <A
+      outside
+      href="https://github.com/polubis/Gatsby5-Tailwind-TypeScript-Cypress-jest-rtl-template/commits/main"
+    >
+      commits
+    </A>{" "}
+    to understand the progress.
+  </M>
+</Example>
+
+<Summary label="Conclusions and next steps">
+  <M>
+    Now you understand the impact of having well and human-friendly{" "}
+    <B>commit messages</B>. After this lesson, you should be able to use them
+    and you have a policeman that protects you from making mistakes. Everything
+    is automated via a simple <B>@commitlint/config-conventional</B> plugin and{" "}
+    <B>Husky</B> library.
+  </M>
+  <M>
+    In the next{" "}
+    <A href="/courses/modern-gatsby5-ecosystem-project-setup/creating-project/integrating-zustand-state-management-with-gatsby-and-react/">
+      🌟 Integrating Zustand state management with Gatsby and React
+    </A>{" "}
+    lesson, we'll cover <B>Zustand</B> library setup in <B>Gatsby</B>{" "}
+    ecosystem.{" "}
+  </M>
+</Summary>

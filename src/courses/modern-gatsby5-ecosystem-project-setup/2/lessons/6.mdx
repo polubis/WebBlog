@@ -1,0 +1,334 @@
+---
+name: Integrating Zustand state management with Gatsby and React
+duration: 7
+description: Discover how to seamlessly integrate Zustand, a lightweight state management library, into your Gatsby and React projects. Enhance performance and streamline your application's state handling with this step-by-step guide to leveraging Zustand for seo-friendly, lightning-fast web development.
+---
+
+<Prelude label="Why it's worth to use Zustand?">
+  <Hint hasBg>
+    If you want to know the all course concepts, technologies and understand
+    what kind of <B>Node</B> and <B>npm</B> versions you need, check the initial
+    lesson -{" "}
+    <A href="/courses/modern-gatsby5-ecosystem-project-setup/introduction/course-overview/">
+      Course overview
+    </A>
+    .
+  </Hint>
+  <Hint hasBg>
+    If you already read this article - jump into{" "}
+    <A
+      outside
+      href="https://github.com/polubis/Gatsby5-Tailwind-TypeScript-Cypress-jest-rtl-template"
+    >
+      Gatsby5 | Tailwind | TypeScript | Cypress | jest and RTL template
+    </A>{" "}
+    and check{" "}
+    <A
+      outside
+      href="https://github.com/polubis/Gatsby5-Tailwind-TypeScript-Cypress-jest-rtl-template/commits/main"
+    >
+      commits
+    </A>{" "}
+    to understand the progress.
+  </Hint>
+  <M>
+    In previous lesson -{" "}
+    <A href="/courses/modern-gatsby5-ecosystem-project-setup/creating-project/organized-git-commits-with-commitlint/">
+      🌟 Organized Git commits with Commitlint
+    </A>
+    , we configured <B>Commitlint</B> and we explored commits conventions. Now it's
+    time to add <B>Zustand</B> for easy and lightweight state management.
+  </M>
+  <M>
+    Why do I want to use <B>Zustand</B>? To understand all reasons you should
+    consider reading{" "}
+    <A href="/articles/libraries/comparing-redux-with-zustand-for-state-management-in-react/">
+      🥇 Comparing Redux with Zustand for state management in React
+    </A>{" "}
+    article, in which I'm comparing <B>Zustand</B> with <B>Redux</B>. However,
+    if you don't have time I need to add here my reasons quickly:{" "}
+  </M>
+  <L>
+    <Li>it's super lightweight,</Li>
+    <Li>lack of boilerplate,</Li>
+    <Li>runtime fast and modular,</Li>
+    <Li>observable based,</Li>
+    <Li>well documented.</Li>
+  </L>
+  <M>
+    So, with this knowledge, it's time to configure <B>Zustand</B> for our{" "}
+    <B>Gatsby</B> template project.{" "}
+  </M>
+</Prelude>
+
+<Section>
+  <XL>Installing Zustand</XL>
+  <M>
+    We need to start with a simple installation command in the terminal:{" "}
+    <B>npm i --save zustand</B>. The new package will be added to our{" "}
+    <B>package.json</B> file.{" "}
+  </M>
+  <Code
+    mode="dynamic"
+    lang="json"
+    added={[[3, 3]]}
+    description="The updated package.json file"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/Integrating%20Zustand%20state%20management%20with%20Gatsby%20and%20React/1.json"
+    linesCount={3}
+  />
+</Section>
+
+<Section>
+  <XL>Querying page metadata with GraphQL</XL>
+  <M>
+    Let's say we want to query our home page metadata and assign it to{" "}
+    <B>Zustand</B> store. The store doesn't exist yet, but we'll create it soon.
+    We want to achieve it to avoid prop-drilling across many components that
+    will be used on our page. So, firstly we need to create some <B>GraphQL</B>{" "}
+    query in <B>home page</B>.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    changed={[[2, 2]]}
+    added={[
+      [6, 13],
+      [17, 26],
+    ]}
+    description="Current home page component implementation - index.tsx file"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/Integrating%20Zustand%20state%20management%20with%20Gatsby%20and%20React/2.tsx"
+    linesCount={45}
+  />
+  <M>
+    It's typical <B>Gatsby</B> stuff. We need some data from the file system or
+    other sources and we're able to query it. In this case, we're getting
+    information from <B>gatsby.config.ts</B> file i which we specify our{" "}
+    <B>site title</B> and <B>site URL</B> in the following object.{" "}
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    added={[[4, 7]]}
+    description="The metadata in gatsby.config.ts file"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/Integrating%20Zustand%20state%20management%20with%20Gatsby%20and%20React/3.ts"
+    linesCount={7}
+  />
+</Section>
+
+<Section>
+  <XL>Creating separate component for testing</XL>
+  <M>
+    To test our <B>Zustand</B> integration we need a component that will consume
+    the <B>store</B>. Let's call it <B>HomeView</B> and let's add it inside the{" "}
+    <B>views/home/home.view.tsx</B> file.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="The newly created views/home/home.view.tsx component"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/Integrating%20Zustand%20state%20management%20with%20Gatsby%20and%20React/4.tsx"
+    linesCount={14}
+  />
+  <M>
+    Now in our <B>HomePage</B> component which is <B>pages/index.tsx</B> file,
+    we need to use our <B>HomeView</B>.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    added={[
+      [1, 1],
+      [13, 13],
+    ]}
+    description="Update in pages/index.tsx file"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/Integrating%20Zustand%20state%20management%20with%20Gatsby%20and%20React/8.tsx"
+    linesCount={18}
+  />
+  <M>
+    The title is now hardcoded but in the future, it will be taken from{" "}
+    <B>Zustand</B> store. Before we continue, we need one more important stuff.
+    We're using <B>Tailwind</B> in our project and we added the new directory in
+    which we'll add our <B>views</B> components, so we need to update{" "}
+    <B>tailwind.config.js</B> file.{" "}
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    added={[[6, 6]]}
+    description="Updated tailwind.config.js file"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/Integrating%20Zustand%20state%20management%20with%20Gatsby%20and%20React/5.js"
+    linesCount={7}
+  />
+  <Hint hasBg>
+    If you are interested in why it's worthy to add separated components that
+    group the <B>view</B>, see the following{" "}
+    <A href="/articles/patterns/porting-for-react-applications/" outside>
+      ⭐ Porting for React applications
+    </A>{" "}
+    article.
+  </Hint>
+</Section>
+
+<Section>
+  <XL>Creating Zustand store and using it</XL>
+  <M>
+    Now it's time to create a <B>Zustand</B> store and attach it to our{" "}
+    <B>HomeView</B> component. So, let's start with store and{" "}
+    <B>types definitions</B>. Let's add the file <B>store/home/home.store.ts</B>.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="The store/home/home.store.ts file"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/Integrating%20Zustand%20state%20management%20with%20Gatsby%20and%20React/6.ts"
+    linesCount={39}
+  />
+  <M>
+    We've added some types definitions for our state. It will have 2 possible
+    shapes. The <B>idle</B> one which reflects nothing happened yet. It's just a
+    temporary state to indicate the state between the server/client not happened
+    yet.
+  </M>
+  <M>
+    The <B>ready</B> state reflects the situation in which we've data from
+    server and data is synced with server/client.
+  </M>
+  <M>
+    Next, we created the store via <B>create</B> function and we passed type to
+    this function to be protected by <B>TypeScript</B>. In addition, we created
+    an initial state which is equal to <B>is: "idle"</B> object.
+  </M>
+  <M>
+    At the end, we added a custom <B>selector hook</B> that throws an error if
+    we try to perform a read operation on the store when the state is{" "}
+    <B>idle</B>. Why do we use this weird technique? The technique is called{" "}
+    <B>exhaustiveness</B> checking and it will protect us from allocating not
+    needed properties in objects and will guide us by hand when we try to access
+    these properties.
+  </M>
+  <M>
+    But why we're throwing an exception? Imagine a situation when you will use a
+    page, query the data with <B>GraphQL</B>, and want to assign this data to{" "}
+    <B>Zustand</B> store to be able to consume it in nested components. If you
+    forget to do a sync (this we still need to implement), there is a risk that
+    data may not exist yet. To be able to find this problem faster we're
+    throwing an exception.
+  </M>
+  <M>
+    Ok, we have a store, so now we need to use it in our <B>HomeView</B>{" "}
+    component.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    added={[[2, 2]]}
+    changed={[[5, 5]]}
+    description="Changes in store/home/home.view.tsx file"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/Integrating%20Zustand%20state%20management%20with%20Gatsby%20and%20React/7.tsx"
+    linesCount={15}
+  />
+</Section>
+
+<Section>
+  <XL>Syncing the state with a custom hook</XL>
+  <M>
+    There is still one missing important part - sync between the <B>client</B>{" "}
+    and <B>server</B> state injected when we run the <B>build</B> process in{" "}
+    <B>Gatsby</B>. Unfortunately, we need to write this logic on our own. The
+    custom hook will be perfect for this case. Let's call it <B>useStoreSync</B>{" "}
+    and add it to <B>development-kit/use-store-sync.ts</B> file.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="The development-kit/use-store-sync.ts file"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/Integrating%20Zustand%20state%20management%20with%20Gatsby%20and%20React/9.ts"
+    linesCount={21}
+  />
+  <M>To sync the state between server/client we need to:</M>
+  <L ordered>
+    <Li>pass the default state (taken from GraphQL query),</Li>
+    <Li>set this state as default one,</Li>
+    <Li>check if it is a server or not,</Li>
+    <Li>if it is a server - we need to create a store once and return it,</Li>
+    <Li>if it's a client we need to set state as the passed one.</Li>
+  </L>
+  <M>
+    Our hook now may be used in <B>HomePage</B> component - the{" "}
+    <B>pages/index.tsx</B> file, in the following way:{" "}
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="The last changes in HomePage - pages/index.tsx file"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/Integrating%20Zustand%20state%20management%20with%20Gatsby%20and%20React/10.tsx"
+    linesCount={15}
+  />
+  <M>
+    We've passed here the <B>useHomeStore</B> instance and the initial state to
+    set. Now our hook will do whole meat and the state will be the same during{" "}
+    <B>build process</B> for nested components and after rehydrating on the
+    client side!
+  </M>
+  <Hint hasBg>
+    Interested about more details and how to do it in <B>NextJS</B>? Feel free
+    to dive through{" "}
+    <A
+      href="/articles/integrations/how-to-integrate-state-management-in-zustand-with-nextjs/"
+      outside
+    >
+      🌟 How to integrate state management in Zustand with NextJS
+    </A>{" "}
+    article.
+  </Hint>
+</Section>
+
+<Example label="The result">
+  <M>
+    Our <B>Zustand</B> is attached to <B>Gatsby</B> ecosystem! Now when you
+    inspect the dev tools you'll see that initially generated <B>HTML</B> during{" "}
+    <B>build process</B> is the same as the one created by the <B>client</B>{" "}
+    later.
+  </M>
+  <Image
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/modern-gatsby5-ecosystem-project-setup/Integrating%20Zustand%20state%20management%20with%20Gatsby%20and%20React/1.gif"
+    description="The final result"
+  />
+  <M>
+    To get current result jump into{" "}
+    <A
+      outside
+      href="https://github.com/polubis/Gatsby5-Tailwind-TypeScript-Cypress-jest-rtl-template"
+    >
+      Gatsby5 | Tailwind | TypeScript | Cypress | jest and RTL template
+    </A>{" "}
+    and check{" "}
+    <A
+      outside
+      href="https://github.com/polubis/Gatsby5-Tailwind-TypeScript-Cypress-jest-rtl-template/commits/main"
+    >
+      commits
+    </A>{" "}
+    to understand the progress.
+  </M>
+</Example>
+
+<Summary label="Conclusions and next steps">
+  <M>
+    Now, we are able to avoid prop drilling with a simple utility hook call at
+    the beginning of the page. The best part is that this hook will work also in{" "}
+    <B>NextJS</B> for server components and statically generated/server-side
+    rendered pages.
+  </M>
+  <Hint hasBg>
+    If you want to check how just go to{" "}
+    <A href="/articles/integrations/how-to-integrate-state-management-in-zustand-with-nextjs/">
+      🌟 How to integrate state management in Zustand with NextJS
+    </A>{" "}
+    article.{" "}
+  </Hint>
+  <M>
+    In the next lesson, we'll configure <B>page generator</B> and{" "}
+    <B>view templates</B>.
+  </M>
+</Summary>
