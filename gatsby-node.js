@@ -16,9 +16,6 @@ const { HomePageCreator } = require("./src/v2/api/home-page-creator")
 const {
   BlogCreatorPageCreator,
 } = require("./src/v2/api/blog-creator-page-creator")
-const {
-  SnippetCreatorPageCreator,
-} = require("./src/v2/api/snippet-creator-page-creator")
 const { getArticleRates } = require("./src/v2/api/setup-firebase")
 
 exports.onCreateWebpackConfig = ({ actions }) => {
@@ -92,27 +89,6 @@ const createBlogCreatorPage = ({ createPage, enLayout, plLayout }) => {
     layout: plLayout,
     ga_page: "pl/blog-creator",
     path: "/pl/blog-creator/",
-  })
-}
-
-const createSnippetsCreatorPage = ({ createPage, enLayout, plLayout }) => {
-  const create = SnippetCreatorPageCreator({
-    createPage,
-    makeComponent: () =>
-      resolve("src/v2/features/snippet-creator/SnippetCreatorPage.tsx"),
-  })
-
-  create({
-    lang: "en",
-    layout: enLayout,
-    ga_page: "snippet-creator",
-    path: "/snippet-creator/",
-  })
-  create({
-    lang: "pl",
-    layout: plLayout,
-    ga_page: "pl/snippet-creator",
-    path: "/pl/snippet-creator/",
   })
 }
 
@@ -336,7 +312,9 @@ exports.createPages = async ({ actions, graphql }) => {
           }
         }
       }
-      lessonsThumbnails: allFile(filter: {relativePath: {regex: "/lessons\/[0-999]{1,2}.jpg/"}}) {
+      lessonsThumbnails: allFile(
+        filter: { relativePath: { regex: "/lessons/[0-999]{1,2}.jpg/" } }
+      ) {
         nodes {
           name
           relativePath
@@ -516,5 +494,4 @@ exports.createPages = async ({ actions, graphql }) => {
   createManyCoursesPages({ courses: enCourses, createPage, enLayout })
   createManyLessonsPages({ courses: enCourses, createPage, enLayout })
   createBlogCreatorPage({ createPage, enLayout, plLayout })
-  createSnippetsCreatorPage({ createPage, enLayout, plLayout })
 }

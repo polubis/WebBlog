@@ -2,8 +2,6 @@ const en = require("../translation/home/en.json")
 const pl = require("../translation/home/pl.json")
 const { createUser } = require("./createUser")
 const { addDays, differenceInDays, format } = require("date-fns")
-const { REFACTOR_SAMPLE_EN } = require("./refactor-sample-en")
-const { REFACTOR_SAMPLE_PL } = require("./refactor-sample-pl")
 
 const getTimeline = ({ articles, courses }) => {
   const data = [
@@ -121,10 +119,6 @@ const HomePageCreator = ({ createPage, makeComponent }) => ({
     en,
     pl,
   }
-  const showcase_frames = {
-    en: [...REFACTOR_SAMPLE_EN],
-    pl: [...REFACTOR_SAMPLE_PL],
-  }
 
   createPage({
     path,
@@ -138,7 +132,6 @@ const HomePageCreator = ({ createPage, makeComponent }) => ({
         authors_count: authors.length,
         courses_count: courses.length,
         students_count: studentsCount,
-        showcase_frames: showcase_frames[lang],
         lessons_count: courses.reduce((acc, course) => {
           const lessonsCount = course.chapters.reduce(
             (lessonsAcc, chapter) =>

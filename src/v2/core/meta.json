@@ -40,11 +40,6 @@
       "gaPage": "blog-creator",
       "key": "creator"
     },
-    "snippet_creator": {
-      "to": "/snippet-creator/",
-      "gaPage": "snippet-creator",
-      "key": "snippet_creator"
-    },
     "home": {
       "to": "/",
       "gaPage": "home",
