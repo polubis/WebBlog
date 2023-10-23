@@ -10,7 +10,6 @@ import Loadable from "react-loadable"
 import { NavigationAction } from "./NavigationAction"
 import { LanguageLinks } from "./LanguageLinks"
 import { JoinUsLink } from "./JoinUsLink"
-import Divider from "../../components/divider/Divider"
 
 const SocialBar = Loadable({
   loader: () =>
@@ -75,15 +74,6 @@ export default function ({ children }: LayoutProps) {
       {t.courses}
     </Link>
   ) : null
-  const snippetsLink = (
-    <Link
-      to={routes.snippet_creator.to}
-      key={routes.snippet_creator.key}
-      activeStyle={activeStyle}
-    >
-      {t.snippets}
-    </Link>
-  )
   const createArticleLink = (
     <Link
       to={routes.creator.to}
@@ -113,7 +103,6 @@ export default function ({ children }: LayoutProps) {
           rightLinks={
             <>
               {createArticleLink}
-              {snippetsLink}
             </>
           }
           mobileLinks={
@@ -123,7 +112,6 @@ export default function ({ children }: LayoutProps) {
               {coursesLink}
               {createArticleLink}
               {homeLink}
-              {snippetsLink}
               <LanguageLinks row />
               <div style={{ height: '4px' }} />
               <JoinUsLink />
@@ -141,7 +129,6 @@ export default function ({ children }: LayoutProps) {
               {coursesLink}
               {createArticleLink}
               {homeLink}
-              {snippetsLink}
             </>
           }
         />
