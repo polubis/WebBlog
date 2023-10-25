@@ -18,8 +18,8 @@ description: Discover the power of useElementSize hook in accurately measuring H
   <M>
     Sometimes we want to measure the <B>width</B>, <B>height</B>, and other
     properties when the user changes the viewport - imagine the browser is
-    resized. For example, in <B>GIF</B> below, we need this feature to set state
-    and change from preview to code editor automatically.{" "}
+    resized. In <B>GIF</B> below, we need this feature to change from preview to
+    code editor automatically after window resize.{" "}
   </M>
   <Image
     rolled
@@ -28,11 +28,10 @@ description: Discover the power of useElementSize hook in accurately measuring H
   />
   <M>
     Doing it only with <B>@media</B> in <B>CSS</B> will provide unsync between
-    the visible UI and the internal state of the feature. In the mentioned
-    feature we want to give the user the possibility to change the current view,
-    and we want to automatically set it when the viewport has a dedicated size.
-    So, to achieve it we need to know the size of <B>window</B> or any other{" "}
-    <B>HTML node</B> like <B>div</B>.
+    the visible UI and the internal state of the feature. We want to give the
+    user possibility to change view, and we want to automatically set it when
+    the viewport has a dedicated size. So, to achieve it we need to know the
+    size of <B>window</B> or any other <B>HTML node</B> like <B>div</B>.
   </M>
   <M>
     That's why creating a reusable hook may be a good idea for such cases. In
@@ -168,10 +167,10 @@ description: Discover the power of useElementSize hook in accurately measuring H
     use <B>useLayoutEffect</B> hook for that.
   </M>
   <M>
-    However, if we use <B>useLayoutEffect</B> on the server side - <B>NextJS</B>
-    , we'll see an error. To avoid that, we need a simple abstraction that when
-    the code will be used on the server side, the <B>useEffect</B> will be used,
-    in another case the <B>useLayoutEffect</B> will be used.{" "}
+    However, if we use <B>useLayoutEffect</B> on the server side - <B>NextJS</B>,
+    we'll see an error. To avoid that, we need a simple abstraction that when the
+    code will be used on the server side, the <B>useEffect</B> will be used, in another
+    case the <B>useLayoutEffect</B> will be used.{" "}
   </M>
   <Code
     mode="dynamic"
@@ -217,7 +216,7 @@ description: Discover the power of useElementSize hook in accurately measuring H
     the window, we'll wait and then we'll take only last emitted event.
   </M>
   <M>
-    You may implement this mechanism on your own, use it from <B>lodash</B>, or
+    You may implement this mechanism on your own, use it from <B>Lodash</B>, or
     another library. I'll use in this example the <B>RxJs</B> operators.{" "}
   </M>
   <Code
@@ -288,8 +287,7 @@ description: Discover the power of useElementSize hook in accurately measuring H
 <Summary label="The conclusions and thoughts">
   <M>
     We've created a really nice hook that is able to listen for <B>body</B> and
-    any other <B>HTML node</B> resize event and update the metadata that we may
-    use in our components or other hooks. The hook prevents us from making
+    any other <B>HTML node</B> resize events. The hook prevents us from making
     popular mistakes when working with not ready state and guides us by hand on
     how to use the attached metadata.{" "}
   </M>
