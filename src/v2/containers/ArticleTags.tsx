@@ -1,11 +1,11 @@
 import React from "react"
 import { Tags } from "../components/Tags"
-import { useArticleProvider } from "../features/article/ArticleProvider"
+import { useArticlePageProvider } from "../features/article/ArticlePageProvider"
 
 const ArticleTags = () => {
     const {
         tags,
-    } = useArticleProvider()
+    } = useArticlePageProvider()
 
     return (
         <Tags>

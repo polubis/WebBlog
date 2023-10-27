@@ -16,7 +16,13 @@ interface CodeErrorWrapperProps {
 }
 
 interface LanguageLinksProps {
-  row?: boolean;
+  row?: boolean
+}
+
+interface VoteButtonProps {
+  disabled?: boolean;
+  onClick?(): void
+  vote?: number
 }
 
 export type {
@@ -25,4 +31,5 @@ export type {
   LanguageLinksProps,
   ImageErrorWrapperProps,
   CodeErrorWrapperProps,
+  VoteButtonProps,
 }

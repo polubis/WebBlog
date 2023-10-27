@@ -1,13 +1,13 @@
 import React from "react"
-import { useCommentsProvider } from "../CommentsProvider"
 import { CommentsList } from "./CommentsList"
 import { XL } from "../../../../ui"
 import { CommentsForm } from "./CommentsForm"
 import { useLayoutProvider } from "../../../providers/LayoutProvider"
+import { useCommentsManagement } from "../../../logic/useCommentsManagement"
 
 export const Comments = () => {
   const layout = useLayoutProvider()
-  const { state, reset, load } = useCommentsProvider()
+  const { comments: state, reset, load } = useCommentsManagement()
 
   if (state.is === "loading") {
     return (

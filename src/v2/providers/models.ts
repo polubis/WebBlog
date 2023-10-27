@@ -1,57 +1,46 @@
-import type { FirebaseApp } from "firebase/app"
-import type { Auth, GoogleAuthProvider } from "firebase/auth"
-import type { Firestore } from "firebase/firestore"
-import type { ReactNode } from "react"
+import type { ReactNode, Dispatch, SetStateAction } from "react"
 import type {
   CDate,
+  Comment,
   Mdate,
   Path,
   Rate,
   Seniority,
+  State,
   Technology,
   Title,
   Url,
   User,
   Vote,
 } from "../core/models"
+import type comments_en from "../translation/comments/en.json"
+import type comments_pl from "../translation/comments/pl.json"
+import { User as FirebaseUser } from "firebase/auth"
 
-export interface FirebaseProviderCtx {
-  app: FirebaseApp
-  auth: Auth
-  db: Firestore
-  provider: GoogleAuthProvider
+export type VoteUpdateAction = "increment" | "decrement"
+
+export interface VoteState {
+  vote: Vote
+  is: "idle" | "adding" | "added" | "not-added"
 }
 
-export interface FirebaseProviderProps {
-  children: ReactNode
-}
+export type CommentsT = typeof comments_en | typeof comments_pl
+export type IdleState = State<"idle">
+export type LoadingState = State<"loading">
+export type LoadedState = State<"loaded", { comments: Comment[] }>
+export type FailState = State<"fail">
+export type AddState = State<"add", { comments: Comment[]; user: FirebaseUser }>
+export type AddingState = State<"adding", { comments: Comment[]; user: FirebaseUser }>
 
-export type VotesProviderIdle = { is: "idle" }
-export type VotesProviderLoading = { is: "loading" }
-export type VotesProviderOk = { is: "ok"; vote: Vote }
-export type VotesProviderSaving = { is: "saving"; vote: Vote }
-export type VotesProviderFail = { is: "fail" }
+export type CommentsState =
+  | IdleState
+  | LoadingState
+  | LoadedState
+  | FailState
+  | AddState
+  | AddingState
 
-export type VotesProviderState =
-  | VotesProviderIdle
-  | VotesProviderLoading
-  | VotesProviderOk
-  | VotesProviderSaving
-  | VotesProviderFail
-
-export interface VotesProviderCtx {
-  state: VotesProviderState
-  addPositive: () => void
-  addNegative: () => void
-  load: () => void
-}
-
-export interface VotesProviderProps {
-  children: (ctx: VotesProviderCtx) => ReactNode
-  path: Path
-}
-
-export interface ArticleBasedDataProviderModel {
+export interface ArticleProviderState {
   path: Path
   cdate: CDate
   mdate: Mdate
@@ -64,6 +53,9 @@ export interface ArticleBasedDataProviderModel {
   description: string
   duration: number
   rate?: Rate
+  vote: VoteState
+  comments: CommentsState
+  resourcePath: Path
   next?: {
     path: Path
   }
@@ -73,4 +65,14 @@ export interface ArticleBasedDataProviderModel {
   seniority: Seniority
   tags: string[]
   technologies: Technology[]
+}
+
+export interface ArticleProviderProps {
+  children: ReactNode
+  initialState: ArticleProviderState
+}
+
+export interface ArticleProviderContext {
+  state: ArticleProviderState
+  setState: Dispatch<SetStateAction<ArticleProviderState>>
 }

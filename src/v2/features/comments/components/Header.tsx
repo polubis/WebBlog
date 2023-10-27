@@ -11,13 +11,14 @@ const Container = styled.div`
   }
 `
 
-export const Header = ({ text, onClose }: HeaderProps) => {
+export const Header = ({ text, disabled, onClose }: HeaderProps) => {
   return (
     <Container className="row">
       <XL>{text}</XL>
       <button
         type="button"
         className="icon-button secondary small"
+        disabled={disabled}
         onClick={onClose}
       >
         <span>

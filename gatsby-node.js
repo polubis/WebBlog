@@ -16,7 +16,7 @@ const { HomePageCreator } = require("./src/v2/api/home-page-creator")
 const {
   BlogCreatorPageCreator,
 } = require("./src/v2/api/blog-creator-page-creator")
-const { getArticleRates } = require("./src/v2/api/setup-firebase")
+const { getArticleRates, getAllVotes } = require("./src/v2/api/setup-firebase")
 
 exports.onCreateWebpackConfig = ({ actions }) => {
   actions.setWebpackConfig({
@@ -367,6 +367,7 @@ exports.createPages = async ({ actions, graphql }) => {
   } = dataRepository
 
   const rates = await getArticleRates()
+  const votes = await getAllVotes()
 
   const createEnglishArticlePages = ArticlePageCreator({
     createPage,
@@ -376,9 +377,10 @@ exports.createPages = async ({ actions, graphql }) => {
     makePath: ({ slug }) => "/articles/" + slug + "/",
     makeGaPage: ({ slug }) => "articles/" + slug,
     makeSourceUrl: ({ slug, meta }) =>
-      meta.article_source_url + "/articles/" + slug,
+      meta.article_source_url + "/articles/" + slug + "/index.mdx",
     makeTranslationPath: ({ slug }) => "/pl/articles/" + slug + "/",
     rates,
+    votes,
   })
 
   const [enLayout, enArticles] = await createEnglishArticlePages({
@@ -397,9 +399,10 @@ exports.createPages = async ({ actions, graphql }) => {
     makePath: ({ slug }) => "/pl/articles/" + slug + "/",
     makeGaPage: ({ slug }) => "pl/articles/" + slug,
     makeSourceUrl: ({ slug, meta }) =>
-      meta.article_source_url + "/articles/" + slug,
+      meta.article_source_url + "/articles/" + slug + "/article-pl.mdx",
     makeTranslationPath: ({ slug }) => "/articles/" + slug + "/",
     rates,
+    votes,
   })
 
   const [plLayout, plArticles] = await createPolishArticlePages({

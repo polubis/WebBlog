@@ -1,12 +1,12 @@
 import React from "react"
-import { useArticleProvider } from "../features/article/ArticleProvider"
+import { useArticlePageProvider } from "../features/article/ArticlePageProvider"
 import { useLayoutProvider } from "../providers/LayoutProvider"
 import { Breadcrumbs } from "../components/Breadcrumbs"
 import { Link } from 'gatsby'
 
 const ArticleBreadcrumbs = () => {
     const { routes, t } = useLayoutProvider()
-    const { title } = useArticleProvider()
+    const { title } = useArticlePageProvider()
 
     return (
         <Breadcrumbs>

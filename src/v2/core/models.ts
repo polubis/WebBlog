@@ -110,6 +110,8 @@ export interface ArticlePageModel {
   path: string
   is_new: boolean
   rate?: Rate
+  vote?: Vote
+  resourcePath: Path
   read_time: number
   cdate: CDate
   source_url: Url
