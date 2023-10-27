@@ -10,10 +10,9 @@ import { FacebookIcon } from "../../ui/icons/FacebookIcon"
 
 const Container = styled.div`
   position: fixed;
-  bottom: 44px;
+  bottom: 20px;
   left: 20px;
   z-index: 103;
-  transition: 0.3s transform ease-in-out;
 
   & > * {
     display: block;
@@ -24,14 +23,6 @@ const Container = styled.div`
     margin-bottom: 12px;
   }
 
-  &.visible {
-    transform: scale(1);
-  }
-
-  &.hidden {
-    transform: scale(0);
-  }
-
   svg path {
     fill: ${theme.black};
   }
@@ -40,11 +31,12 @@ const Container = styled.div`
 const SocialBar = () => {
   const layout = useLayoutProvider()
   const { offsetY, direction } = useScroll({ strategy: "throttle" })
+  const visible = direction === "up" && offsetY > 150
+
+  if (!visible) return null
 
   return (
-    <Container
-      className={direction === "up" && offsetY > 150 ? "visible" : "hidden"}
-    >
+    <Container>
       <a
         href={layout.discord_url}
         title={layout.t.discord_channel}
@@ -54,11 +46,7 @@ const SocialBar = () => {
           <DiscordIcon />
         </IconButton>
       </a>
-      <a
-        href={layout.fb_url}
-        title={layout.t.fb_profile}
-        target="_blank"
-      >
+      <a href={layout.fb_url} title={layout.t.fb_profile} target="_blank">
         <IconButton>
           <FacebookIcon />
         </IconButton>
@@ -72,9 +60,7 @@ const SocialBar = () => {
           <LinkedinIcon />
         </IconButton>
       </a>
-      <ScrollUpButton
-        onClick={() => window.scrollTo({ top: 0 })}
-      />
+      <ScrollUpButton onClick={() => window.scrollTo({ top: 0 })} />
     </Container>
   )
 }

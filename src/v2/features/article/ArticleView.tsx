@@ -10,7 +10,6 @@ import Layout from "../../containers/Layout"
 import { useLayoutProvider } from "../../providers/LayoutProvider"
 import { ReadInOtherLanguageBanner } from "../../../components/article/ReadInOtherLanguageBanner"
 import { Stack } from "../../../components/article/Stack"
-import { ProgressDisplayer } from "../../../components/article/ProgressDisplayer"
 import { ArticleTags } from "../../containers/ArticleTags"
 import { ArticleBreadcrumbs } from "../../containers/ArticleBreadcrumbs"
 import { Reviewers } from "../../components/Reviewers"
@@ -52,55 +51,52 @@ const ArticleView = () => {
     (): ArticleBasedDataProviderModel => ({
       ...article,
       source_url: article.source_url + "/index.mdx",
-      tags: article.tags.split(','),
+      tags: article.tags.split(","),
       duration: article.read_time,
     }),
     []
   )
 
   return (
-    <>
-      <Layout>
-        <Content>
-          <ArticleContent>
-            {article.translation_path && (
-              <ReadInOtherLanguageBanner
-                text={article.t.other_lang_banner_message}
-                linkLabel={article.t.other_lang_banner_link}
-                url={article.translation_path}
-              />
-            )}
-            <ArticleBreadcrumbs />
-            <Thumbnail
-              seniorityTitle={layout.t[article.seniority]}
-              readTime={article.read_time}
-              thumbnail={article.thumbnail.full}
-              title={article.title}
-              thumbnailAlt={layout.t.article_thumbnail}
-              isNew={article.is_new}
-              newLabel={layout.t.new}
-              seniorityLevel={article.seniority}
+    <Layout>
+      <Content>
+        <ArticleContent>
+          {article.translation_path && (
+            <ReadInOtherLanguageBanner
+              text={article.t.other_lang_banner_message}
+              linkLabel={article.t.other_lang_banner_link}
+              url={article.translation_path}
             />
-            <ArticleTags />
-            <Intro>
-              <M>{article.description}</M>
-            </Intro>
-            <Reviewers
-              author={article.author}
-              tech={article.tech_reviewer}
-              ling={article.ling_reviewer}
-              authorLabel={layout.t.author}
-              lingLabel={layout.t.linguistic_check}
-              techLabel={layout.t.technical_check}
-            />
-            <Stack className="center" items={article.technologies} />
-            <MdxProvider renderer={MDXRenderer}>{article.body}</MdxProvider>
-            <SummaryFooter {...summaryFooterProps} />
-          </ArticleContent>
-        </Content>
-      </Layout>
-      <ProgressDisplayer labels={layout.t.progress_display} />
-    </>
+          )}
+          <ArticleBreadcrumbs />
+          <Thumbnail
+            seniorityTitle={layout.t[article.seniority]}
+            readTime={article.read_time}
+            thumbnail={article.thumbnail.full}
+            title={article.title}
+            thumbnailAlt={layout.t.article_thumbnail}
+            isNew={article.is_new}
+            newLabel={layout.t.new}
+            seniorityLevel={article.seniority}
+          />
+          <ArticleTags />
+          <Intro>
+            <M>{article.description}</M>
+          </Intro>
+          <Reviewers
+            author={article.author}
+            tech={article.tech_reviewer}
+            ling={article.ling_reviewer}
+            authorLabel={layout.t.author}
+            lingLabel={layout.t.linguistic_check}
+            techLabel={layout.t.technical_check}
+          />
+          <Stack className="center" items={article.technologies} />
+          <MdxProvider renderer={MDXRenderer}>{article.body}</MdxProvider>
+          <SummaryFooter {...summaryFooterProps} />
+        </ArticleContent>
+      </Content>
+    </Layout>
   )
 }
 
