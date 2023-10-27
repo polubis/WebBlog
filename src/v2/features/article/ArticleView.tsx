@@ -1,10 +1,10 @@
-import React, { useMemo } from "react"
+import React from "react"
 import { L_UP } from "../../../utils/viewport"
 import styled from "styled-components"
 import { Content, M } from "../../../ui"
 import Intro from "../../../components/article/Intro"
 import { useScrollToTop } from "../../../utils/useScrollToTop"
-import { useArticleProvider } from "./ArticleProvider"
+import { useArticlePageProvider } from "./ArticlePageProvider"
 import Thumbnail from "../../../components/article/Thumbnail"
 import Layout from "../../containers/Layout"
 import { useLayoutProvider } from "../../providers/LayoutProvider"
@@ -16,7 +16,8 @@ import { Reviewers } from "../../components/Reviewers"
 import { MdxProvider } from "../../providers/MdxProvider"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import { SummaryFooter } from "../../containers/SummaryFooter"
-import { ArticleBasedDataProviderModel } from "../../providers/models"
+import { AddVoteSection } from "../../containers/AddVoteSection"
+import { CommentsOpener } from "../../containers/CommentsOpener"
 
 const ArticleContent = styled.main`
   margin: 24px auto;
@@ -40,22 +41,21 @@ const ArticleContent = styled.main`
   .stack {
     margin: 24px 0 42px 0;
   }
+
+  .article-view-comments-section {
+    margin: 16px 0 24px 0;
+    justify-content: flex-end;
+
+    & > *:not(:last-child) {
+      margin-right: 12px;
+    }
+  }
 `
 
 const ArticleView = () => {
   useScrollToTop()
   const layout = useLayoutProvider()
-  const article = useArticleProvider()
-
-  const summaryFooterProps = useMemo(
-    (): ArticleBasedDataProviderModel => ({
-      ...article,
-      source_url: article.source_url + "/index.mdx",
-      tags: article.tags.split(","),
-      duration: article.read_time,
-    }),
-    []
-  )
+  const article = useArticlePageProvider()
 
   return (
     <Layout>
@@ -69,6 +69,10 @@ const ArticleView = () => {
             />
           )}
           <ArticleBreadcrumbs />
+          <div className="article-view-comments-section row">
+            <CommentsOpener />
+            <AddVoteSection />
+          </div>
           <Thumbnail
             seniorityTitle={layout.t[article.seniority]}
             readTime={article.read_time}
@@ -93,7 +97,7 @@ const ArticleView = () => {
           />
           <Stack className="center" items={article.technologies} />
           <MdxProvider renderer={MDXRenderer}>{article.body}</MdxProvider>
-          <SummaryFooter {...summaryFooterProps} />
+          <SummaryFooter />
         </ArticleContent>
       </Content>
     </Layout>

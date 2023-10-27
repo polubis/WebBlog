@@ -1,16 +1,18 @@
-import React, { useMemo } from "react"
-import { FirebaseProvider } from "../providers/FirebaseProvider"
-import { CommentsProvider } from "../features/comments/CommentsProvider"
+import React from "react"
 import { useLayoutProvider } from "../providers/LayoutProvider"
 import { M, XL } from "../../ui"
 import { Rate } from "../components/Rate"
-import { CommentsView } from "../features/comments/CommentsView"
-import { useAnalytics } from "../../utils/useAnalytics"
-import { useArticleBasedDataProvider } from "../providers/ArticleBasedDataProvider"
-import { convertToFirebasePath } from "../utils/convertToFirebasePath"
-import { CommentsProviderCtx } from "../features/comments/models"
 import styled from "styled-components"
-import { summary_footer_id } from "../core/consts"
+import { useArticleProvider } from "../providers/ArticleProvider"
+import { CommentsOpener } from "./CommentsOpener"
+import Loadable from "react-loadable"
+import { AddVoteSection } from "./AddVoteSection"
+
+const CommentsView = Loadable({
+  loader: () =>
+    import("../features/comments/CommentsView").then(m => m.CommentsView),
+  loading: () => null,
+})
 
 const Container = styled.div`
   position: relative;
@@ -31,16 +33,23 @@ const Container = styled.div`
     padding: 16px;
     position: absolute;
   }
+
+  .article-comment-footer {
+    & > *:first-child {
+      margin-right: 12px;
+    }
+  }
 `
 
-const ConnectedComments = ({ state, load, reset }: CommentsProviderCtx) => {
+const CommentsSection = () => {
   const layout = useLayoutProvider()
-  const { rate } = useArticleBasedDataProvider()
-  const { track } = useAnalytics()
+  const {
+    state: { rate, comments },
+  } = useArticleProvider()
 
   return (
     <>
-      <Container id={summary_footer_id} className="comments-section">
+      <Container className="comments-section">
         {rate && (
           <div className="article-comment-rate">
             <XL>
@@ -50,43 +59,13 @@ const ConnectedComments = ({ state, load, reset }: CommentsProviderCtx) => {
         )}
         <XL>{layout.t.comments.header}</XL>
         <M>{layout.t.comments.description}</M>
-        {state.is === "idle" ? (
-          <button
-            title={layout.t.comments.open}
-            className="upper button primary"
-            onClick={() => {
-              track({ name: "comments_section_opened" })
-              load()
-            }}
-          >
-            {layout.t.comments.open}
-          </button>
-        ) : (
-          <button
-            title={layout.t.comments.close}
-            className="upper button primary"
-            onClick={reset}
-          >
-            {layout.t.comments.close}
-          </button>
-        )}
+        <div className="article-comment-footer row">
+          <CommentsOpener />
+          <AddVoteSection />
+        </div>
       </Container>
-      {state.is !== "idle" && <CommentsView />}
+      {comments.is !== "idle" && <CommentsView />}
     </>
-  )
-}
-
-const CommentsSection = () => {
-  const { path } = useArticleBasedDataProvider()
-  const layout = useLayoutProvider()
-  const preparedPath = useMemo(() => convertToFirebasePath(path), [path])
-
-  return (
-    <FirebaseProvider>
-      <CommentsProvider path={preparedPath} lang={layout.lang.key}>
-        {props => <ConnectedComments {...props} />}
-      </CommentsProvider>
-    </FirebaseProvider>
   )
 }
 

@@ -1,6 +1,5 @@
 import React from "react"
 import styled from "styled-components"
-import { useCommentsProvider } from "../CommentsProvider"
 import { M, S, X, XL } from "../../../../ui"
 import { Header } from "../components/Header"
 import { useLayoutProvider } from "../../../providers/LayoutProvider"
@@ -9,6 +8,7 @@ import { Rate } from "../../../components/Rate"
 import { format } from "date-fns"
 import theme from "../../../../utils/theme"
 import { Comment } from "../../../core/models"
+import { useCommentsManagement } from "../../../logic/useCommentsManagement"
 
 const getCommentsRate = (comments: Comment[]): number | undefined => {
   const withRates = comments.filter(
@@ -61,7 +61,7 @@ const Container = styled.div`
 
 export const CommentsList = () => {
   const layout = useLayoutProvider()
-  const { state, reset, startAdd, t } = useCommentsProvider()
+  const { comments: state, reset, startAdd, t } = useCommentsManagement()
 
   if (state.is === "loaded") {
     const totalRate = getCommentsRate(state.comments)

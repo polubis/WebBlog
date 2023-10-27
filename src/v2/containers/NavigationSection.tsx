@@ -5,22 +5,21 @@ import { useLayoutProvider } from "../providers/LayoutProvider"
 import { useAnalytics } from "../../utils/useAnalytics"
 import { Link as GatsbyLink } from "gatsby"
 import { T_DOWN } from "../../utils/viewport"
-import { useArticleBasedDataProvider } from "../providers/ArticleBasedDataProvider"
-import { summary_footer_config } from "../core/consts"
+import { useArticleProvider } from "../providers/ArticleProvider"
 
 const Container = styled.nav`
   display: flex;
   justify-content: right;
 
   & > *:not(:first-child) {
-    margin: 0 0 0 ${summary_footer_config.navigation_section_item_margin}px;
+    margin: 0 0 0 20px;
   }
 
   @media ${T_DOWN} {
     flex-flow: column;
 
     & > *:not(:first-child) {
-      margin: ${summary_footer_config.navigation_section_item_margin}px 0 0 0;
+      margin: 20px 0 0 0;
     }
     
     & > * {
@@ -32,7 +31,7 @@ const Container = styled.nav`
 
 const NavigationSection = () => {
   const layout = useLayoutProvider()
-  const data = useArticleBasedDataProvider()
+  const { state: data } = useArticleProvider()
   const { track } = useAnalytics()
 
   return (
