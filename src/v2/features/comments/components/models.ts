@@ -6,5 +6,6 @@ export interface AsideProps {
 
 export interface HeaderProps {
   text: string
+  disabled?: boolean
   onClose: () => void
 }

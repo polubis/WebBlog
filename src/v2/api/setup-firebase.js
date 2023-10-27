@@ -48,9 +48,22 @@ const getArticleRates = async () => {
   return ratesDict
 }
 
+const getAllVotes = async () => {
+  const snapshot = await getDocs(collection(db, "votes"))
+
+  const result = {}
+
+  snapshot.forEach(doc => {
+    result[doc.id] = doc.data()
+  })
+
+  return result
+}
+
 module.exports = {
   app,
   auth,
   db,
   getArticleRates,
+  getAllVotes,
 }

@@ -15,6 +15,7 @@ const ArticlePageCreator = ({ createPage }) => ({
   makeTranslationPath,
   makePath,
   rates,
+  votes,
 }) => async ({
   articles,
   authorsAvatars,
@@ -88,6 +89,8 @@ const ArticlePageCreator = ({ createPage }) => ({
       seniority: seniorityLevel,
       description,
       rate: rates[fireBasePath],
+      vote: votes[fireBasePath],
+      resourcePath: fireBasePath,
       body,
       url: meta.site_url + path,
       read_time: readTime,
