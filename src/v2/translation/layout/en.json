@@ -60,20 +60,13 @@
   "switch_to_pl": "Switch to polish",
   "switch_to_en": "Switch to english",
   "comments": {
-    "header": "Rating",
+    "header": "Comments",
     "description": "Add your honest opinion about this article and help us improve the content.",
-    "open": "See ratings",
-    "close": "Close ratings"
+    "open": "Comments",
+    "close": "Close comments"
   },
   "observe_me_header": "I create content regularly!",
   "observe_me_description_first_part": "I hope you found my post interesting. If so, maybe you'll take a peek at my",
   "observe_me_description_second_part": "where I publish posts daily.",
-  "observe_me_follow": "Follow me",
-  "platform_goal": {
-    "header": "💦 Did you enjoy the article?",
-    "at": "At",
-    "would_like_to_join": "Would like to write an article? It's not hard! Just join our",
-    "commit": "We are committed to continuously enhancing your experience and ensuring that our platform meets your needs. Remember to vote and rate this article to give author feedback 💬.",
-    "drive": "we have created a vibrant and dynamic community that brings together individuals like you who are passionate about programming. Whether you are a seasoned expert or just starting your journey in this field, we believe that you have a unique perspective and valuable insights to contribute."
-  }
+  "observe_me_follow": "Follow me"
 }

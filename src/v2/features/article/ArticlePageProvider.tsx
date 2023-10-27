@@ -2,8 +2,8 @@ import type { ArticlePageModel } from "../../core/models"
 import { createPageProvider } from "../../providers/PageProvider"
 
 const [
-  ArticleProvider,
-  useArticleProvider,
+  ArticlePageProvider,
+  useArticlePageProvider,
 ] = createPageProvider<ArticlePageModel>(null)
 
-export { ArticleProvider, useArticleProvider }
+export { ArticlePageProvider, useArticlePageProvider }

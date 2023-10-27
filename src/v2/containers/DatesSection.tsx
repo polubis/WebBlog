@@ -3,9 +3,9 @@ import theme from "../../utils/theme"
 import Badge from "../../components/article/Badge"
 import { useLayoutProvider } from "../providers/LayoutProvider"
 import { format } from "date-fns"
-import { useArticleBasedDataProvider } from "../providers/ArticleBasedDataProvider"
 import styled from "styled-components"
 import { SM_DOWN } from "../../utils/viewport"
+import { useArticleProvider } from "../providers/ArticleProvider"
 
 const Container = styled.div`
   display: grid;
@@ -25,7 +25,7 @@ const Container = styled.div`
 
 const DatesSection = () => {
   const layout = useLayoutProvider()
-  const data = useArticleBasedDataProvider()
+  const { state: data } = useArticleProvider()
 
   const { creation, update } = useMemo(
     () => ({

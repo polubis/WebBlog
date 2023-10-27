@@ -1,5 +1,4 @@
 import React, { FormEventHandler, useMemo } from "react"
-import { useCommentsProvider } from "../CommentsProvider"
 import { useForm } from "../../../../utils/useForm"
 import { M, S, Textarea } from "../../../../ui"
 import type { Rate as RateModel } from "../../../core/models"
@@ -10,6 +9,7 @@ import { useLayoutProvider } from "../../../providers/LayoutProvider"
 import { Avatar } from "../../../components/Avatar"
 import theme from "../../../../utils/theme"
 import { Rate } from "../../../components/Rate"
+import { useCommentsManagement } from "../../../logic/useCommentsManagement"
 
 const Container = styled.form`
   height: 100%;
@@ -51,10 +51,10 @@ const Container = styled.form`
 `
 
 export const CommentsForm = () => {
-  const comments = useCommentsProvider()
+  const comments = useCommentsManagement()
 
   const userRate = useMemo(() => {
-    const { state } = comments
+    const state = comments.comments
 
     if (state.is === "add" || state.is === "adding") {
       return (
@@ -91,13 +91,17 @@ export const CommentsForm = () => {
     )
   }
 
-  if (comments.state.is === "add" || comments.state.is === "adding") {
-    const { user } = comments.state
+  if (comments.comments.is === "add" || comments.comments.is === "adding") {
+    const { user } = comments.comments
     const nickname = user.displayName ?? layout.t.anonymous
 
     return (
       <Container className="col in" onSubmit={handleSubmit}>
-        <Header text="Add comment" onClose={comments.reset} />
+        <Header
+          text="Add comment"
+          disabled={comments.comments.is === "adding"}
+          onClose={comments.reset}
+        />
         <div className="comments-form-author-section row">
           <Avatar src={user.photoURL} alt={nickname} />
           <M className="truncated">{nickname}</M>
@@ -131,7 +135,7 @@ export const CommentsForm = () => {
         <div className="footer">
           <button
             className="upper button secondary w-full"
-            disabled={comments.state.is === "adding"}
+            disabled={comments.comments.is === "adding"}
             type="button"
             title={layout.t.back}
             onClick={comments.startReadComments}
@@ -140,7 +144,7 @@ export const CommentsForm = () => {
           </button>
           <button
             className="upper button primary w-full"
-            disabled={comments.state.is === "adding" || invalid}
+            disabled={comments.comments.is === "adding" || invalid}
             type="submit"
             title={layout.t.confirm}
           >
