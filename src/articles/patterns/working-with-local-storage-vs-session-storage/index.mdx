@@ -76,17 +76,6 @@ const value = localStorage.getItem('my-value')
     This is a problem, especially for <B>beginners</B>.
   </M>
   <M>
-    The next trick is to use the <B>local/session</B> storage API between
-    different files. Take a look at the example below:
-  </M>
-  <Code mode="static" lang="ts">{`
-// file1.ts
-const user = localStorage.get('user')
-// file2.ts
-const user = localStorage.get('user')
-// Etc...
-`}</Code>
-  <M>
     <B>What about reading and writing?</B>
   </M>
   <M>

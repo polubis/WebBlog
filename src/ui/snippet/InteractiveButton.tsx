@@ -11,7 +11,7 @@ const FeedbackButton = styled.button`
   padding: 8px;
   background: transparent;
   outline: none;
-  border: 1px solid #c7bdbd;
+  border: 1px solid #fff;
   border-radius: 4px;
   color: white;
   display: flex;

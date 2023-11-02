@@ -48,7 +48,13 @@ const createManyCoursesPages = ({ courses, createPage, enLayout }) => {
   })
 }
 
-const createManyLessonsPages = ({ courses, createPage, enLayout }) => {
+const createManyLessonsPages = ({
+  courses,
+  createPage,
+  enLayout,
+  votes,
+  rates,
+}) => {
   const create = LessonPageCreator({
     createPage,
     makeComponent: () => resolve("src/v2/features/lesson/LessonPage.tsx"),
@@ -65,6 +71,8 @@ const createManyLessonsPages = ({ courses, createPage, enLayout }) => {
           chapter,
           prevChapter: course.chapters[chapterIndex - 1],
           nextChapter: course.chapters[chapterIndex + 1],
+          votes,
+          rates,
         })
       })
     })
@@ -495,6 +503,12 @@ exports.createPages = async ({ actions, graphql }) => {
 
   createCoursesPage({ courses: enCourses, createPage, enLayout })
   createManyCoursesPages({ courses: enCourses, createPage, enLayout })
-  createManyLessonsPages({ courses: enCourses, createPage, enLayout })
+  createManyLessonsPages({
+    courses: enCourses,
+    createPage,
+    enLayout,
+    votes,
+    rates,
+  })
   createBlogCreatorPage({ createPage, enLayout, plLayout })
 }

@@ -20,9 +20,17 @@ interface LanguageLinksProps {
 }
 
 interface VoteButtonProps {
-  disabled?: boolean;
+  disabled?: boolean
   onClick?(): void
   vote?: number
+}
+
+export interface RatingSectionProps {
+  className?: string
+}
+
+export interface ArticleBodyProps {
+  breadcrumbs: ReactNode
 }
 
 export type {

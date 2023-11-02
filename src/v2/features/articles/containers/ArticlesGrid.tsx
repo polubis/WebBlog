@@ -131,12 +131,12 @@ const ArticlesGrid = () => {
           title,
           description,
           author,
-          read_time,
+          duration,
           is_new,
         }) => (
           <Tile key={title} className="col">
             <Tags>
-              {tags.split(",").map(tag => (
+              {tags.map(tag => (
                 <h6 key={tag}>{tag}</h6>
               ))}
             </Tags>
@@ -155,7 +155,7 @@ const ArticlesGrid = () => {
                   avatarTitle={author.full_name}
                 />
               </Link>
-              <ReadTime time={read_time} />
+              <ReadTime time={duration} />
               {is_new && <Badge color={theme.green}>{newText}</Badge>}
             </div>
             <Link to={path}>

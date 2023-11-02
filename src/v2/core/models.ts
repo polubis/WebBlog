@@ -22,6 +22,7 @@ import type home_en from "../translation/home/en.json"
 import type { TimelineData } from "../../components/timeline/models/data"
 import type blog_creator_en from "../translation/blog-creator/en.json"
 import type blog_creator_pl from "../translation/blog-creator/pl.json"
+import type { User as FirebaseUser } from "firebase/auth"
 
 export type Id = string
 export type Title = string
@@ -101,6 +102,29 @@ export enum Seniority {
   expert = "🥇",
 }
 
+export interface VoteState {
+  vote: Vote
+  is: "idle" | "adding" | "added" | "not-added"
+}
+
+export type IdleState = State<"idle">
+export type LoadingState = State<"loading">
+export type LoadedState = State<"loaded", { comments: Comment[] }>
+export type FailState = State<"fail">
+export type AddState = State<"add", { comments: Comment[]; user: FirebaseUser }>
+export type AddingState = State<
+  "adding",
+  { comments: Comment[]; user: FirebaseUser }
+>
+
+export type CommentsState =
+  | IdleState
+  | LoadingState
+  | LoadedState
+  | FailState
+  | AddState
+  | AddingState
+
 export interface ArticlePageModel {
   title: Title
   description: string
@@ -110,13 +134,14 @@ export interface ArticlePageModel {
   path: string
   is_new: boolean
   rate?: Rate
-  vote?: Vote
   resourcePath: Path
-  read_time: number
+  duration: number
   cdate: CDate
   source_url: Url
   url: Url
   slug: Slug
+  vote: VoteState
+  comments: CommentsState
   translation_path?: string
   seniority: Seniority
   thumbnail: ArticleThumbnail
@@ -131,10 +156,29 @@ export interface ArticlePageModel {
   ling_reviewer: Omit<User, "avatar"> & {
     avatar: Pick<User["avatar"], "small">
   }
-  tags: string
+  tags: string[]
   technologies: Technology[]
   next?: MinimumArticle
   prev?: MinimumArticle
+  course?: {
+    title: Title
+    path: Path
+    seniority: Seniority
+    tags: string[]
+    technologies: Technology[]
+  }
+  chapter?: {
+    title: Title
+  }
+  chapters?: {
+    duration: number
+    title: Title
+    lessons: {
+      title: Title
+      duration: number
+      path: Path
+    }[]
+  }[]
 }
 
 export interface AuthorsPageModel {
@@ -159,7 +203,7 @@ export type ArticlesPageModelArticle = Pick<
   | "description"
   | "title"
   | "is_new"
-  | "read_time"
+  | "duration"
   | "tags"
   | "seniority"
 > & {
@@ -225,43 +269,6 @@ export interface CoursePageModel {
       path: Path
     }[]
   }[]
-}
-
-export interface LessonPageModel {
-  t: LessonT
-  ga_page: GaPage
-  url: Url
-  duration: number
-  body: string
-  thumbnail: FluidObject
-  description: string
-  title: Title
-  course: {
-    title: Title
-    path: Path
-    seniority: Seniority
-    tags: string[]
-    technologies: Technology[]
-  }
-  chapter: {
-    title: Title
-  }
-  chapters: {
-    duration: number
-    title: Title
-    lessons: {
-      title: Title
-      duration: number
-      path: Path
-    }[]
-  }[]
-  source_url: Url
-  next?: {
-    path: Path
-  }
-  prev?: {
-    path: Path
-  }
 }
 
 export interface HomePageModel {
