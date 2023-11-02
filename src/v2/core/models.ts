@@ -140,8 +140,8 @@ export interface ArticlePageModel {
   source_url: Url
   url: Url
   slug: Slug
-  vote: VoteState;
-  comments: CommentsState;
+  vote: VoteState
+  comments: CommentsState
   translation_path?: string
   seniority: Seniority
   thumbnail: ArticleThumbnail
@@ -253,14 +253,6 @@ export interface CoursePageModel {
 }
 
 export interface LessonPageModel {
-  t: LessonT
-  ga_page: GaPage
-  url: Url
-  duration: number
-  body: string
-  thumbnail: FluidObject
-  description: string
-  title: Title
   course: {
     title: Title
     path: Path
@@ -280,13 +272,6 @@ export interface LessonPageModel {
       path: Path
     }[]
   }[]
-  source_url: Url
-  next?: {
-    path: Path
-  }
-  prev?: {
-    path: Path
-  }
 }
 
 export interface HomePageModel {

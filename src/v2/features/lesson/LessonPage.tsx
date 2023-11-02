@@ -1,35 +1,36 @@
 import React from "react"
 
 import { LayoutProvider } from "../../providers/LayoutProvider"
-import { Layout, LessonPageModel } from "../../core/models"
+import { ArticlePageModel, Layout, LessonPageModel } from "../../core/models"
 import { SEO } from "../../containers/SEO"
-import { LessonPageProvider } from "./LessonPageProvider"
 import { LessonView } from "./LessonView"
+import { ArticleProvider } from "../../providers/ArticleProvider"
 
 interface LessonPageProps {
   pageContext: {
+    article: ArticlePageModel
     lesson: LessonPageModel
     layout: Layout
   }
 }
 
 const LessonPage = ({ pageContext }: LessonPageProps) => {
-  const { lesson, layout } = pageContext
-
+  const { article, layout } = pageContext
+  
   return (
     <LayoutProvider initialState={layout}>
-      <LessonPageProvider initialState={lesson}>
+      <ArticleProvider initialState={article}>
         <SEO
-          ga_page={lesson.ga_page}
-          url={lesson.url}
-          title={lesson.title}
+          ga_page={article.ga_page}
+          url={article.url}
+          title={article.title}
           type="article"
-          image={layout.site_url + lesson.thumbnail.src}
-          description={lesson.description}
+          image={layout.site_url + article.thumbnail.full.src}
+          description={article.description}
         >
           <LessonView />
         </SEO>
-      </LessonPageProvider>
+      </ArticleProvider>
     </LayoutProvider>
   )
 }

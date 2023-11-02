@@ -3,20 +3,11 @@ import { useScrollToTop } from "../../../utils/useScrollToTop"
 import Layout from "../../containers/Layout"
 import { Content } from "../../../ui"
 
-import { useLessonPageProvider } from "./LessonPageProvider"
 import { useLayoutProvider } from "../../providers/LayoutProvider"
 import styled from "styled-components"
 import { L_DOWN } from "../../../utils/viewport"
-import { Breadcrumbs } from "../../components/Breadcrumbs"
-import { Link } from "gatsby"
-import { MdxProvider } from "../../providers/MdxProvider"
-import { MDXRenderer } from "gatsby-plugin-mdx"
-import { CourseChapters } from "../../components/CourseChapters"
-import { NavigationSection } from "../../components/NavigationSection"
-import Thumbnail from "../../../components/article/Thumbnail"
-import { ShareButton } from "../../containers/ShareButton"
-import { useAnalytics } from "../../../utils/useAnalytics"
 import { MobileNavigation } from "../../ui/mobile-navigation/MobileNavigation"
+import { ArticleBody } from "../../containers/ArticleBody"
 
 const CourseChaptersWrapper = styled.div`
   position: relative;
@@ -53,25 +44,23 @@ const Container = styled.main`
 const LessonView = () => {
   useScrollToTop()
 
-  const { track } = useAnalytics()
   const layout = useLayoutProvider()
-  const lesson = useLessonPageProvider()
 
-  const Chapters = (
-    <CourseChapters
-      activeChapterId={lesson.chapter.title}
-      activeLessonId={lesson.title}
-      chapters={lesson.chapters}
-    />
-  )
+  // const Chapters = (
+  //   <CourseChapters
+  //     activeChapterId={lesson.chapter.title}
+  //     activeLessonId={lesson.title}
+  //     chapters={lesson.chapters}
+  //   />
+  // )
 
   return (
     <>
       <Layout>
         <Content paddingY>
           <Container>
-            <div>
-              <Breadcrumbs>
+            <ArticleBody />
+            {/* <Breadcrumbs>
                 <Link to={layout.routes.home.to}>{layout.t.home}</Link>
                 <Link to={layout.routes.courses.to}>{layout.t.courses}</Link>
                 <Link to={lesson.course.path}>{lesson.course.title}</Link>
@@ -115,14 +104,13 @@ const LessonView = () => {
                   <Link className="button primary upper" to={lesson.next.path}>
                     {layout.t.next}
                   </Link>
-                )}
-              </NavigationSection>
-            </div>
-            <CourseChaptersWrapper>{Chapters}</CourseChaptersWrapper>
+                )} */}
+            {/* </NavigationSection> */}
+            <CourseChaptersWrapper></CourseChaptersWrapper>
           </Container>
         </Content>
       </Layout>
-      <MobileNavigation>{Chapters}</MobileNavigation>
+      <MobileNavigation></MobileNavigation>
     </>
   )
 }

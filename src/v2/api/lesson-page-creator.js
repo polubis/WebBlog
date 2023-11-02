@@ -1,5 +1,5 @@
-const en = require("../translation/lesson/en.json")
-const pl = require("../translation/lesson/pl.json")
+const en = require("../translation/article/en.json")
+const pl = require("../translation/article/pl.json")
 
 const LessonPageCreator = ({ createPage, makeComponent }) => ({
   layout,
@@ -9,27 +9,52 @@ const LessonPageCreator = ({ createPage, makeComponent }) => ({
   chapter,
   nextChapter,
   prevChapter,
+  rates,
+  votes,
 }) => {
   const translation = {
     en,
     pl,
   }
 
-  const { title, body, source_url, next, prev, description, url } = lesson
+  const { title, body, source_url, next, prev, description, url, path } = lesson
+
+  const firebasePathParts = path.replace(/\//g, "-").split("-")
+  firebasePathParts.pop()
+  firebasePathParts.shift()
+  const fireBasePath = firebasePathParts.join("-")
 
   createPage({
     path: lesson.path,
     component: makeComponent(),
     context: {
-      lesson: {
+      article: {
+        comments: {
+          is: "idle",
+        },
+        rate: rates[fireBasePath],
+        vote: {
+          is: "idle",
+          vote: votes[fireBasePath] ?? { positive: 0, negative: 0 },
+        },
+        resourcePath: fireBasePath,
+        author: course.author,
+        tech_reviewer: course.tech_reviewer,
+        ling_reviewer: course.ling_reviewer,
         t: translation[lang],
         ga_page: lesson.ga_page,
         url,
         title,
         source_url,
+        lang,
+        path,
         duration: lesson.duration,
         description,
         body,
+        cdate: course.cdate,
+        mdate: course.mdate,
+        tags: course.tags,
+        seniority: course.seniority,
         prev: prev
           ? { path: prev.path }
           : prevChapter?.lessons[prevChapter?.lessons.length - 1]
@@ -40,30 +65,33 @@ const LessonPageCreator = ({ createPage, makeComponent }) => ({
           : nextChapter?.lessons[0]
           ? { path: nextChapter?.lessons[0].path }
           : undefined,
-        course: {
-          path: course.path,
-          title: course.title,
-          seniority: course.seniority,
-          tags: course.tags,
-          technologies: course.technologies
+        thumbnail: {
+          full: lesson.thumbnail,
         },
-        chapter: {
-          title: chapter.title,
-        },
-        thumbnail: lesson.thumbnail,
-        chapters: course.chapters.map(chapter => ({
-          duration: chapter.lessons
-            .filter(({ deprecated }) => !deprecated)
-            .reduce((acc, { duration }) => acc + duration, 0),
-          title: chapter.title,
-          lessons: chapter.lessons
-            .filter(({ deprecated }) => !deprecated)
-            .map(lesson => ({
-              title: lesson.title,
-              duration: lesson.duration,
-              path: lesson.path,
-            })),
-        })),
+        technologies: course.technologies,
+      },
+      course: {
+        path: course.path,
+        title: course.title,
+        seniority: course.seniority,
+        tags: course.tags,
+        technologies: course.technologies,
+      },
+      chapters: course.chapters.map(chapter => ({
+        duration: chapter.lessons
+          .filter(({ deprecated }) => !deprecated)
+          .reduce((acc, { duration }) => acc + duration, 0),
+        title: chapter.title,
+        lessons: chapter.lessons
+          .filter(({ deprecated }) => !deprecated)
+          .map(lesson => ({
+            title: lesson.title,
+            duration: lesson.duration,
+            path: lesson.path,
+          })),
+      })),
+      chapter: {
+        title: chapter.title,
       },
       layout,
     },
