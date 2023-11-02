@@ -76,17 +76,6 @@ const value = localStorage.getItem('my-value')
     problem zwłaszcza dla początkujących <B>Frątasiów</B>.
   </M>
   <M>
-    Następnym frykasem jest wykorzystywanie API <B>local/session</B> storage
-    pomiędzy różnymi plikami. Spójrz na poniższy przykład:{" "}
-  </M>
-  <Code mode="static" lang="ts">{`
-// plik1.ts
-const user = localStorage.get('user')
-// plik2.ts
-const user = localStorage.get('user')
-// I tak dalej...
-`}</Code>
-  <M>
     <B>A co z odczytem i zapisem?</B>
   </M>
   <M>
