@@ -4,8 +4,12 @@ import Divider from "../../components/divider/Divider"
 import theme from "../../utils/theme"
 import { L_UP, T_DOWN } from "../../utils/viewport"
 import { Content } from "./Content"
-import { MobileNavigation } from "./MobileNavigation"
+import Loadable from "react-loadable"
 
+const MobileNavigation = Loadable({
+  loader: () => import("./MobileNavigation").then(m => m.MobileNavigation),
+  loading: () => null,
+})
 
 const Container = styled.header`
   height: 99px;
