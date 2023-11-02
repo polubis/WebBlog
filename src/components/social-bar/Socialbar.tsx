@@ -30,39 +30,39 @@ const Container = styled.div`
 
 const SocialBar = () => {
   const layout = useLayoutProvider()
-  const { offsetY, direction } = useScroll({ strategy: "throttle" })
-  const visible = direction === "up" && offsetY > 150
+  const { direction } = useScroll({ strategy: "throttle" })
 
-  if (!visible) return null
+  if (direction === "up" || direction === "idle")
+    return (
+      <Container>
+        <a
+          href={layout.discord_url}
+          title={layout.t.discord_channel}
+          target="_blank"
+        >
+          <IconButton>
+            <DiscordIcon />
+          </IconButton>
+        </a>
+        <a href={layout.fb_url} title={layout.t.fb_profile} target="_blank">
+          <IconButton>
+            <FacebookIcon />
+          </IconButton>
+        </a>
+        <a
+          href={layout.linkedin_url}
+          title={layout.t.linkedin_profile}
+          target="_blank"
+        >
+          <IconButton>
+            <LinkedinIcon />
+          </IconButton>
+        </a>
+        <ScrollUpButton onClick={() => window.scrollTo({ top: 0 })} />
+      </Container>
+    )
 
-  return (
-    <Container>
-      <a
-        href={layout.discord_url}
-        title={layout.t.discord_channel}
-        target="_blank"
-      >
-        <IconButton>
-          <DiscordIcon />
-        </IconButton>
-      </a>
-      <a href={layout.fb_url} title={layout.t.fb_profile} target="_blank">
-        <IconButton>
-          <FacebookIcon />
-        </IconButton>
-      </a>
-      <a
-        href={layout.linkedin_url}
-        title={layout.t.linkedin_profile}
-        target="_blank"
-      >
-        <IconButton>
-          <LinkedinIcon />
-        </IconButton>
-      </a>
-      <ScrollUpButton onClick={() => window.scrollTo({ top: 0 })} />
-    </Container>
-  )
+  return null
 }
 
 export { SocialBar }
