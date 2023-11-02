@@ -53,7 +53,7 @@ const ArticlesPageCreator = ({ createPage, makeComponent }) => ({
             title,
             is_new,
             duration,
-            tags,
+            tags: tags.split(","),
             seniority,
             author: {
               id: author.id,
