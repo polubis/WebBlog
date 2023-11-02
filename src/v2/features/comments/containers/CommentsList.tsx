@@ -7,23 +7,8 @@ import { Avatar } from "../../../components/Avatar"
 import { Rate } from "../../../components/Rate"
 import { format } from "date-fns"
 import theme from "../../../../utils/theme"
-import { Comment } from "../../../core/models"
 import { useCommentsManagement } from "../../../logic/useCommentsManagement"
-
-const getCommentsRate = (comments: Comment[]): number | undefined => {
-  const withRates = comments.filter(
-    comment => comment.rate
-  ) as Required<Comment>[]
-  const withRatesLength = withRates.length
-
-  if (withRatesLength === 0) {
-    return
-  }
-
-  const ratesSum = withRates.reduce((acc, comment) => acc + comment.rate, 0)
-
-  return +(((ratesSum / withRatesLength) * 100) / 100).toFixed(2)
-}
+import { useArticleProvider } from "../../../providers/ArticleProvider"
 
 const Container = styled.div`
   display: grid;
@@ -61,11 +46,12 @@ const Container = styled.div`
 
 export const CommentsList = () => {
   const layout = useLayoutProvider()
+  const {
+    state: { rate },
+  } = useArticleProvider()
   const { comments: state, reset, startAdd, t } = useCommentsManagement()
 
   if (state.is === "loaded") {
-    const totalRate = getCommentsRate(state.comments)
-
     return (
       <Container className="in">
         <Header
@@ -109,9 +95,9 @@ export const CommentsList = () => {
               ))}
             </div>
             <div className="row">
-              {totalRate && (
+              {rate !== undefined && (
                 <X>
-                  {t.the_rate_is} <Rate rate={totalRate} />
+                  {t.the_rate_is} <Rate rate={rate} />
                 </X>
               )}
             </div>

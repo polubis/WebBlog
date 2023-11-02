@@ -2,6 +2,8 @@ import React from "react"
 import { useLayoutProvider } from "../providers/LayoutProvider"
 import { useArticleProvider } from "../providers/ArticleProvider"
 import { useAnalytics } from "../../utils/useAnalytics"
+import { CommentsIcon } from "../../ui/icons/CommentsIcon"
+import { CloseIcon } from "../../ui"
 
 const CommentsOpener = () => {
   const { track } = useAnalytics()
@@ -15,7 +17,7 @@ const CommentsOpener = () => {
     return (
       <button
         title={layout.t.comments.open}
-        className="upper button primary"
+        className="icon-button secondary medium rectangle"
         onClick={() => {
           track({ name: "comments_section_opened" })
           setState(state => ({
@@ -26,7 +28,7 @@ const CommentsOpener = () => {
           }))
         }}
       >
-        {layout.t.comments.open}
+        <CommentsIcon />
       </button>
     )
   }
@@ -34,7 +36,7 @@ const CommentsOpener = () => {
   return (
     <button
       title={layout.t.comments.close}
-      className="upper button primary"
+      className="icon-button secondary medium rectangle"
       disabled={comments.is === "loading" || comments.is === "adding"}
       onClick={() => {
         setState(state => ({
@@ -45,7 +47,7 @@ const CommentsOpener = () => {
         }))
       }}
     >
-      {layout.t.comments.close}
+      <CloseIcon />
     </button>
   )
 }

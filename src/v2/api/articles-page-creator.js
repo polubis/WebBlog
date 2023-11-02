@@ -43,7 +43,7 @@ const ArticlesPageCreator = ({ createPage, makeComponent }) => ({
             description,
             title,
             is_new,
-            read_time,
+            duration,
             tags,
             author,
             seniority,
@@ -52,7 +52,7 @@ const ArticlesPageCreator = ({ createPage, makeComponent }) => ({
             description,
             title,
             is_new,
-            read_time,
+            duration,
             tags,
             seniority,
             author: {
