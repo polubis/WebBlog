@@ -16,8 +16,7 @@ import { Reviewers } from "../../components/Reviewers"
 import { MdxProvider } from "../../providers/MdxProvider"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import { SummaryFooter } from "../../containers/SummaryFooter"
-import { AddVoteSection } from "../../containers/AddVoteSection"
-import { CommentsOpener } from "../../containers/CommentsOpener"
+import { RatingSection } from "../../containers/RatingSection"
 
 const ArticleContent = styled.main`
   margin: 24px auto;
@@ -42,13 +41,9 @@ const ArticleContent = styled.main`
     margin: 24px 0 42px 0;
   }
 
-  .article-view-comments-section {
+  .article-view-rating-section {
     margin: 16px 0 24px 0;
     justify-content: flex-end;
-
-    & > *:not(:last-child) {
-      margin-right: 12px;
-    }
   }
 `
 
@@ -69,10 +64,7 @@ const ArticleView = () => {
             />
           )}
           <ArticleBreadcrumbs />
-          <div className="article-view-comments-section row">
-            <CommentsOpener />
-            <AddVoteSection />
-          </div>
+          <RatingSection className="article-view-rating-section" />
           <Thumbnail
             seniorityTitle={layout.t[article.seniority]}
             readTime={article.read_time}

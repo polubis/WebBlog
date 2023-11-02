@@ -158,12 +158,26 @@ html {
   border-radius: 50%;
 }
 
+.icon-button.rectangle {
+  border-radius: 4px;
+}
+
 .icon-button.small {
   height: 32px;
   width: 32px;
 }
 
 .icon-button.small svg {
+  width: 20px;
+  height: 20px;
+}
+
+.icon-button.medium {
+  height: 40px;
+  width: 40px;
+}
+
+.icon-button.medium svg {
   width: 20px;
   height: 20px;
 }
@@ -238,4 +252,9 @@ a.button {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.px-2 {
+  padding-right: 8px;
+  padding-left: 8px;
 }
