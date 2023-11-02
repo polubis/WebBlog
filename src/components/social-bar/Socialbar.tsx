@@ -2,6 +2,7 @@ import React from "react"
 import styled from "styled-components"
 
 import { DiscordIcon, IconButton, LinkedinIcon } from "../../ui"
+import { useScroll } from "../../utils/useScroll"
 import theme from "../../utils/theme"
 import { ScrollUpButton } from "../scroll-up-button/ScrollUpButton"
 import { useLayoutProvider } from "../../v2/providers/LayoutProvider"
@@ -29,6 +30,10 @@ const Container = styled.div`
 
 const SocialBar = () => {
   const layout = useLayoutProvider()
+  const { offsetY, direction } = useScroll({ strategy: "throttle" })
+  const visible = direction === "up" && offsetY > 150
+
+  if (!visible) return null
 
   return (
     <Container>
