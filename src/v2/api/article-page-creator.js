@@ -85,7 +85,7 @@ const ArticlePageCreator = ({ createPage }) => ({
       mdate,
       lang,
       title,
-      tags,
+      tags: tags.split(','),
       seniority: seniorityLevel,
       description,
       rate: rates[fireBasePath],

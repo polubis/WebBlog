@@ -4,7 +4,6 @@ import styled from "styled-components"
 import { Content, M } from "../../../ui"
 import Intro from "../../../components/article/Intro"
 import { useScrollToTop } from "../../../utils/useScrollToTop"
-import { useArticlePageProvider } from "./ArticlePageProvider"
 import Thumbnail from "../../../components/article/Thumbnail"
 import Layout from "../../containers/Layout"
 import { useLayoutProvider } from "../../providers/LayoutProvider"
@@ -17,6 +16,7 @@ import { MdxProvider } from "../../providers/MdxProvider"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import { SummaryFooter } from "../../containers/SummaryFooter"
 import { RatingSection } from "../../containers/RatingSection"
+import { useArticleProvider } from "../../providers/ArticleProvider"
 
 const ArticleContent = styled.main`
   margin: 24px auto;
@@ -50,7 +50,7 @@ const ArticleContent = styled.main`
 const ArticleView = () => {
   useScrollToTop()
   const layout = useLayoutProvider()
-  const article = useArticlePageProvider()
+  const { state: article } = useArticleProvider()
 
   return (
     <Layout>
@@ -67,7 +67,7 @@ const ArticleView = () => {
           <RatingSection className="article-view-rating-section" />
           <Thumbnail
             seniorityTitle={layout.t[article.seniority]}
-            readTime={article.read_time}
+            readTime={article.duration}
             thumbnail={article.thumbnail.full}
             title={article.title}
             thumbnailAlt={layout.t.article_thumbnail}

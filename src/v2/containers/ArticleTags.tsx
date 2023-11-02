@@ -1,21 +1,19 @@
 import React from "react"
 import { Tags } from "../components/Tags"
-import { useArticlePageProvider } from "../features/article/ArticlePageProvider"
+import { useArticleProvider } from "../providers/ArticleProvider"
 
 const ArticleTags = () => {
-    const {
-        tags,
-    } = useArticlePageProvider()
+  const {
+    state: { tags },
+  } = useArticleProvider()
 
-    return (
-        <Tags>
-            {tags.split(",").map(tag => (
-                <h6 key={tag}>
-                    {tag}
-                </h6>
-            ))}
-        </Tags>
-    )
+  return (
+    <Tags>
+      {tags.map(tag => (
+        <h6 key={tag}>{tag}</h6>
+      ))}
+    </Tags>
+  )
 }
 
 export { ArticleTags }

@@ -131,7 +131,7 @@ export interface ArticlePageModel {
   ling_reviewer: Omit<User, "avatar"> & {
     avatar: Pick<User["avatar"], "small">
   }
-  tags: string
+  tags: string[]
   technologies: Technology[]
   next?: MinimumArticle
   prev?: MinimumArticle
