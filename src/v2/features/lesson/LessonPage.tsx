@@ -9,14 +9,13 @@ import { ArticleProvider } from "../../providers/ArticleProvider"
 interface LessonPageProps {
   pageContext: {
     article: ArticlePageModel
-    lesson: LessonPageModel
     layout: Layout
   }
 }
 
 const LessonPage = ({ pageContext }: LessonPageProps) => {
   const { article, layout } = pageContext
-  
+
   return (
     <LayoutProvider initialState={layout}>
       <ArticleProvider initialState={article}>

@@ -14,7 +14,8 @@ import { MdxProvider } from "../providers/MdxProvider"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import { SummaryFooter } from "./SummaryFooter"
 import { Breadcrumbs } from "../components/Breadcrumbs"
-import { Link } from "gatsby"
+import { ArticleBodyProps } from "./models"
+import { useScrollToTop } from "../../utils/useScrollToTop"
 
 const Container = styled.div`
   .breadcrumbs {
@@ -39,18 +40,15 @@ const Container = styled.div`
   }
 `
 
-export const ArticleBody = () => {
+export const ArticleBody = ({ breadcrumbs }: ArticleBodyProps) => {
+  useScrollToTop()
   const layout = useLayoutProvider()
   const { state: article } = useArticleProvider()
 
   return (
     <Container>
       {article.translation_path && <ReadInOtherLanguageBanner />}
-      <Breadcrumbs>
-        <Link to={layout.routes.home.to}>{layout.t.home}</Link>
-        <Link to={layout.routes.articles.to}>{layout.t.articles}</Link>
-        <span>{article.title}</span>
-      </Breadcrumbs>
+      <Breadcrumbs>{breadcrumbs}</Breadcrumbs>
       <RatingSection className="article-body-rating-section" />
       <Thumbnail
         seniorityTitle={layout.t[article.seniority]}

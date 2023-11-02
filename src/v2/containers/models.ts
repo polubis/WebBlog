@@ -29,6 +29,10 @@ export interface RatingSectionProps {
   className?: string
 }
 
+export interface ArticleBodyProps {
+  breadcrumbs: ReactNode
+}
+
 export type {
   ImageContainerProps,
   ImageRollerProps,

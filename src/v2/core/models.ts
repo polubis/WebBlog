@@ -160,6 +160,25 @@ export interface ArticlePageModel {
   technologies: Technology[]
   next?: MinimumArticle
   prev?: MinimumArticle
+  course?: {
+    title: Title
+    path: Path
+    seniority: Seniority
+    tags: string[]
+    technologies: Technology[]
+  }
+  chapter?: {
+    title: Title
+  }
+  chapters?: {
+    duration: number
+    title: Title
+    lessons: {
+      title: Title
+      duration: number
+      path: Path
+    }[]
+  }[]
 }
 
 export interface AuthorsPageModel {
@@ -240,28 +259,6 @@ export interface CoursePageModel {
   }
   ling_reviewer: Omit<User, "avatar"> & {
     avatar: Pick<User["avatar"], "small">
-  }
-  chapters: {
-    duration: number
-    title: Title
-    lessons: {
-      title: Title
-      duration: number
-      path: Path
-    }[]
-  }[]
-}
-
-export interface LessonPageModel {
-  course: {
-    title: Title
-    path: Path
-    seniority: Seniority
-    tags: string[]
-    technologies: Technology[]
-  }
-  chapter: {
-    title: Title
   }
   chapters: {
     duration: number

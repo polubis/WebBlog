@@ -53,7 +53,7 @@ const Expander = styled.div`
 
 const MobileNavigation = ({ children }: MobileNavigationProps) => {
   const { render } = usePortal()
-  const { direction } = useScroll({ strategy: "throttle" })
+  const { direction, offsetY } = useScroll({ strategy: "throttle" })
   const [open, setOpen] = useState(false)
 
   const toggleOpen = (): void => {
@@ -62,7 +62,7 @@ const MobileNavigation = ({ children }: MobileNavigationProps) => {
 
   return render(
     <>
-      {!open && (direction === "up" || direction === "idle") && (
+      {!open && direction === "up" && offsetY > 150 && (
         <Expander>
           <IconButton rounded size="medium" onClick={toggleOpen}>
             <ListIcon />

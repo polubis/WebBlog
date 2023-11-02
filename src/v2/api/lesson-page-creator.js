@@ -39,6 +39,29 @@ const LessonPageCreator = ({ createPage, makeComponent }) => ({
     component: makeComponent(),
     context: {
       article: {
+        course: {
+          path: course.path,
+          title: course.title,
+          seniority: course.seniority,
+          tags: course.tags,
+          technologies: course.technologies,
+        },
+        chapters: course.chapters.map(chapter => ({
+          duration: chapter.lessons
+            .filter(({ deprecated }) => !deprecated)
+            .reduce((acc, { duration }) => acc + duration, 0),
+          title: chapter.title,
+          lessons: chapter.lessons
+            .filter(({ deprecated }) => !deprecated)
+            .map(lesson => ({
+              title: lesson.title,
+              duration: lesson.duration,
+              path: lesson.path,
+            })),
+        })),
+        chapter: {
+          title: chapter.title,
+        },
         comments: {
           is: "idle",
         },
@@ -79,29 +102,7 @@ const LessonPageCreator = ({ createPage, makeComponent }) => ({
         thumbnail: lesson.thumbnail,
         technologies: course.technologies,
       },
-      course: {
-        path: course.path,
-        title: course.title,
-        seniority: course.seniority,
-        tags: course.tags,
-        technologies: course.technologies,
-      },
-      chapters: course.chapters.map(chapter => ({
-        duration: chapter.lessons
-          .filter(({ deprecated }) => !deprecated)
-          .reduce((acc, { duration }) => acc + duration, 0),
-        title: chapter.title,
-        lessons: chapter.lessons
-          .filter(({ deprecated }) => !deprecated)
-          .map(lesson => ({
-            title: lesson.title,
-            duration: lesson.duration,
-            path: lesson.path,
-          })),
-      })),
-      chapter: {
-        title: chapter.title,
-      },
+
       layout,
     },
   })
