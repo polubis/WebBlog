@@ -23,6 +23,21 @@ const tComments: TMap<CommentsT> = {
 const cache = new Map<Id, Comment[]>()
 let alreadySubscribed = false
 
+const getCommentsRate = (comments: Comment[]): Rate | undefined => {
+  const withRates = comments.filter(
+    comment => comment.rate
+  ) as Required<Comment>[]
+  const withRatesLength = withRates.length
+
+  if (withRatesLength === 0) {
+    return
+  }
+
+  const ratesSum = withRates.reduce((acc, comment) => acc + comment.rate, 0)
+
+  return +(((ratesSum / withRatesLength) * 100) / 100).toFixed(2) as Rate
+}
+
 export const useCommentsManagement = () => {
   const { auth, db, provider } = useFirebase()
   const { setState, state } = useArticleProvider()
@@ -102,17 +117,19 @@ export const useCommentsManagement = () => {
         rate,
       })
       const increasedComments = [created, ...comments.comments]
+      const finalComments = updated
+        ? increasedComments.map(comment =>
+            comment.id === updated.id ? updated : comment
+          )
+        : increasedComments
 
       setState({
         ...state,
         comments: {
           is: "loaded",
-          comments: updated
-            ? increasedComments.map(comment =>
-                comment.id === updated.id ? updated : comment
-              )
-            : increasedComments,
+          comments: finalComments,
         },
+        rate: getCommentsRate(finalComments) ?? state.rate,
       })
     } catch (error) {
       setState({
@@ -155,6 +172,7 @@ export const useCommentsManagement = () => {
             is: "loaded",
             comments: loadedComments,
           },
+          rate: getCommentsRate(loadedComments) ?? state.rate,
         })
       } catch (error) {
         setState({

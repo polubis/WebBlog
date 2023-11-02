@@ -23,7 +23,7 @@ export const RatingSection = ({ className }: RatingSectionProps) => {
     <Container className={c("rating-section", "row", className)}>
       <CommentsOpener />
       <AddVoteSection />
-      {rate && (
+      {rate !== undefined && (
         <XL>
           <Rate rate={rate} />
         </XL>
