@@ -3,7 +3,6 @@ import { useScrollToTop } from "../../../utils/useScrollToTop"
 import Layout from "../../containers/Layout"
 import { Content } from "../../../ui"
 
-import Loadable from "react-loadable"
 import { useLessonPageProvider } from "./LessonPageProvider"
 import { useLayoutProvider } from "../../providers/LayoutProvider"
 import styled from "styled-components"
@@ -17,14 +16,7 @@ import { NavigationSection } from "../../components/NavigationSection"
 import Thumbnail from "../../../components/article/Thumbnail"
 import { ShareButton } from "../../containers/ShareButton"
 import { useAnalytics } from "../../../utils/useAnalytics"
-
-const MobileNavigation = Loadable({
-  loader: () =>
-    import("../../ui/mobile-navigation/MobileNavigation").then(
-      m => m.MobileNavigation
-    ),
-  loading: () => null,
-})
+import { MobileNavigation } from "../../ui/mobile-navigation/MobileNavigation"
 
 const CourseChaptersWrapper = styled.div`
   position: relative;
@@ -110,7 +102,7 @@ const LessonView = () => {
                   className="button primary upper"
                   href={lesson.source_url}
                   target="_blank"
-                  onClick={() => track({ name: 'source_clicked' })}
+                  onClick={() => track({ name: "source_clicked" })}
                 >
                   {layout.t.show_source}
                 </a>
