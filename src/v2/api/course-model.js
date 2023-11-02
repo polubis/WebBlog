@@ -80,13 +80,8 @@ const CourseModel = (
     return kebabCase
   }
 
-  const getLessonOrCourseThumbnail = lessonThumbnail => {
-    if (lessonThumbnail) {
-      return lessonThumbnail.full.fluid
-    }
-
-    return thumbnail.full.fluid
-  }
+  const getLessonOrCourseThumbnail = lessonThumbnail =>
+    lessonThumbnail ? lessonThumbnail : thumbnail
 
   return {
     title: name,
@@ -135,38 +130,46 @@ const CourseModel = (
             if (prevLessonIdAsNumber === nextLessonIdAsNumber) return 0
             return -1
           })
-          .map(lesson => ({
-            title: lesson.frontmatter.name,
-            duration: lesson.frontmatter.duration,
-            deprecated: lesson.frontmatter.deprecated,
-            thumbnail: getLessonOrCourseThumbnail(
-              getLessonThumbnail(lessonsThumbnails, lesson.slug)
-            ),
-            ga_page:
-              ga_page +
-              "/" +
-              courseId +
-              "/" +
-              titleToSlug(chapterTitle) +
-              "/" +
-              titleToSlug(lesson.frontmatter.name),
-            url:
-              layout.site_url +
-              coursePath +
-              titleToSlug(chapterTitle) +
-              "/" +
-              titleToSlug(lesson.frontmatter.name) +
-              "/",
-            body: lesson.body,
-            description: lesson.frontmatter.description,
-            source_url: layout.course_source_url + path + lesson.slug + ".mdx",
-            path:
-              coursePath +
-              titleToSlug(chapterTitle) +
-              "/" +
-              titleToSlug(lesson.frontmatter.name) +
-              "/",
-          }))
+          .map(lesson => {
+            const lessonThumbnail =
+              getLessonThumbnail(lessonsThumbnails, lesson.slug) ?? thumbnail
+
+            return {
+              title: lesson.frontmatter.name,
+              duration: lesson.frontmatter.duration,
+              deprecated: lesson.frontmatter.deprecated,
+              slug: lesson.slug,
+              thumbnail: {
+                medium: lessonThumbnail.medium.fixed,
+                full: lessonThumbnail.full.fluid,
+              },
+              ga_page:
+                ga_page +
+                "/" +
+                courseId +
+                "/" +
+                titleToSlug(chapterTitle) +
+                "/" +
+                titleToSlug(lesson.frontmatter.name),
+              url:
+                layout.site_url +
+                coursePath +
+                titleToSlug(chapterTitle) +
+                "/" +
+                titleToSlug(lesson.frontmatter.name) +
+                "/",
+              body: lesson.body,
+              description: lesson.frontmatter.description,
+              source_url:
+                layout.course_source_url + path + lesson.slug + ".mdx",
+              path:
+                coursePath +
+                titleToSlug(chapterTitle) +
+                "/" +
+                titleToSlug(lesson.frontmatter.name) +
+                "/",
+            }
+          })
         chapterLessonsCollection = chapterLessonsCollection.map(
           (lesson, index) => ({
             ...lesson,

@@ -42,7 +42,7 @@ const Container = styled.div`
 export const ArticleBody = () => {
   const layout = useLayoutProvider()
   const { state: article } = useArticleProvider()
-
+  console.log(article.thumbnail)
   return (
     <Container>
       {article.translation_path && <ReadInOtherLanguageBanner />}

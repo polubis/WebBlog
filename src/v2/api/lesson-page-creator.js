@@ -17,7 +17,17 @@ const LessonPageCreator = ({ createPage, makeComponent }) => ({
     pl,
   }
 
-  const { title, body, source_url, next, prev, description, url, path } = lesson
+  const {
+    title,
+    body,
+    source_url,
+    next,
+    prev,
+    description,
+    url,
+    path,
+    slug,
+  } = lesson
 
   const firebasePathParts = path.replace(/\//g, "-").split("-")
   firebasePathParts.pop()
@@ -37,6 +47,7 @@ const LessonPageCreator = ({ createPage, makeComponent }) => ({
           is: "idle",
           vote: votes[fireBasePath] ?? { positive: 0, negative: 0 },
         },
+        slug,
         resourcePath: fireBasePath,
         author: course.author,
         tech_reviewer: course.tech_reviewer,
@@ -65,9 +76,7 @@ const LessonPageCreator = ({ createPage, makeComponent }) => ({
           : nextChapter?.lessons[0]
           ? { path: nextChapter?.lessons[0].path }
           : undefined,
-        thumbnail: {
-          full: lesson.thumbnail,
-        },
+        thumbnail: lesson.thumbnail,
         technologies: course.technologies,
       },
       course: {
