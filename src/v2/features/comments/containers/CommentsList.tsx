@@ -7,7 +7,6 @@ import { Avatar } from "../../../components/Avatar"
 import { Rate } from "../../../components/Rate"
 import { format } from "date-fns"
 import theme from "../../../../utils/theme"
-import { Comment } from "../../../core/models"
 import { useCommentsManagement } from "../../../logic/useCommentsManagement"
 import { useArticleProvider } from "../../../providers/ArticleProvider"
 

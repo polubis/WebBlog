@@ -23,7 +23,7 @@ const tComments: TMap<CommentsT> = {
 const cache = new Map<Id, Comment[]>()
 let alreadySubscribed = false
 
-const getCommentsRate = (comments: Comment[]): Rate | undefined => {
+const recalculateCommentsRate = (comments: Comment[]): Rate | undefined => {
   const withRates = comments.filter(
     comment => comment.rate
   ) as Required<Comment>[]
@@ -129,7 +129,7 @@ export const useCommentsManagement = () => {
           is: "loaded",
           comments: finalComments,
         },
-        rate: getCommentsRate(finalComments) ?? state.rate,
+        rate: recalculateCommentsRate(finalComments) ?? state.rate,
       })
     } catch (error) {
       setState({
@@ -172,7 +172,7 @@ export const useCommentsManagement = () => {
             is: "loaded",
             comments: loadedComments,
           },
-          rate: getCommentsRate(loadedComments) ?? state.rate,
+          rate: recalculateCommentsRate(loadedComments) ?? state.rate,
         })
       } catch (error) {
         setState({
