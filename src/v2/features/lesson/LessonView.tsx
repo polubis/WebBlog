@@ -4,11 +4,19 @@ import { Content } from "../../../ui"
 import { useLayoutProvider } from "../../providers/LayoutProvider"
 import styled from "styled-components"
 import { L_DOWN } from "../../../utils/viewport"
-import { MobileNavigation } from "../../ui/mobile-navigation/MobileNavigation"
 import { ArticleBody } from "../../containers/ArticleBody"
 import { Link } from "gatsby"
 import { useArticleProvider } from "../../providers/ArticleProvider"
 import { CourseChapters } from "../../components/CourseChapters"
+import Loadable from "react-loadable"
+
+const MobileNavigation = Loadable({
+  loader: () =>
+    import("../../ui/mobile-navigation/MobileNavigation").then(
+      m => m.MobileNavigation
+    ),
+  loading: () => null,
+})
 
 const CourseChaptersWrapper = styled.div`
   position: relative;
