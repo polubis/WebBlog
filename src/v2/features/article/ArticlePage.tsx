@@ -19,7 +19,6 @@ const ArticlePage = ({ pageContext }: ArticlePageProps) => {
   const initialState = useMemo(
     (): ArticleProviderState => ({
       ...article,
-      duration: article.read_time,
       vote: {
         is: "idle",
         vote: article?.vote ?? { positive: 0, negative: 0 },

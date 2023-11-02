@@ -112,7 +112,7 @@ export interface ArticlePageModel {
   rate?: Rate
   vote?: Vote
   resourcePath: Path
-  read_time: number
+  duration: number
   cdate: CDate
   source_url: Url
   url: Url
@@ -159,7 +159,7 @@ export type ArticlesPageModelArticle = Pick<
   | "description"
   | "title"
   | "is_new"
-  | "read_time"
+  | "duration"
   | "tags"
   | "seniority"
 > & {

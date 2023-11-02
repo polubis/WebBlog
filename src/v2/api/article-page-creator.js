@@ -93,7 +93,7 @@ const ArticlePageCreator = ({ createPage }) => ({
       resourcePath: fireBasePath,
       body,
       url: meta.site_url + path,
-      read_time: readTime,
+      duration: readTime,
       slug,
       path,
       ga_page,

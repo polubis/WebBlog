@@ -9,7 +9,6 @@ import Layout from "../../containers/Layout"
 import { useLayoutProvider } from "../../providers/LayoutProvider"
 import { ReadInOtherLanguageBanner } from "../../../components/article/ReadInOtherLanguageBanner"
 import { Stack } from "../../../components/article/Stack"
-import { ArticleTags } from "../../containers/ArticleTags"
 import { ArticleBreadcrumbs } from "../../containers/ArticleBreadcrumbs"
 import { Reviewers } from "../../components/Reviewers"
 import { MdxProvider } from "../../providers/MdxProvider"
@@ -17,6 +16,7 @@ import { MDXRenderer } from "gatsby-plugin-mdx"
 import { SummaryFooter } from "../../containers/SummaryFooter"
 import { RatingSection } from "../../containers/RatingSection"
 import { useArticleProvider } from "../../providers/ArticleProvider"
+import { Tags } from "../../components/Tags"
 
 const ArticleContent = styled.main`
   margin: 24px auto;
@@ -75,7 +75,11 @@ const ArticleView = () => {
             newLabel={layout.t.new}
             seniorityLevel={article.seniority}
           />
-          <ArticleTags />
+          <Tags>
+            {article.tags.map(tag => (
+              <h6 key={tag}>{tag}</h6>
+            ))}
+          </Tags>
           <Intro>
             <M>{article.description}</M>
           </Intro>
