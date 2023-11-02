@@ -2,12 +2,7 @@ import React from "react"
 import { Banner } from "../../ui"
 import styled from "styled-components"
 import { Link } from "gatsby"
-
-interface ReadInOtherLanguageBannerProps {
-  text: string
-  url: string
-  linkLabel: string
-}
+import { useArticleProvider } from "../../v2/providers/ArticleProvider"
 
 const Wrapper = styled.div`
   & > .ui-banner {
@@ -24,23 +19,19 @@ const Wrapper = styled.div`
   }
 `
 
-const ReadInOtherLanguageBanner = ({
-  text,
-  url,
-  linkLabel,
-}: ReadInOtherLanguageBannerProps) => {
+const ReadInOtherLanguageBanner = () => {
+  const { state: article } = useArticleProvider()
+
   return (
     <Wrapper>
       <Banner>
-        {text}
-        <Link className="l2" to={url}>
-          {linkLabel}
+        {article.t.other_lang_banner_message}
+        <Link className="l2" to={article.translation_path!}>
+          {article.t.other_lang_banner_link}
         </Link>
       </Banner>
     </Wrapper>
   )
 }
-
-export type { ReadInOtherLanguageBannerProps }
 
 export { ReadInOtherLanguageBanner }

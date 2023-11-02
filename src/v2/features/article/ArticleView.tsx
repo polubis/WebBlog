@@ -56,13 +56,7 @@ const ArticleView = () => {
     <Layout>
       <Content>
         <ArticleContent>
-          {article.translation_path && (
-            <ReadInOtherLanguageBanner
-              text={article.t.other_lang_banner_message}
-              linkLabel={article.t.other_lang_banner_link}
-              url={article.translation_path}
-            />
-          )}
+          {article.translation_path && <ReadInOtherLanguageBanner />}
           <ArticleBreadcrumbs />
           <RatingSection className="article-view-rating-section" />
           <Thumbnail

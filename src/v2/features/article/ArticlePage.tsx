@@ -1,11 +1,10 @@
-import React, { useMemo } from "react"
+import React from "react"
 
 import { ArticleView } from "./ArticleView"
 import { LayoutProvider } from "../../providers/LayoutProvider"
 import { ArticlePageModel, Layout } from "../../core/models"
 import { SEO } from "../../containers/SEO"
 import { ArticleProvider } from "../../providers/ArticleProvider"
-import { ArticleProviderState } from "../../providers/models"
 
 interface ArticlePageProps {
   pageContext: {
@@ -16,23 +15,10 @@ interface ArticlePageProps {
 
 const ArticlePage = ({ pageContext }: ArticlePageProps) => {
   const { article, layout } = pageContext
-  const initialState = useMemo(
-    (): ArticleProviderState => ({
-      ...article,
-      vote: {
-        is: "idle",
-        vote: article?.vote ?? { positive: 0, negative: 0 },
-      },
-      comments: {
-        is: "idle",
-      },
-    }),
-    []
-  )
 
   return (
     <LayoutProvider initialState={layout}>
-      <ArticleProvider initialState={initialState}>
+      <ArticleProvider initialState={article}>
         <SEO
           ga_page={article.ga_page}
           url={article.url}

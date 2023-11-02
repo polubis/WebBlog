@@ -22,6 +22,7 @@ import type home_en from "../translation/home/en.json"
 import type { TimelineData } from "../../components/timeline/models/data"
 import type blog_creator_en from "../translation/blog-creator/en.json"
 import type blog_creator_pl from "../translation/blog-creator/pl.json"
+import type { User as FirebaseUser } from "firebase/auth"
 
 export type Id = string
 export type Title = string
@@ -101,6 +102,29 @@ export enum Seniority {
   expert = "🥇",
 }
 
+export interface VoteState {
+  vote: Vote
+  is: "idle" | "adding" | "added" | "not-added"
+}
+
+export type IdleState = State<"idle">
+export type LoadingState = State<"loading">
+export type LoadedState = State<"loaded", { comments: Comment[] }>
+export type FailState = State<"fail">
+export type AddState = State<"add", { comments: Comment[]; user: FirebaseUser }>
+export type AddingState = State<
+  "adding",
+  { comments: Comment[]; user: FirebaseUser }
+>
+
+export type CommentsState =
+  | IdleState
+  | LoadingState
+  | LoadedState
+  | FailState
+  | AddState
+  | AddingState
+
 export interface ArticlePageModel {
   title: Title
   description: string
@@ -110,13 +134,14 @@ export interface ArticlePageModel {
   path: string
   is_new: boolean
   rate?: Rate
-  vote?: Vote
   resourcePath: Path
   duration: number
   cdate: CDate
   source_url: Url
   url: Url
   slug: Slug
+  vote: VoteState;
+  comments: CommentsState;
   translation_path?: string
   seniority: Seniority
   thumbnail: ArticleThumbnail
