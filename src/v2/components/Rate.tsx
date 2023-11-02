@@ -18,11 +18,9 @@ export const Rate = memo(({ rate }: RateProps) => {
 
   return (
     <span
-      className="icon-button secondary medium rectangle px-2"
+      className="rate"
       style={{
         color,
-        borderColor: color,
-        width: "max-content",
       }}
     >{`${rate}/10`}</span>
   )
