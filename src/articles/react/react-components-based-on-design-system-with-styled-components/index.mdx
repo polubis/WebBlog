@@ -6,12 +6,12 @@ treviewerId: kwozniak
 lreviewerId: kreszko
 goal: Tutorial on how to build/structure a customizable component library based on a design system with React, styled-components and storybook.
 purpose: inform
-keywords: design system, components library, react components library, storybook, react components
+keywords: design system,components library,react components library,storybook,react components
 lang: en
 tags: components,libraries,architecture
-stack: typescript,react,styled-components,storybook,nx
+stack: typescript,react,styled-components,storybook,nx,jest,react-testing-library
 description: Explore the power of a design system and React components library with styled-components. Learn how to create cohesive, efficient UIs with Storybook, and enhance your React components for a seamless web development experience.
-readTime: 11
+readTime: 12
 seniorityLevel: intermediate
 title: React components based on design system with styled-components
 ---
@@ -107,11 +107,6 @@ title: React components based on design system with styled-components
     systems, you might consider supplementing your documentation with platforms
     such as <B>Confluence</B> or other suitable alternatives.
   </M>
-  <Image
-    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Structuring%20design%20system%20code%20in%20React/ds.gif"
-    rolled
-    description="The example design system"
-  />
   <M>Here you have the most popular design systems that are well described: </M>
   <M>
     <B>Material design</B> -{" "}
@@ -640,7 +635,7 @@ title: React components based on design system with styled-components
 </Section>
 
 <Section>
-  <XL>Before you explore the demo,</XL>
+  <XL>Before you explore the demo...</XL>
   <M>
     We have organized these four separate directories for each design system
     component, which could potentially become individual libraries with their
@@ -656,9 +651,9 @@ title: React components based on design system with styled-components
 
 <Demo label="Full example on Codesandbox platform" height="500px">
   <iframe
-    src="https://codesandbox.io/embed/structuring-design-system-code-in-react-rsjztx?fontsize=14&hidenavigation=1&theme=dark"
+    src="https://codesandbox.io/embed/react-components-based-on-design-system-with-styled-components-rsjztx?fontsize=14&hidenavigation=1&theme=dark"
     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
-    title="Structuring design system code in React"
+    title="React components based on design system with styled-components"
     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
   ></iframe>
@@ -678,6 +673,7 @@ title: React components based on design system with styled-components
     repository.{" "}
   </M>
   <Image
+    rolled
     src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Structuring%20design%20system%20code%20in%20React/demo.gif"
     description="The demo of full design system implementation"
   />
