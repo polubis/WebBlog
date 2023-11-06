@@ -1,0 +1,716 @@
+---
+cdate: 2023-11-01
+mdate: 2023-11-01
+authorId: polubis
+treviewerId: kwozniak
+lreviewerId: kreszko
+goal: Tutorial on how to build/structure a customizable component library based on a design system with React, styled-components and storybook.
+purpose: inform
+keywords: design system,components library,react components library,storybook,react components
+lang: en
+tags: components,libraries,architecture
+stack: typescript,react,styled-components,storybook,nx,jest,react-testing-library
+description: Explore the power of a design system and React components library with styled-components. Learn how to create cohesive, efficient UIs with Storybook, and enhance your React components for a seamless web development experience.
+readTime: 12
+seniorityLevel: intermediate
+title: React components based on design system with styled-components
+---
+
+<Prelude label="Your own components library">
+  <Hint hasBg>
+    The final{" "}
+    <A
+      href="https://codesandbox.io/s/react-components-based-on-design-system-with-styled-components-rsjztx?file=/src/App.tsx"
+      outside
+    >
+      CodeSandbox
+    </A>{" "}
+    example and{" "}
+    <A
+      href="https://github.com/polubis/Dream-stack-for-React-dev/tree/develop/system/libs/figa-ui"
+      outside
+    >
+      Figa-UI
+    </A>{" "}
+    <B>React components library</B> for lazy people 🤝.
+  </Hint>
+  <M>
+    I recall my time working for a company with a distinctive brand identity.
+    During this tenure, a consistent look and feel were essential across all our
+    applications, as emphasized by our project manager. The challenge we faced
+    was the presence of significant duplication in presentation code across our
+    four applications, primarily because individual teams had developed them
+    separately.
+  </M>
+  <M>
+    In light of this, the company was gearing up to create additional
+    applications, prompting the pressing question:{" "}
+  </M>
+  <M>
+    <B>
+      "How do we efficiently reuse this duplicated code while maintaining a
+      uniform appearance across distinct applications?"
+    </B>
+  </M>
+  <M>
+    The solution lies in the establishment of a <B>components library</B>, a
+    task that can prove to be quite formidable. This is because numerous factors
+    must be carefully considered during the implementation of such a library.
+    Questions arise, such as where to store it, what stack is most suitable, and
+    what should serve as the definitive source for documenting these components,
+    among a multitude of other critical considerations.
+  </M>
+  <M>
+    This is precisely why I've crafted this article. I aim to guide you through
+    the process of effectively <B>documenting</B> your design system, provide
+    insights into <B>where to store it</B>, offer advice on selecting the{" "}
+    <B>right tech stack</B>, and walk you through the steps of constructing a
+    components library, all with the intent of making this topic more accessible
+    and comprehensible to you.
+  </M>
+  <M>
+    Below, you have the <B>final result</B> that you'll have at the end of this
+    long article:{" "}
+  </M>
+  <Image
+    rolled
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Structuring%20design%20system%20code%20in%20React/demo.gif"
+    description="The demo of full React components library"
+  />
+</Prelude>
+
+<Section>
+  <XL>What is a design system?</XL>
+  <M>
+    A <B>design system</B> is a group of rules, restrictions, color palettes,
+    spacings, and general workflow rules when designing/building a UI.
+  </M>
+  <M>
+    Why are these rules necessary, you may wonder? The answer is
+    straightforward:{" "}
+  </M>
+  <M>
+    <B>
+      "They are vital for maintaining a consistent and cohesive user interface
+      across a multitude of solutions."
+    </B>
+  </M>
+  <M>
+    The <B>development of every component library</B> should have its foundation
+    in a robust design system. Without it, you risk ending up with a disorderly,
+    unattractive, and visually unreliable presentation layer.
+  </M>
+  <M>
+    Before you embark on coding, it's essential to establish the framework of
+    your design system. This foundational structure can be housed within tools
+    like <B>Figma</B> or <B>AdobeXD</B>. For particularly intricate design
+    systems, you might consider supplementing your documentation with platforms
+    such as <B>Confluence</B> or other suitable alternatives.
+  </M>
+  <M>Here you have the most popular design systems that are well described: </M>
+  <M>
+    <B>Material design</B> -{" "}
+    <A outside href="https://m3.material.io/">
+      https://m3.material.io/
+    </A>
+  </M>
+  <M>
+    <B>Apple design</B> -{" "}
+    <A outside href="https://developer.apple.com/design/">
+      https://developer.apple.com/design/
+    </A>
+  </M>
+  <M>
+    <B>Fluent UI</B> -{" "}
+    <A outside href="https://fluent2.microsoft.design/">
+      https://fluent2.microsoft.design/
+    </A>
+  </M>
+</Section>
+
+<Section>
+  <XL>Exploring design system tokens</XL>
+  <M>
+    When I discussed the <B>design system</B>, I introduced the concept of
+    individual decisions that designers make to ensure a consistent look and
+    feel. These decisions are referred to as <B>design tokens</B>.
+  </M>
+  <M>
+    They encompass a wide range of elements, such as an available color palette,
+    spacing values (e.g., 4px, 8px, and so on), font variations, and numerous
+    other constants that will be consistently applied to every component.
+  </M>
+  <M>
+    Now, take a moment to examine the <B>GIF</B> provided below. Within it,
+    you'll find a multitude of design tokens that play a pivotal role in
+    defining our visual identity and aesthetic.
+  </M>
+  <Image
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Structuring%20design%20system%20code%20in%20React/ds.gif"
+    rolled
+    description="The base of design system"
+  />
+</Section>
+
+<Section>
+  <XL>Mapping design tokens to code</XL>
+  <M>
+    Now, it's time to map the <B>designer's decisions</B> into code. Here, I'll
+    provide you with examples of how this process is carried out in both the{" "}
+    <B>Tailwind</B> and <B>Material UI</B> libraries.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="Tailwind"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Structuring%20design%20system%20code%20in%20React/1.js"
+    linesCount={17}
+  />
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="Material UI"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Structuring%20design%20system%20code%20in%20React/2.tsx"
+    linesCount={13}
+  />
+  <M>
+    The choice of your tech stack is not the determining factor. When
+    translating <B>design tokens</B> into code, the crucial aspect is to ensure
+    that they align with the specifications outlined in <B>Figma</B> or{" "}
+    <B>Confluence</B>. When designers decide to modify these tokens, it's
+    imperative to synchronize these changes within your codebase.
+  </M>
+  <M>
+    Furthermore, it's essential to incorporate the flexibility of overriding
+    these decisions if a specific application necessitates such customization.{" "}
+  </M>
+  <M>
+    Additionally, providing a straightforward method for applications to
+    effortlessly integrate and utilize these tokens is a key consideration.
+  </M>
+</Section>
+
+<Section>
+  <XL>Tech stack and components lib</XL>
+  <M>
+    Selecting the <B>"right"</B> tech stack for your <B>components library</B>{" "}
+    involves a straightforward process.
+  </M>
+  <M>
+    <B>1. Gather requirements</B>: begin by collecting and comprehensively
+    understanding the requirements.
+  </M>
+  <M>
+    <B>2. Prioritize Goals</B>: prioritize your objectives, ensuring that they
+    align with the business's needs and desires.
+  </M>
+  <M>
+    <B>3. Proof of Concept (PoC) ✅</B>: develop a small PoC, incorporating all
+    the prioritized goals as ✅, to validate the feasibility and functionality.
+  </M>
+  <M>
+    <B>4. Risk Assessment ⚠️</B>: identify potential risks that may arise during
+    development and have strategies in place to mitigate them.
+  </M>
+  <M>
+    <B>5. Limitations ❌</B>: recognize any limitations or constraints in the
+    chosen tech stack and be prepared to work within these boundaries.
+  </M>
+  <M>
+    <B>6. Build the Library</B>: once the above steps are complete, proceed to
+    build the actual components library.
+  </M>
+</Section>
+
+<Section>
+  <XL>Choosing tech stack</XL>
+  <M>
+    Imagine you have four applications, developed using <B>NextJS</B> and plain{" "}
+    <B>SPA React</B>. These applications are equipped with <B>dark theme</B>{" "}
+    support and consistently achieve impressive performance ratings of 90+ in
+    the <B>Lighthouse</B> tool's performance tab. Presently, they implement
+    styles using <B>SCSS</B> syntax, a simplification of the broader details to
+    keep this article concise and manageable.
+  </M>
+  <M>
+    One initial consideration is the creation of a <B>components library</B>{" "}
+    using <B>Tailwind</B>, which seems like a promising approach. However, a
+    significant roadblock arises: the existing styles in your applications are
+    structured in separate files.
+  </M>
+  <M>
+    Transitioning to <B>Tailwind</B> would necessitate a massive overhaul of the
+    codebase, presenting substantial risks to the business. Given these
+    challenges, it appears that adopting <B>Tailwind</B> is not a viable option.
+  </M>
+  <M>
+    A more favorable option to consider is implementing the{" "}
+    <B>styled-components</B> library. This choice offers the convenience of
+    transferring existing styles from the <B>.scss</B> files by simply copying
+    and pasting them. Developers would primarily need to add a wrapper for each
+    component, significantly reducing the amount of work compared to
+    transitioning to <B>Tailwind</B>.{" "}
+  </M>
+  <M>
+    Moreover, <B>styled-components</B> enables the encapsulation of styles,
+    diminishing the risk of global class collisions. This option appears to
+    strike a good balance between compatibility with the current codebase and
+    risk management.
+  </M>
+  <M>
+    Indeed, while there are other alternatives, <B>styled-components</B> appears
+    to be a strong and practical choice. It offers seamless theming options,
+    enjoys widespread support, and is highly popular within the development
+    community. Although it may result in a slight performance decrease of
+    approximately 10% compared to <B>Tailwind</B> in <B>Lighthouse</B>, the
+    associated risks are relatively low. This performance difference can be
+    mitigated by adopting an <B>atomic-css</B> approach similar to{" "}
+    <B>Tailwind</B>. The minimal configuration required for <B>NextJS</B> can be
+    addressed by creating a small <B>PoC</B>, making it a manageable solution
+    for your specific needs.
+  </M>
+  <M>
+    It's a sound decision to opt for <B>React + styled-components</B> as the
+    foundation for building your <B>React components library</B>. This choice
+    aligns well with your requirements, and the associated risks are indeed
+    quite manageable, making it a suitable and practical solution.
+  </M>
+  <Hint hasBg>
+    You've hit the nail on the head - there's no such thing as a perfect tech
+    stack. It's always a matter of weighing the <B>pros and cons</B> to find the
+    right fit that aligns with your specific requirements and business
+    objectives.
+  </Hint>
+</Section>
+
+<Section>
+  <XL>What we build?</XL>
+  <M>
+    We're going to create the <B>FigaUI</B> library, tailored to meet our
+    specific needs. This library will empower us to craft both straightforward
+    and sophisticated components, providing the flexibility to share design
+    tokens, customize the appearance, and maintain a scalable structure.
+  </M>
+</Section>
+
+<Section>
+  <XL>Starting from folders/files structure</XL>
+  <M>
+    There's no <B>one-size-fits-all</B> rule for this. Developers use various
+    approaches like{" "}
+    <A outside href="https://bradfrost.com/blog/post/atomic-web-design/">
+      Atomic Design
+    </A>{" "}
+    or their own conventions. I'll go with my convention, but the most important
+    thing is to be consistent when building components. The structure may change
+    over time, but I usually use something like this:
+  </M>
+  <Code
+    mode="dynamic"
+    lang="css"
+    description="The libraries structure"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Structuring%20design%20system%20code%20in%20React/3.yaml"
+    linesCount={15}
+  />
+  <M>
+    Alright, you might be wondering why I'm developing{" "}
+    <B>four distinct libraries</B> to implement a <B>single design system</B>.
+    Well, there are several compelling reasons for this approach:
+  </M>
+  <L>
+    <Li>
+      if someone wants to take the core of my design system and implement their
+      own, they can simply load the "figa-ui-core" library, which will be
+      lightweight,
+    </Li>
+    <Li>
+      splitting extensive design systems into distinct libraries enhances my
+      CI/CD process. It allows me to run tests separately, making it easier to
+      identify where issues may arise in the layers,
+    </Li>
+    <Li>
+      in a team of developers, dividing the work becomes more straightforward,
+      and it helps minimize conflicts,
+    </Li>
+    <Li>
+      if someone only needs the fundamental components of the design system,
+      such as styles, links, buttons, and inputs, and wants to avoid the more
+      complex components like calendars, grids, and tables, they can achieve
+      this by simply importing "figa-ui-base" lib,
+    </Li>
+    <Li>
+      breaking down the design system setup into separate libraries decreases
+      the coupling between component code and configuration setup,
+    </Li>
+    <Li>
+      having a designated facade for each layer simplifies migration to other
+      technologies. For example, if "styled-components" were to become
+      deprecated, you could easily replace it in "figa-ui-base" while ensuring
+      that it fulfills the established contract,
+    </Li>
+    <Li>
+      if someone wishes to replace a particular layer, they won't disrupt the
+      others. They just need to ensure that the contract between libraries is
+      upheld,
+    </Li>
+    <Li>
+      this approach offers a significantly improved developer experience, with
+      faster tests, the ability to work in isolation, and the option to open a
+      single workspace, all while avoiding IDE lags,
+    </Li>
+  </L>
+  <M>
+    Structuring the internal code of the libraries will vary slightly depending
+    on the library's purpose. In the case of <B>figa-ui-core</B>, the structure
+    will encompass essential utilities, each residing in a separate file, with
+    shared type definitions. These will all be re-exported for easy access.{" "}
+  </M>
+  <Image
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Structuring%20design%20system%20code%20in%20React/figa-ui-core.png"
+    description="The figa-ui-core library structure"
+  />
+  <M>
+    For <B>figa-ui-base</B> and <B>figa-ui-components</B>, scalability is
+    crucial since there will be numerous files containing components, tests,
+    models, and <B>Storybook</B> definitions. Placing them all within a single
+    directory would result in a disorganized structure. To address this, we will
+    create a separate directory for each component, following a consistent
+    convention.
+  </M>
+  <Image
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Structuring%20design%20system%20code%20in%20React/figa-ui-base.png"
+    description="The figa-ui-base library structure"
+  />
+  <Image
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Structuring%20design%20system%20code%20in%20React/figa-ui-components.png"
+    description="The figa-ui-components library structure"
+  />
+  <M>
+    The structure for <B>figa-ui-design-system</B> will involve distinct type
+    definitions and re-exports consolidated in a single <B>index.ts</B> file.
+    Moreover, it will incorporate a "wrapping" logic to facilitate the sharing
+    of the design system across multiple components.
+  </M>
+  <Image
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Structuring%20design%20system%20code%20in%20React/figa-ui-design-system.png"
+    description="The figa-ui-design-system library structure"
+  />
+</Section>
+
+<Section>
+  <XL>Implementing "figa-ui-core" library</XL>
+  <M>
+    We'll begin by creating type definitions that describe our design system,
+    along with supplying a subset of design tokens to support this effort.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="typescript"
+    description="Type definitions"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Structuring%20design%20system%20code%20in%20React/4.ts"
+    rolled
+    linesCount={32}
+  />
+  <M>
+    The use of numbers like 50, 100, etc., serves to encourage developers to
+    override the default theme for changes. The 50-point difference between
+    values allows for easy insertion of new values without affecting the
+    existing ones.
+  </M>
+  <M>
+    In this library, we'll incorporate key features essential for building any
+    design system in accordance with the previously defined contracts.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="The px.ts file"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Structuring%20design%20system%20code%20in%20React/5.ts"
+    linesCount={17}
+  />
+</Section>
+
+<Section>
+  <XL>Implementing "figa-ui-design-system" library</XL>
+  <M>
+    First, install <B>npm i styled-components</B>.
+  </M>
+  <M>
+    I'll merge <B>class names</B> in components to avoid manual conditional
+    checks, and I'll include the <B>classnames</B> library for this purpose. To
+    use it, install <B>npm i classnames</B>.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="The classnames library usage example"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Structuring%20design%20system%20code%20in%20React/6.tsx"
+    linesCount={8}
+  />
+  <M>
+    This library should contain logic for sharing and modifying the{" "}
+    <B>design system setup</B>, using the <B>React Context API</B>.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="The setup.ts file"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Structuring%20design%20system%20code%20in%20React/7.ts"
+    linesCount={50}
+    rolled
+  />
+  <M>
+    As you've seen, we've introduced a straightforward object aligning with the
+    defined interface in <B>figa-ui-core</B> library, encompassing colors and
+    spacing options. Now, we'll create a provider responsible for taking this
+    initial setup and allowing for initial overrides or modifications through
+    dedicated functions for each wrapper component.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="The figa-ui-design-system type definitions"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Structuring%20design%20system%20code%20in%20React/9.ts"
+    linesCount={15}
+  />
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="The design system setup provider"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Structuring%20design%20system%20code%20in%20React/8.tsx"
+    linesCount={41}
+    rolled
+  />
+  <M>
+    We've provided a user-friendly hook with wrapper existence checks. If
+    someone forgets to use <B>DesignSystemProvider</B>, an error message will
+    point to the problem's root. The internal <B>Context API</B> remains hidden,
+    with <B>useDesignSystem</B> serving as the main point of access.
+  </M>
+  <M>
+    Take note of the import of <B>StyledThemeProvider</B>, which injects{" "}
+    <B>value.setup</B> into the <B>theme</B> property. This configuration
+    permits the utilization of our theme values within style definitions.
+  </M>
+  <M>
+    Using our design system setup is straightforward. Refer to the example
+    below, where we wrap our components and employ the hook to read and update
+    the design system.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="The usage in application root component"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Structuring%20design%20system%20code%20in%20React/10.tsx"
+    linesCount={34}
+    rolled
+  />
+</Section>
+
+<Section>
+  <XL>Implementing "figa-ui-base" library</XL>
+  <M>
+    This library focuses on core style setup and offers a set of frequently used
+    components for starting applications. To begin, we'll customize{" "}
+    <B>styled-components</B> type definitions to provide hints during style
+    development using our theme structure. We'll start with a simple{" "}
+    <B>defs.ts</B> file.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="The defs.ts file"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Structuring%20design%20system%20code%20in%20React/11.ts"
+    linesCount={5}
+  />
+  <M>
+    Now, we'll create a style setup using the styled-components API, making use
+    of our design system setup.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="The global-setup.ts file"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Structuring%20design%20system%20code%20in%20React/12.ts"
+    linesCount={38}
+    rolled
+  />
+  <M>
+    It's time to create the first component. It will be <B>Font</B>.{" "}
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="The font.models.ts file"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Structuring%20design%20system%20code%20in%20React/13.ts"
+    linesCount={20}
+  />
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="The font.component.tsx file"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Structuring%20design%20system%20code%20in%20React/14.tsx"
+    linesCount={12}
+  />
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    rolled
+    description="The font.style.ts file"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Structuring%20design%20system%20code%20in%20React/15.ts"
+    linesCount={33}
+  />
+  <M>
+    Before using our components in the application, we must integrate these
+    styles into the global setup. In the base library, we want to provide the
+    flexibility to use our design system through components or classes, ensuring
+    both options work seamlessly. This entails importing and including font
+    component styles.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    added={[
+      [1, 1],
+      [5, 5],
+    ]}
+    description="The update in global-style.ts file"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Structuring%20design%20system%20code%20in%20React/16.tsx"
+    linesCount={6}
+  />
+  <M>
+    In the final step, import and apply <B>GlobalStyle</B> in your application.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    added={[
+      [10, 10],
+      [3, 3],
+      [12, 15],
+    ]}
+    rolled
+    description="The usage in application"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Structuring%20design%20system%20code%20in%20React/17.tsx"
+    linesCount={19}
+  />
+  <M>
+    It's worth noting that we have the option to utilize either the <B>CSS</B>{" "}
+    approach or <B>components</B>, providing a powerful and versatile split in
+    our approach.
+  </M>
+</Section>
+
+<Section>
+  <XL>Implementing the "figa-ui-components"</XL>
+  <M>
+    This is the simplest place to work with! We'll include standalone components
+    here that won't be part of the initial bundle, each with its individual
+    style wrapper instead of global styles. Let's start with a basic imitation
+    of a calendar widget.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="The calendar.models.ts file"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Structuring%20design%20system%20code%20in%20React/18.ts"
+    linesCount={13}
+  />
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    rolled
+    description="The calendar.component.ts code"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Structuring%20design%20system%20code%20in%20React/19.tsx"
+    linesCount={37}
+  />
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    rolled
+    description="The usage in application"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Structuring%20design%20system%20code%20in%20React/20.tsx"
+    linesCount={25}
+  />
+</Section>
+
+<Section>
+  <XL>Before you explore the demo...</XL>
+  <M>
+    We have organized these four separate directories for each design system
+    component, which could potentially become individual libraries with their
+    own <B>package.json</B> files.
+  </M>
+  <M>
+    However, for practicality, we've housed them within a <B>monorepo</B>. In
+    the section below, you'll find an example of how this concept can be
+    implemented in the linked repository, so feel free to explore this concept
+    in more detail.
+  </M>
+</Section>
+
+<Demo label="Full example on Codesandbox platform" height="500px">
+  <iframe
+    src="https://codesandbox.io/embed/react-components-based-on-design-system-with-styled-components-rsjztx?fontsize=14&hidenavigation=1&theme=dark"
+    style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+    title="React components based on design system with styled-components"
+    allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+    sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+  ></iframe>
+</Demo>
+
+<Example label="The result and bonus">
+  <M>
+    You can explore the rules in action in the provided <B>Codesandbox</B>{" "}
+    example above. However, for a real-world design system implementation, I'm
+    currently working on a <B>monorepo</B> located under the{" "}
+    <A
+      href="https://github.com/polubis/Dream-stack-for-React-dev/tree/develop/system/libs/figa-ui"
+      outside
+    >
+      Dream stack for React developer
+    </A>{" "}
+    repository.{" "}
+  </M>
+  <Image
+    rolled
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Structuring%20design%20system%20code%20in%20React/demo.gif"
+    description="The demo of full design system implementation"
+  />
+  <M>
+    In this article, we've primarily addressed the "structural" and
+    "architectural" aspects of building a <B>robust design system</B>. However,
+    creating a comprehensive design system involves much more. If you're
+    interested in delving deeper into this topic, I recommend reading the
+    following articles:
+  </M>
+  <Hint hasBg>
+    Explore <B>Storybook</B> and <B>Chromatic</B> in{" "}
+    <A href="/articles/testing/chromatic-and-storybook/" outside>
+      ⭐ Chromatic and storybook
+    </A>{" "}
+    article.{" "}
+  </Hint>
+  <Hint hasBg>
+    Explore scalable repository setup in{" "}
+    <A href="/articles/thoughts/dream-stack-for-react-dev/" outside>
+      🌟 Dream stack for React dev
+    </A>{" "}
+    article.
+  </Hint>
+</Example>
+
+<Summary label="Conclusions and thoughts">
+  <M>
+    You've now learned how to effectively integrate <B>design system tokens</B>{" "}
+    into your codebase and share them across components. Additionally, you
+    understand how to structure a comprehensive design system to mitigate
+    scalability issues and extend your codebase with ease.
+  </M>
+  <M>
+    Remember that this is merely a proposal, and you can implement the same
+    concepts in <B>Tailwind</B>, with an alternative structure, without{" "}
+    <B>TypeScript</B>, and so on. The key is to maintain consistency and ensure
+    you consume your design tokens within the created components.
+  </M>
+</Summary>
