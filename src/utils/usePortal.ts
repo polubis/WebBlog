@@ -1,12 +1,22 @@
-import type { ReactPortal, ReactNode } from "react"
-
-import { useLayoutEffect, useMemo } from "react"
+import { useMemo, ReactNode, ReactPortal, useLayoutEffect } from "react"
 import { createPortal } from "react-dom"
+import { isInSSR } from "./isInSSR"
 
-const usePortal = () => {
-  const wrapper = useMemo(() => document.createElement("div"), [])
+type RenderPortal = (children: ReactNode) => ReactPortal | null
+
+type UsePortal = () => {
+  render: RenderPortal
+}
+
+const usePortal: UsePortal = () => {
+  const wrapper = useMemo(
+    () => (isInSSR() ? null : document.createElement("div")),
+    []
+  )
 
   useLayoutEffect(() => {
+    if (!wrapper) return
+
     document.body.appendChild(wrapper)
 
     return () => {
@@ -15,8 +25,7 @@ const usePortal = () => {
   }, [])
 
   return {
-    render: (children: ReactNode): ReactPortal | null =>
-      createPortal(children, wrapper),
+    render: children => (wrapper ? createPortal(children, wrapper) : null),
   }
 }
 
