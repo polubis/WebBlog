@@ -1,0 +1,285 @@
+---
+cdate: 2023-11-09
+mdate: 2023-11-09
+authorId: polubis
+treviewerId: kwozniak
+lreviewerId: kreszko
+goal: Testing ResizeObserver, mocking, and resolving common errors.
+purpose: inform
+keywords: resize observer,resize observer javascript,resize observer it not defined,resize observer is undefiend, testing resize observer,mocking resize observer
+lang: en
+tags: testing,resize observer,mocking
+stack: typescript,react,jest,react-testing-library,javascript
+description: In-depth tutorial that explores testing strategies for ResizeObserver in JavaScript, addressing common issues such as "resize observer is not defined". This guide will also walk you through the process of mocking ResizeObserver in different scenarios, ensuring that you gain a solid grasp of testing and working with the ResizeObserver feature.
+readTime: 5
+seniorityLevel: intermediate
+title: Testing and mocking ResizeObserver in JavaScript
+---
+
+<Prelude label="The value of basics">
+  <M>
+    Crafting tests in <B>Jest</B> for <B>React components</B>, <B>hooks</B>, or
+    other pure <B>JavaScript</B> utility functions can pose a challenge.
+  </M>
+  <M>
+    As a developer, be prepared for encountering perplexing errors that may seem
+    nonsensical during test execution, and be ready to delve into the task of
+    mocking intricate browser APIs when needed.
+  </M>
+  <M>
+    That's why having a solid grasp of the fundamentals of the technology you're
+    working with, such as <B>Jest</B> in this context, is important. The
+    seemingly perplexing errors start to make sense once you have a deeper
+    understanding of how the technology operates 💫.
+  </M>
+</Prelude>
+
+<Section>
+  <XL>How "Jest" works?</XL>
+  <M>
+    <B>Jest</B> primarily operates in a <B>NodeJS</B> environment and does not
+    use real browser APIs for testing. It's widely used for unit testing,
+    integration testing, and snapshot testing.
+  </M>
+  <M>
+    <B>Jest</B> includes a built-in test runner, assertion library, and mocking
+    capabilities. It does not interact directly with browser APIs. <B>Jest</B>{" "}
+    is well-suited for testing <B>JavaScript</B> code outside of the browser
+    context, making it especially useful for testing server-side code,
+    libraries, and components that do not rely on browser-specific features.
+  </M>
+  <M>
+    Ok, so how I'm able to test my <B>React</B> components?
+  </M>
+  <M>
+    When testing code that interacts with browser-specific features or APIs, the
+    browser APIs are mocked. Mocking allows you to simulate the behavior of
+    these APIs without actually making real browser calls, making it possible to
+    run tests in a controlled and predictable environment.
+  </M>
+  <M>
+    When using <B>Jest</B> or similar testing frameworks, it's crucial to be
+    aware of the need to mock browser APIs, especially for newer APIs that might
+    not be automatically mocked. If you forget to mock a specific API, you might
+    encounter errors like <B>"NameOfTheAPI is not defined"</B> during test
+    execution.
+  </M>
+</Section>
+
+<Section>
+  <XL>The annoying "ResizeObserver is not defined" error</XL>
+  <M>
+    If you've written at least one test involving the <B>ResizeObserver</B> in{" "}
+    <B>Jest</B> or another modern web API, you might have come across the
+    perplexing error: <B>"ResizeObserver is not defined"</B> - depends on{" "}
+    <B>Jest</B> version you're using.
+  </M>
+  <M>
+    This occurs because <B>Jest</B> prioritizes delivering maximum test
+    execution speed for developers. It's a straightforward trade-off:{" "}
+    <B>Jest</B> significantly speeds up your tests, but they depend on mocked
+    browser APIs rather than the real ones.
+  </M>
+  <M>
+    Therefore, if you're working with particular versions of the <B>jest</B> or{" "}
+    <B>jest-dom</B> libraries, you might encounter errors like the one
+    mentioned. This is because, for certain library versions, the corresponding
+    API may not be mocked yet, especially if it's relatively new.
+  </M>
+  <M>
+    Let's see it on the <B>GIF</B>:{" "}
+  </M>
+  <Image
+    rolled
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Testing%20and%20mocking%20ResizeObserver%20in%20JavaScript/1.gif"
+    description="The error in real situation"
+  />
+  <M>
+    In the example provided, we have a <B>Popover</B> component that relies on a{" "}
+    <B>ResizeObserver</B> to align the popover position when the element's width
+    or height changes, aiming to maximize the user experience.
+  </M>
+  <Image
+    rolled
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Testing%20and%20mocking%20ResizeObserver%20in%20JavaScript/2.gif"
+    description="Popover component showcase"
+  />
+</Section>
+
+<Section>
+  <XL>How to solve "ResizeObserver is not defined" error?</XL>
+  <M>Basically, you have two options:</M>
+  <L ordered>
+    <Li>
+      update "Jest" package version and pray for having mock added by
+      maintainers,
+    </Li>
+    <Li>add your own mock.</Li>
+  </L>
+  <M>
+    For this particular article, we'll incorporate our own <B>mock</B> since
+    it's a more straightforward and faster approach.
+  </M>
+  <M>
+    So, let's say you have a <B>ResizeObserver</B> that is used inside{" "}
+    <B>useElementSize</B> hook which, is utilized within the <B>Popover</B>{" "}
+    component to measure the element size. The implementation of the entire hook
+    is not crucial for our discussion, and the same applies to the{" "}
+    <B>Popover</B> component. For our current focus, we'll delve into the{" "}
+    <B>ResizeObserver</B>, which is the problematic aspect.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="The partial useElementSize hook implementation"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Testing%20and%20mocking%20ResizeObserver%20in%20JavaScript/1.ts"
+    linesCount={23}
+  />
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="The usage example in Popover component"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Testing%20and%20mocking%20ResizeObserver%20in%20JavaScript/2.ts"
+    linesCount={6}
+  />
+  <M>Now, let's say we want to test the two aspects of our hook:</M>
+  <L ordered>
+    <Li>listening for the resize of the element,</Li>
+    <Li>cleaning listeners when the parent component unmounts.</Li>
+  </L>
+  <M>
+    First of all, we need to mock <B>ResizeObserver</B> that we're using to
+    ensure a smooth testing experience and eliminate the "
+    <B>ResizeObserver is not defined</B>" error.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description='Mocking the "ResizeObserver"'
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Testing%20and%20mocking%20ResizeObserver%20in%20JavaScript/3.tsx"
+    linesCount={15}
+  />
+  <M>
+    Now, it's time for testing the resize callback that will be triggered during
+    the resize event.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="The example of Component to render"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Testing%20and%20mocking%20ResizeObserver%20in%20JavaScript/4.ts"
+    linesCount={12}
+  />
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="Test for resize case"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Testing%20and%20mocking%20ResizeObserver%20in%20JavaScript/5.tsx"
+    linesCount={31}
+  />
+  <M>
+    Last, we need to test if the <B>disconnect</B> function is called when the
+    parent component unmounts. To achieve that, we need the following test.
+    Right now, the <B>additional</B> component is not required. We may test it
+    directly via the <B>renderHook</B> function.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="The disconnect mechanism test"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Testing%20and%20mocking%20ResizeObserver%20in%20JavaScript/6.tsx"
+    linesCount={14}
+  />
+  <M>
+    After these steps, tests will be green thanks to the successful mocking of{" "}
+    <B>ResizeObserver</B> for these particular cases.
+  </M>
+  <Hint hasBg>
+    Did you know that there are frameworks for unit and integration testing like{" "}
+    <B>Jasmine</B>, which, although slower, eliminates the entire need for
+    mocking browser APIs? This is because, under the hood, the real APIs are
+    used.
+  </Hint>
+</Section>
+
+<Example label="The full code and results">
+  <M>
+    I don't want to make this article huge, just wanted to explain the basic
+    concepts. If you're interested in how to fully write a <B>useElementSize</B>{" "}
+    hook, feel free to explore the following{" "}
+    <A
+      outside
+      href="/courses/react-hooks-spellbook/events/element-size-measurement-with-use-element-size-hook/"
+    >
+      🔰 Element size measurement with useElementSize hook
+    </A>{" "}
+    article.
+  </M>
+  <M>
+    The full code about <B>Popover</B> component and <B>useElementSize</B> can
+    be found under the following{" "}
+    <A
+      outside
+      href="https://github.com/polubis/Dream-stack-for-React-dev/tree/article/Testing-and-mocking-ResizeObserver-in-JavaScript/system/libs/figa-ui/src/lib/popover"
+    >
+      Popover
+    </A>{" "}
+    and{" "}
+    <A
+      outside
+      href="https://github.com/polubis/Dream-stack-for-React-dev/tree/article/Testing-and-mocking-ResizeObserver-in-JavaScript/system/libs/figa-hooks/src/lib/use-element-size"
+    >
+      useElementSize
+    </A>{" "}
+    links.
+  </M>
+  <M>
+    Here you've just a small preview of <B>useElementSize</B> implementation and
+    tests.{" "}
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    rolled
+    description='The "useElementSize" implementation'
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Testing%20and%20mocking%20ResizeObserver%20in%20JavaScript/7.tsx"
+    linesCount={70}
+  />
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    rolled
+    description='The "useElementSize" tests'
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Testing%20and%20mocking%20ResizeObserver%20in%20JavaScript/8.tsx"
+    linesCount={128}
+  />
+</Example>
+
+<Summary label="Conclusions and thoughts">
+  <M>
+    After this article, you know what goes on under the hood in <B>Jest</B>{" "}
+    library and the pros and cons of using it in your testing code. While{" "}
+    <B>Jest</B> is exceptionally fast, it comes with a small downfall - we need
+    to mock many APIs inside our testing code, and we'll never be entirely sure
+    that the tested code will work precisely as expected inside our browser.
+  </M>
+  <M>
+    However, we know how to resolve popular errors that may occur during test
+    execution. If you encounter a similar issue with a different browser API
+    than <B>ResizeObserver</B>, you'll be able to easily fix this problem.
+  </M>
+  <M>
+    If you want to ensure that your code is working correctly in a real browser,
+    you need to use tools like <B>Cypress</B> or <B>Playwright</B> to write{" "}
+    <B>E2E tests</B> or utilize <B>Jasmine</B> technology. At the end, it's a
+    topic for other articles.
+  </M>
+  <Hint hasBg>
+    To learn how to write great <B>tests</B> in <B>React ecosystem</B> check the
+    following{" "}
+    <A outside href="/courses/react-testing-spellbook/">
+      React testing spellbook
+    </A>{" "}
+    course.
+  </Hint>
+</Summary>
