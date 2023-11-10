@@ -1,28 +1,31 @@
-import type { ReactPortal, ReactNode } from "react"
-
-import { useEffect, useMemo } from "react"
+import { useMemo, ReactNode, ReactPortal, useLayoutEffect } from "react"
 import { createPortal } from "react-dom"
+import { isInSSR } from "../../../../src/utils/isInSSR"
 
-// usePortal is an implementation of the facade pattern.
-const usePortal = () => {
-  // Creates only one instance of div.
-  const wrapper = useMemo(() => document.createElement("div"), [])
+type RenderPortal = (children: ReactNode) => ReactPortal | null
 
-  useEffect(() => {
-    // Adds div tag to body.
+type UsePortal = () => {
+  render: RenderPortal
+}
+
+const usePortal: UsePortal = () => {
+  const wrapper = useMemo(
+    () => (isInSSR() ? null : document.createElement("div")),
+    []
+  )
+
+  useLayoutEffect(() => {
+    if (!wrapper) return
+
     document.body.appendChild(wrapper)
 
     return () => {
-      // After unmounting the component - removes the div created earlier.
       document.body.removeChild(wrapper)
     }
   }, [])
 
-  // Returns an object with function that will allow you to use the portal.
   return {
-    // This anonymous function is an implementation of the factory method pattern.
-    render: (children: ReactNode): ReactPortal | null =>
-      createPortal(children, wrapper),
+    render: children => (wrapper ? createPortal(children, wrapper) : null),
   }
 }
 
