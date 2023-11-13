@@ -1,0 +1,99 @@
+{
+    "title": "Developer mentoring tailored to your individual needs",
+    "description": "Mastermind mentoring for programmers! Tailored development of programming skills to your needs. Enter the world of personalized support!",
+    "heading": "Choose developer mentorship variant",
+    "heading_description": "It may be subscription/separate interviews or individual plan",
+    "subscriptions": [
+        {
+            "bg": "#313131",
+            "label": "Free",
+            "cost": "0$",
+            "bullets": [
+                {
+                    "label": "Community access"
+                },
+                {
+                    "label": "Daily tip"
+                },
+                {
+                    "label": "Group mentoring"
+                },
+                {
+                    "label": "Live events"
+                },
+                {
+                    "label": "Newsletter"
+                },
+                {
+                    "label": "Resources access"
+                },
+                {
+                    "label": "Working on projects together"
+                },
+                {
+                    "label": "Writting articles"
+                }
+            ]
+        },
+        {
+            "bg": "#305e39",
+            "label": "Eco",
+            "cost": "14.99$ / month",
+            "bullets": [
+                {
+                    "label": "Includes \"Free\" plan"
+                },
+                {
+                    "label": "Code reviews"
+                },
+                {
+                    "label": "Help with CV"
+                },
+                {
+                    "label": "Help with article creation"
+                },
+                {
+                    "label": "Standalone 1h mentoring"
+                },
+                {
+                    "label": "Access to \"private\" articles"
+                }
+            ]
+        },
+        {
+            "bg": "#4c4c57",
+            "label": "Comfort",
+            "cost": "29.99$ / month",
+            "bullets": [
+                {
+                    "label": "Includes \"Free\" and \"Eco\" plans"
+                },
+                {
+                    "label": "Full web developer roadmap"
+                },
+                {
+                    "label": "Technical interview"
+                },
+                {
+                    "label": "Access to private repos"
+                }
+            ]
+        },
+        {
+            "bg": "#665234",
+            "label": "Gold",
+            "cost": "49.99$ / month",
+            "bullets": [
+                {
+                    "label": "Includes \"Free\", \"Eco\" and \"Comfort\" plans"
+                },
+                {
+                    "label": "Bootcamp access"
+                },
+                {
+                    "label": "+1h standalone mentoring"
+                }
+            ]
+        }
+    ]
+}

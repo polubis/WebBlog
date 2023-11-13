@@ -59,15 +59,16 @@ export default function ({ children }: LayoutProps) {
       {t.authors}
     </Link>
   )
-  const coursesLink = lang.key === 'en' ? (
-    <Link
-      to={routes.courses.to}
-      key={routes.courses.key}
-      activeStyle={activeStyle}
-    >
-      {t.courses}
-    </Link>
-  ) : null
+  const coursesLink =
+    lang.key === "en" ? (
+      <Link
+        to={routes.courses.to}
+        key={routes.courses.key}
+        activeStyle={activeStyle}
+      >
+        {t.courses}
+      </Link>
+    ) : null
   const createArticleLink = (
     <Link
       to={routes.creator.to}
@@ -75,6 +76,15 @@ export default function ({ children }: LayoutProps) {
       activeStyle={activeStyle}
     >
       {t.create_article}
+    </Link>
+  )
+  const mentorshipLink = (
+    <Link
+      to={routes.mentorship.to}
+      key={routes.mentorship.key}
+      activeStyle={activeStyle}
+    >
+      {t.mentorship}
     </Link>
   )
 
@@ -97,6 +107,7 @@ export default function ({ children }: LayoutProps) {
           rightLinks={
             <>
               {createArticleLink}
+              {mentorshipLink}
             </>
           }
           mobileLinks={
@@ -106,8 +117,9 @@ export default function ({ children }: LayoutProps) {
               {coursesLink}
               {createArticleLink}
               {homeLink}
+              {mentorshipLink}
               <LanguageLinks row />
-              <div style={{ height: '4px' }} />
+              <div style={{ height: "4px" }} />
               <JoinUsLink />
             </>
           }
@@ -123,6 +135,7 @@ export default function ({ children }: LayoutProps) {
               {coursesLink}
               {createArticleLink}
               {homeLink}
+              {mentorshipLink}
             </>
           }
         />

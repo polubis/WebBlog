@@ -14,6 +14,9 @@ const { DataRepository } = require("./src/v2/api/data-repository")
 const { LessonPageCreator } = require("./src/v2/api/lesson-page-creator")
 const { HomePageCreator } = require("./src/v2/api/home-page-creator")
 const {
+  MentorshipPageCreator,
+} = require("./src/v2/api/mentorship-page-creator")
+const {
   BlogCreatorPageCreator,
 } = require("./src/v2/api/blog-creator-page-creator")
 const { getArticleRates, getAllVotes } = require("./src/v2/api/setup-firebase")
@@ -467,6 +470,25 @@ exports.createPages = async ({ actions, graphql }) => {
     articles: plArticles,
     path: "/pl/",
     ga_page: "pl",
+    lang: "pl",
+  })
+
+  const createMentorshipPage = MentorshipPageCreator({
+    createPage,
+    makeComponent: () =>
+      resolve(`src/v2/features/mentorship/MentorshipPage.tsx`),
+  })
+
+  createMentorshipPage({
+    layout: enLayout,
+    path: "/mentorship/",
+    ga_page: "mentorship",
+    lang: "en",
+  })
+  createMentorshipPage({
+    layout: plLayout,
+    path: "/pl/mentorship/",
+    ga_page: "pl/mentorship",
     lang: "pl",
   })
 

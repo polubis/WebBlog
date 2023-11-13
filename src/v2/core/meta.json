@@ -44,6 +44,11 @@
       "to": "/",
       "gaPage": "home",
       "key": "home"
+    },
+    "mentorship": {
+      "to": "/mentorship/",
+      "gaPage": "mentorship",
+      "key": "mentorship"
     }
   }
 }
