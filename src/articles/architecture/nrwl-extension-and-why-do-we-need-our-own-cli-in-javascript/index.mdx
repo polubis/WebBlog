@@ -4,6 +4,9 @@ mdate: 2023-11-14
 authorId: ejuchnikowski
 treviewerId: polubis
 lreviewerId: polubis
+goal: Comprehensive tutorial on setting up a custom Command-Line Interface (CLI), elucidating its purpose, and providing guidance on publishing it on the NPM registry.
+purpose: inform
+keywords: CLI,NX and CLI,NX generators,Creating library,Pushing library to NPM
 tags: cli,nx,architecture
 langs: ["pl"]
 lang: en
@@ -209,8 +212,8 @@ title: NRWL extension and why do we need our own cli in JavaScript
     <B>
       nx generate @nrwl/nx-plugin:generator [my-generator] --project=[my-plugin]
     </B>
-    , where the <B>[my-plugin]</B> is the name of previously created plugin and the{" "}
-    <B>[my-generator]</B> is the name of generator.
+    , where the <B>[my-plugin]</B> is the name of previously created plugin and
+    the <B>[my-generator]</B> is the name of generator.
   </M>
   <M>The generator will create a project file structure like this:</M>
   <Image
@@ -275,6 +278,7 @@ title: NRWL extension and why do we need our own cli in JavaScript
   </L>
 </Section>
 
+{" "}
 <Section>
   <XL>How to create own NPM package?</XL>
   <M>
@@ -329,6 +333,29 @@ title: NRWL extension and why do we need our own cli in JavaScript
     This configuration allows, after publishing and globally installing the NPM
     package, to use your custom CLI by executing the following command in the
     command line: <B>my-cli init -—name=[new-project]</B>.
+  </M>
+</Section>
+
+<Section>
+  <XL>Architect's extra insight!</XL>
+  <M>If you enjoyed this article, feel free to explore related topics:</M>
+  <M>
+    <A href="/articles/thoughts/dream-stack-for-react-dev/" outside>
+      🌟 Dream Stack for React Dev
+    </A>
+  </M>
+  <M>
+    <A href="/articles/tooling/deep-dive-into-nx-features/" outside>
+      🥇 Overview of the Key Features in NX Tool
+    </A>
+  </M>
+  <M>
+    <A
+      href="/articles/architecture/modular-architecture-for-medium-frontend-apps/"
+      outside
+    >
+      ⭐ Modular Architecture for Medium Frontend Apps
+    </A>
   </M>
 </Section>
 
