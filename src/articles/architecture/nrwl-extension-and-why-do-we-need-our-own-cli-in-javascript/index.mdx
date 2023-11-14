@@ -1,0 +1,370 @@
+---
+cdate: 2023-11-14
+mdate: 2023-11-14
+authorId: ejuchnikowski
+treviewerId: polubis
+lreviewerId: polubis
+goal: Comprehensive tutorial on setting up a custom Command-Line Interface (CLI), elucidating its purpose, and providing guidance on publishing it on the NPM registry.
+purpose: inform
+keywords: CLI,NX and CLI,NX generators,Creating library,Pushing library to NPM
+tags: cli,nx,architecture
+langs: ["pl"]
+lang: en
+stack: javascript,typescript,nx
+description: Explore NRWL extension, a powerful tool for streamlined development. Learn why a custom CLI in JavaScript enhances project control and scalability.
+readTime: 9
+seniorityLevel: intermediate
+title: NRWL extension and why do we need our own cli in JavaScript
+---
+
+<Prelude>
+  <M>
+    Developers commonly acquire <B>CLI</B> skills across diverse technologies.{" "}
+    <B>CLI's</B> are integral to tech stacks, automate tasks like code
+    generation, building, and dependency management. While often tied to
+    specific technologies, <B>CLIs</B> can serve broader purposes within a team
+    or project, streamlining <B>Continuous Integration</B> processes. This
+    article explores the advantages of this approach.
+  </M>
+</Prelude>
+
+<Section>
+  <XL>Why custom CLI?</XL>
+  <M>
+    As mentioned above, <B>CLIs</B> automate work with specific technologies by
+    executing tasks from the console. During development, tasks extend beyond
+    technology-specific ones, encompassing <B>organization-wide</B>,{" "}
+    <B>team-centric</B>, and <B>project-specific</B> aspects. The main benefits
+    of creating a <B>custom CLI</B> within an organization or project include:
+  </M>
+  <M>
+    ⛽ <B>Efficiency Boost</B>: The CLI empowers streamlined task execution
+    through single commands or scripts, expediting work. Its prowess lies in the
+    swift and effortless handling of repetitive tasks, translating to
+    considerable time savings.
+  </M>
+  <M>
+    <B>🎡 Reproducibility</B>: CLI ensures precise process replication,
+    eliminating manual step execution. A consolidated script captures all steps,
+    enabling effortless, consistent reruns of the same sequence of actions.
+  </M>
+  <M>
+    <B>🔀 Sharing</B>: CLI fosters collaboration by allowing easy sharing with
+    team members. Ensuring uniform access to tools and procedures enhances
+    teamwork consistency, mitigating errors arising from tool disparities.
+  </M>
+  <M>
+    <B>🏗️ Automation</B>: CLI facilitates the automation of diverse tasks,
+    accelerating the software development process. It proves instrumental in
+    activities such as building, testing, and deploying applications.
+  </M>
+  <M>
+    <B>🚏 Scalability</B>: CLI simplifies the scaling of software development
+    processes, particularly vital for large projects. It effortlessly
+    facilitates tasks like running multiple servers simultaneously.
+  </M>
+  <M>
+    Custom, in-house CLIs establish an abstraction layer above external
+    technologies, company processes, and the team. This reduces dependencies,
+    easing new developer onboarding, standardizing team processes, and enabling
+    automation.
+  </M>
+</Section>
+
+<Section>
+  <XL>Understanding executors in NX</XL>
+  <M>
+    <B>NRWL Extension (NX)</B> empowers monorepo creation for <B>JavaScript</B>{" "}
+    projects, integrating diverse technologies via plugins. Notably, a plugin
+    facilitates custom plugin creation, enabling code generation and actions
+    (build, test, format, etc...). These tasks operate in a <B>Node.js</B>{" "}
+    environment, resembling project functionalities. Executable from both{" "}
+    <B>NX Console</B> and the terminal, it effectively forms a CLI within the
+    project.
+  </M>
+  <M>
+    Let's start from installing dedicated <B>@nrwl/nx-plugin@latestpet</B>{" "}
+    plugin. Then, we need to generate our own plugin code with the following
+    command: <B>nx g @nrwl/nx-plugin:plugin [my-plugin-name]</B>.
+  </M>
+  <M>
+    Now, let's explore <B>Task Executors</B>. To execute commands in the
+    terminal, use <B>nx run [project] [command]</B> or{" "}
+    <B>nx [command] [project]</B>. Here, <B>project</B> refers to the project in
+    the <B>monorepo</B>, and <B>command</B> signifies the <B>NodeJS</B> task to
+    be run.
+  </M>
+  <M>
+    Furthermore, for <B>production</B> or <B>testing</B> environments, customize
+    configurations:{" "}
+    <B>nx [command] [project] --configuration=[configuration]</B>.
+  </M>
+  <M>
+    Moreover, additional parameters are adaptable:{" "}
+    <B>nx [command] [project] --[myCustomParam]=[myCustomParamValue]</B>.
+  </M>
+</Section>
+
+<Section>
+  <XL>Creating own executor in NX</XL>
+  <M>
+    To implement the specified command, use:{" "}
+    <B>nx generate @nrwl/nx-plugin:executor [check] --project=[my-plugin]</B>.
+    Here, <B>[my-plugin]</B> represents the previously created plugin, and{" "}
+    <B>[check]</B> signifies the task name.
+  </M>
+  <M>
+    Upon execution, the repository should exhibit the following folder/file
+    structure:
+  </M>
+  <Image
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/NRWL%20extension%20and%20why%20do%20we%20need%20our%20own%20cli%20in%20JavaScript/1.jpg"
+    description="The folders/files structure"
+  />
+  <M>
+    The central configuration file, <B>schema.json</B>, acts as the primary{" "}
+    <B>executor scheme</B> file, detailing crucial metadata for your executor.
+    This includes parameter descriptions for the dedicated task, which may be
+    optional, with options for selecting multiple or specific values.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="json"
+    description="The schema.json file"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/NRWL%20extension%20and%20why%20do%20we%20need%20our%20own%20cli%20in%20JavaScript/1.json"
+    linesCount={10}
+  />
+  <M>
+    The foundational logic resides in the <B>executor.ts</B> file.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="ts"
+    description="The executor.ts file"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/NRWL%20extension%20and%20why%20do%20we%20need%20our%20own%20cli%20in%20JavaScript/2.ts"
+    linesCount={15}
+  />
+  <M>
+    In the implementation, export a function returning an <B>object</B> with a{" "}
+    <B>success</B> flag indicating the completion status. The function takes
+    options passed via the <B>CLI</B> as the first argument and the{" "}
+    <B>context of execution</B> (indicating the triggered project) as the second
+    parameter.
+  </M>
+  <M>
+    The final step involves assigning the task to a specific project, achievable
+    within the <B>project.json</B> file under the <B>target section</B>.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="json"
+    description="The last setup"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/NRWL%20extension%20and%20why%20do%20we%20need%20our%20own%20cli%20in%20JavaScript/3.json"
+    linesCount={20}
+  />
+  <M>
+    Execute the task by using <B>nx run [my-project]:[check]</B> command.
+  </M>
+</Section>
+
+<Section>
+  <XL>Understanding code generators</XL>
+  <M>
+    Generators offer a streamlined approach to automating numerous tasks
+    integral to your programming workflow. Whether it involves crafting
+    templates for components and functionalities, ensuring libraries are
+    generated and organized with precision, or updating configuration files,
+    generators play a pivotal role in standardizing these processes with a
+    reliable and consistent methodology.
+  </M>
+  <M>There are three main types of generators:</M>
+  <M>
+    <B>
+      🛫 Generators that expand the project code during the installation of
+      plugin
+    </B>
+  </M>
+  <M>
+    Such generators are invoked when executing the command:{" "}
+    <B>npm i [plugin]</B>.
+  </M>
+  <M>
+    <B>🛠️ Local generators</B>
+  </M>
+  <M>
+    Generators that create templates for components, services, functionalities,
+    etc... They've following invocation schema:{" "}
+    <B>nx generate [plugin]:[generator-name] [options]</B>.
+  </M>
+  <M>
+    <B>🚀 Update generators</B>
+  </M>
+  <M>
+    Invoked by <B>Nx plugins</B> during their updates to keep configuration
+    files in sync with the latest tool versions. This generator is called when
+    executing the command: <B>nx migrate [plugin]</B>.
+  </M>
+</Section>
+
+<Section>
+  <XL>Creating own NX generator</XL>
+  <M>
+    You need to execute following command:{" "}
+    <B>
+      nx generate @nrwl/nx-plugin:generator [my-generator] --project=[my-plugin]
+    </B>
+    , where the <B>[my-plugin]</B> is the name of previously created plugin and the{" "}
+    <B>[my-generator]</B> is the name of generator.
+  </M>
+  <M>The generator will create a project file structure like this:</M>
+  <Image
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/NRWL%20extension%20and%20why%20do%20we%20need%20our%20own%20cli%20in%20JavaScript/2.jpg"
+    description="The folders/files structure"
+  />
+  <M>
+    The <B>generator.ts</B> file contains the entire logic of the generator.
+    This file includes a function that is invoked to perform manipulations on
+    the file system tree. The <B>schema.json</B> file contains a description of
+    the generator, available options, validation information, and default values
+    (similarly to an executor).
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="The generator.ts file"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/NRWL%20extension%20and%20why%20do%20we%20need%20our%20own%20cli%20in%20JavaScript/4.ts"
+    linesCount={10}
+  />
+  <M>
+    The <B>tree</B> parameter represents the file structure and enables the
+    removal, addition, and editing of files. <B>Devkit</B> provides various
+    tools to facilitate working with files. For instance, in the above example,
+    the <B>installPackageTask</B> function installs <B>Node</B> packages.
+    Additionally, within our custom generator, we can leverage other generators.
+    The <B>libraryGenerator</B> function, for instance, creates a library based
+    on another generator.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="json"
+    description="The schema.json file"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/NRWL%20extension%20and%20why%20do%20we%20need%20our%20own%20cli%20in%20JavaScript/5.json"
+    linesCount={16}
+  />
+  <M>
+    The <B>$default</B> object is used to read command-line arguments passed to
+    the generator. To run the generator created in this way, use the command
+    line as follows:{" "}
+    <B>nx generate @myorg/[my-plugin]:[my-generator] [mylib]</B>.
+  </M>
+</Section>
+
+<Section>
+  <XL>Adding packages on npm</XL>
+  <M>
+    Within the <B>NRWL Extension</B>, we can also create an <B>NPM </B> package
+    that serves as a CLI with functionalities independent of a specific project.
+    Such a CLI can provide standardization across teams or even the entire
+    organization, including:
+  </M>
+  <L>
+    <Li>
+      ⛴️ setting up the work environment, installing the appropriate versions of
+      tools, consistent with those used by other developers,
+    </Li>
+    <Li>
+      🛸 creating projects according to the established schema used in the
+      project.
+    </Li>
+  </L>
+</Section>
+
+<Section>
+  <XL>How to create own NPM package?</XL>
+  <M>
+    To create a <B>JavaScript</B> library, use the command:{" "}
+    <B>nx generate @nrwl/workspace:library [my-cli] --buildable</B>.
+  </M>
+  <M>
+    To facilitate passing arguments to the console, we can use the additional
+    NPM package <B>yargs</B>. Install this tool with the command:{" "}
+    <B>npm install yargs</B>.
+  </M>
+  <M>
+    In the library folder, create a <B>bin</B> directory, and within it, create
+    a file named <B>my-cli.js</B> with the following content:
+  </M>
+  <Code
+    mode="dynamic"
+    lang="jsx"
+    description="The my-cli.js file"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/NRWL%20extension%20and%20why%20do%20we%20need%20our%20own%20cli%20in%20JavaScript/6.js"
+    linesCount={2}
+  />
+  <M>
+    This allows referencing the CLI source, which will be located at the path{" "}
+    <B>src/lib/cli.js</B>. The content of such a source could look like this:
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="The file under 'src/lib/cli.js'"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/NRWL%20extension%20and%20why%20do%20we%20need%20our%20own%20cli%20in%20JavaScript/7.js"
+    linesCount={17}
+  />
+  <M>
+    This configuration provides us with the <B>init command</B>, with the name
+    parameter <B>(alias n)</B>, calling the <B>workspaceInit</B> function, which
+    can contain the logic for creating a project. For example, initializing an{" "}
+    <B>NX workspace</B>.
+  </M>
+  <M>
+    Before publishing the library in the <B>NPM registry</B>, we just need to
+    configure it appropriately.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="json"
+    description="The package.json file"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/NRWL%20extension%20and%20why%20do%20we%20need%20our%20own%20cli%20in%20JavaScript/8.json"
+    linesCount={14}
+  />
+  <M>
+    This configuration allows, after publishing and globally installing the NPM
+    package, to use your custom CLI by executing the following command in the
+    command line: <B>my-cli init -—name=[new-project]</B>.
+  </M>
+</Section>
+
+<Section>
+  <XL>Architect's extra insight!</XL>
+  <M>If you enjoyed this article, feel free to explore related topics:</M>
+  <M>
+    <A href="/articles/thoughts/dream-stack-for-react-dev/" outside>
+      🌟 Dream Stack for React Dev
+    </A>
+  </M>
+  <M>
+    <A href="/articles/tooling/deep-dive-into-nx-features/" outside>
+      🥇 Overview of the Key Features in NX Tool
+    </A>
+  </M>
+  <M>
+    <A
+      href="/articles/architecture/modular-architecture-for-medium-frontend-apps/"
+      outside
+    >
+      ⭐ Modular Architecture for Medium Frontend Apps
+    </A>
+  </M>
+</Section>
+
+<Summary label="Summary">
+  <M>
+    Custom <B>CLIs</B> present extensive prospects for standardization and
+    automation in project workflows. The <B>NRWL Extension</B> monorepo tool
+    extends these capabilities, allowing the creation and expansion of CLIs from
+    a project to an entire organization. This article delves into the
+    fundamentals of CLI creation and utilization.
+  </M>
+</Summary>
