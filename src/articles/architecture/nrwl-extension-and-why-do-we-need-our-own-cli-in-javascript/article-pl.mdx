@@ -1,0 +1,384 @@
+---
+cdate: 2023-11-14
+mdate: 2023-11-14
+authorId: ejuchnikowski
+treviewerId: polubis
+lreviewerId: polubis
+goal: Celem tego poradnika jest dostarczenie kompleksowego zrozumienia procesu tworzenia niestandardowego interfejsu wiersza poleceń (CLI) oraz udzielenie wskazówek dotyczących publikacji utworzonego narzędzia w rejestrze NPM.
+purpose: inform
+keywords: CLI,NX i CLI,NX generatory,Tworzenie biblioteki,Publikacja biblioteki na NPM
+tags: cli,nx,architecture
+langs: ["en"]
+lang: pl
+stack: javascript,typescript,nx
+description: Zbadaj rozszerzenie NRWL potężne narzędzie do zoptymalizowanego rozwoju. Dowiedz się, dlaczego niestandardowy interfejs wiersza poleceń (CLI) w języku JavaScript zwiększa kontrolę i skalowalność projektu.
+readTime: 9
+seniorityLevel: expert
+title: NRWL i dlaczego potrzebujemy własnego CLI w JavaScript
+---
+
+<Prelude>
+  <M>
+    Programiści powszechnie zdobywają umiejętności obsługi interfejsu wiersza
+    poleceń (<B>CLI</B>) w różnych technologiach. Interfejsy wiersza poleceń są
+    integralną częścią stosu technologicznego, automatyzują zadania takie jak
+    generowanie kodu, budowanie i zarządzanie zależnościami. Chociaż często
+    związane z konkretnymi technologiami, interfejsy wiersza poleceń mogą pełnić
+    szersze funkcje w zespole lub projekcie, usprawniając procesy{" "}
+    <B>Ciągłej Integracji</B>. Niniejszy artykuł analizuje zalety tego
+    podejścia.
+  </M>
+</Prelude>
+
+<Section>
+  <XL>Dlaczego niestandardowy interfejs wiersza poleceń?</XL>
+  <M>
+    Jak wspomniano wcześniej, interfejsy wiersza poleceń (<B>CLIs</B>)
+    automatyzują pracę z konkretnymi technologiami, wykonując zadania z poziomu
+    konsoli. Podczas rozwoju, zadania wykraczają poza te związane z konkretną
+    technologią, obejmując aspekty dotyczące całej organizacji, zespołu oraz
+    projektu. Główne korzyści z tworzenia niestandardowego interfejsu wiersza
+    poleceń (<B>custom CLI</B>) w ramach organizacji lub projektu obejmują:
+  </M>
+  <M>
+    ⛽ <B>Zwiększenie Efektywności</B>: Interfejs wiersza poleceń umożliwia
+    skrócenie czasu wykonania zadań poprzez pojedyncze polecenia lub skrypty,
+    przyspieszając pracę. Jego potęga tkwi w szybkim i łatwym obsługiwaniu
+    powtarzalnych zadań, co przekłada się na znaczne oszczędności czasu.
+  </M>
+  <M>
+    <B>🎡 Reprodukowalność</B>: Interfejs wiersza poleceń zapewnia precyzyjne
+    odtwarzanie procesu, eliminując ręczne wykonywanie poszczególnych kroków.
+    Skonsolidowany skrypt zawiera wszystkie kroki, umożliwiając łatwe i spójne
+    ponowne uruchamianie tego samego ciągu działań.
+  </M>
+  <M>
+    <B>🔀 Udostępnianie</B>: Interfejs wiersza poleceń wspiera współpracę,
+    umożliwiając łatwe udostępnianie z innymi członkami zespołu. Zapewnienie
+    jednolitego dostępu do narzędzi i procedur poprawia spójność pracy
+    zespołowej, zmniejszając błędy wynikające z rozbieżności w narzędziach.
+  </M>
+  <M>
+    <B>🏗️ Automatyzacja</B>: Interfejs wiersza poleceń ułatwia automatyzację
+    różnorodnych zadań, przyspieszając proces tworzenia oprogramowania. Jest
+    niezbędny przy czynnościach takich jak budowanie, testowanie i wdrażanie
+    aplikacji.
+  </M>
+  <M>
+    <B>🚏 Skalowalność</B>: Interfejs wiersza poleceń ułatwia skalowanie
+    procesów rozwoju oprogramowania, szczególnie istotne w przypadku dużych
+    projektów. Łatwo umożliwia wykonywanie zadań, takich jak równoczesne
+    uruchamianie wielu serwerów.
+  </M>
+  <M>
+    Niestandardowe, wewnętrzne interfejsy wiersza poleceń tworzą warstwę
+    abstrakcji ponad zewnętrznymi technologiami, procesami firmy i zespołem. To
+    zmniejsza zależności, ułatwia wdrożenie nowych programistów, standaryzuje
+    procesy zespołowe i umożliwia automatyzację.
+  </M>
+</Section>
+
+<Section>
+  <XL>Zrozumienie wykonawców w NX</XL>
+  <M>
+    Rozszerzenie <B>NRWL (NX)</B> umożliwia tworzenie monorepo dla projektów w
+    języku <B>JavaScript</B>, integrując różnorodne technologie za pomocą
+    wtyczek. Warto zauważyć, że wtyczka ułatwia tworzenie niestandardowych
+    wtyczek, umożliwiając generowanie kodu oraz wykonywanie działań (budowanie,
+    testowanie, formatowanie itp.). Te zadania działają w środowisku{" "}
+    <B>Node.js</B>, przypominając funkcje projektu. Mogą być uruchamiane zarówno
+    z <B>Konsoli NX</B>, jak i z terminala, efektywnie tworząc interfejs wiersza
+    poleceń w ramach projektu.
+  </M>
+  <M>
+    Zacznijmy od zainstalowania dedykowanej wtyczki{" "}
+    <B>@nrwl/nx-plugin@latestpet</B>. Następnie musimy wygenerować kod naszej
+    własnej wtyczki za pomocą poniższego polecenia:{" "}
+    <B>nx g @nrwl/nx-plugin:plugin [nazwa-mojej-wtyczki]</B>.
+  </M>
+  <M>
+    Teraz zajmijmy się <B>Wykonawcami Zadań</B>. Aby wykonać polecenia w
+    terminalu, użyj <B>nx run [projekt] [polecenie]</B> lub{" "}
+    <B>nx [polecenie] [projekt]</B>. Tutaj <B>projekt</B> odnosi się do projektu
+    w <B>monorepo</B>, a <B>polecenie</B> oznacza zadanie <B>NodeJS</B>, które
+    ma zostać uruchomione.
+  </M>
+  <M>
+    Ponadto, dla środowisk <B>produkcji</B> lub <B>testowego</B>, dostosuj
+    konfiguracje: <B>nx [polecenie] [projekt] --configuration=[konfiguracja]</B>.
+  </M>
+  <M>
+    Co więcej, dodatkowe parametry są dostosowalne:{" "}
+    <B>
+      nx [polecenie] [projekt]
+      --[mójParametrNiestandardowy]=[wartośćMojegoParametruNiestandardowego]
+    </B>
+    .
+  </M>
+</Section>
+
+<Section>
+  <XL>Tworzenie własnego wykonawcy w NX</XL>
+  <M>
+    Aby zaimplementować określone polecenie, użyj:{" "}
+    <B>nx generate @nrwl/nx-plugin:executor [check] --project=[moja-wtyczka]</B>
+    . Tutaj <B>[moja-wtyczka]</B> reprezentuje wcześniej utworzoną wtyczkę, a{" "}
+    <B>[check]</B> oznacza nazwę zadania.
+  </M>
+  <M>
+    Po wykonaniu polecenia, repozytorium powinno prezentować następującą
+    strukturę folderów/plików:
+  </M>
+  <Image
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/NRWL%20extension%20and%20why%20do%20we%20need%20our%20own%20cli%20in%20JavaScript/1.jpg"
+    description="Struktura folderów/plików"
+  />
+  <M>
+    Centralny plik konfiguracyjny, <B>schema.json</B>, pełni rolę głównego pliku{" "}
+    <B>schematu wykonawcy</B>, zawierającego istotne metadane dla twojego
+    wykonawcy. Obejmuje to opisy parametrów dedykowanego zadania, które mogą być
+    opcjonalne, z opcjami wyboru wielu lub konkretnych wartości.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="json"
+    description="Plik schema.json"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/NRWL%20extension%20and%20why%20do%20we%20need%20our%20own%20cli%20in%20JavaScript/1.json"
+    linesCount={10}
+  />
+  <M>
+    Fundamentalna logika znajduje się w pliku <B>executor.ts</B>.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="ts"
+    description="Plik executor.ts"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/NRWL%20extension%20and%20why%20do%20we%20need%20our%20own%20cli%20in%20JavaScript/2.ts"
+    linesCount={15}
+  />
+  <M>
+    W implementacji, wyeksportuj funkcję zwracającą <B>obiekt</B> z flagą{" "}
+    <B>success</B>, oznaczającą status ukończenia. Funkcja przyjmuje opcje
+    przekazane przez <B>CLI</B> jako pierwszy argument oraz{" "}
+    <B>kontekst wykonania</B> (wskazujący na uruchomiony projekt) jako drugi
+    parametr.
+  </M>
+  <M>
+    Ostatnim krokiem jest przypisanie zadania do konkretnego projektu, co można
+    osiągnąć w pliku <B>project.json</B> w sekcji <B>target</B>.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="json"
+    description="Ostatnia konfiguracja"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/NRWL%20extension%20and%20why%20do%20we%20need%20our%20own%20cli%20in%20JavaScript/3.json"
+    linesCount={20}
+  />
+  <M>
+    Wykonaj zadanie, używając polecenia <B>nx run [mój-projekt]:[check]</B>.
+  </M>
+</Section>
+
+<Section>
+  <XL>Zrozumienie generatorów kodu</XL>
+  <M>
+    Generatory oferują uproszczone podejście do automatyzacji wielu zadań
+    integralnych dla twojego przepływu pracy programistycznej. Czy to dotyczy
+    tworzenia szablonów dla komponentów i funkcji, zapewniania precyzyjnego
+    generowania i organizowania bibliotek, czy aktualizowania plików
+    konfiguracyjnych, generatory odgrywają kluczową rolę w standaryzacji tych
+    procesów przy pomocy niezawodnej i spójnej metodologii.
+  </M>
+  <M> Istnieją trzy główne rodzaje generatorów:</M>
+  <M>
+    <B>🛫 Generatory rozszerzające kod projektu podczas instalacji wtyczki</B>
+  </M>
+  <M>
+    Takie generatory są wywoływane podczas wykonywania polecenia:{" "}
+    <B>npm i [wtyczka]</B>.
+  </M>
+  <M>
+    <B>🛠️ Generatory lokalne</B>
+  </M>
+  <M>
+    Generatory tworzące szablony dla komponentów, usług, funkcji, itp... Mają
+    następujący schemat wywołania:{" "}
+    <B>nx generate [wtyczka]:[nazwa-generatora] [opcje]</B>.
+  </M>
+  <M>
+    <B>🚀 Generatory aktualizacji</B>
+  </M>
+  <M>
+    Wywoływane przez <B>wtyczki Nx</B> podczas ich aktualizacji w celu
+    utrzymania plików konfiguracyjnych zsynchronizowanych z najnowszymi wersjami
+    narzędzi. Ten generator jest wywoływany podczas wykonywania polecenia:{" "}
+    <B>nx migrate [wtyczka]</B>.
+  </M>
+</Section>
+
+<Section>
+  <XL>Tworzenie własnego generatora NX</XL>
+  <M>
+    Aby utworzyć własny generator, wykonaj następujące polecenie:{" "}
+    <B>
+      nx generate @nrwl/nx-plugin:generator [moj-generator]
+      --project=[moja-wtyczka]
+    </B>
+    , gdzie <B>[moja-wtyczka]</B> to nazwa wcześniej utworzonej wtyczki, a <B>
+      [moj-generator]
+    </B> to nazwa generatora.
+  </M>
+  <M>Generator utworzy strukturę projektu w pliku jak poniżej:</M>
+  <Image
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/NRWL%20extension%20and%20why%20do%20we%20need%20our%20own%20cli%20in%20JavaScript/2.jpg"
+    description="Struktura folderów/plików"
+  />
+  <M>
+    Plik <B>generator.ts</B> zawiera całą logikę generatora. Zawiera funkcję
+    wywoływaną do manipulacji drzewem systemu plików. Plik <B>schema.json</B>{" "}
+    zawiera opis generatora, dostępne opcje, informacje walidacyjne i domyślne
+    wartości (podobnie jak w przypadku wykonawcy).
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="Plik generator.ts"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/NRWL%20extension%20and%20why%20do%20we%20need%20our%20own%20cli%20in%20JavaScript/4.ts"
+    linesCount={10}
+  />
+  <M>
+    Parametr <B>tree</B> reprezentuje strukturę plików i umożliwia usuwanie,
+    dodawanie i edytowanie plików. Devkit dostarcza różne narzędzia ułatwiające
+    pracę z plikami. Na przykład w powyższym przykładzie funkcja{" "}
+    <B>installPackageTask</B> instaluje pakiety Node. Dodatkowo, w ramach
+    naszego niestandardowego generatora, możemy korzystać z innych generatorów.
+    Funkcja <B>libraryGenerator</B>, na przykład, tworzy bibliotekę na podstawie
+    innego generatora.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="json"
+    description="Plik schema.json"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/NRWL%20extension%20and%20why%20do%20we%20need%20our%20own%20cli%20in%20JavaScript/5.json"
+    linesCount={16}
+  />
+  <M>
+    Obiekt <B>$default</B> służy do odczytu argumentów wiersza polecenia
+    przekazywanych do generatora. Aby uruchomić stworzony w ten sposób
+    generator, użyj wiersza polecenia w następujący sposób:{" "}
+    <B>nx generate @myorg/[moja-wtyczka]:[moj-generator] [mojalib]</B>.
+  </M>
+</Section>
+
+<Section>
+  <XL>Dodawanie pakietów na npm</XL>
+  <M>
+    W ramach rozszerzenia <B>NRWL</B>, możemy również utworzyć pakiet <B>NPM</B>,
+    który pełni rolę interfejsu wiersza poleceń z funkcjonalnościami niezależnymi
+    od konkretnego projektu. Taki interfejs wiersza poleceń może zapewnić standaryzację
+    w zespole lub nawet w całej organizacji, obejmując:
+  </M>
+  <L>
+    <Li>
+      ⛴️ konfigurację środowiska pracy, instalację odpowiednich wersji narzędzi,
+      zgodnych z tymi używanymi przez innych programistów,
+    </Li>
+    <Li>
+      🛸 tworzenie projektów zgodnie z ustalonym schematem stosowanym w
+      projekcie.
+    </Li>
+  </L>
+</Section>
+
+<Section>
+  <XL>Jak stworzyć własny pakiet NPM?</XL>
+  <M>
+    Aby utworzyć bibliotekę w języku <B>JavaScript</B>, użyj polecenia:{" "}
+    <B>nx generate @nrwl/workspace:library [moje-cli] --buildable</B>.
+  </M>
+  <M>
+    Aby ułatwić przekazywanie argumentów do konsoli, możemy użyć dodatkowego
+    pakietu NPM o nazwie <B>yargs</B>. Zainstaluj to narzędzie poleceniem:{" "}
+    <B>npm install yargs</B>.
+  </M>
+  <M>
+    W folderze biblioteki utwórz katalog <B>bin</B>, a w nim plik o nazwie{" "}
+    <B>moje-cli.js</B> o następującej zawartości:
+  </M>
+  <Code
+    mode="dynamic"
+    lang="jsx"
+    description="Plik moje-cli.js"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/NRWL%20extension%20and%20why%20do%20we%20need%20our%20own%20cli%20in%20JavaScript/6.js"
+    linesCount={2}
+  />
+  <M>
+    Pozwala to odwoływać się do źródła interfejsu wiersza poleceń, które będzie
+    znajdować się pod ścieżką <B>src/lib/cli.js</B>. Zawartość takiego źródła
+    może wyglądać tak:
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="Plik w ścieżce 'src/lib/cli.js'"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/NRWL%20extension%20and%20why%20do%20we%20need%20our%20own%20cli%20in%20JavaScript/7.js"
+    linesCount={17}
+  />
+  <M>
+    Ta konfiguracja zapewnia nam polecenie <B>init</B>, z parametrem nazwy{" "}
+    <B>(alias n)</B>, wywołujące funkcję <B>workspaceInit</B>, która może
+    zawierać logikę tworzenia projektu. Na przykład, inicjalizując{" "}
+    <B>workspace NX</B>.
+  </M>
+  <M>
+    Przed opublikowaniem biblioteki w rejestrze <B>NPM</B>, wystarczy
+    odpowiednio ją skonfigurować.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="json"
+    description="Plik package.json"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/NRWL%20extension%20and%20why%20do%20we%20need%20our%20own%20cli%20in%20JavaScript/8.json"
+    linesCount={14}
+  />
+  <M>
+    Ta konfiguracja pozwala, po opublikowaniu i zainstalowaniu globalnie pakietu
+    NPM, używać niestandardowego interfejsu wiersza poleceń poprzez wykonanie
+    następującego polecenia w wierszu poleceń:{" "}
+    <B>moje-cli init --name=[nowy-projekt]</B>.
+  </M>
+</Section>
+
+<Section>
+  <XL>Dodatkowe spojrzenie architekta!</XL>
+  <M>Jeśli spodobał ci się ten artykuł, śmiało eksploruj powiązane tematy:</M>
+  <M>
+    <A href="/articles/thoughts/dream-stack-for-react-dev/" outside>
+      🌟 Marzenie o Stosie Technologicznym dla React Dev
+    </A>
+  </M>
+  <M>
+    <A href="/articles/tooling/deep-dive-into-nx-features/" outside>
+      🥇 Przegląd Kluczowych Funkcji w Narzędziu NX
+    </A>
+  </M>
+  <M>
+    <A
+      href="/articles/architecture/modular-architecture-for-medium-frontend-apps/"
+      outside
+    >
+      ⭐ Modułowa Architektura dla Średnich Aplikacji Frontendowych
+    </A>
+  </M>
+</Section>
+
+<Summary label="Podsumowanie">
+  <M>
+    Niestandardowe <B>interfejsy wiersza poleceń (CLIs)</B> oferują obszerne
+    możliwości standaryzacji i automatyzacji w przepływach pracy projektowych.
+    Narzędzie monorepo NRWL Extension rozszerza te możliwości, umożliwiając
+    tworzenie i rozwijanie interfejsów wiersza poleceń od projektu po całą
+    organizację. Niniejszy artykuł zagłębia się w podstawy tworzenia i
+    wykorzystywania interfejsów wiersza poleceń.
+  </M>
+</Summary>
