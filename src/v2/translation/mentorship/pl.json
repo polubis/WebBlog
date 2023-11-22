@@ -3,97 +3,113 @@
     "description": "Mentoring dla programistów! Dostosowany do twoich potrzeb rozwój umiejętności programistycznych. Wejdź w świat indywidualnego wsparcia!",
     "heading": "Wybierz wariant mentoringu",
     "heading_description": "Może to być subskrypcja/oddzielne rozmowy lub plan indywidualny",
-    "subscriptions": [
+    "plans": [
         {
-            "bg": "#313131",
-            "label": "Darmowy",
-            "cost": "0zł",
-            "bullets": [
+            "key": "subscription",
+            "label": "Subskrypcja",
+            "content": [
                 {
-                    "label": "Dostęp do społeczności"
+                    "bg": "#313131",
+                    "label": "Darmowy",
+                    "cost": "0zł",
+                    "bullets": [
+                        {
+                            "label": "Dostęp do społeczności"
+                        },
+                        {
+                            "label": "Codzienny \"tip\""
+                        },
+                        {
+                            "label": "Mentorowanie w grupie"
+                        },
+                        {
+                            "label": "Wydarzenia"
+                        },
+                        {
+                            "label": "Newsletter"
+                        },
+                        {
+                            "label": "Dostęp do materiałów"
+                        },
+                        {
+                            "label": "Wspólna praca nad projektami"
+                        },
+                        {
+                            "label": "Pisanie artykułów"
+                        }
+                    ]
                 },
                 {
-                    "label": "Codzienny \"tip\""
+                    "bg": "#305e39",
+                    "label": "Eko",
+                    "cost": "89.99zł / miesiąc",
+                    "bullets": [
+                        {
+                            "label": "Zawiera plan \"Darmowy\""
+                        },
+                        {
+                            "label": "Review twojego kodu"
+                        },
+                        {
+                            "label": "Pomoc przy tworzeniu CV"
+                        },
+                        {
+                            "label": "Pomoc w tworzeniu artykułów"
+                        },
+                        {
+                            "label": "1 godzina mentoringu 1 na 1"
+                        },
+                        {
+                            "label": "Dostęp do \"prywatnych\" artykułów"
+                        }
+                    ]
                 },
                 {
-                    "label": "Mentorowanie w grupie"
+                    "bg": "#4c4c57",
+                    "label": "Komfort",
+                    "cost": "129.99zł / miesiąc",
+                    "bullets": [
+                        {
+                            "label": "Zawiera plany \"Darmowy\" oraz \"Eko\""
+                        },
+                        {
+                            "label": "Dostęp do \"Roadmapy\" dla web dewelopera"
+                        },
+                        {
+                            "label": "Rozmowa techniczna"
+                        },
+                        {
+                            "label": "Dostęp do prywatnych repozytoriów"
+                        }
+                    ]
                 },
                 {
-                    "label": "Wydarzenia"
-                },
-                {
-                    "label": "Newsletter"
-                },
-                {
-                    "label": "Dostęp do materiałów"
-                },
-                {
-                    "label": "Wspólna praca nad projektami"
-                },
-                {
-                    "label": "Pisanie artykułów"
+                    "bg": "#665234",
+                    "label": "Złoto",
+                    "cost": "229.99zł / miesiąc",
+                    "bullets": [
+                        {
+                            "label": "Zawiera plany \"Darmowy\", \"Eko\" oraz \"Komfort\""
+                        },
+                        {
+                            "label": "Udział w \"Bootcampie\""
+                        },
+                        {
+                            "label": "+1 godzina mentorowania 1 na 1"
+                        }
+                    ]
                 }
             ]
         },
         {
-            "bg": "#305e39",
-            "label": "Eko",
-            "cost": "89.99zł / miesiąc",
-            "bullets": [
-                {
-                    "label": "Zawiera plan \"Darmowy\""
-                },
-                {
-                    "label": "Review twojego kodu"
-                },
-                {
-                    "label": "Pomoc przy tworzeniu CV"
-                },
-                {
-                    "label": "Pomoc w tworzeniu artykułów"
-                },
-                {
-                    "label": "1 godzina mentoringu 1 na 1"
-                },
-                {
-                    "label": "Dostęp do \"prywatnych\" artykułów"
-                }
-            ]
+            "key": "interviews",
+            "label": "Rozmowy",
+            "content": []
         },
         {
-            "bg": "#4c4c57",
-            "label": "Komfort",
-            "cost": "129.99zł / miesiąc",
-            "bullets": [
-                {
-                    "label": "Zawiera plany \"Darmowy\" oraz \"Eko\""
-                },
-                {
-                    "label": "Dostęp do \"Roadmapy\" dla web dewelopera"
-                },
-                {
-                    "label": "Rozmowa techniczna"
-                },
-                {
-                    "label": "Dostęp do prywatnych repozytoriów"
-                }
-            ]
-        },
-        {
-            "bg": "#665234",
-            "label": "Złoto",
-            "cost": "229.99zł / miesiąc",
-            "bullets": [
-                {
-                    "label": "Zawiera plany \"Darmowy\", \"Eko\" oraz \"Komfort\""
-                },
-                {
-                    "label": "Udział w \"Bootcampie\""
-                },
-                {
-                    "label": "+1 godzina mentorowania 1 na 1"
-                }
-            ]
+            "key": "individual_plan",
+            "label": "Plan indywidualny",
+            "content": []
         }
     ]
 }
