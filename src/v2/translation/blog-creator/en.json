@@ -2,7 +2,6 @@
   "page_title": "creator: Tool for creating articles",
   "page_description": "Use our tool to create articles and courses in a fast, developer-friendly way. Consume huge dose of components and get technical review.",
   "sentence": "A powerful editor for articles",
-  "full_screen": "Full screen",
   "submit_article": "Submit article",
   "article_preview": "Article preview",
   "version": "Version",
@@ -32,19 +31,6 @@
     "hint": "Hint",
     "code": "Code",
     "static_code": "Static code"
-  },
-  "loader": {
-    "heading": "Did you know that?",
-    "mascot": {
-      "1": "Our platform's mascot is a",
-      "2": "kitten with gun",
-      "3": "Maybe you have already seen it?"
-    },
-    "gpt": {
-      "1": "Don't be afraid",
-      "2": "The GPT chat",
-      "3": "won't take away your work - it can only make it easier."
-    }
   },
   "description": "Description",
   "language": "Programming language",
