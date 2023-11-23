@@ -11,7 +11,7 @@ goal: Show best practices when using Context API in React.
 lang: en
 langs: ["pl"]
 keywords: React Context API best practices, React state management tips, Context API common mistakes, React development optimization, Efficient React state handling
-description: Unlock the full potential of React's Context API with our insightful guide. Discover and rectify common mistakes that may be hindering your application's performance and maintainability. Elevate your React development skills as we delve into best practices, ensuring you harness the true power of Context API for efficient state management. Optimize your code and enhance your React applications with our expert insights.
+description: Unlock the full potential of React's Context API with our insightful guide. Discover and rectify common mistakes that may be hindering your application's performance and maintainability. Elevate your React development skills as we delve into best practices, ensuring you harness the true power of Context API for efficient state management. Optimize your code and enhance your React applications.
 readTime: 9
 seniorityLevel: intermediate
 title: Common mistakes in using React Context API
@@ -92,11 +92,6 @@ title: Common mistakes in using React Context API
     maintenance, providing a cleaner and more efficient solution compared to{" "}
     <B>prop-drilling</B> or rigid <B>components composition patterns</B>.
   </M>
-  <Hint hasBg>
-    I'm currently conducting a side-by-side comparison of the APIs. The real
-    examples will be introduced later, and this is where the distinctions
-    between the two APIs become crucially important.
-  </Hint>
   <M>
     It's worth noting that the workload when using the <B>Context API</B> is
     significantly reduced from a developer's standpoint. You simply wrap the
@@ -117,7 +112,7 @@ title: Common mistakes in using React Context API
     The last crucial aspect of the <B>Context API</B> is its inherent mechanism
     of <B>shadowing</B>. This means that if you employ <B>two</B> or{" "}
     <B>more wrappers</B>, it will consistently adopt the values provided by the
-    latest one (it may be useful - will be explained later).
+    latest one.
   </M>
   <Code
     mode="dynamic"
@@ -131,8 +126,8 @@ title: Common mistakes in using React Context API
 <Section>
   <XL>Using Context directly</XL>
   <M>
-    What does <B>direct usage of context</B> entail? While it was showcased
-    earlier, let's revisit it for enhanced clarity:
+    What does <B>direct usage of context</B> entail? Let's revisit it for
+    enhanced clarity:
   </M>
   <Code
     mode="dynamic"
@@ -233,6 +228,7 @@ title: Common mistakes in using React Context API
   <Code
     mode="dynamic"
     lang="tsx"
+    added={[[4, 7]]}
     description="Adding custom exception handler"
     src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Common%20mistakes%20in%20using%20React%20Context%20API/7.tsx"
     linesCount={10}
@@ -244,9 +240,9 @@ title: Common mistakes in using React Context API
   <M>
     The <B>createContext</B> function necessitates an initial state for
     functionality, as per the interface contract. However, it also mandates that
-    this state "matches" the type specified in the <B>generic type parameter</B>
-    . The practice of adding numerous empty functions and initial states is not
-    only inefficient but also time-consuming.
+    this state "matches" the type specified in the <B>generic type parameter</B>.
+    The practice of adding numerous empty functions and initial states is not only
+    inefficient but also time-consuming.
   </M>
   <Code
     mode="dynamic"
@@ -309,6 +305,11 @@ title: Common mistakes in using React Context API
   <Code
     mode="dynamic"
     lang="tsx"
+    added={[[1, 1]]}
+    changed={[
+      [3, 5],
+      [7, 10],
+    ]}
     description="Flexibility added!"
     src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Common%20mistakes%20in%20using%20React%20Context%20API/12.tsx"
     linesCount={10}
@@ -365,9 +366,9 @@ title: Common mistakes in using React Context API
   />
   <M>
     Moreover, the inclusion of an essential property, <B>initialState</B>,
-    becomes particularly crucial when aiming to synchronize the state and
-    client, especially in scenarios involving frameworks like <B>Next</B> or{" "}
-    <B>Gatsby</B>.
+    becomes particularly crucial when aiming to synchronize the server state and
+    client state, especially in scenarios involving frameworks like <B>Next</B>{" "}
+    or <B>Gatsby</B>.
   </M>
   <Hint hasBg>
     To explore the integration of <B>Zustand</B> with frameworks like{" "}
@@ -420,11 +421,12 @@ title: Common mistakes in using React Context API
   <XL>Coupling of logic with propagation</XL>
   <M>
     As we know, <B>Context</B> is intended solely for sharing data across nested
-    components trees. To adhere to the single responsibility principle, it's a
-    bad idea to incorporate complex logic within the <B>Context provider</B>.
-    Such an approach would result in a substantial amount of code being loaded
-    whenever any component utilizing your context is rendered. To address this,
-    consider improving it with lazy loading, as illustrated below:
+    components trees. To adhere to the <B>single responsibility principle</B>,
+    it's a bad idea to incorporate complex logic within the{" "}
+    <B>Context provider</B>. Such an approach would result in a substantial
+    amount of code being loaded whenever any component utilizing your context is
+    rendered. To address this, consider improving it with lazy loading, as
+    illustrated below:
   </M>
   <Code
     mode="dynamic"
