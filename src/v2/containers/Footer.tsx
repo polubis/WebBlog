@@ -8,6 +8,7 @@ import Img from "gatsby-image"
 import { A, Content, DiscordIcon, LinkedinIcon, M, S, X } from "../../ui"
 import { FacebookIcon } from "../../ui/icons/FacebookIcon"
 import { useLayoutProvider } from "../providers/LayoutProvider"
+import { YtIcon } from "../../ui/icons/YtIcon"
 
 const Container = styled.footer`
   background: ${theme.black};
@@ -45,6 +46,11 @@ const Container = styled.footer`
 
     .icon-link {
       margin-left: 12px;
+      cursor: pointer;
+
+      &.yt-link path {
+        fill: #fff;
+      }
     }
 
     & > :last-child {
@@ -179,6 +185,14 @@ const Footer = ({ links }: FooterProps) => {
             target="_blank"
           >
             <FacebookIcon />
+          </a>
+          <a
+            className="icon-link yt-link"
+            href={layout.yt_channel}
+            title={`${layout.site_name} ${layout.t.yt_channel}`}
+            target="_blank"
+          >
+            <YtIcon />
           </a>
           <div className="footer-company row">
             <S className="ui-footer-gray">
