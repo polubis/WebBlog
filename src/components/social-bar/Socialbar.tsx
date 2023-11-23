@@ -7,6 +7,7 @@ import theme from "../../utils/theme"
 import { ScrollUpButton } from "../scroll-up-button/ScrollUpButton"
 import { useLayoutProvider } from "../../v2/providers/LayoutProvider"
 import { FacebookIcon } from "../../ui/icons/FacebookIcon"
+import { YtIcon } from "../../ui/icons/YtIcon"
 
 const Container = styled.div`
   position: fixed;
@@ -35,6 +36,11 @@ const SocialBar = () => {
   if (direction === "up" || direction === "idle")
     return (
       <Container>
+        <a href={layout.yt_channel} title={layout.t.yt_channel} target="_blank">
+          <IconButton>
+            <YtIcon />
+          </IconButton>
+        </a>
         <a
           href={layout.discord_url}
           title={layout.t.discord_channel}
