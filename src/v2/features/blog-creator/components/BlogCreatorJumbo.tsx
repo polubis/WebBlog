@@ -20,19 +20,35 @@ const Container = styled.figure`
   & > ${M} {
     margin: 20px 0 40px 0;
   }
+
+  .ui-snippet {
+    width: 500px;
+  }
 `
 
 const BlogCreatorJumbo = () => {
   const {} = useLayoutProvider()
   const blogCreator = useBlogCreatorPageProvider()
 
-  const frames = useMemo(() => Object.values(blogCreator.samples), [])
+  const frames = useMemo(
+    () =>
+      Object.entries(blogCreator.samples)
+        .filter(([key]) => key !== "default")
+        .map(([, value]) => value),
+    []
+  )
 
   return (
     <Container className="col">
       <XXL className="tcenter">{blogCreator.t.sentence}</XXL>
       <M className="tcenter">{blogCreator.t.page_description}</M>
-      <CodeFrames autoPlayOnInit frames={frames} />
+      <CodeFrames
+        animated
+        linesOff
+        lang="markdown"
+        autoPlayOnInit
+        frames={frames}
+      />
     </Container>
   )
 }

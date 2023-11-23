@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, ReactNode, useState } from "react"
 import { useCounter } from "../../utils/useCounter"
 import { useInterval } from "../../utils/useInterval"
 import { Code } from "../../v2/ui/code/Code"
+import { StaticCodeProps } from "../ui/code/models"
 
 type Frames = string[]
 
@@ -11,7 +12,8 @@ export type FooterPayload = {
   setAutoPlay: (autoPlay: boolean) => void
 }
 
-export interface CodeFramesProps {
+export interface CodeFramesProps
+  extends Omit<StaticCodeProps, "mode" | "children" | "skipTrim"> {
   delay?: number
   frames: Frames
   className?: string
@@ -46,6 +48,7 @@ const CodeFrames = ({
   frames,
   footer,
   autoPlayOnInit = true,
+  ...props
 }: CodeFramesProps) => {
   const [autoPlay, setAutoPlay] = useState(autoPlayOnInit)
   const counter = useCounter(0, frames.length - 1)
@@ -67,9 +70,9 @@ const CodeFrames = ({
 
   return (
     <Code
+      {...props}
       mode="static"
       skipTrim
-      animated
       Footer={
         footer
           ? () =>
