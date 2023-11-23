@@ -24,6 +24,10 @@ const Container = styled.figure`
   .ui-snippet {
     width: 500px;
   }
+
+  .blog-creator-jumbo-try-it-btn {
+    margin: 40px 0 0 0;
+  }
 `
 
 const BlogCreatorJumbo = () => {
@@ -49,7 +53,7 @@ const BlogCreatorJumbo = () => {
         autoPlayOnInit
         frames={frames}
       />
-      <button className="upper button primary">{layout.t.try_it}</button>
+      <button className="blog-creator-jumbo-try-it-btn upper button primary">{layout.t.try_it}</button>
     </Container>
   )
 }
