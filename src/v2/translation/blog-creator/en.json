@@ -32,19 +32,6 @@
     "code": "Code",
     "static_code": "Static code"
   },
-  "loader": {
-    "heading": "Did you know that?",
-    "mascot": {
-      "1": "Our platform's mascot is a",
-      "2": "kitten with gun",
-      "3": "Maybe you have already seen it?"
-    },
-    "gpt": {
-      "1": "Don't be afraid",
-      "2": "The GPT chat",
-      "3": "won't take away your work - it can only make it easier."
-    }
-  },
   "description": "Description",
   "language": "Programming language",
   "skip_edition_disclaimer": "If you skip editing this form, the default template will be copied.",

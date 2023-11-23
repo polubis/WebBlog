@@ -32,19 +32,6 @@
     "code": "Fragment z kodem",
     "static_code": "Fragment ze statycznym kodem"
   },
-  "loader": {
-    "heading": "Trochę ciekawostek",
-    "mascot": {
-      "1": "Maskotką naszej platformy jest",
-      "2": "kotek ze strzelbą",
-      "3": "Udalo Ci się go znaleźć?"
-    },
-    "gpt": {
-      "1": "Nie boj się",
-      "2": "Czat GPT",
-      "3": "nie zabierze Ci pracy - on jedynie ją ułatwia."
-    }
-  },
   "description": "Opis",
   "language": "Język programowania",
   "skip_edition_disclaimer": "Jeżeli pominiesz edycje tego formularza, to zostanie skopiowany domyślny szablon.",

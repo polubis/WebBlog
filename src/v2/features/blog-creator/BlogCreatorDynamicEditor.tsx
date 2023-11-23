@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useLayoutEffect } from "react"
 import { EditableSnippet } from "../../../ui/snippet/EditableSnippet"
 import { useEditor } from "../../logic/useEditor"
 import { useBlogCreatorPageProvider } from "./BlogCreatorPageProvider"
@@ -8,8 +8,10 @@ import { FullScreenCreator } from "./containers/FullScreenCreator"
 import { Toolbox } from "./containers/Toolbox"
 import { BlogCreatorAlertsProvider } from "./providers/BlogCreatorAlertsProvider"
 import { useLeavePageAlert } from "../../../utils/useLeavePageAlert"
+import { useAnalytics } from "../../../utils/useAnalytics"
 
 const BlogCreatorPageDynamicEditor = ({ onClose }: { onClose: () => void }) => {
+  const { track } = useAnalytics()
   const creator = useBlogCreatorPageProvider()
 
   const [
@@ -21,6 +23,15 @@ const BlogCreatorPageDynamicEditor = ({ onClose }: { onClose: () => void }) => {
     text: creator.t.leave_warn,
     active: changed,
   })
+
+  useLayoutEffect(() => {
+    track({ name: "full_screen_clicked" })
+    document.body.style.overflow = "hidden"
+
+    return () => {
+      document.body.style.overflow = "auto"
+    }
+  }, [])
 
   return (
     <BlogCreatorAlertsProvider>
