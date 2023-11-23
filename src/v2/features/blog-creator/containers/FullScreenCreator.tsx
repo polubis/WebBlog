@@ -69,9 +69,9 @@ const FullScreenCreator = ({ children, onClose }: FullScreenCreatorProps) => {
               >
                 {layout.t.back}
               </button>
-              <button className="full-mode-btn button primary upper">
+              {/* <button className="full-mode-btn button primary upper">
                 Tutorial
-              </button>
+              </button> */}
             </>
           }
         />
