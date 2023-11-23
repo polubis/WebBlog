@@ -27,7 +27,7 @@ const Container = styled.figure`
 `
 
 const BlogCreatorJumbo = () => {
-  const {} = useLayoutProvider()
+  const layout = useLayoutProvider()
   const blogCreator = useBlogCreatorPageProvider()
 
   const frames = useMemo(
@@ -49,6 +49,7 @@ const BlogCreatorJumbo = () => {
         autoPlayOnInit
         frames={frames}
       />
+      <button className="upper button primary">{layout.t.try_it}</button>
     </Container>
   )
 }

@@ -65,10 +65,9 @@ const section = `<Section>
   </M>
 </Section>
 `
-const link = `
-<A outside href="https://github.com/polubis/CRA-TEMPLATE">
-    link title
-  </A>
+const link = `<A outside href="https://github.com/polubis/CRA-TEMPLATE">
+  link title
+</A>
 `
 const image = `<Image
   src="https://raw.githubusercontent.com/polubis/Snippets/main/e2e-selectors-how-it-works.gif"
@@ -77,8 +76,8 @@ const image = `<Image
 `
 const bold = `<B>bolding</B>`
 const list = `<L ordered>
-<Li>I'm ordered list item</Li>
-  </L>
+  <Li>I'm ordered list item</Li>
+</L>
 <L>
   <Li>I'm normal list element</Li>
 </L>
@@ -105,8 +104,7 @@ const example = `<Example label="Example of heading">
     to play with.
   </M>
 </Example>`
-const summary = `
-<Summary label="Example of summary heading">
+const summary = `<Summary label="Example of summary heading">
   <M>Some summary content</M>
 </Summary>`
 const code = `<Code
