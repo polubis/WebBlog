@@ -7,9 +7,9 @@ import { Content } from "./Content"
 import { MobileNavigation } from "./MobileNavigation"
 
 const Container = styled.header`
-  height: 99px;
+  height: 98px;
   position: relative;
-  border-bottom: 1px solid ${theme.grayC};
+  border-bottom: 2px solid ${theme.grayC};
   background: ${theme.bg};
 
   & > * {

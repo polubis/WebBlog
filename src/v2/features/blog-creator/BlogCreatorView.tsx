@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from "react"
-import { Hint, M, XL, useModal } from "../../../ui"
-import { BlogCreatorPageProvider, useBlogCreatorPageProvider } from "./BlogCreatorPageProvider"
+import { Content, Hint, M, XL, useModal } from "../../../ui"
+import {
+  BlogCreatorPageProvider,
+  useBlogCreatorPageProvider,
+} from "./BlogCreatorPageProvider"
 import styled from "styled-components"
 import { T_DOWN } from "../../../utils/viewport"
 import { useLeavePageAlert } from "../../../utils/useLeavePageAlert"
@@ -17,6 +20,8 @@ import { EditableSnippet } from "../../../ui/snippet/EditableSnippet"
 import { ErrorsSection } from "./containers/ErrorsSection"
 import { Toolbox } from "./containers/Toolbox"
 import { BlogCreatorPageModel } from "../../core/models"
+import Layout from "../../containers/Layout"
+import { BlogCreatorJumbo } from "./components/BlogCreatorJumbo"
 
 const Container = styled.div`
   display: flex;
@@ -108,61 +113,59 @@ const BlogCreatorView = () => {
   const Errors = hasErrors ? <ErrorsSection /> : null
 
   return (
-    <>
-      <h1 style={{ visibility: "hidden", height: 0, margin: "0" }}>
-        {creator.t.sentence}
-      </h1>
-      {loading && (
-        <BlogCreatorLoader
-          onClose={() => {
-            document.body.style.overflow = "auto"
-            setLoading(false)
-          }}
-        />
-      )}
-      {isOpen || (
-        <BlogCreatorLayout>
-          <Heading>
-            <BlogCreatorHeading
-              buttons={
-                <Button className="full-mode-btn" onClick={handleOpen}>
-                  {creator.t.full_screen}
-                </Button>
-              }
-            />
-          </Heading>
-          <Container>
-            <CodeContainer className="col">{Editor}</CodeContainer>
-            <PreviewScroll className="col">
-              {Errors}
-              {Preview}
-            </PreviewScroll>
-          </Container>
-        </BlogCreatorLayout>
-      )}
-
-      {isOpen && (
-        <BlogCreatorAlertsProvider>
-          <FullScreenCreator onClose={close}>
-            {Editor}
-            <>
-              {Errors}
-              {Preview}
-            </>
-            <Toolbox code={mdx} onFormat={change} />
-          </FullScreenCreator>
-        </BlogCreatorAlertsProvider>
-      )}
-    </>
+    <Layout>
+      <BlogCreatorJumbo />
+    </Layout>
   )
+
+  // return (
+  //   <>
+  //     <h1 style={{ visibility: "hidden", height: 0, margin: "0" }}>
+  //       {creator.t.sentence}
+  //     </h1>
+
+  //     {loading && (
+  //       <BlogCreatorLoader
+  //         onClose={() => {
+  //           document.body.style.overflow = "auto"
+  //           setLoading(false)
+  //         }}
+  //       />
+  //     )}
+
+  //     {isOpen ? (
+  //       <BlogCreatorAlertsProvider>
+  //         <FullScreenCreator onClose={close}>
+  //           {Editor}
+  //           <>
+  //             {Errors}
+  //             {Preview}
+  //           </>
+  //           <Toolbox code={mdx} onFormat={change} />
+  //         </FullScreenCreator>
+  //       </BlogCreatorAlertsProvider>
+  //     ) : (
+  //       <BlogCreatorLayout>
+  //         <Heading>
+  //           <BlogCreatorHeading
+  //             buttons={
+  //               <Button className="full-mode-btn" onClick={handleOpen}>
+  //                 {creator.t.full_screen}
+  //               </Button>
+  //             }
+  //           />
+  //         </Heading>
+  //         <Container>
+  //           <CodeContainer className="col">{Editor}</CodeContainer>
+  //           <PreviewScroll className="col">
+  //             {Errors}
+  //             {Preview}
+  //           </PreviewScroll>
+  //         </Container>
+  //       </BlogCreatorLayout>
+  //     )}
+  //   </>
+  // )
 }
 
-const ConnectedBlogCreatorView = (props: BlogCreatorPageModel) => {
-  return (
-    <BlogCreatorPageProvider initialState={props}>
-      <BlogCreatorView />
-    </BlogCreatorPageProvider>
-  )
-}
-
-export { ConnectedBlogCreatorView as BlogCreatorView }
+export { BlogCreatorView }
