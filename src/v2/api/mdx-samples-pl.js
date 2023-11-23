@@ -79,10 +79,9 @@ const image = `<Image
   description="Przykładowe zdjęcie"
 />
 `
-const link = `
-<A outside href="https://github.com/polubis/CRA-TEMPLATE">
-    tytuł linku
-  </A>
+const link = `<A outside href="https://github.com/polubis/CRA-TEMPLATE">
+  tytuł linku
+</A>
 `
 const demo = `<Demo label="Przykład użycia iframe z demo" height="500px">
   <iframe
