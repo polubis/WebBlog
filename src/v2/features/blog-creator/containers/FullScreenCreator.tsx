@@ -3,13 +3,12 @@ import styled from "styled-components"
 import { BlogCreatorHeading } from "./BlogCreatorHeading"
 import theme from "../../../../utils/theme"
 import { usePortal } from "../../../../utils/usePortal"
-import Button from "../../../../components/button/Button"
 import { useLayoutProvider } from "../../../providers/LayoutProvider"
 
 const Container = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 99px 1fr 70px;
+  grid-template-rows: 98px 1fr 70px;
   grid-template-areas: "header header" "first second" "toolbox second";
   gap: 0 24px;
   position: fixed;
@@ -25,7 +24,7 @@ const Container = styled.div`
 const Header = styled.header`
   padding: 0 20px;
   grid-area: header;
-  border-bottom: 1px solid ${theme.grayC};
+  border-bottom: 2px solid ${theme.grayC};
   background: ${theme.bg};
 `
 
@@ -63,18 +62,22 @@ const FullScreenCreator = ({ children, onClose }: FullScreenCreatorProps) => {
       <Header>
         <BlogCreatorHeading
           buttons={
-            <Button className="full-mode-btn" onClick={onClose}>
-              {layout.t.back}
-            </Button>
+            <>
+              <button
+                className="full-mode-btn button secondary upper"
+                onClick={onClose}
+              >
+                {layout.t.back}
+              </button>
+              {/* <button className="full-mode-btn button primary upper">
+                Tutorial
+              </button> */}
+            </>
           }
         />
       </Header>
-      <FirstWrapper>
-        {First}
-      </FirstWrapper>
-      <ToolboxWrapper className="row">
-        {Toolbox}
-      </ToolboxWrapper>
+      <FirstWrapper>{First}</FirstWrapper>
+      <ToolboxWrapper className="row">{Toolbox}</ToolboxWrapper>
       <SecondWrapper>{Second}</SecondWrapper>
     </Container>
   )

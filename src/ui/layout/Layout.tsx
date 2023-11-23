@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react"
 import styled from "styled-components"
 
-const Container = styled.div`
+const Container = styled.main`
   position: relative;
   margin: 0 auto;
 `
