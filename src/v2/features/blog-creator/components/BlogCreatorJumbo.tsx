@@ -1,10 +1,10 @@
-import React, { useMemo } from "react"
+import React, { useMemo, ReactNode } from "react"
 import styled from "styled-components"
-import { useLayoutProvider } from "../../../providers/LayoutProvider"
 import theme from "../../../../utils/theme"
 import { M, XXL } from "../../../../ui"
 import { useBlogCreatorPageProvider } from "../BlogCreatorPageProvider"
 import { CodeFrames } from "../../../components/CodeFrames"
+import { M_UP } from "../../../../utils/viewport"
 
 const Container = styled.figure`
   position: relative;
@@ -22,16 +22,25 @@ const Container = styled.figure`
   }
 
   .ui-snippet {
-    width: 500px;
+    width: 100%;
+
+    @media ${M_UP} {
+      width: 500px;
+    }
   }
 
-  .blog-creator-jumbo-try-it-btn {
+  & > button {
     margin: 40px 0 0 0;
   }
 `
 
-const BlogCreatorJumbo = () => {
-  const layout = useLayoutProvider()
+const BlogCreatorJumbo = ({
+  children,
+  stopShowcase,
+}: {
+  children: ReactNode
+  stopShowcase: boolean
+}) => {
   const blogCreator = useBlogCreatorPageProvider()
 
   const frames = useMemo(
@@ -46,14 +55,16 @@ const BlogCreatorJumbo = () => {
     <Container className="col">
       <XXL className="tcenter">{blogCreator.t.sentence}</XXL>
       <M className="tcenter">{blogCreator.t.page_description}</M>
-      <CodeFrames
-        animated
-        linesOff
-        lang="markdown"
-        autoPlayOnInit
-        frames={frames}
-      />
-      <button className="blog-creator-jumbo-try-it-btn upper button primary">{layout.t.try_it}</button>
+      {stopShowcase || (
+        <CodeFrames
+          animated
+          linesOff
+          lang="markdown"
+          autoPlayOnInit
+          frames={frames}
+        />
+      )}
+      {children}
     </Container>
   )
 }
