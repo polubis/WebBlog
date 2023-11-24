@@ -5,6 +5,7 @@
   "submit_article": "Prześlij artykuł",
   "article_preview": "Podgląd artykułu",
   "version": "Wersja",
+  "not_for_mobile_text": "Aktualnie nie wspieramy urządzeń mobilnych (mamy to w planie). Aby skorzystać z edytora, otwórz ten link na laptopie lub PC.",
   "choose_template": "Wybierz templatkę",
   "leave_warn": "Po wyjściu z tej strony cały twój postęp zostanie utracony. Czy napewno chcesz to zrobić?",
   "errors_heading": "Wykryto błędy w składni",
