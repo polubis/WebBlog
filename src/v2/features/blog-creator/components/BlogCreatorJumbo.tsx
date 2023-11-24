@@ -4,7 +4,7 @@ import theme from "../../../../utils/theme"
 import { M, XXL } from "../../../../ui"
 import { useBlogCreatorPageProvider } from "../BlogCreatorPageProvider"
 import { CodeFrames } from "../../../components/CodeFrames"
-import { M_UP } from "../../../../utils/viewport"
+import { M_UP, T_UP } from "../../../../utils/viewport"
 
 const Container = styled.figure`
   position: relative;
@@ -30,7 +30,20 @@ const Container = styled.figure`
   }
 
   & > button {
+    display: none;
     margin: 40px 0 0 0;
+
+    @media ${T_UP} {
+      display: block;
+    }
+  }
+
+  .desktop-only-text {
+    color: #aaaaaa;
+
+    @media ${T_UP} {
+      display: none;
+    }
   }
 `
 
@@ -65,6 +78,9 @@ const BlogCreatorJumbo = ({
         />
       )}
       {children}
+      <M className="desktop-only-text tcenter">
+        {blogCreator.t.not_for_mobile_text}
+      </M>
     </Container>
   )
 }

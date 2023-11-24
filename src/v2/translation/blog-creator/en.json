@@ -4,6 +4,7 @@
   "sentence": "A powerful editor for articles",
   "submit_article": "Submit article",
   "article_preview": "Article preview",
+  "not_for_mobile_text": "Currently editor is supported only for desktop devices. Please open this page on laptop or PC.",
   "version": "Version",
   "choose_template": "Choose template",
   "leave_warn": "After leaving this page your progress will not be saved. Are you sure?",
