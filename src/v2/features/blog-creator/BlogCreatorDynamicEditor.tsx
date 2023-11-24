@@ -9,9 +9,13 @@ import { Toolbox } from "./containers/Toolbox"
 import { BlogCreatorAlertsProvider } from "./providers/BlogCreatorAlertsProvider"
 import { useLeavePageAlert } from "../../../utils/useLeavePageAlert"
 import { useAnalytics } from "../../../utils/useAnalytics"
+import { BlogCreatorHeading } from "./containers/BlogCreatorHeading"
+import { useLayoutProvider } from "../../providers/LayoutProvider"
+import { CloseIcon } from "../../../ui"
 
 const BlogCreatorPageDynamicEditor = ({ onClose }: { onClose: () => void }) => {
   const { track } = useAnalytics()
+  const layout = useLayoutProvider()
   const creator = useBlogCreatorPageProvider()
 
   const [
@@ -33,16 +37,38 @@ const BlogCreatorPageDynamicEditor = ({ onClose }: { onClose: () => void }) => {
     }
   }, [])
 
-  return (
-    <BlogCreatorAlertsProvider>
-      <FullScreenCreator onClose={onClose}>
-        <EditableSnippet value={mdx} onChange={change} />
+  {
+    /* <EditableSnippet value={mdx} onChange={change} />
         <>
           {hasErrors ? <ErrorsSection /> : null}
           <BlogPreview mdx={currentMdx} onError={markAsBroken} />
         </>
-        <Toolbox code={mdx} onFormat={change} />
-      </FullScreenCreator>
+        <Toolbox code={mdx} onFormat={change} /> */
+  }
+
+  return (
+    <BlogCreatorAlertsProvider>
+      <FullScreenCreator
+        header={
+          <BlogCreatorHeading
+            buttons={
+              <>
+                <button
+                  className="icon-button secondary small"
+                  onClick={onClose}
+                >
+                  <span>
+                    <CloseIcon />
+                  </span>
+                </button>
+                {/* <button className="full-mode-btn button primary upper">
+                      Tutorial
+                    </button> */}
+              </>
+            }
+          />
+        }
+      />
     </BlogCreatorAlertsProvider>
   )
 }
