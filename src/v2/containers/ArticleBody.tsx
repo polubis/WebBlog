@@ -30,8 +30,12 @@ const Container = styled.div`
     margin: 62px 0px 28px;
   }
 
+  .components-reviewers {
+    margin-bottom: 42px;
+  }
+
   .stack {
-    margin: 24px 0 42px 0;
+    margin: 0 0 42px 0;
   }
 
   .article-body-rating-section {
@@ -76,7 +80,9 @@ export const ArticleBody = ({ breadcrumbs }: ArticleBodyProps) => {
         lingLabel={layout.t.linguistic_check}
         techLabel={layout.t.technical_check}
       />
-      <Stack className="center" items={article.technologies} />
+      {article.technologies.length > 0 && (
+        <Stack className="center" items={article.technologies} />
+      )}
       <MdxProvider renderer={MDXRenderer}>{article.body}</MdxProvider>
       <SummaryFooter />
     </Container>

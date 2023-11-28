@@ -105,7 +105,7 @@ const ArticlePageCreator = ({ createPage }) => ({
       ga_page,
       source_url: makeSourceUrl({ slug, meta }),
       is_new: index === 0,
-      technologies: createTechnologies(stack, technologiesAvatars),
+      technologies: stack ? createTechnologies(stack, technologiesAvatars) : [],
     }
 
     if (Array.isArray(langs) && langs.length > 0) {
