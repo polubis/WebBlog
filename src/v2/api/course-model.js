@@ -100,7 +100,7 @@ const CourseModel = (
       medium: thumbnail.medium.fixed,
       full: thumbnail.full.fluid,
     },
-    technologies: createTechnologies(stack, technologiesAvatars),
+    technologies: stack ? createTechnologies(stack, technologiesAvatars) : [],
     author,
     tech_reviewer,
     ling_reviewer,
