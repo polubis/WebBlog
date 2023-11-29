@@ -1,0 +1,255 @@
+---
+name: The Gherkin Convention in a nutshell
+duration: 5
+description: Gherkin is a plain-text format used for writing human-readable descriptions of software behaviors without specifying how that functionality is implemented. It is commonly associated with behavior-driven development (BDD) and is often used with testing frameworks.
+---
+
+<Prelude label="Understanding Gherkin convention">
+  <Hint hasBg>
+    The lesson is based on the following documentation:{" "}
+    <A href="https://cucumber.io/docs/gherkin/reference/" outside>
+      Gherkin convention in Cucumber framework
+    </A>
+    .
+  </Hint>
+  <M>
+    If you've been involved in a real project, you've likely encountered a
+    scenario where someone articulated feature requirements in a somewhat{" "}
+    <B>chaotic manner</B>. To compound matters, individuals tend to express
+    these requirements using varying syntax and formats. It's not uncommon to
+    come across situations resembling the following:
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="The typical requirements description"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/The%20Gherkin%20Convention%20in%20a%20nutshell/1.md"
+    linesCount={7}
+  />
+  <M>
+    Typically, for smaller projects, simplicity may suffice; however, our minds
+    tend to appreciate <B>consistency</B>. Engaging in a repetitive, uniform
+    approach not only facilitates ease of recollection but also enhances
+    readability.
+  </M>
+  <M>
+    That's precisely why a clever individual introduced the <B>Gherkin</B>{" "}
+    convention, placing a strong emphasis on consistency, repetition, and
+    readability.
+  </M>
+  <M>
+    <B>Gherkin</B> is like a simple way of writing down what you want a piece of
+    software to do, but without getting into the nitty-gritty of how it's
+    actually done. People often use it in a teamwork approach called{" "}
+    <B>behavior-driven development (BDD)</B> and pair it up with{" "}
+    <B>testing tools</B>.
+  </M>
+  <M>
+    Picture a tool that comprehends plain text instructions, capable of
+    executing those steps as described. It's mind-boggling how it combines the
+    insane ability to understand and execute tasks while remaining as clear as
+    "holy moly" in its readability!
+  </M>
+  <M>
+    Let's articulate the scenario for the sign-in feature using <B>Gherkin</B>{" "}
+    to better illustrate the contrast.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="Sign in feature in Gherkin"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/The%20Gherkin%20Convention%20in%20a%20nutshell/2.md"
+    linesCount={6}
+  />
+  <M>
+    So, the primary purpose of <B>Gherkin</B> is to add:
+  </M>
+  <L>
+    <Li>Clarity and readability</Li>
+    <Li>Collaboration</Li>
+    <Li>Requirements traceability</Li>
+    <Li>Automated test generation</Li>
+    <Li>Living documentation</Li>
+    <Li>Reusability and modularity</Li>
+    <Li>Cross-Team consistency</Li>
+    <Li>Behavior-Driven Development (BDD)</Li>
+    <Li>Reusability</Li>
+    <Li>Easy migration to other language that supports e2e testing</Li>
+  </L>
+  <M>
+    In summary, <B>Gherkin</B> provides a <B>bridge</B> between business
+    requirements and automated tests, promoting collaboration, clarity, and
+    efficiency throughout the software development lifecycle.
+  </M>
+</Prelude>
+
+<Section>
+  <XL>Gherkin keywords</XL>
+  <M>
+    <B>Gherkin</B> scenarios are written using a set of{" "}
+    <B>predefined keywords</B> such as:
+  </M>
+  <L>
+    <Li>"Feature" - describes a high-level feature or user story</Li>
+    <Li>"Scenario" - represents a specific test scenario</Li>
+    <Li>"Given" - describes the preconditions</Li>
+    <Li>"When" - describes the actions</Li>
+    <Li>"Then" - describes outcomes of actions</Li>
+    <Li>"And" - additional precondition/action/outcome</Li>
+    <Li>
+      "But" - used to contrast the expected outcome with an unexpected or
+      negative outcome. It's typically used to add clarity to the scenario
+    </Li>
+  </L>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="All keywords in practice"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/The%20Gherkin%20Convention%20in%20a%20nutshell/3.md"
+    linesCount={12}
+  />
+</Section>
+
+<Section>
+  <XL>Using Cucumber in Cypress</XL>
+  <Hint hasBg>
+    Ensure that you have a functional <B>Cypress</B> setup in place before
+    proceeding! If not, here you've a:{" "}
+    <A href="https://docs.cypress.io/guides/references/configuration" outside>
+      Cypress setup guide
+    </A>
+    .
+  </Hint>
+  <M>
+    If you wish to bring your scenarios to life, you require an interpreter like{" "}
+    <B>Cucumber</B>. This enables you to associate dedicated test commands with
+    specific outcomes in the executed code behind the scenes. So, type{" "}
+    <B>npm i cucumber cypress-cucumber-preprocessor --save-dev</B> and enjoy the
+    power of <B>single source of truth</B> in your tests!
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="Scenario as plain text"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/The%20Gherkin%20Convention%20in%20a%20nutshell/4.md"
+    linesCount={13}
+  />
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="Adding logic for commands in JavaScript"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/The%20Gherkin%20Convention%20in%20a%20nutshell/5.js"
+    linesCount={29}
+  />
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="The config under 'cypress/plugins/index.js'"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/The%20Gherkin%20Convention%20in%20a%20nutshell/6.js"
+    linesCount={5}
+  />
+</Section>
+
+<Section>
+  <XL>Comparing plain Cypress tests with Gherkin/Cucumber</XL>
+  <M>
+    If your tests are composed in the following manner, you're likely to
+    encounter difficulties and potentially impede your progress.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="The plain Cypress test"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/The%20Gherkin%20Convention%20in%20a%20nutshell/7.js"
+    linesCount={34}
+  />
+  <M>
+    Install the required packages as mentioned earlier, include scenarios in{" "}
+    <B>Gherkin</B>, and implement logic for dedicated commands. This approach
+    enables you to reuse them in subsequent tests, leading to a substantial
+    enhancement in both writing speed and readability.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="Gherkin as plain text"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/The%20Gherkin%20Convention%20in%20a%20nutshell/8.md"
+    linesCount={13}
+  />
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="Adding commands support"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/The%20Gherkin%20Convention%20in%20a%20nutshell/9.js"
+    linesCount={29}
+  />
+</Section>
+
+<Section>
+  <XL>The elegance of Gherkin.</XL>
+  <M>
+    Imagine now, if your team is not proficient in <B>JavaScript</B> (like me),
+    and you aim to implement your test logic using <B>Java</B>. In this
+    scenario, you only need to modify the logic of the <B>commands</B> instead
+    of migrating the entire test suite. The <B>test scenarios</B> remain
+    unaffected, with only the inner workings undergoing changes.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="javascript"
+    description="The test logic in Java"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/The%20Gherkin%20Convention%20in%20a%20nutshell/10.java"
+    linesCount={21}
+  />
+  <M>
+    As evident, transitioning to another testing technology demands
+    significantly less effort with the incorporation of <B>Gherkin</B>!
+  </M>
+</Section>
+
+<Section>
+  <XL>The often overlooked advantages of Gherkin</XL>
+  <M>
+    One of the major but often overlooked advantages is the potential for
+    non-developers to write tests automatically. Envision a scenario where
+    analysts or project owners adhere to the prescribed syntax, and testers or
+    developers merely need to correct any typos from a <B>Jira</B> ticket to
+    seamlessly transform the test into an automated one!
+  </M>
+  <M>
+    Moreover, <B>Gherkin</B> can be applied in your unit and integration test
+    layers, presenting an incredible opportunity to enhance the readability of
+    every test.
+  </M>
+</Section>
+
+<Demo label="Full example presentation" height="540px">
+  <div style="overflow:hidden;margin-left:auto;margin-right:auto;border-radius:10px;width:100%;max-width:960px;position:relative">
+    <div style="width:100%;padding-bottom:56.25%"></div>
+    <iframe
+      width="960"
+      height="540"
+      title=""
+      src="https://snappify.com/embed/74cbe69e-e9b3-4421-9e0f-c4ad2c5c100a?responsive=1&p=1&b=1"
+      allow="clipboard-write"
+      allowfullscreen=""
+      loading="lazy"
+      style="background:#eee;position:absolute;left:0;top:0;width:100%"
+      frameborder="0"
+    ></iframe>
+  </div>
+</Demo>
+
+<Summary label="Conclusions and reflections">
+  <M>
+    <B>Gherkin</B> is a genuine game-changer, offering numerous benefits with
+    intelligent effort and swiftly automating your tests. The key is to
+    encapsulate <B>commands</B> with logic behind the scenes, whether it's in{" "}
+    <B>JavaScript</B>, <B>Java</B>, or your preferred language.
+  </M>
+  <M>
+    The tool introduces crucial consistency, a pivotal element for well-defined{" "}
+    <B>e2e</B> tests. By fully leveraging <B>BDD</B>, it brings abstraction
+    tailored for humans rather than computers.
+  </M>
+</Summary>
