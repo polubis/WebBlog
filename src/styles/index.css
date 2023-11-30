@@ -220,6 +220,7 @@ a.button {
 .icon-button.secondary {
   border: 1px solid #fff;
   color: #fff;
+  background: #000;
 }
 
 .icon-button.secondary svg path {
