@@ -3,9 +3,12 @@ import styled, { keyframes } from "styled-components"
 import Loadable from "react-loadable"
 import Image from "gatsby-image"
 import { useHomePageProvider } from "../HomePageProvider"
-import { Content, Huge } from "../../../../ui"
+import { Content, DiscordIcon, Huge, LinkedinIcon } from "../../../../ui"
 import theme from "../../../../utils/theme"
 import { M_DOWN } from "../../../../utils/viewport"
+import { YtIcon } from "../../../../ui/icons/YtIcon"
+import { useLayoutProvider } from "../../../providers/LayoutProvider"
+import { FacebookIcon } from "../../../../ui/icons/FacebookIcon"
 
 const animateIn = keyframes`
   from {
@@ -53,6 +56,27 @@ const Container = styled.section`
 
 const Wrapper = styled.div`
   position: relative;
+
+  .black-hole-socials-section {
+    justify-content: flex-end;
+    z-index: 1;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+
+    & > *:not(:last-child) {
+      margin-right: 20px;
+    }
+
+    svg {
+      width: 32px;
+      height: 32px;
+    }
+
+    a svg path {
+      fill: #fff;
+    }
+  }
 `
 
 const BlackHoleWrapper = Loadable({
@@ -70,6 +94,7 @@ const imageStyle = {
 
 const BlackHoleSection = () => {
   const home = useHomePageProvider()
+  const layout = useLayoutProvider()
 
   return (
     <Wrapper>
@@ -85,6 +110,28 @@ const BlackHoleSection = () => {
           <BlackHoleWrapper />
         </Container>
       </Content>
+      <div className="black-hole-socials-section row">
+        <a href={layout.yt_channel} title={layout.t.yt_channel} target="_blank">
+          <YtIcon />
+        </a>
+        <a
+          href={layout.discord_url}
+          title={layout.t.discord_channel}
+          target="_blank"
+        >
+          <DiscordIcon />
+        </a>
+        <a
+          href={layout.linkedin_url}
+          title={layout.t.linkedin_profile}
+          target="_blank"
+        >
+          <LinkedinIcon />
+        </a>
+        <a href={layout.fb_url} title={layout.t.fb_profile} target="_blank">
+          <FacebookIcon />
+        </a>
+      </div>
     </Wrapper>
   )
 }
