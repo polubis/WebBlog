@@ -54,7 +54,12 @@ const sValue = sessionStorage.getItem('my-item')
   <M>
     <B>What catches the eye at first glance?</B>
   </M>
-  <List items="The key is 'string', The received value is of type 'string', The APIs are identical, No encapsulation" />
+  <L>
+    <Li>The key is 'string'</Li>
+    <Li>The received value is of type 'string'</Li>
+    <Li>The APIs are identical</Li>
+    <Li>No encapsulation</Li>
+  </L>
   <M>It's easy to make a typo...</M>
   <Code
     mode="static"
@@ -125,7 +130,16 @@ localStorage.setItem('user', JSON.stringify(user))
   <M>
     As you can see there is a lot of it, and I still left out such things as:
   </M>
-  <List items="What if we need an additional method?, No encapsulation, Singleton on the entire application - easy to mess up other functionality, We can create a collision - overwrite a value set in another functionality" />
+  <L>
+    <Li>What if we need an additional method?</Li>
+    <Li>No encapsulation</Li>
+    <Li>
+      Singleton on the entire application - easy to mess up other functionality
+    </Li>
+    <Li>
+      We can create a collision - overwrite a value set in another functionality
+    </Li>
+  </L>
   <M>We need to get it right!</M>
 </Section>
 
@@ -436,7 +450,10 @@ return {
   exceptions and reading a single value and multiple values is working properly.
 </M>
 
-<List items="throws an error if any storage is undefined ✔️, allows to get all values ✔️" />
+<L>
+  <Li>throws an error if any storage is undefined ✔️</Li>
+  <Li>allows to get all values ✔️</Li>
+</L>
 
 <M>
   Now it's time to <B>getKeys</B>. Here there is no surprise. We simply return
@@ -469,7 +486,10 @@ return {
 </M>
 
 <M>After this change, the next test becomes green.</M>
-<List items="picks keys from local storage or session storage ✔️" />
+
+<L>
+  <Li>picks keys from local storage or session storage ✔️</Li>
+</L>
 
 <M>
   Now it's time for the last four methods: <B>remove</B>, <B>set</B>,{" "}
@@ -562,7 +582,16 @@ return {
 
 <Summary>
   <M>Once again at ease with what we have achieved 🧂:</M>
-  <List items="We have developer-friendly exceptions, Local/session storage management is modular, We have type-safety and typo protection, No need to store keys in variables, We can easily add new methods and extend the solution, The solution can be used to mock up values in tests as well, Consistent API, Less risk of collisions or overwriting values in other features" />
+  <L>
+    <Li>We have developer-friendly exceptions</Li>
+    <Li>Local/session storage management is modular</Li>
+    <Li>We have type-safety and typo protection</Li>
+    <Li>No need to store keys in variables</Li>
+    <Li>We can easily add new methods and extend the solution</Li>
+    <Li>The solution can be used to mock up values in tests as well</Li>
+    <Li>Consistent API</Li>
+    <Li>Less risk of collisions or overwriting values in other features</Li>
+  </L>
   <M>
     It is worth mentioning that introducing an abstraction such as so does not
     always make sense. In this case, it is useful, but it is worth conducting a

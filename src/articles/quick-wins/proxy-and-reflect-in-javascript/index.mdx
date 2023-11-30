@@ -41,7 +41,13 @@ title: Proxy and reflect in JavaScript
   <M>
     <B>Data</B> can be for example:
   </M>
-  <List items="number, symbol, array, object, string" />
+  <L>
+    <Li>number</Li>
+    <Li>symbol</Li>
+    <Li>array</Li>
+    <Li>object</Li>
+    <Li>string</Li>
+  </L>
   <M>
     <B>Code</B> is an expression - an instruction to be executed on this data.
     It can be:{" "}
@@ -56,7 +62,10 @@ title: Proxy and reflect in JavaScript
     However, according to the presented approach, we will consider it in two
     ways:
   </M>
-  <List items="by data: '1 + (2 * 3)' - is a string!, by code: '1 + (2 * 3)' - is it code snippet? Then it is 7!" />
+  <L>
+    <Li>by data: '1 + (2 * 3)' - is a string!</Li>
+    <Li>by code: '1 + (2 * 3)' - is it a code snippet? Then it is 7!</Li>
+  </L>
   <M>
     From this it follows that the same representation of an expression can have
     different interpretations. This approach is what metaprogramming is all

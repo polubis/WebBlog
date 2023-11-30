@@ -81,7 +81,14 @@ title: useFetch hook
     user details.
   </M>
   <M>Problems with this code:</M>
-  <List items="Flags - easy to add a bug, A lot to test, It's hard to determine what this code does on first look, Lack of single responsibility, You can access data property when it's not ready to be accessed, Repetitive approach and sensitive to a human mistake" />
+  <L>
+    <Li>Flags - easy to add a bug</Li>
+    <Li>A lot to test</Li>
+    <Li>It's hard to determine what this code does on first look</Li>
+    <Li>Lack of single responsibility</Li>
+    <Li>You can access data property when it's not ready to be accessed</Li>
+    <Li>Repetitive approach and sensitive to a human mistake</Li>
+  </L>
   <Hint hasBg>Imagine the whole application written like that 😺.</Hint>
 </Section>
 
@@ -110,7 +117,15 @@ title: useFetch hook
     description="Typescript power"
   />
   <M>All benefits:</M>
-  <List items="Less code = smaller bundle, Better readability, Option to develop similar features faster, Typesafety, Typescript support when writing if statements, Consistent code, Easy to test and easy to replace" />
+  <L>
+    <Li>Less code = smaller bundle</Li>
+    <Li>Better readability</Li>
+    <Li>Option to develop similar features faster</Li>
+    <Li>Typesafety</Li>
+    <Li>Typescript support when writing if statements</Li>
+    <Li>Consistent code</Li>
+    <Li>Easy to test and easy to replace</Li>
+  </L>
 </Section>
 
 <Section>
@@ -165,7 +180,12 @@ title: useFetch hook
     function is executed.
   </M>
   <M>Also it's good to cancel:</M>
-  <List items="Duplicated requests, When a user leaves the page, When components unmount, In any other case" />
+  <L>
+    <Li>Duplicated requests</Li>
+    <Li>When a user leaves the page</Li>
+    <Li>When components unmount</Li>
+    <Li>In any other case</Li>
+  </L>
   <M>
     When a request is aborted you can see it in the console and network tab.
   </M>

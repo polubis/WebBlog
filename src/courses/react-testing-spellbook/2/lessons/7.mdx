@@ -32,7 +32,12 @@ description: Did you again have duplicated the test code? If so, you need fixtur
     This is precisely the first and, in my opinion, the most important role of{" "}
     <B>fixture</B>. What are the other roles then?
   </M>
-  <List items="Creating and initializing objects or variables,Setting up test data,Preparing the test environment,Cleaning up after the test" />
+  <L>
+    <Li>Creating and initializing objects or variables</Li>
+    <Li>Setting up test data</Li>
+    <Li>Preparing the test environment</Li>
+    <Li>Cleaning up after the test</Li>
+  </L>
   <M>
     We already know what and how so now it's time to play with the real code.
   </M>
@@ -49,7 +54,9 @@ description: Did you again have duplicated the test code? If so, you need fixtur
     from which we can choose any of them.
   </M>
   <Image
-    rolled src="https://raw.githubusercontent.com/polubis/Snippets/main/emoji-picker.png" />
+    rolled
+    src="https://raw.githubusercontent.com/polubis/Snippets/main/emoji-picker.png"
+  />
   <M>The tests for this component are as follows:</M>
   <Code mode="static" lang="tsx">{`
  
@@ -148,7 +155,14 @@ describe('Emoji picker can be used when', () => {
 <Section>
   <XL>Conclusions and thoughts</XL>
   <M>So what can we see after our changes at first glance?</M>
-  <List items="Tests are easier to implement - we focus on checking the result,Test code is not duplicated and is more readable,Later changes will be simpler - implementation of EmojiPicker initialization is in one place" />
+  <L>
+    <Li>Tests are easier to implement - we focus on checking the result</Li>
+    <Li>Test code is not duplicated and is more readable</Li>
+    <Li>
+      Later changes will be simpler - implementation of EmojiPicker
+      initialization is in one place
+    </Li>
+  </L>
   <M>
     Now a very important question arises. Should I do things this way
     everywhere? <B>Of course not!</B>
@@ -188,7 +202,10 @@ describe('Emoji picker can be used when', () => {
   </M>
   <M>
     If you enjoyed it, be sure to visit us on{" "}
-    <A href="https://www.linkedin.com/in/adrian-po%C5%82ubi%C5%84ski-281ab2172/" outside>
+    <A
+      href="https://www.linkedin.com/in/adrian-po%C5%82ubi%C5%84ski-281ab2172/"
+      outside
+    >
       Linkedin
     </A>{" "}
     where we regularly upload content from programming.

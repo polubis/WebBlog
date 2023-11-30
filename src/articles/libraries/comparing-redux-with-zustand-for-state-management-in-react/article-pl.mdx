@@ -34,20 +34,74 @@ title: Zarządzanie stanem w React. Redux toolkit czy Zustand?
 
 <Section>
   <XL>Założenia Redux</XL>
-  <List items="Jeden store, Zmiany w store są wykonywane za pomocą funkcji dispatch, Do funkcji dispatch należy przekazać akcję (obiekt mający unikalny klucz oraz dodatkowe dane), Implementuje wzorzec CQRS, Bazuje na architekturze FLUX (modyfikuje ją - zamiast wielu store mamy jeden), Implementuje reducery (sprawdzają typ podanej akcji i zmieniają stan w oparciu o przekazane dane), Posiada middleware, Wszystkie reducery są finalnie scalane do jednego, Funkcja subscribe działa dla całego store, Posiada selektory, Struktura monolitu - jak wielka baza danych, Brak modułowości, Wymaga wrappera (StoreProvider) - coś co zintegruje Reduxa z Reactem" />
+  <L>
+    <Li>Jeden store</Li>
+    <Li>Zmiany w store są wykonywane za pomocą funkcji dispatch</Li>
+    <Li>
+      Do funkcji dispatch należy przekazać akcję (obiekt mający unikalny klucz
+      oraz dodatkowe dane)
+    </Li>
+    <Li>Implementuje wzorzec CQRS</Li>
+    <Li>
+      Bazuje na architekturze FLUX (modyfikuje ją - zamiast wielu store mamy
+      jeden)
+    </Li>
+    <Li>
+      Implementuje reducery (sprawdzają typ podanej akcji i zmieniają stan w
+      oparciu o przekazane dane)
+    </Li>
+    <Li>Posiada middleware</Li>
+    <Li>Wszystkie reducery są finalnie scalane do jednego</Li>
+    <Li>Funkcja subscribe działa dla całego store</Li>
+    <Li>Posiada selektory</Li>
+    <Li>Struktura monolitu - jak wielka baza danych</Li>
+    <Li>Brak modułowości</Li>
+    <Li>
+      Wymaga wrappera (StoreProvider) - coś co zintegruje Reduxa z Reactem
+    </Li>
+  </L>
   <M>
     <B>Elementy składowe: </B>
   </M>
-  <List items="Store (jeden), Reducery, Middleware, Akcje, Action creatory - funkcje tworzące obiekty akcji, Selektory, Hooki do odczytu oraz modyfikacji stanu, Dispatcher, Slice (w przypadku Redux toolkit), Acts (w przypadku Redux toolkit)" />
+  <L>
+    <Li>Store (jeden)</Li>
+    <Li>Reducery</Li>
+    <Li>Middleware</Li>
+    <Li>Akcje</Li>
+    <Li>Action creatory - funkcje tworzące obiekty akcji</Li>
+    <Li>Selektory</Li>
+    <Li>Hooki do odczytu oraz modyfikacji stanu</Li>
+    <Li>Dispatcher</Li>
+    <Li>Slice (w przypadku Redux toolkit)</Li>
+    <Li>Acts (w przypadku Redux toolkit)</Li>
+  </L>
 </Section>
 
 <Section>
   <XL>Założenia Zustand</XL>
-  <List items="Więcej niż jeden store, Zmiany w store dokonujemy za pomocą akcji - zwykła funkcja, Implementuje architekturę FLUX,Brak reducerów, Brak funkcji dispatch, Brak CQRS, Posiada middleware dla każdego store oddzielnie, Modułowość, Posiada funkcję subscribe per store, Posiada selektory, Nie wymaga wrappera" />
+  <L>
+    <Li>Więcej niż jeden store</Li>
+    <Li>Zmiany w store dokonujemy za pomocą akcji - zwykła funkcja</Li>
+    <Li>Implementuje architekturę FLUX</Li>
+    <Li>Brak reducerów</Li>
+    <Li>Brak funkcji dispatch</Li>
+    <Li>Brak CQRS</Li>
+    <Li>Posiada middleware dla każdego store oddzielnie</Li>
+    <Li>Modułowość</Li>
+    <Li>Posiada funkcję subscribe per store</Li>
+    <Li>Posiada selektory</Li>
+    <Li>Nie wymaga wrappera</Li>
+  </L>
   <M>
     <B>Elementy składowe: </B>
   </M>
-  <List items="Więcej niż jeden store, Akcje, Selektory, Middleware - per store, Hook do wywoływania akcji i odczytu stanu (jeden)" />
+  <L>
+    <Li>Więcej niż jeden store</Li>
+    <Li>Akcje</Li>
+    <Li>Selektory</Li>
+    <Li>Middleware - per store</Li>
+    <Li>Hook do wywoływania akcji i odczytu stanu (jeden)</Li>
+  </L>
 </Section>
 
 <Section>
@@ -119,7 +173,10 @@ export default combineReducers({
     No i jeszcze potrzebujemy pliku <B>store.ts</B>, w którym wszystko
     połączymy.
   </M>
-  <Code lang="ts" mode="static">{`import { configureStore } from "@reduxjs/toolkit"
+  <Code
+    lang="ts"
+    mode="static"
+  >{`import { configureStore } from "@reduxjs/toolkit"
 import { useDispatch, useSelector, type TypedUseSelectorHook } from "react-redux"
 import reducer from './reducers'
 import thunk from 'redux-thunk'
@@ -138,7 +195,10 @@ export const useAppDispatch: () => AppDispatch = useDispatch
 export const useAppSelector: TypedUseSelectorHook<AppState> = useSelector
 `}</Code>
   <M>Teraz kod w komponencie.</M>
-  <Code lang="tsx" mode="static">{`import { useAppSelector, useAppDispatch } from "store"
+  <Code
+    lang="tsx"
+    mode="static"
+  >{`import { useAppSelector, useAppDispatch } from "store"
 import { addPost } from "actions/posts"
  
 const AnyComponent = () => {
@@ -352,7 +412,10 @@ const authSlice = createSlice({
     W <B>Zustand</B> operacje asynchroniczne obsługujemy zwykłą funkcją z
     adnotacją <B>async</B>.
   </M>
-  <Code lang="ts" mode="static">{`import { type SignedInUser, type SignInPayload, signIn } from "api/auth"
+  <Code
+    lang="ts"
+    mode="static"
+  >{`import { type SignedInUser, type SignInPayload, signIn } from "api/auth"
  
 interface SignInStore {
   loading: boolean
@@ -497,7 +560,18 @@ const useSignInStore = create<SignInStore>((set) => ({
 <Section>
   <XL>Analiza nakładu pracy w Redux toolkit</XL>
   <M>Dla każdej nowej funkcjonalności musimy: </M>
-  <List items="Zaimplementować slice, Stworzyć typy, Zaimplementować acty, Zaimplementować akcje, Stworzyć plik z re-exportem akcji ze slice, Stworzyć plik z re-exportem reducerów ze slice, Zmodyfikować plik store, Popracować nad integracją z komponentami, Stworzyć testy dla każdej warstwy lub test integracyjny, Wielokrotnie przełączać się pomiędzy wieloma plikami" />
+  <L>
+    <Li>Zaimplementować slice</Li>
+    <Li>Stworzyć typy</Li>
+    <Li>Zaimplementować acty</Li>
+    <Li>Zaimplementować akcje</Li>
+    <Li>Stworzyć plik z re-exportem akcji ze slice</Li>
+    <Li>Stworzyć plik z re-exportem reducerów ze slice</Li>
+    <Li>Zmodyfikować plik store</Li>
+    <Li>Popracować nad integracją z komponentami</Li>
+    <Li>Stworzyć testy dla każdej warstwy lub test integracyjny</Li>
+    <Li>Wielokrotnie przełączać się pomiędzy wieloma plikami</Li>
+  </L>
   <M>
     W przypadku jakiejś zmiany w logice biznesowej lub nazwie czegoś do czego
     odnoszą się elementy składowe, musimy przejrzeć wiele plików i upewnić się
@@ -508,7 +582,13 @@ const useSignInStore = create<SignInStore>((set) => ({
 <Section>
   <XL>Analiza nakładu pracy w Zustand</XL>
   <M>Dla każdej nowej funkcjonalności musimy: </M>
-  <List items="Stworzyć typy, Zaimplementować store (stan + akcje), Zintegrować się z komponentami, Napisać testy jednostkowe lub test integracyjny, Przełączamy się pomiędzy dwoma lub trzema plikami maksymalnie" />
+  <L>
+    <Li>Stworzyć typy</Li>
+    <Li>Zaimplementować store (stan + akcje)</Li>
+    <Li>Zintegrować się z komponentami</Li>
+    <Li>Napisać testy jednostkowe lub test integracyjny</Li>
+    <Li>Przełączamy się pomiędzy dwoma lub trzema plikami maksymalnie</Li>
+  </L>
   <M>
     W <B>Zustand</B> operujemy głównie na pliku <B>store</B> i tam znajduje się
     wszystko czego potrzebujemy.
@@ -847,7 +927,10 @@ describe("Posts works when: ", () => {
     innym przypadku, gdy go nie będzie, w kolejnych testach będziemy mieć
     wcześniej ustawiony stan - co jest niebezpieczne dla stabilności testów.
   </M>
-  <Code mode="static" lang="ts">{`import { renderHook, act } from "@testing-library/react"
+  <Code
+    mode="static"
+    lang="ts"
+  >{`import { renderHook, act } from "@testing-library/react"
 import type { StoreApi, UseBoundStore } from "zustand"
  
 const storeFixture = <T>(
@@ -1239,9 +1322,10 @@ secondStoreLog2();
   `}</Code>
   <M>
     Teraz w momencie gdy mamy 30 reducerów w aplikacji, przy <B>Redux</B>{" "}
-    wywołamy aż 29 dodatkowych czynności dla każdej wywołanej akcji. Czy jest to problem?
-    Szczerze, to nie... Po prostu wspominam o tym. Sama operacja znajdowania
-    akcji jest bardzo szybka, więc raczej nie ma się czym przejmować...
+    wywołamy aż 29 dodatkowych czynności dla każdej wywołanej akcji. Czy jest to
+    problem? Szczerze, to nie... Po prostu wspominam o tym. Sama operacja
+    znajdowania akcji jest bardzo szybka, więc raczej nie ma się czym
+    przejmować...
   </M>
 </Section>
 
@@ -1277,5 +1361,16 @@ secondStoreLog2();
     wiele. Decyzję zostawiam Wam, Drodzy Czytelnicy. Przedstawiam kilka
     argumentów dlaczego ja stosuje <B>Zustanda</B>, zamiast <B>Reduxa</B>:{" "}
   </M>
-  <List items="Mniejszy rozmiar paczki i kodu wynikowego funkcjonalności, Modułowość, Te same możliwość co Redux (bez CQRS i z wieloma storami), Mniej kodu potrzebnego do napisania, Kod jest czytelniejszy i łatwiejszy do zrozumienia dla początkujących, Code splitting jest łatwo osiągnąć, Devtools takie jak w Redux, Brak wrappera (StoreProvider)" />
+  <L>
+    <Li>Mniejszy rozmiar paczki i kodu wynikowego funkcjonalności</Li>
+    <Li>Modułowość</Li>
+    <Li>Te same możliwości co Redux (bez CQRS i z wieloma storami)</Li>
+    <Li>Mniej kodu potrzebnego do napisania</Li>
+    <Li>
+      Kod jest czytelniejszy i łatwiejszy do zrozumienia dla początkujących
+    </Li>
+    <Li>Code splitting jest łatwo osiągnąć</Li>
+    <Li>Devtools takie jak w Redux</Li>
+    <Li>Brak wrappera (StoreProvider)</Li>
+  </L>
 </Summary>
