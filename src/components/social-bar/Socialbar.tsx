@@ -1,13 +1,9 @@
 import React from "react"
 import styled from "styled-components"
 
-import { DiscordIcon, IconButton, LinkedinIcon } from "../../ui"
 import { useScroll } from "../../utils/useScroll"
 import theme from "../../utils/theme"
-import { ScrollUpButton } from "../scroll-up-button/ScrollUpButton"
-import { useLayoutProvider } from "../../v2/providers/LayoutProvider"
-import { FacebookIcon } from "../../ui/icons/FacebookIcon"
-import { YtIcon } from "../../ui/icons/YtIcon"
+import { ArrowLeftIcon } from "../../ui"
 
 const Container = styled.div`
   position: fixed;
@@ -15,60 +11,28 @@ const Container = styled.div`
   left: 20px;
   z-index: 103;
 
-  & > * {
-    display: block;
-    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.14);
-  }
-
-  & > *:not(:last-child) {
-    margin-bottom: 12px;
-  }
-
   svg path {
     fill: ${theme.black};
+  }
+
+  svg {
+    transform: rotate(90deg);
   }
 `
 
 const SocialBar = () => {
-  const layout = useLayoutProvider()
   const { direction } = useScroll({ strategy: "throttle" })
 
-  if (direction === "up" || direction === "idle")
-    return (
-      <Container>
-        <a href={layout.yt_channel} title={layout.t.yt_channel} target="_blank">
-          <IconButton>
-            <YtIcon />
-          </IconButton>
-        </a>
-        <a
-          href={layout.discord_url}
-          title={layout.t.discord_channel}
-          target="_blank"
-        >
-          <IconButton>
-            <DiscordIcon />
-          </IconButton>
-        </a>
-        <a href={layout.fb_url} title={layout.t.fb_profile} target="_blank">
-          <IconButton>
-            <FacebookIcon />
-          </IconButton>
-        </a>
-        <a
-          href={layout.linkedin_url}
-          title={layout.t.linkedin_profile}
-          target="_blank"
-        >
-          <IconButton>
-            <LinkedinIcon />
-          </IconButton>
-        </a>
-        <ScrollUpButton onClick={() => window.scrollTo({ top: 0 })} />
-      </Container>
-    )
-
-  return null
+  return direction === "up" || direction === "idle" ? (
+    <Container>
+      <button
+        className="icon-button secondary medium rectangle"
+        onClick={() => window.scrollTo({ top: 0 })}
+      >
+        <ArrowLeftIcon />
+      </button>
+    </Container>
+  ) : null
 }
 
 export { SocialBar }
