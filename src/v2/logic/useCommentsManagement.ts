@@ -43,7 +43,6 @@ export const useCommentsManagement = () => {
   const { setState, state } = useArticleProvider()
   const layout = useLayoutProvider()
   const { comments, resourcePath } = state
-
   const t = tComments[layout.lang.key]
 
   const startAdd = async () => {
@@ -131,6 +130,7 @@ export const useCommentsManagement = () => {
         },
         rate: recalculateCommentsRate(finalComments) ?? state.rate,
       })
+      cache.set(resourcePath, finalComments)
     } catch (error) {
       setState({
         ...state,
