@@ -1,6 +1,6 @@
 ---
 cdate: 2023-07-16
-mdate: 2023-07-16
+mdate: 2023-12-01
 authorId: polubis
 treviewerId: goteii
 lreviewerId: kzalewska
@@ -1329,7 +1329,8 @@ secondStoreLog2();
   </M>
 </Section>
 
-<Summary label="To w końcu Redux czy Zustand?">
+<Section>
+  <XL>To w końcu Redux czy Zustand?</XL>
   <M>
     Z każdym dniem zdaję sobie sprawę, że prościej znaczy lepiej. Twierdzę tak
     dlatego, że nad projektami pracują ludzie na różnym poziomie. <B>Redux</B>{" "}
@@ -1339,12 +1340,40 @@ secondStoreLog2();
     jeden <B>store</B>.{" "}
   </M>
   <M>
-    {" "}
-    <B>Zustand</B> rezygnuje również z konceptu <B>CQRS</B> (command query responsibility
-    segregation), w którym odczyt danych jest odseparowany od sposobu wywołania na
-    nich zmian - przez co znacznie zredukowany jest <B>coupling</B> i potencjalne
-    refaktory będa prostsze, jak i samo utrzymanie kodu - przynajmniej w teorii.
+    <B>Zustand</B> rezygnuje również z konceptu <B>CQRS</B> (command query
+    responsibility segregation), w którym odczyt danych jest odseparowany od
+    sposobu wywołania na nich zmian - przez co znacznie zredukowany jest{" "}
+    <B>coupling</B> i potencjalne refaktory będa prostsze, jak i samo utrzymanie
+    kodu - przynajmniej w teorii.
   </M>
+  <Code mode="static" lang="tsx" description="Z CQRS'em - Redux">
+    {`
+const Component = () => {
+  const dispatch = useDispatch()
+  const user = useSelector(state => state.user)
+ 
+  return (
+    <div>
+      {user.id}
+      <button onClick={() => dispatch({ type: "update", id: 100 })}>
+        Aktualizuj użytkownika
+      </button>
+    </div>
+  )
+}`}
+  </Code>
+  <Code mode="static" lang="tsx" description="Bez CQRS'a - Zustand">
+    {`const Component = () => {
+  const userStore = useUserStore()
+ 
+  return (
+    <div>
+      {userStore.user.id}{" "}
+      <button onClick={() => userStore.update({ id: 100 })}>Aktualizuj użytkownika</button>
+    </div>
+  )
+}`}
+  </Code>
   <M>
     W praktyce jednak skomplikowanie <B>Reduxa</B> powoduje powstawanie
     totalnego makaronu i widziałem to już w wielu projektach. Przez co zalety i
@@ -1373,4 +1402,24 @@ secondStoreLog2();
     <Li>Devtools takie jak w Redux</Li>
     <Li>Brak wrappera (StoreProvider)</Li>
   </L>
+</Section>
+
+<Summary label="Podsumowanie">
+  <M>
+    To była długa podróż, teraz rozumiemy istotne różnice między wspomnianymi
+    technologiami. Z uzyskanymi spostrzeżeniami dotyczącymi moich argumentów i
+    opinii nadszedł czas, aby wyciągnąć własne wnioski - tak, mówie o Tobie.
+  </M>
+  <M>
+    Moim faworytem jest <B>Zustand</B>. Mam nadzieję, że przytoczone porównanie
+    i argumenty były pomocne.
+  </M>
+  <Hint hasBg>
+    Jeśli chcesz zgłębić koncepcję <B>selektorów</B>, polecam przeczytanie
+    artykułu{" "}
+    <A href="/articles/libraries/working-with-selectors-in-zustand-and-redux/">
+      ⭐ Working with selectors in Zustand and Redux
+    </A>{" "}
+    .
+  </Hint>
 </Summary>
