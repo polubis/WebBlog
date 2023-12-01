@@ -35,7 +35,10 @@ description: Let's understand the common use cases for jest.spy API when testing
     linesCount={18}
   />
   <M>We need to write a test that will verify:</M>
-  <List items="With what arguments the function was invoked,The number of function calls" />
+  <L>
+    <Li>With what arguments the function was invoked</Li>
+    <Li>The number of function calls</Li>
+  </L>
   <Code
     mode="dynamic"
     lang="ts"
@@ -48,7 +51,16 @@ description: Let's understand the common use cases for jest.spy API when testing
     of the callback passed to the maps.
   </M>
   <M>Then, we check one by one:</M>
-  <List items="That the number of callback calls is equal to the number of passed elements,The fact that on each call there were passed sequentially (element | index | array)" />
+  <L>
+    <Li>
+      That the number of callback calls is equal to the number of passed
+      elements
+    </Li>
+    <Li>
+      The fact that on each call there were passed sequentially (element | index
+      | array)
+    </Li>
+  </L>
 </Section>
 <Section>
   <XL>Testing React components with spies</XL>
@@ -66,7 +78,10 @@ description: Let's understand the common use cases for jest.spy API when testing
     description="That's our ProgressCircle component"
   />
   <M>We'll be able to call this component in following way: </M>
-  <Code mode="static" lang="tsx">{`<ProgressCircle onEnd={() => { console.log('Counting finished!') }} ms={10000} />`}</Code>
+  <Code
+    mode="static"
+    lang="tsx"
+  >{`<ProgressCircle onEnd={() => { console.log('Counting finished!') }} ms={10000} />`}</Code>
   <M>
     After a minimum of <B>10 seconds</B> (because it depends on the load of the
     browser) the callback called <B>onEnd</B> will be called.

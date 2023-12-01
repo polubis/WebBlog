@@ -88,7 +88,10 @@ const url = process.env.NEXT_PUBLIC_API_URL ❌
 <Section>
   <XL>Let's mock the environment variable!</XL>
   <M>Okay, let's write a test to check:</M>
-  <List items="exception throw if there is no variable,variable return if exists" />
+  <L>
+    <Li>Exception throw if there is no variable</Li>
+    <Li>Variable return if exists</Li>
+  </L>
   <Code mode="static" lang="ts">
     {`
     import { getUrl } from './get-url';
