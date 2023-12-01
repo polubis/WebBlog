@@ -57,7 +57,19 @@ title: Dream stack for React dev
     manage monorepo. Below is a list of cool things you will get with this
     technology:
   </M>
-  <List items="apps and libs generation via CLI,organized structure,option to configure stuff like storybook via one command,dependency preview via graph,same configs for everything,configuration of the TypeScript,option to choose way of styling your components,routing configuration,bundler configuration, unit and e2e tests configuration, and many more..." />
+  <L>
+    <Li>apps and libs generation via CLI</Li>
+    <Li>organized structure</Li>
+    <Li>option to configure stuff like storybook via one command</Li>
+    <Li>dependency preview via graph</Li>
+    <Li>same configs for everything</Li>
+    <Li>configuration of the TypeScript</Li>
+    <Li>option to choose the way of styling your components</Li>
+    <Li>routing configuration</Li>
+    <Li>bundler configuration</Li>
+    <Li>unit and e2e tests configuration</Li>
+    <Li>and many more...</Li>
+  </L>
 </Section>
 
 <Section>
@@ -67,7 +79,13 @@ title: Dream stack for React dev
     display the created articles/courses. So let's describe the components we'll
     create:
   </M>
-  <List items="application for presenting the blog content and homepage,a blog management application,library for communicating with the API,utilities library,a library with components" />
+  <L>
+    <Li>application for presenting the blog content and homepage</Li>
+    <Li>a blog management application</Li>
+    <Li>library for communicating with the API</Li>
+    <Li>utilities library</Li>
+    <Li>a library with components</Li>
+  </L>
   <M>
     Each component will be independent. It will reduce the risk of conflicts.
     Libs will be consumed by apps.
@@ -429,7 +447,8 @@ npm run format:fixAll
   <M>
     Now every time when someone tries to do a commit then the scripts will be
     executed. If you want to skip the husky because you're just checking
-    something, then use the <B>git commit -m "I'm just checking" --no-verify</B>.
+    something, then use the <B>git commit -m "I'm just checking" --no-verify</B>
+    .
   </M>
   <Hint hasBg>
     In this{" "}
@@ -462,7 +481,12 @@ npm run format:fixAll
     rounding, font size and others... To simplify, these are nothing more than
     unique variables to which we assign the settings of our design system.
   </M>
-  <List items="background.color='#f0f0f0',font.color='#000000',boxes.radius100='4px',font.size100='16px'" />
+  <L>
+    <Li>background.color='#f0f0f0'</Li>
+    <Li>font.color='#000000'</Li>
+    <Li>boxes.radius100='4px'</Li>
+    <Li>font.size100='16px'</Li>
+  </L>
   <Code
     mode="dynamic"
     lang="ts"
@@ -509,9 +533,10 @@ npm run format:fixAll
   </M>
   <Code
     mode="dynamic"
-    lang="ts" 
-    linesCount={5} 
-    src="/snippets/dream-stack-for-react-dev/css.ts" />
+    lang="ts"
+    linesCount={5}
+    src="/snippets/dream-stack-for-react-dev/css.ts"
+  />
   <M>
     Let's assume that you want to use a component, and later you want to change
     theme. All you need to do is to wrap the whole application with the provider
@@ -524,7 +549,10 @@ npm run format:fixAll
     src="/snippets/dream-stack-for-react-dev/usage-in-all-places.tsx"
   />
   <Image
-    rolled src="/assets/dream-stack-for-react-dev/themes.gif" description="Themes showcase" />
+    rolled
+    src="/assets/dream-stack-for-react-dev/themes.gif"
+    description="Themes showcase"
+  />
   <Hint hasBg>
     In this{" "}
     <A
@@ -553,13 +581,19 @@ npm run format:fixAll
     structure, just for convenience when importing. Next, I changed the
     configuration in the <B>main.js</B> file.
   </M>
-  <Code mode="static" lang="json">{`staticDirs: [{ from: '../../../assets', to: '/' }]`}</Code>
+  <Code
+    mode="static"
+    lang="json"
+  >{`staticDirs: [{ from: '../../../assets', to: '/' }]`}</Code>
   <M>
     I corrected the import in font face to be shorter. The assets directory is
     redundant. Immediately after that, the fonts in the storybook updated their
     look and started to look like a real <B>"Lexend"</B>.
   </M>
-  <Code mode="static" lang="json">{`src: url('/fonts/LexendBold.ttf') format('truetype');`}</Code>
+  <Code
+    mode="static"
+    lang="json"
+  >{`src: url('/fonts/LexendBold.ttf') format('truetype');`}</Code>
   <M>
     Now the applications. Here is a little more work. We need to use the webpack
     plugin to copy the contents of one folder to another. We'll do this for both
@@ -638,7 +672,10 @@ npm run format:fixAll
   </M>
   <M>
     If you enjoyed it, be sure to visit us on{" "}
-    <A href="https://www.linkedin.com/in/adrian-po%C5%82ubi%C5%84ski-281ab2172/" outside>
+    <A
+      href="https://www.linkedin.com/in/adrian-po%C5%82ubi%C5%84ski-281ab2172/"
+      outside
+    >
       Linkedin
     </A>{" "}
     where we regularly upload content from programming.

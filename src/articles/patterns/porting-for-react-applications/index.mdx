@@ -62,7 +62,7 @@ title: Porting for React applications
     <B>static pages</B>, we usually have some kind of <B>GraphQL</B> query and{" "}
     <B>JSX</B> code.
   </M>
-  <Code mode='static' lang='tsx'>{`
+  <Code mode="static" lang="tsx">{`
 // --- OurPage.tsx file ---
 const query = graphql\`
     images: allFile(filter: { name: { regex: "/image/" } }) {
@@ -102,15 +102,15 @@ const OurPage = ({ pageContext: { images } }: OurPageProps) => {
 <Section>
   <XL>Detaching from Gatsby</XL>
   <M>
-    We have to use a pattern called a <B>facade</B>. The pattern involves wrapping
-    an implementation of another module (most often a library), in order to
-    avoid using it directly in code.
+    We have to use a pattern called a <B>facade</B>. The pattern involves
+    wrapping an implementation of another module (most often a library), in
+    order to avoid using it directly in code.
   </M>
   <M>
     Thanks to this, the replacement of the library will get around without any
     problem. Take a look at the following example:
   </M>
-  <Code mode='static' lang='tsx' description="New file has been created">
+  <Code mode="static" lang="tsx" description="New file has been created">
     {`
 // --- OurPageView.tsx ---
  
@@ -135,7 +135,7 @@ export { OurPageView, type OurPageViewProps }
     others.
   </M>
   <M>Now we need to apply changes to our page file.</M>
-  <Code mode='static' lang='tsx' description="Small refactor added">
+  <Code mode="static" lang="tsx" description="Small refactor added">
     {`
 // --- OurPage.tsx file ---
  
@@ -192,7 +192,7 @@ const OurPage = ({ pageContext: { images } }: OurPageProps) => {
     {" "}
     Firstly, we'll use it in <B>Next.js</B>:
   </M>
-  <Code mode='static' lang='tsx'>
+  <Code mode="static" lang="tsx">
     {`
 interface OurPageProps {
     images: Image[]
@@ -219,7 +219,7 @@ const OurPage = (props: OurPageProps) => {
   <M>
     Secondly, we'll use it in <B>Gatsby</B>:
   </M>
-  <Code mode='static' lang='tsx'>
+  <Code mode="static" lang="tsx">
     {`
 import type { Image } from '@models'
 import { OurPageView } from '@views'
@@ -251,7 +251,13 @@ const OurPage = ({ pageContext: { images } }: OurPageProps) => {
     natural and you don't need to go to a psychologist🍷.
   </M>
   <M>It is worth applying this pattern in the following cases:</M>
-  <List items="When the future of technology is uncertain,When the library API is inconvenient and you want to rework it slightly,When the library you use is 100% temporary (MVP for example)" />
+  <L>
+    <Li>When the future of technology is uncertain</Li>
+    <Li>
+      When the library API is inconvenient and you want to rework it slightly
+    </Li>
+    <Li>When the library you use is 100% temporary (MVP for example)</Li>
+  </L>
   <M>
     It is also worth mentioning that the implementation of this pattern is an
     extra minute of work. With a snippet in the code a few seconds, and then it

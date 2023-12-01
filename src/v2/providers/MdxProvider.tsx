@@ -6,7 +6,6 @@ import Summary from "../../components/article/Summary"
 import Prelude from "../../components/article/Prelude"
 import { Example } from "../../components/article/Example"
 import { XL, M, Hint, A, B } from "../../ui/text"
-import { List } from "../../components/article/List"
 import { L, Li } from "../../components/article/L"
 import { Demo } from "../components/mdx/Demo"
 import { ImageContainer } from "../containers/ImageContainer"
@@ -18,7 +17,6 @@ const default_components = {
   Prelude,
   Code: CodeContainer,
   Example,
-  List,
   XL,
   M,
   Hint,

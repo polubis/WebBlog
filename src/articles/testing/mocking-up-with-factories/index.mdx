@@ -24,7 +24,10 @@ title: Mocking up with factories
 <Section>
   <XL>1. The problem</XL>
   <M>Imagine the situation when you have two endpoints:</M>
-  <List items="get/users,/get/users/:id" />
+  <L>
+    <Li>get/users</Li>
+    <Li>/get/users/:id</Li>
+  </L>
   <M>
     Both of them return the same entity - user object. That object can be
     described with following interface:

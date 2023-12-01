@@ -81,7 +81,9 @@ expect(asFragment()).toMatchSnapshot();
     basis:{" "}
   </M>
   <Image
-    rolled src="https://raw.githubusercontent.com/polubis/Snippets/main/demo-snapshot.gif" />
+    rolled
+    src="https://raw.githubusercontent.com/polubis/Snippets/main/demo-snapshot.gif"
+  />
 </Section>
 
 <Section>
@@ -100,7 +102,12 @@ expect(asFragment()).toMatchSnapshot();
     check they are valid or not.{" "}
   </M>
   <M>To avoid problems with maintenance create snapshot tests only if: </M>
-  <List items="You're sure that something is working correctly,You don't have time for better tests,You're testing complex HTML properties generation,Component is pure presentational" />
+  <L>
+    <Li>You're sure that something is working correctly</Li>
+    <Li>You don't have time for better tests</Li>
+    <Li>You're testing complex HTML properties generation</Li>
+    <Li>Component is pure presentational</Li>
+  </L>
   <M>
     A very important point is namely that if our snapshot is saved when the
     component is not working properly, such tests begin to be a problem. You
@@ -122,7 +129,15 @@ expect(asFragment()).toMatchSnapshot();
 <Section>
   <XL>How to work with snapshot tests?</XL>
   <M>Check out the list below: </M>
-  <List items="Create a component and make sure manually that it works correctly,Create snapshot test to prevent regression,If you will have some time - jump to tests and write concrete ones,You can remove or leave snapshot test as it is (maybe it still covers uncovered paths) - u2y" />
+  <L>
+    <Li>Create a component and make sure manually that it works correctly</Li>
+    <Li>Create snapshot test to prevent regression</Li>
+    <Li>If you will have some time - jump to tests and write concrete ones</Li>
+    <Li>
+      You can remove or leave snapshot test as it is (maybe it still covers
+      uncovered paths) - u2y
+    </Li>
+  </L>
   <M>Look at following test file to understand how I'm using snapshots:</M>
   <Code
     mode="dynamic"
@@ -140,7 +155,10 @@ expect(asFragment()).toMatchSnapshot();
   </M>
   <M>
     If you enjoyed it, be sure to visit us on{" "}
-    <A href="https://www.linkedin.com/in/adrian-po%C5%82ubi%C5%84ski-281ab2172/" outside>
+    <A
+      href="https://www.linkedin.com/in/adrian-po%C5%82ubi%C5%84ski-281ab2172/"
+      outside
+    >
       Linkedin
     </A>{" "}
     where we regularly upload content from programming.

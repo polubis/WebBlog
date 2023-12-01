@@ -14,62 +14,88 @@ seniorityLevel: expert
 title: Overview of the main functionalities of the NX tool
 ---
 
-<Prelude >
+<Prelude>
   <M>
-With the development of <B>JavaScript</B>, there is also an increase in the complexity of projects created in this language. To keep up with this evolution, many developers are looking for tools that will help in managing large projects and streamline their development process.
-</M>
+    With the development of <B>JavaScript</B>, there is also an increase in the
+    complexity of projects created in this language. To keep up with this
+    evolution, many developers are looking for tools that will help in managing
+    large projects and streamline their development process.
+  </M>
   <M>
     {" "}
-One such tool is the <B>NRWL Extension</B>, or <B>NX</B> for short. In this article, I will introduce you to what exactly <B>NX</B> is, what are its uses and its most important features.
-</M>
+    One such tool is the <B>NRWL Extension</B>, or <B>NX</B> for short. In this article,
+    I will introduce you to what exactly <B>NX</B> is, what are its uses and its
+    most important features.
+  </M>
 </Prelude>
 
 <Section>
   <XL>The basics of the basics</XL>
   <M>
-    The <B>NX (NRWL Extension)</B> tool is a monorepo solution developed by <B>NRWL</B> team. <B>NX</B> provides a number of functionalities that allow for better organization, testing and distribution of code in large projects based on various JS technologies - <B>Angular</B>,{" "} <B>React</B>, <B>Next.js</B>, <B>Nest.js</B> and many others. 
-    </M>
-    <M>
-    This tool provides, among others:
+    The <B>NX (NRWL Extension)</B> tool is a monorepo solution developed by{" "}
+    <B>NRWL</B> team. <B>NX</B> provides a number of functionalities that allow
+    for better organization, testing and distribution of code in large projects
+    based on various JS technologies - <B>Angular</B>, <B>React</B>,{" "}
+    <B>Next.js</B>, <B>Nest.js</B> and many others.
   </M>
-  
-  <List items="Automation of development processes (creation of components and boilerplate), Support for creating monolithic and microservice architectures, Support for unit testing tools and e2e (Jest and Cypress), Support for tools for automating building and distribution processes (Bazel and Nx Cloud), Support for code analysis and organization tools (ESLint and Prettier), Support for dependency management tools (npm and yarn)" />
+  <M>This tool provides, among others:</M>
+  <L>
+    <Li>
+      Automation of development processes (creation of components and
+      boilerplate)
+    </Li>
+    <Li>Support for creating monolithic and microservice architectures</Li>
+    <Li>Support for unit testing tools and e2e (Jest and Cypress)</Li>
+    <Li>
+      Support for tools for automating building and distribution processes
+      (Bazel and Nx Cloud)
+    </Li>
+    <Li>
+      Support for code analysis and organization tools (ESLint and Prettier)
+    </Li>
+    <Li>Support for dependency management tools (npm and yarn)</Li>
+  </L>
   <M>
-     <B>NX</B> also allows easy integration with other tools and
-      libraries, such as <B>NgRx</B>, <B>Storybook</B>, etc. 
-    This 
-      allows developers to use already existing solutions and tools in their projects.
+    <B>NX</B> also allows easy integration with other tools and libraries, such
+    as <B>NgRx</B>, <B>Storybook</B>, etc. This allows developers to use already
+    existing solutions and tools in their projects.
   </M>
   <M>
-    <B>NX</B> is useful for development teams that 
-    work on 
-    large, complex projects and want to increase their 
-    productivity by automating processes and better code organization.
+    <B>NX</B> is useful for development teams that work on large, complex
+    projects and want to increase their productivity by automating processes and
+    better code organization.
   </M>
 </Section>
 
 <Section>
   <XL>NX use cases from NRWL</XL>
   <M>
-    <B>NX</B> has many use cases. These are not just large projects with many dependent, shared libraries, but also work well for small projects.{" "}
+    <B>NX</B> has many use cases. These are not just large projects with many
+    dependent, shared libraries, but also work well for small projects.{" "}
   </M>
   <M>
     <B>What can this tool be used for?</B>
   </M>
-  <List items="Creating a monorepo NX, Lerna monorepo integration with NX, Migration from a single Angular application to the NX workspace, Creating a single Angular application or in another technology, Create any JS project from package.json " />
+  <L>
+    <Li>Creating a monorepo NX</Li>
+    <Li>Lerna monorepo integration with NX</Li>
+    <Li>Migration from a single Angular application to the NX workspace</Li>
+    <Li>Creating a single Angular application or in another technology</Li>
+    <Li>Create any JS project from package.json</Li>
+  </L>
   <M>
     <B>The new monorepo with NX </B>
   </M>
   <M>
-    To create a new <B>workspace</B>, all you really need is 
-    the installed{" "} 
-    <B>npm</B> package manager and the command:  <B> npx create-nx-workspace@latest</B>, which will create a structure for us. At 
-    this <A
-      outside
-      href="https://nx.dev/packages/nx/documents/create-nx-workspace"
-    >
-    link, 
-    </A> you will find everything you need. After this command, you will get access to all functionalities of <B>NX</B>.
+    To create a new <B>workspace</B>, all you really need is the installed{" "}
+    <B>npm</B> package manager and the command:{" "}
+    <B> npx create-nx-workspace@latest</B>, which will create a structure for
+    us. At this{" "}
+    <A outside href="https://nx.dev/packages/nx/documents/create-nx-workspace">
+      link,
+    </A>{" "}
+    you will find everything you need. After this command, you will get access
+    to all functionalities of <B>NX</B>.
   </M>
   <M>
     <B>Lerna monorepo integration with NX </B>
@@ -77,56 +103,71 @@ One such tool is the <B>NRWL Extension</B>, or <B>NX</B> for short. In this arti
   <M>
     The <B>Lerna</B> integration with <B>NX</B> will allow as to:
   </M>
-  <List items="Concurrent execution of tasks, Caching of operations, Distribution of tasks, Limitation of code building" />
+  <L>
+    <Li>Concurrent execution of tasks</Li>
+    <Li>Caching of operations</Li>
+    <Li>Distribution of tasks</Li>
+    <Li>Limitation of code building</Li>
+  </L>
   <M>
-    Just update <B>Lerna</B> to the latest version and set 
-    the <B>useNx</B> flag to <B>true</B> in the  <B>lerna.json</B> configuration file{" "}
-    -{" "}
-     <A href="https://www.youtube.com/watch?v=Edv7ZeI8Bwc" outside> 
-    migration video
-     </A>
-     .
+    Just update <B>Lerna</B> to the latest version and set the <B>useNx</B> flag
+    to <B>true</B> in the <B>lerna.json</B> configuration file -{" "}
+    <A href="https://www.youtube.com/watch?v=Edv7ZeI8Bwc" outside>
+      migration video
+    </A>
+    .
   </M>
   <M>
     <B>Migration from a single Angular application to NX workspace</B>
   </M>
   <M>
-    Just install the <B>CLI</B> with <B>npm i @nrwl/cli -D</B>, and
-     migrate with <B>npx nx init</B> in the second step.
+    Just install the <B>CLI</B> with <B>npm i @nrwl/cli -D</B>, and migrate with{" "}
+    <B>npx nx init</B> in the second step.
   </M>
   <M>
     <B>Creating a single Angular or other technology application</B>
   </M>
   <M>
-    In this case, <B>NX</B> provides a ready configuration of tests{" "} <B>Jest</B>, <B>ESLint</B> and <B>Prettier</B> at the start of the project, provides a mechanism for caching 
-    operations and limits building the code only to places 
+    In this case, <B>NX</B> provides a ready configuration of tests <B>Jest</B>,{" "}
+    <B>ESLint</B> and <B>Prettier</B> at the start of the project, provides a
+    mechanism for caching operations and limits building the code only to places
     where something has been changed.
   </M>
   <M>
-    To create any application, just run the {" "}
-    <B> npx create-nx-workspace@latest –preset=angular</B> command. If 
-    you want to 
-    generate an application in <B>React</B> or another <B>NX</B>-supported technology, you need to replace the <B>preset</B> value as follows:{" "}
+    To create any application, just run the{" "}
+    <B> npx create-nx-workspace@latest –preset=angular</B> command. If you want
+    to generate an application in <B>React</B> or another <B>NX</B>-supported
+    technology, you need to replace the <B>preset</B> value as follows:{" "}
     <B>preset=react</B>.
   </M>
   <M>Here is a list of currently supported: </M>
-  <List items="TypeScript,Web-components,Angular,React,React-native,Next, Nest,Express" />
+  <L>
+    <Li>TypeScript</Li>
+    <Li>Web-components</Li>
+    <Li>Angular</Li>
+    <Li>React</Li>
+    <Li>React-native</Li>
+    <Li>Next</Li>
+    <Li>Nest</Li>
+    <Li>Express</Li>
+  </L>
   <M>
     <B>Create any JS project from package.json</B>
   </M>
-  <M>  
-    In this case, we can only use the script caching mechanism. Just install the <B>CLI</B> with <B>npm i @nrwl/cli -D</B>.{" "}
+  <M>
+    In this case, we can only use the script caching mechanism. Just install the{" "}
+    <B>CLI</B> with <B>npm i @nrwl/cli -D</B>.{" "}
   </M>
   <M>
-    From now on, any script configured in the <B>package.json</B> file can be cached by <B>NX</B> by calling it in this simple way:{" "}
-    <B>npx nx [name]</B>.
+    From now on, any script configured in the <B>package.json</B> file can be
+    cached by <B>NX</B> by calling it in this simple way: <B>npx nx [name]</B>.
   </M>
 </Section>
 
 <Section>
 <XL>Core NX features</XL>
 <M>The creators specify such functionalities as:</M>
-<List items="The ability to use additional scripts (task executors), Caching tasks results, Cache sharing, NX graph, Resource sharing during tasks (distribute task execution), Automatic update of dependencies, Enforcement of dependency boundaries " />
+<L><Li>The ability to use additional scripts (task executors)</Li><Li>Caching tasks results</Li><Li>Cache sharing</Li><Li>NX graph</Li><Li>Resource sharing during tasks (distribute task execution)</Li><Li>Automatic update of dependencies</Li><Li>Enforcement of dependency boundaries</Li></L>
 <M><B>Ability to use additional scripts (task executors)</B></M>
 <M>We receive support and configuration of tasks within individual projects, as well as the entire monorepo. <B>Task executors</B> are used to automate various processes such as building applications, testing, updating dependencies, and many more.
 </M>
@@ -180,11 +221,14 @@ One such tool is the <B>NRWL Extension</B>, or <B>NX</B> for short. In this arti
 <M>This graph allows you to visually explore dependencies in projects, libraries, and tasks that are within a monorepo.
 
 All you have to do is run the command: <B>npx nx graph</B>.
+
 </M>
 
 <M>
-  This will open the browser and visualize the dependencies in the project. Viewing the entire graph can be difficult with large solutions. Therefore, {" "}
-  <B>NX</B> provides additional filters that allow you to narrow down the visibility of dependencies. You can test the operation of such a graph at:{" "}
+  This will open the browser and visualize the dependencies in the project.
+  Viewing the entire graph can be difficult with large solutions. Therefore,{" "}
+  <B>NX</B> provides additional filters that allow you to narrow down the
+  visibility of dependencies. You can test the operation of such a graph at:{" "}
   <A href="https://nrwl-nx-examples-dep-graph.netlify.app/" outside>
     https://nrwl-nx-examples-dep-graph.netlify.app/
   </A>
@@ -206,7 +250,7 @@ All you have to do is run the command: <B>npx nx graph</B>.
 <M><B>NX CLI</B> has a <B>migrate</B> command that allows you to quickly update <B>NX</B> and dependencies like <B>Angular</B>, <B>React </B>, etc.</M>
 <M>This command prepares the migration script for all technologies that are to be updated. The next command performs the migrations. Finally, all you need to do is remove the migration file and update the main dependencies.</M>
 <M>The entire migration is just 4 steps:</M>
-<List items="Command: nx migrate latest, Command: nx migrate –run-migrations, Deleting the migrations.json file, Command: npm install" />
+<L><Li>Command: nx migrate latest</Li><Li>Command: nx migrate –run-migrations</Li><Li>Deleting the migrations.json file</Li><Li>Command: npm install</Li></L>
 <M><B>Enforcing dependency boundaries</B></M>
 <M>Appropriate configuration allows you to create rules that allow or block the use of given libraries or groups of libraries by others.</M>
 <M>The whole concept is about tagging libraries and applications appropriately:
@@ -258,12 +302,18 @@ All you have to do is run the command: <B>npx nx graph</B>.
 
 <Summary>
   <M>
-  <B>NX</B> is a powerful tool for managing large{" "}
-    <B>JavaScript</B> projects, but it also works well for small projects. It provides a set of features for quickly and easily creating, building, testing and deploying applications. It is a monorepo solution. Thanks to this tool, developers can quickly and easily master the large complexities of <B>JavaScript</B>, thanks to the proven methods proposed by the <B>NRWL</B> team.</M>
- <M>If you liked it, be sure to visit us on {" "}
+    <B>NX</B> is a powerful tool for managing large <B>JavaScript</B> projects,
+    but it also works well for small projects. It provides a set of features for
+    quickly and easily creating, building, testing and deploying applications.
+    It is a monorepo solution. Thanks to this tool, developers can quickly and
+    easily master the large complexities of <B>JavaScript</B>, thanks to the
+    proven methods proposed by the <B>NRWL</B> team.
+  </M>
+  <M>
+    If you liked it, be sure to visit us on{" "}
     <A href="https://www.linkedin.com/in/emil-juchnikowski-25b251bb/" outside>
       Linkedin
-    </A>,{" "}
-where we regularly post programming content.
+    </A>
+    , where we regularly post programming content.
   </M>
 </Summary>

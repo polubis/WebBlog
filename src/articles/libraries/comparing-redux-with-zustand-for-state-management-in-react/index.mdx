@@ -34,27 +34,82 @@ readTime: 10
 
 <Section>
   <XL>Redux core concepts</XL>
-  <List items="One store, Changes in the store done via dispatch function, Action should be passed to the dispatch function (an object with a unique key and additional data), Implements the CQRS pattern, It is based on the FLUX architecture (modifies it - instead of many stores we have one), Implements reducers (they check the type of the given action and change it to a state based on the passed data), Has middleware, All reducers are finally merged into one, The subscribe function works for the entire store, Has selectors, Monolith structure - like an extensive database, No modularity, Requires a wrapper (StoreProvider) - something that will integrate Redux with React" />
+  <L>
+    <Li>One store</Li>
+    <Li>Changes in the store done via dispatch function</Li>
+    <Li>
+      Action should be passed to the dispatch function (an object with a unique
+      key and additional data)
+    </Li>
+    <Li>Implements the CQRS pattern</Li>
+    <Li>
+      It is based on the FLUX architecture (modifies it - instead of many stores
+      we have one)
+    </Li>
+    <Li>
+      Implements reducers (they check the type of the given action and change it
+      to a state based on the passed data)
+    </Li>
+    <Li>Has middleware</Li>
+    <Li>All reducers are finally merged into one</Li>
+    <Li>The subscribe function works for the entire store</Li>
+    <Li>Has selectors</Li>
+    <Li>Monolith structure - like an extensive database</Li>
+    <Li>No modularity</Li>
+    <Li>
+      Requires a wrapper (StoreProvider) - something that will integrate Redux
+      with React
+    </Li>
+  </L>
   <M>
     <B>Elements:</B>
   </M>
-  <List items="Store (one), Reducer, Middleware, Actions, Action creators - functions that create action objects, Selectors, Hooks for reading and modifying the state, Dispatcher, Slice (in the case of Redux toolkit), Acts (in the case of Redux toolkit)" />
+  <L>
+    <Li>Store (one)</Li>
+    <Li>Reducer</Li>
+    <Li>Middleware</Li>
+    <Li>Actions</Li>
+    <Li>Action creators - functions that create action objects</Li>
+    <Li>Selectors</Li>
+    <Li>Hooks for reading and modifying the state</Li>
+    <Li>Dispatcher</Li>
+    <Li>Slice (in the case of Redux toolkit)</Li>
+    <Li>Acts (in the case of Redux toolkit)</Li>
+  </L>
 </Section>
 
 <Section>
   <XL>Zustand core concepts</XL>
-  <List items="More than one store, We make changes in the store using actions - a regular function, Implements the FLUX architecture, No reducers, There is no dispatch function, No CQRS, It has middleware for each store separately, Modularity, Has a subscription function per store, Has selectors, 0 wrappers required" />
+  <L>
+    <Li>More than one store</Li>
+    <Li>We make changes in the store using actions - a regular function</Li>
+    <Li>Implements the FLUX architecture</Li>
+    <Li>No reducers</Li>
+    <Li>There is no dispatch function</Li>
+    <Li>No CQRS</Li>
+    <Li>It has middleware for each store separately</Li>
+    <Li>Modularity</Li>
+    <Li>Has a subscription function per store</Li>
+    <Li>Has selectors</Li>
+    <Li>0 wrappers required</Li>
+  </L>
   <M>
     <B>Elements: </B>
   </M>
-  <List items="More than one store, Actions, Selectors, Middleware - per store, Hook for invoking actions and reading state (one)" />
+  <L>
+    <Li>More than one store</Li>
+    <Li>Actions</Li>
+    <Li>Selectors</Li>
+    <Li>Middleware - per store</Li>
+    <Li>Hook for invoking actions and reading state (one)</Li>
+  </L>
 </Section>
 
 <Section>
   <XL>Setup for the Redux toolkit</XL>
   <M>
-    To start with <B>Redux toolkit</B> and <B>React</B> we need to import created <B>store</B>{" "}
-    and pass if through <B>Provider</B>.
+    To start with <B>Redux toolkit</B> and <B>React</B> we need to import
+    created <B>store</B> and pass if through <B>Provider</B>.
   </M>
   <Code mode="static" lang="tsx">{`
 import React from 'react'
@@ -119,7 +174,10 @@ export default combineReducers({
     And we still need the <B>store.ts</B> file in which we will connect
     everything.
   </M>
-  <Code mode="static" lang="ts">{`import { configureStore } from '@reduxjs/toolkit'
+  <Code
+    mode="static"
+    lang="ts"
+  >{`import { configureStore } from '@reduxjs/toolkit'
 import { useDispatch, useSelector, type TypedUseSelectorHook } from 'react-redux'
 import reducer from './reducers'
 import thunk from 'redux-thunk'
@@ -138,7 +196,10 @@ export const useAppDispatch: () => AppDispatch = useDispatch
 export const useAppSelector: TypedUseSelectorHook<AppState> = useSelector
 `}</Code>
   <M>Now the code in the component.</M>
-  <Code mode="static" lang="tsx">{`import { useAppSelector, useAppDispatch } from "store"
+  <Code
+    mode="static"
+    lang="tsx"
+  >{`import { useAppSelector, useAppDispatch } from "store"
 import { addPost } from "actions/posts"
  
 const AnyComponent = () => {
@@ -242,8 +303,8 @@ const AnyComponent = () => {
     size per feature) = <B>29,1kB</B>.
   </M>
   <M>
-    <B>Zustand</B> = <B>30</B> (number of features) * <B>0.44kB</B>{" "}
-    (boilerplate size per feature) = <B>13.2kB</B>.
+    <B>Zustand</B> = <B>30</B> (number of features) * <B>0.44kB</B> (boilerplate
+    size per feature) = <B>13.2kB</B>.
   </M>
   <M>So finally:</M>
   <M>
@@ -354,7 +415,10 @@ const authSlice = createSlice({
     In <B>Zustand</B>, we handle asynchronous operations with a regular function
     with an <B>async</B> annotation.
   </M>
-  <Code mode="static" lang="ts">{`import { type SignedInUser, type SignInPayload, signIn } from 'api/auth'
+  <Code
+    mode="static"
+    lang="ts"
+  >{`import { type SignedInUser, type SignInPayload, signIn } from 'api/auth'
  
 interface SignInStore {
   loading: boolean
@@ -431,7 +495,9 @@ export const actSignIn = createAsyncThunk(
   state.error = payload
 });
 `}</Code>
-  <M>And this is how we should type a regular <B>actions</B>. </M>
+  <M>
+    And this is how we should type a regular <B>actions</B>.{" "}
+  </M>
   <Code mode="static" lang="ts">{`
 import type { PayloadAction } from "@reduxjs/toolkit";
  
@@ -501,17 +567,35 @@ const useSignInStore = create<SignInStore>((set) => ({
 <Section>
   <XL>Redux toolkit effort analysis</XL>
   <M>For each new functionality we need to:</M>
-  <List items="Implement slice, Create type, Implement acts, Implement actions, Create a file with re-export actions from a slice, Create a file with re-export reducers from a slice, Modify the store, Work on integration with components, Create tests for each layer or an integration test, Switch between multiple files multiple times" />
+  <L>
+    <Li>Implement slice</Li>
+    <Li>Create type</Li>
+    <Li>Implement acts</Li>
+    <Li>Implement actions</Li>
+    <Li>Create a file with re-export actions from a slice</Li>
+    <Li>Create a file with re-export reducers from a slice</Li>
+    <Li>Modify the store</Li>
+    <Li>Work on integration with components</Li>
+    <Li>Create tests for each layer or an integration test</Li>
+    <Li>Switch between multiple files multiple times</Li>
+  </L>
   <M>
     In case of any change in the business logic or the name of something that
-    the components refer to, we have to go through many files and verify the changes.
+    the components refer to, we have to go through many files and verify the
+    changes.
   </M>
 </Section>
 
 <Section>
   <XL>Work effort analysis at Zustand</XL>
   <M>For each new functionality we need to: </M>
-  <List items="Create types, Implement store (state + actions), Integrate with components, Write unit tests or integration test, Switch between two or three files (max)" />
+  <L>
+    <Li>Create types</Li>
+    <Li>Implement store (state + actions)</Li>
+    <Li>Integrate with components</Li>
+    <Li>Write unit tests or integration test</Li>
+    <Li>Switch between two or three files (max)</Li>
+  </L>
   <M>
     In <B>Zustand</B> we operate mainly on the <B>store</B> file and everything
     we need is there.
@@ -535,9 +619,11 @@ const store = createStore(
   <M>
     {" "}
     <B>Redux devtools</B> in <B>Zustand</B>? After all, it's not <B>Redux</B>...
-    It doesn't change the fact that we have such a possibility. Action titles in <B>devtools</B> will
-    be generated based on their names. It is also worth noting that for each store
-    we have to connect <B>devtools</B> separately - <B>Zustand</B> is modular.
+    It doesn't change the fact that we have such a possibility. Action titles in{" "}
+    <B>devtools</B> will be generated based on their names. It is also worth noting
+    that for each store we have to connect <B>devtools</B> separately - <B>
+      Zustand
+    </B> is modular.
   </M>
   <Code mode="static" lang="ts">{`
 import { create } from 'zustand'
@@ -852,7 +938,10 @@ describe("Posts works when: ", () => {
     Otherwise, when it is not there, in the next tests we will have the
     previously set state - which is dangerous for the stability of the tests.
   </M>
-  <Code mode="static" lang="tsx">{`import { renderHook, act } from '@testing-library/react';
+  <Code
+    mode="static"
+    lang="tsx"
+  >{`import { renderHook, act } from '@testing-library/react';
 import type { StoreApi, UseBoundStore } from 'zustand';
  
 const storeFixture = <T>(
@@ -1164,11 +1253,11 @@ store.injectReducer('reducerek', createSlice(
   <M>
     {" "}
     Due to the modular nature, <B>code splitting</B> and <B>lazy loading</B>, we
-    have practically <B>out of the box</B>. Thanks to this,
-    both the <B>React</B> and <B>Zustand</B> code will be in one file, and we can
-    completely separate it from the main <B>index.js</B> file, necessary for the
-    application to work, which will be loaded at the beginning. Additionally, it
-    is predictable in behaviour.
+    have practically <B>out of the box</B>. Thanks to this, both the <B>
+      React
+    </B> and <B>Zustand</B> code will be in one file, and we can completely separate
+    it from the main <B>index.js</B> file, necessary for the application to work,
+    which will be loaded at the beginning. Additionally, it is predictable in behaviour.
   </M>
   <Code mode="static" lang="tsx">
     {`// A file RegisterForm.tsx
@@ -1199,8 +1288,8 @@ const RegisterView = () => <RegisterForm />;
   <XL>Analyze runtime performance</XL>
   <M>
     {" "}
-    In the <B>Redux toolkit</B>, we use the <B>ACTION_TYPE: FUNCTION</B> object, which
-    looks elegant, but we still call each <B>reducer</B> on each action.
+    In the <B>Redux toolkit</B>, we use the <B>ACTION_TYPE: FUNCTION</B> object,
+    which looks elegant, but we still call each <B>reducer</B> on each action.
   </M>
   <Code mode="static" lang="ts">{`
 const firstSlice = createSlice({
@@ -1252,9 +1341,10 @@ secondStoreLog2();
   `}</Code>
   <M>
     Now, when we have 30 reducers for the application, with <B>Redux</B> we will
-    call 29 additional checks for each <B>reducer</B> when <B>any action</B> is <B>dispatched</B>. Is this a problem?
-    Honestly, it's not... I'm just mentioning it. The operation of finding <B>action</B>{" "}
-    itself is very fast, so there is nothing to worry about...
+    call 29 additional checks for each <B>reducer</B> when <B>any action</B> is{" "}
+    <B>dispatched</B>. Is this a problem? Honestly, it's not... I'm just
+    mentioning it. The operation of finding <B>action</B> itself is very fast,
+    so there is nothing to worry about...
   </M>
 </Section>
 
@@ -1289,5 +1379,14 @@ secondStoreLog2();
     technologies. I leave the decision to You, Dear Readers. Here are some
     reasons why I use <B>Zustand</B> instead of <B>Redux</B>:
   </M>
-  <List items="Smaller package size and smaller code base, Modularity, Same capabilities as Redux (without CQRS and with multiple stores), Less code needed to write, Code is more readable and easier to understand for beginners, Code splitting is really easy, Devtools like in Redux, No wrapper (StoreProvider)" />
+  <L>
+    <Li>Smaller package size and smaller code base</Li>
+    <Li>Modularity</Li>
+    <Li>Same capabilities as Redux (without CQRS and with multiple stores)</Li>
+    <Li>Less code needed to write</Li>
+    <Li>Code is more readable and easier to understand for beginners</Li>
+    <Li>Code splitting is really easy</Li>
+    <Li>Devtools like in Redux</Li>
+    <Li>No wrapper (StoreProvider)</Li>
+  </L>
 </Summary>

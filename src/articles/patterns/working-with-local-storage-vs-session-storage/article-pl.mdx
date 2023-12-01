@@ -54,7 +54,12 @@ const sValue = sessionStorage.getItem('my-item')
   <M>
     <B>Co rzuca się w oczy w pierwszym momencie?</B>
   </M>
-  <List items="Klucz to 'string', Odczytana wartość jest typu 'string', API są identyczne, Brak enkapsulacji" />
+  <L>
+    <Li>Klucz to 'string'</Li>
+    <Li>Odczytana wartość jest typu 'string'</Li>
+    <Li>API są identyczne</Li>
+    <Li>Brak enkapsulacji</Li>
+  </L>
   <M>Łatwo zrobić literówkę...</M>
   <Code
     mode="static"
@@ -124,7 +129,15 @@ localStorage.setItem('user', JSON.stringify(user))
  `}
   </Code>
   <M>Jak widzisz jest tego sporo, a pominąłem jeszcze takie rzeczy jak:</M>
-  <List items="A co jak potrzebujemy dodatkowej metody?, Brak enkapsulacji, Singleton na całej aplikacji - łatwo popsuć inną funkcjonalność, Można doprowadzić do kolizji - nadpisać wartość ustawioną w innej funkcjonalności" />
+  <L>
+    <Li>A co jak potrzebujemy dodatkowej metody?</Li>
+    <Li>Brak enkapsulacji</Li>
+    <Li>Singleton na całej aplikacji - łatwo popsuć inną funkcjonalność</Li>
+    <Li>
+      Można doprowadzić do kolizji - nadpisać wartość ustawioną w innej
+      funkcjonalności
+    </Li>
+  </L>
   <M>Musimy to naprawić!</M>
 </Section>
 
@@ -435,7 +448,10 @@ return {
   wyjątków i odczyt pojedynczej wartości oraz wielu wartości działa prawidłowo.
 </M>
 
-<List items="throws an error if any storage is undefined ✔️, allows to get all values ✔️" />
+<L>
+  <Li>throws an error if any storage is undefined ✔️</Li>
+  <Li>allows to get all values ✔️</Li>
+</L>
 
 <M>
   Teraz czas na <B>getKeys</B>. Tu niespodzianki nie ma. Po prostu zwracamy
@@ -469,7 +485,9 @@ return {
 </M>
 
 <M>Po tej zmianie kolejny test staje się zielony.</M>
-<List items="picks keys from local storage or session storage ✔️" />
+<L>
+  <Li>picks keys from local storage or session storage ✔️</Li>
+</L>
 
 <M>
   Teraz czas na ostatnie cztery metody: <B>remove</B>, <B>set</B>, <B>patch</B>{" "}
@@ -576,7 +594,21 @@ return {
 
 <Summary label="Podsumowanie">
   <M>Jeszcze raz na spokojnie co udało nam się osiągnąć 🧂: </M>
-  <List items="Mamy developer friendly wyjątki, Zarządzanie local/session storage jest modułowe, Mamy type-safety i ochrone przed literówkami, Nie ma potrzeby zapamiętywać kluczy w zmiennych, Łatwo możemy dodawać nowe metody i rozszerzać rozwiązanie, Rozwiązanie może być wykorzystywane do mockowania wartości również w testach, Spójne API, Mniejsze ryzyko kolizji lub nadpisania wartości w innej funkcjonalności" />
+  <L>
+    <Li>Mamy developer friendly wyjątki</Li>
+    <Li>Zarządzanie local/session storage jest modułowe</Li>
+    <Li>Mamy type-safety i ochronę przed literówkami</Li>
+    <Li>Nie ma potrzeby zapamiętywania kluczy w zmiennych</Li>
+    <Li>Łatwo możemy dodawać nowe metody i rozszerzać rozwiązanie</Li>
+    <Li>
+      Rozwiązanie może być wykorzystywane do mockowania wartości również w
+      testach
+    </Li>
+    <Li>Spójne API</Li>
+    <Li>
+      Mniejsze ryzyko kolizji lub nadpisania wartości w innej funkcjonalności
+    </Li>
+  </L>
   <M>
     Warto wspomnieć, że wprowadzanie abstrakcji takiej jak ta, nie zawsze ma
     sens. W tym przypadku jest to użyteczne, ale warto przeprowadzić porównanie
