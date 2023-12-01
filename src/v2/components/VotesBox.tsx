@@ -7,7 +7,7 @@ const Container = styled.div`
     width: 40px;
     height: 40px;
     border-radius: 4px;
-    background: rgb(40, 42, 54);
+    background: #3f3f3f;
 
     &:not(:first-child) {
       margin-left: 12px;
