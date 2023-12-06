@@ -1,39 +1,329 @@
 ---
-name: useElementSize
-duration: 4
-deprecated: true
-description: We'll write a hook that will use ClientBoundingRect API to listen to changes in the size of the HTML element. In addition, the useRef hook and useLayoutEffect hook will be explored.
+name: Detect outside click with the useClickOutside hook
+description: Introducing useClickOutside - a handy hook detecting clicks outside a specific HTML element. Ideal for closing Modals or Sidebars, enhancing your app's user experience.
+duration: 6
 ---
 
+<Prelude label="Understanding the use cases for the useClickOutside hook">
+  <M>Imagine you've built the <B>Modal</B> or <B>Sidebar</B> component that contains a backdrop behind or you have a <B>Popover</B> component that displays a small menu when clicking the dedicated button.</M>
+  <M>These components must be closed after clicking the backdrop area (for <B>Modal</B> and <B>Sidebar</B>) or in the case when you have <B>Popover</B> component, you need to detect the moment of click the space out of the <B>Popover</B> trigger element.</M>
+  <M>To understand it more, please check the <B>gif</B> below with presented situations: </M>
+  <Image
+    rolled
+  description="The use case of hook"
+   src="https://raw.githubusercontent.com/polubis/Snippets/main/popover-use-case.gif"
+/>
+<M>So as you saw, we just closed these components after clicking <B>outside</B> their area. Let's create the <B>useClickOutside</B> hook to be able to reuse such logic between different components.</M>
+
+</Prelude>
+
 <Section>
-  <XL>Why?</XL>
+  <XL>How we'll use useClickOutside hook?</XL>
   <M>
-    Sometimes there is a need to read the size of a <B>window</B> or a specific{" "}
-    <B>HTML element</B>. The most common reason for that is to display a
-    particular element in an application based on the size of a device.
+    Look at the following code snippet in which we used our hook, and assigned <B>ref</B> to <B>div</B> element, and we passed a callback to the hook configuration that will be triggered when user clicks outside. 
   </M>
-  <M>
-    This is a perfect example of logic that will repeat itself in many
-    applications, so it is worth to encapsulate it in a hook.
-  </M>
+  <Code mode="static" lang="ts">{`const MyAnyComponent = () => {
+  const handleClick = () => {
+    console.log('Clicked inside!')
+  }
+ 
+  const handleClickOutside = () => {
+    console.log('Outside click!')
+  }
+  // Remember to pass always a type of used HTML element!
+  const { ref } = useClickOutside<HTMLDivElement>({
+    onOutside: handleClickOutside,
+  });
+ 
+  return (
+    <div ref={ref}>
+      <button onClick={handleClick}>Click me!</button>
+    </div>
+  )
+}`}</Code>
+<M>What is really cool? Look how <B>TypeScript</B> will protect us from using invalid elements. </M>
+<Image
+  rolled
+description="TypeScript protection"
+  src="https://raw.githubusercontent.com/polubis/Snippets/main/tscheck.gif"
+/>
+
 </Section>
 
 <Section>
-  <XL>Usage</XL>
-  <Code
-    mode="dynamic"
-    lang="tsx"
-    linesCount={38}
-    src="/snippets/courses/react-hooks-spellbook/UseElementSizeUsage.tsx"
-  />
+  <XL>Let's create type definitions for the useClickOutside hook</XL>
+  <M>
+    We need to define a <B>types</B> for the configuration object and for the
+    stuff that will be returned by our hook.
+  </M>
+  <Code mode="static" lang="ts">{`import type { MutableRefObject } from 'react';
+ 
+// This object will be passed to the hook.
+interface UseClickOutsideConfig {
+  // Callback to trigger when outside click is detected.
+  onOutside: () => void;
+}
+ 
+// This will be returned by the hook.
+// We extended the HTMLElement to be sure that the passed 
+// generic type will have a base of HTMLElement.
+interface UseClickOutsideReturn<T extends HTMLElement> {
+  // Ref is a "React" reference created by useRef hook.
+  // It may be null because the ref value depends on
+  // the parent component. If we forget to assign ref to
+  // "HTML node", a ref will be null by default.
+  ref: MutableRefObject<T | null>;
+}
+`}</Code>
+  <M>The most important aspects: </M>
+  <L>
+    <Li>
+      we imported a type provided by React, that describes the reference object.
+      This ref object may be null. Its value depends on what the parent
+      component does with the ref returned by our hook,
+    </Li>
+    <Li>
+      the configuration object requires a callback that will be called when an
+      outside click will be detected,
+    </Li>
+    <Li>
+      the passed generic type "T" must have a base of HTMLElement, if the parent
+      component will assign the ref value to something else - it's a big mistake
+      and our hook will not work.
+    </Li>
+  </L>
 </Section>
 
 <Section>
-  <XL>Implementation</XL>
+  <XL>Implementing the useClickOutside hook</XL>
+  <M>
+    We'll import previously created types and then, we'll write an
+    implementation that matches created contract.
+  </M>
   <Code
-    mode="dynamic"
+    mode="static"
     lang="ts"
-    linesCount={107}
-    src="/snippets/courses/react-hooks-spellbook/useElementSize.ts"
+  >{`const useClickOutside = <T extends HTMLElement>({
+  onOutside,
+}: UseClickOutsideConfig) => {
+  // Stores a reference to the HTML element that will be tracked.
+  const ref = useRef<T>(null);
+ 
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      // If the clicked element doesn't contain the target one, 
+      // it means it's an outside click!
+      ref.current?.contains(e.target as Node) || onOutside();
+    };
+    // We're adding a mouse-down event.
+    document.addEventListener('mousedown', handleClickOutside);
+ 
+    return () => {
+      // We're removing a mouse-down event.
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+  
+  return { ref };
+};
+`}</Code>
+  <M>
+    Why we've used <B>assertion</B> here? By saying assertion I mean the syntax{" "}
+    <B>as Node</B>. It's because the <B>contains</B> method requires type{" "}
+    <B>Node</B> but <B>e.target</B> has a type <B>EventTarget | null</B>. This
+    causes <B>TypeScript</B> to yield the following prompt:{" "}
+  </M>
+  <M>
+    <B>
+      Argument of type 'EventTarget | null' is not assignable to parameter of
+      type 'Node | null'.
+    </B>
+  </M>
+  <M>
+    Is it type-safe? Of course, it's not! We need to improve that with{" "}
+    <B>type-guard</B> and when it will determine that the passed element is not
+    a <B>typeof Node</B>, we'll throw an exception - our hook will not work as
+    designed because something with unsupported shape has been passed to the
+    event callback.{" "}
+  </M>
+  <Code mode="static" added={[[4, 5]]} changed={[[8, 10]]} lang="ts">{`
+// The "node" have a specific property "nodeType".
+// If it exists inside the passed target it 
+// means that is the type of "node".
+const assertIsNode = (target: EventTarget | Node | null): target is Node =>
+  !!target && 'nodeType' in target;
+  
+// Now inside the click handler.
+const handleClickOutside = ({ target }: MouseEvent) => {
+  (assertIsNode(target) && ref.current?.contains(target)) || onOutside();
+};
+`}</Code>
+  <M>
+    The <B>in</B> operator returns <B>true</B> if a property exists in an
+    object. The <B>!!</B> operator converts the variable to <B>bool</B>, we're
+    doing that because our <B>target</B> parameter may be an object or null. The
+    syntax <B>target is Node</B> is the key here. If the created function will
+    return <B>true</B> it means the type of <B>target</B> will be remembered by{" "}
+    <B>TypeScript</B> as a <B>Node</B> type.
+  </M>
+  <M>
+    We just created our <B>custom type-guard</B>. Now complete implementation
+    looks like this:{" "}
+  </M>
+  <Code
+    rolled
+    mode="static"
+    lang="ts"
+  >{`const assertIsNode = (target: EventTarget | Node | null): target is Node =>
+  !!target && 'nodeType' in target;
+ 
+const useClickOutside = <T extends HTMLElement>({
+  onOutside,
+}: UseClickOutsideConfig) => {
+  const ref = useRef<T>(null);
+ 
+  useEffect(() => {
+    const handleClickOutside = ({ target }: MouseEvent) => {
+      (assertIsNode(target) && ref.current?.contains(target)) || onOutside();
+    };
+ 
+    document.addEventListener('mousedown', handleClickOutside);
+ 
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+ 
+  return { ref };
+};
+`}</Code>
+</Section>
+
+<Section>
+  <XL>Writting the tests for useClickOutside hook</XL>
+  <M>The most important aspects to test are:</M>
+  <L ordered>
+    <Li>we need to check if the "mousedown" event is attached and removed,</Li>
+    <Li>we need to verify if the outside click mechanism is working.</Li>
+  </L>
+  <M>
+    We'll use <B>react-testing-library</B>, the <B>fixture</B> pattern, and{" "}
+    <B>spies</B> to perform our tests.
+  </M>
+  <Hint hasBg>
+    If you want to know what is the <B>fixture</B> pattern, please read
+    following article:{" "}
+    <A
+      href="https://greenonsoftware.com/courses/react-testing-spellbook/mastering-unit-testing/creating-testing-fixtures/"
+      outside
+    >
+      Creating testing fixtures
+    </A>
+    .
+  </Hint>
+  <Hint hasBg>
+    If you want understand the <B>spies</B> role in testing, please read
+    following article:{" "}
+    <A
+      href="https://greenonsoftware.com/courses/react-testing-spellbook/mastering-unit-testing/using-spies-in-react-and-typescript/"
+      outside
+    >
+      Using spies in React and Typescript
+    </A>
+    .
+  </Hint>
+  <M>
+    Let's start from testing the <B>mousedown</B> event mechanism:{" "}
+  </M>
+  <Code mode="static" lang="ts">{`  it('removes event listeners', () => {
+  const removeEventListenerSpy = jest.spyOn(document, 'removeEventListener');
+ 
+  const { unmount } = renderHook(() =>
+    useClickOutside({ onOutside: jest.fn() })
+  );
+ 
+  unmount();
+ 
+  expect(removeEventListenerSpy).toHaveBeenCalledWith(
+    'mousedown',
+    expect.any(Function)
+  );
+});`}</Code>
+  <M>
+    Now we need to use <B>fixture</B> to act like the <B>truthy</B> component is
+    using our hook, we don't have any other option - we want to test a real
+    click outside situation.
+  </M>
+  <Code
+    mode="static"
+    lang="tsx"
+  >{`  it('calls callback when clicked outside', () => {
+  const onOutsideSpy = jest.fn();
+  const Fixture = () => {
+    const { ref } = useClickOutside<HTMLDivElement>({
+      onOutside: onOutsideSpy,
+    });
+ 
+    return (
+      <>
+        <div ref={ref}>
+          <button>Click me inside</button>
+        </div>
+        <button>Click me outside</button>
+      </>
+    );
+  };
+ 
+  render(<Fixture />);
+ 
+  fireEvent.mouseDown(screen.getByText(/Click me outside/));
+  fireEvent.mouseDown(screen.getByText(/Click me inside/));
+ 
+  expect(onOutsideSpy).toHaveBeenCalledTimes(1);
+});`}</Code>
+  <M>Here you have the complete file with tests: </M>
+  <Code
+    mode="dynamic"
+    rolled
+    src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/article/Detect-outside-click-with-the-useClickOutside-hook/system/libs/figa-hooks/src/lib/use-click-outside/use-click-outside.test.tsx"
   />
 </Section>
+
+<Example label="The full implementation">
+  <M>
+    <A
+      href="https://github.com/polubis/Dream-stack-for-React-dev/tree/article/Detect-outside-click-with-the-useClickOutside-hook/system/libs/figa-hooks/src/lib/use-click-outside"
+      outside
+    >
+      Repository
+    </A>{" "}
+    to play with. In addition check the full implementation below if you are
+    lazy like me:
+  </M>
+  <Code
+    mode="dynamic"
+    rolled
+    description="Type definitions in defs.ts file"
+    src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/article/Detect-outside-click-with-the-useClickOutside-hook/system/libs/figa-hooks/src/lib/use-click-outside/defs.ts"
+  />
+  <Code
+    mode="dynamic"
+    rolled
+    description="The implementation inside use-click-outside.ts file"
+    src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/article/Detect-outside-click-with-the-useClickOutside-hook/system/libs/figa-hooks/src/lib/use-click-outside/use-click-outside.ts"
+  />
+  <Code
+    mode="dynamic"
+    rolled
+    description="The unit tests inside use-click-outside.test.ts file"
+    src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/article/Detect-outside-click-with-the-useClickOutside-hook/system/libs/figa-hooks/src/lib/use-click-outside/use-click-outside.test.tsx"
+  />
+</Example>
+
+<Summary label="What did we learn today?">
+  <M>
+    If you're building your own <B>design system</B> it's really important to
+    write code in the following way. Now, you'll be able to maintain click
+    outside logic with simple, <B>type-safe</B> and <B>tested hook</B>.
+  </M>
+</Summary>

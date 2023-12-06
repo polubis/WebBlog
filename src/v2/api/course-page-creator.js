@@ -30,11 +30,9 @@ const CoursePageCreator = ({ createPage, makeComponent }) => ({
 
   const courseChapters = chapters.map(chapter => ({
     duration: chapter.lessons
-      .filter(({ deprecated }) => !deprecated)
       .reduce((acc, { duration }) => acc + duration, 0),
     title: chapter.title,
     lessons: chapter.lessons
-      .filter(({ deprecated }) => !deprecated)
       .map(lesson => ({
         title: lesson.title,
         duration: lesson.duration,
@@ -42,7 +40,7 @@ const CoursePageCreator = ({ createPage, makeComponent }) => ({
       })),
   }))
   const lessons_count = chapters.reduce((acc, chapter) => {
-    return acc + chapter.lessons.filter(({ deprecated }) => !deprecated).length
+    return acc + chapter.lessons.length
   }, 0)
 
   const context = {
@@ -64,7 +62,6 @@ const CoursePageCreator = ({ createPage, makeComponent }) => ({
         (totalAcc, chapter) =>
           totalAcc +
           chapter.lessons
-            .filter(({ deprecated }) => !deprecated)
             .reduce((acc, { duration }) => acc + duration, 0),
         0
       ),

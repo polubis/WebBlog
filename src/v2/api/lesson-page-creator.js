@@ -47,17 +47,16 @@ const LessonPageCreator = ({ createPage, makeComponent }) => ({
           technologies: course.technologies,
         },
         chapters: course.chapters.map(chapter => ({
-          duration: chapter.lessons
-            .filter(({ deprecated }) => !deprecated)
-            .reduce((acc, { duration }) => acc + duration, 0),
+          duration: chapter.lessons.reduce(
+            (acc, { duration }) => acc + duration,
+            0
+          ),
           title: chapter.title,
-          lessons: chapter.lessons
-            .filter(({ deprecated }) => !deprecated)
-            .map(lesson => ({
-              title: lesson.title,
-              duration: lesson.duration,
-              path: lesson.path,
-            })),
+          lessons: chapter.lessons.map(lesson => ({
+            title: lesson.title,
+            duration: lesson.duration,
+            path: lesson.path,
+          })),
         })),
         chapter: {
           title: chapter.title,
