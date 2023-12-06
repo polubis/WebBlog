@@ -163,7 +163,17 @@ export const useCommentsManagement = () => {
 
         const { loadComments } = prepareToLoadComments(db)
 
-        const loadedComments = await loadComments({ path: resourcePath })
+        const loadedComments = await (
+          await loadComments({ path: resourcePath })
+        ).sort((prev, curr) => {
+          if (prev.date < curr.date) {
+            return 1
+          }
+
+          if (prev.date === curr.date) return 0
+
+          return -1
+        })
         cache.set(resourcePath, loadedComments)
 
         setState({

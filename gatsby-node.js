@@ -266,7 +266,6 @@ exports.createPages = async ({ actions, graphql }) => {
           frontmatter {
             name
             duration
-            deprecated
             description
           }
         }

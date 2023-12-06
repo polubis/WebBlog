@@ -134,9 +134,7 @@ const HomePageCreator = ({ createPage, makeComponent }) => ({
         students_count: studentsCount,
         lessons_count: courses.reduce((acc, course) => {
           const lessonsCount = course.chapters.reduce(
-            (lessonsAcc, chapter) =>
-              lessonsAcc +
-              chapter.lessons.filter(({ deprecated }) => !deprecated).length,
+            (lessonsAcc, chapter) => lessonsAcc + chapter.lessons.length,
             0
           )
           return acc + lessonsCount

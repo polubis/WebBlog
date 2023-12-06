@@ -1,38 +1,492 @@
 ---
-name: useScroll
-duration: 4
-deprecated: true
-description: We'll create a custom useScroll hook that will check the position of the scroll of a window or other any HTML element. It will also detect the direction of scrolling.
+name: Read the scroll metadata and direction with useScroll hook
+duration: 5
+description: Detecting the user movement and showing components based on direction and offset with useScroll hook.
 ---
 
-<Section>
-  <XL>Why?</XL>
+<Prelude label="For what useScroll hook can be used?">
   <M>
-    Information about the scroll position of the window object is often useful
-    during implementation of cool widgets. Instead of comparing at the level of
-    components, you can get a result right away. It will calculate the current
-    scroll position.
+    The <B>useScroll</B> hook can be used for reading scroll <B>metadata</B>{" "}
+    connected with the target (<B>HTML element</B> or <B>window</B> object). It
+    may be the direction in which the user is moving too or the exact scroll
+    offset from the <B>top/left</B>.
+  </M>
+  <M>
+    <B>The use cases</B>
+  </M>
+  <L ordered>
+    <Li>
+      Detecting the user movement and showing components based on direction and
+      offset.
+    </Li>
+    <Li>Reducing calculations/computations for particular elements.</Li>
+    <Li>Implementing mechanisms like infinite scrolling.</Li>
+  </L>
+  <M>
+    Here you have an example use case in which we're detecting bottom position
+    of scroll and if it's achieved, we're rendering the menu.
+  </M>
+  <Image
+    rolled src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/article/Reading-scroll-metadata-and-position-with-useScroll-hook/demo.gif" />
+  <Hint hasBg>
+    As always under the{" "}
+    <A
+      href="https://github.com/polubis/Dream-stack-for-React-dev/tree/article/Reading-scroll-metadata-and-position-with-useScroll-hook/system/libs/figa-hooks/src/lib/use-scroll"
+      outside
+    >
+      following repository
+    </A>{" "}
+    you have a full example implemented and ready to use.
+  </Hint>
+</Prelude>
+
+<Section>
+  <XL>The example of useScroll usage</XL>
+  <M>The hook can be consumed in two ways:</M>
+  <L ordered>
+    <Li>
+      It can detect the window scroll metadata or any HTML element (for HTML
+      elements you need to consume ref returned from hook and pass the type of
+      an element).
+    </Li>
+    <Li>
+      It can detect scroll metadata based on provided axis - it can be "x" or
+      "y".
+    </Li>
+  </L>
+  <Code
+    lang="tsx"
+    mode="static"
+  >{`// When want to read the HTML element metadata.
+const IReadTheDivMetadata = () => {
+  // Delay determines the debounce time in ms.
+  // Axis can be "x" or "y".
+  const [metadata, ref] = useScroll<HTMLDivElement>({ delay: 1000, axis: "x" });
+ 
+  return (
+    <div ref={ref}>
+      {/* Prints the div scroll x metadata. */}
+      {console.log(metadata)}
+    </div>
+  );
+};
+ 
+// When we want to read window metadata.
+const IReadTheWindowMetadata = () => {
+  const [metadata] = useScroll();
+ 
+  return (
+    <div>
+      {/* Prints the window scroll y metadata. */}
+      {console.log(metadata)}
+    </div>
+  );
+};`}</Code>
+  <M>
+    In addition, you can pass the <B>delay</B> property in <B>ms</B>. Inside the
+    debounce mechanism is used to avoid too many checks during user interaction
+    - it's just for sake of performance.
   </M>
 </Section>
 
 <Section>
-  <XL>Usage</XL>
+  <XL>Types definition for useScroll hook</XL>
+  <M>
+    Types are very important. For the sake of transparency and readability, we
+    moved them to separate file - in our case <B>defs.ts</B>. Let's start from
+    the basic ones:
+  </M>
+  <Code mode="static" lang="ts">{`
+// The previous and current scroll offset after user interaction.
+interface BaseScrollState {
+  prev: number;
+  curr: number;
+}
+// Possible scroll axis.
+type ScrollAxis = 'x' | 'y';
+// The config that is optional by default.
+interface ScrollConfig {
+  axis?: ScrollAxis;
+  delay?: number;
+}
+`}</Code>
+  <M>
+    Now we need to define the shape of internal state. Let's think about the
+    possible situations. During scrolling, user may have following scenarions:
+  </M>
+  <L>
+    <Li>Nothing happens - let's call it "idle".</Li>
+    <Li>User scrolled down or right - let's call it "progress".</Li>
+    <Li>User scrolled up or left - let's call it "regress".</Li>
+    <Li>
+      User scrolled up/down but the scroll previous and current offset is the
+      same - let's call it "unchanged".
+    </Li>
+  </L>
+  <M>
+    So, we have 4 possible states. Now it's time to define interfaces for them.
+    Every state will have a separate interface with shared property - let's call
+    it <B>is</B>. We'll use a <B>TypeScript union</B> mechanism and we'll use
+    the <B>exhaustiveness checking</B> technique. It will protect us from
+    reading not "ready" information in runtime.
+  </M>
+  <Code mode="static" lang="ts">{`
+interface IdleScrollState {
+  is: 'idle';
+}
+// Notice the "extends" keyword usage.
+interface ProgressScrollState extends BaseScrollState {
+  is: 'progress';
+}
+ 
+interface RegressScrollState extends BaseScrollState {
+  is: 'regress';
+}
+ 
+interface UnchangedScrollState extends BaseScrollState {
+  is: 'unchanged';
+}
+// Union, so now we'll need to check the "is" property
+// before reading the state from hook. 
+type ScrollState =
+  | IdleScrollState
+  | ProgressScrollState
+  | RegressScrollState
+  | UnchangedScrollState;
+// Helper type. Just for avoiding doing that:
+// ScrollState['is'].
+type ScrollResult = ScrollState['is'];
+`}</Code>
+  <M>
+    Now look at what will happen when you would like to read the state of a
+    hook. TypeScript will block you from reading the <B>prev/curr</B> properties
+    at the <B>idle</B> state but will let you read them in other states.
+  </M>
+  <Image
+    rolled src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/article/Reading-scroll-metadata-and-position-with-useScroll-hook/exh-check.gif" />
+  <M>
+    Now it's time for the last type. Let's define what the <B>useScroll</B> hook
+    need to return. It will be a <B>read-only tuple</B>. The first element will
+    be a <B>state</B> and the second will be the <B>React ref object</B>.
+  </M>
+  <Code lang="ts" mode="static">{`import type { MutableRefObject } from 'react';
+// The generic type is optional and assigned to "HTMLElement" as default. 
+// "MutableRefObject" will be a ref created by "useRef" hook.
+type ScrollReturn<T extends HTMLElement = HTMLElement> = Readonly<
+  [ScrollState, MutableRefObject<T | null>]
+>;`}</Code>
+  <M>
+    Now all types needs to be exported and we can start the hook implementation.
+    Before that, it's good to mention some stuff:{" "}
+  </M>
+  <L>
+    <Li>
+      We used "T" generic to be able to pass the type of HTML element - for
+      example HTMLDivElement, HTMLInputElement and others - it provides
+      additional type-safety.
+    </Li>
+    <Li>
+      The MutableRefObject takes a "T" or "null". It's because if we want to
+      check the metadata of "window" instead of "HTMLElement", the ref is not
+      needed so it will be a "null".
+    </Li>
+    <Li>
+      We've used a "tuple" to provide developers an easy option to assign
+      their own names for returned values.
+    </Li>
+  </L>
+  <M>Under this file, you have complete types definition.</M>
   <Code
     mode="dynamic"
-    lang="tsx"
-    linesCount={16}
-    description="We know everything about scroll position"
-    src="/snippets/courses/react-hooks-spellbook/UseScrollUsage.tsx"
+    linesCount={54}
+    rolled
+    lang="ts"
+    src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/article/Reading-scroll-metadata-and-position-with-useScroll-hook/system/libs/figa-hooks/src/lib/use-scroll/defs.ts"
   />
 </Section>
 
 <Section>
-  <XL>Implementation</XL>
+  <XL>Let's implement the useScroll hook</XL>
+  <M>We have an interfaces so it's time to play! Let's consider some cases:</M>
+  <L ordered>
+    <Li>
+      The debounce mechanism must be applied. Listening to the scroll events
+      and calling the callbacks too often, may hurt the performance.
+    </Li>
+    <Li>
+      The hook may be used on the server side. So we need to guarantee that it
+      will work there and not will not throw an exception during this phase.
+    </Li>
+    <Li>
+      The properties responsible for reading scroll metadata for window and HTML
+      element object differs. So we need to provide some unification for a
+      better development experience.
+    </Li>
+    <Li>
+      If the window object and HTML element both are undefined - it means the
+      developer used the hook in an invalid way. So in this case we need to log
+      a warning.
+    </Li>
+    <Li>
+      The default parameters for the configuration object must be defined. The
+      commonly used scroll is in the "y" axis and the "delay",
+      can be 150ms by default.
+    </Li>
+  </L>
+  <M>Firstly, let's import previously defined types.</M>
+  <Code mode="static" lang="ts">{`import type {
+  ScrollAxis,
+  ScrollConfig,
+  ScrollReturn,
+  ScrollResult,
+  ScrollState,
+} from './defs';`}</Code>
+  <M>
+    Now it's time for helper functions to read the scroll metadata according to
+    the used <B>window</B> or <B>HTML element</B> objects.
+  </M>
+  <Code mode="static" lang="ts">{`
+// That's a type guard for type-safety.
+const isHTMLElement = <T extends HTMLElement>(ref: T | Window): ref is T =>
+  (ref as T).offsetTop !== undefined;
+// Read scroll offset when the axis is "y". 
+const getScrollYValue = <T extends HTMLElement>(ref: T | Window): number =>
+  isHTMLElement(ref) ? ref.scrollTop : ref.scrollY;
+// Read scroll offset when the axis is "x". 
+const getScrollXValue = <T extends HTMLElement>(ref: T | Window): number =>
+  isHTMLElement(ref) ? ref.scrollLeft : ref.scrollX;
+// Calls appropriate function based on the given axis. 
+const getScrollValue = <T extends HTMLElement>(
+  axis: ScrollAxis,
+  ref: T | Window
+): number => (axis === 'x' ? getScrollXValue(ref) : getScrollYValue(ref));
+// Determines the result value based on the prev/curr scroll offset. 
+const getScrollResult = (prev: number, curr: number): ScrollResult => {
+  if (prev === curr) return 'unchanged';
+  return prev < curr ? 'progress' : 'regress';
+};`}</Code>
+  <M>
+    And what about logging a warning for developers if the hook will be used in
+    an invalid way?
+  </M>
+  <Code mode="static" lang="ts">{`const warn = (): void => {
+  console.warn(\`
+      Can't find the reference, and the window object. So this hook will not work.
+   
+      It may be caused because: 
+        - you're rendering ref conditionally,
+        - you forgot to use forwardRef() - when ref passed to component,
+        - you're using this hook on a server.
+    \`);
+};`}</Code>
+  <M>
+    Why these functions should be inside the same file as the future implemented{" "}
+    <B>useScroll</B> hook? It's because of the internal implementation details.
+    We want to hide everything that is related to these details from the
+    consumer module.
+  </M>
+  <M>Almost lastly, we need to create a hook itself.</M>
   <Code
-    mode="dynamic"
+    mode="static"
     lang="ts"
-    linesCount={63}
-    description="A little abstraction and life becomes easier"
-    src="/snippets/courses/react-hooks-spellbook/useScroll.ts"
+  >{`const useScroll = <T extends HTMLElement = HTMLElement>({
+  axis = 'y',
+  delay = 150,
+}: ScrollConfig = {}): ScrollReturn<T> => {
+  const ref = useRef<T>(null);
+  // We used a function to set the initial 
+  // state to avoid creating an object during every re-render.
+  const [state, setState] = useState<ScrollState>(() => ({ is: 'idle' }));
+ 
+  return [state, ref];
+};
+ 
+export { useScroll };`}</Code>
+  <M>
+    Now when our hook matches the given contract defined by interfaces, we can
+    implement the logic itself. We should use <B>useLayoutEffect</B> hook. It's
+    because we're reading real <B>DOM</B> information so we need to have a 100%
+    guarantee that they are ready to be read.
+  </M>
+  <M>
+    It's because <B>useEffect</B> is async and <B>useLayoutEffect</B> is sync.
+    So, with <B>useEffect</B> our read data can be "old" and it may cause weird
+    bugs...
+  </M>
+  <Code mode="static" lang="ts">{`
+// It's near the import section.
+import { debounceTime, fromEvent } from 'rxjs';
+// It's a code inside a hook ⬆️.
+useLayoutEffect(() => {
+  // Reading the target. It may be HTML element or window.
+  const target = ref.current ? ref.current : window;
+ 
+  if (!target) {
+    // If target is "undefined" - we're logging a warning
+    // and doing nothing - "fail fast" approach.
+    warn();
+    return;
+  }
+  // We're reading the initial scroll position.
+  let prev = getScrollValue(axis, target);
+  // We're making an "observable" from the native "scroll" event. 
+  // Thanks to that we're able to use "rxjs" operators.
+  const obs$ = fromEvent(target, 'scroll')
+    .pipe(debounceTime(delay))
+    .subscribe(() => {
+      // We're reading the initial scroll position.
+      const curr = getScrollValue(axis, target);
+ 
+      setState({
+        prev,
+        curr,
+        // We are assigning the result based on "prev/curr" values.
+        is: getScrollResult(prev, curr),
+      });
+ 
+      prev = curr;
+    });
+ 
+  return () => {
+    // Clean up to avoid memory leaks.
+    obs$.unsubscribe();
+  };
+  // When configuration properties will 
+  // change, we want to re-create the subscription.
+}, [delay, axis]);`}</Code>
+  <M>
+    We've used here <B>rxjs</B> library. Let's explain the stuff that we've used here.
+  </M>
+  <L>
+    <Li>
+      The "rxjs" library is tree-shakeable, so it means only imported, small
+      functions will be bundled.
+    </Li>
+    <Li>
+      This library provides reactivity and a lot of great for performance
+      operators.
+    </Li>
+    <Li>It removes from us the need to maintain hard-to-implement code.</Li>
+    <Li>It makes all async stuff much easier.</Li>
+    <Li>
+      It implements an observable pattern, in which we can subscribe to
+      dedicated situations and react in our code.
+    </Li>
+  </L>
+  <M>
+    There is one more small stuff to do. Our hook will work now on the client
+    side perfectly, but on the server side (Next.js) we'll see a warning about
+    the usage of <B>useLayoutEffect</B> hook on server. How to fix that?
+  </M>
+  <M>
+    We need to create a small util that is often called by developers as a{" "}
+    <B>useIsomorphicLayoutEffect</B>.{" "}
+  </M>
+  <Code
+    mode="static"
+    lang="ts"
+  >{`import { useEffect, useLayoutEffect } from 'react';
+// On the server side, we'll use "useEffect", but on 
+// the client "useLayoutEffect". Anyway, on server side 
+// we cannot read real DOM information.
+const useIsomorphicLayoutEffect =
+  typeof window === 'undefined' ? useEffect : useLayoutEffect;
+ 
+export { useIsomorphicLayoutEffect };
+`}</Code>
+<Hint hasBg >You can read more about this in the following <A outside href="/courses/react-hooks-spellbook/rendering/removing-server-warnings-for-use-layout-effect-with-custom-hook/">🔰 Removing server warnings for useLayoutEffect with custom hook</A> article.</Hint>
+  <M>
+    Lastly, we need to replace "useLayoutEffect" with a newly created hook.{" "}
+  </M>
+  <Code
+    changed={[[1, 1]]}
+    mode="static"
+    lang="ts"
+  >{`useIsomorphicLayoutEffect(() => {
+// The previously implemented logic goes here...
+}, [delay, axis])
+`}</Code>
+  <M>We got that! Here is the final result of how it looks like.</M>
+  <Code
+    rolled
+    mode="dynamic"
+    linesCount={81}
+    src="https://raw.githubusercontent.com/polubis/Dream-stack-for-React-dev/article/Reading-scroll-metadata-and-position-with-useScroll-hook/system/libs/figa-hooks/src/lib/use-scroll/use-scroll.ts"
   />
 </Section>
+
+<Section>
+  <XL>The tests for useScroll hook</XL>
+  <M>
+    We wanted to explain the hook usage and implementation only. Tests are under{" "}
+    <A
+      href="https://github.com/polubis/Dream-stack-for-React-dev/blob/article/Reading-scroll-metadata-and-position-with-useScroll-hook/system/libs/figa-hooks/src/lib/use-scroll/use-scroll.test.tsx"
+      outside
+    >
+      the following path
+    </A>
+    . If you are interested how they're implemented just visit this url.
+  </M>
+  <M>In addition, there are following articles that may be helpfull.</M>
+  <Hint hasBg>
+    The aticle about fixtures pattern -{" "}
+    <A
+      outside
+      href="https://greenonsoftware.com/courses/react-testing-spellbook/mastering-unit-testing/creating-testing-fixtures/"
+    >
+      Creating testing fixtures
+    </A>
+    .
+  </Hint>
+  <Hint hasBg>
+    The aticle about snapshot testing -{" "}
+    <A
+      outside
+      href="https://greenonsoftware.com/courses/react-testing-spellbook/mastering-unit-testing/snapshot-testing-in-react/"
+    >
+      Snapshot testing in React
+    </A>
+    .
+  </Hint>
+  <Hint hasBg>
+    The full course about testing in React ecosystem -{" "}
+    <A
+      outside
+      href="https://greenonsoftware.com/courses/react-testing-spellbook/"
+    >
+      React testing spellbook
+    </A>
+    .
+  </Hint>
+</Section>
+
+<Section>
+  <XL>The final example in repository</XL>
+  <M>
+    As always under the{" "}
+    <A
+      href="https://github.com/polubis/Dream-stack-for-React-dev/tree/article/Reading-scroll-metadata-and-position-with-useScroll-hook/system/libs/figa-hooks/src/lib/use-scroll"
+      outside
+    >
+      following repository
+    </A>{" "}
+    you have a full example with tests.
+  </M>
+</Section>
+
+<Summary label="Summary of the useScroll hook">
+  <M>
+    The hook created by us, contains great type-safety and it's safe to use on the
+    client/server side. In addition, it provides developer hints when it will be used in an
+    invalid way and protects us from performance problems due to scroll events.
+  </M>
+  <M>
+    Nextly, it allows you to listen on both <B>x</B> and <B>y</B> axis scroll
+    events. It's easy to extend - if you need other metadata you can just
+    increase the interface properties.
+  </M>
+  <M>
+    And what is the most important, we have tests - if you are curious just check them in the 
+    final example.
+  </M>
+</Summary>

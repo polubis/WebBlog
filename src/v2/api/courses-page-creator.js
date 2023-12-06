@@ -29,7 +29,6 @@ const CoursesPageCreator = ({
               (totalAcc, chapter) =>
                 totalAcc +
                 chapter.lessons
-                  .filter(({ deprecated }) => !deprecated)
                   .reduce((acc, { duration }) => acc + duration, 0),
               0
             ),
