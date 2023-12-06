@@ -137,7 +137,6 @@ const CourseModel = (
             return {
               title: lesson.frontmatter.name,
               duration: lesson.frontmatter.duration,
-              deprecated: lesson.frontmatter.deprecated,
               slug: lesson.slug,
               thumbnail: {
                 medium: lessonThumbnail.medium.fixed,
