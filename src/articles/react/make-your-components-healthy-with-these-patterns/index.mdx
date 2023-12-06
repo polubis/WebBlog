@@ -1,6 +1,6 @@
 ---
 cdate: 2023-08-11
-mdate: 2023-08-11
+mdate: 2023-06-12
 authorId: polubis
 treviewerId: kwozniak
 lreviewerId: kzalewska
@@ -14,7 +14,21 @@ title: Make your components healthy with these patterns
 readTime: 6
 ---
 
-<Prelude label="Few words about healthy components">
+<Prelude label="The context">
+  <M>
+    Before we delve into the content of article, it's essential to underscore
+    the context. Our primary objective is to create{" "}
+    <B>highly reusable components</B>. The utilization of these patterns is
+    particularly beneficial when prioritizing maximum reusability, and it's
+    important to note that the provided abstractions may not be necessary when
+    crafting conventional application code. The examples we are about to explore
+    are especially valuable when your goal is to develop a comprehensive
+    reusable <B>components library</B>.
+  </M>
+</Prelude>
+
+<Section>
+  <XL>Few words about healthy components</XL>
   <M>
     The best component is the one, that can be used in <B>any</B> application.
     In addition, it should have:{" "}
@@ -40,7 +54,7 @@ readTime: 6
     important in implementing good components, decoupled from the application
     domain.
   </Hint>
-</Prelude>
+</Section>
 
 <Section>
   <XL>Example of coupled and badly designed component</XL>
