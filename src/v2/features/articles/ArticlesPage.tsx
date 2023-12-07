@@ -24,7 +24,7 @@ const ArticlesPage = ({ pageContext }: ArticlesPageProps) => {
           <SEO
             ga_page={articles.ga_page}
             url={articles.url}
-            title={`${layout.site_name} ${articles.t.page_title}`}
+            title={articles.t.page_title}
             type="website"
             image={layout.site_url + articles.thumbnail.src}
             description={articles.t.page_description}
