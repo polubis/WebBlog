@@ -254,3 +254,41 @@ a.button {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+:root {
+  --white: #fff;
+}
+
+/* Typography */
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  padding: 0;
+  color: var(--white);
+}
+
+p {
+  line-height: 26px;
+  font-size: 20px;
+}
+
+/* Article body */
+
+.article-body {
+}
+
+.article-body p {
+  margin-bottom: 8px;
+}
+
+.article-body strong {
+}
+
+
+/* Article body */

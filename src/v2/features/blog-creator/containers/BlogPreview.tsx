@@ -54,5 +54,9 @@ export const BlogPreview = ({
     return null
   }
 
-  return <Preview mdx={mdx} onError={onError} components={components} />
+  return (
+    <div className="article-body">
+      <Preview mdx={mdx} onError={onError} components={components} />
+    </div>
+  )
 }

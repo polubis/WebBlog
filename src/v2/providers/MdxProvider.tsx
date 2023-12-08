@@ -1,31 +1,28 @@
 import React, { ReactNode, useMemo } from "react"
 import { MDXProvider } from "@mdx-js/react"
 
-import Section from "../../components/article/Section"
-import Summary from "../../components/article/Summary"
-import Prelude from "../../components/article/Prelude"
-import { Example } from "../../components/article/Example"
-import { XL, M, Hint, A, B } from "../../ui/text"
-import { L, Li } from "../../components/article/L"
-import { Demo } from "../components/mdx/Demo"
-import { ImageContainer } from "../containers/ImageContainer"
-import { CodeContainer } from "../containers/CodeContainer"
-
 const default_components = {
-  Section,
-  Summary,
-  Prelude,
-  Code: CodeContainer,
-  Example,
-  XL,
-  M,
-  Hint,
-  A,
-  B,
-  L,
-  Li,
-  Demo,
-  Image: ImageContainer,
+  p: ({ children }: { children: ReactNode }) => {
+    return <p>{children}</p>
+  },
+  h1: ({ children }: { children: ReactNode }) => {
+    return <h1>{children}</h1>
+  },
+  h2: ({ children }: { children: ReactNode }) => {
+    return <h2>{children}</h2>
+  },
+  h3: ({ children }: { children: ReactNode }) => {
+    return <h3>{children}</h3>
+  },
+  h4: ({ children }: { children: ReactNode }) => {
+    return <h4>{children}</h4>
+  },
+  h5: ({ children }: { children: ReactNode }) => {
+    return <h5>{children}</h5>
+  },
+  h6: ({ children }: { children: ReactNode }) => {
+    return <h6>{children}</h6>
+  },
 }
 
 interface MdxProviderProps {
