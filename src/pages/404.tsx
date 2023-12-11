@@ -1,12 +1,20 @@
 import React from "react"
 import Section from "../components/article/Section"
-import { B, M, XL } from "../ui"
+import { M, XL } from "../ui"
 import { Link } from "gatsby"
 import styled from "styled-components"
+import { useLang } from "../v2/core/useLang"
+import t_404_en from "../v2/translation/404/en.json"
+import t_404_pl from "../v2/translation/404/pl.json"
+
+const lookup = {
+  pl: t_404_pl,
+  en: t_404_en,
+}
 
 const Container = styled.div`
   height: 100vh;
-  
+
   .col {
     margin: auto;
     max-width: 400px;
@@ -18,17 +26,20 @@ const Container = styled.div`
   }
 `
 
-export default function (): React.ReactElement {
+export default function () {
+  const lang = useLang()
+
+  if (!lang) return null
+
+  const content = lookup[lang]
+
   return (
     <Container className="center">
       <Section className="col">
-        <XL>404 - Not Found</XL>
-        <M>
-          Oops! It seems like the page you are looking for doesn't exist. Please
-          check the URL or go back to the <B>Home Page</B>.
-        </M>
+        <XL>{content.heading}</XL>
+        <M>{content.description}</M>
         <Link className="button upper primary" to="/">
-          Home page
+          {content.home_page}
         </Link>
       </Section>
     </Container>
