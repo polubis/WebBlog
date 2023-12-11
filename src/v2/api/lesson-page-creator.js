@@ -44,7 +44,6 @@ const LessonPageCreator = ({ createPage, makeComponent }) => ({
           title: course.title,
           seniority: course.seniority,
           tags: course.tags,
-          technologies: course.technologies,
         },
         chapters: course.chapters.map(chapter => ({
           duration: chapter.lessons.reduce(
@@ -99,7 +98,6 @@ const LessonPageCreator = ({ createPage, makeComponent }) => ({
           ? { path: nextChapter?.lessons[0].path }
           : undefined,
         thumbnail: lesson.thumbnail,
-        technologies: course.technologies,
       },
 
       layout,

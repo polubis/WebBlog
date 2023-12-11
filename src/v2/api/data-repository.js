@@ -6,7 +6,6 @@ const DataRepository = async result => {
   const authorsAvatars = [...result.data.authorsAvatars.nodes]
   const lessons = [...result.data.lessons.nodes]
   const coursesThumbnails = [...result.data.coursesThumbnails.nodes]
-  const technologiesAvatars = [...result.data.technologiesAvatars.nodes]
   const articleThumbnails = [...result.data.articleThumbnails.nodes]
   const chapters = [...result.data.chapters.nodes]
   const courses = [...result.data.courses.nodes]
@@ -28,7 +27,6 @@ const DataRepository = async result => {
     authorsAvatars,
     lessons,
     coursesThumbnails,
-    technologiesAvatars,
     chapters,
     lessonsThumbnails,
     courses,

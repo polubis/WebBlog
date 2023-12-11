@@ -19,7 +19,6 @@ const ArticlePageCreator = ({ createPage }) => ({
   articles,
   authorsAvatars,
   articleThumbnails,
-  technologiesAvatars,
   authors,
 }) => {
   const sortedArticles = sortByDates(articles)

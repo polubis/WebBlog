@@ -105,24 +105,6 @@ exports.createPages = async ({ actions, graphql }) => {
 
   const result = await graphql(`
     {
-      technologiesAvatars: allFile(
-        filter: { relativePath: { regex: "/technologies/" } }
-      ) {
-        nodes {
-          name
-          relativePath
-          childImageSharp {
-            fixed(width: 40, height: 40, quality: 1) {
-              base64
-              width
-              height
-              src
-              srcSet
-              originalName
-            }
-          }
-        }
-      }
       articleThumbnails: allFile(filter: { name: { regex: "/thumbnail/" } }) {
         nodes {
           name

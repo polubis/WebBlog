@@ -111,7 +111,6 @@ const HomePageCreator = ({ createPage, makeComponent }) => ({
   authorsAvatars,
   authors,
   homePageThumbnail,
-  technologiesAvatars,
   studentsCount,
   devsCount,
 }) => {
@@ -139,7 +138,6 @@ const HomePageCreator = ({ createPage, makeComponent }) => ({
           )
           return acc + lessonsCount
         }, 0),
-        technologies_count: technologiesAvatars.length,
         devs_count: devsCount,
         topics_count: courses.reduce(
           (acc, course) => acc + course.chapters.length,

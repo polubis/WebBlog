@@ -19,7 +19,6 @@ const CoursePageCreator = ({ createPage, makeComponent }) => ({
     status,
     title,
     tags,
-    technologies,
     description,
     author,
     tech_reviewer,
@@ -57,7 +56,6 @@ const CoursePageCreator = ({ createPage, makeComponent }) => ({
       lessons_count,
       tags,
       description,
-      technologies,
       duration: chapters.reduce(
         (totalAcc, chapter) =>
           totalAcc +

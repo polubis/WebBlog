@@ -18,7 +18,6 @@ const CourseModel = (
     lessonsThumbnails,
     authors,
     authorsAvatars,
-    technologiesAvatars,
     path,
     chapters,
     lessons,
