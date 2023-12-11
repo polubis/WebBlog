@@ -11,24 +11,13 @@ const Container = styled.div`
     font-size: 14px;
     font-weight: normal;
     text-transform: uppercase;
-    
-    &:not(:last-of-type)::after {
-      content: "";
-      display: block;
-      width: 8px;
-      height: 8px;
-      flex-shrink: 0;
-      margin-left: 12px;
-      border-radius: 50%;
-      background: #bababa;
-    }
   }
 `
 
 export const Tags = ({ className, children }: TagsProps) => {
-    return (
-        <Container className={`tags ${className ? " " + className : ""} row wrap`}>
-            {children}
-        </Container>
-    )
+  return (
+    <Container className={`tags ${className ? " " + className : ""} row wrap`}>
+      {children}
+    </Container>
+  )
 }

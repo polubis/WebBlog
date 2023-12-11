@@ -18,7 +18,6 @@ import { Breadcrumbs } from "../../components/Breadcrumbs"
 import { useLayoutProvider } from "../../providers/LayoutProvider"
 import { Link } from "gatsby"
 import Divider from "../../../components/divider/Divider"
-import { Stack } from "../../../components/article/Stack"
 import { Reviewers } from "../../components/Reviewers"
 import Badge from "../../../components/article/Badge"
 import { format } from "date-fns"
@@ -200,7 +199,7 @@ const CourseView = () => {
             />
             <Section className="col">
               <Label className="label">{course.t.technologies}</Label>
-              <Stack items={course.technologies} />
+              {/* <Stack items={course.technologies} /> */}
             </Section>
             <ChaptersSection className="col">
               <Label className="label">{course.t.chapters_lessons}</Label>
