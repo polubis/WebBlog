@@ -5,8 +5,8 @@ interface BaseProps {
   className?: string
 }
 
-interface TagsProps extends BaseProps {
-  children: ReactElement[]
+interface TagsProps {
+  children: ReactNode
 }
 
 interface BreadcrumbsProps extends BaseProps {

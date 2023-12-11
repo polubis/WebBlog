@@ -44,7 +44,8 @@ const NavigationSection = () => {
         time={data.duration}
         level={data.seniority}
         tags={data.tags}
-        stack={data.technologies.map(({ id }) => id)}
+        // stack={data.technologies.map(({ id }) => id)}
+        stack={[]}
       />
       <a
         className="button primary upper"

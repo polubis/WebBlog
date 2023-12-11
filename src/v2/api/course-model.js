@@ -1,4 +1,3 @@
-const { createTechnologies } = require("./createTechnologies")
 const { createUser } = require("./createUser")
 
 const getLessonIdFromSlug = slug => {
@@ -100,7 +99,6 @@ const CourseModel = (
       medium: thumbnail.medium.fixed,
       full: thumbnail.full.fluid,
     },
-    technologies: stack ? createTechnologies(stack, technologiesAvatars) : [],
     author,
     tech_reviewer,
     ling_reviewer,

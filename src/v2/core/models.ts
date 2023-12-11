@@ -157,7 +157,7 @@ export interface ArticlePageModel {
     avatar: Pick<User["avatar"], "small">
   }
   tags: string[]
-  technologies: Technology[]
+  stack: string[]
   next?: MinimumArticle
   prev?: MinimumArticle
   course?: {
@@ -165,7 +165,7 @@ export interface ArticlePageModel {
     path: Path
     seniority: Seniority
     tags: string[]
-    technologies: Technology[]
+    stack: string[]
   }
   chapter?: {
     title: Title
@@ -246,7 +246,7 @@ export interface CoursePageModel {
   status: CourseStatus
   title: Title
   tags: string[]
-  technologies: Technology[]
+  stack: string[]
   description: string
   thumbnail: FluidObject
   duration: number

@@ -4,7 +4,6 @@ const { sortByDates } = require("./sortByDates")
 const meta = require("../core/meta.json")
 const article_en = require("../translation/article/en.json")
 const article_pl = require("../translation/article/pl.json")
-const { createTechnologies } = require("./createTechnologies")
 const { createLayout } = require("./create-layout")
 
 const ArticlePageCreator = ({ createPage }) => ({
@@ -105,7 +104,7 @@ const ArticlePageCreator = ({ createPage }) => ({
       ga_page,
       source_url: makeSourceUrl({ slug, meta }),
       is_new: index === 0,
-      technologies: stack ? createTechnologies(stack, technologiesAvatars) : [],
+      stack: stack ? stack.split(",") : [],
     }
 
     if (Array.isArray(langs) && langs.length > 0) {
