@@ -5,13 +5,14 @@ module.exports = {
   plugins: [
     "gatsby-plugin-styled-components",
     "gatsby-plugin-no-sourcemaps",
+    "gatsby-plugin-netlify",
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
         name: siteName,
         short_name: siteName,
         description: `A place for people who love programming and personal development.`,
-        start_url: '/',
+        start_url: "/",
         background_color: `#0A0A0A`,
         lang: "en-US",
         theme_color: `#fff`,
