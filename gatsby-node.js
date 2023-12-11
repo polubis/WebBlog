@@ -352,7 +352,6 @@ exports.createPages = async ({ actions, graphql }) => {
   const {
     authorsAvatars,
     articleThumbnails,
-    technologiesAvatars,
   } = dataRepository
 
   const rates = await getArticleRates()
@@ -376,7 +375,6 @@ exports.createPages = async ({ actions, graphql }) => {
     articles: result.data.articles.nodes,
     authorsAvatars,
     articleThumbnails,
-    technologiesAvatars,
     authors,
   })
 
@@ -398,7 +396,6 @@ exports.createPages = async ({ actions, graphql }) => {
     articles: result.data.translatedArticles.nodes,
     authorsAvatars,
     articleThumbnails,
-    technologiesAvatars,
     authors,
   })
 

@@ -90,11 +90,6 @@ export interface Layout extends Meta {
 
 export type Rate = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
 
-export interface Technology {
-  id: Id
-  avatar: FixedObject
-}
-
 export enum Seniority {
   beginner = "🔰",
   intermediate = "⭐",
