@@ -78,9 +78,6 @@ const CourseModel = (
     return kebabCase
   }
 
-  const getLessonOrCourseThumbnail = lessonThumbnail =>
-    lessonThumbnail ? lessonThumbnail : thumbnail
-
   return {
     title: name,
     description,
@@ -88,6 +85,7 @@ const CourseModel = (
     status,
     cdate,
     mdate,
+    stack,
     seniority: seniorityLevel,
     duration,
     ga_page: ga_page + "/" + courseId,

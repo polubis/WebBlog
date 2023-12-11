@@ -9,6 +9,7 @@ const Container = styled.h6`
   font-weight: normal;
   word-break: break-word;
   text-transform: uppercase;
+  margin: 0;
 `
 
 export const Tags = ({ children }: TagsProps) => {

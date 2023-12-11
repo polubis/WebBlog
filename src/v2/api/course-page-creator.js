@@ -25,18 +25,17 @@ const CoursePageCreator = ({ createPage, makeComponent }) => ({
     thumbnail,
     ling_reviewer,
     chapters,
+    stack,
   } = course
 
   const courseChapters = chapters.map(chapter => ({
-    duration: chapter.lessons
-      .reduce((acc, { duration }) => acc + duration, 0),
+    duration: chapter.lessons.reduce((acc, { duration }) => acc + duration, 0),
     title: chapter.title,
-    lessons: chapter.lessons
-      .map(lesson => ({
-        title: lesson.title,
-        duration: lesson.duration,
-        path: lesson.path,
-      })),
+    lessons: chapter.lessons.map(lesson => ({
+      title: lesson.title,
+      duration: lesson.duration,
+      path: lesson.path,
+    })),
   }))
   const lessons_count = chapters.reduce((acc, chapter) => {
     return acc + chapter.lessons.length
@@ -59,8 +58,7 @@ const CoursePageCreator = ({ createPage, makeComponent }) => ({
       duration: chapters.reduce(
         (totalAcc, chapter) =>
           totalAcc +
-          chapter.lessons
-            .reduce((acc, { duration }) => acc + duration, 0),
+          chapter.lessons.reduce((acc, { duration }) => acc + duration, 0),
         0
       ),
       author: {
@@ -82,6 +80,7 @@ const CoursePageCreator = ({ createPage, makeComponent }) => ({
           small: ling_reviewer.avatar.small,
         },
       },
+      stack: stack ? stack.split(",") : [],
     },
     layout,
   }

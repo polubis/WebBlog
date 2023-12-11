@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useMemo } from "react"
 import { useScrollToTop } from "../../../utils/useScrollToTop"
 import Layout from "../../containers/Layout"
 import {
@@ -24,6 +24,7 @@ import { format } from "date-fns"
 import { CourseStatusBadge } from "../../components/CourseStatusBadge"
 import { CourseChapters } from "../../components/CourseChapters"
 import { TimeBadge } from "../../components/TimeBadge"
+import { Tags } from "../../components/Tags"
 
 const Details = styled.div`
   & > * {
@@ -92,7 +93,7 @@ const Container = styled.div`
     }
 
     .name {
-      margin: 12px 0 24px 0;
+      margin: 8px 0 24px 0;
     }
 
     .divider {
@@ -142,6 +143,12 @@ const CourseView = () => {
   const layout = useLayoutProvider()
   const course = useCoursePageProvider()
 
+  console.log(course)
+
+  const tags = useMemo(() => {
+    return <Tags>{[...course.tags, ...course.stack].join(", ")}</Tags>
+  }, [course.tags, course.stack])
+
   return (
     <Layout>
       <Content paddingY>
@@ -165,7 +172,7 @@ const CourseView = () => {
                 {course.t.start}
               </Link>
             </Header>
-            <Label className="label">{course.t.course_overview}</Label>
+            {tags}
             <XXL className="name">{course.title}</XXL>
             <Details className="row wrap">
               <TimeBadge value={course.duration} />
@@ -192,10 +199,6 @@ const CourseView = () => {
               lingLabel={layout.t.linguistic_check}
               techLabel={layout.t.technical_check}
             />
-            <Section className="col">
-              <Label className="label">{course.t.technologies}</Label>
-              {/* <Stack items={course.technologies} /> */}
-            </Section>
             <ChaptersSection className="col">
               <Label className="label">{course.t.chapters_lessons}</Label>
               <CourseChapters chapters={course.chapters} />
