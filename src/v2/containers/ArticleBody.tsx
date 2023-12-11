@@ -22,7 +22,7 @@ const Container = styled.div`
   }
 
   .ui-banner {
-    margin-bottom: 28px;
+    margin-bottom: 12px;
   }
 
   .tags {
@@ -31,6 +31,10 @@ const Container = styled.div`
 
   .components-reviewers {
     margin-bottom: 42px;
+  }
+
+  .thumbnail {
+    margin-bottom: 32px;
   }
 
   .article-body-rating-section {
