@@ -26,7 +26,7 @@ const Container = styled.div`
   }
 
   .tags {
-    margin: 62px 0px 28px;
+    margin: 16px 0px 28px;
   }
 
   .components-reviewers {
@@ -34,8 +34,7 @@ const Container = styled.div`
   }
 
   .article-body-rating-section {
-    margin: 16px 0 24px 0;
-    justify-content: flex-end;
+    margin: 24px 0 0 0;
   }
 `
 
@@ -53,6 +52,7 @@ export const ArticleBody = ({ breadcrumbs }: ArticleBodyProps) => {
       {article.translation_path && <ReadInOtherLanguageBanner />}
       <Breadcrumbs>{breadcrumbs}</Breadcrumbs>
       <RatingSection className="article-body-rating-section" />
+      {tags}
       <Thumbnail
         seniorityTitle={layout.t[article.seniority]}
         readTime={article.duration}
@@ -63,7 +63,6 @@ export const ArticleBody = ({ breadcrumbs }: ArticleBodyProps) => {
         newLabel={layout.t.new}
         seniorityLevel={article.seniority}
       />
-      {tags}
       <Intro>
         <M>{article.description}</M>
       </Intro>
