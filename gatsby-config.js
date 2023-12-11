@@ -5,7 +5,6 @@ module.exports = {
   plugins: [
     "gatsby-plugin-styled-components",
     "gatsby-plugin-no-sourcemaps",
-    "gatsby-plugin-netlify",
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
