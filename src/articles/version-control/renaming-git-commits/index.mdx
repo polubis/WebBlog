@@ -1,33 +1,28 @@
 ---
-cdate: 2022-12-11
-mdate: 2022-12-11
+cdate: 2023-12-11
+mdate: 2023-12-11
 authorId: polubis
 treviewerId: kwozniak
 lreviewerId: kreszko
 lang: en
-stack: git
 goal: Explain how to rename n commits for any branch.
-tags: version control, commit history
+tags: version control, commits history, commits rename
 description: Revamp commit history with Git's rename feature; concise and insightful guide.
-readTime: 4
+readTime: 2
 seniorityLevel: beginner
 title: Renaming git commits
 ---
 
-<Prelude label="The Importance of Renaming">
+<Prelude label="The Context and Clean Git History">
   <M>
-    Ensure a <B>clean and smooth</B> <B>git history</B> for project clarity.
-    Messy <B>commits</B> hinder <B>rollbacks</B>, <B>cherry-picks</B>,{" "}
-    <B>rebasing</B>, and <B>conflict resolution</B>. <B>Git</B>'s mastery
-    requires adeptness in renaming - a core feature crucial for seamless
-    development.
+    Committing without conventions and using unappealing names can pose risks. A
+    consistent convention facilitates faster <B>rebase</B>,{" "}
+    <B>conflict resolution</B>, <B>squashing</B>, and overall version control.
+    Occasional commit renaming becomes necessary when you identify ugly commits.
   </M>
   <M>
-    To set the stage, picture yourself on a branch named{" "}
-    <B>feature/admin-panel</B>, derived from <B>develop</B>. Whether pushing
-    unsightly or polished commits, the <B>develop</B> branch enforces commit
-    conventions via a <B>Commitlint-inspired</B> pipeline. Now, let's delve into
-    the process of renaming commits.
+    Before delving into technical details, assume we have <B>3 commits</B> with
+    unclear names that require rename.
   </M>
   <Hint hasBg>
     Under{" "}
@@ -37,20 +32,56 @@ title: Renaming git commits
     >
       Organized Git commits with Commitlint
     </A>{" "}
-    article, you can read more about <B>Commitlint</B>.
+    article, you can read more about <B>Commitlint</B> and{" "}
+    <B>commits conventions</B>.
   </Hint>
 </Prelude>
 
 <Section>
   <XL>Interactive Rebase and Reword</XL>
   <M>
-    Utilize <B>git rebase -i HEAD~[NUMBER_OF_COMMITS]</B>; for instance,
-    renaming 2 unsightly commits. In our project, each commit features a unique
-    order <B>number</B>, a <B>specific scope</B>, and a clear{" "}
-    <B>commit message</B>.
+    Execute in the terminal: <B>git rebase -i HEAD~3</B>. This opens an
+    interactive tab to specify the commits for renaming. Next, follow the steps
+    outlined in the <B>GIF</B> below.
   </M>
-  <M>
-    Check out the <B>GIF</B> below for a step-by-step visual walkthrough of
-    interactive <B>rebase</B> with the <B>reword</B> command.
-  </M>
+  <Image
+    rolled
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Renaming%20git%20commits/1.gif"
+    description="Interactive rename in action"
+  />
+  <Code
+    mode="dynamic"
+    lang="git"
+    description="Commands description"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/Renaming%20git%20commits/1.md"
+    linesCount={12}
+  />
+  <M>Now, let's elaborate on what happened.</M>
+  <L ordered>
+    <Li>We identified multiple commits with poor names - 3x "wip"</Li>
+    <Li>
+      Executed the interactive rebase command - "git rebase -i HEAD~3" to rename
+      the last 3 commits
+    </Li>
+    <Li>Switched the operation from "pick" to "reword" for each</Li>
+    <Li>The interactive mode prompted us for new names for each commit</Li>
+    <Li>
+      Finally, used "git push --force" to overwrite and push the updated commits
+      to origin
+    </Li>
+  </L>
+  <Hint hasBg>
+    Keep in mind that when employing <B>git push --force</B>, you replace
+    existing commits with new ones, resulting in changed hashes.
+  </Hint>
 </Section>
+
+<Summary label="Conclusions and thoughts">
+  <M>
+    Now you know how to rename <B>n commits</B> using the interactive mode. For{" "}
+    <B>Git beginners</B> with crucial work on branch, consider cloning the
+    branch and experimenting. Every developer has faced <B>Git</B> mishaps in
+    their career, so you might not be an exception to the rule. Good luck!
+    ψ(｀∇´)ψ
+  </M>
+</Summary>
