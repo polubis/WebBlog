@@ -1,0 +1,104 @@
+---
+name: First interaction detection with useOnInteraction hook
+description: Discover the art of efficiently detecting and managing initial user interactions in your web app with the potent useOnInteraction hook.
+duration: 4
+---
+
+<Prelude label="First interaction use cases">
+  <M>
+    Sometimes, you need to detect the <B>user's first interaction</B> in the
+    application and perform specific actions. This could involve rendering a
+    widget, logging an entry in the database via a dedicated API call, or other
+    tasks. Performing these operations immediately after the application mounts
+    - during the first render in <B>React</B> - may slow down your{" "}
+    <B>Lighthouse</B> benchmark. If you prioritize performance, it's advisable
+    to consider utilizing this mechanism.
+  </M>
+  <M>
+    For example, consider a scenario where a user lands on your page that
+    requires fetching data to display a pop-up widget. Without this mechanism,
+    you would make a call every time the user refreshes the page, even if they
+    don't need this data/widget. By implementing this mechanism, you load the
+    required data only when the user truly "interacts" with the app, reducing
+    costs and improving application performance metrics. This is possible
+    because the additional code for the required operation can be lazy-loaded.
+  </M>
+  <M>
+    In the <A href="https://4markdown.com/">https://4markdown.com/</A> app, we
+    utilize it to load the <B>Firebase</B> library, which is relatively large,
+    only after the user interacts with the app. This enhancement has boosted our
+    benchmarks from <B>94%</B> to <B>100%</B>. Check out the <B>GIF</B> below to
+    understand how it works:
+  </M>
+  <Image
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/React%20hooks%20spellbook/First%20interaction%20detection%20with%20useOnInteraction%20hook/1.gif"
+    description="Use case"
+    rolled
+  />
+</Prelude>
+
+<Section>
+  <XL>1. Detecting user interaction</XL>
+  <M>
+    Detecting the first user interaction varies between mobile and desktop
+    devices. On mobile devices, it involves the use of a <B>touch event</B>,
+    while on desktop devices, it relies on a <B>mouse move</B> event. Therefore,
+    we require two distinct events and a mechanism to differentiate between them
+    after detecting the initial user interaction.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    description="Events that we need"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/React%20hooks%20spellbook/First%20interaction%20detection%20with%20useOnInteraction%20hook/1.tsx"
+    linesCount={6}
+  />
+</Section>
+
+<Section>
+  <XL>2. Design of useOnInteraction hook</XL>
+  <M>
+    To avoid cluttering our component code with repetitive logic for detecting
+    the first user interaction, we'll create a custom hook called{" "}
+    <B>useOnInteraction</B>. Components will then simply consume this hook and
+    execute the necessary operations based on the results.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/React%20hooks%20spellbook/First%20interaction%20detection%20with%20useOnInteraction%20hook/2.tsx"
+    linesCount={15}
+    description="Usage example"
+  />
+</Section>
+
+<Section>
+  <XL>3. Implementing useOnInteraction hook</XL>
+  <M>
+    The implementation of the <B>useOnInteraction</B> hook involves utilizing{" "}
+    <B>useState</B> to trigger a rerender when an interaction is detected, and
+    the <B>useEffect</B> hook to listen to relevant events.
+  </M>
+  <Code
+    mode="dynamic"
+    lang="tsx"
+    src="https://raw.githubusercontent.com/polubis/Snippets-for-articles-and-lessons/main/React%20hooks%20spellbook/First%20interaction%20detection%20with%20useOnInteraction%20hook/3.tsx"
+    linesCount={27}
+    description="The useOnInteraction implementation"
+  />
+  <M>
+    When interaction is detected, we remove the current listeners and skip
+    adding new ones with a simple <B>if statement</B> at the beginning of the{" "}
+    <B>useEffect</B> implementation.
+  </M>
+</Section>
+
+<Summary label="Summary">
+  <M>
+    Now, you can listen for the first interaction and perform the necessary
+    operations. I use this hook for <B>lazy loading</B> dedicated components or
+    executing required calls/checks. For instance, it might involve checking the
+    authorization status only after the user interacts with the app, preventing
+    unnecessary calls to my API.
+  </M>
+</Summary>
