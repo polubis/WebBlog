@@ -245,5 +245,35 @@
     "githubURL": "https://github.com/Bartlomiejste",
     "linkedinURL": "https://www.linkedin.com/in/stepien-bartlomiej/",
     "projects": []
+  },
+  {
+    "id": "wojtg",
+    "name": "wojtg",
+    "firstName": "Wojciech",
+    "lastName": "Glab",
+    "platformRoles": [
+      "contributor"
+    ],
+    "role": "Junior Frontend Developer",
+    "bioPl": "Pasjonuję się front-end developmentem, skupiającym się głównie na JavaScript i React. Chętnie uczę się i rozwijam swoje umiejętności dzięki praktycznemu doświadczeniu w tworzeniu projektów. Szczególną frajdę sprawia mi tworzenie nowoczesnych aplikacji webowych i związanych z nimi funkcjonalności, dzięki którym coraz bardziej się rozwijam.",
+    "bio": "I am passionate about front-end development, focusing mainly on JavaScript and React. I'm eager to learn and develop my skills through hands-on development experience. I especially enjoy creating modern web applications and related functionalities, through which I grow more and more.",
+    "githubURL": "https://github.com/WojtG",
+    "linkedinURL": "",
+    "projects": [
+      {
+        "status": "active",
+        "name": "FlavorFlow",
+        "description": "FrontEnd:An application that allows users to search for recipes based on the name of the dish or ingredient, and to add their own recipes. The app allows the number of ingredients in a recipe to be scaled according to the number of portions",
+        "from": "2023.08.29",
+        "stack": [
+          "JavaScript",
+          "HTML",
+          "CSS"
+        ],
+        "appUrl": "https://flavorflow-w.netlify.app/",
+        "codeUrl": "https://github.com/WojtG/FlavorFlow",
+        "images": []
+      }
+    ]
   }
 ]
