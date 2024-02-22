@@ -278,7 +278,7 @@ export interface MentoringPageModel {
   t: MentoringT
   ga_page: GaPage
   url: Url
-  thumbnail: FixedObject
+  thumbnail: FluidObject
 }
 
 export interface HomePageModel {

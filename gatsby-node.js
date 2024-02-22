@@ -80,11 +80,10 @@ const createManyLessonsPages = ({
   })
 }
 
-const createMentoringPage = ({ createPage, enLayout, plLayout }) => {
+const createMentoringPage = ({ createPage, enLayout, plLayout, thumbnail }) => {
   const create = MentoringPageCreator({
     createPage,
-    makeComponent: () =>
-      resolve("src/v2/features/mentoring/MentoringPage.tsx"),
+    makeComponent: () => resolve("src/v2/features/mentoring/MentoringPage.tsx"),
   })
 
   create({
@@ -92,12 +91,14 @@ const createMentoringPage = ({ createPage, enLayout, plLayout }) => {
     layout: enLayout,
     ga_page: "mentoring",
     path: "/mentoring/",
+    thumbnail,
   })
   create({
     lang: "pl",
     layout: plLayout,
     ga_page: "pl/mentoring",
     path: "/pl/mentoring/",
+    thumbnail,
   })
 }
 
@@ -341,6 +342,20 @@ exports.createPages = async ({ actions, graphql }) => {
           }
         }
       }
+      laptopImg: allFile(filter: { relativePath: { regex: "/laptop.png/" } }) {
+        nodes {
+          relativePath
+          childImageSharp {
+            fluid {
+              base64
+              aspectRatio
+              src
+              srcSet
+              sizes
+            }
+          }
+        }
+      }
       lessonsThumbnails: allFile(
         filter: { relativePath: { regex: "/lessons/[0-999]{1,2}.jpg/" } }
       ) {
@@ -505,6 +520,8 @@ exports.createPages = async ({ actions, graphql }) => {
   })
   const articlesThumbnail =
     result.data.bubblesImg.nodes[0].childImageSharp.fluid
+  const mentoringThumbnail =
+    result.data.laptopImg.nodes[0].childImageSharp.fluid
   createPlArticlesPage({
     layout: plLayout,
     lang: "pl",
@@ -532,5 +549,10 @@ exports.createPages = async ({ actions, graphql }) => {
     rates,
   })
   createBlogCreatorPage({ createPage, enLayout, plLayout })
-  createMentoringPage({ createPage, enLayout, plLayout })
+  createMentoringPage({
+    createPage,
+    enLayout,
+    plLayout,
+    thumbnail: mentoringThumbnail,
+  })
 }

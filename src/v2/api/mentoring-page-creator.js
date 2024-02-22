@@ -6,6 +6,7 @@ const MentoringPageCreator = ({ createPage, makeComponent }) => ({
   lang,
   ga_page,
   path,
+  thumbnail,
 }) => {
   const translation = {
     en,
@@ -20,9 +21,7 @@ const MentoringPageCreator = ({ createPage, makeComponent }) => ({
         t: translation[lang],
         ga_page,
         url: layout.site_url + path,
-        thumbnail: {
-          src: "",
-        },
+        thumbnail,
       },
       layout,
     },
