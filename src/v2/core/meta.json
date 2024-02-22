@@ -41,6 +41,11 @@
       "gaPage": "blog-creator",
       "key": "creator"
     },
+    "mentoring": {
+      "to": "/mentoring/",
+      "gaPage": "mentoring",
+      "key": "mentoring"
+    },
     "home": {
       "to": "/",
       "gaPage": "home",

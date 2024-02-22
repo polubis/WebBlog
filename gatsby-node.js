@@ -17,6 +17,7 @@ const {
   BlogCreatorPageCreator,
 } = require("./src/v2/api/blog-creator-page-creator")
 const { getArticleRates, getAllVotes } = require("./src/v2/api/setup-firebase")
+const { MentoringPageCreator } = require("./src/v2/api/mentoring-page-creator")
 
 exports.onCreateWebpackConfig = ({ actions }) => {
   actions.setWebpackConfig({
@@ -76,6 +77,27 @@ const createManyLessonsPages = ({
         })
       })
     })
+  })
+}
+
+const createMentoringPage = ({ createPage, enLayout, plLayout }) => {
+  const create = MentoringPageCreator({
+    createPage,
+    makeComponent: () =>
+      resolve("src/v2/features/mentoring/MentoringPage.tsx"),
+  })
+
+  create({
+    lang: "en",
+    layout: enLayout,
+    ga_page: "mentoring",
+    path: "/mentoring/",
+  })
+  create({
+    lang: "pl",
+    layout: plLayout,
+    ga_page: "pl/mentoring",
+    path: "/pl/mentoring/",
   })
 }
 
@@ -510,4 +532,5 @@ exports.createPages = async ({ actions, graphql }) => {
     rates,
   })
   createBlogCreatorPage({ createPage, enLayout, plLayout })
+  createMentoringPage({ createPage, enLayout, plLayout })
 }
