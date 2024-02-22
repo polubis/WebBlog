@@ -3,6 +3,7 @@ import React from "react"
 import { LayoutProvider } from "../../providers/LayoutProvider"
 import { Layout, MentoringPageModel } from "../../core/models"
 import { SEO } from "../../containers/SEO"
+import { MentoringView } from "./MentoringView"
 
 interface MentoringPageProps {
   pageContext: {
@@ -24,7 +25,7 @@ const MentoringPage = ({ pageContext }: MentoringPageProps) => {
         image={layout.site_url + mentoring.thumbnail.src}
         description={mentoring.t.page_description}
       >
-        <div>siema</div>
+        <MentoringView />
       </SEO>
     </LayoutProvider>
   )
