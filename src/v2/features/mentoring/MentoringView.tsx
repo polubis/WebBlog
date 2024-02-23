@@ -1,9 +1,7 @@
 import React from "react"
 import Layout from "../../containers/Layout"
-import { useLayoutProvider } from "../../providers/LayoutProvider"
 import styled from "styled-components"
 import { B, Content, M, X, XL, XXL } from "../../../ui"
-import { Tags } from "../../components/Tags"
 
 const Grid = styled.div`
   display: grid;
@@ -15,17 +13,30 @@ const Grid = styled.div`
   gap: 20px;
 `
 
+const Jumbo = styled.section`
+  padding: 80px 0;
+
+  .jumbo-content {
+    max-width: 640px;
+    ${XXL} {
+      margin-bottom: 20px;
+    }
+
+    ${M} {
+      margin-bottom: 8px;
+    }
+
+    footer {
+      margin-top: 24px;
+    }
+  }
+`
+
 const Container = styled.div`
   margin-bottom: 48px;
 
   ${XL} {
     margin-bottom: 20px;
-  }
-
-  .mentoring-general {
-    background: none;
-    padding: 0;
-    max-width: 700px;
   }
 `
 
@@ -83,13 +94,11 @@ const Tile = styled.div`
 `
 
 const MentoringView = () => {
-  const layout = useLayoutProvider()
-
   return (
     <Layout>
       <Content paddingY>
-        <Container>
-          <Tile className="mentoring-general">
+        <Jumbo>
+          <div className="jumbo-content">
             <XXL>Mentoring dopasowany do Twoich potrzeb</XXL>
             <M>
               Wybierz odpowiedni <B>plan</B>, <B>sciężkę</B> lub{" "}
@@ -107,8 +116,8 @@ const MentoringView = () => {
                 Więcej informacji
               </button>
             </footer>
-          </Tile>
-        </Container>
+          </div>
+        </Jumbo>
         <Container>
           <XL>Zlecenia</XL>
           <Grid>
