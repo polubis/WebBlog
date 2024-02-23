@@ -1,7 +1,8 @@
 import React from "react"
 import Layout from "../../containers/Layout"
 import styled from "styled-components"
-import { B, Content, M, X, XL, XXL } from "../../../ui"
+import { Content, B, M, X, XL, XXL } from "../../../ui"
+import { HexbinSizeExample } from "./Chart"
 
 const Grid = styled.div`
   display: grid;
@@ -97,6 +98,7 @@ const MentoringView = () => {
   return (
     <Layout>
       <Content paddingY>
+        <HexbinSizeExample />
         <Jumbo>
           <div className="jumbo-content">
             <XXL>Mentoring dopasowany do Twoich potrzeb</XXL>
