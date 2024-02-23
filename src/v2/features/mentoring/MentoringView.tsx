@@ -263,26 +263,77 @@ const MentoringView = () => {
                 </button>
               </footer>
             </Tile>
+            <Tile className="mentoring-third">
+              <X>Tester manualny / automatyczny</X>
+              <M>
+                Nauczymy Cię jak testować aplikację, zgłaszać błędy,
+                automatyzować swoją pracę i po prostu jak być miłym dla
+                developerów.
+              </M>
+              <M>
+                ✔️ Materiały, ✔️ Plan rozwoju, ✔️ Praca nad prawdziwym
+                projektem, ✔️ Cykliczne spotkania, ✔️ Live coding, ✔️ Możliwość
+                nagrywania, ✔️ Kurs (VoD), ✔️ Dostęp do prywatnej grupy, ✔️ 3
+                miesiące, ✔️ Zwrot pieniędzy
+              </M>
+              <M>
+                <B>Playwright, Cypress, Gherkin</B>
+              </M>
+              <M>
+                Koszt: <B>1230zł / miesiąc</B> (zawiera podatek VAT).
+              </M>
+              <footer>
+                <button className="button upper primary">Zapisz się</button>
+                <button className="button upper primary">
+                  Więcej informacji
+                </button>
+              </footer>
+            </Tile>
+            <Tile className="mentoring-fourth">
+              <X>Backend developer</X>
+              <M>
+                Poznasz tajniki tworzenia skalowalnego API, wykorzystując
+                najnowocześniejsze technologie.
+              </M>
+              <M>
+                ✔️ Materiały, ✔️ Plan rozwoju, ✔️ Praca nad prawdziwym
+                projektem, ✔️ Cykliczne spotkania, ✔️ Live coding, ✔️ Możliwość
+                nagrywania, ✔️ Kurs (VoD), ✔️ Dostęp do prywatnej grupy, ✔️ 3
+                miesiące, ✔️ Zwrot pieniędzy
+              </M>
+              <M>
+                <B>Node, Google Cloud, Firebase, NX</B>
+              </M>
+              <M>
+                Koszt: <B>1230zł / miesiąc</B> (zawiera podatek VAT).
+              </M>
+              <footer>
+                <button className="button upper primary">Zapisz się</button>
+                <button className="button upper primary">
+                  Więcej informacji
+                </button>
+              </footer>
+            </Tile>
           </Grid>
         </Container>
         <Container>
           <XL>Dla firm</XL>
           <Grid>
             <Tile className="mentoring-first">
-              <X>Tworzenie artykułów</X>
+              <X>Szkolenia</X>
               <M>
-                Tworzymy artykuły na Twoje zlecenie. Wybierasz temat, a My
-                zajmiemy się resztą.
+                Chcesz podnieść kompetencje swoich pracowników? Szukasz kogoś
+                kto przeprowadzi kompleksowe szkolenie i podniesie ich
+                kwalifikacje z zakresu tworzenia aplikacji webowych? To idealny
+                plan dla Ciebie.
               </M>
               <M>
-                ✔️ Do 3 poprawek, ✔️ Dowolny temat, ✔️ Dowolny format, ✔️ Zwrot
-                pieniędzy
-              </M>
-              <M>
-                Koszt: <B>123 zł</B> (zawiera podatek VAT).
+                Koszt: <B>Wycena indywidualna</B>
               </M>
               <footer>
-                <button className="button upper primary">Zapisz się</button>
+                <button className="button upper primary">
+                  Poproś o wycenę
+                </button>
                 <button className="button upper primary">
                   Więcej informacji
                 </button>
