@@ -15,6 +15,8 @@ const Grid = styled.div`
 `
 
 const Jumbo = styled.section`
+  display: flex;
+  align-items: center;
   padding: 80px 0;
 
   .jumbo-content {
@@ -35,6 +37,7 @@ const Jumbo = styled.section`
 
 const Container = styled.div`
   margin-bottom: 48px;
+  z-index: 1;
 
   ${XL} {
     margin-bottom: 20px;
@@ -97,8 +100,8 @@ const Tile = styled.div`
 const MentoringView = () => {
   return (
     <Layout>
+      <HexbinSizeExample />
       <Content paddingY>
-        <HexbinSizeExample />
         <Jumbo>
           <div className="jumbo-content">
             <XXL>Mentoring dopasowany do Twoich potrzeb</XXL>
