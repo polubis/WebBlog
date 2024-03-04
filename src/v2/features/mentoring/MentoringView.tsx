@@ -2,7 +2,7 @@ import React from "react"
 import Layout from "../../containers/Layout"
 import styled from "styled-components"
 import { Content, B, M, X, XL, XXL } from "../../../ui"
-import { HexbinSizeExample } from "./Chart"
+import { Chart } from "./Chart"
 
 const Grid = styled.div`
   display: grid;
@@ -19,8 +19,13 @@ const Jumbo = styled.section`
   align-items: center;
   padding: 80px 0;
 
+  & > * {
+    z-index: 1;
+  }
+
   .jumbo-content {
     max-width: 640px;
+
     ${XXL} {
       margin-bottom: 20px;
     }
@@ -50,6 +55,7 @@ const Tile = styled.div`
   background: #313131;
   border-radius: 12px;
   padding: 24px;
+  z-index: 1;
 
   ${XXL} {
     margin-bottom: 12px;
@@ -100,8 +106,8 @@ const Tile = styled.div`
 const MentoringView = () => {
   return (
     <Layout>
-      <HexbinSizeExample />
       <Content paddingY>
+        <Chart />
         <Jumbo>
           <div className="jumbo-content">
             <XXL>Mentoring dopasowany do Twoich potrzeb</XXL>
