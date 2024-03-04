@@ -1,7 +1,7 @@
 import React from "react"
 import Layout from "../../containers/Layout"
 import styled from "styled-components"
-import { Content, B, M, X, XL, XXL } from "../../../ui"
+import { Content, B, M, X, XL, XXL, CodeEditorTile } from "../../../ui"
 import { Chart } from "./Chart"
 
 const Grid = styled.div`
@@ -16,27 +16,28 @@ const Grid = styled.div`
 
 const Jumbo = styled.section`
   display: flex;
+  flex-flow: column;
+  margin: 0 auto;
+  justify-content: center;
   align-items: center;
   padding: 80px 0;
+  max-width: 640px;
+  z-index: 1;
 
   & > * {
-    z-index: 1;
+    text-align: center;
   }
 
-  .jumbo-content {
-    max-width: 640px;
+  ${XXL} {
+    margin-bottom: 20px;
+  }
 
-    ${XXL} {
-      margin-bottom: 20px;
-    }
+  ${M} {
+    margin-bottom: 8px;
+  }
 
-    ${M} {
-      margin-bottom: 8px;
-    }
-
-    footer {
-      margin-top: 24px;
-    }
+  footer {
+    margin-top: 24px;
   }
 `
 
@@ -108,8 +109,8 @@ const MentoringView = () => {
     <Layout>
       <Content paddingY>
         <Chart />
-        <Jumbo>
-          <div className="jumbo-content">
+        <CodeEditorTile>
+          <Jumbo>
             <XXL>Mentoring dopasowany do Twoich potrzeb</XXL>
             <M>
               Wybierz odpowiedni <B>plan</B>, <B>sciężkę</B> lub{" "}
@@ -127,8 +128,8 @@ const MentoringView = () => {
                 Więcej informacji
               </button>
             </footer>
-          </div>
-        </Jumbo>
+          </Jumbo>
+        </CodeEditorTile>
         <Container>
           <XL>Zlecenia</XL>
           <Grid>
