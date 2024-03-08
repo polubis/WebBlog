@@ -130,7 +130,7 @@ const MentoringView = () => {
               <M>
                 Frontend, Backend, Testowanie manualne, Testowanie automatyczne,
                 Narzędzia AI, Umiejętności miękkie, Architektura, Automatyzacja
-                zadań, UX/UI, SEO, POC, Tworzenie aplikacji, Tworzenie stron
+                zadań, UX/UI, SEO, Tworzenie aplikacji, Tworzenie stron
                 internetowych, Analityka, Testy A/B, Bazy danych, Pierwsza praca
                 w IT, Zarządzanie projektami
               </M>
@@ -146,10 +146,10 @@ const MentoringView = () => {
                 <X>Tworzenie artykułów</X>
                 <M>
                   Wybierasz temat, a My tworzymy artykuł w dowolnej{" "}
-                  <B>formie</B> i wygodnym dla Ciebie <B>formacie</B>.
+                  <b>formie</b> i wygodnym dla Ciebie <b>formacie</b>.
                 </M>
                 <M>
-                  <B>123 zł </B>(zawiera VAT)
+                  <b>123 zł </b>(zawiera VAT)
                 </M>
                 <footer>
                   <button className="button upper secondary">KUP</button>
