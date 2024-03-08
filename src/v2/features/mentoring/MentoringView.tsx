@@ -2,7 +2,7 @@ import React from "react"
 import Layout from "../../containers/Layout"
 import styled from "styled-components"
 import { Content, B, M, X, XL, XXL, CodeEditorTile } from "../../../ui"
-import { Chart } from "./Chart"
+import { Chart } from "./components/Chart"
 
 const Grid = styled.div`
   display: grid;
@@ -20,7 +20,7 @@ const Jumbo = styled.section`
   margin: 0 auto;
   justify-content: center;
   align-items: center;
-  padding: 80px 0;
+  padding: 40px 0;
   max-width: 640px;
   z-index: 1;
 
@@ -47,6 +47,7 @@ const Container = styled.div`
 
   ${XL} {
     margin-bottom: 20px;
+    text-shadow: 0 3px 6px rgba(0, 0, 0, 0.51);
   }
 `
 
@@ -122,49 +123,40 @@ const MentoringView = () => {
         <Content paddingY>
           <CodeEditorTile>
             <Jumbo>
-              <XXL>Mentoring dopasowany do Twoich potrzeb</XXL>
+              <XXL>Mentoring uszyty na miarę</XXL>
               <M>
-                Wybierz odpowiedni <B>plan</B>, <B>sciężkę</B> lub{" "}
-                <B>konsultację</B>, a My zajmiemy się resztą.
+                Wybierz odpowiedni <B>plan</B>, a My zajmiemy się resztą!
               </M>
               <M>
-                <B>Obszary</B>: Frontend, Backend, Testowanie manualne,
-                Testowanie automatyczne, Narzędzia AI, Umiejętności miękkie,
-                Architektura, Automatyzacja zadań, UX/UI, SEO, POC, Tworzenie
-                aplikacji, Tworzenie stron internetowych, Analytics, Testy A/B,
-                Bazy danych, Pierwsza praca w IT, Zarządzanie projektami.
+                Frontend, Backend, Testowanie manualne, Testowanie automatyczne,
+                Narzędzia AI, Umiejętności miękkie, Architektura, Automatyzacja
+                zadań, UX/UI, SEO, POC, Tworzenie aplikacji, Tworzenie stron
+                internetowych, Analityka, Testy A/B, Bazy danych, Pierwsza praca
+                w IT, Zarządzanie projektami
               </M>
               <footer>
-                <button className="button upper primary">
-                  Więcej informacji
-                </button>
+                <button className="button upper primary">Weź udział</button>
               </footer>
             </Jumbo>
           </CodeEditorTile>
           <Container>
-            <XL>Zlecenia</XL>
+            <XL>Najczęściej wybierane</XL>
             <Grid>
               <Tile className="mentoring-first">
                 <X>Tworzenie artykułów</X>
                 <M>
-                  Tworzymy artykuły na Twoje zlecenie. Wybierasz temat, a My
-                  zajmiemy się resztą.
+                  Wybierasz temat, a My tworzymy artykuł w dowolnej{" "}
+                  <B>formie</B> i wygodnym dla Ciebie <B>formacie</B>.
                 </M>
                 <M>
-                  ✔️ Do 3 poprawek, ✔️ Dowolny temat, ✔️ Dowolny format, ✔️
-                  Zwrot pieniędzy
-                </M>
-                <M>
-                  Koszt: <B>123 zł</B> (zawiera podatek VAT).
+                  <B>123 zł </B>(zawiera VAT)
                 </M>
                 <footer>
-                  <button className="button upper primary">Zapisz się</button>
-                  <button className="button upper primary">
-                    Więcej informacji
-                  </button>
+                  <button className="button upper secondary">KUP</button>
+                  <button className="button upper secondary">Więcej</button>
                 </footer>
               </Tile>
-              <Tile className="mentoring-second">
+              {/* <Tile className="mentoring-second">
                 <X>Pojedyńcza konsultacja</X>
                 <M>
                   Potrzebujesz pomocy przy zadaniu? Nie rozumiesz zagadnienia?
@@ -234,10 +226,10 @@ const MentoringView = () => {
                     Więcej informacji
                   </button>
                 </footer>
-              </Tile>
+              </Tile> */}
             </Grid>
           </Container>
-          <Container>
+          {/* <Container>
             <XL>Ścieżki rozwoju</XL>
             <Grid>
               <Tile className="mentoring-first">
@@ -372,8 +364,28 @@ const MentoringView = () => {
                   </button>
                 </footer>
               </Tile>
+              <Tile className="mentoring-second">
+                <X>Prezentacje</X>
+                <M>
+                  Chcesz podnieść kompetencje swoich pracowników? Szukasz kogoś
+                  kto przeprowadzi kompleksowe szkolenie i podniesie ich
+                  kwalifikacje z zakresu tworzenia aplikacji webowych? To
+                  idealny plan dla Ciebie.
+                </M>
+                <M>
+                  Koszt: <B>Wycena indywidualna</B>
+                </M>
+                <footer>
+                  <button className="button upper primary">
+                    Poproś o wycenę
+                  </button>
+                  <button className="button upper primary">
+                    Więcej informacji
+                  </button>
+                </footer>
+              </Tile>
             </Grid>
-          </Container>
+          </Container> */}
         </Content>
       </Layout>
     </MainContainer>
