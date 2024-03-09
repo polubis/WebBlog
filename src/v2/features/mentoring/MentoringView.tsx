@@ -14,9 +14,12 @@ const Grid = styled.div`
     "b b c c c";
   gap: 20px;
 
-  .mentoring-first {
+  & > * {
     background: linear-gradient(to right, #333333, #2c2c2c);
-    grid-area: mentoring-first;
+
+    &:nth-child(1) {
+      grid-area: mentoring-first;
+    }
   }
 
   .mentoring-second {
