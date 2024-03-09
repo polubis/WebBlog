@@ -279,6 +279,7 @@ export interface MentoringPageModel {
   ga_page: GaPage
   url: Url
   thumbnail: FluidObject
+  content: string
 }
 
 export interface HomePageModel {

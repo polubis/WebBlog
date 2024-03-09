@@ -25,7 +25,7 @@ const MentoringPage = ({ pageContext }: MentoringPageProps) => {
         image={layout.site_url + mentoring.thumbnail.src}
         description={mentoring.t.page_description}
       >
-        <MentoringView />
+        <MentoringView>{mentoring.content}</MentoringView>
       </SEO>
     </LayoutProvider>
   )

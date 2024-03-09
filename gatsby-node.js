@@ -342,20 +342,6 @@ exports.createPages = async ({ actions, graphql }) => {
           }
         }
       }
-      laptopImg: allFile(filter: { relativePath: { regex: "/laptop.png/" } }) {
-        nodes {
-          relativePath
-          childImageSharp {
-            fluid {
-              base64
-              aspectRatio
-              src
-              srcSet
-              sizes
-            }
-          }
-        }
-      }
       lessonsThumbnails: allFile(
         filter: { relativePath: { regex: "/lessons/[0-999]{1,2}.jpg/" } }
       ) {
