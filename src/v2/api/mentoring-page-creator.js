@@ -5,6 +5,7 @@ const MentoringPageCreator = ({ createPage, makeComponent }) => ({
   layout,
   lang,
   ga_page,
+  content,
   path,
   thumbnail,
 }) => {
@@ -22,6 +23,7 @@ const MentoringPageCreator = ({ createPage, makeComponent }) => ({
         ga_page,
         url: layout.site_url + path,
         thumbnail,
+        content,
       },
       layout,
     },

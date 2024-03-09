@@ -80,15 +80,25 @@ const createManyLessonsPages = ({
   })
 }
 
-const createMentoringPage = ({ createPage, enLayout, plLayout, thumbnail }) => {
+const createMentoringPage = ({
+  createPage,
+  enLayout,
+  plLayout,
+  thumbnail,
+  data,
+}) => {
   const create = MentoringPageCreator({
     createPage,
     makeComponent: () => resolve("src/v2/features/mentoring/MentoringPage.tsx"),
   })
 
+  const enContent = data.find(item => item.slug.includes("en")).content
+  const plContent = data.find(item => item.slug.includes("pl")).content
+
   create({
     lang: "en",
     layout: enLayout,
+    content: enContent,
     ga_page: "mentoring",
     path: "/mentoring/",
     thumbnail,
@@ -96,6 +106,7 @@ const createMentoringPage = ({ createPage, enLayout, plLayout, thumbnail }) => {
   create({
     lang: "pl",
     layout: plLayout,
+    content: plContent,
     ga_page: "pl/mentoring",
     path: "/pl/mentoring/",
     thumbnail,
@@ -385,6 +396,15 @@ exports.createPages = async ({ actions, graphql }) => {
           }
         }
       }
+      mentoring: allMdx(
+        filter: { fileAbsolutePath: { regex: "/translation/mentoring/" } }
+      ) {
+        nodes {
+          slug
+          fileAbsolutePath
+          body
+        }
+      }
     }
   `)
 
@@ -394,6 +414,7 @@ exports.createPages = async ({ actions, graphql }) => {
     authorsAvatars,
     articleThumbnails,
     technologiesAvatars,
+    mentoring,
   } = dataRepository
 
   const rates = await getArticleRates()
@@ -540,5 +561,6 @@ exports.createPages = async ({ actions, graphql }) => {
     enLayout,
     plLayout,
     thumbnail: mentoringThumbnail,
+    data: mentoring,
   })
 }
