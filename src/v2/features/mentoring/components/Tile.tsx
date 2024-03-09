@@ -1,6 +1,16 @@
 import React from "react"
 import styled from "styled-components"
-import { B, M, X, XXL } from "../../../../ui"
+import { M, S, X, XXL } from "../../../../ui"
+import c from "classnames"
+
+const Badges = styled.div`
+  display: flex;
+  flex-flow: wrap;
+
+  & > * {
+    margin: 0 8px 8px 0;
+  }
+`
 
 const Container = styled.div`
   display: flex;
@@ -9,6 +19,10 @@ const Container = styled.div`
   border-radius: 12px;
   padding: 24px;
   z-index: 1;
+
+  ${Badges} {
+    margin: 8px 0;
+  }
 
   ${XXL} {
     margin-bottom: 12px;
@@ -26,10 +40,6 @@ const Container = styled.div`
     margin-bottom: 20px;
   }
 
-  .mentoring-tile-tags {
-    color: white;
-  }
-
   & > footer {
     display: flex;
     margin-top: auto;
@@ -38,49 +48,60 @@ const Container = styled.div`
       margin-right: 12px;
     }
   }
+`
 
-  &.mentoring-second {
-    grid-area: mentoring-second;
-  }
+const Badge = styled.div`
+  border-radius: 12px;
+  background: linear-gradient(to right, #ff7878, #ffa7a7);
+  padding: 2px 8px;
+  width: max-content;
+  cursor: pointer;
 
-  &.mentoring-fourth {
-    grid-area: mentoring-fourth;
-  }
-
-  &.mentoring-first {
-    grid-area: mentoring-first;
-  }
-
-  &.mentoring-third {
-    grid-area: mentoring-third;
+  & > * {
+    color: #000;
   }
 `
 
 interface TileProps {
-  price: number
+  className?: string
+  badges: React.ReactNode
+  title: React.ReactNode
+  description: React.ReactNode
+  cost: React.ReactNode
+  controls: React.ReactNode
 }
 
-const Tile = () => {
+const Tile = ({
+  className,
+  title,
+  description,
+  badges,
+  cost,
+  controls,
+}: TileProps) => {
   return (
-    <Container>
-      <X>Tworzenie artykułów</X>
-      <M>
-        Tworzymy artykuły na Twoje zlecenie. Wybierasz temat, a My zajmiemy się
-        resztą.
-      </M>
-      <M>
-        ✔️ Do 3 poprawek, ✔️ Dowolny temat, ✔️ Dowolny format, ✔️ Zwrot
-        pieniędzy
-      </M>
-      <M>
-        Koszt: <B>123 zł</B> za artykuł (z VAT).
-      </M>
-      <footer>
-        <button className="button upper primary">Zapisz się</button>
-        <button className="button upper primary">Więcej informacji</button>
-      </footer>
+    <Container className={className}>
+      <X>{title}</X>
+      <M>{description}</M>
+      <Badges>{badges}</Badges>
+      <M>{cost}</M>
+      <footer>{controls}</footer>
     </Container>
   )
 }
+
+Tile.Badge = ({ children }: { children: React.ReactNode }) => (
+  <Badge>
+    <S>{children}</S>
+  </Badge>
+)
+
+Tile.Control = ({
+  className,
+  ...props
+}: React.DetailedHTMLProps<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  HTMLButtonElement
+>) => <button className={c("button upper third", className)} {...props} />
 
 export { Tile }

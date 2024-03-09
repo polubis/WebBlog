@@ -1,8 +1,9 @@
 import React from "react"
 import Layout from "../../containers/Layout"
 import styled from "styled-components"
-import { Content, B, M, X, XL, XXL, CodeEditorTile } from "../../../ui"
+import { Content, B, M, XL, XXL, CodeEditorTile } from "../../../ui"
 import { Chart } from "./components/Chart"
+import { Tile } from "./components/Tile"
 
 const Grid = styled.div`
   display: grid;
@@ -12,6 +13,27 @@ const Grid = styled.div`
     "mentoring-third mentoring-third mentoring-third mentoring-fourth mentoring-fourth"
     "b b c c c";
   gap: 20px;
+
+  .mentoring-first {
+    background: linear-gradient(to right, #333333, #2c2c2c);
+    grid-area: mentoring-first;
+  }
+
+  .mentoring-second {
+    grid-area: mentoring-second;
+  }
+
+  .mentoring-fourth {
+    grid-area: mentoring-fourth;
+  }
+
+  .mentoring-first {
+    grid-area: mentoring-first;
+  }
+
+  .mentoring-third {
+    grid-area: mentoring-third;
+  }
 `
 
 const Jumbo = styled.section`
@@ -51,60 +73,6 @@ const Container = styled.div`
   }
 `
 
-const Tile = styled.div`
-  display: flex;
-  flex-flow: column;
-  background: #313131;
-  border-radius: 12px;
-  padding: 24px;
-  z-index: 1;
-
-  ${XXL} {
-    margin-bottom: 12px;
-  }
-
-  ${X} {
-    margin-bottom: 12px;
-  }
-
-  ${M} {
-    margin-bottom: 8px;
-  }
-
-  ${M}:last-of-type {
-    margin-bottom: 20px;
-  }
-
-  .mentoring-tile-tags {
-    color: white;
-  }
-
-  & > footer {
-    display: flex;
-    margin-top: auto;
-
-    & > button {
-      margin-right: 12px;
-    }
-  }
-
-  &.mentoring-second {
-    grid-area: mentoring-second;
-  }
-
-  &.mentoring-fourth {
-    grid-area: mentoring-fourth;
-  }
-
-  &.mentoring-first {
-    grid-area: mentoring-first;
-  }
-
-  &.mentoring-third {
-    grid-area: mentoring-third;
-  }
-`
-
 const MainContainer = styled.div`
   .ui-code-editor-tile {
     margin-bottom: 48px;
@@ -128,11 +96,11 @@ const MentoringView = () => {
                 Wybierz odpowiedni <B>plan</B>, a My zajmiemy się resztą!
               </M>
               <M>
-                Frontend, Backend, Testowanie manualne, Testowanie automatyczne,
-                Narzędzia AI, Umiejętności miękkie, Architektura, Automatyzacja
-                zadań, UX/UI, SEO, Tworzenie aplikacji, Tworzenie stron
-                internetowych, Analityka, Testy A/B, Bazy danych, Pierwsza praca
-                w IT, Zarządzanie projektami
+                Analityka, Architektura, Automatyzacja zadań, Backend, Bazy
+                danych, Frontend, Narzędzia AI, Pierwsza praca w IT, SEO,
+                Testowanie automatyczne, Testowanie manualne, Testy A/B,
+                Tworzenie aplikacji, Tworzenie stron internetowych, Umiejętności
+                miękkie, UX/UI, Zarządzanie projektami
               </M>
               <footer>
                 <button className="button upper primary">Weź udział</button>
@@ -140,22 +108,37 @@ const MentoringView = () => {
             </Jumbo>
           </CodeEditorTile>
           <Container>
-            <XL>Najczęściej wybierane</XL>
+            <XL>Popularne</XL>
             <Grid>
-              <Tile className="mentoring-first">
-                <X>Tworzenie artykułów</X>
-                <M>
-                  Wybierasz temat, a My tworzymy artykuł w dowolnej{" "}
-                  <b>formie</b> i wygodnym dla Ciebie <b>formacie</b>.
-                </M>
-                <M>
-                  <b>123 zł </b>(zawiera VAT)
-                </M>
-                <footer>
-                  <button className="button upper secondary">KUP</button>
-                  <button className="button upper secondary">Więcej</button>
-                </footer>
-              </Tile>
+              <Tile
+                className="mentoring-first"
+                title="Tworzenie artykułów"
+                description={
+                  <>
+                    Wybierasz temat, a My tworzymy artykuł w dowolnej{" "}
+                    <B>formie</B> i wygodnym dla Ciebie <B>formacie</B>.
+                  </>
+                }
+                cost={
+                  <>
+                    <b>123 zł </b>(zawiera VAT)
+                  </>
+                }
+                controls={
+                  <>
+                    <Tile.Control>KUP</Tile.Control>
+                    <Tile.Control>WIĘCEJ</Tile.Control>
+                  </>
+                }
+                badges={
+                  <>
+                    <Tile.Badge>1 Artykuł</Tile.Badge>
+                    <Tile.Badge>3 Poprawki</Tile.Badge>
+                    <Tile.Badge>PL / EN</Tile.Badge>
+                    <Tile.Badge>Dowolny format</Tile.Badge>
+                  </>
+                }
+              />
               {/* <Tile className="mentoring-second">
                 <X>Pojedyńcza konsultacja</X>
                 <M>
