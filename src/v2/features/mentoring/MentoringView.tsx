@@ -101,6 +101,7 @@ const MentoringView = ({ children }: MentoringViewProps) => {
           <MdxProvider
             components={{
               Container,
+              XXL,
               XL,
               Grid,
               Control: Tile.Control,
@@ -114,25 +115,6 @@ const MentoringView = ({ children }: MentoringViewProps) => {
           >
             {children}
           </MdxProvider>
-
-          {/* <CodeEditorTile>
-            <Jumbo>
-              <XXL>Mentoring uszyty na miarę</XXL>
-              <M>
-                Wybierz odpowiedni <B>plan</B>, a My zajmiemy się resztą!
-              </M>
-              <M>
-                Analityka, Architektura, Automatyzacja zadań, Backend, Bazy
-                danych, Frontend, Narzędzia AI, Pierwsza praca w IT, SEO,
-                Testowanie automatyczne, Testowanie manualne, Testy A/B,
-                Tworzenie aplikacji, Tworzenie stron internetowych, Umiejętności
-                miękkie, UX/UI, Zarządzanie projektami
-              </M>
-              <footer>
-                <button className="button upper primary">Weź udział</button>
-              </footer>
-            </Jumbo>
-          </CodeEditorTile> */}
         </Content>
       </Layout>
     </MainContainer>
