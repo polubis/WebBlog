@@ -1,7 +1,7 @@
 import React from "react"
 import Layout from "../../containers/Layout"
 import styled from "styled-components"
-import { Content, B, M, XL, XXL, CodeEditorTile } from "../../../ui"
+import { Content, M, XL, XXL, CodeEditorTile } from "../../../ui"
 import { Chart } from "./components/Chart"
 import { Tile } from "./components/Tile"
 import { MdxProvider } from "../../providers/MdxProvider"
@@ -17,27 +17,25 @@ const Grid = styled.div`
   gap: 20px;
 
   & > * {
-    background: linear-gradient(to right, #333333, #2c2c2c);
-
     &:nth-child(1) {
+      background: linear-gradient(to right, #333333, #2d2d2d, #252525);
       grid-area: mentoring-first;
     }
-  }
 
-  .mentoring-second {
-    grid-area: mentoring-second;
-  }
+    &:nth-child(2) {
+      background: linear-gradient(to right, #252525, #2d2d2d, #333333);
+      grid-area: mentoring-second;
+    }
 
-  .mentoring-fourth {
-    grid-area: mentoring-fourth;
-  }
+    &:nth-child(3) {
+      background: linear-gradient(to right, #333333, #2d2d2d, #252525);
+      grid-area: mentoring-third;
+    }
 
-  .mentoring-first {
-    grid-area: mentoring-first;
-  }
-
-  .mentoring-third {
-    grid-area: mentoring-third;
+    &:nth-child(4) {
+      background: linear-gradient(to right, #252525, #2d2d2d, #333333);
+      grid-area: mentoring-fourth;
+    }
   }
 `
 
@@ -109,6 +107,9 @@ const MentoringView = ({ children }: MentoringViewProps) => {
               Tile,
               CodeEditorTile,
               Jumbo,
+              JumboButton: ({ children }: { children: React.ReactNode }) => (
+                <button className="button upper primary">{children}</button>
+              ),
               M,
             }}
             renderer={MDXRenderer}
@@ -122,237 +123,3 @@ const MentoringView = ({ children }: MentoringViewProps) => {
 }
 
 export { MentoringView }
-
-// {
-//   /* <Tile className="mentoring-second">
-//                 <X>Pojedyńcza konsultacja</X>
-//                 <M>
-//                   Potrzebujesz pomocy przy zadaniu? Nie rozumiesz zagadnienia?
-//                   Wykup pojedyńczą konsultację, którą będziesz mógł nagrać.
-//                 </M>
-//                 <M>
-//                   Jeżeli szkoda Ci pieniędzy, umów się ze znajomymi - kupujesz
-//                   jedynie mój czas.
-//                 </M>
-//                 <M>
-//                   ✔️ Nagrywanie, ✔️ 1 godzina, ✔️ Dostęp do materiałów, ✔️ Max 3
-//                   osoby, ✔️ Zwrot pieniędzy
-//                 </M>
-//                 <M>
-//                   Koszt: <B>246 zł</B> (zawiera podatek VAT).
-//                 </M>
-//                 <footer>
-//                   <button className="button upper primary">Zapisz się</button>
-//                   <button className="button upper primary">
-//                     Więcej informacji
-//                   </button>
-//                 </footer>
-//               </Tile>
-//               <Tile className="mentoring-fourth">
-//                 <X>Rozmowa techniczna</X>
-//                 <M>
-//                   Szukasz nowej pracy lub chcesz zmienić obecną, ale nie jesteś
-//                   pewien tego czy jesteś dobrze przygotowany? Nie martw się!
-//                   Przeprowadzę z Tobą rozmowę techniczną na, której
-//                   zweryfikujemy wszystko co potrzebne pod konkretną firmę.
-//                 </M>
-//                 <M>
-//                   ✔️ 1.5 godziny, ✔️ Dostęp do materiałów, ✔️ Max 3 osoby, ✔️
-//                   Notatka po spotkaniu, ✔️ Nagrywanie, ✔️ Zwrot pieniędzy
-//                 </M>
-//                 <M>
-//                   Koszt: <B>307,50 zł</B> (zawiera podatek VAT).
-//                 </M>
-//                 <footer>
-//                   <button className="button upper primary">Zapisz się</button>
-//                   <button className="button upper primary">
-//                     Więcej informacji
-//                   </button>
-//                 </footer>
-//               </Tile>
-//               <Tile className="mentoring-third">
-//                 <X>Tworzenie funkcjonalności</X>
-//                 <M>
-//                   Masz aplikację i potrzebujesz nowej funkcjonalności? Odezwij
-//                   się do Nas i problem załatwiony. Wycenimy funkcjonalność
-//                   indywidualnie i stworzymy ją od początku do końca wraz z
-//                   testami automatycznymi i dokumentacją, pilnując najlepszych
-//                   praktyk.
-//                 </M>
-//                 <M>
-//                   ✔️ Zwrot pieniędzy, ✔️ Testy automatyczne, ✔️ Dokumentacja, ✔️
-//                   Wysoki standard
-//                 </M>
-//                 <M>
-//                   Koszt: <B>Wycena indwywidualna</B>
-//                 </M>
-//                 <footer>
-//                   <button className="button upper primary">
-//                     Poproś o wycenę
-//                   </button>
-//                   <button className="button upper primary">
-//                     Więcej informacji
-//                   </button>
-//                 </footer>
-//               </Tile> */
-// }
-
-// {
-//   /* <Container>
-//             <XL>Ścieżki rozwoju</XL>
-//             <Grid>
-//               <Tile className="mentoring-first">
-//                 <X>Frontend developer</X>
-//                 <M>
-//                   Dowiesz się jak stawiać projekty od zera, nauczysz się tworzyć
-//                   skalowalny i łatwy w utrzymaniu interfejs użytkownika.
-//                 </M>
-//                 <M>
-//                   ✔️ Materiały, ✔️ Plan rozwoju, ✔️ Praca nad prawdziwym
-//                   projektem, ✔️ Cykliczne spotkania, ✔️ Live coding, ✔️
-//                   Możliwość nagrywania, ✔️ Kurs (VoD), ✔️ Dostęp do prywatnej
-//                   grupy, ✔️ 3 miesiące, ✔️ Zwrot pieniędzy
-//                 </M>
-//                 <M>
-//                   <B>
-//                     Next, Gatsby, TypeScript, Cypress, Tailwind, NX, Angular,
-//                     React, JavaScript, GraphQL
-//                   </B>
-//                 </M>
-//                 <M>
-//                   Koszt: <B>1230zł / miesiąc</B> (zawiera podatek VAT).
-//                 </M>
-//                 <footer>
-//                   <button className="button upper primary">Zapisz się</button>
-//                   <button className="button upper primary">
-//                     Więcej informacji
-//                   </button>
-//                 </footer>
-//               </Tile>
-//               <Tile className="mentoring-second">
-//                 <X>Fullstack</X>
-//                 <M>
-//                   Frontend czy Backend będzie Ci nie straszny. Dobierzemy Ci
-//                   odpowiedni plan rozwoju, który podniesie Twoje kompetencje.
-//                 </M>
-//                 <M>
-//                   ✔️ Materiały, ✔️ Plan rozwoju, ✔️ Praca nad prawdziwym
-//                   projektem, ✔️ Cykliczne spotkania, ✔️ Live coding, ✔️
-//                   Możliwość nagrywania, ✔️ Kurs (VoD), ✔️ Dostęp do prywatnej
-//                   grupy, ✔️ 3 miesiące, ✔️ Zwrot pieniędzy
-//                 </M>
-//                 <M>
-//                   <B>
-//                     Next, Gatsby, Firebase, Node, Google Cloud, TypeScript,
-//                     Cypress, Tailwind, NX, Angular, React, JavaScript, GraphQL
-//                   </B>
-//                 </M>
-//                 <M>
-//                   Koszt: <B>1230zł / miesiąc</B> (zawiera podatek VAT).
-//                 </M>
-//                 <footer>
-//                   <button className="button upper primary">Zapisz się</button>
-//                   <button className="button upper primary">
-//                     Więcej informacji
-//                   </button>
-//                 </footer>
-//               </Tile>
-//               <Tile className="mentoring-third">
-//                 <X>Tester manualny / automatyczny</X>
-//                 <M>
-//                   Nauczymy Cię jak testować aplikację, zgłaszać błędy,
-//                   automatyzować swoją pracę i po prostu jak być miłym dla
-//                   developerów.
-//                 </M>
-//                 <M>
-//                   ✔️ Materiały, ✔️ Plan rozwoju, ✔️ Praca nad prawdziwym
-//                   projektem, ✔️ Cykliczne spotkania, ✔️ Live coding, ✔️
-//                   Możliwość nagrywania, ✔️ Kurs (VoD), ✔️ Dostęp do prywatnej
-//                   grupy, ✔️ 3 miesiące, ✔️ Zwrot pieniędzy
-//                 </M>
-//                 <M>
-//                   <B>Playwright, Cypress, Gherkin</B>
-//                 </M>
-//                 <M>
-//                   Koszt: <B>1230zł / miesiąc</B> (zawiera podatek VAT).
-//                 </M>
-//                 <footer>
-//                   <button className="button upper primary">Zapisz się</button>
-//                   <button className="button upper primary">
-//                     Więcej informacji
-//                   </button>
-//                 </footer>
-//               </Tile>
-//               <Tile className="mentoring-fourth">
-//                 <X>Backend developer</X>
-//                 <M>
-//                   Poznasz tajniki tworzenia skalowalnego API, wykorzystując
-//                   najnowocześniejsze technologie.
-//                 </M>
-//                 <M>
-//                   ✔️ Materiały, ✔️ Plan rozwoju, ✔️ Praca nad prawdziwym
-//                   projektem, ✔️ Cykliczne spotkania, ✔️ Live coding, ✔️
-//                   Możliwość nagrywania, ✔️ Kurs (VoD), ✔️ Dostęp do prywatnej
-//                   grupy, ✔️ 3 miesiące, ✔️ Zwrot pieniędzy
-//                 </M>
-//                 <M>
-//                   <B>Node, Google Cloud, Firebase, NX</B>
-//                 </M>
-//                 <M>
-//                   Koszt: <B>1230zł / miesiąc</B> (zawiera podatek VAT).
-//                 </M>
-//                 <footer>
-//                   <button className="button upper primary">Zapisz się</button>
-//                   <button className="button upper primary">
-//                     Więcej informacji
-//                   </button>
-//                 </footer>
-//               </Tile>
-//             </Grid>
-//           </Container>
-//           <Container>
-//             <XL>Dla firm</XL>
-//             <Grid>
-//               <Tile className="mentoring-first">
-//                 <X>Szkolenia</X>
-//                 <M>
-//                   Chcesz podnieść kompetencje swoich pracowników? Szukasz kogoś
-//                   kto przeprowadzi kompleksowe szkolenie i podniesie ich
-//                   kwalifikacje z zakresu tworzenia aplikacji webowych? To
-//                   idealny plan dla Ciebie.
-//                 </M>
-//                 <M>
-//                   Koszt: <B>Wycena indywidualna</B>
-//                 </M>
-//                 <footer>
-//                   <button className="button upper primary">
-//                     Poproś o wycenę
-//                   </button>
-//                   <button className="button upper primary">
-//                     Więcej informacji
-//                   </button>
-//                 </footer>
-//               </Tile>
-//               <Tile className="mentoring-second">
-//                 <X>Prezentacje</X>
-//                 <M>
-//                   Chcesz podnieść kompetencje swoich pracowników? Szukasz kogoś
-//                   kto przeprowadzi kompleksowe szkolenie i podniesie ich
-//                   kwalifikacje z zakresu tworzenia aplikacji webowych? To
-//                   idealny plan dla Ciebie.
-//                 </M>
-//                 <M>
-//                   Koszt: <B>Wycena indywidualna</B>
-//                 </M>
-//                 <footer>
-//                   <button className="button upper primary">
-//                     Poproś o wycenę
-//                   </button>
-//                   <button className="button upper primary">
-//                     Więcej informacji
-//                   </button>
-//                 </footer>
-//               </Tile>
-//             </Grid>
-//           </Container> */
-// }
