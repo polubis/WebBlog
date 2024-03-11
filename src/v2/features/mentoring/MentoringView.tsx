@@ -103,6 +103,8 @@ const MentoringView = ({ children }: MentoringViewProps) => {
               Container,
               XL,
               Grid,
+              Control: Tile.Control,
+              Badge: Tile.Badge,
               Tile,
               CodeEditorTile,
               Jumbo,

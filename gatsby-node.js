@@ -92,8 +92,8 @@ const createMentoringPage = ({
     makeComponent: () => resolve("src/v2/features/mentoring/MentoringPage.tsx"),
   })
 
-  const enContent = data.find(item => item.slug.includes("en")).content
-  const plContent = data.find(item => item.slug.includes("pl")).content
+  const enContent = data.find(item => item.slug.includes("en")).body
+  const plContent = data.find(item => item.slug.includes("pl")).body
 
   create({
     lang: "en",

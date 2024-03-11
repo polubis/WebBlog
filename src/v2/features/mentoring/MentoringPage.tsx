@@ -14,7 +14,7 @@ interface MentoringPageProps {
 
 const MentoringPage = ({ pageContext }: MentoringPageProps) => {
   const { layout, mentoring } = pageContext
-
+  console.log(mentoring)
   return (
     <LayoutProvider initialState={layout}>
       <SEO
