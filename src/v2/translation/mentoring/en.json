@@ -1,4 +1,9 @@
 {
+    "mentoring_modal": {
+        "title": "Contact us",
+        "description": "To participate in our mentoring program, please send us an email.",
+        "address": "Mail"
+    },
     "page_title": "Mentorship program for web developers",
     "page_description": "Discover and choose the ideal program tailored to elevate your web development skills"
 }

@@ -4,6 +4,7 @@ import { LayoutProvider } from "../../providers/LayoutProvider"
 import { Layout, MentoringPageModel } from "../../core/models"
 import { SEO } from "../../containers/SEO"
 import { MentoringView } from "./MentoringView"
+import { MentoringPageProvider } from "./MentoringPageProvider"
 
 interface MentoringPageProps {
   pageContext: {
@@ -17,16 +18,18 @@ const MentoringPage = ({ pageContext }: MentoringPageProps) => {
 
   return (
     <LayoutProvider initialState={layout}>
-      <SEO
-        ga_page={mentoring.ga_page}
-        url={mentoring.url}
-        title={mentoring.t.page_title}
-        type="website"
-        image={layout.site_url + mentoring.thumbnail.src}
-        description={mentoring.t.page_description}
-      >
-        <MentoringView>{mentoring.content}</MentoringView>
-      </SEO>
+      <MentoringPageProvider initialState={mentoring}>
+        <SEO
+          ga_page={mentoring.ga_page}
+          url={mentoring.url}
+          title={mentoring.t.page_title}
+          type="website"
+          image={layout.site_url + mentoring.thumbnail.src}
+          description={mentoring.t.page_description}
+        >
+          <MentoringView />
+        </SEO>
+      </MentoringPageProvider>
     </LayoutProvider>
   )
 }

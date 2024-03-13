@@ -1,4 +1,9 @@
 {
+    "mentoring_modal": {
+        "title": "Napisz do nas",
+        "description": "Aby wziąć udział w programie mentoringu wyślij do nas krótkiego maila. Odezwiemy się.",
+        "address": "Mail"
+    },
     "page_title": "Program mentoringowy dla web developerów",
     "page_description": "Wybierz program dostosowany do podniesienia swoich umiejętności w tworzeniu i testowaniu oprogramowania"
 }

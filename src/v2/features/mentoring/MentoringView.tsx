@@ -1,13 +1,15 @@
 import React from "react"
 import Layout from "../../containers/Layout"
 import styled from "styled-components"
-import { Content, M, XL, XXL, CodeEditorTile, Modal, X } from "../../../ui"
+import { Content, M, XL, XXL, CodeEditorTile, X, B } from "../../../ui"
 import { Chart } from "./components/Chart"
 import { Tile } from "./components/Tile"
 import { MdxProvider } from "../../providers/MdxProvider"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import { useToggle } from "../../utils/useToggle"
 import { ContactModal } from "./components/ContactModal"
+import { useMentoringPageProvider } from "./MentoringPageProvider"
+import { useLayoutProvider } from "../../providers/LayoutProvider"
 
 const Grid = styled.div`
   display: grid;
@@ -88,16 +90,24 @@ const MainContainer = styled.div`
   }
 `
 
-interface MentoringViewProps {
-  children: string
-}
-
-const MentoringView = ({ children }: MentoringViewProps) => {
+const MentoringView = () => {
   const contactModal = useToggle()
+  const layout = useLayoutProvider()
+  const mentoring = useMentoringPageProvider()
 
   return (
     <>
-      {contactModal.opened && <ContactModal onClose={contactModal.close} />}
+      {contactModal.opened && (
+        <ContactModal
+          title={mentoring.t.mentoring_modal.title}
+          onClose={contactModal.close}
+        >
+          <M>{mentoring.t.mentoring_modal.description}</M>
+          <M>
+            {mentoring.t.mentoring_modal.address}: <B>{layout.mail}</B>
+          </M>
+        </ContactModal>
+      )}
       <MainContainer>
         <Chart />
         <Layout>
@@ -126,7 +136,7 @@ const MentoringView = ({ children }: MentoringViewProps) => {
               }}
               renderer={MDXRenderer}
             >
-              {children}
+              {mentoring.content}
             </MdxProvider>
           </Content>
         </Layout>
