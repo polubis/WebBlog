@@ -1,5 +1,5 @@
 import React from "react"
-import { CloseIcon, M, Modal, X } from "../../../../ui"
+import { CloseIcon, M, Modal as UIModal, X } from "../../../../ui"
 import styled from "styled-components"
 
 const Container = styled.div`
@@ -20,15 +20,15 @@ const Container = styled.div`
   }
 `
 
-interface ContactModalProps {
+interface ModalProps {
   title: React.ReactNode
   children: React.ReactNode
   onClose(): void
 }
 
-const ContactModal = ({ title, children, onClose }: ContactModalProps) => {
+const Modal = ({ title, children, onClose }: ModalProps) => {
   return (
-    <Modal maxWidth="440px" onClose={onClose}>
+    <UIModal maxWidth="440px" onClose={onClose}>
       <Container>
         <X>
           {title}{" "}
@@ -38,8 +38,8 @@ const ContactModal = ({ title, children, onClose }: ContactModalProps) => {
         </X>
         {children}
       </Container>
-    </Modal>
+    </UIModal>
   )
 }
 
-export { ContactModal }
+export { Modal }

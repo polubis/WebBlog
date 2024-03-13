@@ -303,7 +303,7 @@ const Chart = () => {
   })
   const { data } = state
 
-  const scroll = useScroll({ strategy: "throttle", delay: 500 })
+  const scroll = useScroll({ strategy: "throttle", delay: 1500 })
 
   React.useEffect(() => {
     setState({ data: updateData() })

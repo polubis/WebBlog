@@ -7,7 +7,7 @@ import { Tile } from "./components/Tile"
 import { MdxProvider } from "../../providers/MdxProvider"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import { useToggle } from "../../utils/useToggle"
-import { ContactModal } from "./components/ContactModal"
+import { Modal } from "./components/Modal"
 import { useMentoringPageProvider } from "./MentoringPageProvider"
 import { useLayoutProvider } from "../../providers/LayoutProvider"
 
@@ -91,22 +91,28 @@ const MainContainer = styled.div`
 `
 
 const MentoringView = () => {
-  const contactModal = useToggle()
+  const mentoringModal = useToggle()
+  const singleOfferModal = useToggle()
   const layout = useLayoutProvider()
   const mentoring = useMentoringPageProvider()
 
   return (
     <>
-      {contactModal.opened && (
-        <ContactModal
-          title={mentoring.t.mentoring_modal.title}
-          onClose={contactModal.close}
-        >
-          <M>{mentoring.t.mentoring_modal.description}</M>
+      {mentoringModal.opened && (
+        <Modal title={mentoring.t.modal.title} onClose={mentoringModal.close}>
+          <M>{mentoring.t.modal.description}</M>
           <M>
-            {mentoring.t.mentoring_modal.address}: <B>{layout.mail}</B>
+            <B>{layout.mail}</B>
           </M>
-        </ContactModal>
+        </Modal>
+      )}
+      {singleOfferModal.opened && (
+        <Modal title={mentoring.t.modal.title} onClose={singleOfferModal.close}>
+          <M>{mentoring.t.modal.offer_description}</M>
+          <M>
+            <B>{layout.mail}</B>
+          </M>
+        </Modal>
       )}
       <MainContainer>
         <Chart />
@@ -119,15 +125,23 @@ const MentoringView = () => {
                 XL,
                 X,
                 Grid,
-                Control: Tile.Control,
+                BuyControl: ({ children }: { children: React.ReactNode }) => (
+                  <Tile.Control onClick={singleOfferModal.open}>
+                    {children}
+                  </Tile.Control>
+                ),
                 Badge: Tile.Badge,
                 Tile,
                 CodeEditorTile,
                 Jumbo,
-                JumboButton: ({ children }: { children: React.ReactNode }) => (
+                MentoringButton: ({
+                  children,
+                }: {
+                  children: React.ReactNode
+                }) => (
                   <button
                     className="button upper primary"
-                    onClick={contactModal.open}
+                    onClick={mentoringModal.open}
                   >
                     {children}
                   </button>
