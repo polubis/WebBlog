@@ -58,6 +58,7 @@ const Badge = styled.div`
   cursor: pointer;
 
   & > * {
+    font-weight: bolder;
     color: #000;
   }
 `
