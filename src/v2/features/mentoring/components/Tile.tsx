@@ -51,7 +51,7 @@ const Container = styled.div`
 `
 
 const Badge = styled.div`
-  border-radius: 12px;
+  border-radius: 39px;
   background: linear-gradient(to right, #ff7878, #ffa7a7);
   padding: 2px 8px;
   width: max-content;
