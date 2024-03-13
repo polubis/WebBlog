@@ -148,7 +148,7 @@ const MentoringView = () => {
                   children: React.ReactNode
                 }) => (
                   <button
-                    className="button upper primary"
+                    className="button upper third"
                     onClick={mentoringModal.open}
                   >
                     {children}
