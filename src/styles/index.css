@@ -237,6 +237,27 @@ a.button {
   fill: #000;
 }
 
+.button.third,
+.icon-button.third {
+  border: 1px solid #fff;
+  color: #000;
+  background: #fff;
+}
+
+.icon-button.third svg path {
+  fill: #000;
+}
+
+.button.third:not(:disabled):hover,
+.icon-button.third:not(:disabled):hover {
+  background: #d3d3d3;
+  color: #000;
+}
+
+.icon-button.third:not(:disabled):hover svg path {
+  fill: #000;
+}
+
 .tcenter {
   text-align: center;
 }
