@@ -10,15 +10,24 @@ import { useToggle } from "../../utils/useToggle"
 import { Modal } from "./components/Modal"
 import { useMentoringPageProvider } from "./MentoringPageProvider"
 import { useLayoutProvider } from "../../providers/LayoutProvider"
+import { T_DOWN } from "../../../utils/viewport"
 
 const Grid = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   grid-template-areas:
     "mentoring-first mentoring-first mentoring-second mentoring-second mentoring-second"
-    "mentoring-third mentoring-third mentoring-third mentoring-fourth mentoring-fourth"
-    "b b c c c";
+    "mentoring-third mentoring-third mentoring-third mentoring-fourth mentoring-fourth";
   gap: 20px;
+
+  @media ${T_DOWN} {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "mentoring-first"
+      "mentoring-second"
+      "mentoring-third"
+      "mentoring-fourth";
+  }
 
   & > * {
     &:nth-child(1) {
@@ -71,7 +80,6 @@ const Jumbo = styled.section`
 `
 
 const Container = styled.div`
-  margin-bottom: 48px;
   z-index: 1;
 
   ${XL} {
