@@ -12,15 +12,15 @@ const Container = styled.div`
   display: flex;
   z-index: 1;
   flex-flow: column;
-  border-radius: 4px;
+  border-radius: 12px;
   width: 100%;
 `
 
 const Header = styled.header`
   background: #565656;
   padding: 20px 24px;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
 `
 
 const Content = styled.div`
@@ -28,8 +28,8 @@ const Content = styled.div`
   align-items: center;
   padding: 20px 24px;
   background: ${theme.blackA};
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
 `
 
 const ThreeDots = styled.div`

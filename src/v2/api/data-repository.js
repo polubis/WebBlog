@@ -13,6 +13,7 @@ const DataRepository = async result => {
   const homePageThumbnail = {
     ...result.data.blackHoleImg.nodes[0].childImageSharp.fluid,
   }
+  const mentoring = [...result.data.mentoring.nodes]
 
   const discordMembersResult = await fetch(
     `https://discord.com/api/v9/invites/PxXQayT3x3?with_counts=true`
@@ -37,6 +38,7 @@ const DataRepository = async result => {
     homePageThumbnail,
     studentsCount: discordMembersData.approximate_member_count,
     devsCount: githubContributorsData.length,
+    mentoring,
   }
 }
 

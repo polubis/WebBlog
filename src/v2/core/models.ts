@@ -19,6 +19,8 @@ import type lesson_pl from "../translation/course/pl.json"
 import type lesson_en from "../translation/course/en.json"
 import type home_pl from "../translation/home/pl.json"
 import type home_en from "../translation/home/en.json"
+import type mentoring_en from "../translation/mentoring/en.json"
+import type mentoring_pl from "../translation/mentoring/pl.json"
 import type { TimelineData } from "../../components/timeline/models/data"
 import type blog_creator_en from "../translation/blog-creator/en.json"
 import type blog_creator_pl from "../translation/blog-creator/pl.json"
@@ -75,6 +77,7 @@ export type CourseT = typeof course_en | typeof course_pl
 export type LessonT = typeof lesson_en | typeof lesson_pl
 export type HomeT = typeof home_en | typeof home_pl
 export type BlogCreatorT = typeof blog_creator_en | typeof blog_creator_pl
+export type MentoringT = typeof mentoring_en | typeof mentoring_pl
 
 export interface ArticleThumbnail {
   full: FluidObject
@@ -269,6 +272,14 @@ export interface CoursePageModel {
       path: Path
     }[]
   }[]
+}
+
+export interface MentoringPageModel {
+  t: MentoringT
+  ga_page: GaPage
+  url: Url
+  thumbnail: FluidObject
+  content: string
 }
 
 export interface HomePageModel {

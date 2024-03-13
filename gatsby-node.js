@@ -17,6 +17,7 @@ const {
   BlogCreatorPageCreator,
 } = require("./src/v2/api/blog-creator-page-creator")
 const { getArticleRates, getAllVotes } = require("./src/v2/api/setup-firebase")
+const { MentoringPageCreator } = require("./src/v2/api/mentoring-page-creator")
 
 exports.onCreateWebpackConfig = ({ actions }) => {
   actions.setWebpackConfig({
@@ -76,6 +77,39 @@ const createManyLessonsPages = ({
         })
       })
     })
+  })
+}
+
+const createMentoringPage = ({
+  createPage,
+  enLayout,
+  plLayout,
+  thumbnail,
+  data,
+}) => {
+  const create = MentoringPageCreator({
+    createPage,
+    makeComponent: () => resolve("src/v2/features/mentoring/MentoringPage.tsx"),
+  })
+
+  const enContent = data.find(item => item.slug.includes("en")).body
+  const plContent = data.find(item => item.slug.includes("pl")).body
+
+  create({
+    lang: "en",
+    layout: enLayout,
+    content: enContent,
+    ga_page: "mentoring",
+    path: "/mentoring/",
+    thumbnail,
+  })
+  create({
+    lang: "pl",
+    layout: plLayout,
+    content: plContent,
+    ga_page: "pl/mentoring",
+    path: "/pl/mentoring/",
+    thumbnail,
   })
 }
 
@@ -362,6 +396,29 @@ exports.createPages = async ({ actions, graphql }) => {
           }
         }
       }
+      mentoring: allMdx(
+        filter: { fileAbsolutePath: { regex: "/translation/mentoring/" } }
+      ) {
+        nodes {
+          slug
+          fileAbsolutePath
+          body
+        }
+      }
+      laptopImg: allFile(filter: { relativePath: { regex: "/laptop.png/" } }) {
+        nodes {
+          relativePath
+          childImageSharp {
+            fluid {
+              base64
+              aspectRatio
+              src
+              srcSet
+              sizes
+            }
+          }
+        }
+      }
     }
   `)
 
@@ -371,6 +428,7 @@ exports.createPages = async ({ actions, graphql }) => {
     authorsAvatars,
     articleThumbnails,
     technologiesAvatars,
+    mentoring,
   } = dataRepository
 
   const rates = await getArticleRates()
@@ -483,6 +541,8 @@ exports.createPages = async ({ actions, graphql }) => {
   })
   const articlesThumbnail =
     result.data.bubblesImg.nodes[0].childImageSharp.fluid
+  const mentoringThumbnail =
+    result.data.laptopImg.nodes[0].childImageSharp.fluid
   createPlArticlesPage({
     layout: plLayout,
     lang: "pl",
@@ -510,4 +570,11 @@ exports.createPages = async ({ actions, graphql }) => {
     rates,
   })
   createBlogCreatorPage({ createPage, enLayout, plLayout })
+  createMentoringPage({
+    createPage,
+    enLayout,
+    plLayout,
+    thumbnail: mentoringThumbnail,
+    data: mentoring,
+  })
 }

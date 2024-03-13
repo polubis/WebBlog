@@ -4,6 +4,7 @@ import "@fontsource/lexend/400.css"
 import "@fontsource/lexend/500.css"
 import "@fontsource/lexend/700.css"
 
+
 /**
  * Implement Gatsby's Browser APIs in this file.
  *
