@@ -1,11 +1,13 @@
 import React from "react"
 import Layout from "../../containers/Layout"
 import styled from "styled-components"
-import { Content, M, XL, XXL, CodeEditorTile } from "../../../ui"
+import { Content, M, XL, XXL, CodeEditorTile, Modal, X } from "../../../ui"
 import { Chart } from "./components/Chart"
 import { Tile } from "./components/Tile"
 import { MdxProvider } from "../../providers/MdxProvider"
 import { MDXRenderer } from "gatsby-plugin-mdx"
+import { useToggle } from "../../utils/useToggle"
+import { ContactModal } from "./components/ContactModal"
 
 const Grid = styled.div`
   display: grid;
@@ -91,34 +93,45 @@ interface MentoringViewProps {
 }
 
 const MentoringView = ({ children }: MentoringViewProps) => {
+  const contactModal = useToggle()
+
   return (
-    <MainContainer>
-      <Chart />
-      <Layout>
-        <Content paddingY>
-          <MdxProvider
-            components={{
-              Container,
-              XXL,
-              XL,
-              Grid,
-              Control: Tile.Control,
-              Badge: Tile.Badge,
-              Tile,
-              CodeEditorTile,
-              Jumbo,
-              JumboButton: ({ children }: { children: React.ReactNode }) => (
-                <button className="button upper primary">{children}</button>
-              ),
-              M,
-            }}
-            renderer={MDXRenderer}
-          >
-            {children}
-          </MdxProvider>
-        </Content>
-      </Layout>
-    </MainContainer>
+    <>
+      {contactModal.opened && <ContactModal onClose={contactModal.close} />}
+      <MainContainer>
+        <Chart />
+        <Layout>
+          <Content paddingY>
+            <MdxProvider
+              components={{
+                Container,
+                XXL,
+                XL,
+                X,
+                Grid,
+                Control: Tile.Control,
+                Badge: Tile.Badge,
+                Tile,
+                CodeEditorTile,
+                Jumbo,
+                JumboButton: ({ children }: { children: React.ReactNode }) => (
+                  <button
+                    className="button upper primary"
+                    onClick={contactModal.open}
+                  >
+                    {children}
+                  </button>
+                ),
+                M,
+              }}
+              renderer={MDXRenderer}
+            >
+              {children}
+            </MdxProvider>
+          </Content>
+        </Layout>
+      </MainContainer>
+    </>
   )
 }
 
