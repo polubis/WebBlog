@@ -11,6 +11,7 @@ import { Modal } from "./components/Modal"
 import { useMentoringPageProvider } from "./MentoringPageProvider"
 import { useLayoutProvider } from "../../providers/LayoutProvider"
 import { T_DOWN } from "../../../utils/viewport"
+import { useAnalytics } from "../../../utils/useAnalytics"
 
 const Grid = styled.div`
   display: grid;
@@ -103,6 +104,7 @@ const MentoringView = () => {
   const singleOfferModal = useToggle()
   const layout = useLayoutProvider()
   const mentoring = useMentoringPageProvider()
+  const { track } = useAnalytics()
 
   return (
     <>
@@ -134,7 +136,12 @@ const MentoringView = () => {
                 X,
                 Grid,
                 BuyControl: ({ children }: { children: React.ReactNode }) => (
-                  <Tile.Control onClick={singleOfferModal.open}>
+                  <Tile.Control
+                    onClick={() => {
+                      track({ name: "mentoring_interacted" })
+                      singleOfferModal.open()
+                    }}
+                  >
                     {children}
                   </Tile.Control>
                 ),
@@ -149,7 +156,10 @@ const MentoringView = () => {
                 }) => (
                   <button
                     className="button upper third"
-                    onClick={mentoringModal.open}
+                    onClick={() => {
+                      track({ name: "mentoring_interacted" })
+                      mentoringModal.open()
+                    }}
                   >
                     {children}
                   </button>

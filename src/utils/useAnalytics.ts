@@ -8,6 +8,10 @@ interface FullScreenClicked {
   name: "full_screen_clicked"
 }
 
+interface MentoringInteracted {
+  name: "mentoring_interacted"
+}
+
 interface SnippetCreated {
   name: "snippet_created"
 }
@@ -30,6 +34,7 @@ type AnalyticsEvent =
   | SnippetCreatorOpened
   | CommentsSectionOpened
   | SourceClicked
+  | MentoringInteracted
 
 interface RenderingCodeErrorEvent {
   name: "rendering_code_error"
