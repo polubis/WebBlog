@@ -4,7 +4,10 @@
     "name": "polubis",
     "firstName": "Adrian",
     "lastName": "Połubiński",
-    "platformRoles": ["content-creator", "contributor"],
+    "platformRoles": [
+      "content-creator",
+      "contributor"
+    ],
     "role": "Senior Frontend Developer",
     "bioPl": "Pisanie aplikacji oraz projektowanie apek, to dla mnie o wiele więcej niż zwykła praca. Byłem freelancerem przez kilka lat i zajmowałem się różnymi projektami. Głównie skupiony na React, Typescript i NodeJS. W wolnym czasie gram na gitarze.",
     "bio": "Software development and application design are more than just a job for me. I have been a freelancer for a few years and I carried out projects in various technologies. Focused on React, TypeScript and NodeJS. In my free time, I play guitar.",
@@ -16,7 +19,12 @@
         "name": "Creating a CRM for companies selling heat pumps",
         "description": "FrontEnd: Creating a Customer panel along with CRUD operations. Backend: Creating a controller, model and endPionts, export to JSON",
         "from": "2023.01.01",
-        "stack": ["React", "Bootstrap", "MongoDB", "Next.js"],
+        "stack": [
+          "React",
+          "Bootstrap",
+          "MongoDB",
+          "Next.js"
+        ],
         "appUrl": "www.link.com",
         "codeUrl": "https://github.com/kmilek73/java_start",
         "images": []
@@ -27,12 +35,30 @@
     "id": "awęgrodzki",
     "name": "awęgrodzki",
     "firstName": "Artur",
-    "platformRoles": ["contributor"],
+    "platformRoles": [
+      "contributor"
+    ],
     "lastName": "Węgrodzki",
     "role": ".NET developer",
     "bioPl": "Głównie zajmuje się technolgiami C# oraz .NET. Specjalizuje się w pisaniu API, aplikacjach mobilnych oraz bazach danych. W wolnym czasie jeżdzę rowerem i gram w gierki.",
     "bio": "Daily working in C# and .NET environments. Specialized in Backend APIs, Xamarin mobile applications and databases. In my free time, I ride a bike and play games.",
     "linkedinURL": "https://www.linkedin.com/in/artur-w%C4%99grodzki-926109194/",
+    "projects": []
+  },
+  {
+    "id": "kzielinski",
+    "name": "kzielinski",
+    "firstName": "Kacper",
+    "lastName": "Zieliński",
+    "platformRoles": [
+      "content-creator",
+      "contributor"
+    ],
+    "role": "Software Engineer",
+    "bioPl": "Software Engineer z dużym doświadczeniem w React, TypeScript i Node.js. Projektuję i implementuję skalowalne rozwiązania webowe wykorzystując nowoczesne technologie JavaScript, stawiając na pierwszym miejscu wydajność i doświadczenie użytkownika.",
+    "bio": "Software Engineer with strong experience in React, TypeScript, and Node.js. I design and implement scalable web solutions using modern JavaScript technologies while prioritizing performance and user experience.",
+    "githubURL": "https://github.com/kacperzielinskidev",
+    "linkedinURL": "https://www.linkedin.com/in/zielinskikacper/",
     "projects": []
   },
   {
@@ -64,7 +90,9 @@
     "name": "mystertaran",
     "firstName": "Szymon",
     "lastName": "Taranczewski",
-    "platformRoles": ["contributor"],
+    "platformRoles": [
+      "contributor"
+    ],
     "role": "Frontend Developer",
     "bioPl": "Jestem pasjonatem programowania front-end. Moje serce bije dla JavaScript, TypeScript i React.js. Tworzę aplikacje webowe, strony i sklepy na WordPress. Jestem otwarty na wyzwania i uwielbiam dzielić się wiedzą. Gotów jestem przekształcić każdy pomysł w rzeczywistość.",
     "bio": "I'm a front-end programming enthusiast with a heart for JavaScript, TypeScript, and React.js. I craft web applications, websites, and WordPress stores. I embrace challenges and love sharing knowledge. I'm ready to turn every ideas into reality!",
@@ -122,7 +150,9 @@
     "id": "kreszko",
     "name": "kreszko",
     "firstName": "Krzysztof",
-    "platformRoles": ["contributor"],
+    "platformRoles": [
+      "contributor"
+    ],
     "lastName": "Reszko",
     "role": "Editor & Reviewer",
     "bioPl": "Nauczyciel języka angielskiego z zamiłowania. W wolnym czasie tłumaczę oraz edytuje artykuły. Po pracy siłownia i gry komputerowe.",
@@ -133,7 +163,10 @@
     "id": "ejuchnikowski",
     "name": "ejuchnikowski",
     "firstName": "Emil",
-    "platformRoles": ["content-creator", "contributor"],
+    "platformRoles": [
+      "content-creator",
+      "contributor"
+    ],
     "lastName": "Juchnikowski",
     "role": "Solution architect",
     "bioPl": "Pracuję jako Software Architect. Zacząłem swoją karierę prawie 10 lat temu jako .NET deweloper. Aktualnie zajmuję się ekosystemem JavaScript. Obecny stack to: Angular, Ioinic, NodeJS oraz MongoDB. Po pracy biegam oraz trenuje boks. Moje motto to: 'Głównym ograniczeniem jest wyobraźnia, a nie czas i pieniądze'.",
@@ -146,7 +179,9 @@
     "id": "ajurczyk",
     "name": "ajurczyk",
     "firstName": "Adam",
-    "platformRoles": ["contributor"],
+    "platformRoles": [
+      "contributor"
+    ],
     "lastName": "Jurczyk",
     "role": "Frontend Developer",
     "bioPl": "Zacząłem kodować ponieważ kocham tworzyć nowe rzeczy. Staram tworzyć się perfekcyjny aplikacje o ile jest to możliwe. Tworzę w React, NextJS, TailwindCSS oraz TypeScript. W czasie wolnym tworzę muzyke i uprawiam sport.",
@@ -160,7 +195,10 @@
     "name": "kwozniak",
     "firstName": "Kacper",
     "lastName": "Woźniak",
-    "platformRoles": ["content-creator", "contributor"],
+    "platformRoles": [
+      "content-creator",
+      "contributor"
+    ],
     "role": "Frontend developer",
     "bioPl": "Skupiam się głównie na React, Vue oraz TypeScript podczas pracy. Po pracy piszę własne aplikacje i ogarniam tematy związane z motoryzacją.",
     "bio": "Professionally - frontend developer focused on React, Vue and Typescript. I am happy to engage in additional activities related to programming. Privately - motorization enthusiast.",
@@ -171,7 +209,10 @@
   {
     "id": "pjurczyk",
     "name": "pjurczyk",
-    "platformRoles": ["content-creator", "contributor"],
+    "platformRoles": [
+      "content-creator",
+      "contributor"
+    ],
     "firstName": "Patryk",
     "lastName": "Jurczyk",
     "role": "Frontend developer",
@@ -186,7 +227,9 @@
     "name": "kzalewska",
     "firstName": "Klaudia",
     "lastName": "Zalewska",
-    "platformRoles": ["contributor"],
+    "platformRoles": [
+      "contributor"
+    ],
     "role": "Junior Q&A",
     "bioPl": "Piszę w czystym JavaScript, którego znajmość przydaje mi się do testowania e2e w Cypress. Po pracy czytam wiele książek - głównie kryminalnych.",
     "bio": "I have a foundation in programming and JavaScript, which helps me ensure software quality and create seamless user experiences. Outside of work, I enjoy reading criminal books.",
@@ -198,7 +241,9 @@
     "id": "tmarczak",
     "name": "tmarczak",
     "firstName": "Tomasz",
-    "platformRoles": ["contributor"],
+    "platformRoles": [
+      "contributor"
+    ],
     "lastName": "Marczak",
     "role": "Frontend developer",
     "bioPl": "Kodowanie to moje hobby i poznałem wielu przyjaciół ucząc się TypeScript oraz React. Aktualnie pracuję w firmie produkującej części do statków. Po pracy lubię robić dosłownie 'wszystko'. Kocham koty i serial 'The Office'.",
@@ -211,7 +256,9 @@
     "id": "stymcio",
     "name": "stymcio",
     "firstName": "Szymon",
-    "platformRoles": ["contributor"],
+    "platformRoles": [
+      "contributor"
+    ],
     "lastName": "Tymcio",
     "role": "Frontend Developer",
     "bioPl": "Napędza mnie pasja do tworzenia stron internetowych. Skupiam się na tym obszarze. Lubię testować nowe rzeczy oraz eksplorować ostatnie nowinki ze świata frontend.",
@@ -224,7 +271,9 @@
     "id": "goteii",
     "name": "goteii",
     "firstName": "Dawid",
-    "platformRoles": ["contributor"],
+    "platformRoles": [
+      "contributor"
+    ],
     "lastName": "Dowgiałło",
     "role": "Frontend Developer",
     "bioPl": "Jestem frontend deweloperem, który uwielba Angular, Vue, React, JS oraz Typescript. W wolnym czasie uczę się nowych rzeczy, gram w gry i słucham muzyki.",
@@ -237,7 +286,9 @@
     "id": "pawelg",
     "name": "pawelg",
     "firstName": "Paweł",
-    "platformRoles": ["contributor"],
+    "platformRoles": [
+      "contributor"
+    ],
     "lastName": "Gnat",
     "role": "Frontend Developer",
     "bioPl": "Przenoszę wymagania biznesowe na dowolny kod. Kocham rozwój osobisty. Każdego dnia się czegoś uczę i nie mogę przestać. Możesz znaleźć mnie na Instagramie - @pawel.coder.",
